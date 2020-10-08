@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>DCSA :: Port Call :: Backend</name>
+    <groupId>org.dcsa.portcall</groupId>
+    <artifactId>dcsa-port-call</artifactId>
+    <version>DEVELOP-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <java.version>11</java.version>
+        <jdk.home>${JAVA_11_OPENJDK_HOME}</jdk.home>
+
+        <test.vmparameter>
+            -ea -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true
+        </test.vmparameter>
+
+        <createversion-maven-plugin.version>1.3.0</createversion-maven-plugin.version>
+        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+        <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
+        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+
+        <commons-lang3.version>3.11</commons-lang3.version>
+        <log4j.version>2.13.3</log4j.version>
+        <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
+
+        <assertj.version>3.17.2</assertj.version>
+        <junit.version>5.7.0</junit.version>
+    </properties>
+	
+    <modules>
+        <module>backend</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-jcl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-jul</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            
+            
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.css</include>
+                    <include>**/*.gif</include>
+                    <include>**/*.html</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.png</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.gif</include>
+                    <include>**/*.html</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+        </testResources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>add-source</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>add-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>src/main/java-generated</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <executable>${jdk.home}/bin/javac</executable>
+                        <compilerVersion>${java.version}</compilerVersion>
+                        <fork>true</fork>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.junit.jupiter</groupId>
+                            <artifactId>junit-jupiter-engine</artifactId>
+                            <!--suppress MavenModelInspection -->
+                            <version>${junit.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <jvm>${jdk.home}/bin/java</jvm>
+                        <forkCount>1</forkCount>
+                        <threadCount>1</threadCount>
+                        <reuseForks>false</reuseForks>
+                        <argLine>${test.vmparameter}</argLine>
+
+                        <failIfNoTests>false</failIfNoTests>
+                        <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
+                        <testFailureIgnore>true</testFailureIgnore>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                                <goal>test-jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestEntries>
+                                <Implementation-Build>${bamboo.planRepository.revision}</Implementation-Build>
+                                <Implementation-Date>${bamboo.buildTimeStamp}</Implementation-Date>
+                            </manifestEntries>
+                            <addMavenDescriptor>false</addMavenDescriptor>
+                        </archive>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>ponton.product.maven.plugins</groupId>
+                <artifactId>createversion-maven-plugin</artifactId>
+                <version>${createversion-maven-plugin.version}</version>
+                <configuration>
+                    <currentBranch>${bamboo.planRepository.branchName}</currentBranch>
+                    <writeVersionToFile>version.txt</writeVersionToFile>
+                    <branchMappings>
+                        <branchMapping>
+                            <branchRegex>release/(.+)</branchRegex>
+                            <version>#{regex.group:1}</version>
+                            <replacementRegex>/</replacementRegex>
+                            <tagFileName>release</tagFileName>
+                        </branchMapping>
+                        <branchMapping>
+                            <branchRegex>hotfix/(.+)</branchRegex>
+                            <version>#{regex.group:1}</version>
+                            <replacementRegex>/</replacementRegex>
+                            <tagFileName>hotfix</tagFileName>
+                        </branchMapping>
+                        <branchMapping>
+                            <branchRegex>support/(.+)</branchRegex>
+                            <version>#{regex.group:1}-SNAPSHOT</version>
+                            <replacementRegex>/</replacementRegex>
+                            <tagFileName>support</tagFileName>
+                        </branchMapping>
+                        <branchMapping>
+                            <branchRegex>feature/(.+)</branchRegex>
+                            <version>#{project.simpleVersion}-#{regex.group:1}-SNAPSHOT</version>
+                            <tagFileName>feature</tagFileName>
+                        </branchMapping>
+                    </branchMappings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <scm>
+        <connection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</connection>
+        <developerConnection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</developerConnection>
+        <url>https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</url>
+    </scm>
+
+</project>
