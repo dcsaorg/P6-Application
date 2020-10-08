@@ -10,7 +10,7 @@
         <version>DEVELOP-SNAPSHOT</version>
     </parent>
 
-    <name>DCSA :: Port Call</name>
+    <name>DCSA :: Port Call :: Backend</name>
     <artifactId>backend</artifactId>
 
     <packaging>jar</packaging>
