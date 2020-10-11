@@ -3,5 +3,22 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: portcall
   main:
     banner-mode: off
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://127.0.0.1:5432/dcsa
+    username: dcsa
+    password: dcsapw
+    hikari:
+      auto-commit: false
+  flyway:
+    url: jdbc:postgresql://127.0.0.1:5432/dcsa
+    user: dcsa
+    password: dcsapw
+
+
+  jooq:
+    sql-dialect: postgres

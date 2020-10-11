@@ -32,11 +32,15 @@
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 
         <commons-lang3.version>3.11</commons-lang3.version>
+        <flyway.version>6.5.7</flyway.version>
+        <jooq.version>3.13.5</jooq.version>
         <log4j.version>2.13.3</log4j.version>
+        <postgres.driver.version>42.2.16</postgres.driver.version>
         <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
 
         <assertj.version>3.17.2</assertj.version>
         <junit.version>5.7.0</junit.version>
+        <mockito.version>3.5.13</mockito.version>
     </properties>
 	
     <modules>
