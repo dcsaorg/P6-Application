@@ -12,29 +12,33 @@ import { TimestampTableComponent } from './timestamp-table/timestamp-table.compo
 import { TimestampEditorComponent } from './timestamp-editor/timestamp-editor.component';
 
 //primeNG
-import {CardModule} from 'primeng/card';
-import {ButtonModule} from 'primeng/button';
-import {DropdownModule} from 'primeng/dropdown';
-import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
+import {DropdownModule} from 'primeng/dropdown';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {FormsModule} from "@angular/forms";
+import {InputTextModule} from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    TimestampEditorComponent,
+    TimestampTableComponent,
     VesselComponent,
     VesselEditorComponent,
-    TimestampTableComponent,
-    TimestampEditorComponent
   ],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
-    CardModule,
+    BrowserAnimationsModule,
+    BrowserModule,
     ButtonModule,
+    CardModule,
     DropdownModule,
-    FormsModule
+    DynamicDialogModule,
+    FormsModule,
+    InputTextModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

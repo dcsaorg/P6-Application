@@ -2,8 +2,8 @@
   <p-header>
     Vessel
   </p-header>
-  <p-button type="button" icon="pi pi-plus" class="p-button-raised p-button-rounded"></p-button>
-  <p-button type="button" icon="pi pi-pencil" class="p-button-raised p-button-rounded"></p-button>
+  <p-button type="button" icon="pi pi-plus" class="p-button-raised p-button-rounded" (onClick)="createNewVessel()"></p-button>
+  <p-button type="button" icon="pi pi-pencil" class="p-button-raised p-button-rounded" (onClick)="editVessel()"></p-button>
   <p-dropdown [options]="vessels" [(ngModel)]="selectedVessel" [filter]="true"></p-dropdown>
 </p-card>
 

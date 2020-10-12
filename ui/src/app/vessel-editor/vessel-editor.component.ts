@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
+import {Vessel} from "../model/vessel";
 
 @Component({
   selector: 'app-vessel-editor',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VesselEditorComponent implements OnInit {
 
-  constructor() { }
+  vessel: Vessel;
+
+  constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig) { }
 
   ngOnInit(): void {
+    if (this.config.data) {
+      this.vessel = this.config.data;
+    } else {
+      this.vessel = {id: null, name: "", imo: null, teu: null};
+    }
   }
 
 }

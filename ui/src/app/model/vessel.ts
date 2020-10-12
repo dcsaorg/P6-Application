@@ -1,6 +1,6 @@
 export interface Vessel {
-  displayName: string;
+  id: number;
+  name: string;
   imo: number;
   teu: number;
-  id: number;
 }

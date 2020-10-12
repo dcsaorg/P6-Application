@@ -1,17 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {Vessel} from "../model/vessel";
+import {DialogService} from "primeng/dynamicdialog";
+import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
 
 @Component({
   selector: 'app-vessel',
   templateUrl: './vessel.component.html',
-  styleUrls: ['./vessel.component.scss']
+  styleUrls: ['./vessel.component.scss'],
+  providers: [
+    DialogService
+  ]
 })
 export class VesselComponent implements OnInit {
   vessels: SelectItem[];
   selectedVessel: Vessel;
 
-  constructor() {
+  constructor(public dialogService: DialogService) {
   }
 
   ngOnInit(): void {
@@ -22,4 +27,20 @@ export class VesselComponent implements OnInit {
     ]
   }
 
+  createNewVessel() {
+    const vesselEditor = this.dialogService.open(VesselEditorComponent, {
+      header: 'Create a new vessel',
+      width: '25%'
+    });
+    vesselEditor.onClose.subscribe()
+  }
+
+  editVessel() {
+    const vesselEditor = this.dialogService.open(VesselEditorComponent, {
+      header: 'Edit vessel',
+      width: '25%',
+      data: this.selectedVessel
+    });
+    vesselEditor.onClose.subscribe()
+  }
 }
