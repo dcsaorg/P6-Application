@@ -15,5 +15,4 @@ export class TimestampTableComponent implements OnInit {
   ngOnInit(): void {
     this.timestamps = this.portcallTimestampService.getPortcallTimestamps();
   }
-
 }

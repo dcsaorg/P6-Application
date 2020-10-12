@@ -20,6 +20,7 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {FormsModule} from "@angular/forms";
 import {InputTextModule} from 'primeng/inputtext';
 import {TableModule} from 'primeng/table';
+import {CalendarModule} from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {TableModule} from 'primeng/table';
     FormsModule,
     InputTextModule,
     TableModule,
+    CalendarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
