@@ -1,22 +1,38 @@
-<p-table [value]="timestamps">
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Timestamp</th>
-      <th>Classifier Code</th>
-      <th>Event Type Code</th>
-      <th>Event Location</th>
-      <th>Comm. Timestamp</th>
-      <th>Event. Timestamp</th>
-      <th>Port From</th>
-      <th>Port To</th>
-      <th>Next Port</th>
-      <th>Direction</th>
-      <th>Terminal ID</th>
-      <th>Location ID</th>
-      <th>Option</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-product>
-
-  </ng-template>
-</p-table>
+<p-card>
+  <p-table [value]="timestamps">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Timestamp</th>
+        <th>Classifier Code</th>
+        <th>Event Type Code</th>
+        <th>Event Location</th>
+        <th>Comm. Timestamp</th>
+        <th>Event. Timestamp</th>
+        <th>Port From</th>
+        <th>Port To</th>
+        <th>Next Port</th>
+        <th>Direction</th>
+        <th>Terminal ID</th>
+        <th>Location ID</th>
+        <th>Option</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-timestamp>
+      <tr>
+        <td>{{ timestamp.timestampType }}</td>
+        <td>{{ timestamp.classifierCode }}</td>
+        <td>{{ timestamp.eventTypeCode }}</td>
+        <td>{{ timestamp.eventLocationCode }}</td>
+        <td>{{ timestamp.communicationTimestamp | date: 'long' }}</td>
+        <td>{{ timestamp.eventTimestamp | date: 'long' }}</td>
+        <td>{{ timestamp.portFrom }}</td>
+        <td>{{ timestamp.portTo }}</td>
+        <td>{{ timestamp.nextPort }}</td>
+        <td>{{ timestamp.direction }}</td>
+        <td>{{ timestamp.terminalId }}</td>
+        <td>{{ timestamp.locationId }}</td>
+        <td><p-button icon="pi pi-trash"></p-button></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

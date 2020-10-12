@@ -5,9 +5,9 @@ import {PortcallLocationTypeCode} from "./portcall-location-type-code.enum";
 
 export interface PortcallTimestamp {
   timestampType: PortcallTimestampType;
-  classifierCode: PortcallClassifierCode;
-  eventTypeCode: PortcallEventTypeCode;
-  eventLocationCode: PortcallLocationTypeCode;
+  classifierCode: string;
+  eventTypeCode: string;
+  eventLocationCode: string;
   communicationTimestamp: string;
   eventTimestamp: string;
   portFrom:string;
