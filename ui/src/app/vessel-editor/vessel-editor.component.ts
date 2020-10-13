@@ -17,7 +17,7 @@ export class VesselEditorComponent implements OnInit {
     if (this.config.data) {
       this.vessel = this.config.data;
     } else {
-      this.vessel = {id: null, name: "", imo: null, teu: null};
+      this.vessel = {id: null, name: "", imo: null, teu: null, serviceName: ""};
     }
   }
 
