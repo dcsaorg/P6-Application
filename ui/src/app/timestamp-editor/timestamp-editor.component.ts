@@ -14,6 +14,9 @@ export class TimestampEditorComponent implements OnInit {
   timestampTypes: SelectItem[];
   commTimestampDate: Date;
   eventTimestamp: Date;
+  ports: SelectItem[];
+  directions: SelectItem[];
+  terminals: SelectItem[];
 
   constructor(private portcallTimestampService: PortcallTimestampService) { }
 
@@ -28,6 +31,21 @@ export class TimestampEditorComponent implements OnInit {
     ]
     this.commTimestampDate = new Date(newPortcallTimestamp.communicationTimestamp);
     this.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
+
+    this.ports = [
+      {label: 'DEHAM', value: {code: 'DE HAM', name: 'HAMBURG'}}
+    ]
+    this.directions = [
+      {label: 'N', value: 'north'},
+      {label: 'E', value: 'east'},
+      {label: 'S', value: 'south'},
+      {label: 'W', value: 'west'}
+    ]
+
+    this.terminals = [
+      {label: 'CTA', value: {code: 'CTA ', name: 'CT ALTENWERDER'}},
+      {label: 'EGH', value: 'EGH'}
+    ]
   }
 
 }
