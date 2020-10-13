@@ -240,7 +240,7 @@ p-calendar.ng-dirty.ng-invalid > .p-calendar > .p-inputtext {
   box-shadow: 0 0 0 0.2rem $tealBlue;
 }
 .p-datepicker table td.p-datepicker-today > span {
-  background: #ced4da;
+  background: $coralOrange;
   color: $darkNavyBlue;
   border-color: transparent;
 }
@@ -317,7 +317,7 @@ p-calendar.ng-dirty.ng-invalid > .p-calendar > .p-inputtext {
   border-right: 0 none;
 }
 .p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):hover {
-  background: #e9ecef;
+  background: $buoyYellow;
 }
 .p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):focus {
   outline: 0 none;
@@ -545,11 +545,11 @@ p-chips.ng-dirty.ng-invalid > .p-chips > .p-inputtext {
 }
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
   color: $foamWhite;
-  background: $tealBlue;
+  background: $tealBlueBright;
 }
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
   color: $darkNavyBlue;
-  background: #e9ecef;
+  background: $tealBlueDiscreet;
 }
 .p-dropdown-panel .p-dropdown-items .p-dropdown-empty-message {
   padding: 0.5rem 1.5rem;
@@ -1339,9 +1339,9 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-color: $tealBlueBright;
 }
 .p-button:enabled:active {
-  background: #0062cc;
+  background: $tealBlue;
   color: $foamWhite;
-  border-color: #0062cc;
+  border-color: $tealBlueBright;
 }
 .p-button.p-button-outlined {
   background-color: transparent;
