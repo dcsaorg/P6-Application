@@ -1,8 +1,14 @@
 <div class="main">
-  <app-header></app-header>
-  <app-vessel></app-vessel>
-  <p-card>
-    <app-timestamp-table></app-timestamp-table>
-    <app-timestamp-editor></app-timestamp-editor>
-  </p-card>
+  <div class="main__spaceBetween">
+    <app-header></app-header>
+  </div>
+  <div class="main__spaceBetween main__spaceInnerComponent">
+    <app-vessel></app-vessel>
+  </div>
+  <div class="main__spaceInnerComponent">
+    <p-card>
+      <app-timestamp-table></app-timestamp-table>
+      <app-timestamp-editor></app-timestamp-editor>
+    </p-card>
+  </div>
 </div>
