@@ -12,7 +12,7 @@ import {PortcallTimestampType} from "../model/portcall-timestamp-type.enum";
 export class TimestampEditorComponent implements OnInit {
   timestamps: PortcallTimestamp[];
   timestampTypes: SelectItem[];
-  commTimestampDate: Date;
+  logOfCall: Date;
   eventTimestamp: Date;
   ports: SelectItem[];
   directions: SelectItem[];
@@ -31,7 +31,7 @@ export class TimestampEditorComponent implements OnInit {
       this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
     }
 
-    this.commTimestampDate = new Date(newPortcallTimestamp.communicationTimestamp);
+    this.logOfCall = new Date(newPortcallTimestamp.logOfCall);
     this.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
 
     this.ports = [

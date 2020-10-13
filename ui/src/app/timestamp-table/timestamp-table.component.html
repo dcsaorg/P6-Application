@@ -4,8 +4,7 @@
       <th style="width: 7%">Timestamp</th>
       <th style="width: 5%">Classifier Code</th>
       <th style="width: 5%">Event Type Code</th>
-      <th style="width: 5%">Event Location</th>
-      <th>Comm. Timestamp</th>
+      <th>Log of call</th>
       <th>Event. Timestamp</th>
       <th style="width: 7%">Port From</th>
       <th style="width: 7%">Port To</th>
@@ -21,8 +20,7 @@
       <td style="width: 7%">{{ timestamp.timestampType }}</td>
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
-      <td style="width: 5%">{{ timestamp.eventLocationCode }}</td>
-      <td>{{ timestamp.communicationTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
+      <td>{{ timestamp.logOfCall | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td style="width: 7%">{{ timestamp.portFrom }}</td>
       <td style="width: 7%">{{ timestamp.portTo }}</td>

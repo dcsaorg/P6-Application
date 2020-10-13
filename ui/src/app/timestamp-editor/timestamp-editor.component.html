@@ -6,8 +6,7 @@
       <td style="width: 7%; padding-left: 0"><p-dropdown [options]="timestampTypes" [(ngModel)]="timestamp.timestampType"></p-dropdown></td>
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
-      <td style="width: 5%">{{ timestamp.eventLocationCode }}</td>
-      <td><p-calendar [(ngModel)]="commTimestampDate" showTime="true" hourFormat="24" showButtonBar="true" showIcon="true" showWeek="true"
+      <td><p-calendar [(ngModel)]="logOfCall" showTime="true" hourFormat="24" showButtonBar="true" showIcon="true" showWeek="true"
                       monthNavigator="true" yearNavigator="true" yearRange="2010:2030"></p-calendar></td>
       <td><p-calendar [(ngModel)]="eventTimestamp" showTime="true" hourFormat="24" showButtonBar="true" showIcon="true" showWeek="true" monthNavigator="true" yearNavigator="true" yearRange="2010:2030"></p-calendar></td>
       <td style="width: 7%"><p-dropdown [options]="ports" [(ngModel)]="timestamp.portFrom" [filter]="true">
