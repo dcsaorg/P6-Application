@@ -1,18 +1,33 @@
-<p-table [value]="timestamps">
+<p-table #dt [value]="timestamps" sortField="logOfCall" [sortOrder]="1">
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 7%">Timestamp</th>
-      <th style="width: 5%">Classifier Code</th>
-      <th style="width: 5%">Event Type Code</th>
-      <th>Log of call</th>
-      <th>Event. Timestamp</th>
-      <th style="width: 7%">Port From</th>
-      <th style="width: 7%">Port To</th>
-      <th style="width: 7%">Next Port</th>
-      <th style="width: 7%">Direction</th>
-      <th style="width: 7%">Terminal ID</th>
-      <th>Location ID</th>
+      <th style="width: 7%" pSortableColumn="timestampType">Timestamp <p-sortIcon field="timestampType"></p-sortIcon></th>
+      <th style="width: 5%" pSortableColumn="classifierCode">Classifier Code <p-sortIcon field="classifierCode"></p-sortIcon></th>
+      <th style="width: 5%" pSortableColumn="eventTypeCode">Event Type Code<p-sortIcon field="eventTypeCode"></p-sortIcon></th>
+      <th pSortableColumn="logOfCall">Log of call <p-sortIcon field="logOfCall"></p-sortIcon></th>
+      <th pSortableColumn="eventTimestamp">Event. Timestamp <p-sortIcon field="eventTimestamp"></p-sortIcon></th>
+      <th style="width: 7%" pSortableColumn="portFrom">Port From <p-sortIcon field="portFrom"></p-sortIcon></th>
+      <th style="width: 7%" pSortableColumn="portTo">Port To <p-sortIcon field="portTo"></p-sortIcon></th>
+      <th style="width: 7%" pSortableColumn="nextPort">Next Port <p-sortIcon field="nextPort"></p-sortIcon></th>
+      <th style="width: 7%" pSortableColumn="direction">Direction <p-sortIcon field="direction"></p-sortIcon></th>
+      <th style="width: 7%" pSortableColumn="terminalId">Terminal ID <p-sortIcon field="terminalId"></p-sortIcon></th>
+      <th pSortableColumn="locationId">Location ID <p-sortIcon field="locationId"></p-sortIcon></th>
       <th style="width: 5%">Option</th>
+    </tr>
+    <tr>
+      <td><input pInputText type="text" (input)="dt.filter($event.target.value, 'timestampType', 'startsWith')" placeholder="Search by Timestampetype"
+                 class="p-column-filter"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
