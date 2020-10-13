@@ -26,8 +26,8 @@ export class TimestampEditorComponent implements OnInit {
       {label: 'ATA-B', value: PortcallTimestampType.ATA_B},
       {label: 'ETA-B', value: PortcallTimestampType.ETA_B}
     ]
-    this.commTimestampDate = new Date(newPortcallTimestamp.communicationTimestamp)
-    this.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp)
+    this.commTimestampDate = new Date(newPortcallTimestamp.communicationTimestamp);
+    this.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
   }
 
 }

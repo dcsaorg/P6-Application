@@ -7,8 +7,8 @@
       <td>{{ timestamp.classifierCode }}</td>
       <td>{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.eventLocationCode }}</td>
-      <td><p-calendar [(ngModel)]="commTimestampDate" dateFormat="dd.mm.yy"></p-calendar></td>
-      <td><p-calendar [(ngModel)]="eventTimestamp" dateFormat="dd.mm.yy"></p-calendar></td>
+      <td><p-calendar [(ngModel)]="commTimestampDate" showTime="true" hourFormat="24" showButtonBar="true" showIcon="true" showWeek="true" monthNavigator="true" yearNavigator="true" yearRange="2010:2030"></p-calendar></td>
+      <td><p-calendar [(ngModel)]="eventTimestamp" showTime="true" hourFormat="24" showButtonBar="true" showIcon="true" showWeek="true" monthNavigator="true" yearNavigator="true" yearRange="2010:2030"></p-calendar></td>
       <td>{{ timestamp.portFrom }}</td>
       <td>{{ timestamp.portTo }}</td>
       <td>{{ timestamp.nextPort }}</td>
