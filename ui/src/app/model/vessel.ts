@@ -3,4 +3,5 @@ export interface Vessel {
   name: string;
   imo: number;
   teu: number;
+  serviceName: string;
 }

@@ -3,6 +3,7 @@ import {SelectItem} from "primeng/api";
 import {Vessel} from "../model/vessel";
 import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
+import {VesselService} from "../vessel.service";
 
 @Component({
   selector: 'app-vessel',
@@ -16,15 +17,16 @@ export class VesselComponent implements OnInit {
   vessels: SelectItem[];
   selectedVessel: Vessel;
 
-  constructor(public dialogService: DialogService) {
+  constructor(public dialogService: DialogService, private vesselService: VesselService) {
   }
 
   ngOnInit(): void {
-    this.vessels = [
-      {label: 'Select Vessel', value: null},
-      {label: 'Vessel 1', value: "v1"},
-      {label: 'Vessel 2', value: "v2"}
-    ]
+    this.vessels = [];
+    this.vessels.push({label: 'Select Vessel', value: null});
+    this.vesselService.getVessels().forEach(vessel => {
+      this.vessels.push({label: vessel.name, value: vessel})
+    })
+    this.selectedVessel = this.vessels[1].value;
   }
 
   createNewVessel() {
