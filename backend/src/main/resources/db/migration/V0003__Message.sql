@@ -14,6 +14,7 @@ CREATE TABLE message (
                                 message_timestamp timestamp NOT NULL,
                                 direction varchar(3) NOT NULL,
                                 terminal int4 NOT NULL,
+                                removed int4 NOT NULL DEFAULT 0,
                                 CONSTRAINT message_pk PRIMARY KEY (id)
 );
 
