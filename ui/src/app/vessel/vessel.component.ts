@@ -30,7 +30,7 @@ export class VesselComponent implements OnInit {
   createNewVessel() {
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
       header: 'Create a new vessel',
-      width: '25%'
+      width: '600px'
     });
     vesselEditor.onClose.subscribe()
   }
@@ -38,7 +38,7 @@ export class VesselComponent implements OnInit {
   editVessel() {
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
       header: 'Edit vessel',
-      width: '25%',
+      width: '600px',
       data: this.selectedVessel
     });
     vesselEditor.onClose.subscribe()
