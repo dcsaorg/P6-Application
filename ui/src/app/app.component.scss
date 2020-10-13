@@ -1,3 +1,5 @@
+@import "DCSA-Theme";
+
 .main {
   width: 100%;
   margin: 0;
@@ -10,5 +12,11 @@
   &__spaceInnerComponent {
     margin-left: 10px;
     margin-right: 10px;
+  }
+
+  &__notSelectedIdicator{
+    text-align: center;
+    font-size: 16pt;
+    color: lightgray;
   }
 }

@@ -3,12 +3,22 @@
     <app-header></app-header>
   </div>
   <div class="main__spaceBetween main__spaceInnerComponent">
-    <app-vessel></app-vessel>
+    <app-vessel (vesselNotifier)="vesselChangedHandler($event)"></app-vessel>
   </div>
-  <div class="main__spaceInnerComponent">
-    <p-card>
-      <app-timestamp-table></app-timestamp-table>
-      <app-timestamp-editor></app-timestamp-editor>
-    </p-card>
-  </div>
+  <div *ngIf="vesselSelected; then vesselsSelected else emptyVessel"></div>
+  <ng-template #vesselsSelected>
+    <div class="main__spaceInnerComponent">
+      <p-card>
+        <app-timestamp-table></app-timestamp-table>
+        <app-timestamp-editor></app-timestamp-editor>
+      </p-card>
+    </div>
+  </ng-template>
+  <ng-template #emptyVessel>
+    <div class="main__spaceInnerComponent">
+      <p-card><span i18n="@@NoVesselSelected" class="main__notSelectedIdicator">No Vessel Selected</span></p-card>
+    </div>
+  </ng-template>
+
+
 </div>
