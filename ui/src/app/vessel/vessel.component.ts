@@ -32,10 +32,11 @@ export class VesselComponent implements OnInit {
       header: 'Create a new vessel',
       width: '50%'
     });
-    vesselEditor.onClose.subscribe(result => {
+    vesselEditor.onClose.subscribe((result: Vessel) => {
       console.log(result);
       if (result) {
         this.updateVesselOptions();
+        this.selectedVessel = result;
       }
     })
   }
@@ -50,6 +51,7 @@ export class VesselComponent implements OnInit {
       console.log(result);
       if (result) {
         this.updateVesselOptions();
+        this.selectedVessel = result;
       }
     })
   }
@@ -60,7 +62,7 @@ export class VesselComponent implements OnInit {
     this.vesselService.getVessels().subscribe(vessels => {
       vessels = vessels.sort((vessel1, vessel2) => vessel1.name >= vessel2.name ? 1 : -1);
       vessels.forEach(vessel => {
-        this.vessels.push({label: vessel.name, value: vessel});
+        this.vessels.push({label: vessel.name+' ('+vessel.imo+')', value: vessel});
       });
     });
   }

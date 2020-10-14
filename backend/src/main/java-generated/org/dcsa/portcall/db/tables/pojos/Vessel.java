@@ -13,13 +13,13 @@ import java.io.Serializable;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Vessel implements Serializable {
 
-    private static final long serialVersionUID = 1707730660;
+    private static final long serialVersionUID = 735840375;
 
     private Integer id;
     private String  name;
     private Integer imo;
     private Short   teu;
-    private String  serviceName;
+    private String  serviceNameCode;
 
     public Vessel() {}
 
@@ -28,7 +28,7 @@ public class Vessel implements Serializable {
         this.name = value.name;
         this.imo = value.imo;
         this.teu = value.teu;
-        this.serviceName = value.serviceName;
+        this.serviceNameCode = value.serviceNameCode;
     }
 
     public Vessel(
@@ -36,13 +36,13 @@ public class Vessel implements Serializable {
         String  name,
         Integer imo,
         Short   teu,
-        String  serviceName
+        String  serviceNameCode
     ) {
         this.id = id;
         this.name = name;
         this.imo = imo;
         this.teu = teu;
-        this.serviceName = serviceName;
+        this.serviceNameCode = serviceNameCode;
     }
 
     public Integer getId() {
@@ -81,12 +81,12 @@ public class Vessel implements Serializable {
         return this;
     }
 
-    public String getServiceName() {
-        return this.serviceName;
+    public String getServiceNameCode() {
+        return this.serviceNameCode;
     }
 
-    public Vessel setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public Vessel setServiceNameCode(String serviceNameCode) {
+        this.serviceNameCode = serviceNameCode;
         return this;
     }
 
@@ -98,7 +98,7 @@ public class Vessel implements Serializable {
         sb.append(", ").append(name);
         sb.append(", ").append(imo);
         sb.append(", ").append(teu);
-        sb.append(", ").append(serviceName);
+        sb.append(", ").append(serviceNameCode);
 
         sb.append(")");
         return sb.toString();
