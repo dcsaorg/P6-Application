@@ -19,6 +19,10 @@ export class VesselService {
     return this.httpClient.get<Vessel[]>(this.VESSEL_URL);
   }
 
+  getVessel(vesselId: number): Observable<Vessel> {
+    return this.httpClient.get<Vessel>(this.VESSEL_URL + '/' + vesselId);
+  }
+
   updateVessel = (vessel: Vessel): Observable<Object> => {
     return this.httpClient.put(this.VESSEL_URL + '/' + vessel.id, vessel);
   };

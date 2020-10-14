@@ -42,14 +42,14 @@ export class VesselEditorComponent implements OnInit {
           });
         });
     } else {
-      this.vesselService.addVessel(this.vessel).subscribe(() => {
+      this.vesselService.addVessel(this.vessel).subscribe((newVessel: Vessel) => {
         this.messageService.add({
           key: 'vesselAddSuccess',
           severity: 'success',
           summary: 'Successfully added vessel',
           detail: ''
         });
-        this.ref.close(this.vessel);
+        this.ref.close(newVessel);
       }, error => this.messageService.add({
         key: 'vesselAddError',
         severity: 'error',

@@ -20,11 +20,10 @@ export class VesselComponent implements OnInit {
   constructor(public dialogService: DialogService, private vesselService: VesselService) {
   }
 
-
   @Output() vesselNotifier: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   ngOnInit(): void {
-    this.updateVesselOptions();
+    this.updateVesselOptions(this.selectedVessel);
   }
 
   createNewVessel() {
@@ -33,10 +32,8 @@ export class VesselComponent implements OnInit {
       width: '50%'
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
-      console.log(result);
       if (result) {
-        this.updateVesselOptions();
-        this.selectedVessel = result;
+        this.updateVesselOptions(result);
       }
     })
   }
@@ -48,30 +45,37 @@ export class VesselComponent implements OnInit {
       data: this.selectedVessel
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
-      console.log(result);
       if (result) {
-        this.updateVesselOptions();
-        this.selectedVessel = result;
+        this.updateVesselOptions(result);
       }
     })
   }
 
-  private updateVesselOptions() {
-    this.vessels = [];
-    this.vessels.push({label: 'Select Vessel', value: null});
-    this.vesselService.getVessels().subscribe(vessels => {
-      vessels = vessels.sort((vessel1, vessel2) => vessel1.name >= vessel2.name ? 1 : -1);
-      vessels.forEach(vessel => {
-        this.vessels.push({label: vessel.name+' ('+vessel.imo+')', value: vessel});
-      });
+  selectVessel() {
+    this.vesselService.getVessel(this.selectedVessel.id).subscribe(nextVessel => {
+      this.selectedVessel = nextVessel;
+      if (this.selectedVessel) {
+        this.vesselNotifier.emit(true)
+      } else {
+        this.vesselNotifier.emit(false)
+      }
     });
   }
 
-  selectVessel() {
-    if (this.selectedVessel) {
-      this.vesselNotifier.emit(true)
-    } else {
-      this.vesselNotifier.emit(false)
-    }
+  private updateVesselOptions(updatedVessel: Vessel) {
+    this.vesselService.getVessels().subscribe(vessels => {
+      this.vessels = [];
+      this.vessels.push({label: 'Select Vessel', value: null});
+      vessels = vessels.sort((vessel1, vessel2) => vessel1.name >= vessel2.name ? 1 : -1);
+      vessels.forEach(vessel => {
+        this.vessels.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
+      });
+      if (updatedVessel) {
+        console.log(updatedVessel);
+        console.log(this.vessels);
+        this.selectedVessel = updatedVessel;
+        this.vesselNotifier.emit(true)
+      }
+    });
   }
 }
