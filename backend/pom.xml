@@ -134,57 +134,46 @@
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-codegen-maven</artifactId>
                 <version>${jooq.version}</version>
-                <executions>
-                    <execution>
-                        <id>generate-jooq-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <generator>
-                                <database>
-                                    <name>org.jooq.meta.extensions.ddl.DDLDatabase</name>
-                                    <properties>
-                                        <property>
-                                            <key>sort</key>
-                                            <value>semantic</value>
-                                        </property>
-                                        <property>
-                                            <key>scripts</key>
-                                            <value>src/main/resources/db/migration/*</value>
-                                        </property>
-                                        <property>
-                                            <key>defaultNameCase</key>
-                                            <value>lower</value>
-                                        </property>
-                                    </properties>
-                                </database>
-                                <target>
-                                    <clean>true</clean>
-                                    <packageName>org.dcsa.portcall.db</packageName>
-                                    <directory>target/generated-sources/jooq</directory>
-                                </target>
-                                <generate>
-                                    <javaTimeTypes>true</javaTimeTypes>
-                                    <fluentSetters>true</fluentSetters>
-                                    <generatedAnnotation>false</generatedAnnotation>
-                                    <varargSetters>false</varargSetters>
-                                </generate>
-                                <strategy>
-                                    <name>org.jooq.codegen.DefaultGeneratorStrategy</name>
-                                </strategy>
-                            </generator>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jooq</groupId>
-                        <artifactId>jooq-meta-extensions</artifactId>
-                        <version>${jooq.version}</version>
-                    </dependency>
-                </dependencies>
+
+                <configuration>
+                    <jdbc>
+                        <driver>org.postgresql.Driver</driver>
+                        <url>jdbc:postgresql://127.0.0.1:5432/dcsa</url>
+                        <user>dcsa</user>
+                        <password>dcsapw</password>
+                    </jdbc>
+                    <generator>
+                        <database>
+                            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                            <inputSchema>public</inputSchema>
+
+                            <includes>.*</includes>
+                            <excludes>
+                                flyway_schema_history
+                            </excludes>
+
+                            <includeRoutines>false</includeRoutines>
+                            <includeIndexes>false</includeIndexes>
+                        </database>
+
+                        <target>
+                            <clean>true</clean>
+                            <packageName>org.dcsa.portcall.db</packageName>
+                            <directory>src/main/java-generated</directory>
+                        </target>
+
+                        <strategy>
+                            <name>org.jooq.codegen.DefaultGeneratorStrategy</name>
+                        </strategy>
+
+                        <generate>
+                            <javaTimeTypes>true</javaTimeTypes>
+                            <fluentSetters>true</fluentSetters>
+                            <generatedAnnotation>false</generatedAnnotation>
+                            <varargSetters>false</varargSetters>
+                        </generate>
+                    </generator>
+                </configuration>
             </plugin>
         </plugins>
     </build>
