@@ -26,10 +26,11 @@ export class VesselComponent implements OnInit {
   ngOnInit(): void {
     this.vessels = [];
     this.vessels.push({label: 'Select Vessel', value: null});
-    this.vesselService.getVessels().forEach(vessel => {
-      this.vessels.push({label: vessel.name, value: vessel})
-    })
-
+    this.vesselService.getVessels().subscribe(vessels => {
+      vessels.forEach(vessel => {
+        this.vessels.push({label: vessel.name, value: vessel});
+      });
+    });
   }
 
   createNewVessel() {

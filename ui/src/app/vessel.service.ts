@@ -1,43 +1,19 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+
 import {Vessel} from "./model/vessel";
+import {BACKEND_URL} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VesselService {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) {
+  }
 
-  getVessels = (): Vessel[] => {
-    return [
-      {
-        id: 0,
-        name: 'MV Cap San Diego (5060794)',
-        imo: 5060794,
-        teu: 3,
-        serviceNameCode: 'NORTH-BOUND'
-      },
-      {
-        id: 1,
-        name: 'MV Kooringa (6409715)',
-        imo: 6409715,
-        teu: 276,
-        serviceNameCode: 'SOUTH-BOUND'
-      },
-      {
-        id: 2,
-        name: 'MV DCSA (1234567)',
-        imo: 1234567,
-        teu: 18000,
-        serviceNameCode: 'LOOP3'
-      },
-      {
-        id: 3,
-        name: 'MV Demonstrator (7654321)',
-        imo: 7654321,
-        teu: 12000,
-        serviceNameCode: 'ASIA_EUR'
-      },
-    ]
+  getVessels = (): Observable<Vessel[]> => {
+    return this.httpClient.get<Vessel[]>(BACKEND_URL + "/vessels");
   }
 }
