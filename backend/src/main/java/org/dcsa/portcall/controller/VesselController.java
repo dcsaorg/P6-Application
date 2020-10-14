@@ -8,7 +8,9 @@ import org.jooq.Record1;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,5 +43,18 @@ public class VesselController {
 
         return vessel;
     }
+
+    @PutMapping("/vessel/{id}")
+    @Transactional
+    public void editVessel(@RequestBody Vessel vessel, @RequestParam int vesselId){
+        dsl.update(VESSEL)
+                .set(VESSEL.NAME, vessel.getName())
+                .set(VESSEL.IMO, vessel.getImo())
+                .set(VESSEL.TEU, vessel.getTeu())
+                .set(VESSEL.SERVICE_NAME, vessel.getServiceName())
+                .where(VESSEL.ID.eq(vesselId))
+                .execute();
+    }
+
 
 }
