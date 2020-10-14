@@ -12,11 +12,11 @@
         <p-dropdown [options]="vessels" [(ngModel)]="selectedVessel" [filter]="true" (onChange)="selectVessel()"></p-dropdown>
       </div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__imo_number">Imo number:</span></div>
-      <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{selectedVessel.imo}}</span></div>
+      <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.imo }}</span></div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__teu">Vessel size (TEU):</span></div>
-      <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{selectedVessel.teu}}</span></div>
+      <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.teu | number }}</span></div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__service_name">Service name or code:</span></div>
-      <div class="p-col-3 vessel__vesselDetails"><span *ngIf="selectedVessel">{{selectedVessel.serviceNameCode}}</span></div>
+      <div class="p-col-3 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.serviceNameCode }}</span></div>
     </div>
   </p-card>
 </div>
