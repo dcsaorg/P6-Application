@@ -1,17 +1,10 @@
 package org.dcsa.portcall.controller;
 
 import org.dcsa.portcall.db.tables.pojos.Vessel;
-import org.dcsa.portcall.db.tables.records.VesselRecord;
 import org.jooq.DSLContext;
-import org.jooq.InsertQuery;
 import org.jooq.Record1;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,7 +22,20 @@ public class VesselController {
     @GetMapping("/vessels")
     @Transactional(readOnly = true)
     public List<Vessel> listVessels() {
-        return dsl.select().from(VESSEL).fetch().into(Vessel.class);
+        return dsl.select()
+                .from(VESSEL)
+                .fetch()
+                .into(Vessel.class);
+    }
+
+    @GetMapping("/vessel")
+    @Transactional(readOnly = true)
+    public Vessel getVessel(@RequestParam int vesselId) {
+        return dsl.select()
+                .from(VESSEL)
+                .where(VESSEL.ID.eq(vesselId))
+                .fetchAny()
+                .into(Vessel.class);
     }
 
     @PostMapping("/vessel")
@@ -40,13 +46,12 @@ public class VesselController {
                 .returningResult(VESSEL.ID)
                 .fetchOne();
         vessel.setId(id.value1());
-
         return vessel;
     }
 
-    @PutMapping("/vessel/{id}")
+    @PutMapping("/vessel")
     @Transactional
-    public void editVessel(@RequestBody Vessel vessel, @RequestParam int vesselId){
+    public void editVessel(@RequestParam int vesselId, @RequestBody Vessel vessel) {
         dsl.update(VESSEL)
                 .set(VESSEL.NAME, vessel.getName())
                 .set(VESSEL.IMO, vessel.getImo())
@@ -56,5 +61,11 @@ public class VesselController {
                 .execute();
     }
 
-
+    @DeleteMapping("/vessel")
+    @Transactional
+    public void deleteVessel(@RequestParam int vesselId) {
+        dsl.delete(VESSEL)
+                .where(VESSEL.ID.eq(vesselId))
+                .execute();
+    }
 }
