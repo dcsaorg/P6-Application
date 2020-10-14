@@ -11,6 +11,7 @@ import java.util.List;
 import static org.dcsa.portcall.db.tables.Vessel.VESSEL;
 
 @RestController
+@RequestMapping("/vessels")
 public class VesselController {
 
     DSLContext dsl;
@@ -19,7 +20,7 @@ public class VesselController {
         this.dsl = dsl;
     }
 
-    @GetMapping("/vessels")
+    @GetMapping
     @Transactional(readOnly = true)
     public List<Vessel> listVessels() {
         return dsl.select()
@@ -28,9 +29,9 @@ public class VesselController {
                 .into(Vessel.class);
     }
 
-    @GetMapping("/vessel")
+    @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
-    public Vessel getVessel(@RequestParam int vesselId) {
+    public Vessel getVessel(@PathVariable int vesselId) {
         return dsl.select()
                 .from(VESSEL)
                 .where(VESSEL.ID.eq(vesselId))
@@ -38,7 +39,7 @@ public class VesselController {
                 .into(Vessel.class);
     }
 
-    @PostMapping("/vessel")
+    @PostMapping("")
     @Transactional
     public Vessel addVessel(@RequestBody Vessel vessel) {
         Record1<Integer> id = dsl.insertInto(VESSEL, VESSEL.NAME, VESSEL.IMO, VESSEL.TEU, VESSEL.SERVICE_NAME)
@@ -49,9 +50,9 @@ public class VesselController {
         return vessel;
     }
 
-    @PutMapping("/vessel")
+    @PutMapping("/{vesselId}")
     @Transactional
-    public void editVessel(@RequestParam int vesselId, @RequestBody Vessel vessel) {
+    public void editVessel(@PathVariable int vesselId, @RequestBody Vessel vessel) {
         dsl.update(VESSEL)
                 .set(VESSEL.NAME, vessel.getName())
                 .set(VESSEL.IMO, vessel.getImo())
@@ -61,9 +62,9 @@ public class VesselController {
                 .execute();
     }
 
-    @DeleteMapping("/vessel")
+    @DeleteMapping("/{vesselId}")
     @Transactional
-    public void deleteVessel(@RequestParam int vesselId) {
+    public void deleteVessel(@PathVariable int vesselId) {
         dsl.delete(VESSEL)
                 .where(VESSEL.ID.eq(vesselId))
                 .execute();

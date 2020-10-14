@@ -21,6 +21,8 @@ import {FormsModule} from "@angular/forms";
 import {InputTextModule} from 'primeng/inputtext';
 import {TableModule} from 'primeng/table';
 import {TooltipModule} from 'primeng/tooltip';
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -45,8 +47,9 @@ import {TooltipModule} from 'primeng/tooltip';
     InputTextModule,
     TableModule,
     TooltipModule,
+    ToastModule,
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

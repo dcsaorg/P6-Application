@@ -24,13 +24,7 @@ export class VesselComponent implements OnInit {
   @Output() vesselNotifier: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   ngOnInit(): void {
-    this.vessels = [];
-    this.vessels.push({label: 'Select Vessel', value: null});
-    this.vesselService.getVessels().subscribe(vessels => {
-      vessels.forEach(vessel => {
-        this.vessels.push({label: vessel.name, value: vessel});
-      });
-    });
+    this.updateVesselOptions();
   }
 
   createNewVessel() {
@@ -38,7 +32,12 @@ export class VesselComponent implements OnInit {
       header: 'Create a new vessel',
       width: '50%'
     });
-    vesselEditor.onClose.subscribe()
+    vesselEditor.onClose.subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.updateVesselOptions();
+      }
+    })
   }
 
   editVessel() {
@@ -47,7 +46,23 @@ export class VesselComponent implements OnInit {
       width: '50%',
       data: this.selectedVessel
     });
-    vesselEditor.onClose.subscribe()
+    vesselEditor.onClose.subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.updateVesselOptions();
+      }
+    })
+  }
+
+  private updateVesselOptions() {
+    this.vessels = [];
+    this.vessels.push({label: 'Select Vessel', value: null});
+    this.vesselService.getVessels().subscribe(vessels => {
+      vessels = vessels.sort((vessel1, vessel2) => vessel1.name >= vessel2.name ? 1 : -1);
+      vessels.forEach(vessel => {
+        this.vessels.push({label: vessel.name, value: vessel});
+      });
+    });
   }
 
   selectVessel() {

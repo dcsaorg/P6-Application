@@ -5,8 +5,8 @@
     </p-header>
     <div class="p-grid">
       <div class="p-col-1">
-        <p-button style="margin-right: 5px" type="button" icon="pi pi-plus" class="p-button-raised p-button-rounded" (onClick)="createNewVessel()"></p-button>
-        <p-button type="button" icon="pi pi-pencil" class="p-button-raised p-button-rounded" (onClick)="editVessel()"></p-button>
+        <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__addVesselBtn" icon="pi pi-plus" type="button"></p-button>
+        <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded" icon="pi pi-pencil" type="button"></p-button>
       </div>
       <div class="p-col-3">
         <p-dropdown [options]="vessels" [(ngModel)]="selectedVessel" [filter]="true" (onChange)="selectVessel()"></p-dropdown>
@@ -20,3 +20,7 @@
     </div>
   </p-card>
 </div>
+<p-toast key="vesselUpdateSuccess" position="bottom-right"></p-toast>
+<p-toast key="vesselUpdateError" position="bottom-right"></p-toast>
+<p-toast key="vesselAddSuccess" position="bottom-right"></p-toast>
+<p-toast key="vesselAddError" position="bottom-right"></p-toast>

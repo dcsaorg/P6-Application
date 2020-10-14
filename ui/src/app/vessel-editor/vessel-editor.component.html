@@ -25,8 +25,8 @@
   </div>
   <div class="p-field p-grid">
     <span class="p-buttonset">
-        <button pButton type="button" label="Save" icon="pi pi-check"></button>
-        <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-warning"></button>
+        <button (click)="saveVessel()" icon="pi pi-check" label="Save" pButton type="button"></button>
+        <button (click)="cancel()" class="p-button-warning" icon="pi pi-times" label="Cancel" pButton type="button"></button>
     </span>
   </div>
 </div>
