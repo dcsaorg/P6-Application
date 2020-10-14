@@ -18,11 +18,12 @@ import {CardModule} from 'primeng/card';
 import {DropdownModule} from 'primeng/dropdown';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {FormsModule} from "@angular/forms";
+import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from 'primeng/inputtext';
-import {TableModule} from 'primeng/table';
-import {TooltipModule} from 'primeng/tooltip';
-import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {TableModule} from 'primeng/table';
+import {ToastModule} from "primeng/toast";
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {MessageService} from "primeng/api";
     TableModule,
     TooltipModule,
     ToastModule,
+    InputNumberModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
