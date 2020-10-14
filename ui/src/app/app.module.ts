@@ -21,6 +21,7 @@ import {FormsModule} from "@angular/forms";
 import {InputTextModule} from 'primeng/inputtext';
 import {TableModule} from 'primeng/table';
 import {CalendarModule} from 'primeng/calendar';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {CalendarModule} from 'primeng/calendar';
     InputTextModule,
     TableModule,
     CalendarModule,
+    TooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

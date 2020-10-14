@@ -1,15 +1,19 @@
-
-<span class="p-input-icon-left">
-    <i class="pi pi-search"></i>
-    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'startsWith')"
-           placeholder="Search in Timestamps"
-           class="p-column-filter">
-</span>
-
-
-
-
-<p-table #dt [value]="timestamps" sortField="logOfCall" [sortOrder]="1" [filterDelay]="0" [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portTo','portFrom', 'nextPort']">>
+<p-table #dt [value]="timestamps" sortField="logOfCall" [sortOrder]="1" [filterDelay]="0"
+         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portTo','portFrom', 'nextPort']">
+  <ng-template pTemplate="caption">
+    <div class="p-grid">
+      <div class="p-col"></div>
+      <div class="p-col"></div>
+      <div class="p-col globalSearch">
+        <div class="p-input-icon-left globalSearch">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                 placeholder="Search in table" class="p-column-filter"
+                 pTooltip="This enables table search containing for Timestamp, Classifier Code, Event Type Code, Port From, Port To and Next Port">
+        </div>
+      </div>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 7%" pSortableColumn="timestampType">Timestamp
