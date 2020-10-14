@@ -42,8 +42,8 @@ public class VesselController {
     @PostMapping("")
     @Transactional
     public Vessel addVessel(@RequestBody Vessel vessel) {
-        Record1<Integer> id = dsl.insertInto(VESSEL, VESSEL.NAME, VESSEL.IMO, VESSEL.TEU, VESSEL.SERVICE_NAME)
-                .values(vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceName())
+        Record1<Integer> id = dsl.insertInto(VESSEL, VESSEL.NAME, VESSEL.IMO, VESSEL.TEU, VESSEL.SERVICE_NAME_CODE)
+                .values(vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceNameCode())
                 .returningResult(VESSEL.ID)
                 .fetchOne();
         vessel.setId(id.value1());
@@ -57,7 +57,7 @@ public class VesselController {
                 .set(VESSEL.NAME, vessel.getName())
                 .set(VESSEL.IMO, vessel.getImo())
                 .set(VESSEL.TEU, vessel.getTeu())
-                .set(VESSEL.SERVICE_NAME, vessel.getServiceName())
+                .set(VESSEL.SERVICE_NAME_CODE, vessel.getServiceNameCode())
                 .where(VESSEL.ID.eq(vesselId))
                 .execute();
     }

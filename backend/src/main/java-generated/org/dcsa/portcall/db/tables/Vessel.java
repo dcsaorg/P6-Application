@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Vessel extends TableImpl<VesselRecord> {
 
-    private static final long serialVersionUID = -1999301426;
+    private static final long serialVersionUID = 1979762000;
 
     /**
      * The reference instance of <code>public.vessel</code>
@@ -67,9 +67,9 @@ public class Vessel extends TableImpl<VesselRecord> {
     public final TableField<VesselRecord, Short> TEU = createField(DSL.name("teu"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false), this, "");
 
     /**
-     * The column <code>public.vessel.service_name</code>.
+     * The column <code>public.vessel.service_name_code</code>.
      */
-    public final TableField<VesselRecord, String> SERVICE_NAME = createField(DSL.name("service_name"), org.jooq.impl.SQLDataType.VARCHAR, this, "");
+    public final TableField<VesselRecord, String> SERVICE_NAME_CODE = createField(DSL.name("service_name_code"), org.jooq.impl.SQLDataType.VARCHAR, this, "");
 
     /**
      * Create a <code>public.vessel</code> table reference

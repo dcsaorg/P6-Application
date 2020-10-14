@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements Record5<Integer, String, Integer, Short, String> {
 
-    private static final long serialVersionUID = 1255769792;
+    private static final long serialVersionUID = 1974708501;
 
     /**
      * Setter for <code>public.vessel.id</code>.
@@ -81,17 +81,17 @@ public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements R
     }
 
     /**
-     * Setter for <code>public.vessel.service_name</code>.
+     * Setter for <code>public.vessel.service_name_code</code>.
      */
-    public VesselRecord setServiceName(String value) {
+    public VesselRecord setServiceNameCode(String value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.vessel.service_name</code>.
+     * Getter for <code>public.vessel.service_name_code</code>.
      */
-    public String getServiceName() {
+    public String getServiceNameCode() {
         return (String) get(4);
     }
 
@@ -140,7 +140,7 @@ public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements R
 
     @Override
     public Field<String> field5() {
-        return Vessel.VESSEL.SERVICE_NAME;
+        return Vessel.VESSEL.SERVICE_NAME_CODE;
     }
 
     @Override
@@ -165,7 +165,7 @@ public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements R
 
     @Override
     public String component5() {
-        return getServiceName();
+        return getServiceNameCode();
     }
 
     @Override
@@ -190,7 +190,7 @@ public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements R
 
     @Override
     public String value5() {
-        return getServiceName();
+        return getServiceNameCode();
     }
 
     @Override
@@ -219,7 +219,7 @@ public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements R
 
     @Override
     public VesselRecord value5(String value) {
-        setServiceName(value);
+        setServiceNameCode(value);
         return this;
     }
 
@@ -247,13 +247,13 @@ public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements R
     /**
      * Create a detached, initialised VesselRecord
      */
-    public VesselRecord(Integer id, String name, Integer imo, Short teu, String serviceName) {
+    public VesselRecord(Integer id, String name, Integer imo, Short teu, String serviceNameCode) {
         super(Vessel.VESSEL);
 
         set(0, id);
         set(1, name);
         set(2, imo);
         set(3, teu);
-        set(4, serviceName);
+        set(4, serviceNameCode);
     }
 }
