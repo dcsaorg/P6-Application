@@ -3,6 +3,9 @@ package org.dcsa.portcall.controller;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.dcsa.portcall.db.tables.records.VesselRecord;
 import org.jooq.DSLContext;
+import org.jooq.InsertQuery;
+import org.jooq.Record1;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,15 +25,21 @@ public class VesselController {
     }
 
     @GetMapping("/vessels")
-    public List<String> vessels() {
-        return dsl.select(VESSEL.NAME).from(VESSEL).fetch(VESSEL.NAME);
+    @Transactional(readOnly = true)
+    public List<Vessel> listVessels() {
+        return dsl.select().from(VESSEL).fetch().into(Vessel.class);
     }
 
     @PostMapping("/vessel")
+    @Transactional
     public Vessel addVessel(@RequestBody Vessel vessel) {
-        final VesselRecord vesselRecord = dsl.newRecord(VESSEL, vessel);
-        dsl.executeInsert(vesselRecord);
-        return dsl.select().from(VESSEL).where(VESSEL.ID.eq(vesselRecord.getId())).fetchAny().into(Vessel.class);
+        Record1<Integer> id = dsl.insertInto(VESSEL, VESSEL.NAME, VESSEL.IMO, VESSEL.TEU, VESSEL.SERVICE_NAME)
+                .values(vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceName())
+                .returningResult(VESSEL.ID)
+                .fetchOne();
+        vessel.setId(id.value1());
+
+        return vessel;
     }
 
 }
