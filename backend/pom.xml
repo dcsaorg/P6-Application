@@ -177,6 +177,7 @@
                             <fluentSetters>true</fluentSetters>
                             <generatedAnnotation>false</generatedAnnotation>
                             <varargSetters>false</varargSetters>
+                            <pojos>true</pojos>
                         </generate>
                     </generator>
                 </configuration>
