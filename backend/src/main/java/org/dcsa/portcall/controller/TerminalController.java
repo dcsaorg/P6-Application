@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static org.dcsa.portcall.db.tables.Terminal.TERMINAL;
 
 @RestController
 @RequestMapping("/terminals")
 public class TerminalController {
 
-    private final DSLContext dsl;
+    DSLContext dsl;
 
     public TerminalController(DSLContext dsl){
         this.dsl = dsl;
@@ -23,11 +25,11 @@ public class TerminalController {
 
     @GetMapping("/{portId}")
     @Transactional(readOnly = true)
-    public Terminal getTerminalsForPort(@PathVariable int portId){
+    public List<Terminal> getTerminalsForPort(@PathVariable int portId){
         return dsl.select()
                 .from(TERMINAL)
                 .where(TERMINAL.PORT.eq(portId))
-                .fetchAny()
+                .fetch()
                 .into(Terminal.class);
     }
 
