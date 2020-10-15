@@ -23,7 +23,7 @@ export class VesselComponent implements OnInit {
   @Output() vesselNotifier: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   ngOnInit(): void {
-    this.updateVesselOptions(this.selectedVessel);
+    this.updateVesselOptions();
   }
 
   createNewVessel() {
@@ -33,36 +33,46 @@ export class VesselComponent implements OnInit {
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
-        this.updateVesselOptions(result);
+        this.updateVesselOptions();
       }
     })
   }
 
   editVessel() {
+    const selectedVessel: Vessel = {
+      id: this.selectedVessel.id,
+      imo: this.selectedVessel.imo,
+      teu: this.selectedVessel.teu,
+      name: this.selectedVessel.name,
+      serviceNameCode: this.selectedVessel.serviceNameCode
+    };
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
       header: 'Edit vessel',
       width: '50%',
-      data: this.selectedVessel
+      data: selectedVessel
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
-        this.updateVesselOptions(result);
+        this.updateVesselOptions();
+        this.vesselService.getVessel(result.id).subscribe(nextVessel => {
+          this.selectedVessel = nextVessel;
+        });
       }
     })
   }
 
   selectVessel() {
-    this.vesselService.getVessel(this.selectedVessel.id).subscribe(nextVessel => {
-      this.selectedVessel = nextVessel;
-      if (this.selectedVessel) {
-        this.vesselNotifier.emit(true)
-      } else {
-        this.vesselNotifier.emit(false)
-      }
-    });
+    if (this.selectedVessel) {
+      this.vesselService.getVessel(this.selectedVessel.id).subscribe(nextVessel => {
+        this.selectedVessel = nextVessel;
+      });
+      this.vesselNotifier.emit(true)
+    } else {
+      this.vesselNotifier.emit(false)
+    }
   }
 
-  private updateVesselOptions(updatedVessel: Vessel) {
+  private updateVesselOptions() {
     this.vesselService.getVessels().subscribe(vessels => {
       this.vessels = [];
       this.vessels.push({label: 'Select Vessel', value: null});
@@ -70,12 +80,6 @@ export class VesselComponent implements OnInit {
       vessels.forEach(vessel => {
         this.vessels.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
       });
-      if (updatedVessel) {
-        console.log(updatedVessel);
-        console.log(this.vessels);
-        this.selectedVessel = updatedVessel;
-        this.vesselNotifier.emit(true)
-      }
     });
   }
 }
