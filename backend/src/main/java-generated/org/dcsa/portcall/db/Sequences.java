@@ -15,6 +15,11 @@ import org.jooq.impl.Internal;
 public class Sequences {
 
     /**
+     * The sequence <code>public.delay_code_id_seq</code>
+     */
+    public static final Sequence<Integer> DELAY_CODE_ID_SEQ = Internal.createSequence("delay_code_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.port_call_timestamp_id_seq</code>
      */
     public static final Sequence<Integer> PORT_CALL_TIMESTAMP_ID_SEQ = Internal.createSequence("port_call_timestamp_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
