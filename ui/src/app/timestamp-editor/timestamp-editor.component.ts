@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {PortcallTimestamp} from "../model/portcall-timestamp";
 import {PortcallTimestampService} from "../portcall-timestamp.service";
-import {SelectItem} from "primeng/api";
+import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../model/portcall-timestamp-type.enum";
 import {BehaviorSubject} from "rxjs";
 import {PortService} from "../port.service";
@@ -25,7 +25,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   newTimestamp: PortcallTimestamp;
 
   constructor(private portcallTimestampService: PortcallTimestampService,
-              private portService: PortService) {
+              private portService: PortService, private messageService: MessageService) {
+
+
   }
 
   ngOnInit(): void {
@@ -87,5 +89,21 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       }
     });
 
+  }
+
+  savePortcallTimestamp(portcallTimestamp : PortcallTimestamp, vesselId: number){
+    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe((portcalltimestamp:PortcallTimestamp) =>{
+      this.messageService.add({
+        key: 'TimestampAddSuccess',
+        severity: 'success',
+        summary: 'Successfully added new port call timestamp to vessel',
+        detail: ''
+      });
+    }, error => this.messageService.add({
+      key: 'TimestampAddError',
+      severity: 'error',
+      summary: 'Error while adding port call timestamp',
+      detail: error.message
+    }));
   }
 }

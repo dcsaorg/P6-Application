@@ -3,6 +3,7 @@ import {PortcallTimestamp} from "./model/portcall-timestamp";
 import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../environments/environment";
 import {Observable} from "rxjs";
+import {Port} from "./model/port";
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +20,7 @@ export class PortcallTimestampService {
     return this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL + "/" + vesselId);
   }
 
+  addPortcallTimestamp =(portcalltimestamp: PortcallTimestamp, vesselId: number) :Observable<PortcallTimestamp> => {
+    return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL+ "/"+vesselId, portcalltimestamp);
+  }
 }

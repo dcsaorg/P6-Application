@@ -27,7 +27,7 @@ export class VesselService {
     return this.httpClient.put(this.VESSEL_URL + '/' + vessel.id, vessel);
   };
 
-  addVessel(vessel: Vessel): Observable<Object> {
-    return this.httpClient.post(this.VESSEL_URL, vessel);
+  addVessel = (vessel: Vessel): Observable<Vessel> => {
+    return this.httpClient.post<Vessel>(this.VESSEL_URL, vessel);
   }
 }
