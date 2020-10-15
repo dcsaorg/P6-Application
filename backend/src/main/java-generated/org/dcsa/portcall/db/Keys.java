@@ -52,7 +52,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<PortCallTimestampRecord, VesselRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL;
-    public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_APPROACH = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_APPROACH;
+    public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL;
     public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_FROM = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_FROM;
     public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT;
     public static final ForeignKey<PortCallTimestampRecord, TerminalRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL;
@@ -81,7 +81,7 @@ public class Keys {
 
     private static class ForeignKeys0 {
         public static final ForeignKey<PortCallTimestampRecord, VesselRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL = Internal.createForeignKey(Keys.VESSEL_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_vessel", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.VESSEL }, true);
-        public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_APPROACH = Internal.createForeignKey(Keys.PORT_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_port_approach", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_APPROACH }, true);
+        public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL = Internal.createForeignKey(Keys.PORT_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_port_of_call", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_OF_CALL }, true);
         public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_FROM = Internal.createForeignKey(Keys.PORT_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_port_from", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_FROM }, true);
         public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT = Internal.createForeignKey(Keys.PORT_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_port_next", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_NEXT }, true);
         public static final ForeignKey<PortCallTimestampRecord, TerminalRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL = Internal.createForeignKey(Keys.TERMINAL_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_terminal", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.TERMINAL }, true);

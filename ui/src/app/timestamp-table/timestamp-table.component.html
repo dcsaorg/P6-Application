@@ -1,5 +1,5 @@
-<p-table #dt [value]="$timestamps | async" sortField="logOfCall" [sortOrder]="1" [filterDelay]="0"
-         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portApproach','portFrom', 'portNext']">
+<p-table #dt [value]="$timestamps | async" sortField="logOfTimestamp" [sortOrder]="1" [filterDelay]="0"
+         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portFrom', 'portNext']">
   <ng-template pTemplate="caption">
     <div class="p-grid">
       <div class="p-col"></div>
@@ -25,8 +25,8 @@
       <th style="width: 5%" pSortableColumn="eventTypeCode">Event Type Code
         <p-sortIcon field="eventTypeCode"></p-sortIcon>
       </th>
-      <th pSortableColumn="logOfCall">Log of call
-        <p-sortIcon field="logOfCall"></p-sortIcon>
+      <th pSortableColumn="logOfTimestamp">Log of Timestamp
+        <p-sortIcon field="logOfTimestamp"></p-sortIcon>
       </th>
       <th pSortableColumn="eventTimestamp">Event. Timestamp
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
@@ -34,8 +34,8 @@
       <th style="width: 7%" pSortableColumn="portFrom">Port From
         <p-sortIcon field="portFrom"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portApproach">Port Approach
-        <p-sortIcon field="portApproach"></p-sortIcon>
+      <th style="width: 7%" pSortableColumn="portOfCall">Port of Call
+        <p-sortIcon field="portOfCall"></p-sortIcon>
       </th>
       <th style="width: 7%" pSortableColumn="portNext">Next Port
         <p-sortIcon field="portNext"></p-sortIcon>
@@ -71,10 +71,10 @@
       <td style="width: 7%">{{ timestamp.timestampType }}</td>
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
-      <td>{{ timestamp.logOfCall | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
+      <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td style="width: 7%">{{ timestamp.portFrom }}</td>
-      <td style="width: 7%">{{ timestamp.portApproach }}</td>
+      <td style="width: 7%">{{ timestamp.portOfCall }}</td>
       <td style="width: 7%">{{ timestamp.portNext }}</td>
       <td style="width: 7%">{{ timestamp.direction }}</td>
       <td style="width: 7%">{{ timestamp.terminalId }}</td>

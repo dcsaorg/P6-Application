@@ -4,28 +4,18 @@
 package org.dcsa.portcall.db.tables;
 
 
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 import org.dcsa.portcall.db.Keys;
 import org.dcsa.portcall.db.Public;
 import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.records.PortCallTimestampRecord;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Identity;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row13;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -34,7 +24,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
-    private static final long serialVersionUID = -1181445490;
+    private static final long serialVersionUID = 451608953;
 
     /**
      * The reference instance of <code>public.port_call_timestamp</code>
@@ -60,9 +50,9 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     public final TableField<PortCallTimestampRecord, Integer> VESSEL = createField(DSL.name("vessel"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>public.port_call_timestamp.port_approach</code>.
+     * The column <code>public.port_call_timestamp.port_of_call</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> PORT_APPROACH = createField(DSL.name("port_approach"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> PORT_OF_CALL = createField(DSL.name("port_of_call"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.port_from</code>.
@@ -85,9 +75,9 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     public final TableField<PortCallTimestampRecord, OffsetDateTime> EVENT_TIMESTAMP = createField(DSL.name("event_timestamp"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
 
     /**
-     * The column <code>public.port_call_timestamp.log_of_call</code>.
+     * The column <code>public.port_call_timestamp.log_of_timestamp</code>.
      */
-    public final TableField<PortCallTimestampRecord, OffsetDateTime> LOG_OF_CALL = createField(DSL.name("log_of_call"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, OffsetDateTime> LOG_OF_TIMESTAMP = createField(DSL.name("log_of_timestamp"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.direction</code>.
@@ -169,15 +159,15 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
     @Override
     public List<ForeignKey<PortCallTimestampRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<PortCallTimestampRecord, ?>>asList(Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_APPROACH, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_FROM, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL);
+        return Arrays.<ForeignKey<PortCallTimestampRecord, ?>>asList(Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_FROM, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL);
     }
 
     public Vessel vessel() {
         return new Vessel(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL);
     }
 
-    public Port messageFkPortApproach() {
-        return new Port(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_APPROACH);
+    public Port messageFkPortOfCall() {
+        return new Port(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL);
     }
 
     public Port messageFkPortFrom() {

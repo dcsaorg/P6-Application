@@ -5,10 +5,10 @@ export interface PortcallTimestamp {
   timestampType: PortcallTimestampType;
   classifierCode: string;
   eventTypeCode: string;
-  logOfCall: string;
+  logOfTimestamp: string;
   eventTimestamp: string;
   portFrom: Port;
-  portApproach: Port;
+  portOfCall: Port;
   portNext: Port;
   direction: string;
   terminalId: string;

@@ -18,7 +18,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
 
   timestampTypes: SelectItem[];
-  logOfCall: Date;
+  logOfTimestamp: Date;
   eventTimestamp: Date;
   ports: SelectItem[];
   directions: SelectItem[];
@@ -32,14 +32,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.newTimestamp = {
-      logOfCall: '',
+      logOfTimestamp: '',
       eventTimestamp: new Date().toDateString(),
       classifierCode: '',
       direction: '',
       eventTypeCode: '',
       locationId: '',
       portFrom: null,
-      portApproach: null,
+      portOfCall: null,
       portNext: null,
       terminalId: '',
       timestampType: null
@@ -71,10 +71,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
       if (newPortcallTimestamp) {
         this.$timestamps.next([newPortcallTimestamp]);
-        this.logOfCall = new Date(newPortcallTimestamp.logOfCall);
+        this.logOfTimestamp = new Date(newPortcallTimestamp.logOfTimestamp);
         this.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
       } else {
-        this.logOfCall = new Date();
+        this.logOfTimestamp = new Date();
         this.eventTimestamp = new Date();
       }
 
@@ -102,7 +102,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     }));
   }
 
-  selectPortApproach(portId: number) {
+  selectPortOfCall(portId: number) {
     this.terminals = [];
     this.terminalService.getTerminals(portId).subscribe(terminals => {
       terminals.forEach(terminal => {
