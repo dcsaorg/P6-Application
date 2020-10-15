@@ -24,7 +24,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
-    private static final long serialVersionUID = 451608953;
+    private static final long serialVersionUID = -1405484077;
 
     /**
      * The reference instance of <code>public.port_call_timestamp</code>
@@ -55,9 +55,9 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     public final TableField<PortCallTimestampRecord, Integer> PORT_OF_CALL = createField(DSL.name("port_of_call"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>public.port_call_timestamp.port_from</code>.
+     * The column <code>public.port_call_timestamp.port_previous</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> PORT_FROM = createField(DSL.name("port_from"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> PORT_PREVIOUS = createField(DSL.name("port_previous"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.port_next</code>.
@@ -159,7 +159,7 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
     @Override
     public List<ForeignKey<PortCallTimestampRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<PortCallTimestampRecord, ?>>asList(Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_FROM, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL);
+        return Arrays.<ForeignKey<PortCallTimestampRecord, ?>>asList(Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_PREVIOUS, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL);
     }
 
     public Vessel vessel() {
@@ -170,8 +170,8 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
         return new Port(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL);
     }
 
-    public Port messageFkPortFrom() {
-        return new Port(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_FROM);
+    public Port messageFkPortPrevious() {
+        return new Port(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_PREVIOUS);
     }
 
     public Port messageFkPortNext() {

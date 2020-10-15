@@ -38,7 +38,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       direction: '',
       eventTypeCode: '',
       locationId: '',
-      portFrom: null,
+      portPrevious: null,
       portOfCall: null,
       portNext: null,
       terminalId: '',

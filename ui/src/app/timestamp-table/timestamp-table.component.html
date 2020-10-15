@@ -1,5 +1,5 @@
 <p-table #dt [value]="$timestamps | async" sortField="logOfTimestamp" [sortOrder]="1" [filterDelay]="0"
-         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portFrom', 'portNext']">
+         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']">
   <ng-template pTemplate="caption">
     <div class="p-grid">
       <div class="p-col"></div>
@@ -31,8 +31,8 @@
       <th pSortableColumn="eventTimestamp">Event. Timestamp
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
-      <th pSortableColumn="portFrom" style="width: 7%">Previous Port
-        <p-sortIcon field="portFrom"></p-sortIcon>
+      <th style="width: 7%" pSortableColumn="portPrevious">Previous Port
+        <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
       <th style="width: 7%" pSortableColumn="portOfCall">Port of Call
         <p-sortIcon field="portOfCall"></p-sortIcon>
@@ -73,7 +73,7 @@
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
-      <td style="width: 7%">{{ timestamp.portFrom }}</td>
+      <td style="width: 7%">{{ timestamp.portPrevious }}</td>
       <td style="width: 7%">{{ timestamp.portOfCall }}</td>
       <td style="width: 7%">{{ timestamp.portNext }}</td>
       <td style="width: 7%">{{ timestamp.direction }}</td>

@@ -53,12 +53,12 @@ public class PortCallTimestampController {
     public PortCallTimestamp addPortCallTimestamp(@PathVariable int vesselId, @RequestBody PortCallTimestamp portCallTimestamp) {
         Record1<Integer> id =
                 dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
-                        PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_FROM, PORT_CALL_TIMESTAMP.PORT_NEXT,
+                        PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_PREVIOUS, PORT_CALL_TIMESTAMP.PORT_NEXT,
                         PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.LOG_OF_TIMESTAMP,
                         PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL, PORT_CALL_TIMESTAMP.LOCATION_ID,
                         PORT_CALL_TIMESTAMP.CHANGE_COMMENT)
                         .values(vesselId,
-                                portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortFrom(), portCallTimestamp.getPortNext(),
+                                portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortPrevious(), portCallTimestamp.getPortNext(),
                                 portCallTimestamp.getTimestampType(), portCallTimestamp.getEventTimestamp(), portCallTimestamp.getLogOfTimestamp(),
                                 portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
                                 portCallTimestamp.getChangeComment())

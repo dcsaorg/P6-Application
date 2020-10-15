@@ -3,7 +3,7 @@ CREATE TABLE port_call_timestamp
     id               serial                   NOT NULL,
     vessel           integer                  NOT NULL,
     port_of_call     integer                  NOT NULL,
-    port_from        integer                  NOT NULL,
+    port_previous    integer                  NOT NULL,
     port_next        integer                  NOT NULL,
     timestamp_type   port_call_timestamp_type NOT NULL,
     event_timestamp  timestamp with time zone NOT NULL,
@@ -21,7 +21,7 @@ ALTER TABLE port_call_timestamp
 ALTER TABLE port_call_timestamp
     ADD CONSTRAINT message_fk_port_of_call FOREIGN KEY (port_of_call) REFERENCES port (id);
 ALTER TABLE port_call_timestamp
-    ADD CONSTRAINT message_fk_port_from FOREIGN KEY (port_from) REFERENCES port (id);
+    ADD CONSTRAINT message_fk_port_previous FOREIGN KEY (port_previous) REFERENCES port (id);
 ALTER TABLE port_call_timestamp
     ADD CONSTRAINT message_fk_port_next FOREIGN KEY (port_next) REFERENCES port (id);
 ALTER TABLE port_call_timestamp

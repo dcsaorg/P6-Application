@@ -7,7 +7,7 @@ export interface PortcallTimestamp {
   eventTypeCode: string;
   logOfTimestamp: string;
   eventTimestamp: string;
-  portFrom: Port;
+  portPrevious: Port;
   portOfCall: Port;
   portNext: Port;
   direction: string;

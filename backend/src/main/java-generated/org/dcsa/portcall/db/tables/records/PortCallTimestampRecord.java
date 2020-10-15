@@ -22,7 +22,7 @@ import java.time.OffsetDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimestampRecord> implements Record13<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Boolean> {
 
-    private static final long serialVersionUID = -751650447;
+    private static final long serialVersionUID = -1290144303;
 
     /**
      * Setter for <code>public.port_call_timestamp.id</code>.
@@ -70,17 +70,17 @@ public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimesta
     }
 
     /**
-     * Setter for <code>public.port_call_timestamp.port_from</code>.
+     * Setter for <code>public.port_call_timestamp.port_previous</code>.
      */
-    public PortCallTimestampRecord setPortFrom(Integer value) {
+    public PortCallTimestampRecord setPortPrevious(Integer value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.port_call_timestamp.port_from</code>.
+     * Getter for <code>public.port_call_timestamp.port_previous</code>.
      */
-    public Integer getPortFrom() {
+    public Integer getPortPrevious() {
         return (Integer) get(3);
     }
 
@@ -259,7 +259,7 @@ public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimesta
 
     @Override
     public Field<Integer> field4() {
-        return PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_FROM;
+        return PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_PREVIOUS;
     }
 
     @Override
@@ -324,7 +324,7 @@ public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimesta
 
     @Override
     public Integer component4() {
-        return getPortFrom();
+        return getPortPrevious();
     }
 
     @Override
@@ -389,7 +389,7 @@ public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimesta
 
     @Override
     public Integer value4() {
-        return getPortFrom();
+        return getPortPrevious();
     }
 
     @Override
@@ -457,7 +457,7 @@ public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimesta
 
     @Override
     public PortCallTimestampRecord value4(Integer value) {
-        setPortFrom(value);
+        setPortPrevious(value);
         return this;
     }
 
@@ -547,13 +547,13 @@ public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimesta
     /**
      * Create a detached, initialised PortCallTimestampRecord
      */
-    public PortCallTimestampRecord(Integer id, Integer vessel, Integer portOfCall, Integer portFrom, Integer portNext, PortCallTimestampType timestampType, OffsetDateTime eventTimestamp, OffsetDateTime logOfTimestamp, Direction direction, Integer terminal, String locationId, String changeComment, Boolean deleted) {
+    public PortCallTimestampRecord(Integer id, Integer vessel, Integer portOfCall, Integer portPrevious, Integer portNext, PortCallTimestampType timestampType, OffsetDateTime eventTimestamp, OffsetDateTime logOfTimestamp, Direction direction, Integer terminal, String locationId, String changeComment, Boolean deleted) {
         super(PortCallTimestamp.PORT_CALL_TIMESTAMP);
 
         set(0, id);
         set(1, vessel);
         set(2, portOfCall);
-        set(3, portFrom);
+        set(3, portPrevious);
         set(4, portNext);
         set(5, timestampType);
         set(6, eventTimestamp);

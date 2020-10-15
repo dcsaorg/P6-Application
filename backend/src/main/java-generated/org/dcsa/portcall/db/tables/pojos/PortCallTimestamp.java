@@ -17,12 +17,12 @@ import java.time.OffsetDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp implements Serializable {
 
-    private static final long serialVersionUID = 1066571011;
+    private static final long serialVersionUID = 312895952;
 
     private Integer               id;
     private Integer               vessel;
     private Integer               portOfCall;
-    private Integer               portFrom;
+    private Integer               portPrevious;
     private Integer               portNext;
     private PortCallTimestampType timestampType;
     private OffsetDateTime        eventTimestamp;
@@ -39,7 +39,7 @@ public class PortCallTimestamp implements Serializable {
         this.id = value.id;
         this.vessel = value.vessel;
         this.portOfCall = value.portOfCall;
-        this.portFrom = value.portFrom;
+        this.portPrevious = value.portPrevious;
         this.portNext = value.portNext;
         this.timestampType = value.timestampType;
         this.eventTimestamp = value.eventTimestamp;
@@ -55,7 +55,7 @@ public class PortCallTimestamp implements Serializable {
         Integer               id,
         Integer               vessel,
         Integer               portOfCall,
-        Integer               portFrom,
+        Integer               portPrevious,
         Integer               portNext,
         PortCallTimestampType timestampType,
         OffsetDateTime        eventTimestamp,
@@ -69,7 +69,7 @@ public class PortCallTimestamp implements Serializable {
         this.id = id;
         this.vessel = vessel;
         this.portOfCall = portOfCall;
-        this.portFrom = portFrom;
+        this.portPrevious = portPrevious;
         this.portNext = portNext;
         this.timestampType = timestampType;
         this.eventTimestamp = eventTimestamp;
@@ -108,12 +108,12 @@ public class PortCallTimestamp implements Serializable {
         return this;
     }
 
-    public Integer getPortFrom() {
-        return this.portFrom;
+    public Integer getPortPrevious() {
+        return this.portPrevious;
     }
 
-    public PortCallTimestamp setPortFrom(Integer portFrom) {
-        this.portFrom = portFrom;
+    public PortCallTimestamp setPortPrevious(Integer portPrevious) {
+        this.portPrevious = portPrevious;
         return this;
     }
 
@@ -205,7 +205,7 @@ public class PortCallTimestamp implements Serializable {
         sb.append(id);
         sb.append(", ").append(vessel);
         sb.append(", ").append(portOfCall);
-        sb.append(", ").append(portFrom);
+        sb.append(", ").append(portPrevious);
         sb.append(", ").append(portNext);
         sb.append(", ").append(timestampType);
         sb.append(", ").append(eventTimestamp);
