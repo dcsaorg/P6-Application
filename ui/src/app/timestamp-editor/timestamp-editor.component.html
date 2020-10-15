@@ -7,7 +7,7 @@
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>
-        <p-calendar [(ngModel)]="logOfCall" hourFormat="24" monthNavigator="true" showButtonBar="true" showIcon="true"
+        <p-calendar [(ngModel)]="logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true" showIcon="true"
                     showTime="true"
                     showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
       </td>
@@ -26,7 +26,7 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portTo" [filter]="true" [options]="ports">
+        <p-dropdown [(ngModel)]="timestamp.portOfCall" [filter]="true" [options]="ports" (onChange)="selectPortOfCall(timestamp.portOfCall.id)">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
               <div>{{port.value.unLocode}}</div>
@@ -36,7 +36,7 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.nextPort" [filter]="true" [options]="ports">
+        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="ports">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
               <div>{{port.value.unLocode}}</div>
@@ -49,11 +49,12 @@
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.terminalId" [options]="terminals">
+        <p-dropdown [(ngModel)]="timestamp.terminalId" [options]="terminals" [disabled]="timestamp.portOfCall == null">
           <ng-template let-terminal pTemplate="item">
             <div class="port-item">
-              <div>{{terminal.value.code}}</div>
-              <div>{{terminal.value.name}}</div>
+              <div>{{terminal.value.smdgCode}}</div>
+              <div class="terminalListDetails">{{terminal.value.terminalName}}</div>
+              <div class="terminalListDetails">{{terminal.value.terminalOperator}}</div>
             </div>
           </ng-template>
         </p-dropdown>

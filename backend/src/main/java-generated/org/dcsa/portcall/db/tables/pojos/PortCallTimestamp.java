@@ -4,11 +4,11 @@
 package org.dcsa.portcall.db.tables.pojos;
 
 
-import java.io.Serializable;
-import java.time.OffsetDateTime;
-
 import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
+
+import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -17,16 +17,16 @@ import org.dcsa.portcall.db.enums.PortCallTimestampType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp implements Serializable {
 
-    private static final long serialVersionUID = -126183802;
+    private static final long serialVersionUID = 1066571011;
 
     private Integer               id;
     private Integer               vessel;
-    private Integer               portApproach;
+    private Integer               portOfCall;
     private Integer               portFrom;
     private Integer               portNext;
     private PortCallTimestampType timestampType;
     private OffsetDateTime        eventTimestamp;
-    private OffsetDateTime        logOfCall;
+    private OffsetDateTime        logOfTimestamp;
     private Direction             direction;
     private Integer               terminal;
     private String                locationId;
@@ -38,12 +38,12 @@ public class PortCallTimestamp implements Serializable {
     public PortCallTimestamp(PortCallTimestamp value) {
         this.id = value.id;
         this.vessel = value.vessel;
-        this.portApproach = value.portApproach;
+        this.portOfCall = value.portOfCall;
         this.portFrom = value.portFrom;
         this.portNext = value.portNext;
         this.timestampType = value.timestampType;
         this.eventTimestamp = value.eventTimestamp;
-        this.logOfCall = value.logOfCall;
+        this.logOfTimestamp = value.logOfTimestamp;
         this.direction = value.direction;
         this.terminal = value.terminal;
         this.locationId = value.locationId;
@@ -54,12 +54,12 @@ public class PortCallTimestamp implements Serializable {
     public PortCallTimestamp(
         Integer               id,
         Integer               vessel,
-        Integer               portApproach,
+        Integer               portOfCall,
         Integer               portFrom,
         Integer               portNext,
         PortCallTimestampType timestampType,
         OffsetDateTime        eventTimestamp,
-        OffsetDateTime        logOfCall,
+        OffsetDateTime        logOfTimestamp,
         Direction             direction,
         Integer               terminal,
         String                locationId,
@@ -68,12 +68,12 @@ public class PortCallTimestamp implements Serializable {
     ) {
         this.id = id;
         this.vessel = vessel;
-        this.portApproach = portApproach;
+        this.portOfCall = portOfCall;
         this.portFrom = portFrom;
         this.portNext = portNext;
         this.timestampType = timestampType;
         this.eventTimestamp = eventTimestamp;
-        this.logOfCall = logOfCall;
+        this.logOfTimestamp = logOfTimestamp;
         this.direction = direction;
         this.terminal = terminal;
         this.locationId = locationId;
@@ -99,12 +99,12 @@ public class PortCallTimestamp implements Serializable {
         return this;
     }
 
-    public Integer getPortApproach() {
-        return this.portApproach;
+    public Integer getPortOfCall() {
+        return this.portOfCall;
     }
 
-    public PortCallTimestamp setPortApproach(Integer portApproach) {
-        this.portApproach = portApproach;
+    public PortCallTimestamp setPortOfCall(Integer portOfCall) {
+        this.portOfCall = portOfCall;
         return this;
     }
 
@@ -144,12 +144,12 @@ public class PortCallTimestamp implements Serializable {
         return this;
     }
 
-    public OffsetDateTime getLogOfCall() {
-        return this.logOfCall;
+    public OffsetDateTime getLogOfTimestamp() {
+        return this.logOfTimestamp;
     }
 
-    public PortCallTimestamp setLogOfCall(OffsetDateTime logOfCall) {
-        this.logOfCall = logOfCall;
+    public PortCallTimestamp setLogOfTimestamp(OffsetDateTime logOfTimestamp) {
+        this.logOfTimestamp = logOfTimestamp;
         return this;
     }
 
@@ -204,12 +204,12 @@ public class PortCallTimestamp implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(vessel);
-        sb.append(", ").append(portApproach);
+        sb.append(", ").append(portOfCall);
         sb.append(", ").append(portFrom);
         sb.append(", ").append(portNext);
         sb.append(", ").append(timestampType);
         sb.append(", ").append(eventTimestamp);
-        sb.append(", ").append(logOfCall);
+        sb.append(", ").append(logOfTimestamp);
         sb.append(", ").append(direction);
         sb.append(", ").append(terminal);
         sb.append(", ").append(locationId);
