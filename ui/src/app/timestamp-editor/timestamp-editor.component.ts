@@ -33,7 +33,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.newTimestamp = {
       logOfTimestamp: '',
-      eventTimestamp: new Date().toDateString(),
+      eventTimestamp: new Date().toISOString(),
       classifierCode: '',
       direction: '',
       eventTypeCode: '',
