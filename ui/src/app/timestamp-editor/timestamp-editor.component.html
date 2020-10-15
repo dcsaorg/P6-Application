@@ -1,49 +1,67 @@
-<p-table [value]="timestamps">
-  <ng-template pTemplate="header">
-  </ng-template>
+<p-table [value]="$timestamps | async">
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 7%; padding-left: 0"><p-dropdown [options]="timestampTypes" [(ngModel)]="timestamp.timestampType"></p-dropdown></td>
+      <td style="width: 7%; padding-left: 0">
+        <p-dropdown [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
+      </td>
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
-      <td><p-calendar [(ngModel)]="logOfCall" showTime="true" hourFormat="24" showButtonBar="true" showIcon="true" showWeek="true"
-                      monthNavigator="true" yearNavigator="true" yearRange="2010:2030"></p-calendar></td>
-      <td><p-calendar [(ngModel)]="eventTimestamp" showTime="true" hourFormat="24" showButtonBar="true" showIcon="true" showWeek="true" monthNavigator="true" yearNavigator="true" yearRange="2010:2030"></p-calendar></td>
-      <td style="width: 7%"><p-dropdown [options]="ports" [(ngModel)]="timestamp.portFrom" [filter]="true">
-        <ng-template let-port pTemplate="item">
-          <div class="port-item">
-            <div>{{port.value.code}}</div>
-            <div>{{port.value.name}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown></td>
-      <td style="width: 7%"><p-dropdown [options]="ports" [(ngModel)]="timestamp.portTo" [filter]="true">
-        <ng-template let-port pTemplate="item">
-          <div class="port-item">
-            <div>{{port.value.code}}</div>
-            <div>{{port.value.name}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown></td>
-      <td style="width: 7%"><p-dropdown [options]="ports" [(ngModel)]="timestamp.nextPort" [filter]="true">
-        <ng-template let-port pTemplate="item">
-          <div class="port-item">
-            <div>{{port.value.code}}</div>
-            <div>{{port.value.name}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown></td>
-      <td style="width: 7%"><p-dropdown [options]="directions" [(ngModel)]="timestamp.direction"></p-dropdown></td>
-      <td style="width: 7%"><p-dropdown [options]="terminals" [(ngModel)]="timestamp.terminalId">
-        <ng-template let-terminal pTemplate="item">
-          <div class="port-item">
-            <div>{{terminal.value.code}}</div>
-            <div>{{terminal.value.name}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown></td>
+      <td>
+        <p-calendar [(ngModel)]="logOfCall" hourFormat="24" monthNavigator="true" showButtonBar="true" showIcon="true"
+                    showTime="true"
+                    showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
+      </td>
+      <td>
+        <p-calendar [(ngModel)]="eventTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true" showIcon="true"
+                    showTime="true" showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
+      </td>
+      <td style="width: 7%">
+        <p-dropdown [(ngModel)]="timestamp.portFrom" [filter]="true" [options]="ports">
+          <ng-template let-port pTemplate="item">
+            <div class="port-item">
+              <div>{{port.value.code}}</div>
+              <div>{{port.value.name}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </td>
+      <td style="width: 7%">
+        <p-dropdown [(ngModel)]="timestamp.portTo" [filter]="true" [options]="ports">
+          <ng-template let-port pTemplate="item">
+            <div class="port-item">
+              <div>{{port.value.code}}</div>
+              <div>{{port.value.name}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </td>
+      <td style="width: 7%">
+        <p-dropdown [(ngModel)]="timestamp.nextPort" [filter]="true" [options]="ports">
+          <ng-template let-port pTemplate="item">
+            <div class="port-item">
+              <div>{{port.value.code}}</div>
+              <div>{{port.value.name}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </td>
+      <td style="width: 7%">
+        <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
+      </td>
+      <td style="width: 7%">
+        <p-dropdown [(ngModel)]="timestamp.terminalId" [options]="terminals">
+          <ng-template let-terminal pTemplate="item">
+            <div class="port-item">
+              <div>{{terminal.value.code}}</div>
+              <div>{{terminal.value.name}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </td>
       <td><label><input type="text" pInputText [(ngModel)]="timestamp.locationId"/></label></td>
-      <td style="width: 5%"><p-button icon="pi pi-save"></p-button></td>
+      <td style="width: 5%">
+        <p-button icon="pi pi-save"></p-button>
+      </td>
     </tr>
   </ng-template>
 </p-table>
