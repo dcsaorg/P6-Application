@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 import static org.dcsa.portcall.db.tables.Terminal.TERMINAL;
 
 @RestController
 @RequestMapping("/terminals")
 public class TerminalController {
 
-    DSLContext dsl;
+    private final DSLContext dsl;
 
     public TerminalController(DSLContext dsl){
         this.dsl = dsl;

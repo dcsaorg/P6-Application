@@ -14,7 +14,7 @@ import static org.dcsa.portcall.db.tables.Vessel.VESSEL;
 @RequestMapping("/vessels")
 public class VesselController {
 
-    DSLContext dsl;
+    private final DSLContext dsl;
 
     public VesselController(DSLContext dsl) {
         this.dsl = dsl;

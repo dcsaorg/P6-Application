@@ -16,7 +16,7 @@ import static org.dcsa.portcall.db.tables.Port.PORT;
 @RequestMapping("/ports")
 public class PortController {
 
-    DSLContext dsl;
+    private final DSLContext dsl;
 
     public  PortController(DSLContext dsl){
         this.dsl = dsl;
@@ -33,7 +33,7 @@ public class PortController {
 
     }
 
-    @GetMapping("?find={searchString}")
+    @GetMapping("/{searchString}")
     @Transactional(readOnly = true)
     public List<Port> findPorts(@PathVariable String searchString){
         return dsl.select()
