@@ -4,6 +4,7 @@ import {PortcallTimestampService} from "../portcall-timestamp.service";
 import {SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../model/portcall-timestamp-type.enum";
 import {BehaviorSubject} from "rxjs";
+import {PortService} from "../port.service";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -11,17 +12,20 @@ import {BehaviorSubject} from "rxjs";
   styleUrls: ['./timestamp-editor.component.scss']
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
+  @Input('vesselId') vesselId: number;
+
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
+
   timestampTypes: SelectItem[];
   logOfCall: Date;
   eventTimestamp: Date;
   ports: SelectItem[];
   directions: SelectItem[];
   terminals: SelectItem[];
-  @Input('vesselId') vesselId: number;
   newTimestamp: PortcallTimestamp;
 
-  constructor(private portcallTimestampService: PortcallTimestampService) {
+  constructor(private portcallTimestampService: PortcallTimestampService,
+              private portService: PortService) {
   }
 
   ngOnInit(): void {
@@ -42,21 +46,18 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.$timestamps.next([this.newTimestamp])
     this.timestampTypes = [];
 
-    this.ports = [
-      {label: 'DEBRV', value: {code: 'DE BRV', name: 'BREMERHAVEN'}},
-      {label: 'DEHAM', value: {code: 'DE HAM', name: 'HAMBURG'}},
-      {label: 'ESALG', value: {code: 'ES ALF', name: 'ALGECIRAS'}},
-      {label: 'ESVLC', value: {code: 'ES VLC', name: 'VALENCIA'}},
-      {label: 'HKHKG', value: {code: 'HK HKG', name: 'HONGKONG'}},
-      {label: 'NLANR', value: {code: 'NL ANR', name: 'ANTWERP'}},
-      {label: 'NLRTM', value: {code: 'NL RTM', name: 'ROTTERDAM'}},
-      {label: 'SGSIN', value: {code: 'SG SIN', name: 'SINGAPORE'}},
-    ]
+    this.ports= [];
+    this.portService.getPorts().subscribe(ports => {
+      ports.forEach(port => {
+        this.ports.push({label: port.unLocode, value: port})
+      });
+    });
+
     this.directions = [
-      {label: 'N', value: 'north'},
-      {label: 'E', value: 'east'},
-      {label: 'S', value: 'south'},
-      {label: 'W', value: 'west'}
+      {label: 'N', value: 'N'},
+      {label: 'E', value: 'E'},
+      {label: 'S', value: 'S'},
+      {label: 'W', value: 'W'}
     ]
 
     this.terminals = [

@@ -19,8 +19,8 @@
         <p-dropdown [(ngModel)]="timestamp.portFrom" [filter]="true" [options]="ports">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
-              <div>{{port.value.code}}</div>
-              <div>{{port.value.name}}</div>
+              <div>{{port.value.unLocode}}</div>
+              <div class="portListName">{{port.value.name}}</div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -29,8 +29,8 @@
         <p-dropdown [(ngModel)]="timestamp.portTo" [filter]="true" [options]="ports">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
-              <div>{{port.value.code}}</div>
-              <div>{{port.value.name}}</div>
+              <div>{{port.value.unLocode}}</div>
+              <div class="portListName">{{port.value.name}}</div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -39,8 +39,8 @@
         <p-dropdown [(ngModel)]="timestamp.nextPort" [filter]="true" [options]="ports">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
-              <div>{{port.value.code}}</div>
-              <div>{{port.value.name}}</div>
+              <div>{{port.value.unLocode}}</div>
+              <div class="portListName">{{port.value.name}}</div>
             </div>
           </ng-template>
         </p-dropdown>
