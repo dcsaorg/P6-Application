@@ -48,18 +48,20 @@ public class PortCallTimestampController {
                 .into(PortCallTimestamp.class);
     }
 
-    @PostMapping("")
+    @PostMapping("/{vesselId}")
     @Transactional
-    public PortCallTimestamp addPortCallTimestamp(@RequestBody PortCallTimestamp portCallTimestamp) {
+    public PortCallTimestamp addPortCallTimestamp(@PathVariable int vesselId, @RequestBody PortCallTimestamp portCallTimestamp) {
         Record1<Integer> id =
-                dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.LOG_OF_CALL,
-                        PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.PORT_FROM, PORT_CALL_TIMESTAMP.PORT_APPROACH,
-                        PORT_CALL_TIMESTAMP.PORT_NEXT, PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL,
-                        PORT_CALL_TIMESTAMP.LOCATION_ID, PORT_CALL_TIMESTAMP.CHANGE_COMMENT)
-                        .values(portCallTimestamp.getTimestampType(), portCallTimestamp.getLogOfCall(),
-                                portCallTimestamp.getEventTimestamp(), portCallTimestamp.getPortFrom(), portCallTimestamp.getPortApproach(),
-                                portCallTimestamp.getPortNext(), portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(),
-                                portCallTimestamp.getLocationId(), portCallTimestamp.getChangeComment())
+                dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
+                        PORT_CALL_TIMESTAMP.PORT_APPROACH, PORT_CALL_TIMESTAMP.PORT_FROM, PORT_CALL_TIMESTAMP.PORT_NEXT,
+                        PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.LOG_OF_CALL,
+                        PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL, PORT_CALL_TIMESTAMP.LOCATION_ID,
+                        PORT_CALL_TIMESTAMP.CHANGE_COMMENT)
+                        .values(vesselId,
+                                portCallTimestamp.getPortApproach(), portCallTimestamp.getPortFrom(), portCallTimestamp.getPortNext(),
+                                portCallTimestamp.getTimestampType(), portCallTimestamp.getEventTimestamp(), portCallTimestamp.getLogOfCall(),
+                                portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
+                                portCallTimestamp.getChangeComment())
                         .returningResult(PORT_CALL_TIMESTAMP.ID)
                         .fetchOne();
         portCallTimestamp.setId(id.value1());

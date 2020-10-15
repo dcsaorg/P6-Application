@@ -10,7 +10,8 @@ export class PortcallTimestampService {
   constructor() {
   }
 
-  getPortcallTimestamps = (): PortcallTimestamp[] => {
+  getPortcallTimestamps = (vesselId: number): PortcallTimestamp[] => {
+    console.log("VesselId:" + vesselId);
     return [
       {
         timestampType: PortcallTimestampType.ETA_B,

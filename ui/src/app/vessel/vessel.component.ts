@@ -20,7 +20,7 @@ export class VesselComponent implements OnInit {
   constructor(public dialogService: DialogService, private vesselService: VesselService) {
   }
 
-  @Output() vesselNotifier: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
 
   ngOnInit(): void {
     this.updateVesselOptions();
@@ -65,10 +65,10 @@ export class VesselComponent implements OnInit {
     if (this.selectedVessel) {
       this.vesselService.getVessel(this.selectedVessel.id).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
+        this.vesselNotifier.emit(this.selectedVessel.id)
       });
-      this.vesselNotifier.emit(true)
     } else {
-      this.vesselNotifier.emit(false)
+      this.vesselNotifier.emit(-1)
     }
   }
 

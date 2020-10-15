@@ -5,11 +5,11 @@
   <div class="main__spaceBetween main__spaceInnerComponent">
     <app-vessel (vesselNotifier)="vesselChangedHandler($event)"></app-vessel>
   </div>
-  <div *ngIf="vesselSelected; then vesselsSelected else emptyVessel"></div>
+  <div *ngIf="vesselId > 0; then vesselsSelected else emptyVessel"></div>
   <ng-template #vesselsSelected>
     <div class="main__spaceInnerComponent">
       <p-card>
-        <app-timestamp-table></app-timestamp-table>
+        <app-timestamp-table [vesselId]="vesselId"></app-timestamp-table>
         <app-timestamp-editor></app-timestamp-editor>
       </p-card>
     </div>
