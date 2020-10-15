@@ -1,16 +1,17 @@
 import {PortcallTimestampType} from "./portcall-timestamp-type.enum";
 import {Port} from "./port";
+import {Terminal} from "./terminal";
 
 export interface PortcallTimestamp {
-  timestampType: PortcallTimestampType;
+  timestampType: PortcallTimestampType | string;
   classifierCode: string;
   eventTypeCode: string;
   logOfTimestamp: string;
   eventTimestamp: string;
-  portPrevious: Port;
-  portOfCall: Port;
-  portNext: Port;
+  portPrevious: Port | number;
+  portOfCall: Port | number;
+  portNext: Port | number;
   direction: string;
-  terminalId: string;
+  terminal: Terminal | number;
   locationId: string;
 }

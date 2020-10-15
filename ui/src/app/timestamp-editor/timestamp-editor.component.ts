@@ -32,17 +32,17 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.newTimestamp = {
-      logOfTimestamp: '',
+      logOfTimestamp: new Date().toISOString(),
       eventTimestamp: new Date().toISOString(),
       classifierCode: '',
-      direction: '',
+      direction: 'N',
       eventTypeCode: '',
       locationId: '',
       portPrevious: null,
       portOfCall: null,
       portNext: null,
-      terminalId: '',
-      timestampType: null
+      terminal: null,
+      timestampType: PortcallTimestampType.ETD_Berth
     }
     this.$timestamps = new BehaviorSubject([]);
     this.$timestamps.next([this.newTimestamp])
@@ -86,8 +86,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   }
 
-  savePortcallTimestamp(portcallTimestamp : PortcallTimestamp, vesselId: number){
-    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe((portcalltimestamp:PortcallTimestamp) =>{
+  savePortcallTimestamp(portcallTimestamp: PortcallTimestamp, vesselId: number) {
+    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe((portcalltimestamp: PortcallTimestamp) => {
       this.messageService.add({
         key: 'TimestampAddSuccess',
         severity: 'success',
