@@ -26,7 +26,7 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portTo" [filter]="true" [options]="ports">
+        <p-dropdown [(ngModel)]="timestamp.portApproach" [filter]="true" [options]="ports" (onChange)="selectPortApproach(timestamp.portApproach.id)">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
               <div>{{port.value.unLocode}}</div>
@@ -36,7 +36,7 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.nextPort" [filter]="true" [options]="ports">
+        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="ports">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
               <div>{{port.value.unLocode}}</div>
@@ -49,11 +49,12 @@
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.terminalId" [options]="terminals">
+        <p-dropdown [(ngModel)]="timestamp.terminalId" [options]="terminals" [disabled]="timestamp.portApproach == null">
           <ng-template let-terminal pTemplate="item">
             <div class="port-item">
-              <div>{{terminal.value.code}}</div>
-              <div>{{terminal.value.name}}</div>
+              <div>{{terminal.value.smdgCode}}</div>
+              <div class="terminalListDetails">{{terminal.value.terminalName}}</div>
+              <div class="terminalListDetails">{{terminal.value.terminalOperator}}</div>
             </div>
           </ng-template>
         </p-dropdown>

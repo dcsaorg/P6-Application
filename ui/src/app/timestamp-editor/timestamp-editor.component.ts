@@ -5,6 +5,7 @@ import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../model/portcall-timestamp-type.enum";
 import {BehaviorSubject} from "rxjs";
 import {PortService} from "../port.service";
+import {TerminalService} from "../terminal.service";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -25,9 +26,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   newTimestamp: PortcallTimestamp;
 
   constructor(private portcallTimestampService: PortcallTimestampService,
-              private portService: PortService, private messageService: MessageService) {
-
-
+              private portService: PortService, private messageService: MessageService,
+              private terminalService: TerminalService) {
   }
 
   ngOnInit(): void {
@@ -38,9 +38,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       direction: '',
       eventTypeCode: '',
       locationId: '',
-      nextPort: '',
-      portFrom: '',
-      portTo: '',
+      portFrom: null,
+      portApproach: null,
+      portNext: null,
       terminalId: '',
       timestampType: null
     }
@@ -48,7 +48,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.$timestamps.next([this.newTimestamp])
     this.timestampTypes = [];
 
-    this.ports= [];
+    this.ports = [];
     this.portService.getPorts().subscribe(ports => {
       ports.forEach(port => {
         this.ports.push({label: port.unLocode, value: port})
@@ -62,12 +62,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       {label: 'W', value: 'W'}
     ]
 
-    this.terminals = [
-      {label: 'CTA', value: {code: 'CTA ', name: 'ALTENWERDER'}},
-      {label: 'CTB', value: {code: 'CTB ', name: 'BUCHARDKAI'}},
-      {label: 'CTT', value: {code: 'CTT ', name: 'TOLLERORT'}},
-      {label: 'EGH', value: {code: 'EGH ', name: 'EUROGATE'}},
-    ]
+    this.terminals = [];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -106,4 +101,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       detail: error.message
     }));
   }
+
+  selectPortApproach(portId: number) {
+    this.terminals = [];
+    this.terminalService.getTerminals(portId).subscribe(terminals => {
+      terminals.forEach(terminal => {
+        this.terminals.push({label: terminal.smdgCode, value: terminal});
+      });
+    });
+  }
+
 }
