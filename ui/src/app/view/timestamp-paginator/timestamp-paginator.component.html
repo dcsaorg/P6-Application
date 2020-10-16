@@ -3,5 +3,6 @@
              [rows]="selectedRowSize"
              [showCurrentPageReport]="true"
              [totalRecords]="timestamps.length"
-             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+             [first]="first"
+             currentPageReportTemplate="Page {currentPage} to {totalPages} ({totalRecords} entries)">
 </p-paginator>
