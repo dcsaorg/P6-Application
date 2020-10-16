@@ -71,7 +71,8 @@ public class PortCallTimestampController {
     @DeleteMapping("/{portCallTimestampId}")
     @Transactional
     public void deletePortCallTimestamp(@PathVariable int portCallTimestampId) {
-        dsl.delete(PORT_CALL_TIMESTAMP)
+        dsl.update(PORT_CALL_TIMESTAMP)
+                .set(PORT_CALL_TIMESTAMP.DELETED, true)
                 .where(PORT_CALL_TIMESTAMP.ID.eq(portCallTimestampId))
                 .execute();
     }
