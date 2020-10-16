@@ -10,7 +10,7 @@
     <div class="main__spaceInnerComponent">
       <p-card>
         <app-timestamp-table [portCallTimeStampAdded]="portCallTimeStampAdded" [ports]="ports" [terminals]="terminals" [vesselId]="vesselId"></app-timestamp-table>
-        <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)" [ports]="ports" [terminals]="terminals" [vesselId]="vesselId"></app-timestamp-editor>
+        <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)" [ports]="ports" [terminals]="terminals" [vesselId]="vesselId" [delayCodes]="delayCodes"></app-timestamp-editor>
       </p-card>
     </div>
   </ng-template>

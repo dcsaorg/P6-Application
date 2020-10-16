@@ -8,18 +8,23 @@ import {PortIdToPortPipe} from "../../controller/port-id-to-port.pipe";
 import {Port} from "../../model/port";
 import {TerminalIdToTerminalPipe} from "../../controller/terminal-id-to-terminal.pipe";
 import {Terminal} from "../../model/terminal";
+import {DialogService} from "primeng/dynamicdialog";
+import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
+import {DelayCode} from "../../model/delayCode";
+
 
 @Component({
   selector: 'app-timestamp-editor',
   templateUrl: './timestamp-editor.component.html',
   styleUrls: ['./timestamp-editor.component.scss'],
-  providers: [PortIdToPortPipe, TerminalIdToTerminalPipe]
+  providers: [PortIdToPortPipe, TerminalIdToTerminalPipe, DialogService]
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
   @Input('ports') ports: Port[];
   @Input('terminals') terminals: Terminal[];
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
+  @Input('delayCodes') delayCodes: DelayCode[];
 
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
 
@@ -27,7 +32,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   portOptions: SelectItem[] = [];
   directions: SelectItem[];
   terminalOptions: SelectItem[] = [];
-  defaultTimestamp : PortcallTimestamp = {
+  defaultTimestamp: PortcallTimestamp = {
     logOfTimestamp: new Date(),
     eventTimestamp: new Date(),
     direction: null,
@@ -44,7 +49,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   constructor(private portcallTimestampService: PortcallTimestampService,
               private messageService: MessageService,
               private portIdToPortPipe: PortIdToPortPipe,
-              private terminalIdToTerminalPipe: TerminalIdToTerminalPipe) {
+              private terminalIdToTerminalPipe: TerminalIdToTerminalPipe,
+              private dialogService: DialogService) {
   }
 
   ngOnInit(): void {
@@ -127,6 +133,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         // if there is no entry
         this.$timestamps.next([this.defaultTimestamp]);
       }
+    });
+  }
+
+  addComment(timestamp: PortcallTimestamp) {
+
+    this.dialogService.open(TimestampCommentDialogComponent, {
+      header: 'Add Comment',
+      width: '50%', data: {timestamp, delayCode: this.delayCodes}
     });
   }
 }

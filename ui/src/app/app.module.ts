@@ -26,6 +26,8 @@ import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
 import {PortIdToPortPipe} from './controller/port-id-to-port.pipe';
 import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pipe';
+import {InputTextareaModule} from "primeng/inputtextarea";
+import { TimestampCommentDialogComponent } from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pip
     VesselEditorComponent,
     PortIdToPortPipe,
     TerminalIdToTerminalPipe,
+    TimestampCommentDialogComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -54,7 +57,9 @@ import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pip
     TooltipModule,
     ToastModule,
     InputNumberModule,
-  ],
+    DynamicDialogModule,
+    InputTextareaModule
+],
   providers: [MessageService],
   bootstrap: [AppComponent]
 })

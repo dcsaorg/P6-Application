@@ -18,17 +18,7 @@
                     showTime="true" showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"  filterBy="label,value.name">
-          <ng-template let-port pTemplate="item">
-            <div *ngIf="port.value">
-              <div>{{port.value.unLocode}}</div>
-              <div class="portListName">{{port.value.name}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </td>
-      <td style="width: 7%">
-        <p-dropdown (onChange)="selectPortOfCall(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall" [filter]="true" [options]="portOptions"
+        <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"
                     filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div *ngIf="port.value">
@@ -39,7 +29,20 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions" filterBy="label,value.name">
+        <p-dropdown (onChange)="selectPortOfCall(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall"
+                    [filter]="true" [options]="portOptions"
+                    filterBy="label,value.name">
+          <ng-template let-port pTemplate="item">
+            <div *ngIf="port.value">
+              <div>{{port.value.unLocode}}</div>
+              <div class="portListName">{{port.value.name}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </td>
+      <td style="width: 7%">
+        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions"
+                    filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div *ngIf="port.value">
               <div>{{port.value.unLocode}}</div>
@@ -52,7 +55,8 @@
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null" [options]="terminalOptions">
+        <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
+                    [options]="terminalOptions">
           <ng-template let-terminal pTemplate="item">
             <div *ngIf="terminal.value">
               <div>{{terminal.value.smdgCode}}</div>
@@ -64,8 +68,9 @@
       </td>
       <td><label><input type="text" pInputText [(ngModel)]="timestamp.locationId"/></label></td>
       <td style="width: 5%">
-        <p-button icon="pi pi-comment"></p-button>
-        <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)" [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>
+        <p-button (onClick)="addComment(timestamp)" icon="pi pi-comment"></p-button>
+        <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)"
+                  [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>
       </td>
     </tr>
   </ng-template>
