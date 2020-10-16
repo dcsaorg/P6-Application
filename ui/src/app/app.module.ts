@@ -17,7 +17,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {CardModule} from 'primeng/card';
 import {DropdownModule} from 'primeng/dropdown';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from 'primeng/inputtext';
 import {MessageService} from "primeng/api";
@@ -27,7 +27,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import {PortIdToPortPipe} from './controller/port-id-to-port.pipe';
 import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pipe';
 import {InputTextareaModule} from "primeng/inputtextarea";
-import { TimestampCommentDialogComponent } from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
+import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -57,8 +57,9 @@ import { TimestampCommentDialogComponent } from './view/timestamp-comment-dialog
     TooltipModule,
     ToastModule,
     InputNumberModule,
-    DynamicDialogModule,
-    InputTextareaModule
+    InputTextareaModule,
+    ReactiveFormsModule,
+
 ],
   providers: [MessageService],
   bootstrap: [AppComponent]

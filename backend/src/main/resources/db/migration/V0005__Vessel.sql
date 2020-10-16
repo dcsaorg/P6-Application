@@ -9,7 +9,7 @@ CREATE TABLE vessel
 	name varchar(100) NOT NULL,
 	imo numeric(7) NOT NULL,
 	teu smallint NOT NULL,
-	service_name_code varchar NULL,
+	service_name_code varchar(255) NULL,
 	CONSTRAINT vessel_pk PRIMARY KEY (id),
 	CONSTRAINT vessel_uq_imo UNIQUE (imo)
 );
