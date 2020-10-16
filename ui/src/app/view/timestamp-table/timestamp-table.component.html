@@ -68,7 +68,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 7%">{{ timestamp.timestampType }}</td>
+      <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypePipe: null }}</td>
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
