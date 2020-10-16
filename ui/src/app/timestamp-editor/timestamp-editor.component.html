@@ -1,4 +1,4 @@
-<p-table [value]="$timestamps | async">
+<p-table [value]="($timestamps | async)">
   <ng-template pTemplate="body" let-timestamp>
     <tr>
       <td style="width: 7%; padding-left: 0">
@@ -7,20 +7,20 @@
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>
-        <p-calendar [(ngModel)]="logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
+        <p-calendar [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     showTime="true"
                     showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
       </td>
       <td>
-        <p-calendar [(ngModel)]="eventTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
+        <p-calendar [(ngModel)]="timestamp.eventTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     showTime="true" showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="ports"  filterBy="label,value.name">
+        <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"  filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
-            <div class="port-item">
+            <div *ngIf="port.value">
               <div>{{port.value.unLocode}}</div>
               <div class="portListName">{{port.value.name}}</div>
             </div>
@@ -28,10 +28,10 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown (onChange)="selectPortOfCall(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall" [filter]="true"
-                    [options]="ports" filterBy="label,value.name">
+        <p-dropdown (onChange)="selectPortOfCall(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall" [filter]="true" [options]="portOptions"
+                    filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
-            <div class="port-item">
+            <div *ngIf="port.value">
               <div>{{port.value.unLocode}}</div>
               <div class="portListName">{{port.value.name}}</div>
             </div>
@@ -39,9 +39,9 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="ports" filterBy="label,value.name">
+        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions" filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
-            <div class="port-item">
+            <div *ngIf="port.value">
               <div>{{port.value.unLocode}}</div>
               <div class="portListName">{{port.value.name}}</div>
             </div>
@@ -52,9 +52,9 @@
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall == null" [options]="terminals">
+        <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null" [options]="terminalOptions">
           <ng-template let-terminal pTemplate="item">
-            <div class="port-item">
+            <div *ngIf="terminal.value">
               <div>{{terminal.value.smdgCode}}</div>
               <div class="terminalListDetails">{{terminal.value.terminalName}}</div>
               <div class="terminalListDetails">{{terminal.value.terminalOperator}}</div>
@@ -65,7 +65,7 @@
       <td><label><input type="text" pInputText [(ngModel)]="timestamp.locationId"/></label></td>
       <td style="width: 5%">
         <p-button icon="pi pi-comment"></p-button>
-        <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)" [disabled]="!(timestamp.portPrevious && timestamp.portOfCall && timestamp.portNext && timestamp.terminal)" icon="pi pi-save"></p-button>
+        <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)" [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>
       </td>
     </tr>
   </ng-template>

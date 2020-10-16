@@ -4,104 +4,85 @@ import {PortcallTimestampService} from "../portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../model/portcall-timestamp-type.enum";
 import {BehaviorSubject} from "rxjs";
-import {PortService} from "../port.service";
-import {TerminalService} from "../terminal.service";
+import {PortIdToPortPipe} from "../port-id-to-port.pipe";
+import {Port} from "../model/port";
+import {TerminalIdToTerminalPipe} from "../terminal-id-to-terminal.pipe";
+import {Terminal} from "../model/terminal";
 
 @Component({
   selector: 'app-timestamp-editor',
   templateUrl: './timestamp-editor.component.html',
-  styleUrls: ['./timestamp-editor.component.scss']
+  styleUrls: ['./timestamp-editor.component.scss'],
+  providers: [PortIdToPortPipe, TerminalIdToTerminalPipe]
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
+  @Input('ports') ports: Port[];
+  @Input('terminals') terminals: Terminal[];
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
 
   timestampTypes: SelectItem[];
-  logOfTimestamp: Date;
-  eventTimestamp: Date;
-  ports: SelectItem[];
+  portOptions: SelectItem[] = [];
   directions: SelectItem[];
-  terminals: SelectItem[];
-  newTimestamp: PortcallTimestamp;
-
-  constructor(private portcallTimestampService: PortcallTimestampService,
-              private portService: PortService, private messageService: MessageService,
-              private terminalService: TerminalService) {
-  }
-
-
+  terminalOptions: SelectItem[] = [];
   defaultTimestamp : PortcallTimestamp = {
-    logOfTimestamp: new Date().toISOString(),
-    eventTimestamp: new Date().toISOString(),
-    classifierCode: '',
-    direction: 'N',
-    eventTypeCode: '',
+    logOfTimestamp: new Date(),
+    eventTimestamp: new Date(),
+    direction: null,
     locationId: '',
     portPrevious: null,
     portOfCall: null,
     portNext: null,
     terminal: null,
-    timestampType: PortcallTimestampType.ETA_Berth
+    timestampType: null,
+    classifierCode: '',
+    eventTypeCode: ''
   };
 
+  constructor(private portcallTimestampService: PortcallTimestampService,
+              private messageService: MessageService,
+              private portIdToPortPipe: PortIdToPortPipe,
+              private terminalIdToTerminalPipe: TerminalIdToTerminalPipe) {
+  }
 
   ngOnInit(): void {
-    this.newTimestamp = this.defaultTimestamp;
     this.$timestamps = new BehaviorSubject([]);
-    this.$timestamps.next([this.newTimestamp])
-    this.timestampTypes = [];
 
-    this.ports = [];
-    this.portService.getPorts().subscribe(ports => {
-      ports.forEach(port => {
-        this.ports.push({label: port.unLocode, value: port})
-      });
+    this.portOptions.push({label: 'Select port', value: null})
+    this.ports.forEach(port => {
+      this.portOptions.push({label: port.unLocode, value: port})
     });
 
     this.directions = [
+      {label: 'Select direction', value: null},
       {label: 'N', value: 'N'},
       {label: 'E', value: 'E'},
       {label: 'S', value: 'S'},
       {label: 'W', value: 'W'}
     ]
 
-    this.terminals = [];
+    this.timestampTypes = [{label: 'Select timestamp', value: null}];
+    for (let item in PortcallTimestampType) {
+      this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.portcallTimestampService.getPortcallTimestamps(this.vesselId).subscribe(portCallTimeStamps => {
-      const lastTimeStampIndex = portCallTimeStamps.length - 1;
-      const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
-      if (newPortcallTimestamp) {
-        this.$timestamps.next([newPortcallTimestamp]);
-        this.logOfTimestamp = new Date(newPortcallTimestamp.logOfTimestamp);
-        this.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
-        console.log("Moin Welt 1");
-      } else {
-        this.logOfTimestamp = new Date();
-        this.eventTimestamp = new Date();
-        console.log("Moin Welt 2");
-      }
-
-      this.timestampTypes = [];
-      for (let item in PortcallTimestampType) {
-        this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
-      }
-    });
-
+    this.updatePortCallTimeStampToBeEdited();
   }
 
   savePortcallTimestamp(portcallTimestamp: PortcallTimestamp, vesselId: number) {
-    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe(() => {
+    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe((portcallTimestampAdded: PortcallTimestamp) => {
       this.messageService.add({
         key: 'TimestampAddSuccess',
         severity: 'success',
         summary: 'Successfully added new port call timestamp to vessel',
         detail: ''
       });
-      this.timeStampAddedNotifier.emit(portcallTimestamp);
+      this.timeStampAddedNotifier.emit(portcallTimestampAdded);
+      this.updatePortCallTimeStampToBeEdited();
     }, error => this.messageService.add({
       key: 'TimestampAddError',
       severity: 'error',
@@ -111,12 +92,44 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   selectPortOfCall(portId: number) {
-    this.terminals = [];
-    this.terminalService.getTerminals(portId).subscribe(terminals => {
-      terminals.forEach(terminal => {
-        this.terminals.push({label: terminal.smdgCode, value: terminal});
-      });
-    });
+    this.terminalOptions = [{label: 'Select terminal', value: null}];
+    this.terminals.forEach(terminal => {
+      if (terminal.id === portId) {
+        this.terminalOptions.push({label: terminal.smdgCode, value: terminal});
+      }
+    })
   }
 
+  validatePortOfCallTimestamp(timestamp: PortcallTimestamp): boolean {
+    return !(timestamp.timestampType &&
+      timestamp.direction &&
+      timestamp.portNext &&
+      timestamp.portPrevious &&
+      timestamp.portOfCall &&
+      timestamp.terminal);
+  }
+
+  private updatePortCallTimeStampToBeEdited() {
+    this.portcallTimestampService.getPortcallTimestamps(this.vesselId).subscribe(portCallTimeStamps => {
+      const lastTimeStampIndex = portCallTimeStamps.length - 1;
+      const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
+      if (newPortcallTimestamp) {
+        newPortcallTimestamp.portOfCall = this.portIdToPortPipe.transform(newPortcallTimestamp.portOfCall as number, this.ports);
+        newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
+        newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
+        newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
+        newPortcallTimestamp.logOfTimestamp = new Date(newPortcallTimestamp.logOfTimestamp);
+        newPortcallTimestamp.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
+        this.selectPortOfCall(newPortcallTimestamp.portOfCall.id);
+
+        this.$timestamps.next([newPortcallTimestamp]);
+      } else {
+        // if there is no entry
+        this.$timestamps.next([this.defaultTimestamp]);
+      }
+    });
+  }
 }
+
+
+

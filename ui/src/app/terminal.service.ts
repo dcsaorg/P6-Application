@@ -15,11 +15,7 @@ export class TerminalService {
     this.TERMINAL_URL = BACKEND_URL + '/terminals';
   }
 
-  getTerminals = (portId: number): Observable<Terminal[]> => {
-    return this.httpClient.get<Terminal[]>(this.TERMINAL_URL + '/' + portId);
-  }
-
-  getAllTerminals = () :Observable<Terminal[]> => {
+  getAllTerminals = (): Observable<Terminal[]> => {
     return this.httpClient.get<Terminal[]>(this.TERMINAL_URL)
   }
 }

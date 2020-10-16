@@ -1,4 +1,4 @@
-<p-table #dt [value]="$timestamps | async" sortField="logOfTimestamp" [sortOrder]="1" [filterDelay]="0"
+<p-table #dt [filterDelay]="0" [sortOrder]="1" [value]="($timestamps | async)" sortField="logOfTimestamp"
          [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']">
   <ng-template pTemplate="caption">
     <div class="p-grid">
@@ -43,8 +43,8 @@
       <th style="width: 7%" pSortableColumn="direction">Direction
         <p-sortIcon field="direction"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="terminalId">Terminal ID
-        <p-sortIcon field="terminalId"></p-sortIcon>
+      <th pSortableColumn="terminal" style="width: 7%">Terminal ID
+        <p-sortIcon field="terminal"></p-sortIcon>
       </th>
       <th pSortableColumn="locationId">Location ID
         <p-sortIcon field="locationId"></p-sortIcon>
@@ -73,11 +73,26 @@
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
-      <td style="width: 7%"><div>{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div><div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div></td>
-      <td style="width: 7%"><div>{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div><div class="rowDetails">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div></td>
-      <td style="width: 7%"><div>{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div><div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div></td>
+      <td style="width: 7%">
+        <div>{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
+        <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
+      </td>
+      <td style="width: 7%">
+        <div>{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
+        <div class="rowDetails">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div>
+      </td>
+      <td style="width: 7%">
+        <div>{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
+        <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
+      </td>
       <td style="width: 7%">{{ timestamp.direction }}</td>
-      <td style="width: 7%"><div>{{ (timestamp.terminal | terminalIdToTerminal: terminals).smdgCode}}</div><div class="rowDetails">{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}</div></td>
+      <td style="width: 7%">
+        <!--   somehow there is a porblem acessing the terminals   -->
+        <div *ngIf="terminals.length > 0">
+          <div>{{ (timestamp.terminal | terminalIdToTerminal: terminals).smdgCode}}</div>
+          <div class="rowDetails">{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}</div>
+        </div>
+      </td>
       <td>{{ timestamp.locationId }}</td>
       <td style="width: 5%">
         <p-button icon="pi pi-trash"></p-button>
