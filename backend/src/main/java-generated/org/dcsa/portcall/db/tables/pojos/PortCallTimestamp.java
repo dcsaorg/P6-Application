@@ -4,11 +4,11 @@
 package org.dcsa.portcall.db.tables.pojos;
 
 
-import org.dcsa.portcall.db.enums.Direction;
-import org.dcsa.portcall.db.enums.PortCallTimestampType;
-
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+
+import org.dcsa.portcall.db.enums.Direction;
+import org.dcsa.portcall.db.enums.PortCallTimestampType;
 
 
 /**

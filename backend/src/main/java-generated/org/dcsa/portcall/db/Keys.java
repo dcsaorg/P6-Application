@@ -4,10 +4,12 @@
 package org.dcsa.portcall.db;
 
 
+import org.dcsa.portcall.db.tables.DelayCode;
 import org.dcsa.portcall.db.tables.Port;
 import org.dcsa.portcall.db.tables.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.Terminal;
 import org.dcsa.portcall.db.tables.Vessel;
+import org.dcsa.portcall.db.tables.records.DelayCodeRecord;
 import org.dcsa.portcall.db.tables.records.PortCallTimestampRecord;
 import org.dcsa.portcall.db.tables.records.PortRecord;
 import org.dcsa.portcall.db.tables.records.TerminalRecord;
@@ -30,6 +32,7 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<DelayCodeRecord, Integer> IDENTITY_DELAY_CODE = Identities0.IDENTITY_DELAY_CODE;
     public static final Identity<PortRecord, Integer> IDENTITY_PORT = Identities0.IDENTITY_PORT;
     public static final Identity<PortCallTimestampRecord, Integer> IDENTITY_PORT_CALL_TIMESTAMP = Identities0.IDENTITY_PORT_CALL_TIMESTAMP;
     public static final Identity<TerminalRecord, Integer> IDENTITY_TERMINAL = Identities0.IDENTITY_TERMINAL;
@@ -39,6 +42,8 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<DelayCodeRecord> DELAY_CODE_PK = UniqueKeys0.DELAY_CODE_PK;
+    public static final UniqueKey<DelayCodeRecord> DELAY_CODE_KEY = UniqueKeys0.DELAY_CODE_KEY;
     public static final UniqueKey<PortRecord> PORT_PK = UniqueKeys0.PORT_PK;
     public static final UniqueKey<PortRecord> PORT_UQ_UN_LOCODE = UniqueKeys0.PORT_UQ_UN_LOCODE;
     public static final UniqueKey<PortCallTimestampRecord> MESSAGE_PK = UniqueKeys0.MESSAGE_PK;
@@ -63,6 +68,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
+        public static Identity<DelayCodeRecord, Integer> IDENTITY_DELAY_CODE = Internal.createIdentity(DelayCode.DELAY_CODE, DelayCode.DELAY_CODE.ID);
         public static Identity<PortRecord, Integer> IDENTITY_PORT = Internal.createIdentity(Port.PORT, Port.PORT.ID);
         public static Identity<PortCallTimestampRecord, Integer> IDENTITY_PORT_CALL_TIMESTAMP = Internal.createIdentity(PortCallTimestamp.PORT_CALL_TIMESTAMP, PortCallTimestamp.PORT_CALL_TIMESTAMP.ID);
         public static Identity<TerminalRecord, Integer> IDENTITY_TERMINAL = Internal.createIdentity(Terminal.TERMINAL, Terminal.TERMINAL.ID);
@@ -70,6 +76,8 @@ public class Keys {
     }
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<DelayCodeRecord> DELAY_CODE_PK = Internal.createUniqueKey(DelayCode.DELAY_CODE, "delay_code_pk", new TableField[] { DelayCode.DELAY_CODE.ID }, true);
+        public static final UniqueKey<DelayCodeRecord> DELAY_CODE_KEY = Internal.createUniqueKey(DelayCode.DELAY_CODE, "delay_code_key", new TableField[] { DelayCode.DELAY_CODE.SMDG_CODE }, true);
         public static final UniqueKey<PortRecord> PORT_PK = Internal.createUniqueKey(Port.PORT, "port_pk", new TableField[] { Port.PORT.ID }, true);
         public static final UniqueKey<PortRecord> PORT_UQ_UN_LOCODE = Internal.createUniqueKey(Port.PORT, "port_uq_un_locode", new TableField[] { Port.PORT.UN_LOCODE }, true);
         public static final UniqueKey<PortCallTimestampRecord> MESSAGE_PK = Internal.createUniqueKey(PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_pk", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.ID }, true);

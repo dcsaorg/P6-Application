@@ -7,6 +7,7 @@ package org.dcsa.portcall.db;
 import java.util.Arrays;
 import java.util.List;
 
+import org.dcsa.portcall.db.tables.DelayCode;
 import org.dcsa.portcall.db.tables.Port;
 import org.dcsa.portcall.db.tables.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.Terminal;
@@ -23,12 +24,17 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -376209431;
+    private static final long serialVersionUID = -1692932465;
 
     /**
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
+
+    /**
+     * The table <code>public.delay_code</code>.
+     */
+    public final DelayCode DELAY_CODE = DelayCode.DELAY_CODE;
 
     /**
      * The table <code>public.port</code>.
@@ -66,6 +72,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Sequence<?>> getSequences() {
         return Arrays.<Sequence<?>>asList(
+            Sequences.DELAY_CODE_ID_SEQ,
             Sequences.PORT_CALL_TIMESTAMP_ID_SEQ,
             Sequences.PORT_ID_SEQ,
             Sequences.TERMINAL_ID_SEQ,
@@ -75,6 +82,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
+            DelayCode.DELAY_CODE,
             Port.PORT,
             PortCallTimestamp.PORT_CALL_TIMESTAMP,
             Terminal.TERMINAL,
