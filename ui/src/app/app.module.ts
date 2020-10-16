@@ -2,13 +2,15 @@ import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
+import {TimestampPaginatorComponent} from './view/timestamp-paginator/timestamp-paginator.component';
 import {AppComponent} from './view/app.component';
+import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './view/header/header.component';
+import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
+import {TimestampEditorComponent} from './view/timestamp-editor/timestamp-editor.component';
+import {TimestampTableComponent} from './view/timestamp-table/timestamp-table.component';
 import {VesselComponent} from './view/vessel/vessel.component';
 import {VesselEditorComponent} from './view/vessel-editor/vessel-editor.component';
-import {TimestampTableComponent} from './view/timestamp-table/timestamp-table.component';
-import {TimestampEditorComponent} from './view/timestamp-editor/timestamp-editor.component';
 
 //primeNG
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -20,14 +22,15 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from 'primeng/inputtext';
+import {InputTextareaModule} from "primeng/inputtextarea";
 import {MessageService} from "primeng/api";
+import {PaginatorModule} from 'primeng/paginator';
+import {PortIdToPortPipe} from './controller/port-id-to-port.pipe';
 import {TableModule} from 'primeng/table';
+import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pipe';
 import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
-import {PortIdToPortPipe} from './controller/port-id-to-port.pipe';
-import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pipe';
-import {InputTextareaModule} from "primeng/inputtextarea";
-import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/t
     PortIdToPortPipe,
     TerminalIdToTerminalPipe,
     TimestampCommentDialogComponent,
+    TimestampPaginatorComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -52,16 +56,17 @@ import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/t
     DynamicDialogModule,
     FormsModule,
     HttpClientModule,
-    InputTextModule,
-    TableModule,
-    TooltipModule,
-    ToastModule,
     InputNumberModule,
+    InputTextModule,
     InputTextareaModule,
+    PaginatorModule,
     ReactiveFormsModule,
-
-],
+    TableModule,
+    ToastModule,
+    TooltipModule,
+  ],
   providers: [MessageService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
