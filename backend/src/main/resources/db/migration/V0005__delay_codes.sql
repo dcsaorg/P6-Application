@@ -1,4 +1,4 @@
-CREATE TABLE public.delay_code
+CREATE TABLE delay_code
 (
     id                serial       NOT NULL,
     smdg_code         varchar(4)   NOT NULL,
