@@ -9,8 +9,8 @@
   <ng-template #vesselsSelected>
     <div class="main__spaceInnerComponent">
       <p-card>
-        <app-timestamp-table [vesselId]="vesselId"></app-timestamp-table>
-        <app-timestamp-editor [vesselId]="vesselId"></app-timestamp-editor>
+        <app-timestamp-table [portCallTimeStampAdded]="portCallTimeStampAdded" [vesselId]="vesselId"></app-timestamp-table>
+        <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)" [vesselId]="vesselId"></app-timestamp-editor>
       </p-card>
     </div>
   </ng-template>

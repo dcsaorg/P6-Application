@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {PortcallTimestamp} from "./model/portcall-timestamp";
 
 @Component({
   selector: 'app-root',
@@ -8,8 +9,13 @@ import {Component} from '@angular/core';
 export class AppComponent {
   title = 'ui';
   vesselId: number
+  portCallTimeStampAdded: PortcallTimestamp;
 
   vesselChangedHandler($vesselId: number) {
     this.vesselId = $vesselId
+  }
+
+  timeStampAddedHandler($portCallTimeStampAdded: PortcallTimestamp) {
+    this.portCallTimeStampAdded = $portCallTimeStampAdded;
   }
 }

@@ -18,7 +18,7 @@
                     showTime="true" showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="ports">
+        <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="ports"  filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
               <div>{{port.value.unLocode}}</div>
@@ -29,7 +29,7 @@
       </td>
       <td style="width: 7%">
         <p-dropdown (onChange)="selectPortOfCall(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall" [filter]="true"
-                    [options]="ports">
+                    [options]="ports" filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
               <div>{{port.value.unLocode}}</div>
@@ -39,7 +39,7 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="ports">
+        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="ports" filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div class="port-item">
               <div>{{port.value.unLocode}}</div>

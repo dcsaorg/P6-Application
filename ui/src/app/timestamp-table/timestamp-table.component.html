@@ -73,9 +73,9 @@
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
-      <td style="width: 7%">{{ timestamp.portPrevious }}</td>
-      <td style="width: 7%">{{ timestamp.portOfCall }}</td>
-      <td style="width: 7%">{{ timestamp.portNext }}</td>
+      <td style="width: 7%"><div>{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div><div class="portListName">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div></td>
+      <td style="width: 7%"><div>{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div><div class="portListName">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div></td>
+      <td style="width: 7%"><div>{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div><div class="portListName">{{ (timestamp.portNext | portIdToPort: ports).name}}</div></td>
       <td style="width: 7%">{{ timestamp.direction }}</td>
       <td style="width: 7%">{{ timestamp.terminal.id }}</td>
       <td>{{ timestamp.locationId }}</td>

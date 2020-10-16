@@ -2,6 +2,8 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {PortcallTimestamp} from "../model/portcall-timestamp";
 import {PortcallTimestampService} from "../portcall-timestamp.service";
 import {Observable} from "rxjs";
+import {PortService} from "../port.service";
+import {Port} from "../model/port";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -12,11 +14,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   $timestamps: Observable<PortcallTimestamp[]>;
 
   @Input('vesselId') vesselId: number;
+  @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
 
-  constructor(private portcallTimestampService: PortcallTimestampService) { }
+  ports: Port[] = [];
+
+  constructor(private portcallTimestampService: PortcallTimestampService, private portService: PortService) {
+  }
 
   ngOnInit(): void {
-
+    this.portService.getPorts().subscribe(ports => this.ports = ports);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

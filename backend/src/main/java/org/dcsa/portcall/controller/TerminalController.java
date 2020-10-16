@@ -19,13 +19,23 @@ public class TerminalController {
 
     DSLContext dsl;
 
-    public TerminalController(DSLContext dsl){
+    public TerminalController(DSLContext dsl) {
         this.dsl = dsl;
+    }
+
+    @GetMapping
+    @Transactional(readOnly = true)
+    public List<Terminal> listTerminals() {
+        return dsl.select()
+                .from(TERMINAL)
+                .fetch()
+                .into(Terminal.class);
+
     }
 
     @GetMapping("/{portId}")
     @Transactional(readOnly = true)
-    public List<Terminal> getTerminalsForPort(@PathVariable int portId){
+    public List<Terminal> getTerminalsForPort(@PathVariable int portId) {
         return dsl.select()
                 .from(TERMINAL)
                 .where(TERMINAL.PORT.eq(portId))

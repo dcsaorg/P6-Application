@@ -1,3 +1,5 @@
+@import "DCSA-Theme";
+
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   position: -webkit-sticky;
   position: sticky;
@@ -12,4 +14,11 @@
 
 .globalSearch {
   float: right;
+}
+
+
+.portListName {
+  color: $darkGrey;
+  text-transform: capitalize;
+  font-size: 12px;
 }

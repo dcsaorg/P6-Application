@@ -27,7 +27,7 @@ export class PortcallTimestampService {
         portPrevious: (portcalltimestamp.portPrevious as Port).id,
         portOfCall: (portcalltimestamp.portOfCall as Port).id,
         terminal: (portcalltimestamp.terminal as Terminal).id,
-        timestampType: portcalltimestamp.timestampType.replace('_|\s', '_'),
+        timestampType: portcalltimestamp.timestampType.replace('(-|\s)', '_'),
         locationId: portcalltimestamp.locationId,
         eventTypeCode: portcalltimestamp.eventTypeCode,
         direction: portcalltimestamp.direction,

@@ -4614,3 +4614,11 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 
 /* Customizations to the designer theme should be defined here */
+body .p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background-color: $foamWhite;
+  color: $darkNavyBlue;
+}
+body .p-datatable .p-datatable-tbody > tr:nth-child(odd) {
+  background-color: lighten($steelGrey, 50%);
+  color: $darkNavyBlue;
+}

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PortcallTimestamp} from "../model/portcall-timestamp";
 import {PortcallTimestampService} from "../portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
@@ -14,6 +14,7 @@ import {TerminalService} from "../terminal.service";
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
+  @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
 
@@ -42,7 +43,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       portOfCall: null,
       portNext: null,
       terminal: null,
-      timestampType: PortcallTimestampType.ETD_Berth
+      timestampType: PortcallTimestampType.ETA_Berth
     }
     this.$timestamps = new BehaviorSubject([]);
     this.$timestamps.next([this.newTimestamp])
@@ -87,13 +88,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   savePortcallTimestamp(portcallTimestamp: PortcallTimestamp, vesselId: number) {
-    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe((portcalltimestamp: PortcallTimestamp) => {
+    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe(() => {
       this.messageService.add({
         key: 'TimestampAddSuccess',
         severity: 'success',
         summary: 'Successfully added new port call timestamp to vessel',
         detail: ''
       });
+      this.timeStampAddedNotifier.emit(portcallTimestamp);
     }, error => this.messageService.add({
       key: 'TimestampAddError',
       severity: 'error',

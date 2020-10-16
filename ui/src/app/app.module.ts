@@ -24,6 +24,7 @@ import {MessageService} from "primeng/api";
 import {TableModule} from 'primeng/table';
 import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
+import {PortIdToPortPipe} from './port-id-to-port.pipe';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {TooltipModule} from 'primeng/tooltip';
     TimestampTableComponent,
     VesselComponent,
     VesselEditorComponent,
+    PortIdToPortPipe,
   ],
   imports: [
     AppRoutingModule,
