@@ -32,7 +32,7 @@ export class VesselEditorComponent implements OnInit {
       name: new FormControl(null, [
         Validators.required, Validators.minLength(1), Validators.maxLength(100)]),
       imo: new FormControl(null, [
-        Validators.required, Validators.pattern('\d{7}'), Validators.maxLength(7)
+        Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)
       ]),
       teu: new FormControl(null, [
         Validators.required, Validators.min(1), Validators.max(32767)
