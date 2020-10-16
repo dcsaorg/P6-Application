@@ -18,4 +18,8 @@ export class TerminalService {
   getTerminals = (portId: number): Observable<Terminal[]> => {
     return this.httpClient.get<Terminal[]>(this.TERMINAL_URL + '/' + portId);
   }
+
+  getAllTerminals = () :Observable<Terminal[]> => {
+    return this.httpClient.get<Terminal[]>(this.TERMINAL_URL)
+  }
 }

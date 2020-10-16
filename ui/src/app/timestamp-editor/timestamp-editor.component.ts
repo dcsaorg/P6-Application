@@ -31,20 +31,24 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
               private terminalService: TerminalService) {
   }
 
+
+  defaultTimestamp : PortcallTimestamp = {
+    logOfTimestamp: new Date().toISOString(),
+    eventTimestamp: new Date().toISOString(),
+    classifierCode: '',
+    direction: 'N',
+    eventTypeCode: '',
+    locationId: '',
+    portPrevious: null,
+    portOfCall: null,
+    portNext: null,
+    terminal: null,
+    timestampType: PortcallTimestampType.ETA_Berth
+  };
+
+
   ngOnInit(): void {
-    this.newTimestamp = {
-      logOfTimestamp: new Date().toISOString(),
-      eventTimestamp: new Date().toISOString(),
-      classifierCode: '',
-      direction: 'N',
-      eventTypeCode: '',
-      locationId: '',
-      portPrevious: null,
-      portOfCall: null,
-      portNext: null,
-      terminal: null,
-      timestampType: PortcallTimestampType.ETA_Berth
-    }
+    this.newTimestamp = this.defaultTimestamp;
     this.$timestamps = new BehaviorSubject([]);
     this.$timestamps.next([this.newTimestamp])
     this.timestampTypes = [];
@@ -74,9 +78,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         this.$timestamps.next([newPortcallTimestamp]);
         this.logOfTimestamp = new Date(newPortcallTimestamp.logOfTimestamp);
         this.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
+        console.log("Moin Welt 1");
       } else {
         this.logOfTimestamp = new Date();
         this.eventTimestamp = new Date();
+        console.log("Moin Welt 2");
       }
 
       this.timestampTypes = [];

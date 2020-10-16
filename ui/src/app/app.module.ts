@@ -25,6 +25,7 @@ import {TableModule} from 'primeng/table';
 import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
 import {PortIdToPortPipe} from './port-id-to-port.pipe';
+import { TerminalIdToTerminalPipe } from './terminal-id-to-terminal.pipe';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {PortIdToPortPipe} from './port-id-to-port.pipe';
     VesselComponent,
     VesselEditorComponent,
     PortIdToPortPipe,
+    TerminalIdToTerminalPipe,
   ],
   imports: [
     AppRoutingModule,

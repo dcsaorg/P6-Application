@@ -73,11 +73,11 @@
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
-      <td style="width: 7%"><div>{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div><div class="portListName">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div></td>
-      <td style="width: 7%"><div>{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div><div class="portListName">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div></td>
-      <td style="width: 7%"><div>{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div><div class="portListName">{{ (timestamp.portNext | portIdToPort: ports).name}}</div></td>
+      <td style="width: 7%"><div>{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div><div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div></td>
+      <td style="width: 7%"><div>{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div><div class="rowDetails">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div></td>
+      <td style="width: 7%"><div>{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div><div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div></td>
       <td style="width: 7%">{{ timestamp.direction }}</td>
-      <td style="width: 7%">{{ timestamp.terminal.id }}</td>
+      <td style="width: 7%"><div>{{ (timestamp.terminal | terminalIdToTerminal: terminals).smdgCode}}</div><div class="rowDetails">{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}</div></td>
       <td>{{ timestamp.locationId }}</td>
       <td style="width: 5%">
         <p-button icon="pi pi-trash"></p-button>
