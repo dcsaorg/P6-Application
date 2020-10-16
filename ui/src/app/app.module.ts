@@ -3,12 +3,12 @@ import {HttpClientModule} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {HeaderComponent} from './header/header.component';
-import {VesselComponent} from './vessel/vessel.component';
-import {VesselEditorComponent} from './vessel-editor/vessel-editor.component';
-import {TimestampTableComponent} from './timestamp-table/timestamp-table.component';
-import {TimestampEditorComponent} from './timestamp-editor/timestamp-editor.component';
+import {AppComponent} from './view/app.component';
+import {HeaderComponent} from './view/header/header.component';
+import {VesselComponent} from './view/vessel/vessel.component';
+import {VesselEditorComponent} from './view/vessel-editor/vessel-editor.component';
+import {TimestampTableComponent} from './view/timestamp-table/timestamp-table.component';
+import {TimestampEditorComponent} from './view/timestamp-editor/timestamp-editor.component';
 
 //primeNG
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -24,8 +24,8 @@ import {MessageService} from "primeng/api";
 import {TableModule} from 'primeng/table';
 import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
-import {PortIdToPortPipe} from './port-id-to-port.pipe';
-import { TerminalIdToTerminalPipe } from './terminal-id-to-terminal.pipe';
+import {PortIdToPortPipe} from './controller/port-id-to-port.pipe';
+import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pipe';
 
 @NgModule({
   declarations: [

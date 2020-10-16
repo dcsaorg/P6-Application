@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PortcallTimestamp} from "../model/portcall-timestamp";
-import {PortcallTimestampService} from "../portcall-timestamp.service";
+import {PortcallTimestamp} from "../../model/portcall-timestamp";
+import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
-import {PortcallTimestampType} from "../model/portcall-timestamp-type.enum";
+import {PortcallTimestampType} from "../../model/portcall-timestamp-type.enum";
 import {BehaviorSubject} from "rxjs";
-import {PortIdToPortPipe} from "../port-id-to-port.pipe";
-import {Port} from "../model/port";
-import {TerminalIdToTerminalPipe} from "../terminal-id-to-terminal.pipe";
-import {Terminal} from "../model/terminal";
+import {PortIdToPortPipe} from "../../controller/port-id-to-port.pipe";
+import {Port} from "../../model/port";
+import {TerminalIdToTerminalPipe} from "../../controller/terminal-id-to-terminal.pipe";
+import {Terminal} from "../../model/terminal";
 
 @Component({
   selector: 'app-timestamp-editor',

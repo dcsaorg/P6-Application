@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Terminal} from "./model/terminal";
+import {Terminal} from "../model/terminal";
 
 @Pipe({
   name: 'terminalIdToTerminal'

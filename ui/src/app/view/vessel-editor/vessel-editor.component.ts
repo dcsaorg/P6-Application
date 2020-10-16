@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {Vessel} from "../model/vessel";
-import {VesselService} from "../vessel.service";
+import {Vessel} from "../../model/vessel";
+import {VesselService} from "../../controller/vessel.service";
 import {MessageService} from "primeng/api";
 
 @Component({

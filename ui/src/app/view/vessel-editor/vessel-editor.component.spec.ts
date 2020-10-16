@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { VesselEditorComponent } from './vessel-editor.component';
+import {VesselEditorComponent} from './vessel-editor.component';
 
 describe('VesselEditorComponent', () => {
   let component: VesselEditorComponent;

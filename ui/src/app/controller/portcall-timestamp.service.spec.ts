@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { PortcallTimestampService } from './portcall-timestamp.service';
+import {PortcallTimestampService} from './portcall-timestamp.service';
 
 describe('PortcallTimestampService', () => {
   let service: PortcallTimestampService;

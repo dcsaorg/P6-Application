@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {PortcallTimestamp} from "./model/portcall-timestamp";
-import {PortService} from "./port.service";
-import {TerminalService} from "./terminal.service";
-import {Port} from "./model/port";
-import {Terminal} from "./model/terminal";
+import {PortcallTimestamp} from "../model/portcall-timestamp";
+import {PortService} from "../controller/port.service";
+import {TerminalService} from "../controller/terminal.service";
+import {Port} from "../model/port";
+import {Terminal} from "../model/terminal";
 
 @Component({
   selector: 'app-root',

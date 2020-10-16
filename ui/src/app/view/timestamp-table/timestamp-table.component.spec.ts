@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TimestampTableComponent } from './timestamp-table.component';
+import {TimestampTableComponent} from './timestamp-table.component';
 
 describe('TimestampTableComponent', () => {
   let component: TimestampTableComponent;

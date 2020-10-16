@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {PortcallTimestamp} from "../model/portcall-timestamp";
-import {PortcallTimestampService} from "../portcall-timestamp.service";
+import {PortcallTimestamp} from "../../model/portcall-timestamp";
+import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
 import {Observable} from "rxjs";
-import {Port} from "../model/port";
-import {Terminal} from "../model/terminal";
+import {Port} from "../../model/port";
+import {Terminal} from "../../model/terminal";
 
 @Component({
   selector: 'app-timestamp-table',

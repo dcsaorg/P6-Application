@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {PortcallTimestamp} from "./model/portcall-timestamp";
+import {PortcallTimestamp} from "../model/portcall-timestamp";
 import {HttpClient} from "@angular/common/http";
-import {BACKEND_URL} from "../environments/environment";
+import {BACKEND_URL} from "../../environments/environment";
 import {Observable} from "rxjs";
-import {Port} from "./model/port";
-import {Terminal} from "./model/terminal";
+import {Port} from "../model/port";
+import {Terminal} from "../model/terminal";
 
 @Injectable({
   providedIn: 'root'
