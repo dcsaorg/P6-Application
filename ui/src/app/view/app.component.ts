@@ -18,6 +18,7 @@ export class AppComponent implements OnInit{
   ports: Port[] = [];
   terminals : Terminal[] = [];
   delayCodes : DelayCode[] = [];
+  portCallTimeStampsForId: PortcallTimestamp[] = [];
 
   constructor(private portService: PortService, private  terminalService: TerminalService, private delayCodeService: DelayCodeService) {}
 
@@ -33,5 +34,9 @@ export class AppComponent implements OnInit{
 
   timeStampAddedHandler($portCallTimeStampAdded: PortcallTimestamp) {
     this.portCallTimeStampAdded = $portCallTimeStampAdded;
+  }
+
+  timeStampsForVesselIdsHandler($portCallTimeStampsForId: PortcallTimestamp[]) {
+    this.portCallTimeStampsForId = $portCallTimeStampsForId;
   }
 }

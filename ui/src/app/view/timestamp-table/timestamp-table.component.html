@@ -1,4 +1,4 @@
-<p-table #dt [filterDelay]="0" [sortOrder]="1" [value]="($timestamps | async)" sortField="logOfTimestamp"
+<p-table #dt [filterDelay]="0" [sortOrder]="1" [value]="timestamps" sortField="logOfTimestamp"
          [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']">
   <ng-template pTemplate="caption">
     <div class="p-grid">

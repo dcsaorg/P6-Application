@@ -1,1 +1,7 @@
-<p-paginator [rows]="10" [totalRecords]="120" [rowsPerPageOptions]="[10,25,50]"></p-paginator>
+<p-paginator (onPageChange)="paginate($event)"
+             [rowsPerPageOptions]="rowSizes"
+             [rows]="selectedRowSize"
+             [showCurrentPageReport]="true"
+             [totalRecords]="timestamps.length"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+</p-paginator>

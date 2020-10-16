@@ -16,7 +16,7 @@ export class TimestampTableComponent implements OnChanges {
   @Input('vesselId') vesselId: number;
   @Input('ports') ports: Port[];
   @Input('terminals') terminals: Terminal[];
-  @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
+  @Input('timestamps') timestamps: PortcallTimestamp[];
 
   constructor(private portcallTimestampService: PortcallTimestampService) {}
 

@@ -9,8 +9,17 @@
   <ng-template #vesselsSelected>
     <div class="main__spaceInnerComponent">
       <p-card>
-        <app-timestamp-table [portCallTimeStampAdded]="portCallTimeStampAdded" [ports]="ports" [terminals]="terminals" [vesselId]="vesselId"></app-timestamp-table>
-        <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)" [ports]="ports" [terminals]="terminals" [vesselId]="vesselId" [delayCodes]="delayCodes"></app-timestamp-editor>
+        <app-timestamp-table [ports]="ports" [terminals]="terminals"
+                             [timestamps]="portCallTimeStampsForId"
+                             [vesselId]="vesselId"></app-timestamp-table>
+        <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
+                              [delayCodes]="delayCodes"
+                              [ports]="ports"
+                              [terminals]="terminals"
+                              [vesselId]="vesselId" ></app-timestamp-editor>
+        <app-timestamp-paginator (timeStampsForVesselIdNotifier)="timeStampsForVesselIdsHandler($event)"
+                                 [portCallTimeStampAdded]="portCallTimeStampAdded"
+                                 [vesselId]="vesselId"></app-timestamp-paginator>
       </p-card>
     </div>
   </ng-template>
