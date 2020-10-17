@@ -22,19 +22,26 @@ export class PortcallTimestampService {
   }
 
   addPortcallTimestamp = (portcalltimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {
-      const portcalltimestampToSend: PortcallTimestamp = {
-        portNext: (portcalltimestamp.portNext as Port).id,
-        portPrevious: (portcalltimestamp.portPrevious as Port).id,
-        portOfCall: (portcalltimestamp.portOfCall as Port).id,
-        terminal: (portcalltimestamp.terminal as Terminal).id,
-        timestampType: portcalltimestamp.timestampType.replace('(-|\s)', '_'),
-        locationId: portcalltimestamp.locationId,
-        eventTypeCode: portcalltimestamp.eventTypeCode,
-        direction: portcalltimestamp.direction,
-        classifierCode: portcalltimestamp.classifierCode,
-        eventTimestamp: portcalltimestamp.eventTimestamp,
-        logOfTimestamp: portcalltimestamp.logOfTimestamp
+    const portcalltimestampToSend: PortcallTimestamp = {
+      portNext: (portcalltimestamp.portNext as Port).id,
+      portPrevious: (portcalltimestamp.portPrevious as Port).id,
+      portOfCall: (portcalltimestamp.portOfCall as Port).id,
+      terminal: (portcalltimestamp.terminal as Terminal).id,
+      timestampType: portcalltimestamp.timestampType.replace('(-|\s)', '_'),
+      locationId: portcalltimestamp.locationId,
+      eventTypeCode: portcalltimestamp.eventTypeCode,
+      direction: portcalltimestamp.direction,
+      classifierCode: portcalltimestamp.classifierCode,
+      eventTimestamp: portcalltimestamp.eventTimestamp,
+      logOfTimestamp: portcalltimestamp.logOfTimestamp
     }
     return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, portcalltimestampToSend);
+  }
+
+  deleteTimestamp(timestampId: number) {
+    console.log("Deleting port call timestamp with id " + timestampId);
+    this.httpClient.delete(this.TIMESTAMP_URL + "/" + timestampId).subscribe(data => {
+      console.log(data);
+    });
   }
 }

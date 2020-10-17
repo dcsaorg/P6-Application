@@ -10,6 +10,8 @@
  */
 package org.dcsa.portcall.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
@@ -32,6 +34,7 @@ import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
 @RestController
 @RequestMapping("/portcalltimestamps")
 public class PortCallTimestampController {
+    private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
     private final DSLContext dsl;
 
     public PortCallTimestampController(DSLContext dsl) {
@@ -43,7 +46,8 @@ public class PortCallTimestampController {
     public List<PortCallTimestamp> listPortCallTimestamps(@PathVariable int vesselId) {
         return dsl.select()
                 .from(PORT_CALL_TIMESTAMP)
-                .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId))
+                .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
+                        .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
                 .fetch()
                 .into(PortCallTimestamp.class);
     }
@@ -71,6 +75,7 @@ public class PortCallTimestampController {
     @DeleteMapping("/{portCallTimestampId}")
     @Transactional
     public void deletePortCallTimestamp(@PathVariable int portCallTimestampId) {
+        log.info("Deleting port call timestamp with id {}", portCallTimestampId);
         dsl.update(PORT_CALL_TIMESTAMP)
                 .set(PORT_CALL_TIMESTAMP.DELETED, true)
                 .where(PORT_CALL_TIMESTAMP.ID.eq(portCallTimestampId))

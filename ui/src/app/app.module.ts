@@ -7,7 +7,8 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './view/app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './view/header/header.component';
-import {PortCallTimestampTypePipe} from './controller/port-call-timestamp-type.pipe';
+import {PortCallTimestampTypeToStringPipe} from './controller/port-call-timestamp-type-to-string.pipe';
+import {PortCallTimestampTypeToEnumPipe} from './controller/port-call-timestamp-type-to-enum.pipe';
 import {PortIdToPortPipe} from './controller/port-id-to-port.pipe';
 import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pipe';
 import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
@@ -26,11 +27,12 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from "primeng/inputtextarea";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {PaginatorModule} from 'primeng/paginator';
 import {TableModule} from 'primeng/table';
 import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -45,7 +47,8 @@ import {TooltipModule} from 'primeng/tooltip';
     TerminalIdToTerminalPipe,
     TimestampCommentDialogComponent,
     TimestampPaginatorComponent,
-    PortCallTimestampTypePipe,
+    PortCallTimestampTypeToStringPipe,
+    PortCallTimestampTypeToEnumPipe,
   ],
   imports: [
     AppRoutingModule,
@@ -54,6 +57,7 @@ import {TooltipModule} from 'primeng/tooltip';
     ButtonModule,
     CalendarModule,
     CardModule,
+    ConfirmDialogModule,
     DropdownModule,
     DynamicDialogModule,
     FormsModule,
@@ -67,7 +71,10 @@ import {TooltipModule} from 'primeng/tooltip';
     ToastModule,
     TooltipModule,
   ],
-  providers: [MessageService],
+  providers: [
+    ConfirmationService,
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

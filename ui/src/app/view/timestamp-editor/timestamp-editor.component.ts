@@ -5,7 +5,7 @@ import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../../model/portcall-timestamp-type.enum";
 import {BehaviorSubject} from "rxjs";
 import {PortIdToPortPipe} from "../../controller/port-id-to-port.pipe";
-import {PortCallTimestampTypePipe} from "../../controller/port-call-timestamp-type.pipe";
+import {PortCallTimestampTypeToStringPipe} from "../../controller/port-call-timestamp-type-to-string.pipe";
 import {Port} from "../../model/port";
 import {TerminalIdToTerminalPipe} from "../../controller/terminal-id-to-terminal.pipe";
 import {Terminal} from "../../model/terminal";
@@ -18,7 +18,7 @@ import {DelayCode} from "../../model/delayCode";
   selector: 'app-timestamp-editor',
   templateUrl: './timestamp-editor.component.html',
   styleUrls: ['./timestamp-editor.component.scss'],
-  providers: [PortIdToPortPipe, PortCallTimestampTypePipe, TerminalIdToTerminalPipe, DialogService]
+  providers: [PortIdToPortPipe, PortCallTimestampTypeToStringPipe, TerminalIdToTerminalPipe, DialogService]
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
@@ -50,7 +50,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   constructor(private portcallTimestampService: PortcallTimestampService,
               private messageService: MessageService,
               private portIdToPortPipe: PortIdToPortPipe,
-              private portCallTimestampTypePipe: PortCallTimestampTypePipe,
+              private portCallTimestampTypePipe: PortCallTimestampTypeToStringPipe,
               private terminalIdToTerminalPipe: TerminalIdToTerminalPipe,
               private dialogService: DialogService) {
   }

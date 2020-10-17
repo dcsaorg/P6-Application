@@ -68,7 +68,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypePipe: null }}</td>
+      <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
@@ -95,8 +95,10 @@
       </td>
       <td>{{ timestamp.locationId }}</td>
       <td style="width: 5%">
-        <p-button icon="pi pi-trash"></p-button>
+        <p-button icon="pi pi-trash" (click)="deleteTimestamp(timestamp)"></p-button>
       </td>
     </tr>
   </ng-template>
 </p-table>
+
+<p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle" appendTo="body"></p-confirmDialog>
