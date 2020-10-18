@@ -12,6 +12,7 @@ CREATE TABLE port_call_timestamp
     terminal         integer                  NOT NULL,
     location_id      varchar(255)             null,
     change_comment   varchar(512)             null,
+    delay_code       int                      null,
     deleted          boolean                  NOT NULL DEFAULT false,
     CONSTRAINT message_pk PRIMARY KEY (id)
 );
@@ -26,3 +27,6 @@ ALTER TABLE port_call_timestamp
     ADD CONSTRAINT message_fk_port_next FOREIGN KEY (port_next) REFERENCES port (id);
 ALTER TABLE port_call_timestamp
     ADD CONSTRAINT message_fk_terminal FOREIGN KEY (terminal) REFERENCES terminal (id);
+ALTER TABLE port_call_timestamp
+    ADD CONSTRAINT message_fk_delay_code FOREIGN KEY (delay_code) REFERENCES delay_code (id);
+
