@@ -1,6 +1,7 @@
 import {PortcallTimestampType} from "./portcall-timestamp-type.enum";
 import {Port} from "./port";
 import {Terminal} from "./terminal";
+import {DelayCode} from "./delayCode";
 
 export interface PortcallTimestamp {
   timestampType: PortcallTimestampType | string;
@@ -14,6 +15,6 @@ export interface PortcallTimestamp {
   direction: string;
   terminal: Terminal | number;
   locationId: string;
-  comment?: string;
-  delayCode?: number;
+  changeComment?: string;
+  delayCode?: DelayCode |number;
 }

@@ -18,7 +18,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row13;
+import org.jooq.Row14;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
-    private static final long serialVersionUID = -1405484077;
+    private static final long serialVersionUID = -341375304;
 
     /**
      * The reference instance of <code>public.port_call_timestamp</code>
@@ -110,6 +110,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     public final TableField<PortCallTimestampRecord, String> CHANGE_COMMENT = createField(DSL.name("change_comment"), org.jooq.impl.SQLDataType.VARCHAR(512), this, "");
 
     /**
+     * The column <code>public.port_call_timestamp.delay_code</code>.
+     */
+    public final TableField<PortCallTimestampRecord, Integer> DELAY_CODE = createField(DSL.name("delay_code"), org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
      * The column <code>public.port_call_timestamp.deleted</code>.
      */
     public final TableField<PortCallTimestampRecord, Boolean> DELETED = createField(DSL.name("deleted"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
@@ -169,7 +174,7 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
     @Override
     public List<ForeignKey<PortCallTimestampRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<PortCallTimestampRecord, ?>>asList(Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_PREVIOUS, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL);
+        return Arrays.<ForeignKey<PortCallTimestampRecord, ?>>asList(Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_VESSEL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_OF_CALL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_PREVIOUS, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_DELAY_CODE);
     }
 
     public Vessel vessel() {
@@ -190,6 +195,10 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
     public Terminal terminal() {
         return new Terminal(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL);
+    }
+
+    public DelayCode delayCode() {
+        return new DelayCode(this, Keys.PORT_CALL_TIMESTAMP__MESSAGE_FK_DELAY_CODE);
     }
 
     @Override
@@ -219,11 +228,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row13 type methods
+    // Row14 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row13<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Boolean> fieldsRow() {
-        return (Row13) super.fieldsRow();
+    public Row14<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
+        return (Row14) super.fieldsRow();
     }
 }

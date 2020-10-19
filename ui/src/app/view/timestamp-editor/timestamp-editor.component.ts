@@ -102,7 +102,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   selectPortOfCall(portId: number) {
     this.terminalOptions = [{label: 'Select terminal', value: null}];
     this.terminals.forEach(terminal => {
-      if (terminal.id === portId) {
+      console.log(terminal);
+      if (terminal.port === portId) {
         this.terminalOptions.push({label: terminal.smdgCode, value: terminal});
       }
     })
@@ -141,8 +142,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   addComment(timestamp: PortcallTimestamp) {
 
     this.dialogService.open(TimestampCommentDialogComponent, {
-      header: 'Add comment to timestamp event',
-      width: '50%', height:'65%', data: {timestamp, delayCode: this.delayCodes}
+      header: 'Add changeComment to timestamp event',
+      width: '50%', data: {timestamp, delayCode: this.delayCodes}
     });
   }
 }

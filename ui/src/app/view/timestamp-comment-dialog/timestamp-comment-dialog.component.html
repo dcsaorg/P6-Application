@@ -17,17 +17,18 @@
 
   <div id="commentContainer" style="height: 350px" class="p-col-12 p-md-10">
     <span class="p-float-label">
-    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.comment"></textarea>
+    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment"></textarea>
     <label for="commentbox">Comment for new timestamp!</label>
     </span>
   </div>
-</div>
-<div class="p-field p-grid">
+  <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="right">
     <span class="p-buttonset">
             <button (click)="close()" label="Close" pButton
                     type="button"></button>
     </span>
+  </div>
 </div>
+
 
 
 

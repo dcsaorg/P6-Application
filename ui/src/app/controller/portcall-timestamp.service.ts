@@ -5,6 +5,7 @@ import {BACKEND_URL} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {Port} from "../model/port";
 import {Terminal} from "../model/terminal";
+import {DelayCode} from "../model/delayCode";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,9 @@ export class PortcallTimestampService {
       direction: portcalltimestamp.direction,
       classifierCode: portcalltimestamp.classifierCode,
       eventTimestamp: portcalltimestamp.eventTimestamp,
-      logOfTimestamp: portcalltimestamp.logOfTimestamp
+      logOfTimestamp: portcalltimestamp.logOfTimestamp,
+      delayCode: (portcalltimestamp.delayCode as DelayCode).id,
+      changeComment: portcalltimestamp.changeComment
     }
     return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, portcalltimestampToSend);
   }

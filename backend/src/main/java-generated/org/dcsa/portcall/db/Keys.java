@@ -61,6 +61,7 @@ public class Keys {
     public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_PREVIOUS = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_PREVIOUS;
     public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT;
     public static final ForeignKey<PortCallTimestampRecord, TerminalRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL;
+    public static final ForeignKey<PortCallTimestampRecord, DelayCodeRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_DELAY_CODE = ForeignKeys0.PORT_CALL_TIMESTAMP__MESSAGE_FK_DELAY_CODE;
     public static final ForeignKey<TerminalRecord, PortRecord> TERMINAL__TERMINAL_FK_PORT_ID = ForeignKeys0.TERMINAL__TERMINAL_FK_PORT_ID;
 
     // -------------------------------------------------------------------------
@@ -93,6 +94,7 @@ public class Keys {
         public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_PREVIOUS = Internal.createForeignKey(Keys.PORT_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_port_previous", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_PREVIOUS }, true);
         public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT = Internal.createForeignKey(Keys.PORT_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_port_next", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_NEXT }, true);
         public static final ForeignKey<PortCallTimestampRecord, TerminalRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_TERMINAL = Internal.createForeignKey(Keys.TERMINAL_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_terminal", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.TERMINAL }, true);
+        public static final ForeignKey<PortCallTimestampRecord, DelayCodeRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_DELAY_CODE = Internal.createForeignKey(Keys.DELAY_CODE_PK, PortCallTimestamp.PORT_CALL_TIMESTAMP, "message_fk_delay_code", new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.DELAY_CODE }, true);
         public static final ForeignKey<TerminalRecord, PortRecord> TERMINAL__TERMINAL_FK_PORT_ID = Internal.createForeignKey(Keys.PORT_PK, Terminal.TERMINAL, "terminal_fk_port_id", new TableField[] { Terminal.TERMINAL.PORT }, true);
     }
 }

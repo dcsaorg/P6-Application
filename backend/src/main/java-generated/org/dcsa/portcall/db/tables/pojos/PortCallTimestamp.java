@@ -17,7 +17,7 @@ import org.dcsa.portcall.db.enums.PortCallTimestampType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp implements Serializable {
 
-    private static final long serialVersionUID = 312895952;
+    private static final long serialVersionUID = 375898306;
 
     private Integer               id;
     private Integer               vessel;
@@ -31,6 +31,7 @@ public class PortCallTimestamp implements Serializable {
     private Integer               terminal;
     private String                locationId;
     private String                changeComment;
+    private Integer               delayCode;
     private Boolean               deleted;
 
     public PortCallTimestamp() {}
@@ -48,6 +49,7 @@ public class PortCallTimestamp implements Serializable {
         this.terminal = value.terminal;
         this.locationId = value.locationId;
         this.changeComment = value.changeComment;
+        this.delayCode = value.delayCode;
         this.deleted = value.deleted;
     }
 
@@ -64,6 +66,7 @@ public class PortCallTimestamp implements Serializable {
         Integer               terminal,
         String                locationId,
         String                changeComment,
+        Integer               delayCode,
         Boolean               deleted
     ) {
         this.id = id;
@@ -78,6 +81,7 @@ public class PortCallTimestamp implements Serializable {
         this.terminal = terminal;
         this.locationId = locationId;
         this.changeComment = changeComment;
+        this.delayCode = delayCode;
         this.deleted = deleted;
     }
 
@@ -189,6 +193,15 @@ public class PortCallTimestamp implements Serializable {
         return this;
     }
 
+    public Integer getDelayCode() {
+        return this.delayCode;
+    }
+
+    public PortCallTimestamp setDelayCode(Integer delayCode) {
+        this.delayCode = delayCode;
+        return this;
+    }
+
     public Boolean getDeleted() {
         return this.deleted;
     }
@@ -214,6 +227,7 @@ public class PortCallTimestamp implements Serializable {
         sb.append(", ").append(terminal);
         sb.append(", ").append(locationId);
         sb.append(", ").append(changeComment);
+        sb.append(", ").append(delayCode);
         sb.append(", ").append(deleted);
 
         sb.append(")");

@@ -56,7 +56,7 @@
       </td>
       <td style="width: 7%">
         <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
-                    [options]="terminalOptions">
+                    [options]="terminalOptions" [filter]="true" filterBy="label,value.terminalName">
           <ng-template let-terminal pTemplate="item">
             <div *ngIf="terminal.value">
               <div>{{terminal.value.smdgCode}}</div>

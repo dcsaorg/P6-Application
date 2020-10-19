@@ -60,12 +60,12 @@ public class PortCallTimestampController {
                         PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_PREVIOUS, PORT_CALL_TIMESTAMP.PORT_NEXT,
                         PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.LOG_OF_TIMESTAMP,
                         PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL, PORT_CALL_TIMESTAMP.LOCATION_ID,
-                        PORT_CALL_TIMESTAMP.CHANGE_COMMENT)
+                        PORT_CALL_TIMESTAMP.CHANGE_COMMENT, PORT_CALL_TIMESTAMP.DELAY_CODE)
                         .values(vesselId,
                                 portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortPrevious(), portCallTimestamp.getPortNext(),
                                 portCallTimestamp.getTimestampType(), portCallTimestamp.getEventTimestamp(), portCallTimestamp.getLogOfTimestamp(),
                                 portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
-                                portCallTimestamp.getChangeComment())
+                                portCallTimestamp.getChangeComment(), portCallTimestamp.getDelayCode())
                         .returningResult(PORT_CALL_TIMESTAMP.ID)
                         .fetchOne();
         portCallTimestamp.setId(id.value1());

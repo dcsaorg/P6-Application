@@ -25,7 +25,8 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     this.portService.getPorts().subscribe(ports => this.ports = ports);
     this.terminalService.getAllTerminals().subscribe(terminals => this.terminals = terminals);
-    this.delayCodeService.getAllDelayCodes().subscribe(delaycodes => this.delayCodes = delaycodes)
+    this.delayCodeService.getAllDelayCodes().subscribe(delaycodes => this.delayCodes = delaycodes);
+
   }
 
   vesselChangedHandler($vesselId: number) {

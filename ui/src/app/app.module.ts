@@ -34,7 +34,6 @@ import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +47,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     TimestampCommentDialogComponent,
     TimestampPaginatorComponent,
     PortCallTimestampTypeToStringPipe,
-    PortCallTimestampTypeToEnumPipe,
+    PortCallTimestampTypeToEnumPipe
   ],
   imports: [
     AppRoutingModule,
