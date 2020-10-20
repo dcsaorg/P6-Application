@@ -1,10 +1,15 @@
 package org.dcsa.portcall.controller;
 
+import net.bytebuddy.implementation.bytecode.Throw;
+import org.apache.logging.log4j.jcl.Log4jLog;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -43,11 +48,18 @@ public class VesselController {
     @PostMapping("")
     @Transactional
     public Vessel addVessel(@RequestBody Vessel vessel) {
-        Record1<Integer> id = dsl.insertInto(VESSEL, VESSEL.NAME, VESSEL.IMO, VESSEL.TEU, VESSEL.SERVICE_NAME_CODE)
-                .values(vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceNameCode())
-                .returningResult(VESSEL.ID)
-                .fetchOne();
-        vessel.setId(id.value1());
+        try {
+            Record1<Integer> id = dsl.insertInto(VESSEL, VESSEL.NAME, VESSEL.IMO, VESSEL.TEU, VESSEL.SERVICE_NAME_CODE)
+                    .values(vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceNameCode())
+                    .returningResult(VESSEL.ID)
+                    .fetchOne();
+
+            vessel.setId(id.value1());
+        }  catch (DuplicateKeyException e1){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Duplicate Keys, The IMO number has probably already been used");
+        } catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown Error");
+        }
         return vessel;
     }
 
