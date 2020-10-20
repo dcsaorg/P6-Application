@@ -98,7 +98,7 @@
       </td>
       <td>{{ timestamp.locationId }}</td>
       <td style="width: 5%">
-        <p-button icon="pi pi-trash" (click)="deleteTimestamp(timestamp)"></p-button>
+        <p-button *ngIf="timestamps[timestamps.length - 1].id == timestamp.id" icon="pi pi-trash" (click)="deleteTimestamp(timestamp)"></p-button>
       </td>
     </tr>
   </ng-template>

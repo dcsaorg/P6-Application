@@ -4,6 +4,7 @@ import {Terminal} from "./terminal";
 import {DelayCode} from "./delayCode";
 
 export interface PortcallTimestamp {
+  id: number;
   timestampType: PortcallTimestampType | string;
   classifierCode: string;
   eventTypeCode: string;
