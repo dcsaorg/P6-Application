@@ -25,6 +25,7 @@ public class VesselController {
     public List<Vessel> listVessels() {
         return dsl.select()
                 .from(VESSEL)
+                .orderBy(VESSEL.NAME.asc())
                 .fetch()
                 .into(Vessel.class);
     }

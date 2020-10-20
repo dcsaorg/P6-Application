@@ -76,7 +76,6 @@ export class VesselComponent implements OnInit {
     this.vesselService.getVessels().subscribe(vessels => {
       this.vessels = [];
       this.vessels.push({label: 'Select Vessel', value: null});
-      vessels = vessels.sort((vessel1, vessel2) => vessel1.name >= vessel2.name ? 1 : -1);
       vessels.forEach(vessel => {
         this.vessels.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
       });
