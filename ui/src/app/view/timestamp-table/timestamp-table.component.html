@@ -22,6 +22,7 @@
           tooltipStyleClass="ToolTipClass">Timestamp
         <p-sortIcon field="timestampType"></p-sortIcon>
       </th>
+      <th style="width: 7%">Sequence</th>
       <th pSortableColumn="logOfTimestamp" pTooltip="{{this.toolTips.logOfTimestampTT}}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Log of Timestamp
         <p-sortIcon field="logOfTimestamp"></p-sortIcon>
@@ -66,6 +67,7 @@
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
 
     </tr>
   </ng-template>
@@ -73,6 +75,7 @@
     <tr>
       <td style="width: 2%">{{ timestamp.id }}</td>
       <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
+      <td>+1</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:mm ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:mm ZZZZ' }}</td>
       <td style="width: 7%">

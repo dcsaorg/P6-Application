@@ -6,6 +6,7 @@
         <p-dropdown [(ngModel)]="timestamp.timestampType" [options]="timestampTypes" pTooltip="{{this.toolTips.timestampTT}}" tooltipPosition="top"
                     tooltipStyleClass="ToolTipClass"></p-dropdown>
       </td>
+      <td style="width: 5%"></td>
       <td>
         <p-calendar [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
