@@ -21,22 +21,7 @@ export class TimestampCommentDialogComponent implements OnInit {
     this.timestamp = this.config.data.timestamp;
     this.delayCodeOptions.push({label: 'Select delay code (optional)', value: null});
     this.config.data.delayCode.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
-    });
-  }
-
-  //ToDo dropDown as groupFilter
-  groupDelayCodes(delayCodes: DelayCode[]): void {
-    let groupedDelayCodes = [];
-    delayCodes.forEach(delayCode =>{
-      if(groupedDelayCodes.find(dc => dc == delayCode.delayType)){
-        groupedDelayCodes.find(dc => dc == delayCode.delayType).push(delayCode);
-      } else {
-        let group = [];
-
-
-
-      }
+    this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
     });
   }
 

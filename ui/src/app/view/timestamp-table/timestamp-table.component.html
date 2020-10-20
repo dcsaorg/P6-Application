@@ -73,8 +73,8 @@
     <tr>
       <td style="width: 2%">{{ timestamp.id }}</td>
       <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
-      <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
-      <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
+      <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:mm ZZZZ' }}</td>
+      <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:mm ZZZZ' }}</td>
       <td style="width: 7%">
         <div>{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
@@ -106,3 +106,6 @@
 
 <p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle"
                  appendTo="body"></p-confirmDialog>
+
+<p-toast key="TimestampRemoveSuccess" position="bottom-right"></p-toast>
+<p-toast key="TimestampRemoveError" position="bottom-right"></p-toast>

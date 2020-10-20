@@ -146,7 +146,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   addComment(timestamp: PortcallTimestamp) {
 
     this.dialogService.open(TimestampCommentDialogComponent, {
-      header: 'Add changeComment to timestamp event',
+      header: 'Add change comment to port call event',
       width: '50%', data: {timestamp, delayCode: this.delayCodes}
     });
   }

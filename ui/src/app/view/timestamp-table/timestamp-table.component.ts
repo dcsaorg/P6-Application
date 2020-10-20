@@ -3,7 +3,7 @@ import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
 import {Port} from "../../model/port";
 import {Terminal} from "../../model/terminal";
-import {ConfirmationService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/port-call-timestamp-type-to-string.pipe";
 import {PortIdToPortPipe} from "../../controller/port-id-to-port.pipe";
 import {PortcallTimestampType} from "../../model/portcall-timestamp-type.enum";
@@ -30,6 +30,7 @@ export class TimestampTableComponent {
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private confirmationService: ConfirmationService,
+              private messageService: MessageService,
               private portIdToPortPipe: PortIdToPortPipe,
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
               private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe) {
@@ -43,8 +44,19 @@ export class TimestampTableComponent {
       key: 'deletetimestamp',
       accept: () => {
         this.portcallTimestampService.deleteTimestamp(timestamp.id).subscribe(data => {
+          this.messageService.add({
+            key: 'TimestampRemoveSuccess',
+            severity: 'success',
+            summary: 'Successfully removed port call timestamp from vessel',
+            detail: ''});
           this.timeStampDeletedNotifier.emit(timestamp);
-        });
+
+        }, error => this.messageService.add({
+          key: 'TimestampRemoveError',
+          severity: 'error',
+          summary: 'Error while removing port call timestamp',
+          detail: error.message
+        }));
       }
     });
   }

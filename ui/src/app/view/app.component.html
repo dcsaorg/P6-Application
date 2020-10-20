@@ -9,7 +9,7 @@
   <ng-template #vesselsSelected>
     <div class="main__spaceInnerComponent">
       <p-card>
-        <app-timestamp-table (timeStampDeletedNotifier)="timeStampDeletedHandler($event)"
+        <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
                              [ports]="ports" [terminals]="terminals"
                              [timestamps]="portCallTimeStampsForId"
                              [vesselId]="vesselId" (timeStampDeletedNotifier)="timestampDeletedHandler($event)"></app-timestamp-table>
