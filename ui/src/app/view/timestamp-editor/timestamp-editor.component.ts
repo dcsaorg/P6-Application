@@ -102,7 +102,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   selectPortOfCall(portId: number) {
     this.terminalOptions = [{label: 'Select terminal', value: null}];
     this.terminals.forEach(terminal => {
-      console.log(terminal);
       if (terminal.port === portId) {
         this.terminalOptions.push({label: terminal.smdgCode, value: terminal});
       }

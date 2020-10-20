@@ -16,6 +16,7 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
+      <th style="width: 2%">#</th>
       <th style="width: 7%" pSortableColumn="timestampType">Timestamp
         <p-sortIcon field="timestampType"></p-sortIcon>
       </th>
@@ -64,10 +65,12 @@
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-timestamp>
+  <ng-template pTemplate="body" let-timestamp let-i="rowIndex">
     <tr>
+      <td style="width: 2%">{{ i + 1 }}</td>
       <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
       <td style="width: 5%">{{ timestamp.classifierCode }}</td>
       <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>

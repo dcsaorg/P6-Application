@@ -1,6 +1,7 @@
 <p-table [value]="($timestamps | async)">
   <ng-template pTemplate="body" let-timestamp>
     <tr>
+      <td style="width: 2%"></td>
       <td style="width: 7%; padding-left: 0">
         <p-dropdown [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
       </td>
