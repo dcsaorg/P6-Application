@@ -69,6 +69,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     TableModule,
     ToastModule,
     TooltipModule,
+
   ],
   providers: [
     ConfirmationService,

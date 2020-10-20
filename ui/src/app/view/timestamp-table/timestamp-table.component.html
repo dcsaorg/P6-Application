@@ -17,37 +17,41 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 2%">#</th>
-      <th style="width: 7%" pSortableColumn="timestampType">Timestamp
+      <th style="width: 7%" pSortableColumn="timestampType"
+          pTooltip="{{this.toolTips.timestampTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Timestamp
         <p-sortIcon field="timestampType"></p-sortIcon>
       </th>
-      <th style="width: 5%" pSortableColumn="classifierCode">Classifier Code
-        <p-sortIcon field="classifierCode"></p-sortIcon>
-      </th>
-      <th style="width: 5%" pSortableColumn="eventTypeCode">Event Type Code
-        <p-sortIcon field="eventTypeCode"></p-sortIcon>
-      </th>
-      <th pSortableColumn="logOfTimestamp">Log of Timestamp
+      <th pSortableColumn="logOfTimestamp" pTooltip="{{this.toolTips.logOfTimestampTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Log of Timestamp
         <p-sortIcon field="logOfTimestamp"></p-sortIcon>
       </th>
-      <th pSortableColumn="eventTimestamp">Event. Timestamp
+      <th pSortableColumn="eventTimestamp" pTooltip="{{this.toolTips.eventTimestampTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" >Event. Timestamp
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portPrevious">Previous Port
+      <th style="width: 7%" pSortableColumn="portPrevious" pTooltip="{{this.toolTips.priviousPortTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Previous Port
         <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portOfCall">Port of Call
+      <th style="width: 7%" pSortableColumn="portOfCall" pTooltip="{{this.toolTips.portOfCallTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Port of Call
         <p-sortIcon field="portOfCall"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portNext">Next Port
+      <th style="width: 7%" pSortableColumn="portNext" pTooltip="{{this.toolTips.nextPortTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Next Port
         <p-sortIcon field="portNext"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="direction">Direction
-        <p-sortIcon field="direction"></p-sortIcon>
+      <th style="width: 7%" pSortableColumn="direction" pTooltip="{{this.toolTips.directionTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Direction
+        <p-sortIcon field="direction" ></p-sortIcon>
       </th>
-      <th pSortableColumn="terminal" style="width: 7%">Terminal ID
-        <p-sortIcon field="terminal"></p-sortIcon>
+      <th pSortableColumn="terminal" style="width: 14%">Terminal ID
+        <p-sortIcon field="terminal" pTooltip="{{this.toolTips.terminalTT}} " tooltipPosition="top"
+                    tooltipStyleClass="ToolTipClass"></p-sortIcon>
       </th>
-      <th pSortableColumn="locationId">Location ID
+      <th pSortableColumn="locationId" pTooltip="{{this.toolTips.locationTT}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Location ID
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
       <th style="width: 5%"></th>
@@ -62,18 +66,13 @@
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
       <td style="width: 2%">{{ timestamp.id }}</td>
       <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
-      <td style="width: 5%">{{ timestamp.classifierCode }}</td>
-      <td style="width: 5%">{{ timestamp.eventTypeCode }}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:dd ZZZZ' }}</td>
       <td style="width: 7%">
@@ -92,16 +91,18 @@
       <td style="width: 7%">
         <!--   somehow there is a porblem acessing the terminals   -->
         <div *ngIf="terminals.length > 0">
-          <div>{{ (timestamp.terminal | terminalIdToTerminal: terminals).smdgCode}}</div>
-          <div class="rowDetails">{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}</div>
-        </div>
+          <div pTooltip="{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}" tooltipPosition="top"
+               tooltipStyleClass="ToolTipClass">{{ (timestamp.terminal | terminalIdToTerminal: terminals).smdgCode}}</div>
+          </div>
       </td>
       <td>{{ timestamp.locationId }}</td>
       <td style="width: 5%">
-        <p-button *ngIf="timestamps[timestamps.length - 1].id == timestamp.id" icon="pi pi-trash" (click)="deleteTimestamp(timestamp)"></p-button>
+        <p-button *ngIf="timestamps[timestamps.length - 1].id == timestamp.id" icon="pi pi-trash"
+                  (click)="deleteTimestamp(timestamp)"></p-button>
       </td>
     </tr>
   </ng-template>
 </p-table>
 
-<p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle" appendTo="body"></p-confirmDialog>
+<p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle"
+                 appendTo="body"></p-confirmDialog>

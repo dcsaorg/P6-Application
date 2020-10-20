@@ -5,8 +5,10 @@
     </p-header>
     <div class="p-grid">
       <div class="p-col-1">
-        <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__addVesselBtn" icon="pi pi-plus" type="button"></p-button>
-        <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded" icon="pi pi-pencil" type="button"></p-button>
+        <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__addVesselBtn" icon="pi pi-plus" type="button" pTooltip="{{this.toolTips.addVesselTT}}" tooltipPosition="top"
+                  tooltipStyleClass="ToolTipClass"></p-button>
+        <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded" icon="pi pi-pencil" type="button" pTooltip="{{this.toolTips.editVesselTT}}" tooltipPosition="top"
+                  tooltipStyleClass="ToolTipClass"></p-button>
       </div>
       <div class="p-col-3">
         <p-dropdown [options]="vessels" [(ngModel)]="selectedVessel" [filter]="true" (onChange)="selectVessel()"></p-dropdown>
