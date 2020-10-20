@@ -11,7 +11,7 @@
       <p-card>
         <app-timestamp-table [ports]="ports" [terminals]="terminals"
                              [timestamps]="portCallTimeStampsForId"
-                             [vesselId]="vesselId"></app-timestamp-table>
+                             [vesselId]="vesselId" (timeStampDeletedNotifier)="timestampDeletedHandler($event)"></app-timestamp-table>
         <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
                               [delayCodes]="delayCodes"
                               [ports]="ports"
@@ -19,6 +19,7 @@
                               [vesselId]="vesselId" ></app-timestamp-editor>
         <app-timestamp-paginator (timeStampsForVesselIdNotifier)="timeStampsForVesselIdsHandler($event)"
                                  [portCallTimeStampAdded]="portCallTimeStampAdded"
+                                 [portCallTimeStampDeleted]="portCallTimeStampDeleted"
                                  [vesselId]="vesselId"></app-timestamp-paginator>
       </p-card>
     </div>

@@ -35,16 +35,14 @@ export class PortcallTimestampService {
       classifierCode: portcalltimestamp.classifierCode,
       eventTimestamp: portcalltimestamp.eventTimestamp,
       logOfTimestamp: portcalltimestamp.logOfTimestamp,
-      delayCode: (portcalltimestamp.delayCode as DelayCode).id,
+      delayCode: (portcalltimestamp.delayCode == null ? null : (portcalltimestamp.delayCode as DelayCode).id),
       changeComment: portcalltimestamp.changeComment
     }
     return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, portcalltimestampToSend);
   }
 
-  deleteTimestamp(timestampId: number) {
+  deleteTimestamp = (timestampId: number): Observable<any> => {
     console.log("Deleting port call timestamp with id " + timestampId);
-    this.httpClient.delete(this.TIMESTAMP_URL + "/" + timestampId).subscribe(data => {
-      console.log(data);
-    });
+    return this.httpClient.delete<any>(this.TIMESTAMP_URL + "/" + timestampId);
   }
 }

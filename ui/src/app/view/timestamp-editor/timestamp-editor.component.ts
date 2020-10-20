@@ -24,8 +24,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
   @Input('ports') ports: Port[];
   @Input('terminals') terminals: Terminal[];
-  @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
   @Input('delayCodes') delayCodes: DelayCode[];
+  @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
 

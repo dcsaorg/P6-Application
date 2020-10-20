@@ -14,6 +14,7 @@ export class TimestampPaginatorComponent implements OnChanges {
 
   @Input('vesselId') vesselId: number;
   @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
+  @Input('portCallTimeStampDeleted') portCallTimeStampDeleted: PortcallTimestamp;
   @Output('timeStampsForVesselIdNotifier') timeStampsForVesselIdNotifier: EventEmitter<PortcallTimestamp[]> = new EventEmitter<PortcallTimestamp[]>();
 
   selectedRowSize: number = 10;

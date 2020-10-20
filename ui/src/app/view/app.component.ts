@@ -12,15 +12,17 @@ import {DelayCodeService} from "../controller/delay-code.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   vesselId: number
   portCallTimeStampAdded: PortcallTimestamp;
+  portCallTimeStampDeleted: PortcallTimestamp;
   ports: Port[] = [];
-  terminals : Terminal[] = [];
-  delayCodes : DelayCode[] = [];
+  terminals: Terminal[] = [];
+  delayCodes: DelayCode[] = [];
   portCallTimeStampsForId: PortcallTimestamp[] = [];
 
-  constructor(private portService: PortService, private  terminalService: TerminalService, private delayCodeService: DelayCodeService) {}
+  constructor(private portService: PortService, private  terminalService: TerminalService, private delayCodeService: DelayCodeService) {
+  }
 
   ngOnInit(): void {
     this.portService.getPorts().subscribe(ports => this.ports = ports);
@@ -39,5 +41,10 @@ export class AppComponent implements OnInit{
 
   timeStampsForVesselIdsHandler($portCallTimeStampsForId: PortcallTimestamp[]) {
     this.portCallTimeStampsForId = $portCallTimeStampsForId;
+  }
+
+  timestampDeletedHandler($portCallTimestampDeleted: PortcallTimestamp) {
+    this.portCallTimeStampDeleted = $portCallTimestampDeleted;
+
   }
 }

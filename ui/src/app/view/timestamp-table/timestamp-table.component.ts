@@ -1,7 +1,6 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
-import {Observable} from "rxjs";
 import {Port} from "../../model/port";
 import {Terminal} from "../../model/terminal";
 import {ConfirmationService} from "primeng/api";
@@ -16,23 +15,19 @@ import {PortCallTimestampTypeToEnumPipe} from "../../controller/port-call-timest
   styleUrls: ['./timestamp-table.component.scss'],
   providers: [PortIdToPortPipe, PortCallTimestampTypeToStringPipe, PortCallTimestampTypeToEnumPipe]
 })
-export class TimestampTableComponent implements OnChanges {
-  $timestamps: Observable<PortcallTimestamp[]>;
-
+export class TimestampTableComponent {
   @Input('vesselId') vesselId: number;
   @Input('ports') ports: Port[];
   @Input('terminals') terminals: Terminal[];
   @Input('timestamps') timestamps: PortcallTimestamp[];
+
+  @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private confirmationService: ConfirmationService,
               private portIdToPortPipe: PortIdToPortPipe,
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
               private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe) {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.$timestamps = this.portcallTimestampService.getPortcallTimestamps(this.vesselId);
   }
 
   deleteTimestamp(timestamp: any) {
@@ -42,7 +37,9 @@ export class TimestampTableComponent implements OnChanges {
       message: "Do you really want to delete the " + type + " port call timestamp to the port " + port.name + " (" + port.unLocode + ")",
       key: 'deletetimestamp',
       accept: () => {
-        this.portcallTimestampService.deleteTimestamp(timestamp.id);
+        this.portcallTimestampService.deleteTimestamp(timestamp.id).subscribe(data => {
+          this.timeStampDeletedNotifier.emit(timestamp);
+        });
       }
     });
   }
