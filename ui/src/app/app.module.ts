@@ -38,16 +38,16 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
   declarations: [
     AppComponent,
     HeaderComponent,
-    TimestampEditorComponent,
-    TimestampTableComponent,
-    VesselComponent,
-    VesselEditorComponent,
+    PortCallTimestampTypeToEnumPipe,
+    PortCallTimestampTypeToStringPipe,
     PortIdToPortPipe,
     TerminalIdToTerminalPipe,
     TimestampCommentDialogComponent,
+    TimestampEditorComponent,
     TimestampPaginatorComponent,
-    PortCallTimestampTypeToStringPipe,
-    PortCallTimestampTypeToEnumPipe
+    TimestampTableComponent,
+    VesselComponent,
+    VesselEditorComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -73,7 +73,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
   ],
   providers: [
     ConfirmationService,
-    MessageService
+    MessageService,
   ],
   bootstrap: [AppComponent]
 })

@@ -10,7 +10,9 @@
     <div class="main__spaceInnerComponent">
       <p-card>
         <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
-                             [ports]="ports" [terminals]="terminals"
+                             [delayCodes]="delayCodes"
+                             [ports]="ports"
+                             [terminals]="terminals"
                              [timestamps]="portCallTimeStampsForId"
                              [vesselId]="vesselId"></app-timestamp-table>
         <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"

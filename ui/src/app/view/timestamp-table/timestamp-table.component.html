@@ -100,6 +100,8 @@
       </td>
       <td>{{ timestamp.locationId }}</td>
       <td style="width: 5%">
+        <p-button *ngIf="timestamp.delayCode" (onClick)="showComment(timestamp)" icon="pi pi-comment" pTooltip="Show comment and a delay reason to timestamp" tooltipPosition="top"
+                  tooltipStyleClass="ToolTipClass"></p-button>
         <p-button *ngIf="timestamps[timestamps.length - 1].id == timestamp.id" icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>

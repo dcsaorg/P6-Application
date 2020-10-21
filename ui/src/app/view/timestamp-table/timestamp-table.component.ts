@@ -8,28 +8,44 @@ import {PortCallTimestampTypeToStringPipe} from "../../controller/port-call-time
 import {PortIdToPortPipe} from "../../controller/port-id-to-port.pipe";
 import {PortcallTimestampType} from "../../model/portcall-timestamp-type.enum";
 import {PortCallTimestampTypeToEnumPipe} from "../../controller/port-call-timestamp-type-to-enum.pipe";
+import {DelayCodeService} from "../../controller/delay-code.service";
+import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
+import {DelayCode} from "../../model/delayCode";
+import {DialogService} from "primeng/dynamicdialog";
 
 @Component({
   selector: 'app-timestamp-table',
   templateUrl: './timestamp-table.component.html',
   styleUrls: ['./timestamp-table.component.scss'],
 
-  providers: [PortIdToPortPipe, PortCallTimestampTypeToStringPipe, PortCallTimestampTypeToEnumPipe]
+  providers: [
+    DialogService,
+
+    PortCallTimestampTypeToEnumPipe,
+    PortCallTimestampTypeToStringPipe,
+    PortIdToPortPipe,
+  ]
 })
 export class TimestampTableComponent {
   @Input('vesselId') vesselId: number;
   @Input('ports') ports: Port[];
   @Input('terminals') terminals: Terminal[];
+  @Input('delayCodes') delayCodes: DelayCode[];
   @Input('timestamps') timestamps: PortcallTimestamp[];
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
   constructor(private portcallTimestampService: PortcallTimestampService,
+              private delayCodeService: DelayCodeService,
+
               private confirmationService: ConfirmationService,
+              private dialogService: DialogService,
               private messageService: MessageService,
-              private portIdToPortPipe: PortIdToPortPipe,
+
+              private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe,
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
-              private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe) {
+              private portIdToPortPipe: PortIdToPortPipe,
+  ) {
   }
 
   deleteTimestamp(timestamp: any) {
@@ -44,7 +60,8 @@ export class TimestampTableComponent {
             key: 'TimestampRemoveSuccess',
             severity: 'success',
             summary: 'Successfully removed port call timestamp from vessel',
-            detail: ''});
+            detail: ''
+          });
           this.timeStampDeletedNotifier.emit(timestamp);
 
         }, error => this.messageService.add({
@@ -54,6 +71,19 @@ export class TimestampTableComponent {
           detail: error.message
         }));
       }
+    });
+  }
+
+  showComment(timestamp: PortcallTimestamp) {
+    if (!(timestamp.delayCode as DelayCode).smdgCode) {
+      this.delayCodeService.getDelayCode(timestamp.delayCode as number).subscribe(data => {
+        timestamp.delayCode = data;
+      });
+    }
+
+    this.dialogService.open(TimestampCommentDialogComponent, {
+      header: 'Add change comment to port call event',
+      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, readonly: true}
     });
   }
 }
