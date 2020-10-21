@@ -18,7 +18,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row14;
+import org.jooq.Row15;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
-    private static final long serialVersionUID = -341375304;
+    private static final long serialVersionUID = -2068158251;
 
     /**
      * The reference instance of <code>public.port_call_timestamp</code>
@@ -78,6 +78,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
      * The column <code>public.port_call_timestamp.timestamp_type</code>.
      */
     public final TableField<PortCallTimestampRecord, PortCallTimestampType> TIMESTAMP_TYPE = createField(DSL.name("timestamp_type"), org.jooq.impl.SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.PortCallTimestampType.class), this, "");
+
+    /**
+     * The column <code>public.port_call_timestamp.call_sequence</code>.
+     */
+    public final TableField<PortCallTimestampRecord, Integer> CALL_SEQUENCE = createField(DSL.name("call_sequence"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.event_timestamp</code>.
@@ -228,11 +233,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row14 type methods
+    // Row15 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row14<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
-        return (Row14) super.fieldsRow();
+    public Row15<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
+        return (Row15) super.fieldsRow();
     }
 }

@@ -6,6 +6,7 @@ CREATE TABLE port_call_timestamp
     port_previous    integer                  NOT NULL,
     port_next        integer                  NOT NULL,
     timestamp_type   port_call_timestamp_type NOT NULL,
+    call_sequence    integer                  NOT NULL,
     event_timestamp  timestamp with time zone NOT NULL,
     log_of_timestamp timestamp with time zone NOT NULL,
     direction        direction                NOT NULL,

@@ -75,7 +75,7 @@
     <tr>
       <td style="width: 2%">{{ timestamp.id }}</td>
       <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
-      <td>+1</td>
+      <td>{{timestamp.callSequence+1}}</td>
       <td>{{ timestamp.logOfTimestamp | date: 'MM/dd/yyyy HH:mm ZZZZ' }}</td>
       <td>{{ timestamp.eventTimestamp | date: 'MM/dd/yyyy HH:mm ZZZZ' }}</td>
       <td style="width: 7%">

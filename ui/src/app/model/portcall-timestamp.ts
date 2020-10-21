@@ -8,6 +8,7 @@ export interface PortcallTimestamp {
   timestampType: PortcallTimestampType | string;
   classifierCode: string;
   eventTypeCode: string;
+  callSequence: number;
   logOfTimestamp: string | Date;
   eventTimestamp: string | Date;
   portPrevious: Port | number;

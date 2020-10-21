@@ -17,7 +17,7 @@ import org.dcsa.portcall.db.enums.PortCallTimestampType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp implements Serializable {
 
-    private static final long serialVersionUID = 375898306;
+    private static final long serialVersionUID = 1306274509;
 
     private Integer               id;
     private Integer               vessel;
@@ -25,6 +25,7 @@ public class PortCallTimestamp implements Serializable {
     private Integer               portPrevious;
     private Integer               portNext;
     private PortCallTimestampType timestampType;
+    private Integer               callSequence;
     private OffsetDateTime        eventTimestamp;
     private OffsetDateTime        logOfTimestamp;
     private Direction             direction;
@@ -43,6 +44,7 @@ public class PortCallTimestamp implements Serializable {
         this.portPrevious = value.portPrevious;
         this.portNext = value.portNext;
         this.timestampType = value.timestampType;
+        this.callSequence = value.callSequence;
         this.eventTimestamp = value.eventTimestamp;
         this.logOfTimestamp = value.logOfTimestamp;
         this.direction = value.direction;
@@ -60,6 +62,7 @@ public class PortCallTimestamp implements Serializable {
         Integer               portPrevious,
         Integer               portNext,
         PortCallTimestampType timestampType,
+        Integer               callSequence,
         OffsetDateTime        eventTimestamp,
         OffsetDateTime        logOfTimestamp,
         Direction             direction,
@@ -75,6 +78,7 @@ public class PortCallTimestamp implements Serializable {
         this.portPrevious = portPrevious;
         this.portNext = portNext;
         this.timestampType = timestampType;
+        this.callSequence = callSequence;
         this.eventTimestamp = eventTimestamp;
         this.logOfTimestamp = logOfTimestamp;
         this.direction = direction;
@@ -136,6 +140,15 @@ public class PortCallTimestamp implements Serializable {
 
     public PortCallTimestamp setTimestampType(PortCallTimestampType timestampType) {
         this.timestampType = timestampType;
+        return this;
+    }
+
+    public Integer getCallSequence() {
+        return this.callSequence;
+    }
+
+    public PortCallTimestamp setCallSequence(Integer callSequence) {
+        this.callSequence = callSequence;
         return this;
     }
 
@@ -221,6 +234,7 @@ public class PortCallTimestamp implements Serializable {
         sb.append(", ").append(portPrevious);
         sb.append(", ").append(portNext);
         sb.append(", ").append(timestampType);
+        sb.append(", ").append(callSequence);
         sb.append(", ").append(eventTimestamp);
         sb.append(", ").append(logOfTimestamp);
         sb.append(", ").append(direction);
