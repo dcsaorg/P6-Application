@@ -11,7 +11,7 @@
                   tooltipStyleClass="ToolTipClass"></p-button>
       </div>
       <div class="p-col-3">
-        <p-dropdown [options]="vessels" [(ngModel)]="selectedVessel" [filter]="true" (onChange)="selectVessel()"></p-dropdown>
+        <p-dropdown autofocus="true" [options]="vessels" [(ngModel)]="selectedVessel" [filter]="true" (onChange)="selectVessel()"></p-dropdown>
       </div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__imo_number">IMO number:</span></div>
       <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.imo }}</span></div>
