@@ -1,26 +1,20 @@
 @import "DCSA-Theme";
 
-#commentbox{
+#commentbox {
   height: 300px;
 }
 
-#commentContainer{
+#commentContainer {
   margin-top: 15px;
 }
 
-.delayCodeName{
-  color: $darkGrey;
-  text-transform: capitalize;
-  font-size: 12px;
-}
-.delayCodeDescription{
+.delayCodeDetails {
   color: $darkGrey;
   text-transform: capitalize;
   font-size: 12px;
 }
 
-.delayCodeType{
-  color: $darkGrey;
-  text-transform: capitalize;
-  font-size: 12px;
+.delayCodeSelected {
+  float: left;
+  clear: none;
 }
