@@ -5,9 +5,9 @@
     </p-header>
     <div class="p-grid">
       <div class="p-col-1">
-        <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__addVesselBtn" icon="pi pi-plus" type="button" pTooltip="{{this.toolTips.addVesselTT}}" tooltipPosition="top"
+        <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__addVesselBtn" icon="pi pi-plus" type="button" pTooltip="Add a new vessel" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
-        <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded" icon="pi pi-pencil" type="button" pTooltip="{{this.toolTips.editVesselTT}}" tooltipPosition="top"
+        <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded" icon="pi pi-pencil" type="button" pTooltip="Edit a vessel" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
       </div>
       <div class="p-col-3">

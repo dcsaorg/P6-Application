@@ -13,10 +13,8 @@ package org.dcsa.portcall.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
-import org.dcsa.portcall.db.tables.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
-import org.dcsa.portcall.util.ClassifierCode;
-import org.dcsa.portcall.util.LocationTypeCode;
+import org.dcsa.portcall.model.ClassifierCode;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
@@ -89,9 +87,7 @@ public class PortCallTimestampController {
         for (PortCallTimestamp timestamp : timestamps) {
             //only consider timestamps for same location
             if (PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(timestamp.getTimestampType()).equals(
-                    PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(newTimeStamp.getTimestampType())
-            )) {
-
+                    PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(newTimeStamp.getTimestampType()))) {
 
                 //Increase in case of new PTA after RTA or PTA
                 if (lastClassType.equals(ClassifierCode.REQ) || lastClassType.equals(ClassifierCode.PLA)) {

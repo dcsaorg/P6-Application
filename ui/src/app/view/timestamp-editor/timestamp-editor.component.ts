@@ -12,7 +12,6 @@ import {Terminal} from "../../model/terminal";
 import {DialogService} from "primeng/dynamicdialog";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
 import {DelayCode} from "../../model/delayCode";
-import {ApplicationToolTips} from "../../model/ToolTips";
 
 
 @Component({
@@ -27,9 +26,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('terminals') terminals: Terminal[];
   @Input('delayCodes') delayCodes: DelayCode[];
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
-
-  private toolTips = ApplicationToolTips;
-
 
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
 

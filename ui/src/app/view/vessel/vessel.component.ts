@@ -4,7 +4,6 @@ import {Vessel} from "../../model/vessel";
 import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
 import {VesselService} from "../../controller/vessel.service";
-import {ApplicationToolTips} from "../../model/ToolTips";
 
 @Component({
   selector: 'app-vessel',
@@ -17,7 +16,6 @@ import {ApplicationToolTips} from "../../model/ToolTips";
 export class VesselComponent implements OnInit {
   vessels: SelectItem[];
   selectedVessel: Vessel;
-  toolTips = ApplicationToolTips;
   constructor(public dialogService: DialogService, private vesselService: VesselService) {
   }
 

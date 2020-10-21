@@ -17,41 +17,41 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 2%">#</th>
-      <th style="width: 7%" pSortableColumn="timestampType"
-          pTooltip="{{this.toolTips.timestampTT}}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass">Timestamp
+      <th style="width: 7%" pSortableColumn="timestampType" pTooltip="An estimated, requested, planned or actual timestamp of an event"
+          tooltipPosition="top" tooltipStyleClass="ToolTipClass">Timestamp
         <p-sortIcon field="timestampType"></p-sortIcon>
       </th>
       <th style="width: 7%">Sequence</th>
-      <th pSortableColumn="logOfTimestamp" pTooltip="{{this.toolTips.logOfTimestampTT}}" tooltipPosition="top"
+      <th pSortableColumn="logOfTimestamp" pTooltip="When is the timestamp communicated (local time for user)" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Log of Timestamp
         <p-sortIcon field="logOfTimestamp"></p-sortIcon>
       </th>
-      <th pSortableColumn="eventTimestamp" pTooltip="{{this.toolTips.eventTimestampTT}}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" >Event. Timestamp
+      <th pSortableColumn="eventTimestamp" pTooltip="What is the estimated, requested, planned or actual timestamp of the event. (local time for user)" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Event. Timestamp
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portPrevious" pTooltip="{{this.toolTips.priviousPortTT}}" tooltipPosition="top"
+      <th style="width: 7%" pSortableColumn="portPrevious" pTooltip="What port does the vessel come from?"
+          tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Previous Port
         <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portOfCall" pTooltip="{{this.toolTips.portOfCallTT}}" tooltipPosition="top"
+      <th style="width: 7%" pSortableColumn="portOfCall" pTooltip="What is the approaching port of call?}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Port of Call
         <p-sortIcon field="portOfCall"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portNext" pTooltip="{{this.toolTips.nextPortTT}}" tooltipPosition="top"
+      <th style="width: 7%" pSortableColumn="portNext" pTooltip="What is the next port in the rotation" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Next Port
         <p-sortIcon field="portNext"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="direction" pTooltip="{{this.toolTips.directionTT}}" tooltipPosition="top"
+      <th style="width: 7%" pSortableColumn="direction" pTooltip="What is the vessel direction, e.g. north or southbound" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Direction
-        <p-sortIcon field="direction" ></p-sortIcon>
+        <p-sortIcon field="direction"></p-sortIcon>
       </th>
-      <th pSortableColumn="terminal" style="width: 14%">Terminal ID
-        <p-sortIcon field="terminal" pTooltip="{{this.toolTips.terminalTT}} " tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass"></p-sortIcon>
+      <th pSortableColumn="terminal" style="width: 14%" pTooltip="What is the name or SMDG code of the terminal?" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass">Terminal ID
+        <p-sortIcon field="terminal"></p-sortIcon>
       </th>
-      <th pSortableColumn="locationId" pTooltip="{{this.toolTips.locationTT}}" tooltipPosition="top"
+      <th pSortableColumn="locationId" pTooltip="What is the location of the timestamp, e.g. where is the vessel at sea (long/lat) or where at berth is the arrival" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Location ID
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
@@ -96,12 +96,13 @@
         <div *ngIf="terminals.length > 0">
           <div pTooltip="{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}" tooltipPosition="top"
                tooltipStyleClass="ToolTipClass">{{ (timestamp.terminal | terminalIdToTerminal: terminals).smdgCode}}</div>
-          </div>
+        </div>
       </td>
       <td>{{ timestamp.locationId }}</td>
       <td style="width: 5%">
         <p-button *ngIf="timestamps[timestamps.length - 1].id == timestamp.id" icon="pi pi-trash"
-                  (click)="deleteTimestamp(timestamp)"></p-button>
+                  (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
+                  tooltipStyleClass="ToolTipClass"></p-button>
       </td>
     </tr>
   </ng-template>

@@ -12,7 +12,7 @@
         <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
                              [ports]="ports" [terminals]="terminals"
                              [timestamps]="portCallTimeStampsForId"
-                             [vesselId]="vesselId" (timeStampDeletedNotifier)="timestampDeletedHandler($event)"></app-timestamp-table>
+                             [vesselId]="vesselId"></app-timestamp-table>
         <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
                               [delayCodes]="delayCodes"
                               [ports]="ports"

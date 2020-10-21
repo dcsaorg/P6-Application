@@ -1,4 +1,4 @@
-package org.dcsa.portcall.util;
+package org.dcsa.portcall.model;
 
 public enum EventTypeCode {
     ARRI, SERV, DEPT,

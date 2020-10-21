@@ -1,4 +1,4 @@
-import {ApplicationRef, Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
 import {Port} from "../../model/port";
@@ -8,7 +8,6 @@ import {PortCallTimestampTypeToStringPipe} from "../../controller/port-call-time
 import {PortIdToPortPipe} from "../../controller/port-id-to-port.pipe";
 import {PortcallTimestampType} from "../../model/portcall-timestamp-type.enum";
 import {PortCallTimestampTypeToEnumPipe} from "../../controller/port-call-timestamp-type-to-enum.pipe";
-import {ApplicationToolTips} from "../../model/ToolTips";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -24,9 +23,6 @@ export class TimestampTableComponent {
   @Input('timestamps') timestamps: PortcallTimestamp[];
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
-
-  private toolTips = ApplicationToolTips;
-
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private confirmationService: ConfirmationService,

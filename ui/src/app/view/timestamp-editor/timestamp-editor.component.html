@@ -3,27 +3,23 @@
     <tr>
       <td style="width: 2%"></td>
       <td style="width: 7%; padding-left: 0">
-        <p-dropdown [(ngModel)]="timestamp.timestampType" [options]="timestampTypes" pTooltip="{{this.toolTips.timestampTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass"></p-dropdown>
+        <p-dropdown [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
       </td>
       <td style="width: 5%"></td>
       <td>
         <p-calendar [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     showTime="true"
-                    showWeek="true" yearNavigator="true" yearRange="2010:2030" pTooltip="{{this.toolTips.logOfTimestampTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass"></p-calendar>
+                    showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
       </td>
       <td>
         <p-calendar [(ngModel)]="timestamp.eventTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
-                    showTime="true" showWeek="true" yearNavigator="true" yearRange="2010:2030" pTooltip="{{this.toolTips.eventTimestampTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass"></p-calendar>
+                    showTime="true" showWeek="true" yearNavigator="true" yearRange="2010:2030"></p-calendar>
       </td>
       <td style="width: 7%">
         <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"
-                    filterBy="label,value.name" pTooltip="{{this.toolTips.priviousPortTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass">
+                    filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div *ngIf="port.value">
               <div>{{port.value.unLocode}}</div>
@@ -35,8 +31,7 @@
       <td style="width: 7%">
         <p-dropdown (onChange)="selectPortOfCall(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall"
                     [filter]="true" [options]="portOptions"
-                    filterBy="label,value.name" pTooltip="{{this.toolTips.portOfCallTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass">
+                    filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div *ngIf="port.value">
               <div>{{port.value.unLocode}}</div>
@@ -47,8 +42,7 @@
       </td>
       <td style="width: 7%">
         <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions"
-                    filterBy="label,value.name" pTooltip="{{this.toolTips.nextPortTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass">
+                    filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div *ngIf="port.value">
               <div>{{port.value.unLocode}}</div>
@@ -58,13 +52,11 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions" pTooltip="{{this.toolTips.directionTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass"></p-dropdown>
+        <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions" ></p-dropdown>
       </td>
       <td style="width: 14%">
         <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
-                    [options]="terminalOptions" [filter]="true" filterBy="label,value.terminalName" pTooltip="{{this.toolTips.terminalTT}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass">
+                    [options]="terminalOptions" [filter]="true" filterBy="label,value.terminalName">
           <ng-template let-terminal pTemplate="item">
             <div *ngIf="terminal.value">
               <div>{{terminal.value.smdgCode}}</div>
@@ -74,13 +66,13 @@
           </ng-template>
         </p-dropdown>
       </td>
-      <td><label><input type="text" pInputText [(ngModel)]="timestamp.locationId" pTooltip="{{this.toolTips.locationTT}}" tooltipPosition="top"
-        tooltipStyleClass="ToolTipClass"/></label></td>
+      <td><label><input type="text" pInputText [(ngModel)]="timestamp.locationId"/></label></td>
       <td style="width: 5%">
-        <p-button (onClick)="addComment(timestamp)" icon="pi pi-comment" pTooltip="{{this.toolTips.commentButtonTT}}" tooltipPosition="top"
+        <p-button (onClick)="addComment(timestamp)" icon="pi pi-comment" pTooltip="Add your comment and a delay reason to timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
         <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)"
-                  [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>
+                  [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save" pTooltip="Save the new timestamp" tooltipPosition="top"
+                  tooltipStyleClass="ToolTipClass"></p-button>
       </td>
     </tr>
   </ng-template>
