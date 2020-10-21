@@ -11,7 +11,7 @@ import {DelayCode} from "../model/delayCode";
   providedIn: 'root'
 })
 export class PortcallTimestampService {
-  private TIMESTAMP_URL: string;
+   private TIMESTAMP_URL: string;
 
 
   constructor(private httpClient: HttpClient) {
@@ -20,6 +20,7 @@ export class PortcallTimestampService {
 
   getPortcallTimestamps = (vesselId: number): Observable<PortcallTimestamp[]> => {
     return this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL + "/" + vesselId);
+
   }
 
   addPortcallTimestamp = (portcalltimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {
