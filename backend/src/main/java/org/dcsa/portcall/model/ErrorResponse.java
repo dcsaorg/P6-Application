@@ -5,13 +5,13 @@ import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ApiError {
+public class ErrorResponse {
 
     private HttpStatus httpStatus;
     private String message;
     private List<String> errors;
 
-    public ApiError(HttpStatus httpStatus, String message) {
+    public ErrorResponse(HttpStatus httpStatus, String message) {
         this.httpStatus = httpStatus;
         this.message = message;
         this.errors = new ArrayList<>();
@@ -21,7 +21,7 @@ public class ApiError {
         return httpStatus;
     }
 
-    public ApiError setHttpStatus(HttpStatus httpStatus) {
+    public ErrorResponse setHttpStatus(HttpStatus httpStatus) {
         this.httpStatus = httpStatus;
         return this;
     }
@@ -30,7 +30,7 @@ public class ApiError {
         return message;
     }
 
-    public ApiError setMessage(String message) {
+    public ErrorResponse setMessage(String message) {
         this.message = message;
         return this;
     }
@@ -39,12 +39,12 @@ public class ApiError {
         return errors;
     }
 
-    public ApiError addErrors(String error) {
+    public ErrorResponse addErrors(String error) {
         this.errors.add(error);
         return this;
     }
 
-    public ApiError setErrors(List<String> errors) {
+    public ErrorResponse setErrors(List<String> errors) {
         this.errors = errors;
         return this;
     }

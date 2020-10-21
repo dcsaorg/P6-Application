@@ -25,11 +25,12 @@ export class PortcallTimestampService {
   addPortcallTimestamp = (portcalltimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {
     const portcalltimestampToSend: PortcallTimestamp = {
       id: null,
+      timestampType: portcalltimestamp.timestampType.replace('(-|\s)', '_'),
+      callSequence: portcalltimestamp.callSequence,
       portNext: (portcalltimestamp.portNext as Port).id,
       portPrevious: (portcalltimestamp.portPrevious as Port).id,
       portOfCall: (portcalltimestamp.portOfCall as Port).id,
       terminal: (portcalltimestamp.terminal as Terminal).id,
-      timestampType: portcalltimestamp.timestampType.replace('(-|\s)', '_'),
       locationId: portcalltimestamp.locationId,
       eventTypeCode: portcalltimestamp.eventTypeCode,
       direction: portcalltimestamp.direction,

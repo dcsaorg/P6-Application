@@ -1,15 +1,14 @@
 package org.dcsa.portcall.controller;
 
-import net.bytebuddy.implementation.bytecode.Throw;
-import org.apache.logging.log4j.jcl.Log4jLog;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.Record1;
+import org.postgresql.util.PSQLException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -38,11 +37,16 @@ public class VesselController {
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
     public Vessel getVessel(@PathVariable int vesselId) {
-        return dsl.select()
+        Record vessel = dsl.select()
                 .from(VESSEL)
                 .where(VESSEL.ID.eq(vesselId))
-                .fetchAny()
-                .into(Vessel.class);
+                .fetchOne();
+
+        if (vessel == null) {
+            throw new PortCallException(HttpStatus.NOT_FOUND, "Vessel with the id " + vesselId + " not found");
+        } else {
+            return vessel.into(Vessel.class);
+        }
     }
 
     @PostMapping("")
@@ -55,10 +59,13 @@ public class VesselController {
                     .fetchOne();
 
             vessel.setId(id.value1());
-        }  catch (DuplicateKeyException e1){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Duplicate Keys, The IMO number has probably already been used");
-        } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown Error");
+        } catch (DuplicateKeyException e) {
+            PortCallException portCallException = new PortCallException(HttpStatus.CONFLICT, "Duplicate Keys, The IMO number has probably already been used");
+            if (e.getCause() instanceof PSQLException) {
+                PSQLException cause = (PSQLException) e.getCause();
+                portCallException.getErrorResponse().addErrors(cause.getServerErrorMessage().getMessage());
+            }
+            throw portCallException;
         }
         return vessel;
     }

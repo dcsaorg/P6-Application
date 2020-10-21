@@ -12,11 +12,8 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dcsa.portcall.db.enums.PortCallTimestampType;
-import org.dcsa.portcall.db.tables.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
-import org.dcsa.portcall.util.ClassifierCode;
-import org.dcsa.portcall.util.LocationTypeCode;
+import org.dcsa.portcall.model.ClassifierCode;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
@@ -84,9 +81,6 @@ public class PortCallTimestampController {
      * Method to calculate a sequence for timestamps:
      * A sequence always starts with an Estimated Classifier code (EST) and ans with an ACTUAL (ACT
      * a sequence is always based on the vessel, the location, and the port and terminals of timestamp
-     * @param timestamps
-     * @param newTimeStamp
-     * @return
      */
     private int calculatePortCallSequence(List<PortCallTimestamp> timestamps, PortCallTimestamp newTimeStamp) {
 
@@ -94,20 +88,20 @@ public class PortCallTimestampController {
 
 
         PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
-        if(lastTimestamp != null){
+        if (lastTimestamp != null) {
             seq = lastTimestamp.getCallSequence();
             ClassifierCode lastClassType = PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType());
             if (lastClassType.equals(ClassifierCode.REQ) || lastClassType.equals(ClassifierCode.PLA)) {
                 if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.REQ)) {
                     seq++;
                 }
-        }   // Reset to 0 if Classifiercode ist EST
+            }   // Reset to 0 if Classifiercode ist EST
             if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.EST)) {
                 seq = 0;
             }
 
             // Reset to 0 if Classifiercode of last Timestamp ist ACT
-            if( PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType()).equals(ClassifierCode.ACT)){
+            if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType()).equals(ClassifierCode.ACT)) {
                 seq = 0;
             }
 
@@ -117,23 +111,16 @@ public class PortCallTimestampController {
 
     /**
      * Makes an identifier for a Portcall from the used ports and terminals
-     *
-     * @param timestamp
-     * @return
      */
     private String generateSequenceHash(PortCallTimestamp timestamp) {
-        return Integer.toString(timestamp.getPortPrevious())
-                + Integer.toString(timestamp.getPortOfCall())
-                + Integer.toString(timestamp.getPortNext())
-                + Integer.toString(timestamp.getTerminal());
+        return "" + timestamp.getPortPrevious()
+                + timestamp.getPortOfCall()
+                + timestamp.getPortNext()
+                + timestamp.getTerminal();
     }
 
     /**
      * Returns the last TimeStamp of a Portcall Sequence (based on Ports and terminals, and Location)
-     *
-     * @param timestamps
-     * @param newTimestamp
-     * @return
      */
 
     private PortCallTimestamp getLastTimestampForSequence(List<PortCallTimestamp> timestamps, PortCallTimestamp newTimestamp) {

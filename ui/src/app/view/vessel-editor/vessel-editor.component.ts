@@ -53,12 +53,12 @@ export class VesselEditorComponent implements OnInit {
           detail: ''
         });
         this.ref.close(this.vessel);
-      }, error => {
+      }, response => {
         this.messageService.add({
           key: 'vesselUpdateError',
           severity: 'error',
           summary: 'Error while updating vessel',
-          detail: error.message
+          detail: response.error.message
         });
       });
     } else {
@@ -70,14 +70,16 @@ export class VesselEditorComponent implements OnInit {
           detail: ''
         });
         this.ref.close(newVessel);
-      }, error => this.messageService.add({
-        key: 'vesselAddError',
-        severity: 'error',
-        summary: 'Error while adding vessel',
-        detail: error.message
-      }));
+      }, response => {
+        this.messageService.add({
+          key: 'vesselAddError',
+          severity: 'error',
+          summary: 'Error while adding vessel',
+          detail: response.error.message + ': ' + response.error.errors
+        });
+      });
+
     }
-    ;
   }
 
   cancel() {
