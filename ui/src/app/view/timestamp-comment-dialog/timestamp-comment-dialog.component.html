@@ -4,7 +4,7 @@
     <p-dropdown [options]="delayCodeOptions" [(ngModel)]="timestamp.delayCode" [filter]="true"
                 filterBy="label,value.name" [group]="false">
       <ng-template let-delayCode pTemplate="selectedItem">
-        <div *ngIf="delayCode.value">
+        <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
           <div class="delayCodeSelected">{{delayCode.value.smdgCode}}</div>
           <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;<b>{{delayCode.value.delayType}}</b></div>
           <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
