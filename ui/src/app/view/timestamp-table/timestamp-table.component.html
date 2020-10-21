@@ -55,7 +55,7 @@
           tooltipStyleClass="ToolTipClass">Berth Id
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
-      <th style="width: 5%"></th>
+      <th style="width: 7%"></th>
     </tr>
     <tr>
       <td></td>
@@ -99,7 +99,7 @@
         </div>
       </td>
       <td>{{ timestamp.locationId }}</td>
-      <td style="width: 5%">
+      <td style="width: 7%">
         <p-button *ngIf="timestamp.delayCode" (onClick)="showComment(timestamp)" icon="pi pi-comment" pTooltip="Show comment and a delay reason to timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
         <p-button *ngIf="timestamps[timestamps.length - 1].id == timestamp.id" icon="pi pi-trash"
