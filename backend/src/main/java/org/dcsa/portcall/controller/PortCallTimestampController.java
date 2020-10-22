@@ -17,6 +17,7 @@ import org.dcsa.portcall.model.ClassifierCode;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
+import org.jooq.impl.DSL;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,17 @@ public class PortCallTimestampController {
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
                 .fetch()
                 .into(PortCallTimestamp.class);
+    }
+
+    @GetMapping("/highestTimestampId/{vesselId}")
+    @Transactional(readOnly = true)
+    public Integer getHighestTimestampId(@PathVariable int vesselId) {
+        Record1<Integer> highestIdRecord = dsl.select(DSL.max(PORT_CALL_TIMESTAMP.ID))
+                .from(PORT_CALL_TIMESTAMP)
+                .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
+                        .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
+                .fetchOne();
+        return highestIdRecord.value1();
     }
 
     @PostMapping("/{vesselId}")

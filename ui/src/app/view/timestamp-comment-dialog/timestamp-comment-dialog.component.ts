@@ -10,7 +10,7 @@ import {SelectItem} from "primeng/api";
 })
 export class TimestampCommentDialogComponent implements OnInit {
 
-  public timestamp: PortcallTimestamp
+  public timestamp: PortcallTimestamp;
   delayCodeOptions: SelectItem[] = [];
   readonly: boolean;
 

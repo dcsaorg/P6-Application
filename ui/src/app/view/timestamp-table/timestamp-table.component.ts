@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
 import {Port} from "../../model/port";
@@ -26,7 +26,7 @@ import {DialogService} from "primeng/dynamicdialog";
     PortIdToPortPipe,
   ]
 })
-export class TimestampTableComponent {
+export class TimestampTableComponent implements OnChanges {
   @Input('vesselId') vesselId: number;
   @Input('ports') ports: Port[];
   @Input('terminals') terminals: Terminal[];
@@ -34,6 +34,8 @@ export class TimestampTableComponent {
   @Input('timestamps') timestamps: PortcallTimestamp[];
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
+
+  highestTimestampId: number;
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private delayCodeService: DelayCodeService,
@@ -46,6 +48,14 @@ export class TimestampTableComponent {
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
               private portIdToPortPipe: PortIdToPortPipe,
   ) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.portcallTimestampService.getHighesTimestampId(this.vesselId).subscribe(highestTimestampId => {
+      this.highestTimestampId = highestTimestampId;
+    })
+
+    console.debug(history);
   }
 
   deleteTimestamp(timestamp: any) {

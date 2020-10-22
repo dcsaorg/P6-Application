@@ -20,7 +20,10 @@ export class PortcallTimestampService {
 
   getPortcallTimestamps = (vesselId: number): Observable<PortcallTimestamp[]> => {
     return this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL + "/" + vesselId);
+  }
 
+  getHighesTimestampId = (vesselId: number): Observable<number> => {
+    return this.httpClient.get<number>(this.TIMESTAMP_URL + "/highestTimestampId/" + vesselId);
   }
 
   addPortcallTimestamp = (portcalltimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {

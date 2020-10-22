@@ -119,7 +119,7 @@
       </td>
       <td style="width: 5%">
 
-        <p-button *ngIf="timestamps[timestamps.length - 1].id == timestamp.id" icon="pi pi-trash"
+        <p-button *ngIf="highestTimestampId == timestamp.id" icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
       </td>
