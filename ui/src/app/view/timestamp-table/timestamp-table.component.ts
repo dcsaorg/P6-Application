@@ -75,7 +75,7 @@ export class TimestampTableComponent {
   }
 
   showComment(timestamp: PortcallTimestamp) {
-    if (!(timestamp.delayCode as DelayCode).smdgCode) {
+    if (timestamp.delayCode != null && !(timestamp.delayCode as DelayCode).smdgCode) {
       this.delayCodeService.getDelayCode(timestamp.delayCode as number).subscribe(data => {
         timestamp.delayCode = data;
       });

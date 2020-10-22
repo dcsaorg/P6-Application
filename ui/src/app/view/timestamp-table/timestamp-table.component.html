@@ -114,9 +114,8 @@
       </td>
       <td style="width: 7%">{{ timestamp.locationId }}</td>
       <td style="width: 3%">
-        <p-button *ngIf="timestamp.delayCode" (onClick)="showComment(timestamp)" icon="pi pi-comment"
-                  pTooltip="Show comment and a delay reason to timestamp" tooltipPosition="top"
-                  tooltipStyleClass="ToolTipClass"></p-button>
+        <p-button *ngIf="timestamp.delayCode || timestamp.changeComment" (onClick)="showComment(timestamp)" icon="pi pi-comment"
+                 ></p-button>
       </td>
       <td style="width: 5%">
 

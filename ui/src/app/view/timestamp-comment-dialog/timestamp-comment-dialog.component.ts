@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {SelectItem} from "primeng/api";
-import {timestamp} from "rxjs/operators";
 
 @Component({
   selector: 'app-timestamp-comment-dialog',
@@ -21,15 +20,12 @@ export class TimestampCommentDialogComponent implements OnInit {
   ngOnInit(): void {
     this.timestamp = this.config.data.timestamp;
     this.readonly = this.config.data.readonly;
-    console.log("DC: " + this.config.data.timestamp.delayCode)
     if (this.readonly) {
       if (!this.config.data.timestamp.delayCode) {
-        this.delayCodeOptions.push({label: 'Not code selected)', value: null});
-      } else {
-        this.delayCodeOptions.push({label: 'Code selected', value: null});
+        this.delayCodeOptions.push({label: 'No code selected', value: null});
       }
     } else {
-
+      this.delayCodeOptions.push({label: 'Select delay code (optional)', value: null});
     }
     this.config.data.delayCode.forEach(delayCode => {
       this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
