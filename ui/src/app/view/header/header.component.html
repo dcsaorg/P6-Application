@@ -1,6 +1,10 @@
 <div class="p-grid header">
-  <div class="p-col-8">
+  <div class="p-col-1">
     <img class="header__logo" src="assets/DCSA_logo_color_on_dark_background.png">
+  </div>
+  <div class="p-col-7 header__menuEntry" >
+    <button pButton (click)="showInstructions()" label="Instructions" class="p-button-text p-button-secondary" icon="pi pi-question" type="button"></button>
+    <button pButton (click)="showDownloladRequest()" type="button" label="Download Timestamps" class="p-button-text p-button-secondary" icon="pi pi-download"></button>
   </div>
   <div class="p-col-2 header__menuEntry">
     <span class="" i18n="@@menu_entry_port_call">Port Call</span>
@@ -9,3 +13,15 @@
     <span i18n="@@menu_entry_mandator">Company Name: {{ companyName }}</span>
   </div>
 </div>
+
+
+<p-dialog [modal]="true" header="Download Timestamps for {{companyName}}" [(visible)]="displayDownloadRequest" [style]="{width: '50vw'}" [baseZIndex]="10000">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-download" (click)="displayDownloadRequest=false" label="Download" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-times" (click)="displayDownloadRequest=false" label="Cancel"></p-button>
+  </ng-template>
+</p-dialog>

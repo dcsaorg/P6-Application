@@ -1,0 +1,24 @@
+@import "DCSA-Theme";
+
+#commentbox {
+  height: 300px;
+}
+
+#commentContainer {
+  margin-top: 15px;
+}
+
+.delayCodeDetails {
+  color: $darkGrey;
+  text-transform: capitalize;
+  font-size: 12px;
+}
+
+.delayCodeSelectedWrapper {
+  display: flex;
+  align-items: center;
+}
+.delayCodeSelected {
+  float: left;
+  clear: none;
+}

@@ -33,6 +33,8 @@ import {TableModule} from 'primeng/table';
 import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import { InstructionsComponent } from './view/instructions/instructions.component';
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -48,29 +50,31 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
     TimestampTableComponent,
     VesselComponent,
     VesselEditorComponent,
+    InstructionsComponent,
   ],
-  imports: [
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    ButtonModule,
-    CalendarModule,
-    CardModule,
-    ConfirmDialogModule,
-    DropdownModule,
-    DynamicDialogModule,
-    FormsModule,
-    HttpClientModule,
-    InputNumberModule,
-    InputTextModule,
-    InputTextareaModule,
-    PaginatorModule,
-    ReactiveFormsModule,
-    TableModule,
-    ToastModule,
-    TooltipModule,
+    imports: [
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        ButtonModule,
+        CalendarModule,
+        CardModule,
+        ConfirmDialogModule,
+        DropdownModule,
+        DynamicDialogModule,
+        FormsModule,
+        HttpClientModule,
+        InputNumberModule,
+        InputTextModule,
+        InputTextareaModule,
+        PaginatorModule,
+        ReactiveFormsModule,
+        TableModule,
+        ToastModule,
+        TooltipModule,
+        DialogModule,
 
-  ],
+    ],
   providers: [
     ConfirmationService,
     MessageService,
