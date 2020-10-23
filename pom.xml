@@ -10,7 +10,7 @@
     <version>DEVELOP-SNAPSHOT</version>
 
     <packaging>pom</packaging>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -42,7 +42,7 @@
         <junit.version>5.7.0</junit.version>
         <mockito.version>3.5.13</mockito.version>
     </properties>
-	
+
     <modules>
         <module>backend</module>
     </modules>
@@ -79,14 +79,14 @@
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
-            
-            
+
+
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
@@ -99,7 +99,7 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
@@ -108,7 +108,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <resources>
@@ -157,7 +157,7 @@
                         <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
@@ -177,7 +177,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -197,7 +197,7 @@
                         <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
@@ -225,7 +225,7 @@
                         </includes>
                     </configuration>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -267,7 +267,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                
+
             </plugins>
         </pluginManagement>
         <plugins>
@@ -328,13 +328,39 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <preparationGoals>clean install</preparationGoals>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    
+
     <scm>
         <connection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</connection>
         <developerConnection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</developerConnection>
         <url>https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</url>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>build.releases</id>
+            <layout>default</layout>
+            <url>https://nexus.ponton.de/content/repositories/ponton-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>build.snapshots</id>
+            <layout>default</layout>
+            <url>https://nexus.ponton.de/content/repositories/ponton-snapshots</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
