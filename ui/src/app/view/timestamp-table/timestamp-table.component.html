@@ -1,5 +1,6 @@
 <p-table #dt [filterDelay]="0" [sortOrder]="1" [value]="timestamps" sortField="logOfTimestamp"
-         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']">
+         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']"
+         styleClass="p-datatable-sm">
   <ng-template pTemplate="caption">
     <div class="p-grid">
       <div class="p-col"></div>
