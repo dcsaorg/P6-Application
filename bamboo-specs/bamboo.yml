@@ -1,0 +1,20 @@
+---
+version: 2
+plan:
+  project-key: DCSA
+  key: APP
+  name: Build the PortCall application
+
+
+stages:
+  - Build Application:
+      jobs:
+        - Build Backend
+
+Build Backend:
+  tasks:
+    - script:
+        - cd backend
+        - ${nbamboo_capability_system_builder_mvn3_maven_3_6}/bin/mvn clean package
+  final-tasks:
+    - clean
