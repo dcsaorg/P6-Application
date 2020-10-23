@@ -130,6 +130,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
         newPortcallTimestamp.logOfTimestamp = new Date(newPortcallTimestamp.logOfTimestamp);
         newPortcallTimestamp.eventTimestamp = new Date(newPortcallTimestamp.eventTimestamp);
+        newPortcallTimestamp.changeComment = ""
+
         this.selectPortOfCall(newPortcallTimestamp.portOfCall.id);
 
         this.$timestamps.next([newPortcallTimestamp]);
