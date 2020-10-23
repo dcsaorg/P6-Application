@@ -15,6 +15,6 @@ Build Backend:
   tasks:
     - script:
         - cd backend
-        - ${bamboo_capability_system_builder_mvn3_maven_3_6}/bin/mvn clean package
+        - ${bamboo_capability_system_builder_mvn3_maven_3_6}/bin/mvn clean deploy
   final-tasks:
     - clean
