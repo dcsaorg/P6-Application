@@ -21,7 +21,8 @@
 <p-dialog [modal]="true" header="Download Timestamps for {{companyName}}" [(visible)]="displayDownloadRequest" [style]="{width: '50vw'}" [baseZIndex]="10000">
   <p>This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment.</p>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-download" (click)="displayDownloadRequest=false" label="Download" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-download" (click)="downloadTimeStamps()" label="Download" styleClass="p-button-text"></p-button>
     <p-button icon="pi pi-times" (click)="displayDownloadRequest=false" label="Cancel"></p-button>
   </ng-template>
 </p-dialog>
+<p-toast key="DownloadRequestError" position="bottom-right"></p-toast>
