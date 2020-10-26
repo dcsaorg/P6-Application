@@ -30,7 +30,7 @@ public class PortCallConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("*")
-                        .allowedOrigins("http://localhost:4200");
+                        .allowedOrigins("*");
             }
         };
     }

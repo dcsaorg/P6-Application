@@ -20,6 +20,6 @@
     ]
   },
   "exclude": [
-    "src/assets/config.json"
+    "./src/assets/config.json"
   ]
 }
