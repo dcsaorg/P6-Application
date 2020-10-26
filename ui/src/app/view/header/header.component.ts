@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
-import {ConfigService} from "../../controller/config.service";
 
 @Component({
   selector: 'app-header',
@@ -11,11 +10,9 @@ import {ConfigService} from "../../controller/config.service";
 })
 export class HeaderComponent implements OnInit {
 
-  companyName: string;
+  companyName: string = "Test"
   displayDownloadRequest: boolean;
-  constructor(private dialogService: DialogService,
-              private configService: ConfigService) {
-    this.companyName = configService.getConfig().companyName;
+  constructor(private dialogService: DialogService) {
   }
 
   ngOnInit(): void {
