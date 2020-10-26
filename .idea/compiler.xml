@@ -12,6 +12,7 @@
     <bytecodeTargetLevel>
       <module name="backend" target="11" />
       <module name="dcsa-port-call" target="11" />
+      <module name="ui" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
