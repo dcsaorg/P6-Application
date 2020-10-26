@@ -1,24 +1,24 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Config} from "../model/config";
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ConfigService implements OnInit {
+export class ConfigService {
 
-  config: Config;
+  config: Observable<Config>;
 
   constructor(private httpClient: HttpClient) {
+      this.loadConfig();
   }
 
-  ngOnInit(): void {
-    this.httpClient.get<Config>("assets/config.json").subscribe(data =>{
-      this.config = data;
-    })
+  private loadConfig() {
+    this.config = this.httpClient.get<Config>("./assets/config.json");
   }
 
-  getConfig() : Config {
+  getConfig() : Observable<Config> {
     return this.config;
   }
 }

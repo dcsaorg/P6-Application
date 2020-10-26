@@ -15,7 +15,9 @@ export class HeaderComponent implements OnInit {
   displayDownloadRequest: boolean;
   constructor(private dialogService: DialogService,
               private configService: ConfigService) {
-    this.companyName = configService.getConfig().companyName;
+    configService.getConfig().subscribe(config => {
+      this.companyName = config.companyName;
+    });
   }
 
   ngOnInit(): void {
