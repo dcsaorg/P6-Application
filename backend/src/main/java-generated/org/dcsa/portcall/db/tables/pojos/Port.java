@@ -13,13 +13,14 @@ import java.io.Serializable;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Port implements Serializable {
 
-    private static final long serialVersionUID = -1296634748;
+    private static final long serialVersionUID = -574224167;
 
     private Integer id;
     private String  name;
     private String  unCountry;
     private String  unLocode;
     private String  unLocation;
+    private String  timezone;
 
     public Port() {}
 
@@ -29,6 +30,7 @@ public class Port implements Serializable {
         this.unCountry = value.unCountry;
         this.unLocode = value.unLocode;
         this.unLocation = value.unLocation;
+        this.timezone = value.timezone;
     }
 
     public Port(
@@ -36,13 +38,15 @@ public class Port implements Serializable {
         String  name,
         String  unCountry,
         String  unLocode,
-        String  unLocation
+        String  unLocation,
+        String  timezone
     ) {
         this.id = id;
         this.name = name;
         this.unCountry = unCountry;
         this.unLocode = unLocode;
         this.unLocation = unLocation;
+        this.timezone = timezone;
     }
 
     public Integer getId() {
@@ -90,6 +94,15 @@ public class Port implements Serializable {
         return this;
     }
 
+    public String getTimezone() {
+        return this.timezone;
+    }
+
+    public Port setTimezone(String timezone) {
+        this.timezone = timezone;
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Port (");
@@ -99,6 +112,7 @@ public class Port implements Serializable {
         sb.append(", ").append(unCountry);
         sb.append(", ").append(unLocode);
         sb.append(", ").append(unLocation);
+        sb.append(", ").append(timezone);
 
         sb.append(")");
         return sb.toString();

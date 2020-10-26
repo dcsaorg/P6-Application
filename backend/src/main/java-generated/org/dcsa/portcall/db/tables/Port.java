@@ -15,7 +15,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row5;
+import org.jooq.Row6;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Port extends TableImpl<PortRecord> {
 
-    private static final long serialVersionUID = 1830864770;
+    private static final long serialVersionUID = 1927351759;
 
     /**
      * The reference instance of <code>public.port</code>
@@ -70,6 +70,11 @@ public class Port extends TableImpl<PortRecord> {
      * The column <code>public.port.un_location</code>.
      */
     public final TableField<PortRecord, String> UN_LOCATION = createField(DSL.name("un_location"), org.jooq.impl.SQLDataType.VARCHAR(3).nullable(false), this, "");
+
+    /**
+     * The column <code>public.port.timezone</code>.
+     */
+    public final TableField<PortRecord, String> TIMEZONE = createField(DSL.name("timezone"), org.jooq.impl.SQLDataType.VARCHAR(40), this, "");
 
     /**
      * Create a <code>public.port</code> table reference
@@ -151,11 +156,11 @@ public class Port extends TableImpl<PortRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, String, String, String, String> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Integer, String, String, String, String, String> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }
