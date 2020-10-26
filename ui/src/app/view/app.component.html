@@ -7,7 +7,7 @@
   </div>
   <div *ngIf="vesselId > 0; then vesselsSelected else emptyVessel"></div>
   <ng-template #vesselsSelected>
-    <div class="main__spaceInnerComponent" style="overflow-x: scroll; min-width: 1200px">
+    <div class="main__spaceInnerComponent" style=" min-width: 1200px">
       <p-card>
         <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
                              [delayCodes]="delayCodes"
