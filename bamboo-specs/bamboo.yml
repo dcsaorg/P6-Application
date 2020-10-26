@@ -9,9 +9,9 @@ plan:
 stages:
   - Build Application:
       jobs:
-        - Build Backend
+        - Build
 
-Build Backend:
+Build:
   tasks:
     - script:
         - ${bamboo_capability_system_builder_mvn3_maven_3_6}/bin/mvn clean deploy
