@@ -17,7 +17,9 @@ export class HeaderComponent implements OnInit {
   displayDownloadRequest: boolean;
 
   constructor(private dialogService: DialogService,
-              private configService: ConfigService) {
+              private configService: ConfigService,
+              private downloadService: DownloadService,
+              private messageService: MessageService) {
     configService.getConfig().subscribe(config => {
       this.companyName = config.companyName;
     });
