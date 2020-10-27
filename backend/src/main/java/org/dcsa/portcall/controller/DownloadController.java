@@ -50,7 +50,7 @@ public class DownloadController {
         response.setContentType("text/csv");
         response.setHeader("Content-Disposition", "attachment; filename=PortCall_Timestamps_Export.csv");
         try {
-            response.getOutputStream().print(this.loadTimestampsFromDb());
+            response.getOutputStream().print(this.loadTimestampsFromDbPlainSql());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +59,10 @@ public class DownloadController {
         return null;
     }
 
+    /**
+     * Requests report in JOOQ SQL
+     * @return
+     */
 
     private String loadTimestampsFromDb() {
         Port port_of_call = PORT.as("port_of_call");
@@ -98,5 +102,44 @@ public class DownloadController {
                 leftJoin(DELAY_CODE).
                 on(PORT_CALL_TIMESTAMP.DELAY_CODE.eq(DELAY_CODE.ID)).fetch().formatCSV();
 
+    }
+
+    private String loadTimestampsFromDbPlainSql(){
+        String sql = "select \n" +
+                "\tpct.id \t\t\t\t\t\tas \"ID\",\n" +
+                "\tv.\"name\" \t\t\t\t\tas \"Vessel\",\n" +
+                "\tv.imo \t\t\t\t\t\tas \"IMO\",\n" +
+                "\tv.teu\t\t\t\t\t\tas \"TEU\",\n" +
+                "\tv.service_name_code\t\t\tas \"Service Name\",\n" +
+                "\tport_previous.un_locode\t\tas \"Port Privious\",\n" +
+                "\tport_next.un_location\t\tas \"Port Next\",\n" +
+                "\tpct.direction\t\t\t\tas \"Direction\",\n" +
+                "\tport_of_call.un_locode\t\tas \"Port of Call\",\n" +
+                "\tport_of_call.timezone\t\tas \"Port of Call Timezone\",\n" +
+                "\tt.smdg_code\t\t\t\t\tas \"Terminal\",\n" +
+                "\tt.terminal_name\t\t\t\tas \"Terminal Name\",\n" +
+                "\tt.terminal_operator\t\t\tas \"Terminal Operator\",\n" +
+                "\tpct.timestamp_type\t\t\tas \"Event Message\",\n" +
+                "\tpct.event_timestamp\t\t\tas \"Event Timestamp (POC Timezone)\",\n" +
+                "\tpct.event_timestamp\n" +
+                "\t\tat time zone 'UTC'\n" +
+                "\t\tat time zone port_of_call.timezone\n" +
+                "\t\t\t\t\t\t\t\tas \"Event Timestamp (UTC)\",\n" +
+                "\tpct.log_of_timestamp\t\tas \"Log of Timestamp (POC Timezone)\",\n" +
+                "\tpct.log_of_timestamp\n" +
+                "\t\tat time zone 'UTC'\n" +
+                "\t\tat time zone port_of_call.timezone\n" +
+                "\t\t\t\t\t\t\t\tas \"Log of Timestamp (UTC)\",\n" +
+                "\tdc.smdg_code\t\t\t\tas \"Root cause (SMDG Code)\",\n" +
+                "\tpct.change_comment\t\t\tas \"Change Comment\"\n" +
+                "\tfrom port_call_timestamp pct\n" +
+                "join port as port_of_call on pct.port_of_call = port_of_call.id\n" +
+                "join port as port_previous on pct.port_previous = port_previous.id\n" +
+                "join port as port_next on pct.port_next = port_next.id\n" +
+                "join terminal as t on pct.terminal = t.id\n" +
+                "join vessel as v on pct.vessel = v.id\n" +
+                "left join delay_code dc on pct.delay_code = pct.id";
+
+        return this.dsl.fetch(sql).formatCSV();
     }
 }
