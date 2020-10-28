@@ -19,6 +19,8 @@ spring:
     user: dcsa
     password: dcsapw
 
-
   jooq:
     sql-dialect: postgres
+
+dcsa:
+  company: Development

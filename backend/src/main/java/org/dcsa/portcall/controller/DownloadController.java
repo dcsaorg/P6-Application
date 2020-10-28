@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.Port;
 import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,8 @@ public class DownloadController {
     private static final Logger log = LogManager.getLogger(DownloadController.class);
     private final DSLContext dsl;
 
+    @Value("${dcsa.company}")
+    private String company;
 
     public DownloadController(DSLContext dsl) {
         this.dsl = dsl;
