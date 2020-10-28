@@ -4,7 +4,7 @@
 package org.dcsa.portcall.db.tables;
 
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
-    private static final long serialVersionUID = 1790887871;
+    private static final long serialVersionUID = -2068158251;
 
     /**
      * The reference instance of <code>public.port_call_timestamp</code>
@@ -87,12 +87,12 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     /**
      * The column <code>public.port_call_timestamp.event_timestamp</code>.
      */
-    public final TableField<PortCallTimestampRecord, LocalDateTime> EVENT_TIMESTAMP = createField(DSL.name("event_timestamp"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, OffsetDateTime> EVENT_TIMESTAMP = createField(DSL.name("event_timestamp"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.log_of_timestamp</code>.
      */
-    public final TableField<PortCallTimestampRecord, LocalDateTime> LOG_OF_TIMESTAMP = createField(DSL.name("log_of_timestamp"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, OffsetDateTime> LOG_OF_TIMESTAMP = createField(DSL.name("log_of_timestamp"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.direction</code>.
@@ -237,7 +237,7 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, Integer, LocalDateTime, LocalDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
+    public Row15<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
         return (Row15) super.fieldsRow();
     }
 }

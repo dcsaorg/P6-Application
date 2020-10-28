@@ -5,7 +5,7 @@ package org.dcsa.portcall.db.tables.pojos;
 
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
@@ -17,7 +17,7 @@ import org.dcsa.portcall.db.enums.PortCallTimestampType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp implements Serializable {
 
-    private static final long serialVersionUID = -1361798307;
+    private static final long serialVersionUID = 1306274509;
 
     private Integer               id;
     private Integer               vessel;
@@ -26,8 +26,8 @@ public class PortCallTimestamp implements Serializable {
     private Integer               portNext;
     private PortCallTimestampType timestampType;
     private Integer               callSequence;
-    private LocalDateTime         eventTimestamp;
-    private LocalDateTime         logOfTimestamp;
+    private OffsetDateTime        eventTimestamp;
+    private OffsetDateTime        logOfTimestamp;
     private Direction             direction;
     private Integer               terminal;
     private String                locationId;
@@ -63,8 +63,8 @@ public class PortCallTimestamp implements Serializable {
         Integer               portNext,
         PortCallTimestampType timestampType,
         Integer               callSequence,
-        LocalDateTime         eventTimestamp,
-        LocalDateTime         logOfTimestamp,
+        OffsetDateTime        eventTimestamp,
+        OffsetDateTime        logOfTimestamp,
         Direction             direction,
         Integer               terminal,
         String                locationId,
@@ -152,20 +152,20 @@ public class PortCallTimestamp implements Serializable {
         return this;
     }
 
-    public LocalDateTime getEventTimestamp() {
+    public OffsetDateTime getEventTimestamp() {
         return this.eventTimestamp;
     }
 
-    public PortCallTimestamp setEventTimestamp(LocalDateTime eventTimestamp) {
+    public PortCallTimestamp setEventTimestamp(OffsetDateTime eventTimestamp) {
         this.eventTimestamp = eventTimestamp;
         return this;
     }
 
-    public LocalDateTime getLogOfTimestamp() {
+    public OffsetDateTime getLogOfTimestamp() {
         return this.logOfTimestamp;
     }
 
-    public PortCallTimestamp setLogOfTimestamp(LocalDateTime logOfTimestamp) {
+    public PortCallTimestamp setLogOfTimestamp(OffsetDateTime logOfTimestamp) {
         this.logOfTimestamp = logOfTimestamp;
         return this;
     }
