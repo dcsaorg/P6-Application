@@ -106,6 +106,7 @@ public class DownloadController {
     private String loadTimestampsFromDbPlainSql(){
         String sql = "select " +
                 "	pct.id 						as \"ID\"," +
+                " '"+this.company+"'            as \"company\","+
                 "	v.name 					    as \"Vessel\"," +
                 "	v.imo 						as \"IMO\"," +
                 "	v.teu						as \"TEU\"," +
