@@ -266,6 +266,9 @@
                             </manifestEntries>
                             <addMavenDescriptor>false</addMavenDescriptor>
                         </archive>
+                        <excludes>
+                            <exclude>log4j2.xml</exclude>
+                        </excludes>
                     </configuration>
                     <executions>
                         <execution>
