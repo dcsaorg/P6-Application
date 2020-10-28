@@ -2,10 +2,8 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import org.dcsa.portcall.db.tables.Port;
 import org.jooq.DSLContext;
-import org.jooq.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
-import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
+import static org.dcsa.portcall.db.tables.DelayCode.DELAY_CODE;
 import static org.dcsa.portcall.db.tables.Port.PORT;
+import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
 import static org.dcsa.portcall.db.tables.Terminal.TERMINAL;
 import static org.dcsa.portcall.db.tables.Vessel.VESSEL;
-import static org.dcsa.portcall.db.tables.DelayCode.DELAY_CODE;
 
 /**
  * <p>&copy; 2020 <a href="http://www.ponton.de" target="_blank">PONTON GmbH</a></p>
@@ -61,7 +58,6 @@ public class DownloadController {
 
     /**
      * Requests report in JOOQ SQL
-     * @return
      */
 
     private String loadTimestampsFromDb() {
@@ -105,42 +101,42 @@ public class DownloadController {
     }
 
     private String loadTimestampsFromDbPlainSql(){
-        String sql = "select \n" +
-                "\tpct.id \t\t\t\t\t\tas \"ID\",\n" +
-                "\tv.\"name\" \t\t\t\t\tas \"Vessel\",\n" +
-                "\tv.imo \t\t\t\t\t\tas \"IMO\",\n" +
-                "\tv.teu\t\t\t\t\t\tas \"TEU\",\n" +
-                "\tv.service_name_code\t\t\tas \"Service Name\",\n" +
-                "\tport_previous.un_locode\t\tas \"Port Privious\",\n" +
-                "\tport_next.un_location\t\tas \"Port Next\",\n" +
-                "\tpct.direction\t\t\t\tas \"Direction\",\n" +
-                "\tport_of_call.un_locode\t\tas \"Port of Call\",\n" +
-                "\tport_of_call.timezone\t\tas \"Port of Call Timezone\",\n" +
-                "\tt.smdg_code\t\t\t\t\tas \"Terminal\",\n" +
-                "\tt.terminal_name\t\t\t\tas \"Terminal Name\",\n" +
-                "\tt.terminal_operator\t\t\tas \"Terminal Operator\",\n" +
-                "\tpct.timestamp_type\t\t\tas \"Event Message\",\n" +
-                "\tpct.event_timestamp\t\n" +
-                "\t\tat time zone replace(port_of_call.timezone, '+','-')\t\t\n" +
-                "\t\t\t\t\t\t\t\tas \"Event Timestamp (POC Timezone)\",\n" +
-                "\tpct.event_timestamp\n" +
-                "\t\tat time zone 'UTC'\n" +
-                "\t\t\t\t\t\t\t\tas \"Event Timestamp (UTC)\",\n" +
-                "\tpct.log_of_timestamp\t\t\n" +
-                "\t\tat time zone replace(port_of_call.timezone, '+','-')\n" +
-                "\t\t\t\t\t\t\t\tas \"Log of Timestamp (POC Timezone)\",\n" +
-                "\tpct.log_of_timestamp\n" +
-                "\t\tat time zone 'UTC'\t\n" +
-                "\t\t\t\t\t\t\t\tas \"Log of Timestamp (UTC)\",\n" +
-                "\tdc.smdg_code\t\t\t\tas \"Root cause (SMDG Code)\",\n" +
-                "\tpct.change_comment\t\t\tas \"Change Comment\"\n" +
-                "\tfrom port_call_timestamp pct\n" +
-                "join port as port_of_call on pct.port_of_call = port_of_call.id\n" +
-                "join port as port_previous on pct.port_previous = port_previous.id\n" +
-                "join port as port_next on pct.port_next = port_next.id\n" +
-                "join terminal as t on pct.terminal = t.id\n" +
-                "join vessel as v on pct.vessel = v.id\n" +
-                "left join delay_code dc on pct.delay_code = pct.id\n" +
+        String sql = "select " +
+                "	pct.id 						as \"ID\"," +
+                "	v.name 					    as \"Vessel\"," +
+                "	v.imo 						as \"IMO\"," +
+                "	v.teu						as \"TEU\"," +
+                "	v.service_name_code			as \"Service Name\"," +
+                "	port_previous.un_locode		as \"Port Privious\"," +
+                "	port_next.un_location		as \"Port Next\"," +
+                "	pct.direction				as \"Direction\"," +
+                "	port_of_call.un_locode		as \"Port of Call\"," +
+                "	port_of_call.timezone		as \"Port of Call Timezone\"," +
+                "	t.smdg_code					as \"Terminal\"," +
+                "	t.terminal_name				as \"Terminal Name\"," +
+                "	t.terminal_operator			as \"Terminal Operator\"," +
+                "	pct.timestamp_type			as \"Event Message\"," +
+                "	pct.event_timestamp	" +
+                "		at time zone replace(port_of_call.timezone, '+','-')		" +
+                "								as \"Event Timestamp (POC Timezone)\"," +
+                "	pct.event_timestamp" +
+                "		at time zone 'UTC'" +
+                "								as \"Event Timestamp (UTC)\"," +
+                "	pct.log_of_timestamp		" +
+                "		at time zone replace(port_of_call.timezone, '+','-')" +
+                "								as \"Log of Timestamp (POC Timezone)\"," +
+                "	pct.log_of_timestamp" +
+                "		at time zone 'UTC'	" +
+                "								as \"Log of Timestamp (UTC)\"," +
+                "	dc.smdg_code				as \"Root cause (SMDG Code)\"," +
+                "	pct.change_comment			as \"Change Comment\"" +
+                "from port_call_timestamp pct " +
+                "join port as port_of_call on pct.port_of_call = port_of_call.id " +
+                "join port as port_previous on pct.port_previous = port_previous.id " +
+                "join port as port_next on pct.port_next = port_next.id " +
+                "join terminal as t on pct.terminal = t.id " +
+                "join vessel as v on pct.vessel = v.id " +
+                "left join delay_code dc on pct.delay_code = pct.id " +
                 "order by event_timestamp";
 
         return this.dsl.fetch(sql).formatCSV();
