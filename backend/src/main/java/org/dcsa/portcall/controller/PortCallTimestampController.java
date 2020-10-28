@@ -12,15 +12,18 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.model.ClassifierCode;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
+import org.dcsa.portcall.util.TimeZoneConverter;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.impl.DSL;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
@@ -47,12 +50,13 @@ public class PortCallTimestampController {
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
     public List<PortCallTimestamp> listPortCallTimestamps(@PathVariable int vesselId) {
-        return dsl.select()
+        List<PortCallTimestamp> timestamps = dsl.select()
                 .from(PORT_CALL_TIMESTAMP)
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
                 .fetch()
                 .into(PortCallTimestamp.class);
+        return timestamps;
     }
 
     @GetMapping("/highestTimestampId/{vesselId}")
@@ -70,8 +74,19 @@ public class PortCallTimestampController {
     @Transactional
     public PortCallTimestamp addPortCallTimestamp(@PathVariable int vesselId, @RequestBody PortCallTimestamp portCallTimestamp) {
 
+        // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp
+        OffsetDateTime eventTimeStampAtPoc =
+                TimeZoneConverter.convertToTimezone(portCallTimestamp.getEventTimestamp(),
+                        new PortController(this.dsl).getPortById(portCallTimestamp.getPortOfCall()));
+
+        // Calculate received UTC Timestamp to Time Zone of PotOfCall for Log of TimeStamp
+        OffsetDateTime logOfTimeStampAtPoc =
+                TimeZoneConverter.convertToTimezone(portCallTimestamp.getLogOfTimestamp(),
+                        new PortController(this.dsl).getPortById(portCallTimestamp.getPortOfCall()));
+
         List<PortCallTimestamp> timestampsOfVessel = listPortCallTimestamps(vesselId);
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
+
         Record1<Integer> id =
                 dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
                         PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_PREVIOUS, PORT_CALL_TIMESTAMP.PORT_NEXT,
@@ -80,7 +95,7 @@ public class PortCallTimestampController {
                         PORT_CALL_TIMESTAMP.CHANGE_COMMENT, PORT_CALL_TIMESTAMP.DELAY_CODE, PORT_CALL_TIMESTAMP.CALL_SEQUENCE)
                         .values(vesselId,
                                 portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortPrevious(), portCallTimestamp.getPortNext(),
-                                portCallTimestamp.getTimestampType(), portCallTimestamp.getEventTimestamp(), portCallTimestamp.getLogOfTimestamp(),
+                                portCallTimestamp.getTimestampType(), eventTimeStampAtPoc, logOfTimeStampAtPoc,
                                 portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
                                 portCallTimestamp.getChangeComment(), portCallTimestamp.getDelayCode(), seq)
                         .returningResult(PORT_CALL_TIMESTAMP.ID)

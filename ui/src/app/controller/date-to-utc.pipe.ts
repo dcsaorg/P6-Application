@@ -10,10 +10,10 @@ export class DateToUtcPipe implements PipeTransform {
     if (typeof localDate === "string") {
       return localDate
     } else {
-
+      console.log(localDate.getDate());
       return new Date(Date.UTC(localDate.getFullYear(),
         localDate.getMonth(),
-        localDate.getDay(),
+        localDate.getDate(),
         localDate.getHours(),
         localDate.getMinutes(),
         localDate.getSeconds()));

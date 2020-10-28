@@ -13,7 +13,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
 import {DelayCode} from "../../model/delayCode";
 import {DateToUtcPipe} from "../../controller/date-to-utc.pipe";
-import {UtcToLocalDatePipe} from "../../controller/utc-to-local-date.pipe";
+
 
 
 @Component({
@@ -128,7 +128,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   private updatePortCallTimeStampToBeEdited() {
-    const utcToLocalDate = new UtcToLocalDatePipe();
+
     this.portcallTimestampService.getPortcallTimestamps(this.vesselId).subscribe(portCallTimeStamps => {
       const lastTimeStampIndex = portCallTimeStamps.length - 1;
       const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
@@ -137,8 +137,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
         newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
         newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
-        newPortcallTimestamp.logOfTimestamp =  utcToLocalDate.transform(new Date(newPortcallTimestamp.logOfTimestamp));
-        newPortcallTimestamp.eventTimestamp = utcToLocalDate.transform( new Date(newPortcallTimestamp.eventTimestamp));
+
+        //ToDo switch time zone to local time zone, quick fix to show last time at port of call
+        newPortcallTimestamp.logOfTimestamp =  new Date(newPortcallTimestamp.logOfTimestamp);
+        newPortcallTimestamp.eventTimestamp =  new Date(newPortcallTimestamp.eventTimestamp);
         newPortcallTimestamp.changeComment = ""
 
         this.selectPortOfCall(newPortcallTimestamp.portOfCall.id);

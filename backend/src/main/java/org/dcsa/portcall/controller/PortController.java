@@ -33,7 +33,7 @@ public class PortController {
 
     }
 
-    @GetMapping("/{searchString}")
+    @GetMapping("/find/{searchString}")
     @Transactional(readOnly = true)
     public List<Port> findPorts(@PathVariable String searchString){
         return dsl.select()
@@ -41,6 +41,16 @@ public class PortController {
                 .where(PORT.UN_LOCODE.like(searchString))
                 .or(PORT.NAME.like(searchString))
                 .fetch()
+                .into(Port.class);
+    }
+
+    @GetMapping("/{portId}")
+    @Transactional(readOnly = true)
+    public Port getPortById(@PathVariable int portId){
+        return dsl.select()
+                .from(PORT)
+                .where(PORT.ID.eq(portId))
+                .fetchOne()
                 .into(Port.class);
     }
 

@@ -36,7 +36,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { InstructionsComponent } from './view/instructions/instructions.component';
 import {DialogModule} from "primeng/dialog";
 import { DateToUtcPipe } from './controller/date-to-utc.pipe';
-import { UtcToLocalDatePipe } from './controller/utc-to-local-date.pipe';
+import { TimestampToTimezonePipe } from './controller/timeStampToTimeZone.pipe';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,7 @@ import { UtcToLocalDatePipe } from './controller/utc-to-local-date.pipe';
     VesselEditorComponent,
     InstructionsComponent,
     DateToUtcPipe,
-    UtcToLocalDatePipe,
+    TimestampToTimezonePipe,
   ],
     imports: [
         AppRoutingModule,

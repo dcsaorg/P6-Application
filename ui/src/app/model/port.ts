@@ -4,4 +4,5 @@ export interface Port {
   unCountry: string;
   unLocode: string;
   unLocation: string;
+  timezone: string;
 }
