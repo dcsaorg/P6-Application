@@ -116,6 +116,7 @@ public class DownloadController {
                 "	t.terminal_name				as \"Terminal Name\"," +
                 "	t.terminal_operator			as \"Terminal Operator\"," +
                 "	pct.timestamp_type			as \"Event Message\"," +
+                "   pct.call_sequence+1         as \"Event Sequence\","+
                 "	pct.event_timestamp	" +
                 "		at time zone replace(port_of_call.timezone, '+','-')		" +
                 "								as \"Event Timestamp (POC Timezone)\"," +
@@ -136,7 +137,7 @@ public class DownloadController {
                 "join port as port_next on pct.port_next = port_next.id " +
                 "join terminal as t on pct.terminal = t.id " +
                 "join vessel as v on pct.vessel = v.id " +
-                "left join delay_code dc on pct.delay_code = pct.id " +
+                "left join delay_code dc on pct.delay_code = dc.id " +
                 "order by event_timestamp";
 
         return this.dsl.fetch(sql).formatCSV();
