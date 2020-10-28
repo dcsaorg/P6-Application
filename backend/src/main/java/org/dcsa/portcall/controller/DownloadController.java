@@ -120,15 +120,17 @@ public class DownloadController {
                 "\tt.terminal_name\t\t\t\tas \"Terminal Name\",\n" +
                 "\tt.terminal_operator\t\t\tas \"Terminal Operator\",\n" +
                 "\tpct.timestamp_type\t\t\tas \"Event Message\",\n" +
-                "\tpct.event_timestamp\t\t\tas \"Event Timestamp (POC Timezone)\",\n" +
+                "\tpct.event_timestamp\t\n" +
+                "\t\tat time zone replace(port_of_call.timezone, '+','-')\t\t\n" +
+                "\t\t\t\t\t\t\t\tas \"Event Timestamp (POC Timezone)\",\n" +
                 "\tpct.event_timestamp\n" +
                 "\t\tat time zone 'UTC'\n" +
-                "\t\tat time zone port_of_call.timezone\n" +
                 "\t\t\t\t\t\t\t\tas \"Event Timestamp (UTC)\",\n" +
-                "\tpct.log_of_timestamp\t\tas \"Log of Timestamp (POC Timezone)\",\n" +
+                "\tpct.log_of_timestamp\t\t\n" +
+                "\t\tat time zone replace(port_of_call.timezone, '+','-')\n" +
+                "\t\t\t\t\t\t\t\tas \"Log of Timestamp (POC Timezone)\",\n" +
                 "\tpct.log_of_timestamp\n" +
-                "\t\tat time zone 'UTC'\n" +
-                "\t\tat time zone port_of_call.timezone\n" +
+                "\t\tat time zone 'UTC'\t\n" +
                 "\t\t\t\t\t\t\t\tas \"Log of Timestamp (UTC)\",\n" +
                 "\tdc.smdg_code\t\t\t\tas \"Root cause (SMDG Code)\",\n" +
                 "\tpct.change_comment\t\t\tas \"Change Comment\"\n" +
@@ -138,7 +140,8 @@ public class DownloadController {
                 "join port as port_next on pct.port_next = port_next.id\n" +
                 "join terminal as t on pct.terminal = t.id\n" +
                 "join vessel as v on pct.vessel = v.id\n" +
-                "left join delay_code dc on pct.delay_code = pct.id";
+                "left join delay_code dc on pct.delay_code = pct.id\n" +
+                "order by event_timestamp";
 
         return this.dsl.fetch(sql).formatCSV();
     }
