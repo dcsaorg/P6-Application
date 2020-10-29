@@ -22,5 +22,46 @@ spring:
   jooq:
     sql-dialect: postgres
 
+management:
+  auditevents:
+    enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    auditevents:
+      enabled: true
+    beans:
+      enabled: true
+    configprops:
+      enabled: true
+    env:
+      enabled: true
+    flyway:
+      enabled: true
+    health:
+      enabled: true
+    httptrace:
+      enabled: true
+    info:
+      enabled: true
+    integrationgraph:
+      enabled: true
+    logfile:
+      enabled: true
+      external-file: logs/dcsa.log
+    loggers:
+      enabled: true
+    metrics:
+      enabled: true
+    mappings:
+      enabled: true
+    sessions:
+      enabled: true
+
+springdoc:
+  show-actuator: true
+
 dcsa:
   company: Development
