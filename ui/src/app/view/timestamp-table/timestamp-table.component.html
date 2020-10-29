@@ -17,7 +17,6 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 2%">#</th>
       <th style="width: 7%" pSortableColumn="timestampType"
           pTooltip="An estimated, requested, planned or actual timestamp of an event"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass">Timestamp
@@ -88,7 +87,6 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 2%">{{ timestamp.id }}</td>
       <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
       <td>{{ timestamp.callSequence + 1 }}</td>
       <td>{{ timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}</td>
