@@ -561,3 +561,6 @@ VALUES ('Ho Chi Minh City', 'VN', 'VNSGN', 'SGN')
      , ('Port of Ngqura', 'ZA', 'ZANGQ', 'NGQ')
      , ('Port Elizabeth', 'ZA', 'ZAPLZ', 'PLZ')
 ;
+
+
+update PORT set timezone = 'UTC' where timezone is null
