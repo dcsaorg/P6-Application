@@ -12,15 +12,17 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.dcsa.portcall.model.ClassifierCode;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.dcsa.portcall.util.TimeZoneConverter;
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.Record1;
+import org.jooq.Result;
 import org.jooq.impl.DSL;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +33,6 @@ import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
 
 /**
  * <p>&copy; 2020 <a href="http://www.ponton.de" target="_blank">PONTON GmbH</a></p>
- * <p>
- * [description of the class]
- *
- * @author <a href="[bischof@ponton.de]">[Paul Bischof]</a>
- * @version 15.10.2020
- * [potential @see links]
  */
 @RestController
 @RequestMapping("/portcalltimestamps")
@@ -51,18 +47,27 @@ public class PortCallTimestampController {
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
     public List<PortCallTimestamp> listPortCallTimestamps(@PathVariable int vesselId) {
-        List<PortCallTimestamp> timestamps = dsl.select()
+        log.info("Listing all port call timestamps for vessel {}", vesselId);
+        Result<Record> timestamps = dsl.select()
                 .from(PORT_CALL_TIMESTAMP)
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
-                .fetch()
-                .into(PortCallTimestamp.class);
-        return timestamps;
+                .fetch();
+
+        if (timestamps == null) {
+            String msg = String.format("No timestamps with vessel id %s found", vesselId);
+            log.error(msg);
+            throw new PortCallException(HttpStatus.NOT_FOUND, msg);
+        } else {
+            log.debug("Loaded timestamps with vessel id {}", vesselId);
+            return timestamps.into(PortCallTimestamp.class);
+        }
     }
 
     @GetMapping("/highestTimestampId/{vesselId}")
     @Transactional(readOnly = true)
     public Integer getHighestTimestampId(@PathVariable int vesselId) {
+        log.info("Loading highest timestamp id of port call timestamps with vessel id {} ", vesselId);
         Record1<Integer> highestIdRecord = dsl.select(DSL.max(PORT_CALL_TIMESTAMP.ID))
                 .from(PORT_CALL_TIMESTAMP)
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
@@ -127,7 +132,6 @@ public class PortCallTimestampController {
     private int calculatePortCallSequence(List<PortCallTimestamp> timestamps, PortCallTimestamp newTimeStamp) {
 
         int seq = 0;
-
 
         PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
         if (lastTimestamp != null) {

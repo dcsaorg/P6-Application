@@ -1,5 +1,7 @@
 package org.dcsa.portcall.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -18,6 +20,7 @@ import static org.dcsa.portcall.db.tables.Vessel.VESSEL;
 @RequestMapping("/vessels")
 public class VesselController {
 
+    private static final Logger log = LogManager.getLogger(VesselController.class);
     private final DSLContext dsl;
 
     public VesselController(DSLContext dsl) {
@@ -27,6 +30,7 @@ public class VesselController {
     @GetMapping
     @Transactional(readOnly = true)
     public List<Vessel> listVessels() {
+        log.info("Fetching all vessels");
         return dsl.select()
                 .from(VESSEL)
                 .orderBy(VESSEL.NAME.asc())
@@ -37,14 +41,18 @@ public class VesselController {
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
     public Vessel getVessel(@PathVariable int vesselId) {
+        log.info("Loading vessel with id {}", vesselId);
         Record vessel = dsl.select()
                 .from(VESSEL)
                 .where(VESSEL.ID.eq(vesselId))
                 .fetchOne();
 
         if (vessel == null) {
-            throw new PortCallException(HttpStatus.NOT_FOUND, "Vessel with the id " + vesselId + " not found");
+            String msg = String.format("Vessel with the id %s not found", vesselId);
+            log.error(msg);
+            throw new PortCallException(HttpStatus.NOT_FOUND, msg);
         } else {
+            log.debug("Loaded vessel with id {}", vesselId);
             return vessel.into(Vessel.class);
         }
     }
@@ -52,6 +60,7 @@ public class VesselController {
     @PostMapping("")
     @Transactional
     public Vessel addVessel(@RequestBody Vessel vessel) {
+        log.info("Adding vessel name: {}, imo: {}, teu:{}, service name: {}", vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceNameCode());
         try {
             Record1<Integer> id = dsl.insertInto(VESSEL, VESSEL.NAME, VESSEL.IMO, VESSEL.TEU, VESSEL.SERVICE_NAME_CODE)
                     .values(vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceNameCode())
@@ -73,20 +82,38 @@ public class VesselController {
     @PutMapping("/{vesselId}")
     @Transactional
     public void editVessel(@PathVariable int vesselId, @RequestBody Vessel vessel) {
-        dsl.update(VESSEL)
+        log.info("Updating vessel with id {}. Values name: {}, imo: {}, teu:{}, service name: {}",
+                vesselId, vessel.getName(), vessel.getImo(), vessel.getTeu(), vessel.getServiceNameCode());
+        int result = dsl.update(VESSEL)
                 .set(VESSEL.NAME, vessel.getName())
                 .set(VESSEL.IMO, vessel.getImo())
                 .set(VESSEL.TEU, vessel.getTeu())
                 .set(VESSEL.SERVICE_NAME_CODE, vessel.getServiceNameCode())
                 .where(VESSEL.ID.eq(vesselId))
                 .execute();
+        if (result != 1) {
+            String msg = String.format("Could not update vessel with id %s", vesselId);
+            log.error(msg);
+            throw new PortCallException(HttpStatus.BAD_REQUEST, msg);
+        } else {
+            log.debug("Vessel {} successfully updated", vesselId);
+        }
+
     }
 
     @DeleteMapping("/{vesselId}")
     @Transactional
     public void deleteVessel(@PathVariable int vesselId) {
-        dsl.delete(VESSEL)
+        int result = dsl.delete(VESSEL)
                 .where(VESSEL.ID.eq(vesselId))
                 .execute();
+
+        if (result != 1) {
+            String msg = String.format("Could not delete vessel with id %s", vesselId);
+            log.error(msg);
+            throw new PortCallException(HttpStatus.BAD_REQUEST, msg);
+        } else {
+            log.debug("Vessel {} successfully deleted", vesselId);
+        }
     }
 }

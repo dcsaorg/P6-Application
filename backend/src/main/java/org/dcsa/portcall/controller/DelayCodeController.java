@@ -1,5 +1,7 @@
 package org.dcsa.portcall.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.DelayCode;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -18,6 +20,7 @@ import static org.dcsa.portcall.db.tables.DelayCode.DELAY_CODE;
 @RequestMapping("/delaycodes")
 public class DelayCodeController {
 
+    private static final Logger log = LogManager.getLogger(DelayCodeController.class);
     private final DSLContext dsl;
 
     public DelayCodeController(DSLContext dsl){
@@ -27,14 +30,18 @@ public class DelayCodeController {
     @GetMapping("/{delayCodeId}")
     @Transactional(readOnly = true)
     public DelayCode getDelayCode(@PathVariable int delayCodeId) {
+        log.info("Loading delay code with id {}", delayCodeId);
         Record delayCode = dsl.select()
                 .from(DELAY_CODE)
                 .where(DELAY_CODE.ID.eq(delayCodeId))
                 .fetchOne();
 
         if (delayCode == null) {
-            throw new PortCallException(HttpStatus.NOT_FOUND, "Delay code with the id " + delayCode + " not found");
+            String msg = String.format("Delay code with the id %s not found", delayCodeId);
+            log.error(msg);
+            throw new PortCallException(HttpStatus.NOT_FOUND, msg);
         } else {
+            log.debug("Loaded delay code with id {}", delayCodeId);
             return delayCode.into(DelayCode.class);
         }
     }{}
