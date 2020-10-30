@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class DateToUtcPipe implements PipeTransform {
 
-  transform(localDate: Date | string, ...args: unknown[]): Date | string {
+  transform(localDate: Date | string): Date | string {
 
     if (typeof localDate === "string") {
       return localDate

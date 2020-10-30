@@ -28,6 +28,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('terminals') terminals: Terminal[];
   @Input('delayCodes') delayCodes: DelayCode[];
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
+  en:any;
 
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
 
@@ -83,6 +84,19 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updatePortCallTimeStampToBeEdited();
+
+    // Workaround to change Calendr button "today" to "now"
+
+    this.en = {
+      firstDayOfWeek: 0,
+      dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      today: 'Now',
+      clear: 'Clear'
+    };
+
   }
 
   savePortcallTimestamp(portcallTimestamp: PortcallTimestamp, vesselId: number) {
