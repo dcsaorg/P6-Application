@@ -16,6 +16,7 @@ import {DateToUtcPipe} from "../../controller/date-to-utc.pipe";
 
 
 
+
 @Component({
   selector: 'app-timestamp-editor',
   templateUrl: './timestamp-editor.component.html',
@@ -40,8 +41,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     id: null,
     timestampType: null,
     callSequence: null,
-    logOfTimestamp: new Date(),
-    eventTimestamp: new Date(),
+    logOfTimestamp: null,
+    eventTimestamp: null,
     direction: null,
     locationId: '',
     portPrevious: null,
@@ -153,8 +154,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
 
         //ToDo switch time zone to local time zone, quick fix to show last time at port of call
-        newPortcallTimestamp.logOfTimestamp =  new Date(newPortcallTimestamp.logOfTimestamp);
-        newPortcallTimestamp.eventTimestamp =  new Date(newPortcallTimestamp.eventTimestamp);
+
+        newPortcallTimestamp.logOfTimestamp =  null;
+        newPortcallTimestamp.eventTimestamp =  null
         newPortcallTimestamp.changeComment = ""
 
         this.selectPortOfCall(newPortcallTimestamp.portOfCall.id);
