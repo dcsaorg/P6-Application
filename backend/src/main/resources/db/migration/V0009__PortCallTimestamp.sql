@@ -2,6 +2,7 @@ CREATE TABLE port_call_timestamp
 (
     id               serial                   NOT NULL,
     vessel           integer                  NOT NULL,
+    vessel_service_name     varchar(255)      NULL,
     port_of_call     integer                  NOT NULL,
     port_previous    integer                  NOT NULL,
     port_next        integer                  NOT NULL,

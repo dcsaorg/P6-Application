@@ -7,6 +7,7 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,7 +73,7 @@ public class DownloadController {
                 VESSEL.NAME.as("Vessel Name"),
                 VESSEL.IMO,
                 VESSEL.TEU.as("Vessel Size (TEU)"),
-                VESSEL.SERVICE_NAME_CODE.as("Service Name"),
+                PORT_CALL_TIMESTAMP.VESSEL_SERVICE_NAME.as("Service Name"),
                 port_previous.UN_LOCODE.as("From Port"),
                 port_next.UN_LOCODE.as("To Port"),
                 PORT_CALL_TIMESTAMP.DIRECTION,
@@ -110,7 +111,7 @@ public class DownloadController {
                 "	v.name 					    as \"Vessel\"," +
                 "	v.imo 						as \"IMO\"," +
                 "	v.teu						as \"TEU\"," +
-                "	v.service_name_code			as \"Service Name\"," +
+                "	pct.vessel_service_name     as \"Service Name\"," +
                 "	port_previous.un_locode		as \"Port Privious\"," +
                 "	port_next.un_location		as \"Port Next\"," +
                 "	pct.direction				as \"Direction\"," +

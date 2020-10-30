@@ -18,7 +18,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row15;
+import org.jooq.Row16;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
-    private static final long serialVersionUID = -2068158251;
+    private static final long serialVersionUID = 1650466427;
 
     /**
      * The reference instance of <code>public.port_call_timestamp</code>
@@ -58,6 +58,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
      * The column <code>public.port_call_timestamp.vessel</code>.
      */
     public final TableField<PortCallTimestampRecord, Integer> VESSEL = createField(DSL.name("vessel"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>public.port_call_timestamp.vessel_service_name</code>.
+     */
+    public final TableField<PortCallTimestampRecord, String> VESSEL_SERVICE_NAME = createField(DSL.name("vessel_service_name"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.port_of_call</code>.
@@ -233,11 +238,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row15 type methods
+    // Row16 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row15<Integer, Integer, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
-        return (Row15) super.fieldsRow();
+    public Row16<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
+        return (Row16) super.fieldsRow();
     }
 }

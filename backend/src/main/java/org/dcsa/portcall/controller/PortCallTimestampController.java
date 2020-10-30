@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
+import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.dcsa.portcall.model.ClassifierCode;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.dcsa.portcall.util.TimeZoneConverter;
@@ -73,7 +74,7 @@ public class PortCallTimestampController {
     @PostMapping("/{vesselId}")
     @Transactional
     public PortCallTimestamp addPortCallTimestamp(@PathVariable int vesselId, @RequestBody PortCallTimestamp portCallTimestamp) {
-
+        log.info("add PortCall Timestamp requested for vessel ID [" + vesselId + "]");
         // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp
         OffsetDateTime eventTimeStampAtPoc =
                 TimeZoneConverter.convertToTimezone(portCallTimestamp.getEventTimestamp(),
@@ -83,25 +84,39 @@ public class PortCallTimestampController {
         OffsetDateTime logOfTimeStampAtPoc =
                 TimeZoneConverter.convertToTimezone(portCallTimestamp.getLogOfTimestamp(),
                         new PortController(this.dsl).getPortById(portCallTimestamp.getPortOfCall()));
+        log.info("Set timezone for Event Timestamp [" + eventTimeStampAtPoc + "] and log of timestamp [" + logOfTimeStampAtPoc + "]");
 
         List<PortCallTimestamp> timestampsOfVessel = listPortCallTimestamps(vesselId);
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
-        Record1<Integer> id =
-                dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
-                        PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_PREVIOUS, PORT_CALL_TIMESTAMP.PORT_NEXT,
-                        PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.LOG_OF_TIMESTAMP,
-                        PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL, PORT_CALL_TIMESTAMP.LOCATION_ID,
-                        PORT_CALL_TIMESTAMP.CHANGE_COMMENT, PORT_CALL_TIMESTAMP.DELAY_CODE, PORT_CALL_TIMESTAMP.CALL_SEQUENCE)
-                        .values(vesselId,
-                                portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortPrevious(), portCallTimestamp.getPortNext(),
-                                portCallTimestamp.getTimestampType(), eventTimeStampAtPoc, logOfTimeStampAtPoc,
-                                portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
-                                portCallTimestamp.getChangeComment(), portCallTimestamp.getDelayCode(), seq)
-                        .returningResult(PORT_CALL_TIMESTAMP.ID)
-                        .fetchOne();
-        portCallTimestamp.setId(id.value1());
-        return portCallTimestamp;
+        // Get Vessel
+
+
+        try {
+
+            Vessel vessel = new VesselController(this.dsl).getVessel(vesselId);
+            Record1<Integer> id =
+                    dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
+                            PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_PREVIOUS, PORT_CALL_TIMESTAMP.PORT_NEXT,
+                            PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.LOG_OF_TIMESTAMP,
+                            PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL, PORT_CALL_TIMESTAMP.LOCATION_ID,
+                            PORT_CALL_TIMESTAMP.CHANGE_COMMENT, PORT_CALL_TIMESTAMP.DELAY_CODE, PORT_CALL_TIMESTAMP.CALL_SEQUENCE, PORT_CALL_TIMESTAMP.VESSEL_SERVICE_NAME)
+                            .values(vesselId,
+                                    portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortPrevious(), portCallTimestamp.getPortNext(),
+                                    portCallTimestamp.getTimestampType(), eventTimeStampAtPoc, logOfTimeStampAtPoc,
+                                    portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
+                                    portCallTimestamp.getChangeComment(), portCallTimestamp.getDelayCode(), seq, vessel.getServiceNameCode())
+                            .returningResult(PORT_CALL_TIMESTAMP.ID)
+                            .fetchOne();
+            portCallTimestamp.setId(id.value1());
+            log.info("Portcall Timestamp added with ID ["+id.value1()+"]");
+            return portCallTimestamp;
+        } catch (Exception e) {
+            log.error("Error adding new Portcall Timestamp "+e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     /**

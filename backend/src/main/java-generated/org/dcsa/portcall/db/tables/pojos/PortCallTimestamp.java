@@ -17,10 +17,11 @@ import org.dcsa.portcall.db.enums.PortCallTimestampType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp implements Serializable {
 
-    private static final long serialVersionUID = 1306274509;
+    private static final long serialVersionUID = 973216645;
 
     private Integer               id;
     private Integer               vessel;
+    private String                vesselServiceName;
     private Integer               portOfCall;
     private Integer               portPrevious;
     private Integer               portNext;
@@ -40,6 +41,7 @@ public class PortCallTimestamp implements Serializable {
     public PortCallTimestamp(PortCallTimestamp value) {
         this.id = value.id;
         this.vessel = value.vessel;
+        this.vesselServiceName = value.vesselServiceName;
         this.portOfCall = value.portOfCall;
         this.portPrevious = value.portPrevious;
         this.portNext = value.portNext;
@@ -58,6 +60,7 @@ public class PortCallTimestamp implements Serializable {
     public PortCallTimestamp(
         Integer               id,
         Integer               vessel,
+        String                vesselServiceName,
         Integer               portOfCall,
         Integer               portPrevious,
         Integer               portNext,
@@ -74,6 +77,7 @@ public class PortCallTimestamp implements Serializable {
     ) {
         this.id = id;
         this.vessel = vessel;
+        this.vesselServiceName = vesselServiceName;
         this.portOfCall = portOfCall;
         this.portPrevious = portPrevious;
         this.portNext = portNext;
@@ -104,6 +108,15 @@ public class PortCallTimestamp implements Serializable {
 
     public PortCallTimestamp setVessel(Integer vessel) {
         this.vessel = vessel;
+        return this;
+    }
+
+    public String getVesselServiceName() {
+        return this.vesselServiceName;
+    }
+
+    public PortCallTimestamp setVesselServiceName(String vesselServiceName) {
+        this.vesselServiceName = vesselServiceName;
         return this;
     }
 
@@ -230,6 +243,7 @@ public class PortCallTimestamp implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(vessel);
+        sb.append(", ").append(vesselServiceName);
         sb.append(", ").append(portOfCall);
         sb.append(", ").append(portPrevious);
         sb.append(", ").append(portNext);
