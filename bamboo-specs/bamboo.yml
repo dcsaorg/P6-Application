@@ -5,6 +5,8 @@ plan:
   key: APP
   name: Build the PortCall application
 
+triggers:
+  - polling: 300
 
 stages:
   - Build Application:
