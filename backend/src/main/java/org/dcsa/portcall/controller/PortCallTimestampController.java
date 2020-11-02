@@ -114,10 +114,10 @@ public class PortCallTimestampController {
                             .returningResult(PORT_CALL_TIMESTAMP.ID)
                             .fetchOne();
             portCallTimestamp.setId(id.value1());
-            log.info("Portcall Timestamp added with ID ["+id.value1()+"]");
+            log.info("Portcall Timestamp added with ID [" + id.value1() + "]");
             return portCallTimestamp;
         } catch (Exception e) {
-            log.error("Error adding new Portcall Timestamp "+e.getMessage());
+            log.error("Error adding new Portcall Timestamp " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -138,12 +138,10 @@ public class PortCallTimestampController {
             seq = lastTimestamp.getCallSequence();
             ClassifierCode lastClassType = PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType());
             if (lastClassType.equals(ClassifierCode.REQ) || lastClassType.equals(ClassifierCode.PLA)) {
-                if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.REQ)) {
+                if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.REQ) ||
+                        PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.EST)) {
                     seq++;
                 }
-            }   // Reset to 0 if Classifiercode ist EST
-            if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.EST)) {
-                seq = 0;
             }
 
             // Reset to 0 if Classifiercode of last Timestamp ist ACT
