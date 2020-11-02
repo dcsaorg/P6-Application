@@ -7,15 +7,24 @@
     </ng-template>
     <p>
       Below are the explanations of the timestamps. Please fill these timestamps as detailed as possible and add every
-      change that is communicated by the Terminal Operator, Port, or you as Carrier. This will give us a detailed view
-      of how often the estimated times of arrival, cargo operations and departure change. Note that for cargo
-      operations, not every change is absolutely necessary, just a good overview of the ETC 12 hours, 6 hours and 3
-      hours before the end. Thank you very much for your time and effort!
+      change that is communicated (e.g. by phone or e-mail) by the Terminal Operator, Port, or you as Carrier. This will
+      give us a detailed view of how often the estimated times of arrival, cargo operations and departure change. Note
+      that for cargo operations, not every change is absolutely necessary, just a good overview of the ETC 12 hours, 6
+      hours and 3 hours before the end. Services other than cargo operations do not need to be reported.
     </p>
+    <p>
+      We aim to receive full cycles of information for vessels over 2000TEU. Please consult with your internal contact
+      if you have questions about the scope or number of vessels you report. If you have any questions or see any bugs
+      or issues, please contact us via <a href="mailto:guido.debeer@dcsa.org">guido.debeer@dcsa.org</a>
 
+    </p>
+    <p>
+      Thank you very much for your time and effort!
+    </p>
+    <br/>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ETA BERTH</b></div>
-      <div class="p-col">Estimated time of arrival at berth of vessel</div>
+      <div class="p-col">Estimated time of arrival at berth of vessel, communicated by carrier</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>RTA BERTH</b></div>
@@ -23,7 +32,7 @@
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>PTA BERTH</b></div>
-      <div class="p-col">Planned time of arrival at berth. When a vessel operator (or his agent) confirmed the requested
+      <div class="p-col">Planned time of arrival at berth. When a vessel operator (or agent) confirmed the requested
         time of arrival berth to the terminal operator.
       </div>
     </div>
@@ -46,12 +55,12 @@
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATA PBP</b></div>
-      <div class="p-col">The actual time of arrival of the vessel at Berth
+      <div class="p-col">The actual time of arrival of the vessel at Pilot Boarding Place
       </div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATA BERTH</b></div>
-      <div class="p-col">The actual time of arrival of the vessel at pilot boarding place
+      <div class="p-col">The actual time of arrival of the vessel at Berth
       </div>
     </div>
     <div class="p-grid">
@@ -61,12 +70,15 @@
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ETC CARGO OPS</b></div>
-      <div class="p-col">Estimated time of completion cargo operations. The estimate is usually based on the estimated productivity to perform the total number of moves
+      <div class="p-col">Estimated time of completion cargo operations. The estimate is usually based on the estimated
+        productivity to perform the total number of moves
       </div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>RTC CARGO OPS</b></div>
-      <div class="p-col">The requested time at which the vessel operator or agent would like the cargo operations to finish (last commercial lift) e.g. The vessel operator might request an earlier departure in case of cut & run      </div>
+      <div class="p-col">The requested time at which the vessel operator or agent would like the cargo operations to
+        finish (last commercial lift) e.g. The vessel operator might request an earlier departure in case of cut & run
+      </div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>PTC CARGO OPS</b></div>
@@ -78,19 +90,21 @@
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ETD BERTH</b></div>
-      <div class="p-col">The estimated time of departure from the berth</div>
+      <div class="p-col">The estimated time of departure from the berth, as estimated by the agent or captain</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>RTD BERTH</b></div>
-      <div class="p-col">The requested time of departure from berth, as requested by the port authority </div>
+      <div class="p-col">The requested time of departure from berth, as requested by the port authority</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>PTD BERTH</b></div>
-      <div class="p-col">Planned time of departure of the vessel from berth. This is the confirmation from the vessel of the requested time of departure done by the vessel operator/agent or captain </div>
+      <div class="p-col">Planned time of departure of the vessel from berth. This is the confirmation from the vessel of
+        the requested time of departure done by the vessel operator/agent or captain
+      </div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATD BERTH</b></div>
-      <div class="p-col">Actual time of departure from berth </div>
+      <div class="p-col">Actual time of departure from berth</div>
     </div>
 
 
