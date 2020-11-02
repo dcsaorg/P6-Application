@@ -22,6 +22,7 @@ import org.jooq.Record;
 import org.jooq.Record1;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
+import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -79,7 +80,7 @@ public class PortCallTimestampController {
     @PostMapping("/{vesselId}")
     @Transactional
     public PortCallTimestamp addPortCallTimestamp(@PathVariable int vesselId, @RequestBody PortCallTimestamp portCallTimestamp) {
-        log.info("add PortCall Timestamp requested for vessel ID [" + vesselId + "]");
+        log.info("Add PortCall Timestamp requested for vessel id [{}]", vesselId);
         // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp
         OffsetDateTime eventTimeStampAtPoc =
                 TimeZoneConverter.convertToTimezone(portCallTimestamp.getEventTimestamp(),
@@ -89,16 +90,13 @@ public class PortCallTimestampController {
         OffsetDateTime logOfTimeStampAtPoc =
                 TimeZoneConverter.convertToTimezone(portCallTimestamp.getLogOfTimestamp(),
                         new PortController(this.dsl).getPortById(portCallTimestamp.getPortOfCall()));
-        log.info("Set timezone for Event Timestamp [" + eventTimeStampAtPoc + "] and log of timestamp [" + logOfTimeStampAtPoc + "]");
+        log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
 
         List<PortCallTimestamp> timestampsOfVessel = listPortCallTimestamps(vesselId);
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
         // Get Vessel
-
-
         try {
-
             Vessel vessel = new VesselController(this.dsl).getVessel(vesselId);
             Record1<Integer> id =
                     dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
@@ -114,12 +112,18 @@ public class PortCallTimestampController {
                             .returningResult(PORT_CALL_TIMESTAMP.ID)
                             .fetchOne();
             portCallTimestamp.setId(id.value1());
-            log.info("Portcall Timestamp added with ID [" + id.value1() + "]");
+            log.info("Portcall Timestamp added with id [{}]", id.value1());
             return portCallTimestamp;
         } catch (Exception e) {
-            log.error("Error adding new Portcall Timestamp " + e.getMessage());
-            e.printStackTrace();
-            return null;
+            String msg = String.format("Could not store port call timestamp: %s", e.getMessage());
+            log.error(msg, e);
+
+            PortCallException portCallException = new PortCallException(HttpStatus.CONFLICT, msg);
+            if (e.getCause() instanceof PSQLException) {
+                PSQLException cause = (PSQLException) e.getCause();
+                portCallException.getErrorResponse().addErrors(cause.getServerErrorMessage().getMessage());
+            }
+            throw portCallException;
         }
 
     }
