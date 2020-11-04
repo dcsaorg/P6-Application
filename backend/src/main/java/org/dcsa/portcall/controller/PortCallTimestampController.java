@@ -136,6 +136,8 @@ public class PortCallTimestampController {
     private int calculatePortCallSequence(List<PortCallTimestamp> timestamps, PortCallTimestamp newTimeStamp) {
 
         int seq = 0;
+        try {
+
 
         PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
         if (lastTimestamp != null) {
@@ -153,6 +155,9 @@ public class PortCallTimestampController {
                 seq = 0;
             }
 
+        }} catch (Exception e){
+            log.error("Error calculating sequence for new timestamp: "+e.getMessage());
+            e.printStackTrace();
         }
         return seq;
     }

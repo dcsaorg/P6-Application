@@ -21,6 +21,7 @@ public class PortcallTimestampTypeMapping {
         PORT_CALL_TIMESTAMP_TYPE_LOCATION_TYPE_CODE_MAP.put(PortCallTimestampType.ETD_Berth, LocationTypeCode.BERTH);
         PORT_CALL_TIMESTAMP_TYPE_LOCATION_TYPE_CODE_MAP.put(PortCallTimestampType.PTD_Berth, LocationTypeCode.BERTH);
         PORT_CALL_TIMESTAMP_TYPE_LOCATION_TYPE_CODE_MAP.put(PortCallTimestampType.RTD_Berth, LocationTypeCode.BERTH);
+        PORT_CALL_TIMESTAMP_TYPE_LOCATION_TYPE_CODE_MAP.put(PortCallTimestampType.ATS, LocationTypeCode.CARGO_OPS);
         PORT_CALL_TIMESTAMP_TYPE_LOCATION_TYPE_CODE_MAP.put(PortCallTimestampType.PTA_PBP, LocationTypeCode.PBP);
         PORT_CALL_TIMESTAMP_TYPE_LOCATION_TYPE_CODE_MAP.put(PortCallTimestampType.ATA_PBP, LocationTypeCode.PBP);
         PORT_CALL_TIMESTAMP_TYPE_LOCATION_TYPE_CODE_MAP.put(PortCallTimestampType.ETA_PBP, LocationTypeCode.PBP);
