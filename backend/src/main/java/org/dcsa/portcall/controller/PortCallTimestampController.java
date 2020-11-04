@@ -139,25 +139,25 @@ public class PortCallTimestampController {
         try {
 
 
-        PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
-        if (lastTimestamp != null) {
-            seq = lastTimestamp.getCallSequence();
-            ClassifierCode lastClassType = PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType());
-            if (lastClassType.equals(ClassifierCode.REQ) || lastClassType.equals(ClassifierCode.PLA)) {
-                if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.REQ) ||
-                        PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.EST)) {
-                    seq++;
+            PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
+            if (lastTimestamp != null) {
+                seq = lastTimestamp.getCallSequence();
+                ClassifierCode lastClassType = PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType());
+                if (lastClassType.equals(ClassifierCode.REQ) || lastClassType.equals(ClassifierCode.PLA)) {
+                    if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.REQ) ||
+                            PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.EST)) {
+                        seq++;
+                    }
                 }
-            }
 
-            // Reset to 0 if Classifiercode of last Timestamp ist ACT
-            if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType()).equals(ClassifierCode.ACT)) {
-                seq = 0;
-            }
+                // Reset to 0 if Classifiercode of last Timestamp ist ACT
+                if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType()).equals(ClassifierCode.ACT)) {
+                    seq = 0;
+                }
 
-        }} catch (Exception e){
-            log.error("Error calculating sequence for new timestamp: "+e.getMessage());
-            e.printStackTrace();
+            }
+        } catch (Exception e) {
+            log.error("Error calculating sequence for new timestamp: " + e.getMessage(), e);
         }
         return seq;
     }
