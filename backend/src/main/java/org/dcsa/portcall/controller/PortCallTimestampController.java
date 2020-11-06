@@ -125,7 +125,6 @@ public class PortCallTimestampController {
             }
             throw portCallException;
         }
-
     }
 
     /**
@@ -137,8 +136,6 @@ public class PortCallTimestampController {
 
         int seq = 0;
         try {
-
-
             PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
             if (lastTimestamp != null) {
                 seq = lastTimestamp.getCallSequence();
@@ -190,6 +187,25 @@ public class PortCallTimestampController {
             }
         }
         return lastTimestamp;
+    }
+
+    @PutMapping("/{portCallTimestampId}")
+    @Transactional
+    public void updatePortcallTimestampDelayCodeAndComment(@PathVariable int portCallTimestampId, @RequestBody PortCallTimestamp portCallTimestamp) {
+        log.info("Updating port call timestamp with id {}", portCallTimestampId);
+        int result = dsl.update(PORT_CALL_TIMESTAMP)
+                .set(PORT_CALL_TIMESTAMP.DELAY_CODE, portCallTimestamp.getDelayCode())
+                .set(PORT_CALL_TIMESTAMP.CHANGE_COMMENT, portCallTimestamp.getChangeComment())
+                .where(PORT_CALL_TIMESTAMP.ID.eq(portCallTimestampId))
+                .execute();
+        if (result != 1) {
+            String msg = String.format("Could not update port call timestamp with id %s", portCallTimestampId);
+            log.error(msg);
+            throw new PortCallException(HttpStatus.BAD_REQUEST, msg);
+        } else {
+            log.debug("Port call timestamp {} successfully updated", portCallTimestampId);
+        }
+
     }
 
     @DeleteMapping("/{portCallTimestampId}")

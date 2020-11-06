@@ -117,9 +117,9 @@
       </td>
       <td style="width: 7%">{{ timestamp.locationId }}</td>
       <td style="width: 3%">
-        <p-button *ngIf="timestamp.delayCode || timestamp.changeComment" (onClick)="showComment(timestamp)"
-                  icon="pi pi-comment"
-        ></p-button>
+        <p-button (onClick)="showComment(timestamp)"
+                  icon="pi pi-comment">
+        </p-button>
       </td>
       <td style="width: 5%">
 
@@ -134,5 +134,4 @@
 <p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle"
                  appendTo="body"></p-confirmDialog>
 
-<p-toast key="TimestampRemoveSuccess" position="bottom-right"></p-toast>
-<p-toast key="TimestampRemoveError" position="bottom-right"></p-toast>
+<p-toast key="TimestampToast" position="bottom-right"></p-toast>

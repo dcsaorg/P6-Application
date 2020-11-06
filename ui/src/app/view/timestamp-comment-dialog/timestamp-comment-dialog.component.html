@@ -2,7 +2,7 @@
   <div class="p-col-12 p-md-10">
 
     <p-dropdown [options]="delayCodeOptions" [(ngModel)]="timestamp.delayCode" [filter]="true"
-                filterBy="label,value.name" [group]="false" [disabled]="readonly">
+                filterBy="label,value.name" [group]="false">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
           <div class="delayCodeSelected">{{delayCode.value.smdgCode}}</div>
@@ -28,14 +28,15 @@
 
   <div id="commentContainer" style="height: 350px" class="p-col-12 p-md-10">
     <span class="p-float-label">
-    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment" [disabled]="readonly"></textarea>
+    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment"></textarea>
     <label for="commentbox">Comment for new timestamp!</label>
     </span>
   </div>
   <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="right">
     <span class="p-buttonset">
-            <button (click)="close()" label="Close" pButton
-                    type="button"></button>
+        <button *ngIf="!editMode" (click)="close()" label="Close" pButton type="button"></button>
+        <button *ngIf="editMode" (click)="save()" icon="pi pi-check" label="Save" pButton type="button"></button>
+        <button *ngIf="editMode" (click)="cancelEdit()" class="p-button-warning" icon="pi pi-times" label="Cancel" pButton type="button"></button>
     </span>
   </div>
 </div>

@@ -67,7 +67,7 @@ export class TimestampTableComponent implements OnChanges {
       accept: () => {
         this.portcallTimestampService.deleteTimestamp(timestamp.id).subscribe(data => {
           this.messageService.add({
-            key: 'TimestampRemoveSuccess',
+            key: 'TimestampToast',
             severity: 'success',
             summary: 'Successfully removed port call timestamp from vessel',
             detail: ''
@@ -75,7 +75,7 @@ export class TimestampTableComponent implements OnChanges {
           this.timeStampDeletedNotifier.emit(timestamp);
 
         }, error => this.messageService.add({
-          key: 'TimestampRemoveError',
+          key: 'TimestampToast',
           severity: 'error',
           summary: 'Error while removing port call timestamp',
           detail: error.message
@@ -93,7 +93,28 @@ export class TimestampTableComponent implements OnChanges {
 
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: 'Add change comment to port call event',
-      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, readonly: true}
+      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: true}
+    }).onClose.subscribe((portcallTimestamp : PortcallTimestamp) => {
+      if (portcallTimestamp != null) {
+        this.portcallTimestampService.updatePortcallTimestampDelayCodeAndComment(portcallTimestamp).subscribe(() => {
+          console.log("Updated port call timestamp " + timestamp.id);
+
+          this.messageService.add({
+            key: 'TimestampToast',
+            severity: 'success',
+            summary: 'Successfully updated the timestamp with id ' + timestamp.id,
+            detail: ''
+          })
+        }, error => {
+          console.log(error);
+          this.messageService.add({
+            key: 'TimestampToast',
+            severity: 'error',
+            summary: 'Error while updating the timestamp with id ' + timestamp.id,
+            detail: error.message
+          });
+        });
+      }
     });
   }
 }

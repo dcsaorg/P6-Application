@@ -15,8 +15,6 @@ import {DelayCode} from "../../model/delayCode";
 import {DateToUtcPipe} from "../../controller/date-to-utc.pipe";
 
 
-
-
 @Component({
   selector: 'app-timestamp-editor',
   templateUrl: './timestamp-editor.component.html',
@@ -148,13 +146,13 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       const lastTimeStampIndex = portCallTimeStamps.length - 1;
       const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
       if (newPortcallTimestamp) {
+        newPortcallTimestamp.id = null;
         newPortcallTimestamp.portOfCall = this.portIdToPortPipe.transform(newPortcallTimestamp.portOfCall as number, this.ports);
         newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
         newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
         newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
 
         //ToDo switch time zone to local time zone, quick fix to show last time at port of call
-
         newPortcallTimestamp.logOfTimestamp =  null;
         newPortcallTimestamp.eventTimestamp =  null
         newPortcallTimestamp.changeComment = ""
@@ -172,7 +170,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   addComment(timestamp: PortcallTimestamp) {
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: 'Add change comment to port call event',
-      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, readonly: false}
+      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: false}
     });
   }
 }

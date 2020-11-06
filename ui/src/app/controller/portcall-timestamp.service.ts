@@ -11,7 +11,7 @@ import {DelayCode} from "../model/delayCode";
   providedIn: 'root'
 })
 export class PortcallTimestampService {
-   private TIMESTAMP_URL: string;
+  private TIMESTAMP_URL: string;
 
 
   constructor(private httpClient: HttpClient) {
@@ -26,29 +26,39 @@ export class PortcallTimestampService {
     return this.httpClient.get<number>(this.TIMESTAMP_URL + "/highestTimestampId/" + vesselId);
   }
 
-  addPortcallTimestamp = (portcalltimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {
-    const portcalltimestampToSend: PortcallTimestamp = {
-      id: null,
-      timestampType: portcalltimestamp.timestampType.replace('(-|\s)', '_'),
-      callSequence: portcalltimestamp.callSequence,
-      portNext: (portcalltimestamp.portNext as Port).id,
-      portPrevious: (portcalltimestamp.portPrevious as Port).id,
-      portOfCall: (portcalltimestamp.portOfCall as Port).id,
-      terminal: (portcalltimestamp.terminal as Terminal).id,
-      locationId: portcalltimestamp.locationId,
-      eventTypeCode: portcalltimestamp.eventTypeCode,
-      direction: portcalltimestamp.direction,
-      classifierCode: portcalltimestamp.classifierCode,
-      eventTimestamp: portcalltimestamp.eventTimestamp,
-      logOfTimestamp: portcalltimestamp.logOfTimestamp,
-      delayCode: (portcalltimestamp.delayCode == null ? null : (portcalltimestamp.delayCode as DelayCode).id),
-      changeComment: portcalltimestamp.changeComment
-    }
-    return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, portcalltimestampToSend);
+  addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {
+    return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, this.getPortcalltimestampToSend(portcallTimestamp));
   }
+
+
+  updatePortcallTimestampDelayCodeAndComment = (portcallTimestamp: PortcallTimestamp): Observable<Object> => {
+    console.log("Updating port call timestamp with id " + portcallTimestamp.id);
+    return this.httpClient.put(this.TIMESTAMP_URL + '/' + portcallTimestamp.id, this.getPortcalltimestampToSend(portcallTimestamp));
+  };
 
   deleteTimestamp = (timestampId: number): Observable<any> => {
     console.log("Deleting port call timestamp with id " + timestampId);
     return this.httpClient.delete<any>(this.TIMESTAMP_URL + "/" + timestampId);
+  }
+
+
+  private getPortcalltimestampToSend(portcallTimestamp: PortcallTimestamp) {
+    return {
+      id: null,
+      timestampType: portcallTimestamp.timestampType.replace('(-|\s)', '_'),
+      callSequence: portcallTimestamp.callSequence,
+      portNext: (portcallTimestamp.portNext as Port).id,
+      portPrevious: (portcallTimestamp.portPrevious as Port).id,
+      portOfCall: (portcallTimestamp.portOfCall as Port).id,
+      terminal: (portcallTimestamp.terminal as Terminal).id,
+      locationId: portcallTimestamp.locationId,
+      eventTypeCode: portcallTimestamp.eventTypeCode,
+      direction: portcallTimestamp.direction,
+      classifierCode: portcallTimestamp.classifierCode,
+      eventTimestamp: portcallTimestamp.eventTimestamp,
+      logOfTimestamp: portcallTimestamp.logOfTimestamp,
+      delayCode: (portcallTimestamp.delayCode == null ? null : (portcallTimestamp.delayCode as DelayCode).id),
+      changeComment: (portcallTimestamp.changeComment != null ? (portcallTimestamp.changeComment.length > 0 ? portcallTimestamp.changeComment : null) : null)
+    };
   }
 }
