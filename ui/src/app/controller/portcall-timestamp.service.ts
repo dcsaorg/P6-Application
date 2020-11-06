@@ -27,13 +27,13 @@ export class PortcallTimestampService {
   }
 
   addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {
-    return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, this.getPortcalltimestampToSend(portcallTimestamp));
+    return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, this.convertPortcallTimestamp(portcallTimestamp));
   }
 
 
   updatePortcallTimestampDelayCodeAndComment = (portcallTimestamp: PortcallTimestamp): Observable<Object> => {
     console.log("Updating port call timestamp with id " + portcallTimestamp.id);
-    return this.httpClient.put(this.TIMESTAMP_URL + '/' + portcallTimestamp.id, this.getPortcalltimestampToSend(portcallTimestamp));
+    return this.httpClient.put(this.TIMESTAMP_URL + '/' + portcallTimestamp.id, this.convertPortcallTimestamp(portcallTimestamp));
   };
 
   deleteTimestamp = (timestampId: number): Observable<any> => {
@@ -42,7 +42,7 @@ export class PortcallTimestampService {
   }
 
 
-  private getPortcalltimestampToSend(portcallTimestamp: PortcallTimestamp) {
+  private convertPortcallTimestamp(portcallTimestamp: PortcallTimestamp) {
     return {
       id: null,
       timestampType: portcallTimestamp.timestampType.replace('(-|\s)', '_'),
