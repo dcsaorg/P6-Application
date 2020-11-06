@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  showDownloladRequest() {
+  showDownloadRequest() {
     this.displayDownloadRequest = true;
   }
 

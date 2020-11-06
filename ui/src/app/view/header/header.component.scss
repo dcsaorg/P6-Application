@@ -11,7 +11,16 @@
     height: 71px;
   }
 
+  &__menuEntryDiv {
+    margin-top: 25px;
+  }
+
   &__menuEntry {
+    .p-button-label {}
+      color: $foamWhite !important;
+  }
+
+  &__menuLabel {
     color: $foamWhite;
     margin-top: 30px;
     font-size: 20px;
