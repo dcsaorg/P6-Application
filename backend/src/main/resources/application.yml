@@ -65,3 +65,11 @@ springdoc:
 
 dcsa:
   company: Development
+  messenger:
+    adapter:
+      id: DCSA
+      version: 1.0
+    host: localhost
+    port: 8081
+
+

@@ -7,7 +7,6 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -104,10 +103,10 @@ public class DownloadController {
 
     }
 
-    private String loadTimestampsFromDbPlainSql(){
+    private String loadTimestampsFromDbPlainSql() {
         String sql = "select " +
                 "	pct.id 						as \"ID\"," +
-                " '"+this.company+"'            as \"company\","+
+                " '" + this.company + "'            as \"company\"," +
                 "	v.name 					    as \"Vessel\"," +
                 "	v.imo 						as \"IMO\"," +
                 "	v.teu						as \"TEU\"," +
@@ -121,7 +120,7 @@ public class DownloadController {
                 "	t.terminal_name				as \"Terminal Name\"," +
                 "	t.terminal_operator			as \"Terminal Operator\"," +
                 "	pct.timestamp_type			as \"Event Message\"," +
-                "   pct.call_sequence+1         as \"Event Sequence\","+
+                "   pct.call_sequence+1         as \"Event Sequence\"," +
                 "	pct.event_timestamp	" +
                 "		at time zone replace(port_of_call.timezone, '+','-')		" +
                 "								as \"Event Timestamp (POC Timezone)\"," +
