@@ -51,7 +51,7 @@ public class DCSAMessageJsonTest {
         String json = mapper.writeValueAsString(message);
         assertThat(json).isEqualTo("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25:31.000000043Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
@@ -84,7 +84,8 @@ public class DCSAMessageJsonTest {
                 "    \"ProcessId\" : null,\n" +
                 "    \"MessageType\" : \"PortCallMessage\"\n" +
                 "  }\n" +
-                "}", new TypeReference<>() {});
+                "}", new TypeReference<>() {
+        });
 
         assertThat(message.getMessageDateTime()).isNull();
         assertThat(message.getSenderRole()).isNull();
@@ -100,7 +101,7 @@ public class DCSAMessageJsonTest {
     public void testReadFullHeaderWithoutMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25:31.000000043Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
@@ -117,9 +118,10 @@ public class DCSAMessageJsonTest {
                 "    \"ProcessId\" : \"MSC-ABCDEFGH\",\n" +
                 "    \"MessageType\" : \"PortCallMessage\"\n" +
                 "  }\n" +
-                "}", new TypeReference<>() {});
+                "}", new TypeReference<>() {
+        });
 
-        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 31, 43, ZoneOffset.UTC));
+        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 0, 0, ZoneOffset.UTC));
         assertThat(message.getSenderRole()).isNull();
         assertThat(message.getSenderId()).isNull();
         assertThat(message.getReceiverRole()).isNull();
@@ -177,7 +179,8 @@ public class DCSAMessageJsonTest {
                 "    \"VoyageNumber\" : null,\n" +
                 "    \"Event\" : null\n" +
                 "  }\n" +
-                "}", new TypeReference<>() {});
+                "}", new TypeReference<>() {
+        });
 
 
         assertThat(message.getMessageDateTime()).isNull();

@@ -1,7 +1,6 @@
 package org.dcsa.portcall.message;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import java.time.OffsetDateTime;
 
@@ -19,12 +18,9 @@ import java.time.OffsetDateTime;
 @JsonPropertyOrder({
         "eventClassifierCode", "transportEventTypeCode", "locationTyp", "locationId", "eventDateTime"
 })
-public class PortCallEvent<ET extends AbstractPortCallEventType> {
+public class PortCallEvent {
     private EventClassifierCode eventClassifierCode;
     private TransportEventType transportEventTypeCode;
-
-    @JsonUnwrapped
-    private ET eventType;
 
     private OffsetDateTime eventDateTime;
 
@@ -33,7 +29,7 @@ public class PortCallEvent<ET extends AbstractPortCallEventType> {
         return eventClassifierCode;
     }
 
-    public PortCallEvent<ET> setEventClassifierCode(EventClassifierCode eventClassifierCode) {
+    public PortCallEvent setEventClassifierCode(EventClassifierCode eventClassifierCode) {
         this.eventClassifierCode = eventClassifierCode;
         return this;
     }
@@ -42,17 +38,8 @@ public class PortCallEvent<ET extends AbstractPortCallEventType> {
         return transportEventTypeCode;
     }
 
-    public PortCallEvent<ET> setTransportEventTypeCode(TransportEventType transportEventTypeCode) {
+    public PortCallEvent setTransportEventTypeCode(TransportEventType transportEventTypeCode) {
         this.transportEventTypeCode = transportEventTypeCode;
-        return this;
-    }
-
-    public ET getEventType() {
-        return eventType;
-    }
-
-    public PortCallEvent<ET> setEventType(ET eventType) {
-        this.eventType = eventType;
         return this;
     }
 
@@ -60,7 +47,7 @@ public class PortCallEvent<ET extends AbstractPortCallEventType> {
         return eventDateTime;
     }
 
-    public PortCallEvent<ET> setEventDateTime(OffsetDateTime eventDateTime) {
+    public PortCallEvent setEventDateTime(OffsetDateTime eventDateTime) {
         this.eventDateTime = eventDateTime;
         return this;
     }

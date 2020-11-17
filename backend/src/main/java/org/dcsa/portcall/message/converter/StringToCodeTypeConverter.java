@@ -7,7 +7,7 @@ public class StringToCodeTypeConverter extends StdConverter<String, CodeType> {
     @Override
     public CodeType convert(String s) {
         for (CodeType codeType : CodeType.values()) {
-            if (codeType.getName().equals(s)) {
+            if (codeType.getJsonName().equals(s)) {
                 return codeType;
             }
         }

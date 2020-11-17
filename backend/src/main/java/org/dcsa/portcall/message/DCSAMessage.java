@@ -1,5 +1,6 @@
 package org.dcsa.portcall.message;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -9,8 +10,6 @@ import org.dcsa.portcall.message.converter.CodeTypeToStringConverter;
 import org.dcsa.portcall.message.converter.MessageTypeToStringConverter;
 import org.dcsa.portcall.message.converter.StringToCodeTypeConverter;
 import org.dcsa.portcall.message.converter.StringToMessageTypeConverter;
-import org.dcsa.portcall.message.serializer.OffsetDateTimeDeserializer;
-import org.dcsa.portcall.message.serializer.OffsetDateTimeSerializer;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -49,8 +48,9 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 })
 public class DCSAMessage<T> {
 
-    @JsonSerialize(using = OffsetDateTimeSerializer.class)
-    @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
+//    @JsonSerialize(using = OffsetDateTimeSerializer.class)
+//    @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm'Z'")
     private OffsetDateTime messageDateTime;
 
     private RoleType senderRole;

@@ -6,6 +6,6 @@ import org.dcsa.portcall.message.CodeType;
 public class CodeTypeToStringConverter extends StdConverter<CodeType, String> {
     @Override
     public String convert(CodeType codeType) {
-        return codeType.getName();
+        return codeType.getJsonName();
     }
 }

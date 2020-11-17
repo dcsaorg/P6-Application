@@ -38,7 +38,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "vesselIdType", "vesselId", "portIdType", "portId", "terminalIdType", "terminalId",
         "lastPortOfCall", "nextPortOfCall", "voyageNumber", "voyageNumber2", "event", "remark"
 })
-public class PortCallMessage<ET extends AbstractPortCallEventType> {
+public class PortCallMessage {
 
     @JsonSerialize(converter = CodeTypeToStringConverter.class)
     @JsonDeserialize(converter = StringToCodeTypeConverter.class)
@@ -64,7 +64,7 @@ public class PortCallMessage<ET extends AbstractPortCallEventType> {
     @JsonInclude(NON_NULL)
     private String voyageNumber2;
 
-    private PortCallEvent<ET> event;
+    private PortCallEvent event;
 
     @JsonInclude(NON_NULL)
     private String remarks;

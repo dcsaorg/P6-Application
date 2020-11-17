@@ -6,13 +6,13 @@ public enum CodeType {
     UN_LOCODE("UN/LOCODE"),
     PILOT("PILOTCODE");
 
-    private String name;
+    private String jsonName;
 
-    CodeType(String name) {
-        this.name = name;
+    CodeType(String jsonName) {
+        this.jsonName = jsonName;
     }
 
-    public String getName() {
-        return name;
+    public String getJsonName() {
+        return jsonName;
     }
 }
