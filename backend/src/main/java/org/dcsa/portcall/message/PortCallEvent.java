@@ -1,6 +1,12 @@
 package org.dcsa.portcall.message;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.dcsa.portcall.message.converter.LocationTypeToStringConverter;
+import org.dcsa.portcall.message.converter.OffsetDateTimeDeserializer;
+import org.dcsa.portcall.message.converter.OffsetDateTimeSerializer;
+import org.dcsa.portcall.message.converter.StringToLocationTypeConverter;
 
 import java.time.OffsetDateTime;
 
@@ -22,6 +28,13 @@ public class PortCallEvent {
     private EventClassifierCode eventClassifierCode;
     private TransportEventType transportEventTypeCode;
 
+    @JsonSerialize(converter = LocationTypeToStringConverter.class)
+    @JsonDeserialize(converter = StringToLocationTypeConverter.class)
+    private LocationType locationType;
+    private String locationId;
+
+    @JsonSerialize(using = OffsetDateTimeSerializer.class)
+    @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
     private OffsetDateTime eventDateTime;
 
 
@@ -40,6 +53,24 @@ public class PortCallEvent {
 
     public PortCallEvent setTransportEventTypeCode(TransportEventType transportEventTypeCode) {
         this.transportEventTypeCode = transportEventTypeCode;
+        return this;
+    }
+
+    public LocationType getLocationType() {
+        return locationType;
+    }
+
+    public PortCallEvent setLocationType(LocationType locationType) {
+        this.locationType = locationType;
+        return this;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public PortCallEvent setLocationId(String locationId) {
+        this.locationId = locationId;
         return this;
     }
 
