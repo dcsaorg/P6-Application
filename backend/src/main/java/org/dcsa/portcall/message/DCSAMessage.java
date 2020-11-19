@@ -1,6 +1,7 @@
 package org.dcsa.portcall.message;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -44,11 +45,14 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 })
 public class DCSAMessage<T> {
 
+    @JsonInclude(NON_NULL)
     @JsonSerialize(using = OffsetDateTimeSerializer.class)
     @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
     private OffsetDateTime messageDateTime;
 
+    @JsonInclude(NON_NULL)
     private RoleType senderRole;
+
     @JsonInclude(NON_NULL)
     @JsonSerialize(converter = CodeTypeToStringConverter.class)
     @JsonDeserialize(converter = StringToCodeTypeConverter.class)
@@ -56,6 +60,7 @@ public class DCSAMessage<T> {
     @JsonInclude(NON_NULL)
     private String senderId;
 
+    @JsonInclude(NON_NULL)
     private RoleType receiverRole;
     @JsonInclude(NON_NULL)
     @JsonSerialize(converter = CodeTypeToStringConverter.class)
@@ -70,13 +75,17 @@ public class DCSAMessage<T> {
     @JsonInclude(NON_EMPTY)
     private List<OtherParty> otherReceiver;
 
+    @JsonInclude(NON_NULL)
     private ProcessType processType;
+    @JsonInclude(NON_NULL)
     private String processId;
 
+    @JsonProperty("MessageType")
     @JsonSerialize(converter = MessageTypeToStringConverter.class)
     @JsonDeserialize(converter = StringToMessageTypeConverter.class)
     private MessageType messageType;
 
+    @JsonInclude(NON_NULL)
     @JsonUnwrapped
     private T payload;
 

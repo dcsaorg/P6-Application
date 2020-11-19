@@ -28,11 +28,7 @@ public class DCSAMessageJsonWriterTest {
         String json = mapper.writeValueAsString(message);
         assertThat(json).isEqualTo("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : null,\n" +
-                "    \"SenderRole\" : null,\n" +
-                "    \"ReceiverRole\" : null,\n" +
                 "    \"ProcessType\" : \"PortCall\",\n" +
-                "    \"ProcessId\" : null,\n" +
                 "    \"MessageType\" : \"PortCallMessage\"\n" +
                 "  }\n" +
                 "}");
@@ -79,20 +75,11 @@ public class DCSAMessageJsonWriterTest {
         String json = mapper.writeValueAsString(message);
         assertThat(json).isEqualTo("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : null,\n" +
-                "    \"SenderRole\" : null,\n" +
-                "    \"ReceiverRole\" : null,\n" +
                 "    \"ProcessType\" : \"PortCall\",\n" +
-                "    \"ProcessId\" : null,\n" +
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
                 "    \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "    \"VesselId\" : null,\n" +
                 "    \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "    \"PortId\" : null,\n" +
-                "    \"TerminalIdType\" : \"UN/LOCODE\",\n" +
-                "    \"TerminalId\" : null,\n" +
-                "    \"VoyageNumber\" : null,\n" +
-                "    \"Event\" : null\n" +
+                "    \"TerminalIdType\" : \"UN/LOCODE\"\n" +
                 "  }\n" +
                 "}");
     }

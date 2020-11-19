@@ -27,7 +27,7 @@ public class OffsetDateTimeModuleTest {
 
     @Test
     void testReadOffsetDateTime() throws Exception {
-        assertThat(mapper.readValue(DATE_TIME_STRING, OffsetDateTime.class)).isEqualTo(DATE_TIME.withSecond(0).withNano(0));
+        assertThat(mapper.readValue(JSON, OffsetDateTime.class)).isEqualTo(DATE_TIME.withSecond(0).withNano(0));
     }
 
     @Test

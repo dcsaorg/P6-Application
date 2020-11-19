@@ -1,5 +1,6 @@
 package org.dcsa.portcall.message;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -9,6 +10,8 @@ import org.dcsa.portcall.message.converter.OffsetDateTimeSerializer;
 import org.dcsa.portcall.message.converter.StringToLocationTypeConverter;
 
 import java.time.OffsetDateTime;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 /**
  * “Event” :{
@@ -25,14 +28,19 @@ import java.time.OffsetDateTime;
         "eventClassifierCode", "transportEventTypeCode", "locationTyp", "locationId", "eventDateTime"
 })
 public class PortCallEvent {
+    @JsonInclude(NON_NULL)
     private EventClassifierCode eventClassifierCode;
+    @JsonInclude(NON_NULL)
     private TransportEventType transportEventTypeCode;
 
+    @JsonInclude(NON_NULL)
     @JsonSerialize(converter = LocationTypeToStringConverter.class)
     @JsonDeserialize(converter = StringToLocationTypeConverter.class)
     private LocationType locationType;
+    @JsonInclude(NON_NULL)
     private String locationId;
 
+    @JsonInclude(NON_NULL)
     @JsonSerialize(using = OffsetDateTimeSerializer.class)
     @JsonDeserialize(using = OffsetDateTimeDeserializer.class)
     private OffsetDateTime eventDateTime;

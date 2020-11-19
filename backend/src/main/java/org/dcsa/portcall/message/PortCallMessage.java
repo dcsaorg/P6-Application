@@ -40,19 +40,25 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 })
 public class PortCallMessage {
 
+    @JsonInclude(NON_NULL)
     @JsonSerialize(converter = CodeTypeToStringConverter.class)
     @JsonDeserialize(converter = StringToCodeTypeConverter.class)
     private CodeType vesselIdType;
+    @JsonInclude(NON_NULL)
     private String vesselId;
 
+    @JsonInclude(NON_NULL)
     @JsonSerialize(converter = CodeTypeToStringConverter.class)
     @JsonDeserialize(converter = StringToCodeTypeConverter.class)
     private CodeType portIdType;
+    @JsonInclude(NON_NULL)
     private String portId;
 
+    @JsonInclude(NON_NULL)
     @JsonSerialize(converter = CodeTypeToStringConverter.class)
     @JsonDeserialize(converter = StringToCodeTypeConverter.class)
     private CodeType terminalIdType;
+    @JsonInclude(NON_NULL)
     private String terminalId;
 
     @JsonInclude(NON_NULL)
@@ -60,10 +66,12 @@ public class PortCallMessage {
     @JsonInclude(NON_NULL)
     private String nextPortOfCall;
 
+    @JsonInclude(NON_NULL)
     private String voyageNumber;
     @JsonInclude(NON_NULL)
     private String voyageNumber2;
 
+    @JsonInclude(NON_NULL)
     private PortCallEvent event;
 
     @JsonInclude(NON_NULL)

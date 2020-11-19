@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Primary;
 @Primary
 @Configuration
 @ConfigurationProperties(prefix = "dcsa")
-public class PortCallProperties {
+    public class PortCallProperties {
 
     private String company;
 

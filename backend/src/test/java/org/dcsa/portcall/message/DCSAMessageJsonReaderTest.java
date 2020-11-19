@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.dcsa.portcall.service.PortCallMessageService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
@@ -27,17 +26,10 @@ public class DCSAMessageJsonReaderTest {
     public void testReadEmptyHeaderWithoutMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : null,\n" +
-                "    \"SenderRole\" : null,\n" +
-                "    \"SenderId\" : null,\n" +
-                "    \"ReceiverRole\" : null,\n" +
-                "    \"ReceiverId\" : null,\n" +
                 "    \"ProcessType\" : \"PortCall\",\n" +
-                "    \"ProcessId\" : null,\n" +
                 "    \"MessageType\" : \"PortCallMessage\"\n" +
                 "  }\n" +
-                "}", new TypeReference<>() {
-        });
+                "}", new TypeReference<>() {});
 
         assertThat(message.getMessageDateTime()).isNull();
         assertThat(message.getSenderRole()).isNull();
@@ -50,7 +42,6 @@ public class DCSAMessageJsonReaderTest {
     }
 
     @Test
-    @Disabled
     public void testReadFullHeaderWithoutMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
@@ -71,7 +62,7 @@ public class DCSAMessageJsonReaderTest {
                 "    \"ProcessId\" : \"MSC-ABCDEFGH\",\n" +
                 "    \"MessageType\" : \"PortCallMessage\"\n" +
                 "  }\n" +
-                "}", mapper.getTypeFactory().constructParametricType(DCSAMessage.class, PortCallMessage.class));
+                "}", DCSAMessage.class);
 
         assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 0, 0, ZoneOffset.UTC));
         assertThat(message.getSenderRole()).isEqualTo(RoleType.VESSEL);
@@ -79,7 +70,7 @@ public class DCSAMessageJsonReaderTest {
         assertThat(message.getSenderId()).isEqualTo("9074729");
         assertThat(message.getReceiverRole()).isEqualTo(RoleType.TERMINAL);
         assertThat(message.getReceiverIdType()).isEqualTo(CodeType.UN_LOCODE);
-        assertThat(message.getReceiverId()).isEqualTo("9074729");
+        assertThat(message.getReceiverId()).isEqualTo("deham:cta");
         assertThat(message.getGatewayId()).isEqualTo("PC-SERVICE");
         assertThat(message.getOtherReceiver()).isNotNull();
         assertThat(message.getOtherReceiver().size()).isEqualTo(1);
@@ -89,28 +80,18 @@ public class DCSAMessageJsonReaderTest {
         assertThat(message.getProcessType()).isEqualTo(ProcessType.PortCall);
         assertThat(message.getProcessId()).isEqualTo("MSC-ABCDEFGH");
         assertThat(message.getMessageType()).isEqualTo(MessageType.PortCallMessage);
+        assertThat(message.getPayload()).isNull();
     }
 
     @Test
     public void testReadEmptyHeaderWithEmptyMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : null,\n" +
-                "    \"SenderRole\" : null,\n" +
-                "    \"SenderId\" : null,\n" +
-                "    \"ReceiverRole\" : null,\n" +
-                "    \"ReceiverId\" : null,\n" +
                 "    \"ProcessType\" : \"PortCall\",\n" +
-                "    \"ProcessId\" : null,\n" +
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
                 "    \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "    \"VesselId\" : null,\n" +
                 "    \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "    \"PortId\" : null,\n" +
-                "    \"TerminalIdType\" : \"UN/LOCODE\",\n" +
-                "    \"TerminalId\" : null,\n" +
-                "    \"VoyageNumber\" : null,\n" +
-                "    \"Event\" : null\n" +
+                "    \"TerminalIdType\" : \"UN/LOCODE\"\n" +
                 "  }\n" +
                 "}", new TypeReference<>() {
         });
@@ -131,7 +112,6 @@ public class DCSAMessageJsonReaderTest {
     }
 
     @Test
-    @Disabled
     public void testReaderFullHeaderWithFullMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
@@ -178,7 +158,7 @@ public class DCSAMessageJsonReaderTest {
         assertThat(message.getSenderId()).isEqualTo("9074729");
         assertThat(message.getReceiverRole()).isEqualTo(RoleType.TERMINAL);
         assertThat(message.getReceiverIdType()).isEqualTo(CodeType.UN_LOCODE);
-        assertThat(message.getReceiverId()).isEqualTo("9074729");
+        assertThat(message.getReceiverId()).isEqualTo("deham:cta");
         assertThat(message.getGatewayId()).isEqualTo("PC-SERVICE");
         assertThat(message.getOtherReceiver()).isNotNull();
         assertThat(message.getOtherReceiver().size()).isEqualTo(1);
