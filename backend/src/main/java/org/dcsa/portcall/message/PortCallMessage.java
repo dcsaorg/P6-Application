@@ -2,6 +2,7 @@ package org.dcsa.portcall.message;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.dcsa.portcall.message.converter.CodeTypeToStringConverter;
@@ -38,6 +39,8 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
         "vesselIdType", "vesselId", "portIdType", "portId", "terminalIdType", "terminalId",
         "lastPortOfCall", "nextPortOfCall", "voyageNumber", "voyageNumber2", "event", "remark"
 })
+@JsonRootName("PortCallMessage")
+@JsonInclude(NON_NULL)
 public class PortCallMessage {
 
     @JsonInclude(NON_NULL)

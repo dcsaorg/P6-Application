@@ -65,6 +65,14 @@ springdoc:
 
 dcsa:
   company: Development
+  sender-role: Carrier
+  sender-id-type: SMDG_LINER_CODE
+  sender-id: ABC
+
+  hotfolder:
+    outbox: "C:/opt/outbox/"
+    inbox: "./inbox"
+
   messenger:
     adapter:
       id: DCSA

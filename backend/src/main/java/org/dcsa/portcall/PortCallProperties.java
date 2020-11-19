@@ -1,5 +1,7 @@
 package org.dcsa.portcall;
 
+import org.dcsa.portcall.message.CodeType;
+import org.dcsa.portcall.message.RoleType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -10,23 +12,59 @@ import org.springframework.context.annotation.Primary;
     public class PortCallProperties {
 
     private String company;
+    private RoleType senderRole;
+    private CodeType senderIdType;
+    private String senderId;
+    private Messenger messenger;
+    private Hotfolder hotfolder;
+
 
     public String getCompany() {
         return company;
     }
-
     public void setCompany(String company) {
         this.company = company;
     }
 
-    private Messenger messenger;
+    public RoleType getSenderRole() {return senderRole;}
+    public void setSenderRole(RoleType senderRole) {this.senderRole = senderRole;}
+
+    public CodeType getSenderIdType() {return senderIdType;}
+    public void setSenderIdType(CodeType senderIdType) {this.senderIdType = senderIdType;}
+
+    public String getSenderId() {return senderId;}
+    public void setSenderId(String senderId) {this.senderId = senderId;}
+
+    public Hotfolder getHotfolder() {return hotfolder;}
+    public void setHotfolder(Hotfolder hotfolder) {this.hotfolder = hotfolder;}
+
 
     public Messenger getMessenger() {
         return messenger;
     }
-
     public void setMessenger(Messenger messenger) {
         this.messenger = messenger;
+    }
+
+    public static class Hotfolder{
+        private String outbox;
+        private String inbox;
+
+        public String getOutbox() {
+            return outbox;
+        }
+
+        public void setOutbox(String outbox) {
+            this.outbox = outbox;
+        }
+
+        public String getInbox() {
+            return inbox;
+        }
+
+        public void setInbox(String inbox) {
+            this.inbox = inbox;
+        }
     }
 
     public static class Messenger {

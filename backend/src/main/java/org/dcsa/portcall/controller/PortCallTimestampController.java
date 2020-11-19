@@ -12,9 +12,11 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
-import org.dcsa.portcall.model.ClassifierCode;
+import org.dcsa.portcall.message.EventClassifierCode;
+import org.dcsa.portcall.service.PortCallMessageGeneratorService;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.dcsa.portcall.util.TimeZoneConverter;
 import org.jooq.DSLContext;
@@ -23,6 +25,7 @@ import org.jooq.Record1;
 import org.jooq.Result;
 import org.jooq.impl.DSL;
 import org.postgresql.util.PSQLException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +44,16 @@ public class PortCallTimestampController {
     private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
     private final DSLContext dsl;
 
+
+
+    @Autowired
+    private PortCallProperties config;
+
     public PortCallTimestampController(DSLContext dsl) {
         this.dsl = dsl;
     }
+
+
 
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
@@ -98,6 +108,7 @@ public class PortCallTimestampController {
         // Get Vessel
         try {
             Vessel vessel = new VesselController(this.dsl).getVessel(vesselId);
+            portCallTimestamp.setVessel(vesselId);
             Record1<Integer> id =
                     dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
                             PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_PREVIOUS, PORT_CALL_TIMESTAMP.PORT_NEXT,
@@ -113,6 +124,11 @@ public class PortCallTimestampController {
                             .fetchOne();
             portCallTimestamp.setId(id.value1());
             log.info("Portcall Timestamp added with id [{}]", id.value1());
+
+            // Generate PortCall Message
+            PortCallMessageGeneratorService pcMessageService = new PortCallMessageGeneratorService(portCallTimestamp, config, this.dsl);
+            pcMessageService.generate();
+
             return portCallTimestamp;
         } catch (Exception e) {
             String msg = String.format("Could not store port call timestamp: %s", e.getMessage());
@@ -139,16 +155,16 @@ public class PortCallTimestampController {
             PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
             if (lastTimestamp != null) {
                 seq = lastTimestamp.getCallSequence();
-                ClassifierCode lastClassType = PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType());
-                if (lastClassType.equals(ClassifierCode.REQ) || lastClassType.equals(ClassifierCode.PLA)) {
-                    if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.REQ) ||
-                            PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(ClassifierCode.EST)) {
+                EventClassifierCode lastClassType = PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(lastTimestamp.getTimestampType());
+                if (lastClassType.equals(EventClassifierCode.REQ) || lastClassType.equals(EventClassifierCode.PLA)) {
+                    if (PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(EventClassifierCode.REQ) ||
+                            PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(EventClassifierCode.EST)) {
                         seq++;
                     }
                 }
 
                 // Reset to 0 if Classifiercode of last Timestamp ist ACT
-                if (PortcallTimestampTypeMapping.getClassifierCodeForTimeStamp(lastTimestamp.getTimestampType()).equals(ClassifierCode.ACT)) {
+                if (PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(lastTimestamp.getTimestampType()).equals(EventClassifierCode.ACT)) {
                     seq = 0;
                 }
 
