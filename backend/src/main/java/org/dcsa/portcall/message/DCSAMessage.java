@@ -3,7 +3,6 @@ package org.dcsa.portcall.message;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.dcsa.portcall.message.converter.*;
@@ -86,7 +85,6 @@ public class DCSAMessage<T> {
     private MessageType messageType;
 
     @JsonInclude(NON_NULL)
-    @JsonUnwrapped
     private T payload;
 
     public DCSAMessage() {

@@ -89,9 +89,11 @@ public class DCSAMessageJsonReaderTest {
                 "  \"DCSAMessage\" : {\n" +
                 "    \"ProcessType\" : \"PortCall\",\n" +
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
-                "    \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "    \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "    \"TerminalIdType\" : \"UN/LOCODE\"\n" +
+                "    \"Payload\" : {\n" +
+                "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
+                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"TerminalIdType\" : \"UN/LOCODE\"\n" +
+                "    }\n" +
                 "  }\n" +
                 "}", new TypeReference<>() {
         });

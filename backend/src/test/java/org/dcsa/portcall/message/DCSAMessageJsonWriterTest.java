@@ -77,9 +77,11 @@ public class DCSAMessageJsonWriterTest {
                 "  \"DCSAMessage\" : {\n" +
                 "    \"ProcessType\" : \"PortCall\",\n" +
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
-                "    \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "    \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "    \"TerminalIdType\" : \"UN/LOCODE\"\n" +
+                "    \"Payload\" : {\n" +
+                "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
+                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"TerminalIdType\" : \"UN/LOCODE\"\n" +
+                "    }\n" +
                 "  }\n" +
                 "}");
     }
@@ -129,23 +131,25 @@ public class DCSAMessageJsonWriterTest {
                 "    \"ProcessType\" : \"PortCall\",\n" +
                 "    \"ProcessId\" : \"MSC-ABCDEFGH\",\n" +
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
-                "    \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "    \"VesselId\" : \"9074729\",\n" +
-                "    \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "    \"PortId\" : \"deham\",\n" +
-                "    \"TerminalIdType\" : \"UN/LOCODE\",\n" +
-                "    \"TerminalId\" : \"cta\",\n" +
-                "    \"NextPortOfCall\" : \"beanr\",\n" +
-                "    \"VoyageNumber\" : \"ABCDEFGH\",\n" +
-                "    \"Event\" : {\n" +
-                "      \"EventClassifierCode\" : \"EST\",\n" +
-                "      \"TransportEventTypeCode\" : \"ARRI\",\n" +
-                "      \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
-                "      \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
-                "      \"LocationType\" : \"BERTH\"\n" +
-                "    },\n" +
-                "    \"PreviousPortOfCall\" : \"nlrtm\",\n" +
-                "    \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
+                "    \"Payload\" : {\n" +
+                "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
+                "      \"VesselId\" : \"9074729\",\n" +
+                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"PortId\" : \"deham\",\n" +
+                "      \"TerminalIdType\" : \"UN/LOCODE\",\n" +
+                "      \"TerminalId\" : \"cta\",\n" +
+                "      \"NextPortOfCall\" : \"beanr\",\n" +
+                "      \"VoyageNumber\" : \"ABCDEFGH\",\n" +
+                "      \"Event\" : {\n" +
+                "        \"EventClassifierCode\" : \"EST\",\n" +
+                "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
+                "        \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
+                "        \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "        \"LocationType\" : \"BERTH\"\n" +
+                "      },\n" +
+                "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
+                "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
+                "    }\n" +
                 "  }\n" +
                 "}");
     }
