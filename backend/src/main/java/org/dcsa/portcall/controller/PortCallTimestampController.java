@@ -44,9 +44,6 @@ public class PortCallTimestampController {
     private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
     private final DSLContext dsl;
 
-    @Autowired
-    private PortCallProperties config;
-
     public PortCallTimestampController(DSLContext dsl) {
         this.dsl = dsl;
     }
@@ -123,9 +120,8 @@ public class PortCallTimestampController {
             log.info("Portcall Timestamp added with id [{}]", id.value1());
 
             // Generate PortCall Message
-            PortCallMessageGeneratorService pcMessageService = new PortCallMessageGeneratorService(portCallTimestamp, config, this.dsl);
-            pcMessageService.generate();
-
+            PortCallMessageGeneratorService pcMessageService = new PortCallMessageGeneratorService();
+            pcMessageService.generate(portCallTimestamp, this.dsl);
             return portCallTimestamp;
         } catch (Exception e) {
             String msg = String.format("Could not store port call timestamp: %s", e.getMessage());

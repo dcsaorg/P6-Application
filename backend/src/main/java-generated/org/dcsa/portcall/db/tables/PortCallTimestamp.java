@@ -25,6 +25,7 @@ import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
-    private static final long serialVersionUID = 1650466427;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The reference instance of <code>public.port_call_timestamp</code>
@@ -52,88 +53,89 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     /**
      * The column <code>public.port_call_timestamp.id</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('port_call_timestamp_id_seq'::regclass)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.vessel</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> VESSEL = createField(DSL.name("vessel"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> VESSEL = createField(DSL.name("vessel"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.vessel_service_name</code>.
      */
-    public final TableField<PortCallTimestampRecord, String> VESSEL_SERVICE_NAME = createField(DSL.name("vessel_service_name"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<PortCallTimestampRecord, String> VESSEL_SERVICE_NAME = createField(DSL.name("vessel_service_name"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.port_of_call</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> PORT_OF_CALL = createField(DSL.name("port_of_call"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> PORT_OF_CALL = createField(DSL.name("port_of_call"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.port_previous</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> PORT_PREVIOUS = createField(DSL.name("port_previous"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> PORT_PREVIOUS = createField(DSL.name("port_previous"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.port_next</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> PORT_NEXT = createField(DSL.name("port_next"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> PORT_NEXT = createField(DSL.name("port_next"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.timestamp_type</code>.
      */
-    public final TableField<PortCallTimestampRecord, PortCallTimestampType> TIMESTAMP_TYPE = createField(DSL.name("timestamp_type"), org.jooq.impl.SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.PortCallTimestampType.class), this, "");
+    public final TableField<PortCallTimestampRecord, PortCallTimestampType> TIMESTAMP_TYPE = createField(DSL.name("timestamp_type"), SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.PortCallTimestampType.class), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.call_sequence</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> CALL_SEQUENCE = createField(DSL.name("call_sequence"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> CALL_SEQUENCE = createField(DSL.name("call_sequence"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.event_timestamp</code>.
      */
-    public final TableField<PortCallTimestampRecord, OffsetDateTime> EVENT_TIMESTAMP = createField(DSL.name("event_timestamp"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, OffsetDateTime> EVENT_TIMESTAMP = createField(DSL.name("event_timestamp"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.log_of_timestamp</code>.
      */
-    public final TableField<PortCallTimestampRecord, OffsetDateTime> LOG_OF_TIMESTAMP = createField(DSL.name("log_of_timestamp"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, OffsetDateTime> LOG_OF_TIMESTAMP = createField(DSL.name("log_of_timestamp"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.direction</code>.
      */
-    public final TableField<PortCallTimestampRecord, Direction> DIRECTION = createField(DSL.name("direction"), org.jooq.impl.SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.Direction.class), this, "");
+    public final TableField<PortCallTimestampRecord, Direction> DIRECTION = createField(DSL.name("direction"), SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.Direction.class), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.terminal</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> TERMINAL = createField(DSL.name("terminal"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<PortCallTimestampRecord, Integer> TERMINAL = createField(DSL.name("terminal"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.location_id</code>.
      */
-    public final TableField<PortCallTimestampRecord, String> LOCATION_ID = createField(DSL.name("location_id"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<PortCallTimestampRecord, String> LOCATION_ID = createField(DSL.name("location_id"), SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.change_comment</code>.
      */
-    public final TableField<PortCallTimestampRecord, String> CHANGE_COMMENT = createField(DSL.name("change_comment"), org.jooq.impl.SQLDataType.VARCHAR(512), this, "");
+    public final TableField<PortCallTimestampRecord, String> CHANGE_COMMENT = createField(DSL.name("change_comment"), SQLDataType.VARCHAR(512), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.delay_code</code>.
      */
-    public final TableField<PortCallTimestampRecord, Integer> DELAY_CODE = createField(DSL.name("delay_code"), org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<PortCallTimestampRecord, Integer> DELAY_CODE = createField(DSL.name("delay_code"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>public.port_call_timestamp.deleted</code>.
      */
-    public final TableField<PortCallTimestampRecord, Boolean> DELETED = createField(DSL.name("deleted"), org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.field("false", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
+    public final TableField<PortCallTimestampRecord, Boolean> DELETED = createField(DSL.name("deleted"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("false", SQLDataType.BOOLEAN)), this, "");
 
-    /**
-     * Create a <code>public.port_call_timestamp</code> table reference
-     */
-    public PortCallTimestamp() {
-        this(DSL.name("port_call_timestamp"), null);
+    private PortCallTimestamp(Name alias, Table<PortCallTimestampRecord> aliased) {
+        this(alias, aliased, null);
+    }
+
+    private PortCallTimestamp(Name alias, Table<PortCallTimestampRecord> aliased, Field<?>[] parameters) {
+        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
     }
 
     /**
@@ -150,12 +152,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
         this(alias, PORT_CALL_TIMESTAMP);
     }
 
-    private PortCallTimestamp(Name alias, Table<PortCallTimestampRecord> aliased) {
-        this(alias, aliased, null);
-    }
-
-    private PortCallTimestamp(Name alias, Table<PortCallTimestampRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
+    /**
+     * Create a <code>public.port_call_timestamp</code> table reference
+     */
+    public PortCallTimestamp() {
+        this(DSL.name("port_call_timestamp"), null);
     }
 
     public <O extends Record> PortCallTimestamp(Table<O> child, ForeignKey<O, PortCallTimestampRecord> key) {
@@ -169,7 +170,7 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
     @Override
     public Identity<PortCallTimestampRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PORT_CALL_TIMESTAMP;
+        return (Identity<PortCallTimestampRecord, Integer>) super.getIdentity();
     }
 
     @Override

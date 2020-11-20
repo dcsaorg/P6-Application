@@ -32,7 +32,7 @@ public enum Direction implements EnumType {
 
     @Override
     public Catalog getCatalog() {
-        return getSchema() == null ? null : getSchema().getCatalog();
+        return getSchema().getCatalog();
     }
 
     @Override

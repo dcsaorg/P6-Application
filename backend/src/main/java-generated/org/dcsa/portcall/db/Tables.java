@@ -5,6 +5,7 @@ package org.dcsa.portcall.db;
 
 
 import org.dcsa.portcall.db.tables.DelayCode;
+import org.dcsa.portcall.db.tables.LinerCode;
 import org.dcsa.portcall.db.tables.Port;
 import org.dcsa.portcall.db.tables.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.Terminal;
@@ -12,7 +13,7 @@ import org.dcsa.portcall.db.tables.Vessel;
 
 
 /**
- * Convenience access to all tables in public
+ * Convenience access to all tables in public.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
@@ -21,6 +22,11 @@ public class Tables {
      * The table <code>public.delay_code</code>.
      */
     public static final DelayCode DELAY_CODE = DelayCode.DELAY_CODE;
+
+    /**
+     * The table <code>public.liner_code</code>.
+     */
+    public static final LinerCode LINER_CODE = LinerCode.LINER_CODE;
 
     /**
      * The table <code>public.port</code>.

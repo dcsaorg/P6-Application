@@ -22,6 +22,7 @@ import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 
@@ -31,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Terminal extends TableImpl<TerminalRecord> {
 
-    private static final long serialVersionUID = 1744587816;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The reference instance of <code>public.terminal</code>
@@ -49,33 +50,34 @@ public class Terminal extends TableImpl<TerminalRecord> {
     /**
      * The column <code>public.terminal.id</code>.
      */
-    public final TableField<TerminalRecord, Integer> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('terminal_id_seq'::regclass)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<TerminalRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.terminal.port</code>.
      */
-    public final TableField<TerminalRecord, Integer> PORT = createField(DSL.name("port"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<TerminalRecord, Integer> PORT = createField(DSL.name("port"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.terminal.smdg_code</code>.
      */
-    public final TableField<TerminalRecord, String> SMDG_CODE = createField(DSL.name("smdg_code"), org.jooq.impl.SQLDataType.VARCHAR(10).nullable(false), this, "");
+    public final TableField<TerminalRecord, String> SMDG_CODE = createField(DSL.name("smdg_code"), SQLDataType.VARCHAR(10).nullable(false), this, "");
 
     /**
      * The column <code>public.terminal.terminal_name</code>.
      */
-    public final TableField<TerminalRecord, String> TERMINAL_NAME = createField(DSL.name("terminal_name"), org.jooq.impl.SQLDataType.VARCHAR(150), this, "");
+    public final TableField<TerminalRecord, String> TERMINAL_NAME = createField(DSL.name("terminal_name"), SQLDataType.VARCHAR(150), this, "");
 
     /**
      * The column <code>public.terminal.terminal_operator</code>.
      */
-    public final TableField<TerminalRecord, String> TERMINAL_OPERATOR = createField(DSL.name("terminal_operator"), org.jooq.impl.SQLDataType.VARCHAR(200), this, "");
+    public final TableField<TerminalRecord, String> TERMINAL_OPERATOR = createField(DSL.name("terminal_operator"), SQLDataType.VARCHAR(200), this, "");
 
-    /**
-     * Create a <code>public.terminal</code> table reference
-     */
-    public Terminal() {
-        this(DSL.name("terminal"), null);
+    private Terminal(Name alias, Table<TerminalRecord> aliased) {
+        this(alias, aliased, null);
+    }
+
+    private Terminal(Name alias, Table<TerminalRecord> aliased, Field<?>[] parameters) {
+        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
     }
 
     /**
@@ -92,12 +94,11 @@ public class Terminal extends TableImpl<TerminalRecord> {
         this(alias, TERMINAL);
     }
 
-    private Terminal(Name alias, Table<TerminalRecord> aliased) {
-        this(alias, aliased, null);
-    }
-
-    private Terminal(Name alias, Table<TerminalRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
+    /**
+     * Create a <code>public.terminal</code> table reference
+     */
+    public Terminal() {
+        this(DSL.name("terminal"), null);
     }
 
     public <O extends Record> Terminal(Table<O> child, ForeignKey<O, TerminalRecord> key) {
@@ -111,7 +112,7 @@ public class Terminal extends TableImpl<TerminalRecord> {
 
     @Override
     public Identity<TerminalRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_TERMINAL;
+        return (Identity<TerminalRecord, Integer>) super.getIdentity();
     }
 
     @Override

@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortRecord extends UpdatableRecordImpl<PortRecord> implements Record6<Integer, String, String, String, String, String> {
 
-    private static final long serialVersionUID = 825130779;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>public.port.id</code>.
@@ -287,11 +287,11 @@ public class PortRecord extends UpdatableRecordImpl<PortRecord> implements Recor
     public PortRecord(Integer id, String name, String unCountry, String unLocode, String unLocation, String timezone) {
         super(Port.PORT);
 
-        set(0, id);
-        set(1, name);
-        set(2, unCountry);
-        set(3, unLocode);
-        set(4, unLocation);
-        set(5, timezone);
+        setId(id);
+        setName(name);
+        setUnCountry(unCountry);
+        setUnLocode(unLocode);
+        setUnLocation(unLocation);
+        setTimezone(timezone);
     }
 }

@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements Record5<Integer, String, Integer, Short, String> {
 
-    private static final long serialVersionUID = 1974708501;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>public.vessel.id</code>.
@@ -250,10 +250,10 @@ public class VesselRecord extends UpdatableRecordImpl<VesselRecord> implements R
     public VesselRecord(Integer id, String name, Integer imo, Short teu, String serviceNameCode) {
         super(Vessel.VESSEL);
 
-        set(0, id);
-        set(1, name);
-        set(2, imo);
-        set(3, teu);
-        set(4, serviceNameCode);
+        setId(id);
+        setName(name);
+        setImo(imo);
+        setTeu(teu);
+        setServiceNameCode(serviceNameCode);
     }
 }

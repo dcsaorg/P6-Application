@@ -22,6 +22,7 @@ import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 
@@ -31,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Vessel extends TableImpl<VesselRecord> {
 
-    private static final long serialVersionUID = -1484643049;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The reference instance of <code>public.vessel</code>
@@ -49,33 +50,34 @@ public class Vessel extends TableImpl<VesselRecord> {
     /**
      * The column <code>public.vessel.id</code>.
      */
-    public final TableField<VesselRecord, Integer> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('vessel_id_seq'::regclass)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<VesselRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.vessel.name</code>.
      */
-    public final TableField<VesselRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "");
+    public final TableField<VesselRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(100).nullable(false), this, "");
 
     /**
      * The column <code>public.vessel.imo</code>.
      */
-    public final TableField<VesselRecord, Integer> IMO = createField(DSL.name("imo"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<VesselRecord, Integer> IMO = createField(DSL.name("imo"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.vessel.teu</code>.
      */
-    public final TableField<VesselRecord, Short> TEU = createField(DSL.name("teu"), org.jooq.impl.SQLDataType.SMALLINT.nullable(false), this, "");
+    public final TableField<VesselRecord, Short> TEU = createField(DSL.name("teu"), SQLDataType.SMALLINT.nullable(false), this, "");
 
     /**
      * The column <code>public.vessel.service_name_code</code>.
      */
-    public final TableField<VesselRecord, String> SERVICE_NAME_CODE = createField(DSL.name("service_name_code"), org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
+    public final TableField<VesselRecord, String> SERVICE_NAME_CODE = createField(DSL.name("service_name_code"), SQLDataType.VARCHAR(255), this, "");
 
-    /**
-     * Create a <code>public.vessel</code> table reference
-     */
-    public Vessel() {
-        this(DSL.name("vessel"), null);
+    private Vessel(Name alias, Table<VesselRecord> aliased) {
+        this(alias, aliased, null);
+    }
+
+    private Vessel(Name alias, Table<VesselRecord> aliased, Field<?>[] parameters) {
+        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
     }
 
     /**
@@ -92,12 +94,11 @@ public class Vessel extends TableImpl<VesselRecord> {
         this(alias, VESSEL);
     }
 
-    private Vessel(Name alias, Table<VesselRecord> aliased) {
-        this(alias, aliased, null);
-    }
-
-    private Vessel(Name alias, Table<VesselRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
+    /**
+     * Create a <code>public.vessel</code> table reference
+     */
+    public Vessel() {
+        this(DSL.name("vessel"), null);
     }
 
     public <O extends Record> Vessel(Table<O> child, ForeignKey<O, VesselRecord> key) {
@@ -111,7 +112,7 @@ public class Vessel extends TableImpl<VesselRecord> {
 
     @Override
     public Identity<VesselRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_VESSEL;
+        return (Identity<VesselRecord, Integer>) super.getIdentity();
     }
 
     @Override

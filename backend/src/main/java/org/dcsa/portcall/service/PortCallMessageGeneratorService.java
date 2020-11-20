@@ -10,7 +10,9 @@ import org.dcsa.portcall.db.tables.pojos.*;
 import org.dcsa.portcall.message.*;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,18 +20,20 @@ import java.nio.file.Paths;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Service
 public class PortCallMessageGeneratorService {
 
     private static final Logger log = LogManager.getLogger(PortCallMessageGeneratorService.class);
     private PortCallTimestamp timestamp;
     private DSLContext dsl;
+
+    @Autowired
     private PortCallProperties config;
 
 
-    public PortCallMessageGeneratorService(PortCallTimestamp timestamp, PortCallProperties config, DSLContext dsl) {
-        this.timestamp = timestamp;
-        this.dsl = dsl;
-        this.config = config;
+
+    public PortCallMessageGeneratorService() {
+
     }
 
 
@@ -38,7 +42,10 @@ public class PortCallMessageGeneratorService {
      * <p>
      * generates a new DCSA Message by the handed over PortCallTimeStamp
      */
-    public DCSAMessage generate() {
+    public DCSAMessage generate(PortCallTimestamp timestamp,  DSLContext dsl) {
+        this.timestamp = timestamp;
+        this.dsl = dsl;
+
         DCSAMessage message = new DCSAMessage();
         // Generate Message Header
         log.info("Generate new PortCall Message for timestamp type {}", this.timestamp.getTimestampType());
@@ -174,7 +181,7 @@ public class PortCallMessageGeneratorService {
         PortCallEvent event = new PortCallEvent();
         event.setEventClassifierCode(PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(timestamp.getTimestampType()));
         event.setTransportEventTypeCode(PortcallTimestampTypeMapping.getTransPortEventTypeForTimestamp(timestamp.getTimestampType()));
-        //@ToDo Swicth between option One and Two (Service Event / Location Event)
+        //@ToDo Switch between option One and Two (Service Event / Location Event)
         event.setLocationType(PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(timestamp.getTimestampType()));
         String location = String.format("urn:mrn:ipcdmc:location:%s:berth:%s:%s",
                 portOfCall, terminal, this.timestamp.getLocationId());
@@ -211,7 +218,7 @@ public class PortCallMessageGeneratorService {
         try {
             PortCallMessageService pcms = new PortCallMessageService();
             ObjectMapper mapper = pcms.getJsonMapper();
-            Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessagFileName(message));
+            Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessageFileName(message));
             log.info("{} PortCall Message will be saved to: {}", timestamp.getTimestampType(), path.toString());
             mapper.writeValue(Paths.get(path.toString()).toFile(), message);
             log.info("Message successfully saved!");
@@ -225,7 +232,7 @@ public class PortCallMessageGeneratorService {
         }
     }
 
-    private String generateMessagFileName(DCSAMessage message) {
+    private String generateMessageFileName(DCSAMessage message) {
         // Filename {ProcessId}@{SENDER_ID}.JSON
         String fileName = message.getProcessId() + "@" + this.config.getSenderId() + ".json";
         return fileName;

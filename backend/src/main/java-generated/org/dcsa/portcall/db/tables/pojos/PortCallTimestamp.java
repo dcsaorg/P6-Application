@@ -17,7 +17,7 @@ import org.dcsa.portcall.db.enums.PortCallTimestampType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestamp implements Serializable {
 
-    private static final long serialVersionUID = 973216645;
+    private static final long serialVersionUID = 1L;
 
     private Integer               id;
     private Integer               vessel;
@@ -93,145 +93,241 @@ public class PortCallTimestamp implements Serializable {
         this.deleted = deleted;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.id</code>.
+     */
     public Integer getId() {
         return this.id;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.id</code>.
+     */
     public PortCallTimestamp setId(Integer id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.vessel</code>.
+     */
     public Integer getVessel() {
         return this.vessel;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.vessel</code>.
+     */
     public PortCallTimestamp setVessel(Integer vessel) {
         this.vessel = vessel;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.vessel_service_name</code>.
+     */
     public String getVesselServiceName() {
         return this.vesselServiceName;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.vessel_service_name</code>.
+     */
     public PortCallTimestamp setVesselServiceName(String vesselServiceName) {
         this.vesselServiceName = vesselServiceName;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.port_of_call</code>.
+     */
     public Integer getPortOfCall() {
         return this.portOfCall;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.port_of_call</code>.
+     */
     public PortCallTimestamp setPortOfCall(Integer portOfCall) {
         this.portOfCall = portOfCall;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.port_previous</code>.
+     */
     public Integer getPortPrevious() {
         return this.portPrevious;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.port_previous</code>.
+     */
     public PortCallTimestamp setPortPrevious(Integer portPrevious) {
         this.portPrevious = portPrevious;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.port_next</code>.
+     */
     public Integer getPortNext() {
         return this.portNext;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.port_next</code>.
+     */
     public PortCallTimestamp setPortNext(Integer portNext) {
         this.portNext = portNext;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.timestamp_type</code>.
+     */
     public PortCallTimestampType getTimestampType() {
         return this.timestampType;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.timestamp_type</code>.
+     */
     public PortCallTimestamp setTimestampType(PortCallTimestampType timestampType) {
         this.timestampType = timestampType;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.call_sequence</code>.
+     */
     public Integer getCallSequence() {
         return this.callSequence;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.call_sequence</code>.
+     */
     public PortCallTimestamp setCallSequence(Integer callSequence) {
         this.callSequence = callSequence;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.event_timestamp</code>.
+     */
     public OffsetDateTime getEventTimestamp() {
         return this.eventTimestamp;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.event_timestamp</code>.
+     */
     public PortCallTimestamp setEventTimestamp(OffsetDateTime eventTimestamp) {
         this.eventTimestamp = eventTimestamp;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.log_of_timestamp</code>.
+     */
     public OffsetDateTime getLogOfTimestamp() {
         return this.logOfTimestamp;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.log_of_timestamp</code>.
+     */
     public PortCallTimestamp setLogOfTimestamp(OffsetDateTime logOfTimestamp) {
         this.logOfTimestamp = logOfTimestamp;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.direction</code>.
+     */
     public Direction getDirection() {
         return this.direction;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.direction</code>.
+     */
     public PortCallTimestamp setDirection(Direction direction) {
         this.direction = direction;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.terminal</code>.
+     */
     public Integer getTerminal() {
         return this.terminal;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.terminal</code>.
+     */
     public PortCallTimestamp setTerminal(Integer terminal) {
         this.terminal = terminal;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.location_id</code>.
+     */
     public String getLocationId() {
         return this.locationId;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.location_id</code>.
+     */
     public PortCallTimestamp setLocationId(String locationId) {
         this.locationId = locationId;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.change_comment</code>.
+     */
     public String getChangeComment() {
         return this.changeComment;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.change_comment</code>.
+     */
     public PortCallTimestamp setChangeComment(String changeComment) {
         this.changeComment = changeComment;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.delay_code</code>.
+     */
     public Integer getDelayCode() {
         return this.delayCode;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.delay_code</code>.
+     */
     public PortCallTimestamp setDelayCode(Integer delayCode) {
         this.delayCode = delayCode;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.deleted</code>.
+     */
     public Boolean getDeleted() {
         return this.deleted;
     }
 
+    /**
+     * Setter for <code>public.port_call_timestamp.deleted</code>.
+     */
     public PortCallTimestamp setDeleted(Boolean deleted) {
         this.deleted = deleted;
         return this;

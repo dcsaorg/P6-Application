@@ -22,7 +22,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimestampRecord> implements Record16<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> {
 
-    private static final long serialVersionUID = -1357359264;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>public.port_call_timestamp.id</code>.
@@ -661,21 +661,21 @@ public class PortCallTimestampRecord extends UpdatableRecordImpl<PortCallTimesta
     public PortCallTimestampRecord(Integer id, Integer vessel, String vesselServiceName, Integer portOfCall, Integer portPrevious, Integer portNext, PortCallTimestampType timestampType, Integer callSequence, OffsetDateTime eventTimestamp, OffsetDateTime logOfTimestamp, Direction direction, Integer terminal, String locationId, String changeComment, Integer delayCode, Boolean deleted) {
         super(PortCallTimestamp.PORT_CALL_TIMESTAMP);
 
-        set(0, id);
-        set(1, vessel);
-        set(2, vesselServiceName);
-        set(3, portOfCall);
-        set(4, portPrevious);
-        set(5, portNext);
-        set(6, timestampType);
-        set(7, callSequence);
-        set(8, eventTimestamp);
-        set(9, logOfTimestamp);
-        set(10, direction);
-        set(11, terminal);
-        set(12, locationId);
-        set(13, changeComment);
-        set(14, delayCode);
-        set(15, deleted);
+        setId(id);
+        setVessel(vessel);
+        setVesselServiceName(vesselServiceName);
+        setPortOfCall(portOfCall);
+        setPortPrevious(portPrevious);
+        setPortNext(portNext);
+        setTimestampType(timestampType);
+        setCallSequence(callSequence);
+        setEventTimestamp(eventTimestamp);
+        setLogOfTimestamp(logOfTimestamp);
+        setDirection(direction);
+        setTerminal(terminal);
+        setLocationId(locationId);
+        setChangeComment(changeComment);
+        setDelayCode(delayCode);
+        setDeleted(deleted);
     }
 }
