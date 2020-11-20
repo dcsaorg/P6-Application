@@ -1,4 +1,4 @@
-CREATE TABLE public.liner_code (
+CREATE TABLE liner_code (
 	id serial NOT NULL,
 	smdg_code varchar(4) NOT NULL,
 	line varchar(200) NOT NULL,
