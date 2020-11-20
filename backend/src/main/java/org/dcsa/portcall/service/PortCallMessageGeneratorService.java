@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.*;
+import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.*;
 import org.dcsa.portcall.message.*;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
@@ -40,37 +41,43 @@ public class PortCallMessageGeneratorService {
     public DCSAMessage generate() {
         DCSAMessage message = new DCSAMessage();
         // Generate Message Header
-        log.info("Generate new PortCall Message");
-        this.generateMessageHeader(message);
+        log.info("Generate new PortCall Message for timestamp type {}", this.timestamp.getTimestampType());
 
-        this.storeMessage(message);
+        // Get PortOfCall and Terminal
+        String portOfCall = this.getPortById(timestamp.getPortOfCall()).getUnLocode();
+        String terminal = this.getTerminalById(timestamp.getTerminal()).getSmdgCode();
+
+        // Generate MessageHeader
+        this.generateMessageHeader(message, portOfCall, terminal);
+
+        // Add Payload
+        message.setPayload(this.generatePortCallMessage(portOfCall, terminal));
+
+        if(this.documentCreationRequired(message)) {
+            this.storeMessage(message);
+        } else {
+            log.warn("No document was stored, sender is {}, receiver is {}!", message.getSenderRole(), message.getReceiverRole());
+        }
+
 
         return message;
     }
 
-    private void generateMessageHeader(DCSAMessage message) {
+    private void generateMessageHeader(DCSAMessage message, String portOfCall, String terminal) {
         log.debug("Generate message header");
         message.setMessageDateTime(OffsetDateTime.now());
         message.setSenderRole(this.config.getSenderRole());
         message.setSenderIdType(this.config.getSenderIdType());
 
-        String portOfCall = this.getPortById(timestamp.getPortOfCall()).getUnLocode();
-        String terminal = this.getTerminalById(timestamp.getTerminal()).getSmdgCode();
+
         message.setSenderId(this.config.getSenderId());
-
-        //@ToDo Calculate Receiver Role Code and ID by TimeStamp Type
-        message.setReceiverRole(RoleType.TERMINAL);
-        message.setReceiverIdType(CodeType.UN_LOCODE);
-        String receiverId = portOfCall +
-                ":" +
-                terminal;
-        message.setReceiverId(receiverId);
-
+        // Identify the Receiver as of selected Timestamp
+        this.identifyReceiver(message, portOfCall, terminal);
         message.setProcessType(ProcessType.PortCall);
         message.setProcessId(this.generateUUID());
         message.setMessageType(MessageType.PortCallMessage);
-        // Add Payload
-        message.setPayload(this.generatePortCallMessage(portOfCall, terminal));
+
+
 
     }
 
@@ -91,6 +98,77 @@ public class PortCallMessageGeneratorService {
         return pcm;
     }
 
+    /**
+     *
+     * Checks if it is necessary to generate a document or not, in case sender and receiver are the same, no document need to be generated!
+     *
+     * @return boolean
+     */
+
+    private boolean documentCreationRequired(DCSAMessage message){
+        if(message.getSenderRole() == message.getReceiverRole()){
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+
+    /**
+     * Sets receiver role, IdType and ID as of selected timestamp
+     * @param message
+     */
+    private void identifyReceiver(DCSAMessage message, String portOfCall, String terminal){
+        RoleType receiverRole = null;
+        CodeType receiverIdType = null;
+        String receiverId = null;
+
+        PortCallTimestampType type = this.timestamp.getTimestampType();
+
+        // Receiver is the Terminal
+        if(type == PortCallTimestampType.ETA_Berth ||
+           type == PortCallTimestampType.PTA_Berth ||
+           type == PortCallTimestampType.ATA_Berth ||
+           type == PortCallTimestampType.RTC_Cargo_Ops ||
+           type == PortCallTimestampType.ATD_Berth){
+
+            receiverRole = RoleType.TERMINAL;
+            receiverIdType = CodeType.TERMINAL;
+            receiverId = portOfCall +
+                    ":" +
+                    terminal;
+        }
+        // Receiver is Carrier
+        else if(type == PortCallTimestampType.RTA_Berth ||
+                type == PortCallTimestampType.RTA_PBP ||
+                type == PortCallTimestampType.ATS ||
+                type == PortCallTimestampType.ETC_Cargo_Ops ||
+                type == PortCallTimestampType.PTC_Cargo_Ops ||
+                type == PortCallTimestampType.RTD_Berth ||
+                type == PortCallTimestampType.ATC_Cargo_Ops){
+
+            receiverRole = RoleType.CARRIER;
+            receiverIdType = CodeType.SMDG_LINER_CODE;
+            receiverId = "N/A";
+        }
+
+        // Receiver is Port
+        else if(type == PortCallTimestampType.ETA_PBP ||
+                type == PortCallTimestampType.PTA_PBP ||
+                type == PortCallTimestampType.ATA_PBP ||
+                type == PortCallTimestampType.ETD_Berth ||
+                type == PortCallTimestampType.PTD_Berth){
+
+            receiverRole = RoleType.PORT;
+            receiverIdType = CodeType.UN_LOCODE;
+            receiverId = portOfCall;
+        }
+
+        message.setReceiverRole(receiverRole);
+        message.setReceiverIdType(receiverIdType);
+        message.setReceiverId(receiverId);
+    }
 
     private PortCallEvent generatePortCallEvent(String portOfCall, String terminal) {
         PortCallEvent event = new PortCallEvent();
@@ -104,7 +182,13 @@ public class PortCallMessageGeneratorService {
         //@ToDo check correct Timezone
         event.setEventDateTime(this.timestamp.getEventTimestamp());
         return event;
+
     }
+
+    /**
+     * Generates comment for the remark field as of filled values in timestamp generator
+     * @return String
+     */
 
     private String generateComment() {
         if (this.timestamp.getDelayCode() != null) {
@@ -115,6 +199,12 @@ public class PortCallMessageGeneratorService {
             return this.timestamp.getChangeComment();
         }
     }
+
+    /**
+     * store the Message to the FileSystem to the define output folder set as hotfolder/outbox
+     *  @param message
+     *
+     */
 
     private void storeMessage(DCSAMessage message) {
         log.debug("New {} PortCall Message will be stored to File System", timestamp.getTimestampType());
