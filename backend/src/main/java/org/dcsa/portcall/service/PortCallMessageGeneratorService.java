@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.*;
-import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.*;
 import org.dcsa.portcall.message.*;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
@@ -100,7 +99,7 @@ public class PortCallMessageGeneratorService {
         //@ToDo Swicth between option One and Two (Service Event / Location Event)
         event.setLocationType(PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(timestamp.getTimestampType()));
         String location = String.format("urn:mrn:ipcdmc:location:%s:berth:%s:%s",
-               portOfCall,terminal,this.timestamp.getLocationId());
+                portOfCall, terminal, this.timestamp.getLocationId());
         event.setLocationId(location);
         //@ToDo check correct Timezone
         event.setEventDateTime(this.timestamp.getEventTimestamp());
@@ -122,7 +121,7 @@ public class PortCallMessageGeneratorService {
         try {
             PortCallMessageService pcms = new PortCallMessageService();
             ObjectMapper mapper = pcms.getJsonMapper();
-            Path path = Paths.get(this.config.getHotfolder().getOutbox() + this.generateMessagFileName(message));
+            Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessagFileName(message));
             log.info("{} PortCall Message will be saved to: {}", timestamp.getTimestampType(), path.toString());
             mapper.writeValue(Paths.get(path.toString()).toFile(), message);
             log.info("Message successfully saved!");
@@ -142,9 +141,6 @@ public class PortCallMessageGeneratorService {
         return fileName;
 
     }
-
-
-
 
 
     /**

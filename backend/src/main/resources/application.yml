@@ -70,8 +70,8 @@ dcsa:
   sender-id: ABC
 
   hotfolder:
-    outbox: "C:/opt/outbox/"
-    inbox: "./inbox"
+    outbox: "hotfolder/outbox"
+    inbox: "hotfolder/inbox"
 
   messenger:
     adapter:

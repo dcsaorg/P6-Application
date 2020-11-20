@@ -44,15 +44,12 @@ public class PortCallTimestampController {
     private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
     private final DSLContext dsl;
 
-
-
     @Autowired
     private PortCallProperties config;
 
     public PortCallTimestampController(DSLContext dsl) {
         this.dsl = dsl;
     }
-
 
 
     @GetMapping("/{vesselId}")
