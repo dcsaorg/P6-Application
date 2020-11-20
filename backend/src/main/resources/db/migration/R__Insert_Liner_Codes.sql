@@ -1,3 +1,5 @@
+delete from liner_code;
+
 INSERT INTO liner_code (smdg_code, line, valid_from, website)
 VALUES ('AAL', 'Austral Asia Line', '2003-09-01', 'http://aalshipping.com')
      , ('ABC', 'ABC Containerline ', '2003-09-01', '')
