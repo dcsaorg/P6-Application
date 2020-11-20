@@ -12,20 +12,17 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.dcsa.portcall.message.EventClassifierCode;
 import org.dcsa.portcall.service.PortCallMessageGeneratorService;
+import org.dcsa.portcall.service.persistence.PortCallTimestampService;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.dcsa.portcall.util.TimeZoneConverter;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.Record1;
-import org.jooq.Result;
 import org.jooq.impl.DSL;
 import org.postgresql.util.PSQLException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +40,15 @@ import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
 public class PortCallTimestampController {
     private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
     private final DSLContext dsl;
+    private final PortCallTimestampService portCallTimestampService;
+    private final PortCallMessageGeneratorService portCallMessageGeneratorService;
 
-    public PortCallTimestampController(DSLContext dsl) {
+    public PortCallTimestampController(DSLContext dsl,
+                                       PortCallTimestampService portCallTimestampService,
+                                       PortCallMessageGeneratorService portCallMessageGeneratorService) {
         this.dsl = dsl;
+        this.portCallTimestampService = portCallTimestampService;
+        this.portCallMessageGeneratorService = portCallMessageGeneratorService;
     }
 
 
@@ -53,20 +56,7 @@ public class PortCallTimestampController {
     @Transactional(readOnly = true)
     public List<PortCallTimestamp> listPortCallTimestamps(@PathVariable int vesselId) {
         log.info("Listing all port call timestamps for vessel {}", vesselId);
-        Result<Record> timestamps = dsl.select()
-                .from(PORT_CALL_TIMESTAMP)
-                .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
-                        .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
-                .fetch();
-
-        if (timestamps == null) {
-            String msg = String.format("No timestamps with vessel id %s found", vesselId);
-            log.error(msg);
-            throw new PortCallException(HttpStatus.NOT_FOUND, msg);
-        } else {
-            log.debug("Loaded timestamps with vessel id {}", vesselId);
-            return timestamps.into(PortCallTimestamp.class);
-        }
+        return portCallTimestampService.findTimestamps(vesselId);
     }
 
     @GetMapping("/highestTimestampId/{vesselId}")
@@ -120,8 +110,7 @@ public class PortCallTimestampController {
             log.info("Portcall Timestamp added with id [{}]", id.value1());
 
             // Generate PortCall Message
-            PortCallMessageGeneratorService pcMessageService = new PortCallMessageGeneratorService();
-            pcMessageService.generate(portCallTimestamp, this.dsl);
+            portCallMessageGeneratorService.generate(portCallTimestamp);
             return portCallTimestamp;
         } catch (Exception e) {
             String msg = String.format("Could not store port call timestamp: %s", e.getMessage());

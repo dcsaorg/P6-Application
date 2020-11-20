@@ -4,13 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
-import org.dcsa.portcall.controller.*;
+import org.dcsa.portcall.controller.PortCallException;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
-import org.dcsa.portcall.db.tables.pojos.*;
+import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.*;
+import org.dcsa.portcall.service.persistence.DelayCodeService;
+import org.dcsa.portcall.service.persistence.PortService;
+import org.dcsa.portcall.service.persistence.TerminalService;
+import org.dcsa.portcall.service.persistence.VesselService;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
-import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -24,44 +26,47 @@ import java.util.UUID;
 public class PortCallMessageGeneratorService {
 
     private static final Logger log = LogManager.getLogger(PortCallMessageGeneratorService.class);
-    private PortCallTimestamp timestamp;
-    private DSLContext dsl;
 
-    @Autowired
-    private PortCallProperties config;
+    private final PortCallProperties config;
+    private final PortService portService;
+    private final DelayCodeService delayCodeService;
+    private final TerminalService terminalService;
+    private final VesselService vesselService;
 
-
-
-    public PortCallMessageGeneratorService() {
-
+    public PortCallMessageGeneratorService(PortCallProperties config,
+                                           DelayCodeService delayCodeService,
+                                           PortService portService,
+                                           TerminalService terminalService,
+                                           VesselService vesselService) {
+        this.config = config;
+        this.delayCodeService = delayCodeService;
+        this.portService = portService;
+        this.terminalService = terminalService;
+        this.vesselService = vesselService;
     }
 
 
     /**
-     * @return DCSAMessage
-     * <p>
      * generates a new DCSA Message by the handed over PortCallTimeStamp
      */
-    public DCSAMessage generate(PortCallTimestamp timestamp,  DSLContext dsl) {
-        this.timestamp = timestamp;
-        this.dsl = dsl;
+    public DCSAMessage<PortCallMessage> generate(PortCallTimestamp timestamp) {
 
-        DCSAMessage message = new DCSAMessage();
+        DCSAMessage<PortCallMessage> message = new DCSAMessage<>();
         // Generate Message Header
-        log.info("Generate new PortCall Message for timestamp type {}", this.timestamp.getTimestampType());
+        log.info("Generate new PortCall Message for timestamp type {}", timestamp.getTimestampType());
 
         // Get PortOfCall and Terminal
-        String portOfCall = this.getPortById(timestamp.getPortOfCall()).getUnLocode();
-        String terminal = this.getTerminalById(timestamp.getTerminal()).getSmdgCode();
+        String portOfCall = portService.findPort(timestamp.getPortOfCall()).get().getUnLocode();
+        String terminal = terminalService.findTerminal(timestamp.getTerminal()).get().getSmdgCode();
 
         // Generate MessageHeader
-        this.generateMessageHeader(message, portOfCall, terminal);
+        this.generateMessageHeader(timestamp, message, portOfCall, terminal);
 
         // Add Payload
-        message.setPayload(this.generatePortCallMessage(portOfCall, terminal));
+        message.setPayload(this.generatePortCallMessage(timestamp, portOfCall, terminal));
 
         if(this.documentCreationRequired(message)) {
-            this.storeMessage(message);
+            this.storeMessage(timestamp, message);
         } else {
             log.warn("No document was stored, sender is {}, receiver is {}!", message.getSenderRole(), message.getReceiverRole());
         }
@@ -70,7 +75,7 @@ public class PortCallMessageGeneratorService {
         return message;
     }
 
-    private void generateMessageHeader(DCSAMessage message, String portOfCall, String terminal) {
+    private void generateMessageHeader(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal) {
         log.debug("Generate message header");
         message.setMessageDateTime(OffsetDateTime.now());
         message.setSenderRole(this.config.getSenderRole());
@@ -79,59 +84,50 @@ public class PortCallMessageGeneratorService {
 
         message.setSenderId(this.config.getSenderId());
         // Identify the Receiver as of selected Timestamp
-        this.identifyReceiver(message, portOfCall, terminal);
+        this.identifyReceiver(timestamp, message, portOfCall, terminal);
         message.setProcessType(ProcessType.PortCall);
-        message.setProcessId(this.generateUUID());
+        message.setProcessId(UUID.randomUUID().toString());
         message.setMessageType(MessageType.PortCallMessage);
 
 
 
     }
 
-    private PortCallMessage generatePortCallMessage(String portOfCall, String terminal) {
+    private PortCallMessage generatePortCallMessage(PortCallTimestamp timestamp, String portOfCall, String terminal) {
         PortCallMessage pcm = new PortCallMessage();
         pcm.setVesselIdType(CodeType.IMO_VESSEL_NUMBER);
-        pcm.setVesselId(Integer.toString(this.getVesselById(this.timestamp.getVessel()).getImo()));
+        pcm.setVesselId(Integer.toString(vesselService.findVessel(timestamp.getVessel()).get().getImo()));
         pcm.setPortIdType(CodeType.UN_LOCODE);
         pcm.setPortId(portOfCall);
         pcm.setTerminalIdType(CodeType.TERMINAL);
         pcm.setTerminalId(terminal);
-        pcm.setPreviousPortOfCall(this.getPortById(this.timestamp.getPortPrevious()).getUnLocode());
-        pcm.setNextPortOfCall(this.getPortById(this.timestamp.getPortNext()).getUnLocode());
-        pcm.setVoyageNumber(this.timestamp.getVesselServiceName());
-        pcm.setEvent(this.generatePortCallEvent(portOfCall, terminal));
-        pcm.setRemarks(this.generateComment());
+        pcm.setPreviousPortOfCall(portService.findPort(timestamp.getPortPrevious()).get().getUnLocode());
+        pcm.setNextPortOfCall(portService.findPort(timestamp.getPortNext()).get().getUnLocode());
+        pcm.setVoyageNumber(timestamp.getVesselServiceName());
+        pcm.setEvent(this.generatePortCallEvent(timestamp, portOfCall, terminal));
+        pcm.setRemarks(this.generateComment(timestamp));
 
         return pcm;
     }
 
     /**
-     *
      * Checks if it is necessary to generate a document or not, in case sender and receiver are the same, no document need to be generated!
-     *
-     * @return boolean
      */
 
-    private boolean documentCreationRequired(DCSAMessage message){
-        if(message.getSenderRole() == message.getReceiverRole()){
-            return false;
-        } else {
-            return true;
-        }
-
+    private boolean documentCreationRequired(DCSAMessage<PortCallMessage> message){
+        return message.getSenderRole() != message.getReceiverRole();
     }
 
 
     /**
      * Sets receiver role, IdType and ID as of selected timestamp
-     * @param message
      */
-    private void identifyReceiver(DCSAMessage message, String portOfCall, String terminal){
+    private void identifyReceiver(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal){
         RoleType receiverRole = null;
         CodeType receiverIdType = null;
         String receiverId = null;
 
-        PortCallTimestampType type = this.timestamp.getTimestampType();
+        PortCallTimestampType type = timestamp.getTimestampType();
 
         // Receiver is the Terminal
         if(type == PortCallTimestampType.ETA_Berth ||
@@ -177,17 +173,17 @@ public class PortCallMessageGeneratorService {
         message.setReceiverId(receiverId);
     }
 
-    private PortCallEvent generatePortCallEvent(String portOfCall, String terminal) {
+    private PortCallEvent generatePortCallEvent(PortCallTimestamp timestamp, String portOfCall, String terminal) {
         PortCallEvent event = new PortCallEvent();
         event.setEventClassifierCode(PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(timestamp.getTimestampType()));
         event.setTransportEventTypeCode(PortcallTimestampTypeMapping.getTransPortEventTypeForTimestamp(timestamp.getTimestampType()));
         //@ToDo Switch between option One and Two (Service Event / Location Event)
         event.setLocationType(PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(timestamp.getTimestampType()));
         String location = String.format("urn:mrn:ipcdmc:location:%s:berth:%s:%s",
-                portOfCall, terminal, this.timestamp.getLocationId());
+                portOfCall, terminal, timestamp.getLocationId());
         event.setLocationId(location);
         //@ToDo check correct Timezone
-        event.setEventDateTime(this.timestamp.getEventTimestamp());
+        event.setEventDateTime(timestamp.getEventTimestamp());
         return event;
 
     }
@@ -197,23 +193,19 @@ public class PortCallMessageGeneratorService {
      * @return String
      */
 
-    private String generateComment() {
-        if (this.timestamp.getDelayCode() != null) {
-            String comment = String.format("%s: %s", this.getDelayCodeById(this.timestamp.getDelayCode()).getSmdgCode(),
-                    this.timestamp.getChangeComment());
-            return comment;
+    private String generateComment(PortCallTimestamp timestamp) {
+        if (timestamp.getDelayCode() != null) {
+            return String.format("%s: %s", delayCodeService.findDelayCode(timestamp.getDelayCode()).get().getSmdgCode(),
+                    timestamp.getChangeComment());
         } else {
-            return this.timestamp.getChangeComment();
+            return timestamp.getChangeComment();
         }
     }
 
     /**
      * store the Message to the FileSystem to the define output folder set as hotfolder/outbox
-     *  @param message
-     *
      */
-
-    private void storeMessage(DCSAMessage message) {
+    private void storeMessage(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message) {
         log.debug("New {} PortCall Message will be stored to File System", timestamp.getTimestampType());
         try {
             PortCallMessageService pcms = new PortCallMessageService();
@@ -225,67 +217,14 @@ public class PortCallMessageGeneratorService {
 
         } catch (IOException e) {
             String msg = String.format("Error saving new PortCallMessage:  %s ", e.getMessage());
-            log.error(msg);
-            e.printStackTrace();
-            PortCallException portCallException = new PortCallException(HttpStatus.INTERNAL_SERVER_ERROR, msg);
-            throw portCallException;
+            log.error(msg, e);
+            throw new PortCallException(HttpStatus.INTERNAL_SERVER_ERROR, msg);
         }
     }
 
-    private String generateMessageFileName(DCSAMessage message) {
+    private String generateMessageFileName(DCSAMessage<PortCallMessage> message) {
         // Filename {ProcessId}@{SENDER_ID}.JSON
-        String fileName = message.getProcessId() + "@" + this.config.getSenderId() + ".json";
-        return fileName;
+        return message.getProcessId() + "@" + this.config.getSenderId() + ".json";
 
     }
-
-
-    /**
-     * @param portId
-     * @return Port
-     * <p>
-     * Load Port from Database by ID
-     */
-
-    private Port getPortById(int portId) {
-        PortController pc = new PortController(this.dsl);
-        return pc.getPortById(portId);
-    }
-
-    /**
-     * @param vesselId
-     * @return Vessel
-     * <p>
-     * Load Vessel from Database by ID
-     */
-    private Vessel getVesselById(int vesselId) {
-        VesselController vc = new VesselController(this.dsl);
-        return vc.getVessel(vesselId);
-    }
-
-    /**
-     * @param terminalId
-     * @return Terminal
-     * <p>
-     * Load Terminal from Database by ID
-     */
-    private Terminal getTerminalById(int terminalId) {
-        TerminalController tc = new TerminalController(this.dsl);
-        return tc.getTerminalById(terminalId);
-    }
-
-    /**
-     * @param delayCodeId
-     * @return Load DelayCode from Database by ID
-     */
-
-    private DelayCode getDelayCodeById(int delayCodeId) {
-        DelayCodeController dc = new DelayCodeController(this.dsl);
-        return dc.getDelayCode(delayCodeId);
-    }
-
-    private String generateUUID() {
-        return UUID.randomUUID().toString();
-    }
-
 }
