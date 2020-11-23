@@ -4,29 +4,19 @@
 package org.dcsa.portcall.db.tables;
 
 
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 import org.dcsa.portcall.db.Keys;
 import org.dcsa.portcall.db.Public;
 import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.records.PortCallTimestampRecord;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Identity;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row16;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -175,12 +165,12 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
     @Override
     public UniqueKey<PortCallTimestampRecord> getPrimaryKey() {
-        return Keys.MESSAGE_PK;
+        return Keys.PORT_CALL_TIMESTAMP_PK;
     }
 
     @Override
     public List<UniqueKey<PortCallTimestampRecord>> getKeys() {
-        return Arrays.<UniqueKey<PortCallTimestampRecord>>asList(Keys.MESSAGE_PK);
+        return Arrays.<UniqueKey<PortCallTimestampRecord>>asList(Keys.PORT_CALL_TIMESTAMP_PK);
     }
 
     @Override

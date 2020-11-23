@@ -26,6 +26,11 @@ public class Sequences {
     public static final Sequence<Integer> LINER_CODE_ID_SEQ = Internal.createSequence("liner_code_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>public.message_id_seq</code>
+     */
+    public static final Sequence<Integer> MESSAGE_ID_SEQ = Internal.createSequence("message_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.port_call_timestamp_id_seq</code>
      */
     public static final Sequence<Integer> PORT_CALL_TIMESTAMP_ID_SEQ = Internal.createSequence("port_call_timestamp_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);

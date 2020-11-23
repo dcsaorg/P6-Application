@@ -16,7 +16,7 @@ CREATE TABLE port_call_timestamp
     change_comment   varchar(512)             null,
     delay_code       int                      null,
     deleted          boolean                  NOT NULL DEFAULT false,
-    CONSTRAINT message_pk PRIMARY KEY (id)
+    CONSTRAINT port_call_timestamp_pk PRIMARY KEY (id)
 );
 
 ALTER TABLE port_call_timestamp
