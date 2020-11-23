@@ -33,3 +33,5 @@ Build:
           test-results:
             - backend/target/surefire-reports
       - clean
+  requirements:
+    - system.docker.executable
