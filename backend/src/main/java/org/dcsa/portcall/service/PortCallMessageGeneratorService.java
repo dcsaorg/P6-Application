@@ -6,12 +6,10 @@ import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.PortCallException;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
+import org.dcsa.portcall.db.tables.pojos.Carrier;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.*;
-import org.dcsa.portcall.service.persistence.DelayCodeService;
-import org.dcsa.portcall.service.persistence.PortService;
-import org.dcsa.portcall.service.persistence.TerminalService;
-import org.dcsa.portcall.service.persistence.VesselService;
+import org.dcsa.portcall.service.persistence.*;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,20 +28,25 @@ public class PortCallMessageGeneratorService {
 
     private final PortCallProperties config;
     private final PortService portService;
+    private final CarrierVesselPortHistoryService carrierVesselPortHistoryService;
     private final DelayCodeService delayCodeService;
     private final TerminalService terminalService;
     private final VesselService vesselService;
+    private final CarrierService carrierService;
 
     public PortCallMessageGeneratorService(PortCallProperties config,
                                            DelayCodeService delayCodeService,
                                            PortService portService,
+                                           CarrierVesselPortHistoryService carrierVesselPortHistoryService,
                                            TerminalService terminalService,
-                                           VesselService vesselService) {
+                                           VesselService vesselService, CarrierService carrierService) {
         this.config = config;
         this.delayCodeService = delayCodeService;
         this.portService = portService;
+        this.carrierVesselPortHistoryService = carrierVesselPortHistoryService;
         this.terminalService = terminalService;
         this.vesselService = vesselService;
+        this.carrierService = carrierService;
     }
 
 
@@ -52,6 +56,10 @@ public class PortCallMessageGeneratorService {
     public DCSAMessage<PortCallMessage> generate(PortCallTimestamp timestamp) {
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<>();
+
+        // Identify a carrier for this portCall process!
+        Carrier carrier = this.identifyCarrier(timestamp);
+
         // Generate Message Header
         log.info("Generate new PortCall Message for timestamp type {}", timestamp.getTimestampType());
 
@@ -60,35 +68,36 @@ public class PortCallMessageGeneratorService {
         String terminal = terminalService.findTerminal(timestamp.getTerminal()).get().getSmdgCode();
 
         // Generate MessageHeader
-        this.generateMessageHeader(timestamp, message, portOfCall, terminal);
+        this.generateMessageHeader(timestamp, message, portOfCall, terminal, carrier);
 
         // Add Payload
         message.setPayload(this.generatePortCallMessage(timestamp, portOfCall, terminal));
 
-        if(this.documentCreationRequired(message)) {
+        if (this.documentCreationRequired(message)) {
             this.storeMessage(timestamp, message);
         } else {
             log.warn("No document was stored, sender is {}, receiver is {}!", message.getSenderRole(), message.getReceiverRole());
         }
 
+        // Update Carrier Vessel Port History
+        this.carrierVesselPortHistoryService.updateHistory(timestamp, carrier);
+
 
         return message;
     }
 
-    private void generateMessageHeader(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal) {
+    private void generateMessageHeader(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal, Carrier carrier) {
         log.debug("Generate message header");
         message.setMessageDateTime(OffsetDateTime.now());
         message.setSenderRole(this.config.getSenderRole());
         message.setSenderIdType(this.config.getSenderIdType());
 
-
         message.setSenderId(this.config.getSenderId());
         // Identify the Receiver as of selected Timestamp
-        this.identifyReceiver(timestamp, message, portOfCall, terminal);
+        this.identifyReceiver(timestamp, message, portOfCall, terminal, carrier);
         message.setProcessType(ProcessType.PortCall);
         message.setProcessId(UUID.randomUUID().toString());
         message.setMessageType(MessageType.PortCallMessage);
-
 
 
     }
@@ -114,7 +123,7 @@ public class PortCallMessageGeneratorService {
      * Checks if it is necessary to generate a document or not, in case sender and receiver are the same, no document need to be generated!
      */
 
-    private boolean documentCreationRequired(DCSAMessage<PortCallMessage> message){
+    private boolean documentCreationRequired(DCSAMessage<PortCallMessage> message) {
         return message.getSenderRole() != message.getReceiverRole();
     }
 
@@ -122,7 +131,7 @@ public class PortCallMessageGeneratorService {
     /**
      * Sets receiver role, IdType and ID as of selected timestamp
      */
-    private void identifyReceiver(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal){
+    private void identifyReceiver(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal, Carrier carrier) {
         RoleType receiverRole = null;
         CodeType receiverIdType = null;
         String receiverId = null;
@@ -130,11 +139,11 @@ public class PortCallMessageGeneratorService {
         PortCallTimestampType type = timestamp.getTimestampType();
 
         // Receiver is the Terminal
-        if(type == PortCallTimestampType.ETA_Berth ||
-           type == PortCallTimestampType.PTA_Berth ||
-           type == PortCallTimestampType.ATA_Berth ||
-           type == PortCallTimestampType.RTC_Cargo_Ops ||
-           type == PortCallTimestampType.ATD_Berth){
+        if (type == PortCallTimestampType.ETA_Berth ||
+                type == PortCallTimestampType.PTA_Berth ||
+                type == PortCallTimestampType.ATA_Berth ||
+                type == PortCallTimestampType.RTC_Cargo_Ops ||
+                type == PortCallTimestampType.ATD_Berth) {
 
             receiverRole = RoleType.TERMINAL;
             receiverIdType = CodeType.TERMINAL;
@@ -143,25 +152,25 @@ public class PortCallMessageGeneratorService {
                     terminal;
         }
         // Receiver is Carrier
-        else if(type == PortCallTimestampType.RTA_Berth ||
+        else if (type == PortCallTimestampType.RTA_Berth ||
                 type == PortCallTimestampType.RTA_PBP ||
                 type == PortCallTimestampType.ATS ||
                 type == PortCallTimestampType.ETC_Cargo_Ops ||
                 type == PortCallTimestampType.PTC_Cargo_Ops ||
                 type == PortCallTimestampType.RTD_Berth ||
-                type == PortCallTimestampType.ATC_Cargo_Ops){
+                type == PortCallTimestampType.ATC_Cargo_Ops) {
 
             receiverRole = RoleType.CARRIER;
             receiverIdType = CodeType.SMDG_LINER_CODE;
-            receiverId = "N/A";
+            receiverId = carrier.getSmdgCode();
         }
 
         // Receiver is Port
-        else if(type == PortCallTimestampType.ETA_PBP ||
+        else if (type == PortCallTimestampType.ETA_PBP ||
                 type == PortCallTimestampType.PTA_PBP ||
                 type == PortCallTimestampType.ATA_PBP ||
                 type == PortCallTimestampType.ETD_Berth ||
-                type == PortCallTimestampType.PTD_Berth){
+                type == PortCallTimestampType.PTD_Berth) {
 
             receiverRole = RoleType.PORT;
             receiverIdType = CodeType.UN_LOCODE;
@@ -171,6 +180,40 @@ public class PortCallMessageGeneratorService {
         message.setReceiverRole(receiverRole);
         message.setReceiverIdType(receiverIdType);
         message.setReceiverId(receiverId);
+    }
+
+    /**
+     * This function gets the Carrier, in case the app is installed on carrier side,
+     * the carrier identification is pulled from the configs, in case the application role
+     * is different then a carrier, the carrier information is pulled out of the history, in
+     * order to get this parameter of an earlier timestamp
+     */
+
+    private Carrier identifyCarrier(PortCallTimestamp timestamp) {
+        Carrier carrier = new Carrier();
+        if (config.getSenderRole() == RoleType.CARRIER) {
+            // If sender is carrier get the carrier from the config
+            log.debug("Sender role is CARRIER, so carrier code is retrieved from configs");
+            Optional<Carrier> carrierOpt = this.carrierService.getCarrierByCode(config.getSenderId());
+            if (carrierOpt.isEmpty()) {
+                log.warn("The carrier code {} could not retrieved from the database", config.getSenderId());
+            } else {
+                carrier = carrierOpt.get();
+            }
+        } else {
+            // If sender is not a carrier, get the carrier from the PortCallHistory
+            log.debug("Sender role is other then CARRIER, so carrier code is retrieved from history");
+            int carrierID = this.carrierVesselPortHistoryService.getCarrierId(timestamp);
+            Optional<Carrier> carrierOpt = this.carrierService.getCarrierById(carrierID);
+            if (carrierOpt.isEmpty()) {
+                String msg = String.format("The carrier for this message could not retrieved from the database by the ID %s", carrierID);
+                log.warn(msg);
+                //ToDo what should happen, if we could not get any carrier?
+            } else {
+                carrier = carrierOpt.get();
+            }
+        }
+        return carrier;
     }
 
     private PortCallEvent generatePortCallEvent(PortCallTimestamp timestamp, String portOfCall, String terminal) {
@@ -190,7 +233,6 @@ public class PortCallMessageGeneratorService {
 
     /**
      * Generates comment for the remark field as of filled values in timestamp generator
-     * @return String
      */
 
     private String generateComment(PortCallTimestamp timestamp) {

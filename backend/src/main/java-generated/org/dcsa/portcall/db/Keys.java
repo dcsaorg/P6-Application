@@ -4,8 +4,22 @@
 package org.dcsa.portcall.db;
 
 
-import org.dcsa.portcall.db.tables.*;
-import org.dcsa.portcall.db.tables.records.*;
+import org.dcsa.portcall.db.tables.Carrier;
+import org.dcsa.portcall.db.tables.CarrierVesselPortHistory;
+import org.dcsa.portcall.db.tables.DelayCode;
+import org.dcsa.portcall.db.tables.Message;
+import org.dcsa.portcall.db.tables.Port;
+import org.dcsa.portcall.db.tables.PortCallTimestamp;
+import org.dcsa.portcall.db.tables.Terminal;
+import org.dcsa.portcall.db.tables.Vessel;
+import org.dcsa.portcall.db.tables.records.CarrierRecord;
+import org.dcsa.portcall.db.tables.records.CarrierVesselPortHistoryRecord;
+import org.dcsa.portcall.db.tables.records.DelayCodeRecord;
+import org.dcsa.portcall.db.tables.records.MessageRecord;
+import org.dcsa.portcall.db.tables.records.PortCallTimestampRecord;
+import org.dcsa.portcall.db.tables.records.PortRecord;
+import org.dcsa.portcall.db.tables.records.TerminalRecord;
+import org.dcsa.portcall.db.tables.records.VesselRecord;
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
@@ -24,10 +38,10 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<CarrierRecord> LINER_CODE_PK = Internal.createUniqueKey(Carrier.CARRIER, DSL.name("liner_code_pk"), new TableField[] { Carrier.CARRIER.ID }, true);
+    public static final UniqueKey<CarrierRecord> LINER_CODE_UN = Internal.createUniqueKey(Carrier.CARRIER, DSL.name("liner_code_un"), new TableField[] { Carrier.CARRIER.SMDG_CODE }, true);
     public static final UniqueKey<DelayCodeRecord> DELAY_CODE_KEY = Internal.createUniqueKey(DelayCode.DELAY_CODE, DSL.name("delay_code_key"), new TableField[] { DelayCode.DELAY_CODE.SMDG_CODE }, true);
     public static final UniqueKey<DelayCodeRecord> DELAY_CODE_PK = Internal.createUniqueKey(DelayCode.DELAY_CODE, DSL.name("delay_code_pk"), new TableField[] { DelayCode.DELAY_CODE.ID }, true);
-    public static final UniqueKey<LinerCodeRecord> LINER_CODE_PK = Internal.createUniqueKey(LinerCode.LINER_CODE, DSL.name("liner_code_pk"), new TableField[] { LinerCode.LINER_CODE.ID }, true);
-    public static final UniqueKey<LinerCodeRecord> LINER_CODE_UN = Internal.createUniqueKey(LinerCode.LINER_CODE, DSL.name("liner_code_un"), new TableField[] { LinerCode.LINER_CODE.SMDG_CODE }, true);
     public static final UniqueKey<MessageRecord> MESSAGE_PK = Internal.createUniqueKey(Message.MESSAGE, DSL.name("message_pk"), new TableField[] { Message.MESSAGE.ID }, true);
     public static final UniqueKey<PortRecord> PORT_PK = Internal.createUniqueKey(Port.PORT, DSL.name("port_pk"), new TableField[] { Port.PORT.ID }, true);
     public static final UniqueKey<PortRecord> PORT_UQ_UN_LOCODE = Internal.createUniqueKey(Port.PORT, DSL.name("port_uq_un_locode"), new TableField[] { Port.PORT.UN_LOCODE }, true);
@@ -41,6 +55,12 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<CarrierVesselPortHistoryRecord, CarrierRecord> CARRIER_VESSEL_PORT_HISTORY__CARRIER_HISTORY_FK = Internal.createForeignKey(CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY, DSL.name("carrier_history_fk"), new TableField[] { CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY.CARRIER }, Keys.LINER_CODE_PK, new TableField[] { Carrier.CARRIER.ID }, true);
+    public static final ForeignKey<CarrierVesselPortHistoryRecord, PortRecord> CARRIER_VESSEL_PORT_HISTORY__PORT_CALL_HISTORY_FK = Internal.createForeignKey(CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY, DSL.name("port_call_history_fk"), new TableField[] { CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY.PORT_OF_CALL }, Keys.PORT_PK, new TableField[] { Port.PORT.ID }, true);
+    public static final ForeignKey<CarrierVesselPortHistoryRecord, PortRecord> CARRIER_VESSEL_PORT_HISTORY__PORT_NEXT_HISTORY_FK = Internal.createForeignKey(CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY, DSL.name("port_next_history_fk"), new TableField[] { CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY.PORT_NEXT }, Keys.PORT_PK, new TableField[] { Port.PORT.ID }, true);
+    public static final ForeignKey<CarrierVesselPortHistoryRecord, PortRecord> CARRIER_VESSEL_PORT_HISTORY__PORT_PREV_HISTORY_FK = Internal.createForeignKey(CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY, DSL.name("port_prev_history_fk"), new TableField[] { CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY.PORT_PREVIOUS }, Keys.PORT_PK, new TableField[] { Port.PORT.ID }, true);
+    public static final ForeignKey<CarrierVesselPortHistoryRecord, TerminalRecord> CARRIER_VESSEL_PORT_HISTORY__TERMINAL_HISTORY_FK = Internal.createForeignKey(CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY, DSL.name("terminal_history_fk"), new TableField[] { CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY.TERMINAL }, Keys.TERMINAL_PK, new TableField[] { Terminal.TERMINAL.ID }, true);
+    public static final ForeignKey<CarrierVesselPortHistoryRecord, VesselRecord> CARRIER_VESSEL_PORT_HISTORY__VESSEL_HISTORY_FK = Internal.createForeignKey(CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY, DSL.name("vessel_history_fk"), new TableField[] { CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY.VESSEL }, Keys.VESSEL_PK, new TableField[] { Vessel.VESSEL.ID }, true);
     public static final ForeignKey<MessageRecord, PortCallTimestampRecord> MESSAGE__MESSAGE_FK_PORT_CALL_TIMESTAMP = Internal.createForeignKey(Message.MESSAGE, DSL.name("message_fk_port_call_timestamp"), new TableField[] { Message.MESSAGE.TIMESTAMP_ID }, Keys.PORT_CALL_TIMESTAMP_PK, new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.ID }, true);
     public static final ForeignKey<PortCallTimestampRecord, DelayCodeRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_DELAY_CODE = Internal.createForeignKey(PortCallTimestamp.PORT_CALL_TIMESTAMP, DSL.name("message_fk_delay_code"), new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.DELAY_CODE }, Keys.DELAY_CODE_PK, new TableField[] { DelayCode.DELAY_CODE.ID }, true);
     public static final ForeignKey<PortCallTimestampRecord, PortRecord> PORT_CALL_TIMESTAMP__MESSAGE_FK_PORT_NEXT = Internal.createForeignKey(PortCallTimestamp.PORT_CALL_TIMESTAMP, DSL.name("message_fk_port_next"), new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.PORT_NEXT }, Keys.PORT_PK, new TableField[] { Port.PORT.ID }, true);

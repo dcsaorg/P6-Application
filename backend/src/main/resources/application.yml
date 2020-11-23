@@ -65,9 +65,9 @@ springdoc:
 
 dcsa:
   company: Development
-  sender-role: Carrier
-  sender-id-type: SMDG_LINER_CODE
-  sender-id: ABC
+  sender-role: PORT
+  sender-id-type: UN_LOCODE
+  sender-id: DEHAM
 
   hotfolder:
     outbox: "hotfolder/outbox"
@@ -79,5 +79,8 @@ dcsa:
       version: 1.0
     host: localhost
     port: 8081
+
+  management:
+    carrier_vessel_port-history-threshold-days: 5
 
 

@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Primary;
     private String senderId;
     private Messenger messenger;
     private Hotfolder hotfolder;
+    private Management management;
 
 
     public String getCompany() {
@@ -38,13 +39,15 @@ import org.springframework.context.annotation.Primary;
     public Hotfolder getHotfolder() {return hotfolder;}
     public void setHotfolder(Hotfolder hotfolder) {this.hotfolder = hotfolder;}
 
-
     public Messenger getMessenger() {
         return messenger;
     }
     public void setMessenger(Messenger messenger) {
         this.messenger = messenger;
     }
+
+    public Management getManagement() {return management;}
+    public void setManagement(Management management) {this.management = management;}
 
     public static class Hotfolder{
         private String outbox;
@@ -115,6 +118,18 @@ import org.springframework.context.annotation.Primary;
             public void setVersion(String version) {
                 this.version = version;
             }
+        }
+    }
+
+    public static class Management{
+        private int carrierVesselPortHistoryThresholdDays;
+
+        public int getCarrierVesselPortHistoryThresholdDays() {
+            return carrierVesselPortHistoryThresholdDays;
+        }
+
+        public void setCarrierVesselPortHistoryThresholdDays(int carrierVesselPortHistoryThresholdDays) {
+            this.carrierVesselPortHistoryThresholdDays = carrierVesselPortHistoryThresholdDays;
         }
     }
 }

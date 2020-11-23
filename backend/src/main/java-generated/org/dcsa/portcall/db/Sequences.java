@@ -16,14 +16,14 @@ import org.jooq.impl.SQLDataType;
 public class Sequences {
 
     /**
+     * The sequence <code>public.carrier_id_seq</code>
+     */
+    public static final Sequence<Integer> CARRIER_ID_SEQ = Internal.createSequence("carrier_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.delay_code_id_seq</code>
      */
     public static final Sequence<Integer> DELAY_CODE_ID_SEQ = Internal.createSequence("delay_code_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
-
-    /**
-     * The sequence <code>public.liner_code_id_seq</code>
-     */
-    public static final Sequence<Integer> LINER_CODE_ID_SEQ = Internal.createSequence("liner_code_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>public.message_id_seq</code>
