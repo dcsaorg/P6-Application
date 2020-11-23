@@ -23,6 +23,7 @@ import {DateToUtcPipe} from "../../controller/date-to-utc.pipe";
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
+  @Input('portOfCall') portOfCall: Port;
   @Input('ports') ports: Port[];
   @Input('terminals') terminals: Terminal[];
   @Input('delayCodes') delayCodes: DelayCode[];
@@ -83,7 +84,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.updatePortCallTimeStampToBeEdited();
-
     // Workaround to change Calendr button "today" to "now"
 
     this.en = {
@@ -122,10 +122,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     }));
   }
 
-  selectPortOfCall(portId: number) {
+  updateTerminalOptions(portOfCallId: number) {
     this.terminalOptions = [{label: 'Select terminal', value: null}];
     this.terminals.forEach(terminal => {
-      if (terminal.port === portId) {
+      if (terminal.port === portOfCallId) {
         this.terminalOptions.push({label: terminal.smdgCode, value: terminal});
       }
     })
@@ -133,6 +133,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   validatePortOfCallTimestamp(timestamp: PortcallTimestamp): boolean {
     return !(timestamp.timestampType &&
+      timestamp.logOfTimestamp &&
+      timestamp.eventTimestamp &&
       timestamp.direction &&
       timestamp.portNext &&
       timestamp.portPrevious &&
@@ -157,7 +159,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         newPortcallTimestamp.eventTimestamp =  null
         newPortcallTimestamp.changeComment = ""
 
-        this.selectPortOfCall(newPortcallTimestamp.portOfCall.id);
+        this.portOfCall ? this.updateTerminalOptions(this.portOfCall.id) : this.updateTerminalOptions(newPortcallTimestamp.portOfCall.id);
 
         this.$timestamps.next([newPortcallTimestamp]);
       } else {

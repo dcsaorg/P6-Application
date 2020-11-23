@@ -3,7 +3,10 @@
     <app-header></app-header>
   </div>
   <div class="main__spaceBetween main__spaceInnerComponent">
-    <app-vessel (vesselNotifier)="vesselChangedHandler($event)"></app-vessel>
+    <app-vessel (portOfCallNotifier)="portOfCallChangedHandler($event)"
+                (vesselNotifier)="vesselChangedHandler($event)"
+                [ports]="ports"
+    ></app-vessel>
   </div>
   <div *ngIf="vesselId > 0; then vesselsSelected else emptyVessel"></div>
   <ng-template #vesselsSelected>
@@ -14,16 +17,21 @@
                              [ports]="ports"
                              [terminals]="terminals"
                              [timestamps]="portCallTimeStampsForId"
-                             [vesselId]="vesselId"></app-timestamp-table>
+                             [vesselId]="vesselId"
+        ></app-timestamp-table>
         <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
                               [delayCodes]="delayCodes"
                               [ports]="ports"
                               [terminals]="terminals"
-                              [vesselId]="vesselId" ></app-timestamp-editor>
+                              [portOfCall]="portOfCall"
+                              [vesselId]="vesselId"
+        ></app-timestamp-editor>
         <app-timestamp-paginator (timeStampsForVesselIdNotifier)="timeStampsForVesselIdsHandler($event)"
                                  [portCallTimeStampAdded]="portCallTimeStampAdded"
                                  [portCallTimeStampDeleted]="portCallTimeStampDeleted"
-                                 [vesselId]="vesselId"></app-timestamp-paginator>
+                                 [portOfCall]="portOfCall"
+                                 [vesselId]="vesselId"
+        ></app-timestamp-paginator>
       </p-card>
     </div>
   </ng-template>

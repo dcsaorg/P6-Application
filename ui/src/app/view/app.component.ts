@@ -14,6 +14,7 @@ import {DelayCodeService} from "../controller/delay-code.service";
 })
 export class AppComponent implements OnInit {
   vesselId: number
+  portOfCall: Port
   portCallTimeStampAdded: PortcallTimestamp;
   portCallTimeStampDeleted: PortcallTimestamp;
   ports: Port[] = [];
@@ -28,23 +29,15 @@ export class AppComponent implements OnInit {
     this.portService.getPorts().subscribe(ports => this.ports = ports);
     this.terminalService.getAllTerminals().subscribe(terminals => this.terminals = terminals);
     this.delayCodeService.getAllDelayCodes().subscribe(delaycodes => this.delayCodes = delaycodes);
-
   }
 
-  vesselChangedHandler($vesselId: number) {
-    this.vesselId = $vesselId
-  }
+  vesselChangedHandler = ($vesselId: number) => this.vesselId = $vesselId;
 
-  timeStampAddedHandler($portCallTimeStampAdded: PortcallTimestamp) {
-    this.portCallTimeStampAdded = $portCallTimeStampAdded;
-  }
+  timeStampAddedHandler = ($portCallTimeStampAdded: PortcallTimestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
 
-  timeStampsForVesselIdsHandler($portCallTimeStampsForId: PortcallTimestamp[]) {
-    this.portCallTimeStampsForId = $portCallTimeStampsForId;
-  }
+  timeStampsForVesselIdsHandler = ($portCallTimeStampsForId: PortcallTimestamp[]) => this.portCallTimeStampsForId = $portCallTimeStampsForId;
 
-  timestampDeletedHandler($portCallTimestampDeleted: PortcallTimestamp) {
-    this.portCallTimeStampDeleted = $portCallTimestampDeleted;
+  timestampDeletedHandler = ($portCallTimestampDeleted: PortcallTimestamp) => this.portCallTimeStampDeleted = $portCallTimestampDeleted;
 
-  }
+  portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
 }
