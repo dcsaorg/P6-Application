@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,7 +24,7 @@ public class OffsetDateTimeModuleTest {
     static void before() {
         AbstractPortCallMessageService portCallMessageService = new AbstractPortCallMessageService() {
             @Override
-            public Object process(Object message) {
+            public Optional process(Object message) {
                 return null;
             }
         };

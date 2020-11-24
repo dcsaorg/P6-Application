@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,7 +50,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
      * generates a new DCSA Message by the handed over PortCallTimeStamp
      */
     @Override
-    public DCSAMessage<PortCallMessage> process(PortCallTimestamp timestamp) {
+    public Optional<DCSAMessage<PortCallMessage>> process(PortCallTimestamp timestamp) {
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<>();
 
@@ -79,7 +80,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         if (carrier.getId() != null) {
         }
 
-        return message;
+        return Optional.of(message);
     }
 
     private void generateMessageHeader(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal, Carrier carrier) {
