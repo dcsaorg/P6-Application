@@ -1,6 +1,5 @@
 package org.dcsa.portcall.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
@@ -21,9 +20,9 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Service
-public class PortCallMessageGeneratorService {
+public class OutboundPortCallMessageService extends AbstractPortCallMessageService {
 
-    private static final Logger log = LogManager.getLogger(PortCallMessageGeneratorService.class);
+    private static final Logger log = LogManager.getLogger(OutboundPortCallMessageService.class);
 
     private final PortCallProperties config;
     private final PortService portService;
@@ -32,11 +31,11 @@ public class PortCallMessageGeneratorService {
     private final VesselService vesselService;
     private final CarrierService carrierService;
 
-    public PortCallMessageGeneratorService(PortCallProperties config,
-                                           DelayCodeService delayCodeService,
-                                           PortService portService,
-                                           TerminalService terminalService,
-                                           VesselService vesselService, CarrierService carrierService) {
+    public OutboundPortCallMessageService(PortCallProperties config,
+                                          DelayCodeService delayCodeService,
+                                          PortService portService,
+                                          TerminalService terminalService,
+                                          VesselService vesselService, CarrierService carrierService) {
         this.config = config;
         this.delayCodeService = delayCodeService;
         this.portService = portService;
@@ -213,11 +212,9 @@ public class PortCallMessageGeneratorService {
     private void storeMessage(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message) {
         log.debug("New {} PortCall Message will be stored to File System", timestamp.getTimestampType());
         try {
-            PortCallMessageService pcms = new PortCallMessageService();
-            ObjectMapper mapper = pcms.getJsonMapper();
             Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessageFileName(message));
             log.info("{} PortCall Message will be saved to: {}", timestamp.getTimestampType(), path.toString());
-            mapper.writeValue(Paths.get(path.toString()).toFile(), message);
+            getJsonMapper().writeValue(Paths.get(path.toString()).toFile(), message);
             log.info("Message successfully saved!");
 
         } catch (IOException e) {

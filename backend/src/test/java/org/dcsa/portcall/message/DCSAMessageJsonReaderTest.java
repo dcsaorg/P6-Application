@@ -3,7 +3,7 @@ package org.dcsa.portcall.message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.dcsa.portcall.service.PortCallMessageService;
+import org.dcsa.portcall.service.AbstractPortCallMessageService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ public class DCSAMessageJsonReaderTest {
 
     @BeforeAll
     static void before() {
-        PortCallMessageService portCallMessageService = new PortCallMessageService();
+        AbstractPortCallMessageService portCallMessageService = new AbstractPortCallMessageService() {};
         mapper = portCallMessageService.getJsonMapper();
     }
 

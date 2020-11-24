@@ -13,10 +13,8 @@ package org.dcsa.portcall.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
-import org.dcsa.portcall.service.PortCallMessageGeneratorService;
+import org.dcsa.portcall.service.OutboundPortCallMessageService;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
-import org.dcsa.portcall.service.persistence.PortService;
-import org.dcsa.portcall.service.persistence.VesselService;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -31,17 +29,11 @@ import java.util.List;
 public class PortCallTimestampController {
     private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
 
-    private final PortService portService;
-    private final VesselService vesselService;
     private final PortCallTimestampService portCallTimestampService;
-    private final PortCallMessageGeneratorService portCallMessageGeneratorService;
+    private final OutboundPortCallMessageService portCallMessageGeneratorService;
 
-    public PortCallTimestampController(PortService portService,
-                                       VesselService vesselService,
-                                       PortCallTimestampService portCallTimestampService,
-                                       PortCallMessageGeneratorService portCallMessageGeneratorService) {
-        this.portService = portService;
-        this.vesselService = vesselService;
+    public PortCallTimestampController(PortCallTimestampService portCallTimestampService,
+                                       OutboundPortCallMessageService portCallMessageGeneratorService) {
         this.portCallTimestampService = portCallTimestampService;
         this.portCallMessageGeneratorService = portCallMessageGeneratorService;
     }

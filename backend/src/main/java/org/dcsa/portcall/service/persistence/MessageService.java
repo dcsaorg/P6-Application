@@ -9,6 +9,7 @@ import org.jooq.Result;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -36,16 +37,22 @@ public class MessageService extends AbstractPersistenceService {
     }
 
     public Optional<Message> saveMessage(int portCallTimestampId, MessageDirection direction, Path file) throws IOException {
+        try (InputStream in = Files.newInputStream(file)) {
+            return saveMessage(portCallTimestampId, direction, file.toFile().getName(), in);
+        }
+    }
+
+    public Optional<Message> saveMessage(int portCallTimestampId, MessageDirection direction, String filename, InputStream data) throws IOException {
         Result<MessageRecord> result = dsl.insertInto(MESSAGE)
                 .columns(MESSAGE.DIRECTION, MESSAGE.TIMESTAMP_ID, MESSAGE.FILENAME, MESSAGE.PAYLOAD)
-                .values(direction, portCallTimestampId, file.toFile().getName(), Files.readAllBytes(file))
+                .values(direction, portCallTimestampId, filename, data.readAllBytes())
                 .returning(MESSAGE.ID)
                 .fetch();
         if (result.isNotEmpty()) {
             return Optional.of(new Message()
                     .setId(result.get(0).getId())
                     .setTimestampId(portCallTimestampId)
-                    .setFilename(file.toFile().getName())
+                    .setFilename(filename)
                     .setDirection(direction)
             );
         }
