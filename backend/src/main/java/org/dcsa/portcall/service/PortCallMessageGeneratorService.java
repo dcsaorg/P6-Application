@@ -80,8 +80,9 @@ public class PortCallMessageGeneratorService {
         }
 
         // Update Carrier Vessel Port History
-        this.carrierVesselPortHistoryService.updateHistory(timestamp, carrier);
-
+        if(carrier.getId() != null) {
+            this.carrierVesselPortHistoryService.updateHistory(timestamp, carrier);
+        }
 
         return message;
     }
@@ -194,9 +195,9 @@ public class PortCallMessageGeneratorService {
         if (config.getSenderRole() == RoleType.CARRIER) {
             // If sender is carrier get the carrier from the config
             log.debug("Sender role is CARRIER, so carrier code is retrieved from configs");
-            Optional<Carrier> carrierOpt = this.carrierService.getCarrierByCode(config.getSenderId());
+            Optional<Carrier> carrierOpt = this.carrierService.getCarrierByCodeControlled(config.getSenderId());
             if (carrierOpt.isEmpty()) {
-                log.warn("The carrier code {} could not retrieved from the database", config.getSenderId());
+                log.warn("The carrier code {} could not be retrieved from the database", config.getSenderId());
             } else {
                 carrier = carrierOpt.get();
             }
@@ -209,6 +210,8 @@ public class PortCallMessageGeneratorService {
                 String msg = String.format("The carrier for this message could not retrieved from the database by the ID %s", carrierID);
                 log.warn(msg);
                 //ToDo what should happen, if we could not get any carrier?
+                carrier.setSmdgCode("N/A");
+                log.warn("The carrier code is set to N/A, this indicates a wrong process flow!");
             } else {
                 carrier = carrierOpt.get();
             }

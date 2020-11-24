@@ -123,6 +123,7 @@ import org.springframework.context.annotation.Primary;
 
     public static class Management{
         private int carrierVesselPortHistoryThresholdDays;
+        private boolean storeUnknownCarrier;
 
         public int getCarrierVesselPortHistoryThresholdDays() {
             return carrierVesselPortHistoryThresholdDays;
@@ -130,6 +131,12 @@ import org.springframework.context.annotation.Primary;
 
         public void setCarrierVesselPortHistoryThresholdDays(int carrierVesselPortHistoryThresholdDays) {
             this.carrierVesselPortHistoryThresholdDays = carrierVesselPortHistoryThresholdDays;
+        }
+
+        public boolean isStoreUnknownCarrier() {return storeUnknownCarrier;}
+
+        public void setStoreUnknownCarrier(boolean storeUnknownCarrier) {
+            this.storeUnknownCarrier = storeUnknownCarrier;
         }
     }
 }
