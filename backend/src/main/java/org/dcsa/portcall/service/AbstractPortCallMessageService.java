@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.dcsa.portcall.message.converter.OffsetDateTimeSerializerModule;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-public abstract class AbstractPortCallMessageService {
+public abstract class AbstractPortCallMessageService<IN, OUT> {
 
     private final ObjectMapper jsonMapper;
 
@@ -24,4 +24,6 @@ public abstract class AbstractPortCallMessageService {
     public ObjectMapper getJsonMapper() {
         return jsonMapper;
     }
+
+    public abstract OUT process(IN message);
 }

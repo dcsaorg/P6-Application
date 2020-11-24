@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Service
-public class OutboundPortCallMessageService extends AbstractPortCallMessageService {
+public class OutboundPortCallMessageService extends AbstractPortCallMessageService<PortCallTimestamp, DCSAMessage<PortCallMessage>> {
 
     private static final Logger log = LogManager.getLogger(OutboundPortCallMessageService.class);
 
@@ -48,7 +48,8 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     /**
      * generates a new DCSA Message by the handed over PortCallTimeStamp
      */
-    public DCSAMessage<PortCallMessage> generate(PortCallTimestamp timestamp) {
+    @Override
+    public DCSAMessage<PortCallMessage> process(PortCallTimestamp timestamp) {
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<>();
 
