@@ -16,6 +16,7 @@ public class Vessel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
+    private Integer carrier;
     private String  name;
     private Integer imo;
     private Short   teu;
@@ -25,6 +26,7 @@ public class Vessel implements Serializable {
 
     public Vessel(Vessel value) {
         this.id = value.id;
+        this.carrier = value.carrier;
         this.name = value.name;
         this.imo = value.imo;
         this.teu = value.teu;
@@ -33,12 +35,14 @@ public class Vessel implements Serializable {
 
     public Vessel(
         Integer id,
+        Integer carrier,
         String  name,
         Integer imo,
         Short   teu,
         String  serviceNameCode
     ) {
         this.id = id;
+        this.carrier = carrier;
         this.name = name;
         this.imo = imo;
         this.teu = teu;
@@ -57,6 +61,21 @@ public class Vessel implements Serializable {
      */
     public Vessel setId(Integer id) {
         this.id = id;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.vessel.carrier</code>.
+     */
+    public Integer getCarrier() {
+        return this.carrier;
+    }
+
+    /**
+     * Setter for <code>public.vessel.carrier</code>.
+     */
+    public Vessel setCarrier(Integer carrier) {
+        this.carrier = carrier;
         return this;
     }
 
@@ -125,6 +144,7 @@ public class Vessel implements Serializable {
         StringBuilder sb = new StringBuilder("Vessel (");
 
         sb.append(id);
+        sb.append(", ").append(carrier);
         sb.append(", ").append(name);
         sb.append(", ").append(imo);
         sb.append(", ").append(teu);

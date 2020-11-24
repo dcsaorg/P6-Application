@@ -1,6 +1,3 @@
--- Drop table
-
--- DROP TABLE public.ports;
 
 CREATE TABLE port
 (
@@ -10,6 +7,7 @@ CREATE TABLE port
     un_locode   varchar(6)   NOT NULL,
     un_location varchar(3)   NOT NULL,
     timezone    varchar(40)  null,
-    CONSTRAINT port_pk PRIMARY KEY (id),
-    CONSTRAINT port_uq_un_locode UNIQUE (un_locode)
+
+    constraint port_pk primary key (id),
+    constraint port_uq_un_locode unique (un_locode)
 );

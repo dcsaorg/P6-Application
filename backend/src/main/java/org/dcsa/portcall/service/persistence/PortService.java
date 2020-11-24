@@ -4,6 +4,7 @@ import org.dcsa.portcall.db.tables.pojos.Port;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ public class PortService extends AbstractPersistenceService {
         super(dsl);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Port> findPort(int portId) {
         Record port = dsl.select()
                 .from(PORT)

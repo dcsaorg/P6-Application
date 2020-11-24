@@ -4,21 +4,14 @@
 package org.dcsa.portcall.db;
 
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.dcsa.portcall.db.tables.Carrier;
-import org.dcsa.portcall.db.tables.CarrierVesselPortHistory;
-import org.dcsa.portcall.db.tables.DelayCode;
-import org.dcsa.portcall.db.tables.Message;
-import org.dcsa.portcall.db.tables.Port;
-import org.dcsa.portcall.db.tables.PortCallTimestamp;
-import org.dcsa.portcall.db.tables.Terminal;
-import org.dcsa.portcall.db.tables.Vessel;
+import org.dcsa.portcall.db.tables.*;
 import org.jooq.Catalog;
 import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -38,11 +31,6 @@ public class Public extends SchemaImpl {
      * The table <code>public.carrier</code>.
      */
     public final Carrier CARRIER = Carrier.CARRIER;
-
-    /**
-     * The table <code>public.carrier_vessel_port_history</code>.
-     */
-    public final CarrierVesselPortHistory CARRIER_VESSEL_PORT_HISTORY = CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY;
 
     /**
      * The table <code>public.delay_code</code>.
@@ -103,7 +91,6 @@ public class Public extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             Carrier.CARRIER,
-            CarrierVesselPortHistory.CARRIER_VESSEL_PORT_HISTORY,
             DelayCode.DELAY_CODE,
             Message.MESSAGE,
             Port.PORT,

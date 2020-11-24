@@ -67,7 +67,7 @@ dcsa:
   company: Development
   sender-role: CARRIER
   sender-id-type: SMDG_LINER_CODE
-  sender-id: XYY
+  sender-id: EXP
 
   hotfolder:
     outbox: "hotfolder/outbox"

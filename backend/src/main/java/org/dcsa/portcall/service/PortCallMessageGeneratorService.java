@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,7 +27,6 @@ public class PortCallMessageGeneratorService {
 
     private final PortCallProperties config;
     private final PortService portService;
-    private final CarrierVesselPortHistoryService carrierVesselPortHistoryService;
     private final DelayCodeService delayCodeService;
     private final TerminalService terminalService;
     private final VesselService vesselService;
@@ -37,13 +35,11 @@ public class PortCallMessageGeneratorService {
     public PortCallMessageGeneratorService(PortCallProperties config,
                                            DelayCodeService delayCodeService,
                                            PortService portService,
-                                           CarrierVesselPortHistoryService carrierVesselPortHistoryService,
                                            TerminalService terminalService,
                                            VesselService vesselService, CarrierService carrierService) {
         this.config = config;
         this.delayCodeService = delayCodeService;
         this.portService = portService;
-        this.carrierVesselPortHistoryService = carrierVesselPortHistoryService;
         this.terminalService = terminalService;
         this.vesselService = vesselService;
         this.carrierService = carrierService;
@@ -58,7 +54,7 @@ public class PortCallMessageGeneratorService {
         DCSAMessage<PortCallMessage> message = new DCSAMessage<>();
 
         // Identify a carrier for this portCall process!
-        Carrier carrier = this.identifyCarrier(timestamp);
+        Carrier carrier = carrierService.findCarrierByVesselId(timestamp.getVessel()).get();
 
         // Generate Message Header
         log.info("Generate new PortCall Message for timestamp type {}", timestamp.getTimestampType());
@@ -80,8 +76,7 @@ public class PortCallMessageGeneratorService {
         }
 
         // Update Carrier Vessel Port History
-        if(carrier.getId() != null) {
-            this.carrierVesselPortHistoryService.updateHistory(timestamp, carrier);
+        if (carrier.getId() != null) {
         }
 
         return message;
@@ -183,41 +178,6 @@ public class PortCallMessageGeneratorService {
         message.setReceiverId(receiverId);
     }
 
-    /**
-     * This function gets the Carrier, in case the app is installed on carrier side,
-     * the carrier identification is pulled from the configs, in case the application role
-     * is different then a carrier, the carrier information is pulled out of the history, in
-     * order to get this parameter of an earlier timestamp
-     */
-
-    private Carrier identifyCarrier(PortCallTimestamp timestamp) {
-        Carrier carrier = new Carrier();
-        if (config.getSenderRole() == RoleType.CARRIER) {
-            // If sender is carrier get the carrier from the config
-            log.debug("Sender role is CARRIER, so carrier code is retrieved from configs");
-            Optional<Carrier> carrierOpt = this.carrierService.getCarrierByCodeControlled(config.getSenderId());
-            if (carrierOpt.isEmpty()) {
-                log.warn("The carrier code {} could not be retrieved from the database", config.getSenderId());
-            } else {
-                carrier = carrierOpt.get();
-            }
-        } else {
-            // If sender is not a carrier, get the carrier from the PortCallHistory
-            log.debug("Sender role is other then CARRIER, so carrier code is retrieved from history");
-            int carrierID = this.carrierVesselPortHistoryService.getCarrierId(timestamp);
-            Optional<Carrier> carrierOpt = this.carrierService.getCarrierById(carrierID);
-            if (carrierOpt.isEmpty()) {
-                String msg = String.format("The carrier for this message could not retrieved from the database by the ID %s", carrierID);
-                log.warn(msg);
-                //ToDo what should happen, if we could not get any carrier?
-                carrier.setSmdgCode("N/A");
-                log.warn("The carrier code is set to N/A, this indicates a wrong process flow!");
-            } else {
-                carrier = carrierOpt.get();
-            }
-        }
-        return carrier;
-    }
 
     private PortCallEvent generatePortCallEvent(PortCallTimestamp timestamp, String portOfCall, String terminal) {
         PortCallEvent event = new PortCallEvent();

@@ -4,27 +4,17 @@
 package org.dcsa.portcall.db.tables;
 
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-
 import org.dcsa.portcall.db.Keys;
 import org.dcsa.portcall.db.Public;
 import org.dcsa.portcall.db.tables.records.CarrierRecord;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Identity;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row5;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -59,9 +49,9 @@ public class Carrier extends TableImpl<CarrierRecord> {
     public final TableField<CarrierRecord, String> SMDG_CODE = createField(DSL.name("smdg_code"), SQLDataType.VARCHAR(4).nullable(false), this, "");
 
     /**
-     * The column <code>public.carrier.line</code>.
+     * The column <code>public.carrier.name</code>.
      */
-    public final TableField<CarrierRecord, String> LINE = createField(DSL.name("line"), SQLDataType.VARCHAR(200).nullable(false), this, "");
+    public final TableField<CarrierRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(200).nullable(false), this, "");
 
     /**
      * The column <code>public.carrier.valid_from</code>.

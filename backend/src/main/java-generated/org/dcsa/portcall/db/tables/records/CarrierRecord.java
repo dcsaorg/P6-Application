@@ -4,14 +4,14 @@
 package org.dcsa.portcall.db.tables.records;
 
 
-import java.time.LocalDate;
-
 import org.dcsa.portcall.db.tables.Carrier;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record5;
 import org.jooq.Row5;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import java.time.LocalDate;
 
 
 /**
@@ -53,17 +53,17 @@ public class CarrierRecord extends UpdatableRecordImpl<CarrierRecord> implements
     }
 
     /**
-     * Setter for <code>public.carrier.line</code>.
+     * Setter for <code>public.carrier.name</code>.
      */
-    public CarrierRecord setLine(String value) {
+    public CarrierRecord setName(String value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.carrier.line</code>.
+     * Getter for <code>public.carrier.name</code>.
      */
-    public String getLine() {
+    public String getName() {
         return (String) get(2);
     }
 
@@ -132,7 +132,7 @@ public class CarrierRecord extends UpdatableRecordImpl<CarrierRecord> implements
 
     @Override
     public Field<String> field3() {
-        return Carrier.CARRIER.LINE;
+        return Carrier.CARRIER.NAME;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class CarrierRecord extends UpdatableRecordImpl<CarrierRecord> implements
 
     @Override
     public String component3() {
-        return getLine();
+        return getName();
     }
 
     @Override
@@ -182,7 +182,7 @@ public class CarrierRecord extends UpdatableRecordImpl<CarrierRecord> implements
 
     @Override
     public String value3() {
-        return getLine();
+        return getName();
     }
 
     @Override
@@ -209,7 +209,7 @@ public class CarrierRecord extends UpdatableRecordImpl<CarrierRecord> implements
 
     @Override
     public CarrierRecord value3(String value) {
-        setLine(value);
+        setName(value);
         return this;
     }
 
@@ -249,12 +249,12 @@ public class CarrierRecord extends UpdatableRecordImpl<CarrierRecord> implements
     /**
      * Create a detached, initialised CarrierRecord
      */
-    public CarrierRecord(Integer id, String smdgCode, String line, LocalDate validFrom, String website) {
+    public CarrierRecord(Integer id, String smdgCode, String name, LocalDate validFrom, String website) {
         super(Carrier.CARRIER);
 
         setId(id);
         setSmdgCode(smdgCode);
-        setLine(line);
+        setName(name);
         setValidFrom(validFrom);
         setWebsite(website);
     }

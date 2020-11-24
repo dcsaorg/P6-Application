@@ -18,7 +18,7 @@ public class Carrier implements Serializable {
 
     private Integer   id;
     private String    smdgCode;
-    private String    line;
+    private String    name;
     private LocalDate validFrom;
     private String    website;
 
@@ -27,7 +27,7 @@ public class Carrier implements Serializable {
     public Carrier(Carrier value) {
         this.id = value.id;
         this.smdgCode = value.smdgCode;
-        this.line = value.line;
+        this.name = value.name;
         this.validFrom = value.validFrom;
         this.website = value.website;
     }
@@ -35,13 +35,13 @@ public class Carrier implements Serializable {
     public Carrier(
         Integer   id,
         String    smdgCode,
-        String    line,
+        String    name,
         LocalDate validFrom,
         String    website
     ) {
         this.id = id;
         this.smdgCode = smdgCode;
-        this.line = line;
+        this.name = name;
         this.validFrom = validFrom;
         this.website = website;
     }
@@ -77,17 +77,17 @@ public class Carrier implements Serializable {
     }
 
     /**
-     * Getter for <code>public.carrier.line</code>.
+     * Getter for <code>public.carrier.name</code>.
      */
-    public String getLine() {
-        return this.line;
+    public String getName() {
+        return this.name;
     }
 
     /**
-     * Setter for <code>public.carrier.line</code>.
+     * Setter for <code>public.carrier.name</code>.
      */
-    public Carrier setLine(String line) {
-        this.line = line;
+    public Carrier setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -127,7 +127,7 @@ public class Carrier implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(smdgCode);
-        sb.append(", ").append(line);
+        sb.append(", ").append(name);
         sb.append(", ").append(validFrom);
         sb.append(", ").append(website);
 

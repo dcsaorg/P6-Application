@@ -6,15 +6,16 @@ import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.db.tables.pojos.Carrier;
 import org.jooq.DSLContext;
 import org.jooq.Record;
-import static org.dcsa.portcall.db.tables.Carrier.CARRIER;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
+
+import static org.dcsa.portcall.db.tables.Carrier.CARRIER;
+import static org.dcsa.portcall.db.tables.Vessel.VESSEL;
 
 @Service
 public class CarrierService extends AbstractPersistenceService {
-    private static final Logger log = LogManager.getLogger(CarrierVesselPortHistoryService.class);
+    private static final Logger log = LogManager.getLogger(CarrierService.class);
     private final PortCallProperties config;
 
     public CarrierService(DSLContext dsl, PortCallProperties config) {
@@ -22,69 +23,46 @@ public class CarrierService extends AbstractPersistenceService {
         this.config = config;
     }
 
-    public Optional<Carrier> getCarrierById(int carrierID){
-        log.debug("Get carrier from id by carrierId {}", carrierID);
-        Record rec = this.dsl.select()
+    public Optional<Carrier> findCarrierById(int carrierId) {
+        log.debug("Find carrier with id {}", carrierId);
+        Record carrier = dsl.select()
                 .from(CARRIER)
-                .where(CARRIER.ID.eq(carrierID))
+                .where(CARRIER.ID.eq(carrierId))
                 .fetchOne();
 
-        if(rec!=null){
-            return Optional.of(rec.into(Carrier.class));
+        if (carrier != null) {
+            return Optional.of(carrier.into(Carrier.class));
         } else {
             return Optional.empty();
         }
     }
 
-    /**
-     * Function that gets a carrier by smdgcode and if the code is not known, and predefined in configs
-     * the unknown carrier code gets stored to database
-     */
-    public Optional<Carrier> getCarrierByCodeControlled(String carrierCode){
-        Optional<Carrier> carrier = this.getCarrierByCode(carrierCode);
-        if(carrier.isEmpty()){
-            if(this.config.getManagement().isStoreUnknownCarrier()){
-                log.info("Carrier code {} is not known, as store-unknown-carrier is true, this will be stored to database.", carrierCode);
-                carrier = this.insertCarrierByCode(carrierCode);
-            }
-        }
-        return carrier;
-    }
-
-    public Optional<Carrier> getCarrierByCode(String carrierCode){
-        Record rec = this.dsl.select()
+    public Optional<Carrier> findBySMDGCode(String smdgCode) {
+        log.debug("Find carrier with smdg code");
+        Record carrier = this.dsl.select()
                 .from(CARRIER)
-                .where(CARRIER.SMDG_CODE.eq(carrierCode))
+                .where(CARRIER.SMDG_CODE.eq(smdgCode))
                 .fetchOne();
 
-        if(rec!=null){
-            return Optional.of(rec.into(Carrier.class));
+        if (carrier != null) {
+            return Optional.of(carrier.into(Carrier.class));
         } else {
             return Optional.empty();
         }
     }
 
-    public Optional<Carrier> insertCarrierByCode(String carrierCode){
-        Record rec = this.dsl.insertInto(CARRIER,
-                        CARRIER.SMDG_CODE,
-                        CARRIER.LINE,
-                        CARRIER.VALID_FROM)
-                    .values(
-                        carrierCode, "UNKNOWN", LocalDate.now()
-                    ).returningResult(
-                            CARRIER.ID)
-                    .fetchOne();
-        Carrier carrier = new Carrier();
-        carrier.setSmdgCode(carrierCode);
-        carrier.setId(rec.get(CARRIER.ID));
+    public Optional<Carrier> findCarrierByVesselId(int vesselId) {
+        log.debug("Get carrier from id by id {}", vesselId);
+        Record carrier = dsl.select()
+                .from(CARRIER)
+                .join(VESSEL).on(VESSEL.CARRIER.eq(CARRIER.ID))
+                .where(VESSEL.ID.eq(vesselId))
+                .fetchOne();
 
-        if(carrier.getId() != null){
-            return Optional.of(carrier);
+        if (carrier != null) {
+            return Optional.of(carrier.into(Carrier.class));
         } else {
-            log.warn("Could not store carrier code {} to database!", carrierCode);
             return Optional.empty();
         }
     }
-
-
 }
