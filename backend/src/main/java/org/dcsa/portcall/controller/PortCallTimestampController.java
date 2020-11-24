@@ -59,7 +59,7 @@ public class PortCallTimestampController {
         portCallTimestampService.addTimestamp(portCallTimestamp);
 
         // Generate PortCall Message
-        portCallMessageGeneratorService.generate(portCallTimestamp);
+        portCallMessageGeneratorService.process(portCallTimestamp);
 
         return portCallTimestamp;
     }

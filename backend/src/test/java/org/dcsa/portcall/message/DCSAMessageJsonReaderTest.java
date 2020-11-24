@@ -18,7 +18,12 @@ public class DCSAMessageJsonReaderTest {
 
     @BeforeAll
     static void before() {
-        AbstractPortCallMessageService portCallMessageService = new AbstractPortCallMessageService() {};
+        AbstractPortCallMessageService portCallMessageService = new AbstractPortCallMessageService() {
+            @Override
+            public Object process(Object message) {
+                return null;
+            }
+        };
         mapper = portCallMessageService.getJsonMapper();
     }
 
