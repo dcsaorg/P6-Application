@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.DCSAMessage;
 import org.dcsa.portcall.message.PortCallMessage;
+import org.dcsa.portcall.service.persistence.PortService;
 import org.dcsa.portcall.service.persistence.VesselService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class InboundPortCallMessageServiceTest extends AbstractDatabaseTest {
 
+    @Autowired
+    private PortService portService;
     @Autowired
     private VesselService vesselService;
     @Autowired
@@ -69,5 +72,6 @@ class InboundPortCallMessageServiceTest extends AbstractDatabaseTest {
         assertThat(timestamp.isPresent()).isTrue();
 
         assertThat(timestamp.get().getVessel()).isEqualTo(vesselService.findVesselByName("EXAMPLE VESSEL").get().getId());
+        assertThat(timestamp.get().getPortOfCall()).isEqualTo(portService.findPortByUnLocode("DEHAM").get().getId());
     }
 }
