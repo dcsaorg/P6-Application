@@ -102,7 +102,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     private PortCallMessage generatePortCallMessage(PortCallTimestamp timestamp, String portOfCall, String terminal) {
         PortCallMessage pcm = new PortCallMessage();
         pcm.setVesselIdType(CodeType.IMO_VESSEL_NUMBER);
-        pcm.setVesselId(Integer.toString(vesselService.findVessel(timestamp.getVessel()).get().getImo()));
+        pcm.setVesselId(Integer.toString(vesselService.findVesselById(timestamp.getVessel()).get().getImo()));
         pcm.setPortIdType(CodeType.UN_LOCODE);
         pcm.setPortId(portOfCall);
         pcm.setTerminalIdType(CodeType.TERMINAL);

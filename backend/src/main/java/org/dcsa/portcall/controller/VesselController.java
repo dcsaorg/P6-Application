@@ -33,7 +33,7 @@ public class VesselController {
     @GetMapping("/{vesselId}")
     public Vessel getVessel(@PathVariable int vesselId) {
         log.info("Loading vessel with id {}", vesselId);
-        Optional<Vessel> vessel = vesselService.findVessel(vesselId);
+        Optional<Vessel> vessel = vesselService.findVesselById(vesselId);
 
         if (vessel.isEmpty()) {
             String msg = String.format("Vessel with the id %s not found", vesselId);

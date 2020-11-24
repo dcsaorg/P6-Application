@@ -4,6 +4,7 @@ import org.dcsa.portcall.db.enums.MessageDirection;
 import org.dcsa.portcall.db.tables.pojos.Message;
 import org.dcsa.portcall.service.AbstractDatabaseTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.dcsa.portcall.db.Tables.MESSAGE;
 
+@JooqTest
 class MessageServiceTest extends AbstractDatabaseTest {
 
     public static final String TEST_MESSAGE_CONTENT = "test";

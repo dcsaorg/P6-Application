@@ -46,10 +46,38 @@ public class VesselService extends AbstractPersistenceService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Vessel> findVessel(int vesselId) {
+    public Optional<Vessel> findVesselById(int vesselId) {
         Record vessel = dsl.select()
                 .from(VESSEL)
                 .where(VESSEL.ID.eq(vesselId))
+                .fetchOne();
+
+        if (vessel != null) {
+            return Optional.of(vessel.into(Vessel.class));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Vessel> findVesselByIMO(int imo) {
+        Record vessel = dsl.select()
+                .from(VESSEL)
+                .where(VESSEL.IMO.eq(imo))
+                .fetchOne();
+
+        if (vessel != null) {
+            return Optional.of(vessel.into(Vessel.class));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Vessel> findVesselByName(String name) {
+        Record vessel = dsl.select()
+                .from(VESSEL)
+                .where(VESSEL.NAME.eq(name))
                 .fetchOne();
 
         if (vessel != null) {

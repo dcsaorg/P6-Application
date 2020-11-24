@@ -4,21 +4,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.DCSAMessage;
 import org.dcsa.portcall.message.PortCallMessage;
-import org.junit.jupiter.api.BeforeEach;
+import org.dcsa.portcall.service.persistence.VesselService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class InboundPortCallMessageServiceTest {
+@SpringBootTest
+class InboundPortCallMessageServiceTest extends AbstractDatabaseTest {
 
-    InboundPortCallMessageService service;
-
-    @BeforeEach
-    void setup() {
-        service = new InboundPortCallMessageService();
-    }
+    @Autowired
+    private VesselService vesselService;
+    @Autowired
+    private InboundPortCallMessageService service;
 
     @Test
     void testEmptyMessage() {
@@ -45,29 +46,33 @@ class InboundPortCallMessageServiceTest {
                 "    \"ProcessType\" : \"PortCall\",\n" +
                 "    \"ProcessId\" : \"MSC-ABCDEFGH\",\n" +
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
-                "    \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "    \"VesselId\" : \"9074729\",\n" +
-                "    \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "    \"PortId\" : \"deham\",\n" +
-                "    \"TerminalIdType\" : \"UN/LOCODE\",\n" +
-                "    \"TerminalId\" : \"cta\",\n" +
-                "    \"NextPortOfCall\" : \"beanr\",\n" +
-                "    \"VoyageNumber\" : \"ABCDEFGH\",\n" +
-                "    \"Event\" : {\n" +
-                "      \"EventClassifierCode\" : \"EST\",\n" +
-                "      \"TransportEventTypeCode\" : \"ARRI\",\n" +
-                "      \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
-                "      \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
-                "      \"LocationType\" : \"BERTH\"\n" +
-                "    },\n" +
-                "    \"PreviousPortOfCall\" : \"nlrtm\",\n" +
-                "    \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
+                "    \"Payload\" : {\n" +
+                "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
+                "      \"VesselId\" : \"1234560\",\n" +
+                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"PortId\" : \"deham\",\n" +
+                "      \"TerminalIdType\" : \"UN/LOCODE\",\n" +
+                "      \"TerminalId\" : \"cta\",\n" +
+                "      \"NextPortOfCall\" : \"beanr\",\n" +
+                "      \"VoyageNumber\" : \"ABCDEFGH\",\n" +
+                "      \"Event\" : {\n" +
+                "        \"EventClassifierCode\" : \"EST\",\n" +
+                "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
+                "        \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
+                "        \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "        \"LocationType\" : \"BERTH\"\n" +
+                "      },\n" +
+                "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
+                "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
+                "    }\n" +
                 "  }\n" +
                 "}", new TypeReference<>() {
         });
 
         Optional<PortCallTimestamp> timestamp = service.process(message);
 
-        assertThat(timestamp).isNotNull();
+        assertThat(timestamp.isPresent()).isTrue();
+
+        assertThat(timestamp.get().getVessel()).isEqualTo(vesselService.findVesselByName("EXAMPLE VESSEL").get().getId());
     }
 }

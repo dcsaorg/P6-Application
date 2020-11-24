@@ -76,7 +76,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
         // Get Vessel
-        Vessel vessel = vesselService.findVessel(portCallTimestamp.getVessel()).get();
+        Vessel vessel = vesselService.findVesselById(portCallTimestamp.getVessel()).get();
 
         try {
             Record1<Integer> id =
