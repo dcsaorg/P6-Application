@@ -61,7 +61,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         log.info("Generate new PortCall Message for timestamp type {}", timestamp.getTimestampType());
 
         // Get PortOfCall and Terminal
-        String portOfCall = portService.findPort(timestamp.getPortOfCall()).get().getUnLocode();
+        String portOfCall = portService.findPortById(timestamp.getPortOfCall()).get().getUnLocode();
         String terminal = terminalService.findTerminal(timestamp.getTerminal()).get().getSmdgCode();
 
         // Generate MessageHeader
@@ -107,8 +107,8 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         pcm.setPortId(portOfCall);
         pcm.setTerminalIdType(CodeType.TERMINAL);
         pcm.setTerminalId(terminal);
-        pcm.setPreviousPortOfCall(portService.findPort(timestamp.getPortPrevious()).get().getUnLocode());
-        pcm.setNextPortOfCall(portService.findPort(timestamp.getPortNext()).get().getUnLocode());
+        pcm.setPreviousPortOfCall(portService.findPortById(timestamp.getPortPrevious()).get().getUnLocode());
+        pcm.setNextPortOfCall(portService.findPortById(timestamp.getPortNext()).get().getUnLocode());
         pcm.setVoyageNumber(timestamp.getVesselServiceName());
         pcm.setEvent(this.generatePortCallEvent(timestamp, portOfCall, terminal));
         pcm.setRemarks(this.generateComment(timestamp));

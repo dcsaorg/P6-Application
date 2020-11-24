@@ -18,10 +18,24 @@ public class PortService extends AbstractPersistenceService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Port> findPort(int portId) {
+    public Optional<Port> findPortById(int portId) {
         Record port = dsl.select()
                 .from(PORT)
                 .where(PORT.ID.eq(portId))
+                .fetchOne();
+
+        if (port != null) {
+            return Optional.of(port.into(Port.class));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Port> findPortByUnLocode(String unLocode) {
+        Record port = dsl.select()
+                .from(PORT)
+                .where(PORT.UN_LOCODE.eq(unLocode.toUpperCase()))
                 .fetchOne();
 
         if (port != null) {

@@ -62,7 +62,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     @Transactional
     public void addTimestamp(PortCallTimestamp portCallTimestamp) {
         // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp
-        Port portOfCall = portService.findPort(portCallTimestamp.getPortOfCall()).get();
+        Port portOfCall = portService.findPortById(portCallTimestamp.getPortOfCall()).get();
 
         OffsetDateTime eventTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
                 portCallTimestamp.getEventTimestamp(), portOfCall);

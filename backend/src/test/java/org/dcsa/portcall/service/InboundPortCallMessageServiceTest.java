@@ -22,11 +22,6 @@ class InboundPortCallMessageServiceTest extends AbstractDatabaseTest {
     private InboundPortCallMessageService service;
 
     @Test
-    void testEmptyMessage() {
-        assertThat(service.process(null).isEmpty()).isTrue();
-    }
-
-    @Test
     void testExampleMessage() throws Exception {
         DCSAMessage<PortCallMessage> message = service.getJsonMapper().readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
