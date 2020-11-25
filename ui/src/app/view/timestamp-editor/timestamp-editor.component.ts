@@ -3,7 +3,7 @@ import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/services/portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../../model/portcall-timestamp-type.enum";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, forkJoin, Observable} from "rxjs";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {Port} from "../../model/port";
@@ -17,13 +17,22 @@ import {PortService} from "../../controller/services/port.service";
 import {TerminalService} from "../../controller/services/terminal.service";
 import {DelayCodeService} from "../../controller/services/delay-code.service";
 import {take} from "rxjs/operators";
+import {VesselService} from "../../controller/services/vessel.service";
+import {Vessel} from "../../model/vessel";
+import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 
 
 @Component({
   selector: 'app-timestamp-editor',
   templateUrl: './timestamp-editor.component.html',
   styleUrls: ['./timestamp-editor.component.scss'],
-  providers: [PortIdToPortPipe, PortCallTimestampTypeToStringPipe, TerminalIdToTerminalPipe, DialogService]
+  providers: [
+    PortIdToPortPipe,
+    PortCallTimestampTypeToStringPipe,
+    TerminalIdToTerminalPipe,
+    DialogService,
+    VesselIdToVesselPipe
+  ]
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
@@ -36,11 +45,13 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   delayCodes: DelayCode[] = [];
   ports: Port[] = [];
   terminals: Terminal[] = [];
+  vessels: Vessel[] = [];
 
   portOptions: SelectItem[] = [];
   terminalOptions: SelectItem[] = [];
   timestampTypes: SelectItem[] = [];
   directions: SelectItem[] = [];
+  vesselOptions: SelectItem[] = [];
 
   en: any;
 
@@ -65,25 +76,19 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
               private messageService: MessageService,
               private portIdToPortPipe: PortIdToPortPipe,
               private delayCodeService: DelayCodeService,
+              private vesselService: VesselService,
               private portService: PortService,
               private terminalService: TerminalService,
               private portCallTimestampTypePipe: PortCallTimestampTypeToStringPipe,
               private terminalIdToTerminalPipe: TerminalIdToTerminalPipe,
+              private vesselIdToVesselPipe: VesselIdToVesselPipe,
               private dialogService: DialogService) {
   }
 
   ngOnInit(): void {
-    this.portOptions.push({label: 'Select port', value: null})
-    this.portService.getPorts().pipe(take(1)).subscribe(ports => {
-      this.ports = ports
-      this.ports.forEach(port => this.portOptions.push({label: port.unLocode, value: port}));
-    });
-    this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
 
     this.$timestamps = new BehaviorSubject([this.defaultTimestamp]);
-
-
 
     this.directions = [
       {label: 'Select direction', value: null},
@@ -93,16 +98,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       {label: 'W', value: 'W'}
     ]
 
-    this.timestampTypes = [{label: 'Select timestamp', value: null}];
-    for (let item in PortcallTimestampType) {
-      this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.updatePortCallTimeStampToBeEdited();
     // Workaround to change Calendr button "today" to "now"
-
     this.en = {
       firstDayOfWeek: 0,
       dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -113,6 +109,32 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       clear: 'Clear'
     };
 
+    this.timestampTypes = [{label: 'Select timestamp', value: null}];
+    for (let item in PortcallTimestampType) {
+      this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const $ports: Observable<Port[]> = this.portService.getPorts().pipe(take(1));
+    const $terminals: Observable<Terminal[]> = this.terminalService.getTerminals().pipe(take(1));
+    const $vessels: Observable<Vessel[]> = this.vesselService.getVessels().pipe(take(1));
+
+    forkJoin({$ports, $terminals, $vessels}).subscribe(results => {
+      this.ports = results.$ports;
+      this.vessels = results.$vessels;
+      this.terminals = results.$terminals
+
+      this.portOptions.push({label: 'Select port', value: null});
+      this.ports.forEach(port => this.portOptions.push({label: port.unLocode, value: port}));
+      this.vesselOptions = [];
+      this.vesselOptions.push({label: 'Select Vessel', value: null});
+      this.vessels.forEach(vessel => {
+        this.vesselOptions.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
+      });
+
+      this.updatePortCallTimeStampToBeEdited()
+    })
   }
 
   savePortcallTimestamp(portcallTimestamp: PortcallTimestamp, vesselId: number) {
@@ -160,31 +182,30 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   private updatePortCallTimeStampToBeEdited() {
-    if (this.vesselId && this.vesselId > 0) {
-      this.portcallTimestampService.getPortcallTimestampsForVesselId(this.vesselId).subscribe(portCallTimeStamps => {
-        const lastTimeStampIndex = portCallTimeStamps.length - 1;
-        const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
-        if (newPortcallTimestamp) {
-          newPortcallTimestamp.id = null;
-          newPortcallTimestamp.portOfCall = this.portIdToPortPipe.transform(newPortcallTimestamp.portOfCall as number, this.ports);
-          newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
-          newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
-          newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
+    this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimeStamps => {
+      const lastTimeStampIndex = portCallTimeStamps.length - 1;
+      const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
+      if (newPortcallTimestamp) {
+        newPortcallTimestamp.id = null;
+        newPortcallTimestamp.portOfCall = this.portIdToPortPipe.transform(newPortcallTimestamp.portOfCall as number, this.ports);
+        newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
+        newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
+        newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
+        newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(newPortcallTimestamp.vessel as number, this.vessels);
 
-          //ToDo switch time zone to local time zone, quick fix to show last time at port of call
-          newPortcallTimestamp.logOfTimestamp = null;
-          newPortcallTimestamp.eventTimestamp = null
-          newPortcallTimestamp.changeComment = ""
+        //ToDo switch time zone to local time zone, quick fix to show last time at port of call
+        newPortcallTimestamp.logOfTimestamp = null;
+        newPortcallTimestamp.eventTimestamp = null
+        newPortcallTimestamp.changeComment = ""
 
-          this.portOfCall ? this.updateTerminalOptions(this.portOfCall.id) : this.updateTerminalOptions(newPortcallTimestamp.portOfCall.id);
+        this.portOfCall ? this.updateTerminalOptions(this.portOfCall.id) : this.updateTerminalOptions(newPortcallTimestamp.portOfCall.id);
 
-          this.$timestamps.next([newPortcallTimestamp]);
-        } else {
-          // if there is no entry
-          this.$timestamps.next([this.defaultTimestamp]);
-        }
-      });
-    }
+        this.$timestamps.next([newPortcallTimestamp]);
+      } else {
+        // if there is no entry
+        this.$timestamps.next([this.defaultTimestamp]);
+      }
+    });
   }
 
   addComment(timestamp: PortcallTimestamp) {
@@ -194,6 +215,3 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     });
   }
 }
-
-
-
