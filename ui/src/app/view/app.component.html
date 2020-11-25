@@ -5,39 +5,22 @@
   <div class="main__spaceBetween main__spaceInnerComponent">
     <app-vessel (portOfCallNotifier)="portOfCallChangedHandler($event)"
                 (vesselNotifier)="vesselChangedHandler($event)"
-                [ports]="ports"
     ></app-vessel>
   </div>
-  <div *ngIf="vesselId > 0; then vesselsSelected else emptyVessel"></div>
-  <ng-template #vesselsSelected>
-    <div class="main__spaceInnerComponent" style=" min-width: 1200px">
-      <p-card>
-        <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
-                             [delayCodes]="delayCodes"
-                             [ports]="ports"
-                             [terminals]="terminals"
-                             [timestamps]="portCallTimeStampsForId"
-                             [vesselId]="vesselId"
-        ></app-timestamp-table>
-        <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
-                              [delayCodes]="delayCodes"
-                              [ports]="ports"
-                              [terminals]="terminals"
-                              [portOfCall]="portOfCall"
-                              [vesselId]="vesselId"
-        ></app-timestamp-editor>
-        <app-timestamp-paginator (timeStampsForVesselIdNotifier)="timeStampsForVesselIdsHandler($event)"
-                                 [portCallTimeStampAdded]="portCallTimeStampAdded"
-                                 [portCallTimeStampDeleted]="portCallTimeStampDeleted"
-                                 [portOfCall]="portOfCall"
-                                 [vesselId]="vesselId"
-        ></app-timestamp-paginator>
-      </p-card>
-    </div>
-  </ng-template>
-  <ng-template #emptyVessel>
-    <div class="main__spaceInnerComponent" style="text-align: center">
-      <p-card><span i18n="@@NoVesselSelected" class="main__notSelectedIdicator">No Vessel Selected</span></p-card>
-    </div>
-  </ng-template>
+  <div class="main__spaceInnerComponent" style=" min-width: 1200px">
+    <p-card>
+      <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
+                           [vesselId]="vesselId"
+      ></app-timestamp-table>
+      <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
+                            [portOfCall]="portOfCall"
+                            [vesselId]="vesselId"
+      ></app-timestamp-editor>
+      <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
+                               [portCallTimeStampDeleted]="portCallTimeStampDeleted"
+                               [portOfCall]="portOfCall"
+                               [vesselId]="vesselId"
+      ></app-timestamp-paginator>
+    </p-card>
+  </div>
 </div>

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
-import {ConfigService} from "../../controller/config.service";
-import {DownloadService} from "../../controller/download.service";
+import {ConfigService} from "../../controller/services/config.service";
+import {DownloadService} from "../../controller/services/download.service";
 import {MessageService} from "primeng/api";
 
 @Component({
@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
     }), error => this.messageService.add({
       key: 'DownloadRequestError',
       severity: 'error',
-      summary: 'Error on requesting the timestamps in an CSV file.',
+      summary: 'Error on requesting the $timestamps in an CSV file.',
       detail: error.message
     });
   }

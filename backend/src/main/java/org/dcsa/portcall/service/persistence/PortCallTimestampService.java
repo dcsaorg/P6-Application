@@ -17,13 +17,21 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         super(dsl);
     }
 
-    public List<PortCallTimestamp> findTimestamps(int vesselId) {
+    public List<PortCallTimestamp> findTimestampsById(int vesselId) {
         Result<Record> timestamps = dsl.select()
                 .from(PORT_CALL_TIMESTAMP)
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
                 .fetch();
 
+        return timestamps.into(PortCallTimestamp.class);
+    }
+
+    public List<PortCallTimestamp> findTimestamps() {
+        Result<Record> timestamps = dsl.select()
+                .from(PORT_CALL_TIMESTAMP)
+                .where(PORT_CALL_TIMESTAMP.DELETED.eq(false))
+                .fetch();
         return timestamps.into(PortCallTimestamp.class);
     }
 }

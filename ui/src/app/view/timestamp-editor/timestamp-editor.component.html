@@ -29,23 +29,16 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <div *ngIf="portOfCall; then portOfCallIdFilter else portOfCallSelect"></div>
-        <ng-template #portOfCallIdFilter>
-          <div>{{portOfCall.unLocode}}</div>
-          <div class="portListName">{{portOfCall.name}}</div>
-        </ng-template>
-        <ng-template #portOfCallSelect>
-          <p-dropdown (onChange)="updateTerminalOptions(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall"
-                      [filter]="true" [options]="portOptions"
-                      filterBy="label,value.name">
-            <ng-template let-port pTemplate="item">
-              <div *ngIf="port.value">
-                <div>{{port.value.unLocode}}</div>
-                <div class="portListName">{{port.value.name}}</div>
-              </div>
-            </ng-template>
-          </p-dropdown>
-        </ng-template>
+        <p-dropdown (onChange)="updateTerminalOptions(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall"
+                    [filter]="true" [options]="portOptions"
+                    filterBy="label,value.name">
+          <ng-template let-port pTemplate="item">
+            <div *ngIf="port.value">
+              <div>{{port.value.unLocode}}</div>
+              <div class="portListName">{{port.value.name}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
       </td>
       <td style="width: 7%">
         <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions"
@@ -62,16 +55,16 @@
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
       <td style="width: 14%">
-          <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
-                      [filter]="true" [options]="terminalOptions" filterBy="label,value.terminalName">
-            <ng-template let-terminal pTemplate="item">
-              <div *ngIf="terminal.value">
-                <div>{{terminal.value.smdgCode}}</div>
-                <div class="terminalListDetails">{{terminal.value.terminalName}}</div>
-                <div class="terminalListDetails">{{terminal.value.terminalOperator}}</div>
-              </div>
-            </ng-template>
-          </p-dropdown>
+        <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
+                    [filter]="true" [options]="terminalOptions" filterBy="label,value.terminalName">
+          <ng-template let-terminal pTemplate="item">
+            <div *ngIf="terminal.value">
+              <div>{{terminal.value.smdgCode}}</div>
+              <div class="terminalListDetails">{{terminal.value.terminalName}}</div>
+              <div class="terminalListDetails">{{terminal.value.terminalOperator}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
       </td>
       <td style="width: 7%">
         <label><input [(ngModel)]="timestamp.locationId" pInputText style="width: 100%" type="text"/></label>

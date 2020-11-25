@@ -52,11 +52,18 @@ public class PortCallTimestampController {
     }
 
 
+    @GetMapping
+    @Transactional(readOnly = true)
+    public List<PortCallTimestamp> listPortCallTimestamps() {
+        log.info("Listing all port call timestamps");
+        return portCallTimestampService.findTimestamps();
+    }
+
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
-    public List<PortCallTimestamp> listPortCallTimestamps(@PathVariable int vesselId) {
+    public List<PortCallTimestamp> listPortCallTimestampsById(@PathVariable int vesselId) {
         log.info("Listing all port call timestamps for vessel {}", vesselId);
-        return portCallTimestampService.findTimestamps(vesselId);
+        return portCallTimestampService.findTimestampsById(vesselId);
     }
 
     @GetMapping("/highestTimestampId/{vesselId}")
@@ -86,7 +93,7 @@ public class PortCallTimestampController {
                         new PortController(this.dsl).getPortById(portCallTimestamp.getPortOfCall()));
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
 
-        List<PortCallTimestamp> timestampsOfVessel = listPortCallTimestamps(vesselId);
+        List<PortCallTimestamp> timestampsOfVessel = listPortCallTimestampsById(vesselId);
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
         // Get Vessel

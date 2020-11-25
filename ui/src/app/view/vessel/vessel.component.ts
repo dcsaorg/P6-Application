@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SelectItem} from "primeng/api";
 import {Vessel} from "../../model/vessel";
 import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
-import {VesselService} from "../../controller/vessel.service";
+import {VesselService} from "../../controller/services/vessel.service";
 import {Port} from "../../model/port";
+import {PortService} from "../../controller/services/port.service";
 
 @Component({
   selector: 'app-vessel',
@@ -14,26 +15,27 @@ import {Port} from "../../model/port";
     DialogService
   ]
 })
-export class VesselComponent implements OnInit, OnChanges {
-  @Input('ports') ports: Port[];
+export class VesselComponent implements OnInit {
   portOptions: SelectItem[] = [];
   portOfCall: Port;
 
   vessels: SelectItem[];
   selectedVessel: Vessel;
 
-  constructor(public dialogService: DialogService, private vesselService: VesselService) {
-  }
-
   @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
   @Output() portOfCallNotifier: EventEmitter<Port> = new EventEmitter<Port>()
 
-  ngOnInit(): void {
-    this.updateVesselOptions();
+  constructor(public dialogService: DialogService,
+              private vesselService: VesselService,
+              private portService: PortService) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.updatePortOptions();
+  ngOnInit(): void {
+    this.updateVesselOptions();
+    this.portOptions.push({label: 'Select port', value: null})
+    this.portService.getPorts().subscribe(ports => ports.forEach(port =>
+        this.portOptions.push({label: port.unLocode, value: port}))
+    );
   }
 
   createNewVessel() {
@@ -93,12 +95,4 @@ export class VesselComponent implements OnInit, OnChanges {
   }
 
   selectPortOfCall = () => this.portOfCallNotifier.emit(this.portOfCall);
-
-  updatePortOptions = () => {
-    this.portOptions = [];
-    this.portOptions.push({label: 'Select port', value: null})
-    this.ports.forEach(port => {
-      this.portOptions.push({label: port.unLocode, value: port})
-    });
-  }
 }

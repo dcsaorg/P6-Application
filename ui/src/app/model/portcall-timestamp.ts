@@ -19,4 +19,5 @@ export interface PortcallTimestamp {
   locationId: string;
   changeComment?: string;
   delayCode?: DelayCode | number;
+  vessel: number;
 }

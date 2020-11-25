@@ -1,7 +1,9 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {PortcallTimestampService} from "../../controller/services/portcall-timestamp.service";
 import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {Port} from "../../model/port";
+import {PaginatorService} from "../../controller/services/paginator.service";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-timestamp-paginator',
@@ -17,12 +19,12 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   @Input('portOfCall') portOfCall: Port;
   @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
   @Input('portCallTimeStampDeleted') portCallTimeStampDeleted: PortcallTimestamp;
-  @Output('timeStampsForVesselIdNotifier') timeStampsForVesselIdNotifier: EventEmitter<PortcallTimestamp[]> = new EventEmitter<PortcallTimestamp[]>();
 
   selectedRowSize: number;
   rowSizes: number[] = [10, 25, 50];
 
-  constructor(private portcallTimestampService: PortcallTimestampService) {
+  constructor(private portcallTimestampService: PortcallTimestampService,
+              private paginatorService: PaginatorService) {
   }
 
   ngOnInit(): void {
@@ -30,7 +32,8 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.portcallTimestampService.getPortcallTimestamps(this.vesselId).forEach(portCallTimestamps => {
+    this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
+      this.timestamps = this.vesselId ? this.timestamps.filter(timestap => timestap.vessel === this.vesselId) : portCallTimestamps;
       this.timestamps = this.portOfCall ? this.timestamps.filter(timestap => (timestap.portOfCall as number) === this.portOfCall.id) : portCallTimestamps;
       const pageCount = Math.ceil(this.timestamps.length / this.selectedRowSize);
 
@@ -69,6 +72,6 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
     this.first = $event.first;
     this.selectedRowSize = $event.rows;
     this.displayTimestamps = this.timestamps.slice($event.first, ($event.page + 1) * $event.rows);
-    this.timeStampsForVesselIdNotifier.emit(this.displayTimestamps);
+    this.paginatorService.refreshTimestamps(this.displayTimestamps);
   }
 }
