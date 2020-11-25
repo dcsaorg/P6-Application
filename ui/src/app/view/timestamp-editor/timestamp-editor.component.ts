@@ -144,7 +144,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     portcallTimestamp.logOfTimestamp = dateToUtc.transform(portcallTimestamp.logOfTimestamp)
     console.log(portcallTimestamp.eventTimestamp)
 
-    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselId).subscribe((portcallTimestampAdded: PortcallTimestamp) => {
+    const vesselIdToBeSend: number = (vesselId === undefined || vesselId < 0) ? (portcallTimestamp.vessel as Vessel).id : vesselId;
+    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselIdToBeSend).subscribe((portcallTimestampAdded: PortcallTimestamp) => {
       this.messageService.add({
         key: 'TimestampAddSuccess',
         severity: 'success',

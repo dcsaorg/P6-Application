@@ -81,7 +81,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 portCallTimestamp.getLogOfTimestamp(), portOfCall);
 
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
-        List<PortCallTimestamp> timestampsOfVessel = findTimestamps(portCallTimestamp.getVessel());
+        List<PortCallTimestamp> timestampsOfVessel = findTimestampsById(portCallTimestamp.getVessel());
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
         // Get Vessel
