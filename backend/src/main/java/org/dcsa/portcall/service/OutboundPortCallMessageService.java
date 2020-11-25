@@ -70,14 +70,11 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         // Add Payload
         message.setPayload(this.generatePortCallMessage(timestamp, portOfCall, terminal));
 
+        //Save Message
         if (this.documentCreationRequired(message)) {
             this.storeMessage(timestamp, message);
         } else {
             log.warn("No document was stored, sender is {}, receiver is {}!", message.getSenderRole(), message.getReceiverRole());
-        }
-
-        // Update Carrier Vessel Port History
-        if (carrier.getId() != null) {
         }
 
         return Optional.of(message);
