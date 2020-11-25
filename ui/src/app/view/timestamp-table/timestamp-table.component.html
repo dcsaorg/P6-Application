@@ -17,8 +17,12 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 7%" pSortableColumn="timestampType"
-          pTooltip="An estimated, requested, planned or actual timestamp of a process event"
+      <th pSortableColumn="vesselId" style="width: 7%">Vessel
+<!--          pTooltip="TODO INSERT VESSEL TOOLTIP HERE" tooltipPosition="top" tooltipStyleClass="ToolTipClass"-->
+        <p-sortIcon field="vessel"></p-sortIcon>
+      </th>
+      <th pSortableColumn="timestampType" pTooltip="An estimated, requested, planned or actual timestamp of a process event"
+          style="width: 7%"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass">Timestamp
         <p-sortIcon field="timestampType"></p-sortIcon>
       </th>
@@ -43,7 +47,8 @@
           tooltipStyleClass="ToolTipClass">Previous Port
         <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portOfCall" pTooltip="What is the approaching port of call? For the agent: this is your own port"
+      <th pSortableColumn="portOfCall" pTooltip="What is the approaching port of call? For the agent: this is your own port"
+          style="width: 7%"
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass">Port of Call
         <p-sortIcon field="portOfCall"></p-sortIcon>
@@ -86,14 +91,19 @@
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
+      <td style="width: 7%">
+        <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).name}}</div>
+        <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
+      </td>
       <td style="width: 7%">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
       <td>{{ timestamp.callSequence + 1 }}</td>
-      <td>{{ timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}</td>
-      <td>{{ timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}</td>
+      <td class="dateTimeStamp">{{ timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}</td>
+      <td class="dateTimeStamp">{{ timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}</td>
       <td style="width: 7%">
         <div>{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>

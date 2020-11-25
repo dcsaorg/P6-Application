@@ -33,8 +33,13 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
-      this.timestamps = this.vesselId ? this.timestamps.filter(timestap => timestap.vessel === this.vesselId) : portCallTimestamps;
-      this.timestamps = this.portOfCall ? this.timestamps.filter(timestap => (timestap.portOfCall as number) === this.portOfCall.id) : portCallTimestamps;
+      this.timestamps = portCallTimestamps;
+      if (this.vesselId && this.vesselId > 0) {
+        this.timestamps = this.timestamps.filter(timestap => timestap.vessel === this.vesselId);
+      }
+      if (this.portOfCall) {
+        this.timestamps = this.timestamps.filter(timestap => (timestap.portOfCall as number) === this.portOfCall.id);
+      }
       const pageCount = Math.ceil(this.timestamps.length / this.selectedRowSize);
 
       console.debug("...");

@@ -17,6 +17,9 @@ import {TerminalService} from "../../controller/services/terminal.service";
 import {Observable} from "rxjs";
 import {PaginatorService} from "../../controller/services/paginator.service";
 import {take} from "rxjs/operators";
+import {VesselService} from "../../controller/services/vessel.service";
+import {Vessel} from "../../model/vessel";
+import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -25,10 +28,10 @@ import {take} from "rxjs/operators";
 
   providers: [
     DialogService,
-
     PortCallTimestampTypeToEnumPipe,
     PortCallTimestampTypeToStringPipe,
     PortIdToPortPipe,
+    VesselIdToVesselPipe
   ]
 })
 export class TimestampTableComponent implements OnInit, OnChanges {
@@ -38,6 +41,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   terminals: Terminal[] = [];
   ports: Port[] = [];
   delayCodes: DelayCode[] = [];
+  vessels: Vessel[] = [];
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
@@ -47,6 +51,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private delayCodeService: DelayCodeService,
               private portService: PortService,
               private terminalService: TerminalService,
+              private vesselService: VesselService,
 
               private confirmationService: ConfirmationService,
               private dialogService: DialogService,
@@ -63,6 +68,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
+    this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
+
     this.$timestamps = this.paginatorService.observePaginatedTimestamps();
   }
 
