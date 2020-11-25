@@ -16,22 +16,6 @@
         <p-dropdown (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true" [options]="vessels"
                     autofocus="true"></p-dropdown>
       </div>
-      <div class="p-col-2">
-        <p-dropdown
-          (onChange)="selectPortOfCall()"
-          [(ngModel)]="portOfCall"
-          [disabled]="selectedVessel === undefined || selectedVessel === null"
-          [filter]="true"
-          [options]="portOptions"
-          filterBy="label,value.name">
-          <ng-template let-port pTemplate="item">
-            <div *ngIf="port.value">
-              <div>{{port.value.unLocode}}</div>
-              <div class="portListName">{{port.value.name}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__imo_number">IMO number:</span></div>
       <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.imo }}</span></div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__teu">Vessel size (TEU):</span></div>

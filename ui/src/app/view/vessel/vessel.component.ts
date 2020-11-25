@@ -4,8 +4,6 @@ import {Vessel} from "../../model/vessel";
 import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
 import {VesselService} from "../../controller/services/vessel.service";
-import {Port} from "../../model/port";
-import {PortService} from "../../controller/services/port.service";
 
 @Component({
   selector: 'app-vessel',
@@ -16,26 +14,17 @@ import {PortService} from "../../controller/services/port.service";
   ]
 })
 export class VesselComponent implements OnInit {
-  portOptions: SelectItem[] = [];
-  portOfCall: Port;
-
   vessels: SelectItem[];
   selectedVessel: Vessel;
 
   @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
-  @Output() portOfCallNotifier: EventEmitter<Port> = new EventEmitter<Port>()
 
   constructor(public dialogService: DialogService,
-              private vesselService: VesselService,
-              private portService: PortService) {
+              private vesselService: VesselService) {
   }
 
   ngOnInit(): void {
     this.updateVesselOptions();
-    this.portOptions.push({label: 'Select port', value: null})
-    this.portService.getPorts().subscribe(ports => ports.forEach(port =>
-        this.portOptions.push({label: port.unLocode, value: port}))
-    );
   }
 
   createNewVessel() {
@@ -93,6 +82,4 @@ export class VesselComponent implements OnInit {
       });
     });
   }
-
-  selectPortOfCall = () => this.portOfCallNotifier.emit(this.portOfCall);
 }

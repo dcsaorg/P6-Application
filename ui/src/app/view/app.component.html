@@ -3,9 +3,10 @@
     <app-header></app-header>
   </div>
   <div class="main__spaceBetween main__spaceInnerComponent">
-    <app-vessel (portOfCallNotifier)="portOfCallChangedHandler($event)"
-                (vesselNotifier)="vesselChangedHandler($event)"
-    ></app-vessel>
+    <app-port-of-call (portOfCallNotifier)="portOfCallChangedHandler($event)"></app-port-of-call>
+  </div>
+  <div class="main__spaceBetween main__spaceInnerComponent">
+    <app-vessel (vesselNotifier)="vesselChangedHandler($event)"></app-vessel>
   </div>
   <div class="main__spaceInnerComponent" style=" min-width: 1200px">
     <p-card>

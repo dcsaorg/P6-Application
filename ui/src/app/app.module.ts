@@ -37,6 +37,7 @@ import {InstructionsComponent} from './view/instructions/instructions.component'
 import {DialogModule} from "primeng/dialog";
 import {DateToUtcPipe} from './controller/pipes/date-to-utc.pipe';
 import {TimestampToTimezonePipe} from './controller/pipes/timeStampToTimeZone.pipe';
+import {PortOfCallComponent} from './view/port-of-call/port-of-call.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {TimestampToTimezonePipe} from './controller/pipes/timeStampToTimeZone.pi
     InstructionsComponent,
     DateToUtcPipe,
     TimestampToTimezonePipe,
+    PortOfCallComponent,
   ],
     imports: [
         AppRoutingModule,
