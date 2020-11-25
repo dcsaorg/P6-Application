@@ -1,18 +1,16 @@
 INSERT INTO port ("name", un_country, un_locode, un_location, timezone)
 VALUES ('Hamburg', 'DE', 'DEHAM', 'HAM', 'UTC+1')
-, ('Antwerpen', 'BE', 'BEANR', 'ANR', 'UTC+1')
-, ('Rotterdam', 'NL', 'NLRTM', 'RTM', 'UTC+1')
-, ('Valencia', 'ES', 'ESVLC', 'VLC', 'UTC+1')
-, ('Algeciras', 'ES', 'ESALG', 'ALG', 'UTC+1')
-, ('Singapore', 'SG', 'SGSIN', 'SIN', 'UTC+8')
-, ('Hong Kong', 'HK', 'HKHKG', 'HKG', 'UTC+8')
-, ('Yokohama', 'JP', 'JPYOK', 'YOK', 'UTC+9')
-, ('Bremerhaven', 'DE', 'DEBRV', 'BRV', 'UTC+1')
-, ('Shanghai', 'CN', 'CNSGH', 'SGH', 'UTC+8')
-, ('Tokyo', 'JP', 'JPTYO', 'TYO', 'UTC+9')
+     , ('Antwerpen', 'BE', 'BEANR', 'ANR', 'UTC+1')
+     , ('Rotterdam', 'NL', 'NLRTM', 'RTM', 'UTC+1')
+     , ('Valencia', 'ES', 'ESVLC', 'VLC', 'UTC+1')
+     , ('Algeciras', 'ES', 'ESALG', 'ALG', 'UTC+1')
+     , ('Singapore', 'SG', 'SGSIN', 'SIN', 'UTC+8')
+     , ('Hong Kong', 'HK', 'HKHKG', 'HKG', 'UTC+8')
+     , ('Yokohama', 'JP', 'JPYOK', 'YOK', 'UTC+9')
+     , ('Bremerhaven', 'DE', 'DEBRV', 'BRV', 'UTC+1')
+     , ('Shanghai', 'CN', 'CNSGH', 'SGH', 'UTC+8')
+     , ('Tokyo', 'JP', 'JPTYO', 'TYO', 'UTC+9')
 ;
-
-
 
 INSERT INTO port ("name", un_country, un_locode, un_location)
 VALUES ('Abu Dhabi', 'AE', 'AEAUH', 'AUH')
@@ -563,4 +561,6 @@ VALUES ('Ho Chi Minh City', 'VN', 'VNSGN', 'SGN')
 ;
 
 
-update PORT set timezone = 'UTC' where timezone is null
+update PORT
+set timezone = 'UTC'
+where timezone is null

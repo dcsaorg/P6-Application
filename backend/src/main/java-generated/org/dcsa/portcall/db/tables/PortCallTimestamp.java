@@ -175,12 +175,12 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
 
     @Override
     public UniqueKey<PortCallTimestampRecord> getPrimaryKey() {
-        return Keys.MESSAGE_PK;
+        return Keys.PORT_CALL_TIMESTAMP_PK;
     }
 
     @Override
     public List<UniqueKey<PortCallTimestampRecord>> getKeys() {
-        return Arrays.<UniqueKey<PortCallTimestampRecord>>asList(Keys.MESSAGE_PK);
+        return Arrays.<UniqueKey<PortCallTimestampRecord>>asList(Keys.PORT_CALL_TIMESTAMP_PK);
     }
 
     @Override

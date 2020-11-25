@@ -4,26 +4,16 @@
 package org.dcsa.portcall.db.tables;
 
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.dcsa.portcall.db.Keys;
 import org.dcsa.portcall.db.Public;
 import org.dcsa.portcall.db.tables.records.VesselRecord;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Identity;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row5;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -51,6 +41,11 @@ public class Vessel extends TableImpl<VesselRecord> {
      * The column <code>public.vessel.id</code>.
      */
     public final TableField<VesselRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>public.vessel.carrier</code>.
+     */
+    public final TableField<VesselRecord, Integer> CARRIER = createField(DSL.name("carrier"), SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>public.vessel.name</code>.
@@ -152,11 +147,11 @@ public class Vessel extends TableImpl<VesselRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row6 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, String, Integer, Short, String> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row6<Integer, Integer, String, Integer, Short, String> fieldsRow() {
+        return (Row6) super.fieldsRow();
     }
 }

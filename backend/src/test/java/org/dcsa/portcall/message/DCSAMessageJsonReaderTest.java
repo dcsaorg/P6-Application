@@ -3,12 +3,13 @@ package org.dcsa.portcall.message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.dcsa.portcall.service.PortCallMessageService;
+import org.dcsa.portcall.service.AbstractPortCallMessageService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +19,12 @@ public class DCSAMessageJsonReaderTest {
 
     @BeforeAll
     static void before() {
-        PortCallMessageService portCallMessageService = new PortCallMessageService();
+        AbstractPortCallMessageService portCallMessageService = new AbstractPortCallMessageService() {
+            @Override
+            public Optional process(Object message) {
+                return null;
+            }
+        };
         mapper = portCallMessageService.getJsonMapper();
     }
 
@@ -133,23 +139,25 @@ public class DCSAMessageJsonReaderTest {
                 "    \"ProcessType\" : \"PortCall\",\n" +
                 "    \"ProcessId\" : \"MSC-ABCDEFGH\",\n" +
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
-                "    \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "    \"VesselId\" : \"9074729\",\n" +
-                "    \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "    \"PortId\" : \"deham\",\n" +
-                "    \"TerminalIdType\" : \"UN/LOCODE\",\n" +
-                "    \"TerminalId\" : \"cta\",\n" +
-                "    \"NextPortOfCall\" : \"beanr\",\n" +
-                "    \"VoyageNumber\" : \"ABCDEFGH\",\n" +
-                "    \"Event\" : {\n" +
-                "      \"EventClassifierCode\" : \"EST\",\n" +
-                "      \"TransportEventTypeCode\" : \"ARRI\",\n" +
-                "      \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
-                "      \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
-                "      \"LocationType\" : \"BERTH\"\n" +
-                "    },\n" +
-                "    \"PreviousPortOfCall\" : \"nlrtm\",\n" +
-                "    \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
+                "    \"Payload\" : {\n" +
+                "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
+                "      \"VesselId\" : \"9074729\",\n" +
+                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"PortId\" : \"deham\",\n" +
+                "      \"TerminalIdType\" : \"UN/LOCODE\",\n" +
+                "      \"TerminalId\" : \"cta\",\n" +
+                "      \"NextPortOfCall\" : \"beanr\",\n" +
+                "      \"VoyageNumber\" : \"ABCDEFGH\",\n" +
+                "      \"Event\" : {\n" +
+                "        \"EventClassifierCode\" : \"EST\",\n" +
+                "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
+                "        \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
+                "        \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "        \"LocationType\" : \"BERTH\"\n" +
+                "      },\n" +
+                "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
+                "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
+                "    }\n" +
                 "  }\n" +
                 "}", new TypeReference<>() {
         });

@@ -4,19 +4,14 @@
 package org.dcsa.portcall.db;
 
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.dcsa.portcall.db.tables.DelayCode;
-import org.dcsa.portcall.db.tables.LinerCode;
-import org.dcsa.portcall.db.tables.Port;
-import org.dcsa.portcall.db.tables.PortCallTimestamp;
-import org.dcsa.portcall.db.tables.Terminal;
-import org.dcsa.portcall.db.tables.Vessel;
+import org.dcsa.portcall.db.tables.*;
 import org.jooq.Catalog;
 import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -33,14 +28,19 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.carrier</code>.
+     */
+    public final Carrier CARRIER = Carrier.CARRIER;
+
+    /**
      * The table <code>public.delay_code</code>.
      */
     public final DelayCode DELAY_CODE = DelayCode.DELAY_CODE;
 
     /**
-     * The table <code>public.liner_code</code>.
+     * The table <code>public.message</code>.
      */
-    public final LinerCode LINER_CODE = LinerCode.LINER_CODE;
+    public final Message MESSAGE = Message.MESSAGE;
 
     /**
      * The table <code>public.port</code>.
@@ -78,8 +78,9 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Sequence<?>> getSequences() {
         return Arrays.<Sequence<?>>asList(
+            Sequences.CARRIER_ID_SEQ,
             Sequences.DELAY_CODE_ID_SEQ,
-            Sequences.LINER_CODE_ID_SEQ,
+            Sequences.MESSAGE_ID_SEQ,
             Sequences.PORT_CALL_TIMESTAMP_ID_SEQ,
             Sequences.PORT_ID_SEQ,
             Sequences.TERMINAL_ID_SEQ,
@@ -89,8 +90,9 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
+            Carrier.CARRIER,
             DelayCode.DELAY_CODE,
-            LinerCode.LINER_CODE,
+            Message.MESSAGE,
             Port.PORT,
             PortCallTimestamp.PORT_CALL_TIMESTAMP,
             Terminal.TERMINAL,

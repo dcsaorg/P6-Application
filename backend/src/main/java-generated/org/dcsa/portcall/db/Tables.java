@@ -4,12 +4,7 @@
 package org.dcsa.portcall.db;
 
 
-import org.dcsa.portcall.db.tables.DelayCode;
-import org.dcsa.portcall.db.tables.LinerCode;
-import org.dcsa.portcall.db.tables.Port;
-import org.dcsa.portcall.db.tables.PortCallTimestamp;
-import org.dcsa.portcall.db.tables.Terminal;
-import org.dcsa.portcall.db.tables.Vessel;
+import org.dcsa.portcall.db.tables.*;
 
 
 /**
@@ -19,14 +14,19 @@ import org.dcsa.portcall.db.tables.Vessel;
 public class Tables {
 
     /**
+     * The table <code>public.carrier</code>.
+     */
+    public static final Carrier CARRIER = Carrier.CARRIER;
+
+    /**
      * The table <code>public.delay_code</code>.
      */
     public static final DelayCode DELAY_CODE = DelayCode.DELAY_CODE;
 
     /**
-     * The table <code>public.liner_code</code>.
+     * The table <code>public.message</code>.
      */
-    public static final LinerCode LINER_CODE = LinerCode.LINER_CODE;
+    public static final Message MESSAGE = Message.MESSAGE;
 
     /**
      * The table <code>public.port</code>.
