@@ -1,21 +1,16 @@
 package org.dcsa.portcall.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.DCSAMessage;
-import org.dcsa.portcall.message.PortCallMessage;
 import org.dcsa.portcall.message.RoleType;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
-import org.dcsa.portcall.service.persistence.PortService;
-import org.dcsa.portcall.service.persistence.VesselService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,37 +43,37 @@ class OutboundPortCallMessageServiceTest extends AbstractDatabaseTest {
         OffsetDateTime now = OffsetDateTime.of(2020, 11, 25, 18, 48, 0, 0, ZoneOffset.UTC);
         message.setMessageDateTime(now);
         String msgJson =  this.outboundService.getJsonMapper().writeValueAsString(message);
-        String targetJson = "{\r\n" +
-                "  \"DCSAMessage\" : {\r\n" +
-                "    \"MessageDateTime\" : \"2020-11-25T18:48Z\",\r\n" +
-                "    \"SenderRole\" : \"CARRIER\",\r\n" +
-                "    \"SenderIdType\" : \"SMDG-LINER-CODE\",\r\n" +
-                "    \"SenderId\" : \"TST\",\r\n" +
-                "    \"ReceiverRole\" : \"TERMINAL\",\r\n" +
-                "    \"ReceiverIdType\" : \"TERMINAL\",\r\n" +
-                "    \"ReceiverId\" : \"ESALG:CTT\",\r\n" +
-                "    \"ProcessType\" : \"PortCall\",\r\n" +
-                "    \"ProcessId\" : \"00000000-1111-2222-3333-ABCDEFGHIJKL\",\r\n" +
-                "    \"MessageType\" : \"PortCallMessage\",\r\n" +
-                "    \"Payload\" : {\r\n" +
-                "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\r\n" +
-                "      \"VesselId\" : \"1234560\",\r\n" +
-                "      \"PortIdType\" : \"UN/LOCODE\",\r\n" +
-                "      \"PortId\" : \"ESALG\",\r\n" +
-                "      \"TerminalIdType\" : \"TERMINAL\",\r\n" +
-                "      \"TerminalId\" : \"CTT\",\r\n" +
-                "      \"NextPortOfCall\" : \"GBFXT\",\r\n" +
-                "      \"VoyageNumber\" : \"Example Loop 1\",\r\n" +
-                "      \"Event\" : {\r\n" +
-                "        \"EventClassifierCode\" : \"EST\",\r\n" +
-                "        \"TransportEventTypeCode\" : \"ARRI\",\r\n" +
-                "        \"LocationId\" : \"urn:mrn:ipcdmc:location:ESALG:berth:CTT:Bollard 55-70\",\r\n" +
-                "        \"EventDateTime\" : \"2020-11-05T14:00Z\",\r\n" +
-                "        \"LocationType\" : \"BERTH\"\r\n" +
-                "      },\r\n" +
-                "      \"PreviousPortOfCall\" : \"DEHAM\"\r\n" +
-                "    }\r\n" +
-                "  }\r\n" +
+        String targetJson = "{\n" +
+                "  \"DCSAMessage\" : {\n" +
+                "    \"MessageDateTime\" : \"2020-11-25T18:48Z\",\n" +
+                "    \"SenderRole\" : \"CARRIER\",\n" +
+                "    \"SenderIdType\" : \"SMDG-LINER-CODE\",\n" +
+                "    \"SenderId\" : \"TST\",\n" +
+                "    \"ReceiverRole\" : \"TERMINAL\",\n" +
+                "    \"ReceiverIdType\" : \"TERMINAL\",\n" +
+                "    \"ReceiverId\" : \"ESALG:CTT\",\n" +
+                "    \"ProcessType\" : \"PortCall\",\n" +
+                "    \"ProcessId\" : \"00000000-1111-2222-3333-ABCDEFGHIJKL\",\n" +
+                "    \"MessageType\" : \"PortCallMessage\",\n" +
+                "    \"Payload\" : {\n" +
+                "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
+                "      \"VesselId\" : \"1234560\",\n" +
+                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"PortId\" : \"ESALG\",\n" +
+                "      \"TerminalIdType\" : \"TERMINAL\",\n" +
+                "      \"TerminalId\" : \"CTT\",\n" +
+                "      \"NextPortOfCall\" : \"GBFXT\",\n" +
+                "      \"VoyageNumber\" : \"Example Loop 1\",\n" +
+                "      \"Event\" : {\n" +
+                "        \"EventClassifierCode\" : \"EST\",\n" +
+                "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
+                "        \"LocationId\" : \"urn:mrn:ipcdmc:location:ESALG:berth:CTT:Bollard 55-70\",\n" +
+                "        \"EventDateTime\" : \"2020-11-05T14:00Z\",\n" +
+                "        \"LocationType\" : \"BERTH\"\n" +
+                "      },\n" +
+                "      \"PreviousPortOfCall\" : \"DEHAM\"\n" +
+                "    }\n" +
+                "  }\n" +
                 "}";
 
         assertThat(targetJson).isEqualTo(msgJson);
