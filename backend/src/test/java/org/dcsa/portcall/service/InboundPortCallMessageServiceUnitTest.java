@@ -5,6 +5,7 @@ import org.dcsa.portcall.message.DCSAMessage;
 import org.dcsa.portcall.message.PortCallMessage;
 import org.dcsa.portcall.service.persistence.MessageService;
 import org.dcsa.portcall.service.persistence.PortService;
+import org.dcsa.portcall.service.persistence.TerminalService;
 import org.dcsa.portcall.service.persistence.VesselService;
 import org.junit.jupiter.api.Test;
 
@@ -21,14 +22,14 @@ class InboundPortCallMessageServiceUnitTest {
     @Test
     void testEmptyMessage() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                mock(PortService.class), mock(VesselService.class), mock(MessageService.class));
+                mock(PortService.class), mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
         assertThat(service.process(null).isEmpty()).isTrue();
     }
 
     @Test
     void testUnexpectedVesselIdType() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                mock(PortService.class), mock(VesselService.class), mock(MessageService.class));
+                mock(PortService.class), mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(
@@ -46,7 +47,7 @@ class InboundPortCallMessageServiceUnitTest {
     @Test
     void testUnexpectedPortIdType() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                mock(PortService.class), mock(VesselService.class), mock(MessageService.class));
+                mock(PortService.class), mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(
@@ -58,7 +59,7 @@ class InboundPortCallMessageServiceUnitTest {
 
         assertThatThrownBy(() -> service.process(message))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Unexpected port of call id type: %s", CodeType.IMO_VESSEL_NUMBER);
+                .hasMessage("Unexpected port id type: %s", CodeType.IMO_VESSEL_NUMBER);
     }
 
     @Test
@@ -67,7 +68,7 @@ class InboundPortCallMessageServiceUnitTest {
         when(portService.findPortByUnLocode(anyString())).thenReturn(Optional.empty());
 
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, mock(VesselService.class), mock(MessageService.class));
+                portService, mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(

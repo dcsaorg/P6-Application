@@ -16,10 +16,24 @@ public class TerminalService extends AbstractPersistenceService {
         super(dsl);
     }
 
-    public Optional<Terminal> findTerminal(int terminalId) {
+    public Optional<Terminal> findTerminalById(int terminalId) {
         Record terminal = dsl.select()
                 .from(TERMINAL)
                 .where(TERMINAL.ID.eq(terminalId))
+                .fetchOne();
+
+        if (terminal != null) {
+            return Optional.of(terminal.into(Terminal.class));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Terminal> findTerminalByPortIdAndSMDGCode(int portId, String smdgCode) {
+        Record terminal = dsl.select()
+                .from(TERMINAL)
+                .where(TERMINAL.PORT.eq(portId)
+                        .and(TERMINAL.SMDG_CODE.eq(smdgCode.toUpperCase())))
                 .fetchOne();
 
         if (terminal != null) {

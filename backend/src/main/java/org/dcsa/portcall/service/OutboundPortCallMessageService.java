@@ -62,7 +62,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
 
         // Get PortOfCall and Terminal
         String portOfCall = portService.findPortById(timestamp.getPortOfCall()).get().getUnLocode();
-        String terminal = terminalService.findTerminal(timestamp.getTerminal()).get().getSmdgCode();
+        String terminal = terminalService.findTerminalById(timestamp.getTerminal()).get().getSmdgCode();
 
         // Generate MessageHeader
         this.generateMessageHeader(timestamp, message, portOfCall, terminal, carrier);
