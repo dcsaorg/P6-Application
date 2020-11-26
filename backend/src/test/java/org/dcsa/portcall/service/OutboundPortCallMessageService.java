@@ -2,6 +2,7 @@ package org.dcsa.portcall.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.dcsa.portcall.PortCallProperties;
+import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.*;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
@@ -12,6 +13,7 @@ import org.postgresql.translation.messages_bg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.security.Timestamp;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Optional;
@@ -35,6 +37,16 @@ class OutboundPortCallMessageServiceTest extends AbstractDatabaseTest {
         this.testExampleMessage(1);
     }
 
+    @Test
+    void testTimeStampId14() throws Exception {
+        this.testExampleMessage(14);
+    }
+
+    @Test
+    void testTimeStampId9() throws Exception {
+        this.testExampleMessage(9);
+    }
+
 
 
 
@@ -44,21 +56,39 @@ class OutboundPortCallMessageServiceTest extends AbstractDatabaseTest {
         this.config.setSenderId("TST");
         PortCallTimestamp timestamp = timestampService.getTimeStampById(id).get();
         DCSAMessage<PortCallMessage> message = this.outboundService.process(timestamp).get();
-        message.setProcessId("00000000-1111-2222-3333-ABCDEFGHIJKL");
-        OffsetDateTime now = OffsetDateTime.of(2020, 11, 25, 18, 48, 0, 0, ZoneOffset.UTC);
-        message.setMessageDateTime(now);
 
 
         assertThat(message.getSenderRole()).isEqualTo(RoleType.CARRIER);
         assertThat(message.getSenderId()).isEqualTo("TST");
         assertThat(message.getSenderIdType()).isEqualTo(CodeType.SMDG_LINER_CODE);
-        assertThat(message.getMessageDateTime()).isEqualTo( OffsetDateTime.of(2020, 11, 25, 18, 48, 0, 0, ZoneOffset.UTC));
-        assertThat(message.getReceiverRole()).isEqualTo(RoleType.TERMINAL);
-        assertThat(message.getReceiverIdType()).isEqualTo(CodeType.TERMINAL);
+
+
+        if(timestamp.getTimestampType() == PortCallTimestampType.ETA_Berth) {
+            // Test if receiver is Terminal
+            assertThat(RoleType.TERMINAL).isEqualTo(message.getReceiverRole());
+            assertThat(CodeType.TERMINAL).isEqualTo(message.getReceiverIdType());
+            assertThat(EventClassifierCode.EST).isEqualTo(message.getPayload().getEvent().getEventClassifierCode());
+            assertThat(TransportEventType.ARRI).isEqualTo(message.getPayload().getEvent().getTransportEventTypeCode());
+            assertThat(LocationType.BERTH).isEqualTo(message.getPayload().getEvent().getLocationType());
+        } else if(timestamp.getTimestampType() == PortCallTimestampType.PTC_Cargo_Ops){
+            // Test if receiver is Carrier
+            assertThat(RoleType.CARRIER).isEqualTo(message.getReceiverRole());
+            assertThat(CodeType.SMDG_LINER_CODE).isEqualTo(message.getReceiverIdType());
+            assertThat(EventClassifierCode.PLA).isEqualTo(message.getPayload().getEvent().getEventClassifierCode());
+            assertThat(TransportEventType.COPS).isEqualTo(message.getPayload().getEvent().getTransportEventTypeCode());
+            assertThat(LocationType.PORT).isEqualTo(message.getPayload().getEvent().getLocationType());
+        } else if(timestamp.getTimestampType() == PortCallTimestampType.ATA_PBP){
+           // Test if receiver is Port
+            assertThat(RoleType.PORT).isEqualTo(message.getReceiverRole());
+            assertThat(CodeType.UN_LOCODE).isEqualTo(message.getReceiverIdType());
+            assertThat(EventClassifierCode.ACT).isEqualTo(message.getPayload().getEvent().getEventClassifierCode());
+            assertThat(TransportEventType.ARRI).isEqualTo(message.getPayload().getEvent().getTransportEventTypeCode());
+            assertThat(LocationType.PILOT_BOARDING_AREA).isEqualTo(message.getPayload().getEvent().getLocationType());
+
+        }
+
         assertThat(message.getPayload().getVesselIdType()).isEqualTo(CodeType.IMO_VESSEL_NUMBER);
-        assertThat(message.getPayload().getEvent().getEventClassifierCode()).isEqualTo(EventClassifierCode.EST);
-        assertThat(message.getPayload().getEvent().getTransportEventTypeCode()).isEqualTo(TransportEventType.ARRI);
-        assertThat(message.getPayload().getEvent().getLocationType()).isEqualTo(LocationType.BERTH);
+
 
     }
 
