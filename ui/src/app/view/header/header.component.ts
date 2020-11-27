@@ -4,6 +4,8 @@ import {InstructionsComponent} from "../instructions/instructions.component";
 import {ConfigService} from "../../controller/services/config.service";
 import {DownloadService} from "../../controller/services/download.service";
 import {MessageService} from "primeng/api";
+import {RoleType} from "../../model/roleType";
+import {CodeType} from "../../model/codeType";
 
 @Component({
   selector: 'app-header',
@@ -14,6 +16,9 @@ import {MessageService} from "primeng/api";
 export class HeaderComponent implements OnInit {
 
   companyName: string;
+  companyRole: RoleType;
+  companyCodeType: CodeType;
+  companyId: string;
   displayDownloadRequest: boolean;
 
   constructor(private dialogService: DialogService,
@@ -21,7 +26,10 @@ export class HeaderComponent implements OnInit {
               private downloadService: DownloadService,
               private messageService: MessageService) {
     configService.getConfig().subscribe(config => {
-      this.companyName = config.companyName;
+      this.companyName = config.company;
+      this.companyRole = config.senderRole;
+      this.companyCodeType = config.senderIdType;
+      this.companyId = config.senderId;
     });
   }
 

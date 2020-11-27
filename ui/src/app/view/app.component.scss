@@ -5,6 +5,8 @@
   margin: 0;
   padding: 0;
 
+
+
   &__spaceBetween {
     margin-bottom: 15px;
   }
@@ -19,4 +21,9 @@
     font-size: 16pt;
     color: lightgray;
   }
+
+}
+
+root {
+  font-size: 4px;
 }

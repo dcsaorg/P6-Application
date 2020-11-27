@@ -2,12 +2,20 @@
   <div class="main__spaceBetween">
     <app-header></app-header>
   </div>
-  <div class="main__spaceBetween main__spaceInnerComponent">
-    <app-port-of-call (portOfCallNotifier)="portOfCallChangedHandler($event)"></app-port-of-call>
+  <div class="p-grid">
+    <div class="p-col-6">
+      <div class="main__spaceBetween main__spaceInnerComponent">
+        <app-port-of-call (portOfCallNotifier)="portOfCallChangedHandler($event)"></app-port-of-call>
+      </div>
+    </div>
+    <div class="p-col-6">
+      <div class="main__spaceBetween main__spaceInnerComponent">
+        <app-vessel (vesselNotifier)="vesselChangedHandler($event)"></app-vessel>
+      </div>
+    </div>
   </div>
-  <div class="main__spaceBetween main__spaceInnerComponent">
-    <app-vessel (vesselNotifier)="vesselChangedHandler($event)"></app-vessel>
-  </div>
+
+
   <div class="main__spaceInnerComponent" style=" min-width: 1200px">
     <p-card>
       <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"

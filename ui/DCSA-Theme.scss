@@ -488,6 +488,7 @@ p-chips.ng-dirty.ng-invalid > .p-chips > .p-inputtext {
 .p-dropdown .p-dropdown-label {
   background: transparent;
   border: 0 none;
+  font-size:8pt;
 }
 .p-dropdown .p-dropdown-label.p-placeholder {
   color: #6c757d;
@@ -1329,9 +1330,10 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   background: $tealBlue;
   border: 1px solid $tealBlue;
   padding: 0.5rem 0.75rem;
-  font-size: 1rem;
+  font-size: 10pt;
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
   border-radius: 4px;
+
 }
 .p-button:enabled:hover {
   background: $tealBlueBright;

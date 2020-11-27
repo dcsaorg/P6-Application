@@ -13,6 +13,7 @@ package org.dcsa.portcall.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
+import org.dcsa.portcall.model.PortCallTimestampResponse;
 import org.dcsa.portcall.service.OutboundPortCallMessageService;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
 import org.springframework.http.HttpStatus;
@@ -41,14 +42,15 @@ public class PortCallTimestampController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public List<PortCallTimestamp> listPortCallTimestamps() {
+    public List<PortCallTimestampResponse> listPortCallTimestamps() {
         log.info("Listing all port call timestamps");
-        return portCallTimestampService.findTimestamps();
+        List<PortCallTimestampResponse> resp =  portCallTimestampService.findTimestamps();
+        return resp;
     }
 
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
-    public List<PortCallTimestamp> listPortCallTimestampsById(@PathVariable int vesselId) {
+    public List<PortCallTimestampResponse> listPortCallTimestampsById(@PathVariable int vesselId) {
         log.info("Listing all port call timestamps for vessel {}", vesselId);
         return portCallTimestampService.findTimestampsById(vesselId);
     }
