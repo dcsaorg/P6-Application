@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
 
@@ -116,6 +117,8 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         }
     }
 
+
+
     /**
      * Method to calculate a sequence for timestamps:
      * A sequence always starts with an Estimated Classifier code (EST) and ans with an ACTUAL (ACT
@@ -193,5 +196,19 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 .set(PORT_CALL_TIMESTAMP.DELETED, true)
                 .where(PORT_CALL_TIMESTAMP.ID.eq(portCallTimestampId))
                 .execute();
+    }
+
+    @Transactional
+    public Optional<PortCallTimestamp> getTimeStampById(int timestampId){
+        Record rec = this.dsl.select()
+                .from(PORT_CALL_TIMESTAMP)
+                .where(PORT_CALL_TIMESTAMP.ID.eq(timestampId))
+                .fetchOne();
+
+        if(rec != null){
+            return Optional.of(rec.into(PortCallTimestamp.class));
+        } else {
+            return Optional.empty();
+        }
     }
 }

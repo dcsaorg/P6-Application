@@ -40,6 +40,7 @@ public abstract class AbstractDatabaseTest {
                     "spring.datasource.url", postgres.getJdbcUrl(),
                     "spring.datasource.username", postgres.getUsername(),
                     "spring.datasource.password", postgres.getPassword(),
+                    "spring.datasource.hikari.maxLifetime", "600000",
                     "spring.flyway.url", postgres.getJdbcUrl(),
                     "spring.flyway.username", postgres.getUsername(),
                     "spring.flyway.password", postgres.getPassword()

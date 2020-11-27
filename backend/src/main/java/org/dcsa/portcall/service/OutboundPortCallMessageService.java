@@ -62,7 +62,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
 
         // Get PortOfCall and Terminal
         String portOfCall = portService.findPortById(timestamp.getPortOfCall()).get().getUnLocode();
-        String terminal = terminalService.findTerminal(timestamp.getTerminal()).get().getSmdgCode();
+        String terminal = terminalService.findTerminalById(timestamp.getTerminal()).get().getSmdgCode();
 
         // Generate MessageHeader
         this.generateMessageHeader(timestamp, message, portOfCall, terminal, carrier);
@@ -70,14 +70,11 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         // Add Payload
         message.setPayload(this.generatePortCallMessage(timestamp, portOfCall, terminal));
 
+        //Save Message
         if (this.documentCreationRequired(message)) {
             this.storeMessage(timestamp, message);
         } else {
             log.warn("No document was stored, sender is {}, receiver is {}!", message.getSenderRole(), message.getReceiverRole());
-        }
-
-        // Update Carrier Vessel Port History
-        if (carrier.getId() != null) {
         }
 
         return Optional.of(message);
