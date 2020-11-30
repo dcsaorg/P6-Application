@@ -106,6 +106,10 @@ public class PortCallTimestampController {
     @PostMapping("/accept")
     @Transactional
     public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampResponse timestamp){
-        return this.portCallTimestampService.acceptTimestamp(timestamp);
+       PortCallTimestamp acceptTimestamp =  this.portCallTimestampService.acceptTimestamp(timestamp);
+        // Generate PortCall Message
+        portCallMessageGeneratorService.process(acceptTimestamp);
+        return acceptTimestamp;
+
     }
 }
