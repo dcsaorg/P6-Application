@@ -63,7 +63,7 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">Direction
         <p-sortIcon field="direction"></p-sortIcon>
       </th>
-      <th pSortableColumn="terminal" style="width: 14%" pTooltip="What is the name and/or SMDG code of the terminal?"
+      <th pSortableColumn="terminal" style="width: 9%" pTooltip="What is the name and/or SMDG code of the terminal?"
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Terminal Id
         <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
@@ -77,7 +77,7 @@
       <th style="width: 3%" pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Root cause comm.
       </th>
-      <th style="width: 5%"></th>
+      <th style="width: 9%"></th>
     </tr>
     <tr>
       <td></td>
@@ -134,11 +134,11 @@
         <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id" icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
-        <div *ngIf="timestamp.response != null">
-          <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id" icon="pi pi-check"
+
+          <p-button class="timestampContent"  *ngIf="timestamp.response != null" icon="pi pi-check"
                     pTooltip="Accept timestamp and send a response as {{timestamp.response}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass"></p-button>
-        </div>
+                    tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)" ></p-button>
+
       </td>
     </tr>
   </ng-template>

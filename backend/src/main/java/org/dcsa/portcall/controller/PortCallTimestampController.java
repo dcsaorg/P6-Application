@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sound.sampled.Port;
 import java.util.List;
 
 /**
@@ -100,5 +101,11 @@ public class PortCallTimestampController {
         } else {
             log.debug("Port call timestamp {} successfully deleted", portCallTimestampId);
         }
+    }
+
+    @PostMapping("/accept")
+    @Transactional
+    public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampResponse timestamp){
+        return this.portCallTimestampService.acceptTimestamp(timestamp);
     }
 }

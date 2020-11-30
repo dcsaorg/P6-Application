@@ -19,7 +19,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   @Input('portOfCall') portOfCall: Port;
   @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
   @Input('portCallTimeStampDeleted') portCallTimeStampDeleted: PortcallTimestamp;
-
+  @Input('portCallTimeStampResponded') portCallTimeStampResponded: PortcallTimestamp;
   selectedRowSize: number;
   rowSizes: number[] = [10, 25, 50];
 
@@ -28,7 +28,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.selectedRowSize = 10;
+    this.selectedRowSize = 25;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -19,6 +19,7 @@
   <div class="main__spaceInnerComponent" style=" min-width: 1200px">
     <p-card>
       <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
+                           (timeStampAcceptNotifier)="timestampRespondedHandler($event)"
                            [vesselId]="vesselId"
       ></app-timestamp-table>
       <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
@@ -27,6 +28,7 @@
       ></app-timestamp-editor>
       <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
                                [portCallTimeStampDeleted]="portCallTimeStampDeleted"
+                               [portCallTimeStampResponded] ="portCallTimeStampResponded"
                                [portOfCall]="portOfCall"
                                [vesselId]="vesselId"
       ></app-timestamp-paginator>

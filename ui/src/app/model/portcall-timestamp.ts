@@ -21,5 +21,5 @@ export interface PortcallTimestamp {
   changeComment?: string;
   delayCode?: DelayCode | number;
   vessel: number | Vessel;
-  response: PortcallTimestampType;
+  response?: PortcallTimestampType;
 }

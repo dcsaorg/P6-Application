@@ -44,6 +44,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   vessels: Vessel[] = [];
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
+  @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
   highestTimestampId: number;
 
@@ -81,6 +82,30 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }
     console.debug(history);
   }
+
+
+  acceptTimestamp(timestamp: PortcallTimestamp){
+
+    this.portcallTimestampService.acceptTimestamp(timestamp).subscribe((newPortCallTimestamp: PortcallTimestamp) => {
+      const port = this.portIdToPortPipe.transform(timestamp.portOfCall as number, this.ports);
+      const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
+      const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newPortCallTimestamp.timestampType as PortcallTimestampType);
+      this.messageService.add({
+        key: "TimestampToast",
+        severity: 'success',
+        summary: 'Successfully accepted the ' + typeOrigin + " with an " + typeNew + " for port " + port.unLocode,
+        detail: ''
+      });
+    this.timeStampAcceptNotifier.emit(timestamp);
+    }, error => this.messageService.add({
+      key: 'TimestampToast',
+      severity: 'error',
+      summary: 'Error while trying to accept the timestamp',
+      detail: error.message
+    }));
+  }
+
+
 
   deleteTimestamp(timestamp: any) {
     const port = this.portIdToPortPipe.transform(timestamp.portOfCall as number, this.ports);

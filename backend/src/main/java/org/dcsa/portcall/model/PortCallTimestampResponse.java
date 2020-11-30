@@ -13,7 +13,7 @@ public class PortCallTimestampResponse extends PortCallTimestamp {
     @JsonProperty
     private PortCallTimestampType response;
 
-    public PortCallTimestampType setResponse() {
+    public PortCallTimestampType getResponse() {
         return this.response;
     }
 
