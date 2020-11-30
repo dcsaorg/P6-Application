@@ -1,15 +1,15 @@
 <p-table [value]="($timestamps | async)" styleClass="p-datatable-sm">
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 7%; padding-left: 0">
-        <p-dropdown [(ngModel)]="timestamp.vessel" [options]="vesselOptions"></p-dropdown>
+      <td style="width: 7%; padding-left: 0" class="timestampContent">
+        <p-dropdown  [(ngModel)]="timestamp.vessel" [options]="vesselOptions"></p-dropdown>
       </td>
       <td style="width: 7%; padding-left: 0">
-        <p-dropdown [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
+        <p-dropdown  [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
       </td>
       <td style="width: 5%"></td>
       <td>
-        <p-calendar [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
+        <p-calendar  [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     showTime="true"
                     showWeek="true" yearNavigator="true" yearRange="2010:2030" [locale]="en"></p-calendar>
@@ -57,7 +57,7 @@
       <td style="width: 7%">
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
-      <td style="width: 14%">
+      <td style="width: 9%">
         <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
                     [filter]="true" [options]="terminalOptions" filterBy="label,value.terminalName">
           <ng-template let-terminal pTemplate="item">
@@ -77,7 +77,7 @@
                   pTooltip="Add your comment and a delay reason to timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass" class="buttonInTable"></p-button>
       </td>
-      <td style="width: 5%">
+      <td style="width: 9%">
 
         <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)"
                   [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>

@@ -1,22 +1,37 @@
 package org.dcsa.portcall;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.dcsa.portcall.message.CodeType;
 import org.dcsa.portcall.message.RoleType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
+
+@JsonIgnoreProperties("$$beanFactory")
 @Primary
 @Configuration
 @ConfigurationProperties(prefix = "dcsa")
     public class PortCallProperties {
 
+    @JsonInclude(NON_NULL)
     private String company;
+    @JsonInclude(NON_NULL)
     private RoleType senderRole;
+    @JsonInclude(NON_NULL)
     private CodeType senderIdType;
+    @JsonInclude(NON_NULL)
     private String senderId;
+    @JsonInclude(NON_NULL)
     private Messenger messenger;
+    @JsonInclude(NON_NULL)
     private Hotfolder hotfolder;
+    @JsonInclude
     private Management management;
 
 

@@ -12,6 +12,7 @@ export class AppComponent {
   portOfCall: Port
   portCallTimeStampAdded: PortcallTimestamp;
   portCallTimeStampDeleted: PortcallTimestamp;
+  portCallTimeStampResponded: PortcallTimestamp;
 
   constructor() {
   }
@@ -21,6 +22,8 @@ export class AppComponent {
   timeStampAddedHandler = ($portCallTimeStampAdded: PortcallTimestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
 
   timestampDeletedHandler = ($portCallTimestampDeleted: PortcallTimestamp) => this.portCallTimeStampDeleted = $portCallTimestampDeleted;
+
+  timestampRespondedHandler = ($portCallTimestampResponded: PortcallTimestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
 }

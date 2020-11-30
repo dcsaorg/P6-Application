@@ -37,6 +37,12 @@ export class PortcallTimestampService {
     return this.httpClient.delete<any>(this.TIMESTAMP_URL + "/" + timestampId);
   }
 
+  acceptTimestamp = (timestamp: PortcallTimestamp): Observable<any> => {
+    console.log("Send a accept Message for timestampID "+timestamp.id);
+    return this.httpClient.post<any>(this.TIMESTAMP_URL+"/accept", timestamp);
+
+  }
+
 
   private convertPortcallTimestamp(portcallTimestamp: PortcallTimestamp) {
     return {

@@ -16,7 +16,7 @@ public class TimeZoneConverter {
                 utcDate.getDayOfMonth(),
                 utcDate.getHour(),
                 utcDate.getMinute(),
-                utcDate.getSecond(),
+                0,
                 0,
                 ZoneId.of(port.getTimezone()).getRules().getOffset(instant));
 

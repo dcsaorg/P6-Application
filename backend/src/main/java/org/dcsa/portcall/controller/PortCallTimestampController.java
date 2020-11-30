@@ -13,12 +13,14 @@ package org.dcsa.portcall.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
+import org.dcsa.portcall.model.PortCallTimestampResponse;
 import org.dcsa.portcall.service.OutboundPortCallMessageService;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sound.sampled.Port;
 import java.util.List;
 
 /**
@@ -41,14 +43,15 @@ public class PortCallTimestampController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public List<PortCallTimestamp> listPortCallTimestamps() {
+    public List<PortCallTimestampResponse> listPortCallTimestamps() {
         log.info("Listing all port call timestamps");
-        return portCallTimestampService.findTimestamps();
+        List<PortCallTimestampResponse> resp =  portCallTimestampService.findTimestamps();
+        return resp;
     }
 
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
-    public List<PortCallTimestamp> listPortCallTimestampsById(@PathVariable int vesselId) {
+    public List<PortCallTimestampResponse> listPortCallTimestampsById(@PathVariable int vesselId) {
         log.info("Listing all port call timestamps for vessel {}", vesselId);
         return portCallTimestampService.findTimestampsById(vesselId);
     }
@@ -98,5 +101,15 @@ public class PortCallTimestampController {
         } else {
             log.debug("Port call timestamp {} successfully deleted", portCallTimestampId);
         }
+    }
+
+    @PostMapping("/accept")
+    @Transactional
+    public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampResponse timestamp){
+       PortCallTimestamp acceptTimestamp =  this.portCallTimestampService.acceptTimestamp(timestamp);
+        // Generate PortCall Message
+        portCallMessageGeneratorService.process(acceptTimestamp);
+        return acceptTimestamp;
+
     }
 }
