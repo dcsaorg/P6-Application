@@ -40,13 +40,22 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     }
 
     @Transactional(readOnly = true)
-    public List<PortCallTimestamp> findTimestamps(final int vesselId) {
+    public List<PortCallTimestamp> findTimestampsById(final int vesselId) {
         Result<Record> timestamps = dsl.select()
                 .from(PORT_CALL_TIMESTAMP)
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
                 .fetch();
 
+        return timestamps.into(PortCallTimestamp.class);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PortCallTimestamp> findTimestamps() {
+        Result<Record> timestamps = dsl.select()
+                .from(PORT_CALL_TIMESTAMP)
+                .where(PORT_CALL_TIMESTAMP.DELETED.eq(false))
+                .fetch();
         return timestamps.into(PortCallTimestamp.class);
     }
 
@@ -73,7 +82,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 portCallTimestamp.getLogOfTimestamp(), portOfCall);
 
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
-        List<PortCallTimestamp> timestampsOfVessel = findTimestamps(portCallTimestamp.getVessel());
+        List<PortCallTimestamp> timestampsOfVessel = findTimestampsById(portCallTimestamp.getVessel());
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
         // Get Vessel

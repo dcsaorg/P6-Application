@@ -1,17 +1,25 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PortcallTimestamp} from "../../model/portcall-timestamp";
-import {PortcallTimestampService} from "../../controller/portcall-timestamp.service";
+import {PortcallTimestampService} from "../../controller/services/portcall-timestamp.service";
 import {Port} from "../../model/port";
 import {Terminal} from "../../model/terminal";
 import {ConfirmationService, MessageService} from "primeng/api";
-import {PortCallTimestampTypeToStringPipe} from "../../controller/port-call-timestamp-type-to-string.pipe";
-import {PortIdToPortPipe} from "../../controller/port-id-to-port.pipe";
+import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
+import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
 import {PortcallTimestampType} from "../../model/portcall-timestamp-type.enum";
-import {PortCallTimestampTypeToEnumPipe} from "../../controller/port-call-timestamp-type-to-enum.pipe";
-import {DelayCodeService} from "../../controller/delay-code.service";
+import {PortCallTimestampTypeToEnumPipe} from "../../controller/pipes/port-call-timestamp-type-to-enum.pipe";
+import {DelayCodeService} from "../../controller/services/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
 import {DelayCode} from "../../model/delayCode";
 import {DialogService} from "primeng/dynamicdialog";
+import {PortService} from "../../controller/services/port.service";
+import {TerminalService} from "../../controller/services/terminal.service";
+import {Observable} from "rxjs";
+import {PaginatorService} from "../../controller/services/paginator.service";
+import {take} from "rxjs/operators";
+import {VesselService} from "../../controller/services/vessel.service";
+import {Vessel} from "../../model/vessel";
+import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -20,18 +28,20 @@ import {DialogService} from "primeng/dynamicdialog";
 
   providers: [
     DialogService,
-
     PortCallTimestampTypeToEnumPipe,
     PortCallTimestampTypeToStringPipe,
     PortIdToPortPipe,
+    VesselIdToVesselPipe
   ]
 })
-export class TimestampTableComponent implements OnChanges {
+export class TimestampTableComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
-  @Input('ports') ports: Port[];
-  @Input('terminals') terminals: Terminal[];
-  @Input('delayCodes') delayCodes: DelayCode[];
-  @Input('timestamps') timestamps: PortcallTimestamp[];
+  $timestamps: Observable<PortcallTimestamp[]>;
+
+  terminals: Terminal[] = [];
+  ports: Port[] = [];
+  delayCodes: DelayCode[] = [];
+  vessels: Vessel[] = [];
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
@@ -39,10 +49,14 @@ export class TimestampTableComponent implements OnChanges {
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private delayCodeService: DelayCodeService,
+              private portService: PortService,
+              private terminalService: TerminalService,
+              private vesselService: VesselService,
 
               private confirmationService: ConfirmationService,
               private dialogService: DialogService,
               private messageService: MessageService,
+              private paginatorService: PaginatorService,
 
               private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe,
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
@@ -50,11 +64,21 @@ export class TimestampTableComponent implements OnChanges {
   ) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.portcallTimestampService.getHighesTimestampId(this.vesselId).subscribe(highestTimestampId => {
-      this.highestTimestampId = highestTimestampId;
-    })
+  ngOnInit(): void {
+    this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
+    this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
+    this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
+    this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
 
+    this.$timestamps = this.paginatorService.observePaginatedTimestamps();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.vesselId && this.vesselId > 0) {
+      this.portcallTimestampService.getHighesTimestampId(this.vesselId).subscribe(highestTimestampId => {
+        this.highestTimestampId = highestTimestampId;
+      })
+    }
     console.debug(history);
   }
 
@@ -65,7 +89,7 @@ export class TimestampTableComponent implements OnChanges {
       message: "Do you really want to delete the " + type + " port call timestamp to the port " + port.name + " (" + port.unLocode + ")",
       key: 'deletetimestamp',
       accept: () => {
-        this.portcallTimestampService.deleteTimestamp(timestamp.id).subscribe(data => {
+        this.portcallTimestampService.deleteTimestamp(timestamp.id).subscribe(() => {
           this.messageService.add({
             key: 'TimestampToast',
             severity: 'success',

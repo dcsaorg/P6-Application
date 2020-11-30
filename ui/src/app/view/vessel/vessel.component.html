@@ -5,20 +5,25 @@
     </p-header>
     <div class="p-grid">
       <div class="p-col-1">
-        <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__addVesselBtn" icon="pi pi-plus" type="button" pTooltip="Add a new vessel" tooltipPosition="top"
+        <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__addVesselBtn"
+                  icon="pi pi-plus" pTooltip="Add a new vessel" tooltipPosition="top" type="button"
                   tooltipStyleClass="ToolTipClass"></p-button>
-        <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded" icon="pi pi-pencil" type="button" pTooltip="Edit a vessel" tooltipPosition="top"
+        <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded"
+                  icon="pi pi-pencil" pTooltip="Edit a vessel" tooltipPosition="top" type="button"
                   tooltipStyleClass="ToolTipClass"></p-button>
       </div>
-      <div class="p-col-3">
-        <p-dropdown autofocus="true" [options]="vessels" [(ngModel)]="selectedVessel" [filter]="true" (onChange)="selectVessel()"></p-dropdown>
+      <div class="p-col-2">
+        <p-dropdown (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true" [options]="vessels"
+                    autofocus="true"></p-dropdown>
       </div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__imo_number">IMO number:</span></div>
       <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.imo }}</span></div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__teu">Vessel size (TEU):</span></div>
-      <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.teu | number }}</span></div>
+      <div class="p-col-1 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.teu | number }}</span>
+      </div>
       <div class="p-col-1 vessel__vesselDetails"><span i18n="@@vessel__service_name">Service name:</span></div>
-      <div class="p-col-3 vessel__vesselDetails"><span *ngIf="selectedVessel">{{ selectedVessel.serviceNameCode }}</span></div>
+      <div class="p-col-3 vessel__vesselDetails"><span
+        *ngIf="selectedVessel">{{ selectedVessel.serviceNameCode }}</span></div>
     </div>
   </p-card>
 </div>

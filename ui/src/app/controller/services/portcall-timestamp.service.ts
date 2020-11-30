@@ -1,34 +1,30 @@
 import {Injectable} from '@angular/core';
-import {PortcallTimestamp} from "../model/portcall-timestamp";
+import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {HttpClient} from "@angular/common/http";
-import {BACKEND_URL} from "../../environments/environment";
+import {BACKEND_URL} from "../../../environments/environment";
 import {Observable} from "rxjs";
-import {Port} from "../model/port";
-import {Terminal} from "../model/terminal";
-import {DelayCode} from "../model/delayCode";
+import {Port} from "../../model/port";
+import {Terminal} from "../../model/terminal";
+import {DelayCode} from "../../model/delayCode";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PortcallTimestampService {
-  private TIMESTAMP_URL: string;
+  private readonly TIMESTAMP_URL: string;
 
 
   constructor(private httpClient: HttpClient) {
     this.TIMESTAMP_URL = BACKEND_URL + '/portcalltimestamps';
   }
 
-  getPortcallTimestamps = (vesselId: number): Observable<PortcallTimestamp[]> => {
-    return this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL + "/" + vesselId);
-  }
+  getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL);
 
-  getHighesTimestampId = (vesselId: number): Observable<number> => {
-    return this.httpClient.get<number>(this.TIMESTAMP_URL + "/highestTimestampId/" + vesselId);
-  }
+  getPortcallTimestampsForVesselId = (vesselId: number): Observable<PortcallTimestamp[]> => this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL + "/" + vesselId);
 
-  addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => {
-    return this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, this.convertPortcallTimestamp(portcallTimestamp));
-  }
+  getHighesTimestampId = (vesselId: number): Observable<number> => this.httpClient.get<number>(this.TIMESTAMP_URL + "/highestTimestampId/" + vesselId);
+
+  addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, this.convertPortcallTimestamp(portcallTimestamp));
 
 
   updatePortcallTimestampDelayCodeAndComment = (portcallTimestamp: PortcallTimestamp): Observable<Object> => {

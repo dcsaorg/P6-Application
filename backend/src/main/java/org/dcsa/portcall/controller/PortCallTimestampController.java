@@ -39,11 +39,18 @@ public class PortCallTimestampController {
     }
 
 
+    @GetMapping
+    @Transactional(readOnly = true)
+    public List<PortCallTimestamp> listPortCallTimestamps() {
+        log.info("Listing all port call timestamps");
+        return portCallTimestampService.findTimestamps();
+    }
+
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
-    public List<PortCallTimestamp> listPortCallTimestamps(@PathVariable int vesselId) {
+    public List<PortCallTimestamp> listPortCallTimestampsById(@PathVariable int vesselId) {
         log.info("Listing all port call timestamps for vessel {}", vesselId);
-        return portCallTimestampService.findTimestamps(vesselId);
+        return portCallTimestampService.findTimestampsById(vesselId);
     }
 
     @GetMapping("/highestTimestampId/{vesselId}")

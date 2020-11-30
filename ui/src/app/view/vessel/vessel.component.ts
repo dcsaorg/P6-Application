@@ -3,7 +3,7 @@ import {SelectItem} from "primeng/api";
 import {Vessel} from "../../model/vessel";
 import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
-import {VesselService} from "../../controller/vessel.service";
+import {VesselService} from "../../controller/services/vessel.service";
 
 @Component({
   selector: 'app-vessel',
@@ -16,10 +16,12 @@ import {VesselService} from "../../controller/vessel.service";
 export class VesselComponent implements OnInit {
   vessels: SelectItem[];
   selectedVessel: Vessel;
-  constructor(public dialogService: DialogService, private vesselService: VesselService) {
-  }
 
   @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
+
+  constructor(public dialogService: DialogService,
+              private vesselService: VesselService) {
+  }
 
   ngOnInit(): void {
     this.updateVesselOptions();
