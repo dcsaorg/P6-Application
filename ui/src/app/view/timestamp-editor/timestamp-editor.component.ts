@@ -69,7 +69,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     terminal: null,
     classifierCode: '',
     eventTypeCode: '',
-    vessel: null
+    vessel: null,
+    modifiable: true,
   };
 
   constructor(private portcallTimestampService: PortcallTimestampService,
