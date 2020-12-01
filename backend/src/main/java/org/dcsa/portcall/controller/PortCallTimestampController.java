@@ -20,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sound.sampled.Port;
 import java.util.List;
 
 /**
@@ -32,12 +31,12 @@ public class PortCallTimestampController {
     private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
 
     private final PortCallTimestampService portCallTimestampService;
-    private final OutboundPortCallMessageService portCallMessageGeneratorService;
+    private final OutboundPortCallMessageService outboundPortCallMessageService;
 
     public PortCallTimestampController(PortCallTimestampService portCallTimestampService,
-                                       OutboundPortCallMessageService portCallMessageGeneratorService) {
+                                       OutboundPortCallMessageService outboundPortCallMessageService) {
         this.portCallTimestampService = portCallTimestampService;
-        this.portCallMessageGeneratorService = portCallMessageGeneratorService;
+        this.outboundPortCallMessageService = outboundPortCallMessageService;
     }
 
 
@@ -69,7 +68,7 @@ public class PortCallTimestampController {
         portCallTimestampService.addTimestamp(portCallTimestamp);
 
         // Generate PortCall Message
-        portCallMessageGeneratorService.process(portCallTimestamp);
+        outboundPortCallMessageService.process(portCallTimestamp);
 
         return portCallTimestamp;
     }
@@ -108,7 +107,7 @@ public class PortCallTimestampController {
     public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampResponse timestamp){
        PortCallTimestamp acceptTimestamp =  this.portCallTimestampService.acceptTimestamp(timestamp);
         // Generate PortCall Message
-        portCallMessageGeneratorService.process(acceptTimestamp);
+        outboundPortCallMessageService.process(acceptTimestamp);
         return acceptTimestamp;
 
     }

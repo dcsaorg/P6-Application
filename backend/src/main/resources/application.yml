@@ -78,7 +78,7 @@ dcsa:
       id: DCSA
       version: 1.0
     host: localhost
-    port: 8081
+    port: 2600
 
   management:
     carrier-vessel-port-history-threshold-days: 5

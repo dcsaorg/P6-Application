@@ -1,19 +1,20 @@
 package org.dcsa.portcall.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import de.ponton.xp.adapter.api.domainvalues.InboundStatusEnum;
+import de.ponton.xp.adapter.api.messages.InboundMessage;
+import de.ponton.xp.adapter.api.messages.InboundMessageStatusUpdate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
-import org.dcsa.portcall.db.tables.pojos.Port;
-import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
-import org.dcsa.portcall.db.tables.pojos.Terminal;
-import org.dcsa.portcall.db.tables.pojos.Vessel;
+import org.dcsa.portcall.db.tables.pojos.*;
 import org.dcsa.portcall.message.*;
-import org.dcsa.portcall.service.persistence.MessageService;
-import org.dcsa.portcall.service.persistence.PortService;
-import org.dcsa.portcall.service.persistence.TerminalService;
-import org.dcsa.portcall.service.persistence.VesselService;
+import org.dcsa.portcall.service.persistence.*;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -21,19 +22,59 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
 
     private static final Logger log = LogManager.getLogger(InboundPortCallMessageService.class);
 
-    private PortService portService;
-    private TerminalService terminalService;
-    private VesselService vesselService;
-    private MessageService messageService;
+    private final PortService portService;
+    private final TerminalService terminalService;
+    private final VesselService vesselService;
+    private final MessageService messageService;
+    private final PortCallTimestampService timestampService;
+    private final PontonXPCommunicationService communicationService;
 
     public InboundPortCallMessageService(PortService portService,
                                          TerminalService terminalService,
                                          VesselService vesselService,
-                                         MessageService messageService) {
+                                         MessageService messageService,
+                                         PortCallTimestampService timestampService,
+                                         PontonXPCommunicationService communicationService) {
         this.portService = portService;
         this.terminalService = terminalService;
         this.vesselService = vesselService;
         this.messageService = messageService;
+        this.timestampService = timestampService;
+        this.communicationService = communicationService;
+    }
+
+    @PostConstruct
+    public void initialize() {
+        this.communicationService.registerInboundMessageProcessor(this::readAndProcessMessage);
+    }
+
+    private InboundMessageStatusUpdate readAndProcessMessage(InboundMessage xpMessage, Message message) {
+        try {
+            DCSAMessage<PortCallMessage> dcsaMessage = getJsonMapper().readValue(message.getPayload(), new TypeReference<>() {});
+            if (dcsaMessage != null && dcsaMessage.getPayload() != null) {
+                if (MessageType.PortCallMessage.equals(dcsaMessage.getMessageType())) {
+
+                    Optional<PortCallTimestamp> timestamp = process(dcsaMessage);
+                    if (timestamp.isPresent()) {
+                        timestampService.addTimestamp(timestamp.get());
+                        return InboundMessageStatusUpdate.newBuilder()
+                                .setInboundMessage(xpMessage)
+                                .setStatus(InboundStatusEnum.SUCCESS)
+                                .setStatusText("Inbound message successfully processed as DCSA port call message.")
+                                .build();
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            log.fatal("Could not read json message", e);
+        }
+
+        return InboundMessageStatusUpdate.newBuilder()
+                .setInboundMessage(xpMessage)
+                .setStatus(InboundStatusEnum.REJECTED)
+                .setStatusText("Inbound message could not be processed.")
+                .build();
     }
 
     @Override
@@ -93,6 +134,9 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
 
         timestamp.setEventTimestamp(message.getPayload().getEvent().getEventDateTime());
         timestamp.setLogOfTimestamp(message.getMessageDateTime());
+
+        // TODO: Set the direction correctly
+        timestamp.setDirection(Direction.N);
 
         if (CodeType.TERMINAL.equals(message.getPayload().getTerminalIdType())) {
             Optional<Terminal> terminal = terminalService.findTerminalByPortIdAndSMDGCode(timestamp.getPortOfCall(), message.getPayload().getTerminalId());

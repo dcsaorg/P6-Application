@@ -1,22 +1,13 @@
 package org.dcsa.portcall.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.*;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
-import org.dcsa.portcall.service.persistence.PortService;
-import org.dcsa.portcall.service.persistence.VesselService;
 import org.junit.jupiter.api.Test;
-import org.postgresql.translation.messages_bg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.security.Timestamp;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

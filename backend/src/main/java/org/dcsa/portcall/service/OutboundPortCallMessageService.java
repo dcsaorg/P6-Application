@@ -1,11 +1,14 @@
 package org.dcsa.portcall.service;
 
+import de.ponton.xp.adapter.api.TransmissionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.PortCallException;
+import org.dcsa.portcall.db.enums.MessageDirection;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.Carrier;
+import org.dcsa.portcall.db.tables.pojos.Message;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.message.*;
 import org.dcsa.portcall.service.persistence.*;
@@ -31,18 +34,25 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     private final TerminalService terminalService;
     private final VesselService vesselService;
     private final CarrierService carrierService;
+    private final MessageService messageService;
+    private final PontonXPCommunicationService communicationService;
 
     public OutboundPortCallMessageService(PortCallProperties config,
                                           DelayCodeService delayCodeService,
                                           PortService portService,
                                           TerminalService terminalService,
-                                          VesselService vesselService, CarrierService carrierService) {
+                                          VesselService vesselService,
+                                          CarrierService carrierService,
+                                          MessageService messageService,
+                                          PontonXPCommunicationService communicationService) {
         this.config = config;
         this.delayCodeService = delayCodeService;
         this.portService = portService;
         this.terminalService = terminalService;
         this.vesselService = vesselService;
         this.carrierService = carrierService;
+        this.messageService = messageService;
+        this.communicationService = communicationService;
     }
 
 
@@ -52,7 +62,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     @Override
     public Optional<DCSAMessage<PortCallMessage>> process(PortCallTimestamp timestamp) {
 
-        DCSAMessage<PortCallMessage> message = new DCSAMessage<>();
+        DCSAMessage<PortCallMessage> dcsaMessage = new DCSAMessage<>();
 
         // Identify a carrier for this portCall process!
         Carrier carrier = carrierService.findCarrierByVesselId(timestamp.getVessel()).get();
@@ -65,19 +75,25 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         String terminal = terminalService.findTerminalById(timestamp.getTerminal()).get().getSmdgCode();
 
         // Generate MessageHeader
-        this.generateMessageHeader(timestamp, message, portOfCall, terminal, carrier);
+        this.generateMessageHeader(timestamp, dcsaMessage, portOfCall, terminal, carrier);
 
         // Add Payload
-        message.setPayload(this.generatePortCallMessage(timestamp, portOfCall, terminal));
+        dcsaMessage.setPayload(this.generatePortCallMessage(timestamp, portOfCall, terminal));
 
         //Save Message
-        if (this.documentCreationRequired(message)) {
-            this.storeMessage(timestamp, message);
+        if (this.documentCreationRequired(dcsaMessage)) {
+            Optional<Message> message = this.storeMessage(timestamp, dcsaMessage);
+            try {
+                communicationService.sendMessage(dcsaMessage.getSenderId(), dcsaMessage.getReceiverId(), message.get());
+            } catch (TransmissionException e) {
+                log.fatal("Could not send message", e);
+            }
         } else {
-            log.warn("No document was stored, sender is {}, receiver is {}!", message.getSenderRole(), message.getReceiverRole());
+            log.warn("No document was stored, sender is {}, receiver is {}!", dcsaMessage.getSenderRole(), dcsaMessage.getReceiverRole());
         }
 
-        return Optional.of(message);
+
+        return Optional.of(dcsaMessage);
     }
 
     private void generateMessageHeader(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message, String portOfCall, String terminal, Carrier carrier) {
@@ -208,14 +224,16 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     /**
      * store the Message to the FileSystem to the define output folder set as hotfolder/outbox
      */
-    private void storeMessage(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> message) {
-        log.debug("New {} PortCall Message will be stored to File System", timestamp.getTimestampType());
+    private Optional<Message> storeMessage(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> dcsaMessage) {
+        log.debug("New {} PortCall Message will be stored to file system", timestamp.getTimestampType());
         try {
-            Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessageFileName(message));
+            Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessageFileName(dcsaMessage));
             log.info("{} PortCall Message will be saved to: {}", timestamp.getTimestampType(), path.toString());
-            getJsonMapper().writeValue(Paths.get(path.toString()).toFile(), message);
-            log.info("Message successfully saved!");
+            getJsonMapper().writeValue(Paths.get(path.toString()).toFile(), dcsaMessage);
 
+            Optional<Message> message = messageService.saveMessage(timestamp.getId(), MessageDirection.outbound, path);
+            log.info("Message successfully saved!");
+            return message;
         } catch (IOException e) {
             String msg = String.format("Error saving new PortCallMessage:  %s ", e.getMessage());
             log.error(msg, e);

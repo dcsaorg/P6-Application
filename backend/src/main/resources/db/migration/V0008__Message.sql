@@ -8,7 +8,7 @@ create table message
 (
     id           serial            not null,
     direction    message_direction not null,
-    timestamp_id integer           not null,
+    timestamp_id integer           null,
     filename     varchar(255)      not null,
     payload      bytea             not null,
 

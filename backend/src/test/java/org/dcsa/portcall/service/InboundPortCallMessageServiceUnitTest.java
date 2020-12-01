@@ -3,10 +3,7 @@ package org.dcsa.portcall.service;
 import org.dcsa.portcall.message.CodeType;
 import org.dcsa.portcall.message.DCSAMessage;
 import org.dcsa.portcall.message.PortCallMessage;
-import org.dcsa.portcall.service.persistence.MessageService;
-import org.dcsa.portcall.service.persistence.PortService;
-import org.dcsa.portcall.service.persistence.TerminalService;
-import org.dcsa.portcall.service.persistence.VesselService;
+import org.dcsa.portcall.service.persistence.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -22,14 +19,18 @@ class InboundPortCallMessageServiceUnitTest {
     @Test
     void testEmptyMessage() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                mock(PortService.class), mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
+                mock(PortService.class), mock(TerminalService.class),
+                mock(VesselService.class), mock(MessageService.class),
+                mock(PortCallTimestampService.class), mock(PontonXPCommunicationService.class));
         assertThat(service.process(null).isEmpty()).isTrue();
     }
 
     @Test
     void testUnexpectedVesselIdType() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                mock(PortService.class), mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
+                mock(PortService.class), mock(TerminalService.class),
+                mock(VesselService.class), mock(MessageService.class),
+                mock(PortCallTimestampService.class), mock(PontonXPCommunicationService.class));
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(
@@ -47,7 +48,9 @@ class InboundPortCallMessageServiceUnitTest {
     @Test
     void testUnexpectedPortIdType() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                mock(PortService.class), mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
+                mock(PortService.class), mock(TerminalService.class),
+                mock(VesselService.class), mock(MessageService.class),
+                mock(PortCallTimestampService.class), mock(PontonXPCommunicationService.class));
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(
@@ -68,7 +71,9 @@ class InboundPortCallMessageServiceUnitTest {
         when(portService.findPortByUnLocode(anyString())).thenReturn(Optional.empty());
 
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, mock(TerminalService.class), mock(VesselService.class), mock(MessageService.class));
+                portService, mock(TerminalService.class),
+                mock(VesselService.class), mock(MessageService.class),
+                mock(PortCallTimestampService.class), mock(PontonXPCommunicationService.class));
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(
