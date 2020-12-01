@@ -4,11 +4,11 @@
 package org.dcsa.portcall.db.tables.pojos;
 
 
-import java.io.Serializable;
-import java.time.OffsetDateTime;
-
 import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
+
+import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -34,6 +34,7 @@ public class PortCallTimestamp implements Serializable {
     private String                locationId;
     private String                changeComment;
     private Integer               delayCode;
+    private Boolean               modifiable;
     private Boolean               deleted;
 
     public PortCallTimestamp() {}
@@ -54,6 +55,7 @@ public class PortCallTimestamp implements Serializable {
         this.locationId = value.locationId;
         this.changeComment = value.changeComment;
         this.delayCode = value.delayCode;
+        this.modifiable = value.modifiable;
         this.deleted = value.deleted;
     }
 
@@ -73,6 +75,7 @@ public class PortCallTimestamp implements Serializable {
         String                locationId,
         String                changeComment,
         Integer               delayCode,
+        Boolean               modifiable,
         Boolean               deleted
     ) {
         this.id = id;
@@ -90,6 +93,7 @@ public class PortCallTimestamp implements Serializable {
         this.locationId = locationId;
         this.changeComment = changeComment;
         this.delayCode = delayCode;
+        this.modifiable = modifiable;
         this.deleted = deleted;
     }
 
@@ -319,6 +323,21 @@ public class PortCallTimestamp implements Serializable {
     }
 
     /**
+     * Getter for <code>public.port_call_timestamp.modifiable</code>.
+     */
+    public Boolean getModifiable() {
+        return this.modifiable;
+    }
+
+    /**
+     * Setter for <code>public.port_call_timestamp.modifiable</code>.
+     */
+    public PortCallTimestamp setModifiable(Boolean modifiable) {
+        this.modifiable = modifiable;
+        return this;
+    }
+
+    /**
      * Getter for <code>public.port_call_timestamp.deleted</code>.
      */
     public Boolean getDeleted() {
@@ -352,6 +371,7 @@ public class PortCallTimestamp implements Serializable {
         sb.append(", ").append(locationId);
         sb.append(", ").append(changeComment);
         sb.append(", ").append(delayCode);
+        sb.append(", ").append(modifiable);
         sb.append(", ").append(deleted);
 
         sb.append(")");

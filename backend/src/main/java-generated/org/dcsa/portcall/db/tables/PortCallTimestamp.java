@@ -4,29 +4,19 @@
 package org.dcsa.portcall.db.tables;
 
 
-import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 import org.dcsa.portcall.db.Keys;
 import org.dcsa.portcall.db.Public;
 import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.records.PortCallTimestampRecord;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Identity;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row16;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -124,6 +114,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
      * The column <code>public.port_call_timestamp.delay_code</code>.
      */
     public final TableField<PortCallTimestampRecord, Integer> DELAY_CODE = createField(DSL.name("delay_code"), SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>public.port_call_timestamp.modifiable</code>.
+     */
+    public final TableField<PortCallTimestampRecord, Boolean> MODIFIABLE = createField(DSL.name("modifiable"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("true", SQLDataType.BOOLEAN)), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.deleted</code>.
@@ -239,11 +234,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row16 type methods
+    // Row17 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row16<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean> fieldsRow() {
-        return (Row16) super.fieldsRow();
+    public Row17<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean, Boolean> fieldsRow() {
+        return (Row17) super.fieldsRow();
     }
 }

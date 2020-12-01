@@ -6,7 +6,6 @@ import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.PortCallException;
 import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
-import org.dcsa.portcall.db.tables.pojos.Terminal;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.dcsa.portcall.message.EventClassifierCode;
 import org.dcsa.portcall.model.PortCallTimestampResponse;
@@ -104,12 +103,14 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                             PORT_CALL_TIMESTAMP.PORT_OF_CALL, PORT_CALL_TIMESTAMP.PORT_PREVIOUS, PORT_CALL_TIMESTAMP.PORT_NEXT,
                             PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.LOG_OF_TIMESTAMP,
                             PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL, PORT_CALL_TIMESTAMP.LOCATION_ID,
-                            PORT_CALL_TIMESTAMP.CHANGE_COMMENT, PORT_CALL_TIMESTAMP.DELAY_CODE, PORT_CALL_TIMESTAMP.CALL_SEQUENCE, PORT_CALL_TIMESTAMP.VESSEL_SERVICE_NAME)
+                            PORT_CALL_TIMESTAMP.CHANGE_COMMENT, PORT_CALL_TIMESTAMP.DELAY_CODE, PORT_CALL_TIMESTAMP.CALL_SEQUENCE, PORT_CALL_TIMESTAMP.VESSEL_SERVICE_NAME,
+                            PORT_CALL_TIMESTAMP.MODIFIABLE)
                             .values(portCallTimestamp.getVessel(),
                                     portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortPrevious(), portCallTimestamp.getPortNext(),
                                     portCallTimestamp.getTimestampType(), eventTimeStampAtPoc, logOfTimeStampAtPoc,
                                     portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
-                                    portCallTimestamp.getChangeComment(), portCallTimestamp.getDelayCode(), seq, vessel.getServiceNameCode())
+                                    portCallTimestamp.getChangeComment(), portCallTimestamp.getDelayCode(), seq, vessel.getServiceNameCode(),
+                                    portCallTimestamp.getModifiable())
                             .returningResult(PORT_CALL_TIMESTAMP.ID)
                             .fetchOne();
             portCallTimestamp.setId(id.value1());
@@ -149,6 +150,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     public PortCallTimestampResponse acceptTimestamp(PortCallTimestampResponse originTimestamp) {
         log.info("Accepting original {} timestamp by sending a {}", originTimestamp.getTimestampType(), originTimestamp.getResponse());
         PortCallTimestampResponse timestamp = new PortCallTimestampResponse();
+        timestamp.setModifiable(true);
         timestamp.setEventTimestamp(originTimestamp.getEventTimestamp());
         timestamp.setLogOfTimestamp(OffsetDateTime.now());
         timestamp.setVessel(originTimestamp.getVessel());

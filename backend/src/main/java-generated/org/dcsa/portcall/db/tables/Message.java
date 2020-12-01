@@ -4,27 +4,17 @@
 package org.dcsa.portcall.db.tables;
 
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.dcsa.portcall.db.Keys;
 import org.dcsa.portcall.db.Public;
 import org.dcsa.portcall.db.enums.MessageDirection;
 import org.dcsa.portcall.db.tables.records.MessageRecord;
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Identity;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row5;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.TableOptions;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -61,7 +51,7 @@ public class Message extends TableImpl<MessageRecord> {
     /**
      * The column <code>public.message.timestamp_id</code>.
      */
-    public final TableField<MessageRecord, Integer> TIMESTAMP_ID = createField(DSL.name("timestamp_id"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<MessageRecord, Integer> TIMESTAMP_ID = createField(DSL.name("timestamp_id"), SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>public.message.filename</code>.

@@ -121,6 +121,15 @@ public class Vessel extends TableImpl<VesselRecord> {
     }
 
     @Override
+    public List<ForeignKey<VesselRecord, ?>> getReferences() {
+        return Arrays.<ForeignKey<VesselRecord, ?>>asList(Keys.VESSEL__VESSEL_FK_CARRIER);
+    }
+
+    public Carrier carrier() {
+        return new Carrier(this, Keys.VESSEL__VESSEL_FK_CARRIER);
+    }
+
+    @Override
     public Vessel as(String alias) {
         return new Vessel(DSL.name(alias), this);
     }

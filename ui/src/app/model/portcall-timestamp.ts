@@ -22,4 +22,5 @@ export interface PortcallTimestamp {
   delayCode?: DelayCode | number;
   vessel: number | Vessel;
   response?: PortcallTimestampType;
+  modifiable: boolean;
 }

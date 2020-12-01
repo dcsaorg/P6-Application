@@ -65,6 +65,7 @@ public class PortCallTimestampController {
     public PortCallTimestamp addPortCallTimestamp(@PathVariable final int vesselId, @RequestBody final PortCallTimestamp portCallTimestamp) {
         log.info("Add PortCall Timestamp requested for vessel id [{}]", vesselId);
         portCallTimestamp.setVessel(vesselId);
+        portCallTimestamp.setModifiable(true);
         portCallTimestampService.addTimestamp(portCallTimestamp);
 
         // Generate PortCall Message

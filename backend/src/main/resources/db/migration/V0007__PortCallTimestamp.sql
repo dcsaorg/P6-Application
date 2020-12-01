@@ -15,6 +15,7 @@ CREATE TABLE port_call_timestamp
     location_id      varchar(255)             null,
     change_comment   varchar(512)             null,
     delay_code       int                      null,
+    modifiable       boolean                  NOT NULL DEFAULT true,
     deleted          boolean                  NOT NULL DEFAULT false,
     CONSTRAINT port_call_timestamp_pk PRIMARY KEY (id)
 );

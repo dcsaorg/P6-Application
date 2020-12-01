@@ -84,6 +84,8 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
         }
 
         PortCallTimestamp timestamp = new PortCallTimestamp();
+        // Received timestamp cannot be modified / deleted
+        timestamp.setModifiable(false);
 
         if (CodeType.IMO_VESSEL_NUMBER.equals(message.getPayload().getVesselIdType())) {
             Optional<Vessel> vessel = vesselService.findVesselByIMO(Integer.parseInt(message.getPayload().getVesselId()));

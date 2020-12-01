@@ -17,8 +17,9 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="vesselId" style="width: 7%" class="timestampContent">Vessel
-<!--          pTooltip="TODO INSERT VESSEL TOOLTIP HERE" tooltipPosition="top" tooltipStyleClass="ToolTipClass"-->
+      <th pSortableColumn="vesselId" pTooltip="The vessel of a process event"
+          style="width: 7%"
+          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">Vessel
         <p-sortIcon field="vessel"></p-sortIcon>
       </th>
       <th pSortableColumn="timestampType" pTooltip="An estimated, requested, planned or actual timestamp of a process event"
@@ -131,7 +132,7 @@
         </p-button>
       </td>
       <td style="width: 5%">
-        <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id" icon="pi pi-trash"
+        <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable" icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
 

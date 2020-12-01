@@ -142,7 +142,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: 'Add change comment to port call event',
-      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: true}
+      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: timestamp.modifiable}
     }).onClose.subscribe((portcallTimestamp : PortcallTimestamp) => {
       if (portcallTimestamp != null) {
         this.portcallTimestampService.updatePortcallTimestampDelayCodeAndComment(portcallTimestamp).subscribe(() => {
