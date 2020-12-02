@@ -93,7 +93,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
                 timestamp.setVessel(vessel.get().getId());
             } else if (RoleType.CARRIER.equals(message.getSenderRole())) {
                 log.debug("No vessel with imo '{}' found. Storing new vessel for carrier '{}'", message.getPayload().getVesselId(), message.getSenderId());
-                Optional<Carrier> carrier = carrierService.findBySMDGCode(message.getSenderId());
+                Optional<Carrier> carrier = carrierService.findBySMDGCode(message.getSenderId().toUpperCase());
                 if (carrier.isPresent()) {
                     vesselService.addVessel(new Vessel().setCarrier(carrier.get().getId()).setName("" + vesselImo).setImo(vesselImo).setTeu((short) 0));
                 } else {
@@ -114,7 +114,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
         timestamp.setVesselServiceName(message.getPayload().getVoyageNumber());
 
         if (CodeType.UN_LOCODE.equals(message.getPayload().getPortIdType())) {
-            Optional<Port> portOfCall = portService.findPortByUnLocode(message.getPayload().getPortId());
+            Optional<Port> portOfCall = portService.findPortByUnLocode(message.getPayload().getPortId().toUpperCase());
             if (portOfCall.isPresent()) {
                 timestamp.setPortOfCall(portOfCall.get().getId());
             } else {
@@ -123,7 +123,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
                 throw new IllegalArgumentException(msg);
             }
 
-            Optional<Port> portNext = portService.findPortByUnLocode(message.getPayload().getNextPortOfCall());
+            Optional<Port> portNext = portService.findPortByUnLocode(message.getPayload().getNextPortOfCall().toUpperCase());
             if (portNext.isPresent()) {
                 timestamp.setPortNext(portNext.get().getId());
             } else {
@@ -132,7 +132,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
                 throw new IllegalArgumentException(msg);
             }
 
-            Optional<Port> portPrevious = portService.findPortByUnLocode(message.getPayload().getPreviousPortOfCall());
+            Optional<Port> portPrevious = portService.findPortByUnLocode(message.getPayload().getPreviousPortOfCall().toUpperCase());
             if (portPrevious.isPresent()) {
                 timestamp.setPortPrevious(portPrevious.get().getId());
             } else {
