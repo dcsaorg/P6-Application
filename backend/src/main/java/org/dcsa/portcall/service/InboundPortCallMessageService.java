@@ -23,21 +23,21 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
 
     private final PortService portService;
     private final TerminalService terminalService;
+    private final CarrierService carrierService;
     private final VesselService vesselService;
-    private final MessageService messageService;
     private final PortCallTimestampService timestampService;
     private final PontonXPCommunicationService communicationService;
 
     public InboundPortCallMessageService(PortService portService,
                                          TerminalService terminalService,
+                                         CarrierService carrierService,
                                          VesselService vesselService,
-                                         MessageService messageService,
                                          PortCallTimestampService timestampService,
                                          PontonXPCommunicationService communicationService) {
         this.portService = portService;
         this.terminalService = terminalService;
+        this.carrierService = carrierService;
         this.vesselService = vesselService;
-        this.messageService = messageService;
         this.timestampService = timestampService;
         this.communicationService = communicationService;
     }
@@ -87,12 +87,25 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
         timestamp.setModifiable(false);
 
         if (CodeType.IMO_VESSEL_NUMBER.equals(message.getPayload().getVesselIdType())) {
-            Optional<Vessel> vessel = vesselService.findVesselByIMO(Integer.parseInt(message.getPayload().getVesselId()));
+            int vesselImo = Integer.parseInt(message.getPayload().getVesselId());
+            Optional<Vessel> vessel = vesselService.findVesselByIMO(vesselImo);
             if (vessel.isPresent()) {
                 timestamp.setVessel(vessel.get().getId());
+            } else if (RoleType.CARRIER.equals(message.getSenderRole())) {
+                log.debug("No vessel with imo '{}' found. Storing new vessel for carrier '{}'", message.getPayload().getVesselId(), message.getSenderId());
+                Optional<Carrier> carrier = carrierService.findBySMDGCode(message.getSenderId());
+                if (carrier.isPresent()) {
+                    vesselService.addVessel(new Vessel().setCarrier(carrier.get().getId()).setName("" + vesselImo).setImo(vesselImo).setTeu((short) 0));
+                } else {
+                    String msg = String.format("Could not add vessel with imo '%s' because not carrier with id '%s' found", message.getPayload().getVesselId(), message.getSenderId());
+                    log.fatal(msg);
+                    throw new IllegalArgumentException(msg);
+                }
             } else {
-                log.debug("No vessel with imo '{}' found. Storing new vessel for carrier '{}'", message.getPayload().getVesselId(), "?");
-                // TODO: Implement adding of unknown vessels
+                String msg = String.format("Could not add vessel with imo '%s' because sender is not a carrier '%s:%s:%s'",
+                        message.getPayload().getVesselId(), message.getSenderRole(), message.getSenderIdType(), message.getSenderId());
+                log.fatal(msg);
+                throw new IllegalArgumentException(msg);
             }
         } else {
             throw new IllegalArgumentException("Unexpected vessel id type: " + message.getPayload().getVesselIdType());
@@ -149,7 +162,13 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
             throw new IllegalArgumentException("Unexpected terminal id type: " + message.getPayload().getTerminalIdType());
         }
 
-        timestamp.setLocationId(message.getPayload().getEvent().getLocationId().substring(message.getPayload().getEvent().getLocationId().lastIndexOf(":")));
+        String locationId = message.getPayload().getEvent().getLocationId();
+        if (locationId.contains(":")) {
+            timestamp.setLocationId(locationId.substring(locationId.lastIndexOf(":")));
+        } else {
+            timestamp.setLocationId(locationId);
+        }
+
         timestamp.setChangeComment(message.getPayload().getRemarks());
 
 
