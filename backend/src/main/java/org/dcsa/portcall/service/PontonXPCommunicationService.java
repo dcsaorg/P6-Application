@@ -126,8 +126,8 @@ public class PontonXPCommunicationService {
     public void sendMessage(final String senderId, final String receiverId, Message message) throws TransmissionException {
         if (messengerConnection != null) {
             final OutboundMetaData outboundMetaData = OutboundMetaData.newBuilder()
-                    .setSenderId(new SenderId(senderId))
-                    .setReceiverId(new ReceiverId(receiverId))
+                    .setSenderId(new SenderId(senderId.toLowerCase()))
+                    .setReceiverId(new ReceiverId(receiverId.toLowerCase()))
                     .build();
             final OutboundMessage outboundMessage = OutboundMessage.newBuilder()
                     .setInputStream(new ByteArrayInputStream(message.getPayload()))
