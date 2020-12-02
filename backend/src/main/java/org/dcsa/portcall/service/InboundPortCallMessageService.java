@@ -95,7 +95,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
                 log.debug("No vessel with imo '{}' found. Storing new vessel for carrier '{}'", message.getPayload().getVesselId(), message.getSenderId());
                 Optional<Carrier> carrier = carrierService.findBySMDGCode(message.getSenderId().toUpperCase());
                 if (carrier.isPresent()) {
-                    vesselService.addVessel(new Vessel().setCarrier(carrier.get().getId()).setName("" + vesselImo).setImo(vesselImo).setTeu((short) 0));
+                    vesselService.addVessel(new Vessel().setCarrier(carrier.get().getId()).setName(carrier.get().getSmdgCode() + " " + vesselImo).setImo(vesselImo).setTeu((short) 0));
                 } else {
                     String msg = String.format("Could not add vessel with imo '%s' because not carrier with id '%s' found", message.getPayload().getVesselId(), message.getSenderId());
                     log.fatal(msg);
