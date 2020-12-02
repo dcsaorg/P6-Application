@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,17 +80,21 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     }
 
     @Transactional
-    public void addTimestamp(PortCallTimestamp portCallTimestamp) {
+    public void addTimestamp(PortCallTimestamp portCallTimestamp, Boolean transformTimezone) {
         // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp
-        Port portOfCall = portService.findPortById(portCallTimestamp.getPortOfCall()).get();
+        OffsetDateTime eventTimeStampAtPoc = portCallTimestamp.getEventTimestamp();
+        OffsetDateTime logOfTimeStampAtPoc = portCallTimestamp.getLogOfTimestamp();
 
-        OffsetDateTime eventTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
-                portCallTimestamp.getEventTimestamp(), portOfCall);
+        if(transformTimezone) {
+            Port portOfCall = portService.findPortById(portCallTimestamp.getPortOfCall()).get();
 
-        // Calculate received UTC Timestamp to Time Zone of PotOfCall for Log of TimeStamp
-        OffsetDateTime logOfTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
-                portCallTimestamp.getLogOfTimestamp(), portOfCall);
+            eventTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
+                    portCallTimestamp.getEventTimestamp(), portOfCall);
 
+            // Calculate received UTC Timestamp to Time Zone of PotOfCall for Log of TimeStamp
+            logOfTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
+                    portCallTimestamp.getLogOfTimestamp(), portOfCall);
+        }
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
         List<PortCallTimestampResponse> timestampsOfVessel = findTimestampsById(portCallTimestamp.getVessel());
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
@@ -152,10 +157,10 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         PortCallTimestampResponse timestamp = new PortCallTimestampResponse();
         timestamp.setModifiable(true);
         timestamp.setEventTimestamp(originTimestamp.getEventTimestamp());
-        timestamp.setLogOfTimestamp(OffsetDateTime.now());
+        timestamp.setLogOfTimestamp(OffsetDateTime.now(ZoneOffset.UTC));
         timestamp.setVessel(originTimestamp.getVessel());
+        timestamp.setVesselServiceName(originTimestamp.getVesselServiceName());
         timestamp.setPortPrevious(originTimestamp.getPortPrevious());
-        //ToDo set TimeZone of PortOfCall
         timestamp.setPortNext(originTimestamp.getPortPrevious());
         timestamp.setPortOfCall(originTimestamp.getPortOfCall());
         timestamp.setDirection(originTimestamp.getDirection());
@@ -165,7 +170,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
         if (timestamp.getTimestampType().equals(
                 TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), originTimestamp))) {
-            this.addTimestamp(timestamp);
+            this.addTimestamp(timestamp, false);
 
         } else {
             String msg = String.format("As %s, you can not accept a %s with an %s", config.getSenderRole(), originTimestamp.getTimestampType(), timestamp.getTimestampType());

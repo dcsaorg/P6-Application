@@ -66,7 +66,7 @@ public class PortCallTimestampController {
         log.info("Add PortCall Timestamp requested for vessel id [{}]", vesselId);
         portCallTimestamp.setVessel(vesselId);
         portCallTimestamp.setModifiable(true);
-        portCallTimestampService.addTimestamp(portCallTimestamp);
+        portCallTimestampService.addTimestamp(portCallTimestamp, true);
 
         // Generate PortCall Message
         outboundPortCallMessageService.process(portCallTimestamp);
