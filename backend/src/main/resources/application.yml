@@ -79,9 +79,3 @@ dcsa:
       version: 1.0
     host: localhost
     port: 2600
-
-  management:
-    carrier-vessel-port-history-threshold-days: 5
-    store-unknown-carrier: true
-
-

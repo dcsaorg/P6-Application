@@ -1,7 +1,6 @@
 package org.dcsa.portcall;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.dcsa.portcall.message.CodeType;
@@ -31,8 +30,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
     private Messenger messenger;
     @JsonInclude(NON_NULL)
     private Hotfolder hotfolder;
-    @JsonInclude
-    private Management management;
 
 
     public String getCompany() {
@@ -60,9 +57,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
     public void setMessenger(Messenger messenger) {
         this.messenger = messenger;
     }
-
-    public Management getManagement() {return management;}
-    public void setManagement(Management management) {this.management = management;}
 
     public static class Hotfolder{
         private String outbox;
@@ -133,25 +127,6 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
             public void setVersion(String version) {
                 this.version = version;
             }
-        }
-    }
-
-    public static class Management{
-        private int carrierVesselPortHistoryThresholdDays;
-        private boolean storeUnknownCarrier;
-
-        public int getCarrierVesselPortHistoryThresholdDays() {
-            return carrierVesselPortHistoryThresholdDays;
-        }
-
-        public void setCarrierVesselPortHistoryThresholdDays(int carrierVesselPortHistoryThresholdDays) {
-            this.carrierVesselPortHistoryThresholdDays = carrierVesselPortHistoryThresholdDays;
-        }
-
-        public boolean isStoreUnknownCarrier() {return storeUnknownCarrier;}
-
-        public void setStoreUnknownCarrier(boolean storeUnknownCarrier) {
-            this.storeUnknownCarrier = storeUnknownCarrier;
         }
     }
 }
