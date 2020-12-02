@@ -6,7 +6,6 @@ import de.ponton.xp.adapter.api.messages.InboundMessage;
 import de.ponton.xp.adapter.api.messages.InboundMessageStatusUpdate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.*;
 import org.dcsa.portcall.message.*;
@@ -137,9 +136,6 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
         timestamp.setEventTimestamp(message.getPayload().getEvent().getEventDateTime());
         timestamp.setLogOfTimestamp(message.getMessageDateTime());
 
-        // TODO: Set the direction correctly
-        timestamp.setDirection(Direction.N);
-
         if (CodeType.TERMINAL.equals(message.getPayload().getTerminalIdType())) {
             Optional<Terminal> terminal = terminalService.findTerminalByPortIdAndSMDGCode(timestamp.getPortOfCall(), message.getPayload().getTerminalId());
             if (terminal.isPresent()) {
@@ -153,7 +149,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
             throw new IllegalArgumentException("Unexpected terminal id type: " + message.getPayload().getTerminalIdType());
         }
 
-        timestamp.setLocationId(message.getPayload().getEvent().getLocationId());
+        timestamp.setLocationId(message.getPayload().getEvent().getLocationId().substring(message.getPayload().getEvent().getLocationId().lastIndexOf(":")));
         timestamp.setChangeComment(message.getPayload().getRemarks());
 
 
@@ -211,6 +207,15 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
                                 return PortCallTimestampType.PTC_Cargo_Ops;
                             case ACT:
                                 return PortCallTimestampType.ATC_Cargo_Ops;
+                            default:
+                                throw new IllegalStateException("Unsupported event classifier '" + eventClassifierCode +
+                                        "' with transport event type '" + transportEventTypeCode +
+                                        "' with location type '" + locationType + "'");
+                        }
+                    case SOPS:
+                        switch (eventClassifierCode) {
+                            case ACT:
+                                return PortCallTimestampType.ATS;
                             default:
                                 throw new IllegalStateException("Unsupported event classifier '" + eventClassifierCode +
                                         "' with transport event type '" + transportEventTypeCode +

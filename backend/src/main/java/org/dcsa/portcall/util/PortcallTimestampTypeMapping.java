@@ -60,7 +60,7 @@ public class PortcallTimestampTypeMapping {
         PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.RTD_Berth, TransportEventType.DEPT);
         PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.PTD_Berth, TransportEventType.DEPT);
         PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.ATD_Berth, TransportEventType.DEPT);
-        PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.ATS, TransportEventType.COPS);
+        PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.ATS, TransportEventType.SOPS);
         PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.ETA_PBP, TransportEventType.ARRI);
         PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.RTA_PBP, TransportEventType.ARRI);
         PORT_CALL_TIMESTAMP_TYPE_TRANSPORT_EVENT_MAP.put(PortCallTimestampType.PTA_PBP, TransportEventType.ARRI);

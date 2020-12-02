@@ -93,7 +93,7 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     /**
      * The column <code>public.port_call_timestamp.direction</code>.
      */
-    public final TableField<PortCallTimestampRecord, Direction> DIRECTION = createField(DSL.name("direction"), SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.Direction.class), this, "");
+    public final TableField<PortCallTimestampRecord, Direction> DIRECTION = createField(DSL.name("direction"), SQLDataType.VARCHAR.asEnumDataType(org.dcsa.portcall.db.enums.Direction.class), this, "");
 
     /**
      * The column <code>public.port_call_timestamp.terminal</code>.

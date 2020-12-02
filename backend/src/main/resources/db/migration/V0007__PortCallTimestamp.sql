@@ -10,7 +10,7 @@ CREATE TABLE port_call_timestamp
     call_sequence    integer                  NOT NULL,
     event_timestamp  timestamp with time zone NOT NULL,
     log_of_timestamp timestamp with time zone NOT NULL,
-    direction        direction                NOT NULL,
+    direction        direction                null,
     terminal         integer                  NOT NULL,
     location_id      varchar(255)             null,
     change_comment   varchar(512)             null,
