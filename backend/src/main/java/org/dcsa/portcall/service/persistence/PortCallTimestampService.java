@@ -94,6 +94,16 @@ public class PortCallTimestampService extends AbstractPersistenceService {
             // Calculate received UTC Timestamp to Time Zone of PotOfCall for Log of TimeStamp
             logOfTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
                     portCallTimestamp.getLogOfTimestamp(), portOfCall);
+
+            // check if Timestamps are prior current time
+            OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+            if(logOfTimeStampAtPoc.isAfter(now)){
+                String msg = String.format("Log timestamp [%s]  is in the future", logOfTimeStampAtPoc, eventTimeStampAtPoc);
+                log.error(msg);
+               PortCallException portCallException =  new PortCallException(HttpStatus.CONFLICT, msg);
+               throw portCallException;
+            }
+
         }
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
         List<PortCallTimestampResponse> timestampsOfVessel = findTimestampsById(portCallTimestamp.getVessel());
