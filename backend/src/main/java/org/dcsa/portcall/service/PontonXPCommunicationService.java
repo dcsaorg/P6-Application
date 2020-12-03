@@ -58,8 +58,12 @@ public class PontonXPCommunicationService {
                     log.info("Try {}: Connection to messenger at '{}:{}'", context.getRetryCount(), messengerConfig.getHost(), messengerConfig.getPort());
                     MessengerConnection messengerConnection;
                     try {
+                        Path workFolder = Path.of("../messenger_work");
+                        if (!Files.isDirectory(workFolder)) {
+                            Files.createDirectory(workFolder);
+                        }
                         messengerConnection = MessengerConnection.newBuilder()
-                                .setWorkFolder(Files.createDirectory(Path.of("../messenger_work")).toFile())
+                                .setWorkFolder(workFolder.toFile())
                                 .setAdapterInfo(adapterInfo)
                                 .addMessengerInstance(MessengerInstance.create(messengerConfig.getHost(), messengerConfig.getPort()))
                                 .onMessageReceive(getMessageHandler())
