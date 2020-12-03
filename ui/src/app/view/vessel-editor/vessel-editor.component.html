@@ -34,11 +34,14 @@
       </div>
     </div>
     <div class="p-field p-grid">
-    <span class="p-buttonset">
-        <button (click)="saveVessel()" icon="pi pi-check" label="Save" pButton type="button" [disabled]="vesselFormGroup.invalid"></button>
-        <button (click)="cancel()" class="p-button-warning" icon="pi pi-times" label="Cancel" pButton
-                type="button"></button>
-    </span>
+      <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"></label>
+      <div class="p-col-12 p-md-10">
+        <span class="p-buttonset">
+            <button (click)="saveVessel()" icon="pi pi-check" label="Save" pButton type="button" [disabled]="vesselFormGroup.invalid"></button>
+            <button (click)="cancel()" class="p-button-warning" icon="pi pi-times" label="Cancel" pButton
+                    type="button"></button>
+        </span>
+      </div>
     </div>
   </div>
 </form>

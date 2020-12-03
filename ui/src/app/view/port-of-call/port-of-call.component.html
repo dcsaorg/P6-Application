@@ -1,18 +1,20 @@
-<p-card>
-  <p-header class="portOfCall__header">
-    <span i18n="@@portOfCall">Port of Call</span>
-  </p-header>
-  <p-dropdown
-    (onChange)="selectPortOfCall()"
-    [(ngModel)]="portOfCall"
-    [filter]="true"
-    [options]="portOptions"
-    filterBy="label,value.name">
-    <ng-template let-port pTemplate="item">
-      <div *ngIf="port.value">
-        <div>{{port.value.unLocode}}</div>
-        <div class="portListName">{{port.value.name}}</div>
-      </div>
-    </ng-template>
-  </p-dropdown>
-</p-card>
+<div class="portOfCall">
+  <p-card class="card">
+    <div class="portOfCall__content">
+      <span class="portOfCall__header" i18n="@@portOfCall">Port of Call</span>
+      <p-dropdown class="portOfCall__dropDown"
+        (onChange)="selectPortOfCall()"
+        [(ngModel)]="portOfCall"
+        [filter]="true"
+        [options]="portOptions"
+        filterBy="label,value.name">
+        <ng-template let-port pTemplate="item">
+          <div *ngIf="port.value">
+            <div>{{port.value.unLocode}}</div>
+            <div class="portListName">{{port.value.name}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </p-card>
+</div>

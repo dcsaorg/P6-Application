@@ -1,5 +1,5 @@
 <div class="p-fluid">
-  <div class="p-col-12 p-md-10">
+  <div class="p-col-12 p-md-10 dropdownDiv">
 
     <p-dropdown [options]="delayCodeOptions" [(ngModel)]="timestamp.delayCode" [filter]="true"
                 filterBy="label,value.name" [group]="false">
@@ -26,13 +26,13 @@
 
   </div>
 
-  <div id="commentContainer" style="height: 350px" class="p-col-12 p-md-10">
+  <div id="commentContainer" class="p-col-12 p-md-10">
     <span class="p-float-label">
     <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment"></textarea>
-    <label for="commentbox">Comment for new timestamp!</label>
+    <label for="commentbox">Comment for new timestamp</label>
     </span>
   </div>
-  <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="right">
+  <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="left">
     <span class="p-buttonset">
         <button *ngIf="!editMode" (click)="close()" label="Close" pButton type="button"></button>
         <button *ngIf="editMode" (click)="save()" icon="pi pi-check" label="Save" pButton type="button"></button>
