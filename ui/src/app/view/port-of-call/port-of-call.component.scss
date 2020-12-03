@@ -1,7 +1,30 @@
+::ng-deep .p-card .p-card-content {
+  padding: 0px 0px !important;
+}
+
+.p-component {
+  height: 100% !important;
+}
+
+.card {
+  display: grid;
+  height: 100% !important;
+}
+
 .portOfCall {
+  height: 100%;
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+  }
+
   &__header {
-    padding-top: 25px;
-    margin-left: 15px;
+    margin: 10px 15px 0px 15px;
     font-size: 20px;
+  }
+
+  &__dropDown {
+    margin-top: 10px !important;
   }
 }

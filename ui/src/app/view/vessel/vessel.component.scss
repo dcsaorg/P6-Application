@@ -1,17 +1,42 @@
+::ng-deep .p-card .p-card-content {
+  padding: 0px 0px !important;
+}
+
 .vessel {
+  &__content {
+    display: flex;
+    flex-direction: row;
+  }
+
   &__header {
-    padding-top: 25px;
-    margin-left: 15px;
+    margin: 10px 15px 0px 15px;
     font-size: 20px;
   }
 
-  &__vesselDetails {
-    padding-top: 15px;
-    width: fit-content;
-    min-width: 150px;
+  &__select_modify {
+    display: flex;
+    flex-direction: column;
+
+    &__buttons {
+      display: flex;
+      flex-direction: row;
+      margin-left: 10px;
+      height: 35px !important;
+
+      &__addVesselBtn {
+        margin: 0px 5px 0px 0px;
+      }
+    }
   }
 
-  &__addVesselBtn {
-    margin-right: 5px;
+  &__vesselDetails {
+    margin: 0px 0px 0px 50px;
+
+    &__element {
+      padding-top: 15px;
+      width: fit-content;
+      min-width: 150px;
+    }
   }
+
 }

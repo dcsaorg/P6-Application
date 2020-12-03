@@ -5,10 +5,8 @@
   margin: 0;
   padding: 0;
 
-
-
   &__spaceBetween {
-    margin-bottom: 15px;
+    margin-bottom: 0px;
   }
 
   &__spaceInnerComponent {
@@ -22,8 +20,25 @@
     color: lightgray;
   }
 
+  &__cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    padding: 10px 10px 10px 10px;
+  }
+
 }
 
 root {
   font-size: 4px;
+}
+
+.rightSpace {
+  margin-right: 10px;
+}
+
+.fullWidthAndHeight {
+  width: 100%;
+  height: auto;
 }
