@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -58,7 +59,7 @@ public class PontonXPCommunicationService {
                     MessengerConnection messengerConnection;
                     try {
                         messengerConnection = MessengerConnection.newBuilder()
-                                .setWorkFolder(Files.createTempDirectory("messenger_work").toFile())
+                                .setWorkFolder(Files.createDirectory(Path.of("../messenger_work")).toFile())
                                 .setAdapterInfo(adapterInfo)
                                 .addMessengerInstance(MessengerInstance.create(messengerConfig.getHost(), messengerConfig.getPort()))
                                 .onMessageReceive(getMessageHandler())
