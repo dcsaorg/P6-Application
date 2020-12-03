@@ -69,6 +69,9 @@ public class PontonXPCommunicationService {
                     } catch (ConnectionException e) {
                         log.warn("Could not connect to messenger: {}", e.getMessage());
                         throw e;
+                    } catch (Exception e) {
+                        log.error("Unexpected error while connecting to messenger", e);
+                        throw  e;
                     }
                     return messengerConnection;
                 });
