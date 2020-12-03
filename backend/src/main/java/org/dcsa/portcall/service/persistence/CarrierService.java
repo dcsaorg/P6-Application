@@ -41,7 +41,7 @@ public class CarrierService extends AbstractPersistenceService {
         log.debug("Find carrier with smdg code");
         Record carrier = this.dsl.select()
                 .from(CARRIER)
-                .where(CARRIER.SMDG_CODE.eq(smdgCode))
+                .where(CARRIER.SMDG_CODE.eq(smdgCode.toUpperCase()))
                 .fetchOne();
 
         if (carrier != null) {
