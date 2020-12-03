@@ -166,7 +166,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
 
         String locationId = message.getPayload().getEvent().getLocationId();
         if (locationId.contains(":")) {
-            timestamp.setLocationId(locationId.substring(locationId.lastIndexOf(":")));
+            timestamp.setLocationId(locationId.substring(locationId.lastIndexOf(":") + 1));
         } else {
             timestamp.setLocationId(locationId);
         }
