@@ -147,8 +147,8 @@
                                 (timestamp.messagingStatus.includes('SUCCESS') ? 'color: #009093;' : '')
                           )
                       }}"
-              pTooltip="Commuinication status: {{ timestamp.messagingStatus }} - Details: {{ timestamp.messagingDetails }}" tooltipPosition="top"
-              tooltipStyleClass="ToolTipClass"></span>
+              pTooltip="Commuinication status: {{ timestamp.messagingStatus }}<br/>Details: {{ timestamp.messagingDetails }}"
+              [escape]="false" tooltipPosition="top" tooltipStyleClass="ToolTipClass"></span>
       </td>
       <td style="width: 5%">
         <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
