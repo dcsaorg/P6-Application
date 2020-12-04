@@ -29,6 +29,7 @@ public class Keys {
     public static final UniqueKey<DelayCodeRecord> DELAY_CODE_KEY = Internal.createUniqueKey(DelayCode.DELAY_CODE, DSL.name("delay_code_key"), new TableField[] { DelayCode.DELAY_CODE.SMDG_CODE }, true);
     public static final UniqueKey<DelayCodeRecord> DELAY_CODE_PK = Internal.createUniqueKey(DelayCode.DELAY_CODE, DSL.name("delay_code_pk"), new TableField[] { DelayCode.DELAY_CODE.ID }, true);
     public static final UniqueKey<MessageRecord> MESSAGE_PK = Internal.createUniqueKey(Message.MESSAGE, DSL.name("message_pk"), new TableField[] { Message.MESSAGE.ID }, true);
+    public static final UniqueKey<MessageRecord> MESSAGE_UQ_TRANSFER_ID = Internal.createUniqueKey(Message.MESSAGE, DSL.name("message_uq_transfer_id"), new TableField[] { Message.MESSAGE.TRANSFER_ID }, true);
     public static final UniqueKey<PortRecord> PORT_PK = Internal.createUniqueKey(Port.PORT, DSL.name("port_pk"), new TableField[] { Port.PORT.ID }, true);
     public static final UniqueKey<PortRecord> PORT_UQ_UN_LOCODE = Internal.createUniqueKey(Port.PORT, DSL.name("port_uq_un_locode"), new TableField[] { Port.PORT.UN_LOCODE }, true);
     public static final UniqueKey<PortCallTimestampRecord> PORT_CALL_TIMESTAMP_PK = Internal.createUniqueKey(PortCallTimestamp.PORT_CALL_TIMESTAMP, DSL.name("port_call_timestamp_pk"), new TableField[] { PortCallTimestamp.PORT_CALL_TIMESTAMP.ID }, true);

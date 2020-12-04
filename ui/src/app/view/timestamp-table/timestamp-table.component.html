@@ -22,7 +22,8 @@
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">Vessel
         <p-sortIcon field="vessel"></p-sortIcon>
       </th>
-      <th pSortableColumn="timestampType" pTooltip="An estimated, requested, planned or actual timestamp of a process event"
+      <th pSortableColumn="timestampType"
+          pTooltip="An estimated, requested, planned or actual timestamp of a process event"
           style="width: 7%"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">Timestamp
         <p-sortIcon field="timestampType" class="timestampContent"></p-sortIcon>
@@ -48,7 +49,8 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">Previous Port
         <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
-      <th pSortableColumn="portOfCall" pTooltip="What is the approaching port of call? For the agent: this is your own port"
+      <th pSortableColumn="portOfCall"
+          pTooltip="What is the approaching port of call? For the agent: this is your own port"
           style="width: 7%"
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Port of Call
@@ -78,9 +80,11 @@
       <th style="width: 3%" pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Root cause comm.
       </th>
-      <th style="width: 9%"></th>
+      <th style="width: 2%"></th>
+      <th style="width: 5%"></th>
     </tr>
     <tr>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -101,10 +105,13 @@
         <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).name}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
       </td>
-      <td style="width: 7%" class="timestampContent">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
+      <td style="width: 7%"
+          class="timestampContent">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
       <td class="timestampContent">{{ timestamp.callSequence + 1 }}</td>
-      <td class="dateTimeStamp timestampContent">{{ timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}</td>
-      <td class="dateTimeStamp timestampContent">{{ timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}</td>
+      <td
+        class="dateTimeStamp timestampContent">{{ timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}</td>
+      <td
+        class="dateTimeStamp timestampContent">{{ timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}</td>
       <td style="width: 7%">
         <div class="timestampContent">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
@@ -131,15 +138,27 @@
                   icon="pi pi-comment">
         </p-button>
       </td>
+      <td style="width: 2%" class="timestampContent">
+        <span *ngIf="timestamp.messagingStatus != null" class="pi pi-info-circle"
+              style="{{ timestamp.messagingStatus == null ?
+                          '' :
+                          (timestamp.messagingStatus.includes('ERROR') ?
+                                'color: #DE5141;' :
+                                (timestamp.messagingStatus.includes('SUCCESS') ? 'color: #009093;' : '')
+                          )
+                      }}"
+              pTooltip="Commuinication status: {{ timestamp.messagingStatus }} - Details: {{ timestamp.messagingDetails }}" tooltipPosition="top"
+              tooltipStyleClass="ToolTipClass"></span>
+      </td>
       <td style="width: 5%">
-        <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable" icon="pi pi-trash"
+        <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
+                  icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
 
-          <p-button class="timestampContent"  *ngIf="timestamp.response != null" icon="pi pi-check"
-                    pTooltip="Accept timestamp and send a response as {{timestamp.response}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)" ></p-button>
-
+        <p-button class="timestampContent" *ngIf="timestamp.response != null" icon="pi pi-check"
+                  pTooltip="Accept timestamp and send a response as {{timestamp.response}}" tooltipPosition="top"
+                  tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
       </td>
     </tr>
   </ng-template>

@@ -35,18 +35,20 @@ class InboundPortCallMessageServiceUnitTest {
     PortCallTimestampService timestampService;
     @Mock
     PontonXPCommunicationService communicationService;
+    @Mock
+    MessageService messageService;
 
     @Test
     void testEmptyMessage() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, terminalService, carrierService, vesselService, timestampService, communicationService);
+                portService, terminalService, carrierService, vesselService, timestampService, communicationService, messageService);
         assertThat(service.process(null).isEmpty()).isTrue();
     }
 
     @Test
     void testUnexpectedVesselIdType() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, terminalService, carrierService, vesselService, timestampService, communicationService);
+                portService, terminalService, carrierService, vesselService, timestampService, communicationService, messageService);
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(
@@ -63,7 +65,7 @@ class InboundPortCallMessageServiceUnitTest {
     @Test
     void testUnknownVesselWithUnknownCarrier() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, terminalService, carrierService, vesselService, timestampService, communicationService);
+                portService, terminalService, carrierService, vesselService, timestampService, communicationService, messageService);
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setSenderRole(RoleType.CARRIER)
@@ -85,7 +87,7 @@ class InboundPortCallMessageServiceUnitTest {
         when(portService.findPortByUnLocode(anyString())).thenReturn(Optional.of(new Port(1, "port", "de", "deham", "deham", "UTC")));
         when(terminalService.findTerminalByPortIdAndSMDGCode(anyInt(), anyString())).thenReturn(Optional.of(new Terminal()));
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, terminalService, carrierService, vesselService, timestampService, communicationService);
+                portService, terminalService, carrierService, vesselService, timestampService, communicationService, messageService);
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setSenderRole(RoleType.CARRIER)
@@ -116,7 +118,7 @@ class InboundPortCallMessageServiceUnitTest {
     @Test
     void testUnknownVesselWithMessageNotFromCarrier() {
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, terminalService, carrierService, vesselService, timestampService, communicationService);
+                portService, terminalService, carrierService, vesselService, timestampService, communicationService, messageService);
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setSenderRole(RoleType.VESSEL)
@@ -139,7 +141,7 @@ class InboundPortCallMessageServiceUnitTest {
         when(vesselService.findVesselByIMO(anyInt())).thenReturn(Optional.of(new Vessel(1, 1, "Vessel", 1234567, (short) 1000, "SRV")));
 
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, terminalService, carrierService, vesselService, timestampService, communicationService);
+                portService, terminalService, carrierService, vesselService, timestampService, communicationService, messageService);
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(
@@ -160,7 +162,7 @@ class InboundPortCallMessageServiceUnitTest {
         when(vesselService.findVesselByIMO(anyInt())).thenReturn(Optional.of(new Vessel(1, 1, "Vessel", 1234567, (short) 1000, "SRV")));
 
         InboundPortCallMessageService service = new InboundPortCallMessageService(
-                portService, terminalService, carrierService, vesselService, timestampService, communicationService);
+                portService, terminalService, carrierService, vesselService, timestampService, communicationService, messageService);
 
         DCSAMessage<PortCallMessage> message = new DCSAMessage<PortCallMessage>()
                 .setPayload(

@@ -2,7 +2,7 @@
   <div class="p-col-12 p-md-10 dropdownDiv">
 
     <p-dropdown [options]="delayCodeOptions" [(ngModel)]="timestamp.delayCode" [filter]="true"
-                filterBy="label,value.name" [group]="false">
+                filterBy="label,value.name" [group]="false" [disabled]="!editMode">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
           <div class="delayCodeSelected">{{delayCode.value.smdgCode}}</div>
@@ -28,7 +28,7 @@
 
   <div id="commentContainer" class="p-col-12 p-md-10">
     <span class="p-float-label">
-    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment"></textarea>
+    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment" [disabled]="!editMode"></textarea>
     <label for="commentbox">Comment for new timestamp</label>
     </span>
   </div>

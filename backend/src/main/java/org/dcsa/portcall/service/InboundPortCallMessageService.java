@@ -27,19 +27,22 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
     private final VesselService vesselService;
     private final PortCallTimestampService timestampService;
     private final PontonXPCommunicationService communicationService;
+    private final MessageService messageService;
 
     public InboundPortCallMessageService(PortService portService,
                                          TerminalService terminalService,
                                          CarrierService carrierService,
                                          VesselService vesselService,
                                          PortCallTimestampService timestampService,
-                                         PontonXPCommunicationService communicationService) {
+                                         PontonXPCommunicationService communicationService,
+                                         MessageService messageService) {
         this.portService = portService;
         this.terminalService = terminalService;
         this.carrierService = carrierService;
         this.vesselService = vesselService;
         this.timestampService = timestampService;
         this.communicationService = communicationService;
+        this.messageService = messageService;
     }
 
     @PostConstruct
@@ -56,6 +59,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
                     Optional<PortCallTimestamp> timestamp = process(dcsaMessage);
                     if (timestamp.isPresent()) {
                         timestampService.addTimestamp(timestamp.get(), false);
+                        messageService.updatePortCallTimestampId(message.getId(), timestamp.get().getId());
                         return InboundMessageStatusUpdate.newBuilder()
                                 .setInboundMessage(xpMessage)
                                 .setStatus(InboundStatusEnum.SUCCESS)
