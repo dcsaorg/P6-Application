@@ -57,7 +57,7 @@ public class DCSAMessageJsonWriterTest {
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
                 "    \"ReceiverRole\" : \"TERMINAL\",\n" +
-                "    \"ReceiverIdType\" : \"UN/LOCODE\",\n" +
+                "    \"ReceiverIdType\" : \"UNLOCODE\",\n" +
                 "    \"ReceiverId\" : \"deham:cta\",\n" +
                 "    \"GatewayId\" : \"PC-SERVICE\",\n" +
                 "    \"OtherReceiver\" : [ {\n" +
@@ -85,8 +85,8 @@ public class DCSAMessageJsonWriterTest {
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
                 "    \"Payload\" : {\n" +
                 "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "      \"TerminalIdType\" : \"UN/LOCODE\"\n" +
+                "      \"PortIdType\" : \"UNLOCODE\",\n" +
+                "      \"TerminalIdType\" : \"UNLOCODE\"\n" +
                 "    }\n" +
                 "  }\n" +
                 "}");
@@ -126,7 +126,7 @@ public class DCSAMessageJsonWriterTest {
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
                 "    \"ReceiverRole\" : \"TERMINAL\",\n" +
-                "    \"ReceiverIdType\" : \"UN/LOCODE\",\n" +
+                "    \"ReceiverIdType\" : \"UNLOCODE\",\n" +
                 "    \"ReceiverId\" : \"deham:cta\",\n" +
                 "    \"GatewayId\" : \"PC-SERVICE\",\n" +
                 "    \"OtherReceiver\" : [ {\n" +
@@ -140,9 +140,9 @@ public class DCSAMessageJsonWriterTest {
                 "    \"Payload\" : {\n" +
                 "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "      \"VesselId\" : \"9074729\",\n" +
-                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"PortIdType\" : \"UNLOCODE\",\n" +
                 "      \"PortId\" : \"deham\",\n" +
-                "      \"TerminalIdType\" : \"UN/LOCODE\",\n" +
+                "      \"TerminalIdType\" : \"UNLOCODE\",\n" +
                 "      \"TerminalId\" : \"cta\",\n" +
                 "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
                 "      \"NextPortOfCall\" : \"beanr\",\n" +
