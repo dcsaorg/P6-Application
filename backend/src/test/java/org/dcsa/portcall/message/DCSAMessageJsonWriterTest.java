@@ -144,6 +144,7 @@ public class DCSAMessageJsonWriterTest {
                 "      \"PortId\" : \"deham\",\n" +
                 "      \"TerminalIdType\" : \"UN/LOCODE\",\n" +
                 "      \"TerminalId\" : \"cta\",\n" +
+                "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
                 "      \"NextPortOfCall\" : \"beanr\",\n" +
                 "      \"VoyageNumber\" : \"ABCDEFGH\",\n" +
                 "      \"Event\" : {\n" +
@@ -153,7 +154,6 @@ public class DCSAMessageJsonWriterTest {
                 "        \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
                 "        \"LocationType\" : \"BERTH\"\n" +
                 "      },\n" +
-                "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
                 "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
                 "    }\n" +
                 "  }\n" +
