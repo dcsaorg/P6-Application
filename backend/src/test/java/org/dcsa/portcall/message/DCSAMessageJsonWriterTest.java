@@ -150,9 +150,9 @@ public class DCSAMessageJsonWriterTest {
                 "      \"Event\" : {\n" +
                 "        \"EventClassifierCode\" : \"EST\",\n" +
                 "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
+                "        \"LocationType\" : \"BERTH\",\n" +
                 "        \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
-                "        \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
-                "        \"LocationType\" : \"BERTH\"\n" +
+                "        \"EventDateTime\" : \"2020-11-13T17:25Z\"\n" +
                 "      },\n" +
                 "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
                 "    }\n" +
