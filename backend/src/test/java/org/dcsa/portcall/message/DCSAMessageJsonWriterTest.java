@@ -52,7 +52,7 @@ public class DCSAMessageJsonWriterTest {
         String json = mapper.writeValueAsString(message);
         assertThat(json).isEqualTo("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25:31Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
@@ -121,7 +121,7 @@ public class DCSAMessageJsonWriterTest {
         String json = mapper.writeValueAsString(message);
         assertThat(json).isEqualTo("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25:31Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
@@ -152,7 +152,7 @@ public class DCSAMessageJsonWriterTest {
                 "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
                 "        \"LocationType\" : \"BERTH\",\n" +
                 "        \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
-                "        \"EventDateTime\" : \"2020-11-13T17:25Z\"\n" +
+                "        \"EventDateTime\" : \"2020-11-13T17:25:31Z\"\n" +
                 "      },\n" +
                 "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
                 "    }\n" +

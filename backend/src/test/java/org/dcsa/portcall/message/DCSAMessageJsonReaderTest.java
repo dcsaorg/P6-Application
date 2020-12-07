@@ -51,7 +51,7 @@ public class DCSAMessageJsonReaderTest {
     public void testReadFullHeaderWithoutMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25:31Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
@@ -70,7 +70,7 @@ public class DCSAMessageJsonReaderTest {
                 "  }\n" +
                 "}", DCSAMessage.class);
 
-        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 0, 0, ZoneOffset.UTC));
+        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 31, 0, ZoneOffset.UTC));
         assertThat(message.getSenderRole()).isEqualTo(RoleType.VESSEL);
         assertThat(message.getSenderIdType()).isEqualTo(CodeType.IMO_VESSEL_NUMBER);
         assertThat(message.getSenderId()).isEqualTo("9074729");
@@ -123,7 +123,7 @@ public class DCSAMessageJsonReaderTest {
     public void testReaderFullHeaderWithFullMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25:31Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
@@ -154,7 +154,7 @@ public class DCSAMessageJsonReaderTest {
                 "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
                 "        \"LocationType\" : \"BERTH\",\n" +
                 "        \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
-                "        \"EventDateTime\" : \"2020-11-13T17:25Z\"\n" +
+                "        \"EventDateTime\" : \"2020-11-13T17:25:31Z\"\n" +
                 "      },\n" +
                 "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
                 "    }\n" +
@@ -162,7 +162,7 @@ public class DCSAMessageJsonReaderTest {
                 "}", new TypeReference<>() {
         });
 
-        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 0, 0, ZoneOffset.UTC));
+        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 31, 0, ZoneOffset.UTC));
         assertThat(message.getSenderRole()).isEqualTo(RoleType.VESSEL);
         assertThat(message.getSenderIdType()).isEqualTo(CodeType.IMO_VESSEL_NUMBER);
         assertThat(message.getSenderId()).isEqualTo("9074729");

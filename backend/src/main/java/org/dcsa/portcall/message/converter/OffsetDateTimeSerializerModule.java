@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class OffsetDateTimeSerializerModule extends SimpleModule {
 
     public static DateTimeFormatter ISO_8601_FORMATTER = DateTimeFormatter
-            .ofPattern("yyyy-MM-dd'T'HH:mm'Z'")
+            .ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
             .withZone(ZoneId.of("UTC"));
 
     public OffsetDateTimeSerializerModule() {
