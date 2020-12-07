@@ -100,7 +100,7 @@ class InboundPortCallMessageServiceUnitTest {
                                 .setPreviousPortOfCall("nlrtm")
                                 .setPortId("deham")
                                 .setNextPortOfCall("gbfxt")
-                                .setTerminalIdType(CodeType.TERMINAL)
+                                .setTerminalIdType(CodeType.UN_LOCODE)
                                 .setTerminalId("cta")
                                 .setEvent(new PortCallEvent()
                                         .setLocationType(LocationType.BERTH)
