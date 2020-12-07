@@ -155,7 +155,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
         timestamp.setEventTimestamp(message.getPayload().getEvent().getEventDateTime());
         timestamp.setLogOfTimestamp(message.getMessageDateTime());
 
-        if (CodeType.TERMINAL.equals(message.getPayload().getTerminalIdType())) {
+        if (CodeType.UN_LOCODE.equals(message.getPayload().getTerminalIdType())) {
             Optional<Terminal> terminal = terminalService.findTerminalByPortIdAndSMDGCode(timestamp.getPortOfCall(), message.getPayload().getTerminalId());
             if (terminal.isPresent()) {
                 timestamp.setTerminal(terminal.get().getId());

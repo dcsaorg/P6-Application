@@ -41,7 +41,7 @@ class InboundPortCallMessageServiceTest extends AbstractDatabaseTest {
                 "    \"SenderIdType\" : \"SMDG-LINER-CODE\",\n" +
                 "    \"SenderId\" : \"EXP\",\n" +
                 "    \"ReceiverRole\" : \"TERMINAL\",\n" +
-                "    \"ReceiverIdType\" : \"TERMINAL\",\n" +
+                "    \"ReceiverIdType\" : \"UNLOCODE\",\n" +
                 "    \"ReceiverId\" : \"DEHAM:CTT\"," +
                 "    \"GatewayId\" : \"PC-SERVICE\",\n" +
                 "    \"OtherReceiver\" : [ {\n" +
@@ -55,9 +55,9 @@ class InboundPortCallMessageServiceTest extends AbstractDatabaseTest {
                 "    \"Payload\" : {\n" +
                 "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "      \"VesselId\" : \"1234560\",\n" +
-                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"PortIdType\" : \"UNLOCODE\",\n" +
                 "      \"PortId\" : \"deham\",\n" +
-                "      \"TerminalIdType\" : \"TERMINAL\",\n" +
+                "      \"TerminalIdType\" : \"UNLOCODE\",\n" +
                 "      \"TerminalId\" : \"cta\",\n" +
                 "      \"NextPortOfCall\" : \"beanr\",\n" +
                 "      \"VoyageNumber\" : \"ABCDEFGH\",\n" +
@@ -91,7 +91,7 @@ class InboundPortCallMessageServiceTest extends AbstractDatabaseTest {
         assertThat(timestamp.get().getLogOfTimestamp()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 0, 0 , ZoneOffset.UTC));
         assertThat(timestamp.get().getDirection()).isNull();
         assertThat(timestamp.get().getTerminal()).isEqualTo(terminalService.findTerminalByPortIdAndSMDGCode(timestamp.get().getPortOfCall(), "cta").get().getId());
-        assertThat(timestamp.get().getLocationId()).isEqualTo("urn:mrn:ipcdmc:location:deham:berth:cta:200m");
+        assertThat(timestamp.get().getLocationId()).isEqualTo("200m");
         assertThat(timestamp.get().getChangeComment()).isEqualTo("Hey Joe, here is the missing timestamp that I just now got from our Agent");
         assertThat(timestamp.get().getDelayCode()).isNull();
         assertThat(timestamp.get().getDeleted()).isNull();
