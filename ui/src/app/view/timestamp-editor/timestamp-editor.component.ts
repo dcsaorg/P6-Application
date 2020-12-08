@@ -71,6 +71,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     eventTypeCode: '',
     vessel: null,
     modifiable: true,
+    messagingStatus: null,
+    messagingDetails: null,
   };
 
   constructor(private portcallTimestampService: PortcallTimestampService,

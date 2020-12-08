@@ -25,7 +25,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
  * }
  */
 @JsonPropertyOrder({
-        "eventClassifierCode", "transportEventTypeCode", "locationTyp", "locationId", "eventDateTime"
+        "eventClassifierCode", "transportEventTypeCode", "locationType", "locationId", "eventDateTime"
 })
 public class PortCallEvent {
     @JsonInclude(NON_NULL)

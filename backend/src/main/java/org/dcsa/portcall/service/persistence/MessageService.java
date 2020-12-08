@@ -6,6 +6,7 @@ import org.dcsa.portcall.db.tables.records.MessageRecord;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
+import org.jooq.UpdateSetFirstStep;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,17 +67,33 @@ public class MessageService extends AbstractPersistenceService {
     }
 
     @Transactional
-    public boolean setPortCallTimestampId(int messageId, int portCallTimestampId) {
+    public boolean updatePortCallTimestampId(int messageId, int portCallTimestampId) {
         int updatedRows = dsl.update(MESSAGE)
                 .set(MESSAGE.TIMESTAMP_ID, portCallTimestampId)
                 .where(MESSAGE.ID.eq(messageId)
                         .and(MESSAGE.TIMESTAMP_ID.isNull()))
                 .execute();
-        if (updatedRows == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return updatedRows == 1;
+    }
+
+    @Transactional
+    public boolean updateTransferId(int messageId, String transferId) {
+        int updatedRows = dsl.update(MESSAGE)
+                .set(MESSAGE.TRANSFER_ID, transferId)
+                .where(MESSAGE.ID.eq(messageId))
+                .execute();
+        return updatedRows == 1;
+    }
+
+    @Transactional
+    public boolean updateStatus(String transferId, String status, String details) {
+        UpdateSetFirstStep<MessageRecord> sql = dsl.update(MESSAGE);
+        int updatedRows = sql
+                .set(MESSAGE.STATUS, status)
+                .set(MESSAGE.DETAIL, details)
+                .where(MESSAGE.TRANSFER_ID.eq(transferId))
+                .execute();
+        return updatedRows == 1;
     }
 
     @Transactional

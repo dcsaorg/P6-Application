@@ -4,9 +4,9 @@
 package org.dcsa.portcall.db.tables.pojos;
 
 
-import java.io.Serializable;
-
 import org.dcsa.portcall.db.enums.MessageDirection;
+
+import java.io.Serializable;
 
 
 /**
@@ -22,6 +22,9 @@ public class Message implements Serializable {
     private Integer          timestampId;
     private String           filename;
     private byte[]           payload;
+    private String           transferId;
+    private String           status;
+    private String           detail;
 
     public Message() {}
 
@@ -31,6 +34,9 @@ public class Message implements Serializable {
         this.timestampId = value.timestampId;
         this.filename = value.filename;
         this.payload = value.payload;
+        this.transferId = value.transferId;
+        this.status = value.status;
+        this.detail = value.detail;
     }
 
     public Message(
@@ -38,13 +44,19 @@ public class Message implements Serializable {
         MessageDirection direction,
         Integer          timestampId,
         String           filename,
-        byte[]           payload
+        byte[]           payload,
+        String           transferId,
+        String           status,
+        String           detail
     ) {
         this.id = id;
         this.direction = direction;
         this.timestampId = timestampId;
         this.filename = filename;
         this.payload = payload;
+        this.transferId = transferId;
+        this.status = status;
+        this.detail = detail;
     }
 
     /**
@@ -122,6 +134,51 @@ public class Message implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>public.message.transfer_id</code>.
+     */
+    public String getTransferId() {
+        return this.transferId;
+    }
+
+    /**
+     * Setter for <code>public.message.transfer_id</code>.
+     */
+    public Message setTransferId(String transferId) {
+        this.transferId = transferId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.message.status</code>.
+     */
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>public.message.status</code>.
+     */
+    public Message setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.message.detail</code>.
+     */
+    public String getDetail() {
+        return this.detail;
+    }
+
+    /**
+     * Setter for <code>public.message.detail</code>.
+     */
+    public Message setDetail(String detail) {
+        this.detail = detail;
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Message (");
@@ -131,6 +188,9 @@ public class Message implements Serializable {
         sb.append(", ").append(timestampId);
         sb.append(", ").append(filename);
         sb.append(", ").append("[binary...]");
+        sb.append(", ").append(transferId);
+        sb.append(", ").append(status);
+        sb.append(", ").append(detail);
 
         sb.append(")");
         return sb.toString();

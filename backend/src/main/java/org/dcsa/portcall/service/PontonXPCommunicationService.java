@@ -67,6 +67,7 @@ public class PontonXPCommunicationService {
                                 .setAdapterInfo(adapterInfo)
                                 .addMessengerInstance(MessengerInstance.create(messengerConfig.getHost(), messengerConfig.getPort()))
                                 .onMessageReceive(getMessageHandler())
+                                .onMessageStatusUpdate(getOutboundMessageStatusUpdateHandler())
                                 .onAdapterStatusRequest(getAdapterStatusRequestHandler())
                                 .build();
                         log.info("Successfully connected to messenger");
@@ -79,6 +80,7 @@ public class PontonXPCommunicationService {
                     }
                     return messengerConnection;
                 });
+                messengerConnection.start();
             } catch (Exception e) {
                 log.fatal("Unable to create connection to messenger", e);
             }
@@ -126,7 +128,7 @@ public class PontonXPCommunicationService {
                     .build();
         };
     }
-
+    {}
     private AdapterStatusRequestHandler getAdapterStatusRequestHandler() {
         return () -> String.format("%s adapter is running", messengerConfig.getAdapter().getId());
     }
@@ -142,9 +144,28 @@ public class PontonXPCommunicationService {
                     .setOutboundMetaData(outboundMetaData)
                     .build();
             final TransferId transferId = messengerConnection.sendMessage(outboundMessage);
+
+            // Storing the transfer id in database to handle status updates later
+            messageService.updateTransferId(message.getId(), transferId.getValue());
             log.info("Sent message '{}' from '{}' to '{}' with transfer id '{}'", message.getId(), senderId, receiverId, transferId.getValue());
         } else {
             log.fatal("Could not send message '{}' from '{}' to '{}' because messenger connection is not available", message.getId(), senderId, receiverId);
         }
+    }
+
+    private OutboundMessageStatusUpdateHandler getOutboundMessageStatusUpdateHandler() {
+        return outboundMessageStatusUpdate -> {
+            // the send process is finished.
+            if (outboundMessageStatusUpdate.isFinal()) {
+                // get transferId to reference the sent outbound message (see sendMessage())
+                final TransferId transferId = outboundMessageStatusUpdate.getTransferId();
+
+                // We can send the result of the sent message to backend.
+                final OutboundStatusEnum status = outboundMessageStatusUpdate.getResult();
+                final String detail = outboundMessageStatusUpdate.getDetailText();
+                log.info("Received status update for message {}: {}:{}", transferId.getValue(), status, detail);
+                messageService.updateStatus(transferId.getValue(), status.name(), detail);
+            }
+        };
     }
 }

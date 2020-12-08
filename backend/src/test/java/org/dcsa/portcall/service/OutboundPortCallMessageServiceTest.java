@@ -57,7 +57,7 @@ class OutboundPortCallMessageServiceTest extends AbstractDatabaseTest {
         if(timestamp.getTimestampType() == PortCallTimestampType.ETA_Berth) {
             // Test if receiver is Terminal
             assertThat(RoleType.TERMINAL).isEqualTo(message.getReceiverRole());
-            assertThat(CodeType.TERMINAL).isEqualTo(message.getReceiverIdType());
+            assertThat(CodeType.UN_LOCODE).isEqualTo(message.getReceiverIdType());
             assertThat(EventClassifierCode.EST).isEqualTo(message.getPayload().getEvent().getEventClassifierCode());
             assertThat(TransportEventType.ARRI).isEqualTo(message.getPayload().getEvent().getTransportEventTypeCode());
             assertThat(LocationType.BERTH).isEqualTo(message.getPayload().getEvent().getLocationType());

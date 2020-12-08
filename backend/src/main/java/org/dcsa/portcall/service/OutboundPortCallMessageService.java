@@ -156,7 +156,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
                 type == PortCallTimestampType.ATD_Berth) {
 
             receiverRole = RoleType.TERMINAL;
-            receiverIdType = CodeType.TERMINAL;
+            receiverIdType = receiverRole.getCodeType();
             receiverId = portOfCall +
                     ":" +
                     terminal;
@@ -171,7 +171,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
                 type == PortCallTimestampType.ATC_Cargo_Ops) {
 
             receiverRole = RoleType.CARRIER;
-            receiverIdType = CodeType.SMDG_LINER_CODE;
+            receiverIdType = receiverRole.getCodeType();
             receiverId = carrier.getSmdgCode();
         }
 
@@ -183,7 +183,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
                 type == PortCallTimestampType.PTD_Berth) {
 
             receiverRole = RoleType.PORT;
-            receiverIdType = CodeType.UN_LOCODE;
+            receiverIdType = receiverRole.getCodeType();
             receiverId = portOfCall;
         }
 

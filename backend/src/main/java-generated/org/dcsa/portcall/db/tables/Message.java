@@ -63,6 +63,21 @@ public class Message extends TableImpl<MessageRecord> {
      */
     public final TableField<MessageRecord, byte[]> PAYLOAD = createField(DSL.name("payload"), SQLDataType.BLOB.nullable(false), this, "");
 
+    /**
+     * The column <code>public.message.transfer_id</code>.
+     */
+    public final TableField<MessageRecord, String> TRANSFER_ID = createField(DSL.name("transfer_id"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.message.status</code>.
+     */
+    public final TableField<MessageRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.VARCHAR(255), this, "");
+
+    /**
+     * The column <code>public.message.detail</code>.
+     */
+    public final TableField<MessageRecord, String> DETAIL = createField(DSL.name("detail"), SQLDataType.VARCHAR(512), this, "");
+
     private Message(Name alias, Table<MessageRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -113,7 +128,7 @@ public class Message extends TableImpl<MessageRecord> {
 
     @Override
     public List<UniqueKey<MessageRecord>> getKeys() {
-        return Arrays.<UniqueKey<MessageRecord>>asList(Keys.MESSAGE_PK);
+        return Arrays.<UniqueKey<MessageRecord>>asList(Keys.MESSAGE_PK, Keys.MESSAGE_UQ_TRANSFER_ID);
     }
 
     @Override
@@ -152,11 +167,11 @@ public class Message extends TableImpl<MessageRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row5 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row5<Integer, MessageDirection, Integer, String, byte[]> fieldsRow() {
-        return (Row5) super.fieldsRow();
+    public Row8<Integer, MessageDirection, Integer, String, byte[], String, String, String> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 }

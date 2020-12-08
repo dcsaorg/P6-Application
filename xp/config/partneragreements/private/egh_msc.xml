@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PrivateCollaborationAgreement>
+    <DefaultAdapterId>DCSA</DefaultAdapterId>
+    <Rules SenderRefId="egh" ReceiverRefId="msc"/>
+    <Rules SenderRefId="msc" ReceiverRefId="egh"/>
+</PrivateCollaborationAgreement>

@@ -36,7 +36,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
  */
 @JsonPropertyOrder({
         "vesselIdType", "vesselId", "portIdType", "portId", "terminalIdType", "terminalId",
-        "lastPortOfCall", "nextPortOfCall", "voyageNumber", "voyageNumber2", "event", "remark"
+        "previousPortOfCall", "nextPortOfCall", "voyageNumber", "voyageNumber2", "event", "remark"
 })
 @JsonInclude(NON_NULL)
 public class PortCallMessage {

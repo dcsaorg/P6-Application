@@ -22,7 +22,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
  *        "SenderIDType" :		"IMO-VESSEL-NUMBER",
  *        "SenderID" :		"9074729",
  *        "ReceiverRole" :		"TERMINAL",
- *        "ReceiverIDType" :	"UN/LOCODE",
+ *        "ReceiverIDType" :	"UNLOCODE",
  *        "ReceiverID" :		"deham:cta",
  *        "GatewayID" :		"PC-SERVICE", // optional
  *        “OtherParty” : {

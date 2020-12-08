@@ -8,7 +8,7 @@ import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.dcsa.portcall.message.EventClassifierCode;
-import org.dcsa.portcall.model.PortCallTimestampResponse;
+import org.dcsa.portcall.model.PortCallTimestampExtended;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.dcsa.portcall.util.TimeZoneConverter;
 import org.dcsa.portcall.util.TimestampResponseOptionMapping;
@@ -27,12 +27,13 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
+import static org.dcsa.portcall.db.tables.Message.MESSAGE;
 import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
 
 @Service
 public class PortCallTimestampService extends AbstractPersistenceService {
 
-    private static final Logger log = LogManager.getLogger(PortCallTimestampService.class);
+    private final Logger log = LogManager.getLogger(PortCallTimestampService.class);
 
     private final PortService portService;
     private final VesselService vesselService;
@@ -46,25 +47,33 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     }
 
     @Transactional(readOnly = true)
-    public List<PortCallTimestampResponse> findTimestampsById(final int vesselId) {
-        Result<Record> timestamps = dsl.select()
+    public List<PortCallTimestampExtended> findTimestampsById(final int vesselId) {
+        Result<Record> timestamps = dsl
+                .select(PORT_CALL_TIMESTAMP.asterisk(),
+                        MESSAGE.STATUS.as("MessagingStatus"),
+                        MESSAGE.DETAIL.as("MessagingDetails"))
                 .from(PORT_CALL_TIMESTAMP)
+                .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
                 .fetch();
 
-        List<PortCallTimestampResponse> pcTimestamps = timestamps.into(PortCallTimestampResponse.class);
+        List<PortCallTimestampExtended> pcTimestamps = timestamps.into(PortCallTimestampExtended.class);
         this.identifyResponseOptions(pcTimestamps);
         return pcTimestamps;
     }
 
     @Transactional(readOnly = true)
-    public List<PortCallTimestampResponse> findTimestamps() {
-        Result<Record> timestamps = dsl.select()
+    public List<PortCallTimestampExtended> findTimestamps() {
+        Result<Record> timestamps = dsl
+                .select(PORT_CALL_TIMESTAMP.asterisk(),
+                        MESSAGE.STATUS.as("MessagingStatus"),
+                        MESSAGE.DETAIL.as("MessagingDetails"))
                 .from(PORT_CALL_TIMESTAMP)
+                .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
                 .where(PORT_CALL_TIMESTAMP.DELETED.eq(false))
                 .fetch();
-        List<PortCallTimestampResponse> pcTimestamps = timestamps.into(PortCallTimestampResponse.class);
+        List<PortCallTimestampExtended> pcTimestamps = timestamps.into(PortCallTimestampExtended.class);
         this.identifyResponseOptions(pcTimestamps);
         return pcTimestamps;
     }
@@ -85,7 +94,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         OffsetDateTime eventTimeStampAtPoc = portCallTimestamp.getEventTimestamp();
         OffsetDateTime logOfTimeStampAtPoc = portCallTimestamp.getLogOfTimestamp();
 
-        if(transformTimezone) {
+        if (transformTimezone) {
             Port portOfCall = portService.findPortById(portCallTimestamp.getPortOfCall()).get();
 
             eventTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
@@ -97,16 +106,16 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
             // check if Timestamps are prior current time
             OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-            if(logOfTimeStampAtPoc.isAfter(now)){
-                String msg = String.format("Log timestamp [%s]  is in the future", logOfTimeStampAtPoc, eventTimeStampAtPoc);
+            if (logOfTimeStampAtPoc.isAfter(now)) {
+                String msg = String.format("Log timestamp [%s] is in the future", logOfTimeStampAtPoc);
                 log.error(msg);
-               PortCallException portCallException =  new PortCallException(HttpStatus.CONFLICT, msg);
-               throw portCallException;
+                PortCallException portCallException = new PortCallException(HttpStatus.CONFLICT, msg);
+                throw portCallException;
             }
 
         }
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
-        List<PortCallTimestampResponse> timestampsOfVessel = findTimestampsById(portCallTimestamp.getVessel());
+        List<PortCallTimestampExtended> timestampsOfVessel = findTimestampsById(portCallTimestamp.getVessel());
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
         // Get Vessel
@@ -145,26 +154,23 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
     /**
      * Function identifies if for that timestamp a response is enabled!
-     *
-     * @param timestamps
      */
-
-    private void identifyResponseOptions(List<PortCallTimestampResponse> timestamps) {
-        for (PortCallTimestampResponse timestamp : timestamps) {
+    private void identifyResponseOptions(List<PortCallTimestampExtended> timestamps) {
+        for (PortCallTimestampExtended timestamp : timestamps) {
             //ToDo Refactor
             int lastID = this.getHighestTimestampId(timestamp.getVessel());
-                if (lastID == timestamp.getId()) {
-                    timestamp.setResponse(TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), timestamp));
-                }
+            if (lastID == timestamp.getId()) {
+                timestamp.setResponse(TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), timestamp));
+            }
 
 
         }
     }
 
 
-    public PortCallTimestampResponse acceptTimestamp(PortCallTimestampResponse originTimestamp) {
+    public PortCallTimestampExtended acceptTimestamp(PortCallTimestampExtended originTimestamp) {
         log.info("Accepting original {} timestamp by sending a {}", originTimestamp.getTimestampType(), originTimestamp.getResponse());
-        PortCallTimestampResponse timestamp = new PortCallTimestampResponse();
+        PortCallTimestampExtended timestamp = new PortCallTimestampExtended();
         timestamp.setModifiable(true);
         timestamp.setEventTimestamp(originTimestamp.getEventTimestamp());
         timestamp.setLogOfTimestamp(OffsetDateTime.now(ZoneOffset.UTC));
@@ -199,7 +205,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
      * A sequence always starts with an Estimated Classifier code (EST) and ans with an ACTUAL (ACT
      * a sequence is always based on the vessel, the location, and the port and terminals of timestamp
      */
-    private int calculatePortCallSequence(List<PortCallTimestampResponse> timestamps, PortCallTimestamp newTimeStamp) {
+    private int calculatePortCallSequence(List<PortCallTimestampExtended> timestamps, PortCallTimestamp newTimeStamp) {
 
         int seq = 0;
         try {
@@ -230,7 +236,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
      * Returns the last TimeStamp of a Portcall Sequence (based on Ports and terminals, and Location)
      */
 
-    private PortCallTimestamp getLastTimestampForSequence(List<PortCallTimestampResponse> timestamps, PortCallTimestamp newTimestamp) {
+    private PortCallTimestamp getLastTimestampForSequence(List<PortCallTimestampExtended> timestamps, PortCallTimestamp newTimestamp) {
         //@ToDo Refactor this, as when the table of timestamps gets bigger, this function uses a lot of resources! e.g. Only pull timestmps from the last five days!
         PortCallTimestamp lastTimestamp = null;
         String hash = generateSequenceHash(newTimestamp);

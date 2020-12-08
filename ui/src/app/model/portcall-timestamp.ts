@@ -23,4 +23,6 @@ export interface PortcallTimestamp {
   vessel: number | Vessel;
   response?: PortcallTimestampType;
   modifiable: boolean;
+  messagingStatus?: string;
+  messagingDetails?: string;
 }

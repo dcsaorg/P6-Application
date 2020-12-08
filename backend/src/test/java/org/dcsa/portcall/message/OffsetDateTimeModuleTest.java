@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class OffsetDateTimeModuleTest {
 
-    public static final String DATE_TIME_STRING = "\"2020-11-13T17:25Z\"";
+    public static final String DATE_TIME_STRING = "\"2020-11-13T17:25:31Z\"";
     public static final String JSON = "{\n" +
             "  \"OffsetDateTime\" : " + DATE_TIME_STRING + "\n" +
             "}";
@@ -33,7 +33,7 @@ public class OffsetDateTimeModuleTest {
 
     @Test
     void testReadOffsetDateTime() throws Exception {
-        assertThat(mapper.readValue(JSON, OffsetDateTime.class)).isEqualTo(DATE_TIME.withSecond(0).withNano(0));
+        assertThat(mapper.readValue(JSON, OffsetDateTime.class)).isEqualTo(DATE_TIME.withSecond(31).withNano(0));
     }
 
     @Test

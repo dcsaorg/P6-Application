@@ -13,7 +13,7 @@ package org.dcsa.portcall.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
-import org.dcsa.portcall.model.PortCallTimestampResponse;
+import org.dcsa.portcall.model.PortCallTimestampExtended;
 import org.dcsa.portcall.service.OutboundPortCallMessageService;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
 import org.springframework.http.HttpStatus;
@@ -42,15 +42,15 @@ public class PortCallTimestampController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public List<PortCallTimestampResponse> listPortCallTimestamps() {
+    public List<PortCallTimestampExtended> listPortCallTimestamps() {
         log.info("Listing all port call timestamps");
-        List<PortCallTimestampResponse> resp =  portCallTimestampService.findTimestamps();
+        List<PortCallTimestampExtended> resp =  portCallTimestampService.findTimestamps();
         return resp;
     }
 
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
-    public List<PortCallTimestampResponse> listPortCallTimestampsById(@PathVariable int vesselId) {
+    public List<PortCallTimestampExtended> listPortCallTimestampsById(@PathVariable int vesselId) {
         log.info("Listing all port call timestamps for vessel {}", vesselId);
         return portCallTimestampService.findTimestampsById(vesselId);
     }
@@ -105,7 +105,7 @@ public class PortCallTimestampController {
 
     @PostMapping("/accept")
     @Transactional
-    public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampResponse timestamp){
+    public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampExtended timestamp){
        PortCallTimestamp acceptTimestamp =  this.portCallTimestampService.acceptTimestamp(timestamp);
         // Generate PortCall Message
         outboundPortCallMessageService.process(acceptTimestamp);

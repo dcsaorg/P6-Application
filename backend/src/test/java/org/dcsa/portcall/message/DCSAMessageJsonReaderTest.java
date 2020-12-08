@@ -51,12 +51,12 @@ public class DCSAMessageJsonReaderTest {
     public void testReadFullHeaderWithoutMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25:31Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
                 "    \"ReceiverRole\" : \"TERMINAL\",\n" +
-                "    \"ReceiverIdType\" : \"UN/LOCODE\",\n" +
+                "    \"ReceiverIdType\" : \"UNLOCODE\",\n" +
                 "    \"ReceiverId\" : \"deham:cta\",\n" +
                 "    \"GatewayId\" : \"PC-SERVICE\",\n" +
                 "    \"OtherReceiver\" : [ {\n" +
@@ -70,7 +70,7 @@ public class DCSAMessageJsonReaderTest {
                 "  }\n" +
                 "}", DCSAMessage.class);
 
-        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 0, 0, ZoneOffset.UTC));
+        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 31, 0, ZoneOffset.UTC));
         assertThat(message.getSenderRole()).isEqualTo(RoleType.VESSEL);
         assertThat(message.getSenderIdType()).isEqualTo(CodeType.IMO_VESSEL_NUMBER);
         assertThat(message.getSenderId()).isEqualTo("9074729");
@@ -97,8 +97,8 @@ public class DCSAMessageJsonReaderTest {
                 "    \"MessageType\" : \"PortCallMessage\",\n" +
                 "    \"Payload\" : {\n" +
                 "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
-                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
-                "      \"TerminalIdType\" : \"UN/LOCODE\"\n" +
+                "      \"PortIdType\" : \"UNLOCODE\",\n" +
+                "      \"TerminalIdType\" : \"UNLOCODE\"\n" +
                 "    }\n" +
                 "  }\n" +
                 "}", new TypeReference<>() {
@@ -123,12 +123,12 @@ public class DCSAMessageJsonReaderTest {
     public void testReaderFullHeaderWithFullMessage() throws JsonProcessingException {
         DCSAMessage<PortCallMessage> message = mapper.readValue("{\n" +
                 "  \"DCSAMessage\" : {\n" +
-                "    \"MessageDateTime\" : \"2020-11-13T17:25Z\",\n" +
+                "    \"MessageDateTime\" : \"2020-11-13T17:25:31Z\",\n" +
                 "    \"SenderRole\" : \"VESSEL\",\n" +
                 "    \"SenderIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "    \"SenderId\" : \"9074729\",\n" +
                 "    \"ReceiverRole\" : \"TERMINAL\",\n" +
-                "    \"ReceiverIdType\" : \"UN/LOCODE\",\n" +
+                "    \"ReceiverIdType\" : \"UNLOCODE\",\n" +
                 "    \"ReceiverId\" : \"deham:cta\",\n" +
                 "    \"GatewayId\" : \"PC-SERVICE\",\n" +
                 "    \"OtherReceiver\" : [ {\n" +
@@ -142,27 +142,27 @@ public class DCSAMessageJsonReaderTest {
                 "    \"Payload\" : {\n" +
                 "      \"VesselIdType\" : \"IMO-VESSEL-NUMBER\",\n" +
                 "      \"VesselId\" : \"9074729\",\n" +
-                "      \"PortIdType\" : \"UN/LOCODE\",\n" +
+                "      \"PortIdType\" : \"UNLOCODE\",\n" +
                 "      \"PortId\" : \"deham\",\n" +
-                "      \"TerminalIdType\" : \"UN/LOCODE\",\n" +
+                "      \"TerminalIdType\" : \"UNLOCODE\",\n" +
                 "      \"TerminalId\" : \"cta\",\n" +
+                "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
                 "      \"NextPortOfCall\" : \"beanr\",\n" +
                 "      \"VoyageNumber\" : \"ABCDEFGH\",\n" +
                 "      \"Event\" : {\n" +
                 "        \"EventClassifierCode\" : \"EST\",\n" +
                 "        \"TransportEventTypeCode\" : \"ARRI\",\n" +
+                "        \"LocationType\" : \"BERTH\",\n" +
                 "        \"LocationId\" : \"rn:mrn:ipcdmc:location:deham:berth:cta:200m\",\n" +
-                "        \"EventDateTime\" : \"2020-11-13T17:25Z\",\n" +
-                "        \"LocationType\" : \"BERTH\"\n" +
+                "        \"EventDateTime\" : \"2020-11-13T17:25:31Z\"\n" +
                 "      },\n" +
-                "      \"PreviousPortOfCall\" : \"nlrtm\",\n" +
                 "      \"Remarks\" : \"Hey Joe, here is the missing timestamp that I just  now got from our Agent\"\n" +
                 "    }\n" +
                 "  }\n" +
                 "}", new TypeReference<>() {
         });
 
-        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 0, 0, ZoneOffset.UTC));
+        assertThat(message.getMessageDateTime()).isEqualTo(OffsetDateTime.of(2020, 11, 13, 17, 25, 31, 0, ZoneOffset.UTC));
         assertThat(message.getSenderRole()).isEqualTo(RoleType.VESSEL);
         assertThat(message.getSenderIdType()).isEqualTo(CodeType.IMO_VESSEL_NUMBER);
         assertThat(message.getSenderId()).isEqualTo("9074729");

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PrivatePartner localId="deham" internalId="deham" disabled="false" remote="false" allowCertificateUpdate="false">
+    <DisplayName>deham</DisplayName>
+    <Registry autoupdate="false" agreementAutoupdate="false">
+        <RemoteFile></RemoteFile>
+        <LastModified>1606941628795</LastModified>
+    </Registry>
+</PrivatePartner>

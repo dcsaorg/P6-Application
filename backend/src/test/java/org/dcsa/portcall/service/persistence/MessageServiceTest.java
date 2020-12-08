@@ -77,7 +77,7 @@ class MessageServiceTest extends AbstractDatabaseTest {
             assertThat(messageRead.get().getFilename()).isEqualTo(messageWritten.get().getFilename());
             assertThat(messageRead.get().getPayload()).isEqualTo(TEST_MESSAGE_CONTENT.getBytes());
 
-            boolean updateResult = service.setPortCallTimestampId(messageWritten.get().getId(), 1);
+            boolean updateResult = service.updatePortCallTimestampId(messageWritten.get().getId(), 1);
             assertThat(updateResult).isTrue();
 
             Optional<Message> messageReadAfterUpdate = service.findMessage(messageWritten.get().getId());
@@ -88,7 +88,7 @@ class MessageServiceTest extends AbstractDatabaseTest {
             assertThat(messageReadAfterUpdate.get().getFilename()).isEqualTo(messageWritten.get().getFilename());
             assertThat(messageReadAfterUpdate.get().getPayload()).isEqualTo(TEST_MESSAGE_CONTENT.getBytes());
 
-            boolean updateResultWithExitingTimestampId = service.setPortCallTimestampId(messageWritten.get().getId(), 2);
+            boolean updateResultWithExitingTimestampId = service.updatePortCallTimestampId(messageWritten.get().getId(), 2);
             assertThat(updateResultWithExitingTimestampId).isFalse();
 
             Optional<Message> messageReadAfterSecondUpdate = service.findMessage(messageWritten.get().getId());

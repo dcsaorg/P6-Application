@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Server Port="7626">
+    <Logging>
+        <ServerLogLevel>INFO</ServerLogLevel>
+        <MessengerLogLevel>INFO</MessengerLogLevel>
+        <JDBCLogLevel>INFO</JDBCLogLevel>
+    </Logging>
+    <Folders>
+        <LogFolder>$PONTONXP_HOME/log</LogFolder>
+        <TempFolder>$PONTONXP_HOME/temp</TempFolder>
+    </Folders>
+    <Connector id="1">
+        <Address>*</Address>
+        <Port>8443</Port>
+        <MinThreads>20</MinThreads>
+        <MaxThreads>200</MaxThreads>
+        <MaxIdleTime>30000</MaxIdleTime>
+        <LowResources>50</LowResources>
+        <LowResourcePersistTime>20000</LowResourcePersistTime>
+        <SSL>
+            <Keystore>$XP_CONFIG_FOLDER/keystore-ssl</Keystore>
+            <KeystorePassword>UFhQUFdDeKrQ7stCXf8+zYjVKt1BQmZT6+/C0jmCC/0MC+NU2jg=</KeystorePassword>
+            <KeyPassword>UFhQUFdDhmGcdP2RRpvqXVscmf7U6WJ0N9LxqAibIcdp9aRWo9A=</KeyPassword>
+            <ClientAuthKeystore>$XP_CONFIG_FOLDER/keystore-ssl</ClientAuthKeystore>
+            <ClientAuthKeystorePassword>UFhQUFdDeBaJQJ5th1t5BVqqALaIVB6Kb+fBcLHl8A0TjEOkwPg=</ClientAuthKeystorePassword>
+            <ClientAuthentication>none</ClientAuthentication>
+        </SSL>
+        <Service>GUI</Service>
+    </Connector>
+    <Connector id="2">
+        <Address>*</Address>
+        <Port>8080</Port>
+        <MinThreads>20</MinThreads>
+        <MaxThreads>200</MaxThreads>
+        <MaxIdleTime>30000</MaxIdleTime>
+        <LowResources>50</LowResources>
+        <LowResourcePersistTime>20000</LowResourcePersistTime>
+        <Service>ADAPTER_SERVICE</Service>
+    </Connector>
+    <Connector id="3">
+        <Address>*</Address>
+        <Port>8081</Port>
+        <MinThreads>20</MinThreads>
+        <MaxThreads>200</MaxThreads>
+        <MaxIdleTime>30000</MaxIdleTime>
+        <LowResources>50</LowResources>
+        <LowResourcePersistTime>20000</LowResourcePersistTime>
+        <Service>LISTENERS</Service>
+    </Connector>
+    <Connector id="4">
+        <Address>*</Address>
+        <Port>8444</Port>
+        <MinThreads>20</MinThreads>
+        <MaxThreads>200</MaxThreads>
+        <MaxIdleTime>30000</MaxIdleTime>
+        <LowResources>50</LowResources>
+        <LowResourcePersistTime>20000</LowResourcePersistTime>
+        <SSL>
+            <Keystore>$XP_CONFIG_FOLDER/keystore-ssl</Keystore>
+            <KeystorePassword>UFhQUFdDeKrQ7stCXf8+zYjVKt1BQmZT6+/C0jmCC/0MC+NU2jg=</KeystorePassword>
+            <KeyPassword>UFhQUFdDhmGcdP2RRpvqXVscmf7U6WJ0N9LxqAibIcdp9aRWo9A=</KeyPassword>
+            <ClientAuthKeystore>$XP_CONFIG_FOLDER/keystore-ssl</ClientAuthKeystore>
+            <ClientAuthKeystorePassword>UFhQUFdDeBaJQJ5th1t5BVqqALaIVB6Kb+fBcLHl8A0TjEOkwPg=</ClientAuthKeystorePassword>
+            <ClientAuthentication>none</ClientAuthentication>
+        </SSL>
+        <Service>REST</Service>
+    </Connector>
+    <AdapterInterface enabled="true">
+        <Address>0.0.0.0</Address>
+        <Port>2600</Port>
+        <Timeout>60</Timeout>
+    </AdapterInterface>
+</Server>
