@@ -54,7 +54,7 @@
           </ng-template>
         </p-dropdown>
       </td>
-      <td style="width: 7%">
+      <td style="width: 6%">
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
       <td style="width: 7%">
@@ -72,16 +72,16 @@
       <td style="width: 8%">
         <label><input [(ngModel)]="timestamp.locationId" pInputText style="width: 100%" type="text"/></label>
       </td>
-      <td style="width: 8%">
+      <td style="width: 6%">
         <p-button (onClick)="addComment(timestamp)" icon="pi pi-comment"
                   pTooltip="Add your comment and a delay reason to timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass" class="buttonInTable"></p-button>
       </td>
-      <td style="width: 1%">
+      <td style="width: 3%">
         <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)"
                   [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>
       </td>
-      <td style="width: 2%">
+      <td style="width: 3%">
       </td>
     </tr>
   </ng-template>

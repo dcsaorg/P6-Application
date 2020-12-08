@@ -68,7 +68,7 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">Next Port
         <p-sortIcon field="portNext"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="direction"
+      <th style="width: 6%" pSortableColumn="direction"
           pTooltip="What is the vessel direction, e.g. north or southbound" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Direction
         <p-sortIcon field="direction"></p-sortIcon>
@@ -84,11 +84,11 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">Berth Id
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
-      <th style="width: 8%" pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent">Root cause comm.
+      <th style="width: 6%" pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" class="timestampContent">Comment
       </th>
-      <th style="width: 1%"></th>
-      <th style="width: 2%"></th>
+      <th style="width: 3%"></th>
+      <th style="width: 3%"></th>
     </tr>
     <tr>
       <td></td>
@@ -133,12 +133,12 @@
         <div class="timestampContent">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div>
       </td>
-      <td style="width: 8%">
+      <td style="width: 7%">
         <div class="timestampContent">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
       </td>
       <td style="width: 7%" class="timestampContent">{{ timestamp.direction }}</td>
-      <td style="width: 7%" class="timestampContent">
+      <td style="width: 6%" class="timestampContent">
         <!--   somehow there is a porblem acessing the terminals   -->
         <div *ngIf="terminals.length > 0">
           <div pTooltip="{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}" tooltipPosition="top"
@@ -151,7 +151,7 @@
                   icon="pi pi-comment">
         </p-button>
       </td>
-      <td style="width: 7%" class="timestampContent">
+      <td style="width: 8%" class="timestampContent">
         <span *ngIf="timestamp.messagingStatus != null" class="pi pi-info-circle"
               style="{{ timestamp.messagingStatus == null ?
                           '' :
@@ -163,7 +163,7 @@
               pTooltip="Commuinication status: {{ timestamp.messagingStatus }}<br/>Details: {{ timestamp.messagingDetails }}"
               [escape]="false" tooltipPosition="top" tooltipStyleClass="ToolTipClass"></span>
       </td>
-      <td style="width: 8%">
+      <td style="width: 6%">
         <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
                   icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
