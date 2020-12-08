@@ -5,7 +5,12 @@
     <div class="p-grid">
       <div class="p-col"></div>
       <div class="p-col"></div>
-      <div class="p-col globalSearch">
+      <div class="p-col tableHeader">
+        <div class="tableHeader__buttons">
+          <p-button class="p-button-raised p-button-rounded"
+                    icon="pi pi-refresh" pTooltip="Refresh table data." tooltipPosition="top" type="button"
+                    tooltipStyleClass="ToolTipClass"></p-button>
+        </div>
         <div class="p-input-icon-left globalSearch">
           <i class="pi pi-search"></i>
           <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"

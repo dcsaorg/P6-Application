@@ -12,10 +12,18 @@
   }
 }
 
+::ng-deep .p-datatable-header {
+  padding: 7px 0px 5px 0px !important;
+}
+
 .globalSearch {
   float: right;
   height: 40px;
   padding: 3px 5px 3px 0px;
+
+  i {
+    padding-top: 3px !important;
+  }
 }
 
 
@@ -33,4 +41,16 @@
 .timestampContent{
   font-size:$tableSize;
   z-index: 1;
+}
+
+.tableHeader {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  padding: 0px 0px !important;
+  max-width: 320px !important;
+
+  &__buttons {
+    margin: 5px 10px 0px 0px;
+  }
 }
