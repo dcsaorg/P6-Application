@@ -23,28 +23,30 @@
         <p-sortIcon field="vessel"></p-sortIcon>
       </th>
       <th pSortableColumn="timestampType"
-          pTooltip="An estimated, requested, planned or actual timestamp of a process event"
+          pTooltip="An estimated, requested, planned or actual timestamp of a process event."
           style="width: 7%"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">Timestamp
         <p-sortIcon field="timestampType" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="sequence"
-          pTooltip="How often the planning of a process was changed. This will change automatically"
+      <th style="width: 5%" pSortableColumn="sequence"
+          pTooltip="How often the planning of a process was changed. This will change automatically."
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Sequence
       </th>
-      <th pSortableColumn="logOfTimestamp" pTooltip="When was the event communicated (local time for port)"
+      <th pSortableColumn="logOfTimestamp" pTooltip="When was the event communicated (local time for port)."
           tooltipPosition="top"
+          style="width: 10%"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Log of Timestamp
         <p-sortIcon field="logOfTimestamp"></p-sortIcon>
       </th>
       <th pSortableColumn="eventTimestamp"
-          pTooltip="What is the estimated, requested, planned or actual timestamp of the event. (local time for port)"
+          pTooltip="What is the estimated, requested, planned or actual timestamp of the event (local time for port)."
           tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent">Event. Timestamp
+          style="width: 10%"
+          tooltipStyleClass="ToolTipClass" class="timestampContent">Event Timestamp
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portPrevious" pTooltip="What port does the vessel come from?"
+      <th style="width: 8%" pSortableColumn="portPrevious" pTooltip="What port does the vessel come from?"
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Previous Port
         <p-sortIcon field="portPrevious"></p-sortIcon>
@@ -66,7 +68,7 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">Direction
         <p-sortIcon field="direction"></p-sortIcon>
       </th>
-      <th pSortableColumn="terminal" style="width: 9%" pTooltip="What is the name and/or SMDG code of the terminal?"
+      <th pSortableColumn="terminal" style="width: 7%" pTooltip="What is the name and/or SMDG code of the terminal?"
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Terminal Id
         <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
@@ -77,7 +79,7 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">Berth Id
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
-      <th style="width: 3%" pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
+      <th pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Root cause comm.
       </th>
       <th style="width: 2%"></th>
