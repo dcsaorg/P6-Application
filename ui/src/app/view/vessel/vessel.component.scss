@@ -2,10 +2,19 @@
   padding: 0px 0px !important;
 }
 
+::ng-deep .p-card-body {
+  padding: 5px 5px 10px 5px !important;
+}
+
 .vessel {
   &__content {
     display: flex;
     flex-direction: row;
+
+    &__first {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   &__header {
@@ -15,13 +24,18 @@
 
   &__select_modify {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+
+    .dropDownDiv {
+      margin-top: 8px;
+    }
 
     &__buttons {
       display: flex;
       flex-direction: row;
-      margin-left: 10px;
+      margin: 7px 0px 0px 10px;
       height: 35px !important;
+      float: left;
 
       &__addVesselBtn {
         margin: 0px 5px 0px 0px;
@@ -30,12 +44,17 @@
   }
 
   &__vesselDetails {
-    margin: 0px 0px 0px 50px;
+    display: flex;
+    flex-direction: row;
 
     &__element {
-      padding-top: 15px;
+      padding: 10px 10px 0px 0px;
       width: fit-content;
       min-width: 150px;
+
+      &__label {
+        font-weight: bold;
+      }
     }
   }
 
