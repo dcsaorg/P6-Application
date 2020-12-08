@@ -14,16 +14,18 @@
                            (timeStampAcceptNotifier)="timestampRespondedHandler($event)"
                            [vesselId]="vesselId"
       ></app-timestamp-table>
-      <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
-                            [portOfCall]="portOfCall"
-                            [vesselId]="vesselId"
-      ></app-timestamp-editor>
-      <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
-                               [portCallTimeStampDeleted]="portCallTimeStampDeleted"
-                               [portCallTimeStampResponded] ="portCallTimeStampResponded"
-                               [portOfCall]="portOfCall"
-                               [vesselId]="vesselId"
-      ></app-timestamp-paginator>
+      <div class="stickyFooterDiv">
+        <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
+                              [portOfCall]="portOfCall"
+                              [vesselId]="vesselId">
+        </app-timestamp-editor>
+        <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
+                                 [portCallTimeStampDeleted]="portCallTimeStampDeleted"
+                                 [portCallTimeStampResponded] ="portCallTimeStampResponded"
+                                 [portOfCall]="portOfCall"
+                                 [vesselId]="vesselId">
+        </app-timestamp-paginator>
+      </div>
     </p-card>
   </div>
 </div>

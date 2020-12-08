@@ -1,5 +1,11 @@
 @import "DCSA-Theme";
 
+.stickyFooterDiv {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0px;
+}
+
 .main {
   width: 100%;
   margin: 0;
