@@ -1,26 +1,26 @@
 <p-table [value]="($timestamps | async)" styleClass="p-datatable-sm">
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 7%; padding-left: 0" class="timestampContent">
-        <p-dropdown  [(ngModel)]="timestamp.vessel" [options]="vesselOptions"></p-dropdown>
+      <td style="width: 8%; padding-left: 0" class="timestampContent">
+        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.vessel" [options]="vesselOptions"></p-dropdown>
       </td>
       <td style="width: 7%; padding-left: 0">
         <p-dropdown  [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
       </td>
-      <td style="width: 5%"></td>
-      <td>
+      <td style="width: 4%"></td>
+      <td style="width: 11%">
         <p-calendar  [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     showTime="true"
                     showWeek="true" yearNavigator="true" yearRange="2010:2030" [locale]="en"></p-calendar>
       </td>
-      <td>
+      <td style="width: 11%">
         <p-calendar [(ngModel)]="timestamp.eventTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     [locale]="en" showTime="true" showWeek="true" yearNavigator="true"
                     yearRange="2010:2030"></p-calendar>
       </td>
-      <td style="width: 7%">
+      <td style="width: 8%">
         <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"
                     filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
@@ -57,7 +57,7 @@
       <td style="width: 7%">
         <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
-      <td style="width: 9%">
+      <td style="width: 7%">
         <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
                     [filter]="true" [options]="terminalOptions" filterBy="label,value.terminalName">
           <ng-template let-terminal pTemplate="item">
@@ -69,20 +69,19 @@
           </ng-template>
         </p-dropdown>
       </td>
-      <td style="width: 7%">
+      <td style="width: 8%">
         <label><input [(ngModel)]="timestamp.locationId" pInputText style="width: 100%" type="text"/></label>
       </td>
-      <td style="width: 3%">
+      <td style="width: 8%">
         <p-button (onClick)="addComment(timestamp)" icon="pi pi-comment"
                   pTooltip="Add your comment and a delay reason to timestamp" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass" class="buttonInTable"></p-button>
       </td>
-      <td style="width: 2%">
-      </td>
-      <td style="width: 5%">
-
+      <td style="width: 1%">
         <p-button (onClick)="savePortcallTimestamp(timestamp, vesselId)"
                   [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>
+      </td>
+      <td style="width: 2%">
       </td>
     </tr>
   </ng-template>

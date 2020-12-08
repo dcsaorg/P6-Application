@@ -23,7 +23,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="vesselId" pTooltip="The vessel of a process event"
-          style="width: 7%"
+          style="width: 8%"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">Vessel
         <p-sortIcon field="vessel"></p-sortIcon>
       </th>
@@ -33,21 +33,21 @@
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">Timestamp
         <p-sortIcon field="timestampType" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 5%" pSortableColumn="sequence"
+      <th style="width: 4%" pSortableColumn="sequence"
           pTooltip="How often the planning of a process was changed. This will change automatically."
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Sequence
       </th>
       <th pSortableColumn="logOfTimestamp" pTooltip="When was the event communicated (local time for port)."
           tooltipPosition="top"
-          style="width: 10%"
+          style="width: 11%"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Log of Timestamp
         <p-sortIcon field="logOfTimestamp"></p-sortIcon>
       </th>
       <th pSortableColumn="eventTimestamp"
           pTooltip="What is the estimated, requested, planned or actual timestamp of the event (local time for port)."
           tooltipPosition="top"
-          style="width: 10%"
+          style="width: 11%"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Event Timestamp
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
@@ -73,22 +73,22 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">Direction
         <p-sortIcon field="direction"></p-sortIcon>
       </th>
-      <th pSortableColumn="terminal" style="width: 7%" pTooltip="What is the name and/or SMDG code of the terminal?"
+      <th style="width: 7%" pSortableColumn="terminal" pTooltip="What is the name and/or SMDG code of the terminal?"
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Terminal Id
         <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="locationId"
+      <th style="width: 8%" pSortableColumn="locationId"
           pTooltip="If available: where will the vessel berth (bollard number or name)"
           tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Berth Id
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
-      <th pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
+      <th style="width: 8%" pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">Root cause comm.
       </th>
+      <th style="width: 1%"></th>
       <th style="width: 2%"></th>
-      <th style="width: 5%"></th>
     </tr>
     <tr>
       <td></td>
@@ -108,26 +108,32 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 7%" class="timestampContent">
+      <td style="width: 8%" class="timestampContent">
         <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).name}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
       </td>
       <td style="width: 7%"
-          class="timestampContent">{{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}</td>
-      <td class="timestampContent">{{ timestamp.callSequence + 1 }}</td>
-      <td
-        class="dateTimeStamp timestampContent">{{ timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}</td>
-      <td
-        class="dateTimeStamp timestampContent">{{ timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}</td>
-      <td style="width: 7%">
+          class="timestampContent">
+        {{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}
+      </td>
+      <td style="width: 4%" class="timestampContent">
+        {{ timestamp.callSequence + 1 }}
+      </td>
+      <td style="width: 11%" class="dateTimeStamp timestampContent">
+        {{timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}
+      </td>
+      <td class="dateTimeStamp timestampContent">
+        {{timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}
+      </td>
+      <td style="width: 11%">
         <div class="timestampContent">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
       </td>
-      <td style="width: 7%">
+      <td style="width: 8%">
         <div class="timestampContent">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div>
       </td>
-      <td style="width: 7%">
+      <td style="width: 8%">
         <div class="timestampContent">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
       </td>
@@ -140,12 +146,12 @@
         </div>
       </td>
       <td style="width: 7%" class="timestampContent">{{ timestamp.locationId }}</td>
-      <td style="width: 3%" class="timestampContent">
+      <td style="width: 7%" class="timestampContent">
         <p-button class="timestampContent" (onClick)="showComment(timestamp)"
                   icon="pi pi-comment">
         </p-button>
       </td>
-      <td style="width: 2%" class="timestampContent">
+      <td style="width: 7%" class="timestampContent">
         <span *ngIf="timestamp.messagingStatus != null" class="pi pi-info-circle"
               style="{{ timestamp.messagingStatus == null ?
                           '' :
@@ -157,7 +163,7 @@
               pTooltip="Commuinication status: {{ timestamp.messagingStatus }}<br/>Details: {{ timestamp.messagingDetails }}"
               [escape]="false" tooltipPosition="top" tooltipStyleClass="ToolTipClass"></span>
       </td>
-      <td style="width: 5%">
+      <td style="width: 8%">
         <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
                   icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"

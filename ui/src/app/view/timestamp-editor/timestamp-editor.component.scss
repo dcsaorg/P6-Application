@@ -1,5 +1,11 @@
 @import "DCSA-Theme";
 
+p-dropdown::ng-deep {
+  .dropdown {
+    width: 100%;
+  }
+}
+
 .rowDetails {
   color: $darkGrey;
   text-transform: capitalize;
@@ -13,21 +19,19 @@
 
 .ui-dropdown-label-container {
   width: 100%;
-
 }
 .ui-dropdown .ui-dropdown-clearable .ui-dropdown-label {
   text-overflow: ellipsis;
   padding-right: 2em !important;
 }
-.p-dropdown .p-dropdown-label {
+::ng-deep .p-dropdown .p-dropdown-label {
   text-overflow: ellipsis;
   padding-right: 1em !important;
-
-
 }
 .p-dropdown-label{
   font-size: $tableSize !important;
 }
+
 .timestampContent{
 
 }
