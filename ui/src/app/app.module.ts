@@ -2,7 +2,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {AppComponent} from './view/app.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -86,7 +86,6 @@ import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
   providers: [
     ConfirmationService,
     MessageService,
-    { provide: LOCALE_ID, useValue: 'de' }
   ],
   bootstrap: [AppComponent]
 })
