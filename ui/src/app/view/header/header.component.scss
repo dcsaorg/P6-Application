@@ -26,8 +26,17 @@
     font-size: 20px;
   }
 
+  &__company_container {
+    margin-top: 2px;
+  }
+
+  &__company {
+    float: left;
+  }
+
   &__info_small {
     font-size: 10pt;
-    margin-top: 5px;
+    float: left;
+    clear: left;
   }
 }
