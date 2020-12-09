@@ -21,7 +21,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.OffsetDateTime;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class OutboundPortCallMessageService extends AbstractPortCallMessageService<PortCallTimestamp, DCSAMessage<PortCallMessage>> {
@@ -34,6 +33,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     private final TerminalService terminalService;
     private final VesselService vesselService;
     private final CarrierService carrierService;
+    private final PortCallTimestampService timestampService;
     private final MessageService messageService;
     private final PontonXPCommunicationService communicationService;
 
@@ -43,6 +43,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
                                           TerminalService terminalService,
                                           VesselService vesselService,
                                           CarrierService carrierService,
+                                          PortCallTimestampService timestampService,
                                           MessageService messageService,
                                           PontonXPCommunicationService communicationService) {
         this.config = config;
@@ -51,6 +52,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         this.terminalService = terminalService;
         this.vesselService = vesselService;
         this.carrierService = carrierService;
+        this.timestampService = timestampService;
         this.messageService = messageService;
         this.communicationService = communicationService;
     }
@@ -106,7 +108,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         // Identify the Receiver as of selected Timestamp
         this.identifyReceiver(timestamp, message, portOfCall, terminal, carrier);
         message.setProcessType(ProcessType.PortCall);
-        message.setProcessId(UUID.randomUUID().toString());
+        message.setProcessId(timestampService.getOrGenerateProcessId(timestamp));
         message.setMessageType(MessageType.PortCallMessage);
 
 

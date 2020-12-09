@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.PortCallException;
+import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
@@ -26,6 +27,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.dcsa.portcall.db.tables.Message.MESSAGE;
 import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
@@ -292,5 +294,14 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         } else {
             return Optional.empty();
         }
+    }
+
+    @Transactional
+    public String getOrGenerateProcessId(PortCallTimestamp timestamp) {
+        if (timestamp.getTimestampType() == PortCallTimestampType.ETA_Berth) {
+            return UUID.randomUUID().toString();
+        }
+
+        return UUID.randomUUID().toString();
     }
 }
