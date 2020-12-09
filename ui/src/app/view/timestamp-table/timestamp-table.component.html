@@ -7,13 +7,13 @@
       <div class="p-col"></div>
       <div class="p-col tableHeader">
         <div class="tableHeader__buttons">
-          <p-button class="p-button-raised p-button-rounded"
+          <p-button (onClick)="refreshTableData()" class="p-button-raised p-button-rounded"
                     icon="pi pi-refresh" pTooltip="Refresh table data." tooltipPosition="top" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
         </div>
         <div class="p-input-icon-left globalSearch">
           <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+          <input type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                  placeholder="Search in table" class="p-column-filter"
                  pTooltip="This enables table search containing for Timestamp, Classifier Code, Event Type Code, Port From, Port To and Next Port">
         </div>
