@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="instructions_paragraph_1" datatype="html">
+        <source>
+      Below are the explanations of the timestamps. Please fill these timestamps as detailed as possible and add every
+      change that is communicated (e.g. by phone or e-mail) by the Terminal Operator, Port, or you as Carrier. This will
+      give us a detailed view of how often the estimated times of arrival, cargo operations and departure change. Note
+      that for cargo operations, not every change is absolutely necessary, just a good overview of the ETC 12 hours, 6
+      hours and 3 hours before the end. Services other than cargo operations do not need to be reported.
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_paragraph_2" datatype="html">
+        <source>
+      We aim to receive full cycles of information for vessels over 2000TEU. Please consult with your internal contact
+      if you have questions about the scope or number of vessels you report. If you have any questions or see any bugs
+      or issues, please contact us via <x id="START_LINK" ctype="x-a" equiv-text="&lt;a&gt;"/>guido.debeer@dcsa.org<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>
+
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_paragraph_3" datatype="html">
+        <source>
+      Thank you very much for your time and effort!
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ETA_BERTH" datatype="html">
+        <source>Estimated time of arrival at berth of vessel, communicated by carrier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_RTA_BERTH" datatype="html">
+        <source>Time of arrival at berth as requested by the terminal operator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_PTA_BERTH" datatype="html">
+        <source>Planned time of arrival at berth. When a vessel operator (or agent) confirmed the requested
+        time of arrival berth to the terminal operator.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ETA_PBP" datatype="html">
+        <source>Estimated time of arrival at pilot boarding place or zone. This is communicated by the vessel /
+        agent to the port authority.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_RTA_PBP" datatype="html">
+        <source>Time of arrival at pilot boarding place as requested by the port authority or pilot
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_PTA_PBP" datatype="html">
+        <source>Planned time of arrival at pilot boarding place. When a vessel operator (or his agent)
+        confirmed the requested time of arrival PBP to the pilot/port authority.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ATA_PBP" datatype="html">
+        <source>The actual time of arrival of the vessel at Pilot Boarding Place
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ATA_BERTH" datatype="html">
+        <source>The actual time of arrival of the vessel at Berth
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ATS_CARGO_OPS" datatype="html">
+        <source>The actual time at which the cargo operations has started (first commercial lift)
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ETC_CARGO_OPS" datatype="html">
+        <source>Estimated time of completion cargo operations. The estimate is usually based on the estimated
+        productivity to perform the total number of moves
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_RTC_CARGO_OPS" datatype="html">
+        <source>The requested time at which the vessel operator or agent would like the cargo operations to
+        finish (last commercial lift) e.g. The vessel operator might request an earlier departure in case of cut &amp; run
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_PTC_CARGO_OPS" datatype="html">
+        <source>The agreed upon planned time of completion of cargo operations</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ATC_CARGO_OPS" datatype="html">
+        <source>The actual time of completion of cargo operations (last commercial lift)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ETD_BERTH" datatype="html">
+        <source>The estimated time of departure from the berth, as estimated by the agent or captain</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_RTD_BERTH" datatype="html">
+        <source>The requested time of departure from berth, as requested by the port authority</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_PTD_BERTH" datatype="html">
+        <source>Planned time of departure of the vessel from berth. This is the confirmation from the vessel of
+        the requested time of departure done by the vessel operator/agent or captain
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="instructions_ATD_BERTH" datatype="html">
+        <source>Actual time of departure from berth</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/instructions/instructions.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menu_entry_instructions" datatype="html">
+        <source>
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/header/header.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menu_entry_download_timestamps" datatype="html">
+        <source>
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/header/header.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menu_entry_port_call" datatype="html">
+        <source>Port Call</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/header/header.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menu_entry_mandator" datatype="html">
+        <source>Company: <x id="INTERPOLATION" equiv-text="{{ companyName }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/header/header.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menu_entry_download_timestamp_info" datatype="html">
+        <source>
+    This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment.
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/header/header.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="vessel" datatype="html">
+        <source>Vessel
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel/vessel.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table__timestamp" datatype="html">
+        <source>Timestamp
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_sequence" datatype="html">
+        <source>Sequence
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_log_of_timestamp" datatype="html">
+        <source>Log of Timestamp
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_event_timestamp" datatype="html">
+        <source>Event Timestamp
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_prev_port" datatype="html">
+        <source>Previous Port
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_port_of_call" datatype="html">
+        <source>Port of Call
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_next_port" datatype="html">
+        <source>Next Port
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_direction" datatype="html">
+        <source>Direction
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_terminal_id" datatype="html">
+        <source>Terminal Id
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_berth_id" datatype="html">
+        <source>Berth Id
+        <x id="START_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;p-sortIcon&gt;"/><x id="CLOSE_TAG_P-SORTICON" ctype="x-p-sortIcon" equiv-text="&lt;/p-sortIcon&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="table_comment" datatype="html">
+        <source>Comment
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/timestamp-table/timestamp-table.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="vessel_name" datatype="html">
+        <source>Vessel name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel-editor/vessel-editor.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="vessel__imo_number" datatype="html">
+        <source>IMO number</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel-editor/vessel-editor.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel/vessel.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="vessel__teu" datatype="html">
+        <source>Vessel size (TEU)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel-editor/vessel-editor.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel/vessel.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="vessel__service_name" datatype="html">
+        <source>Service name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel-editor/vessel-editor.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/vessel/vessel.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="portOfCall" datatype="html">
+        <source>Port of Call</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/view/port-of-call/port-of-call.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,7 +1,7 @@
 <form [formGroup]="vesselFormGroup">
   <div class="p-fluid">
     <div class="p-field p-grid">
-      <label for="name" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Vessel name</label>
+      <label for="name" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" i18n="@@vessel_name">Vessel name</label>
       <div class="p-col-12 p-md-10">
         <input id="name" type="text" formControlName="name" pInputText [(ngModel)]=vessel.name maxlength="100">
         <span *ngIf="vesselFormGroup.get('name').hasError('maxlength')" class="p-invalid">The vessel name should be maximal 100 characters long</span>
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="p-field p-grid">
-      <label for="imo" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">IMO number</label>
+      <label for="imo" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" i18n="@@vessel__imo_number">IMO number</label>
       <div class="p-col-12 p-md-10">
         <input id="imo" type="text" formControlName="imo" pInputText [(ngModel)]=vessel.imo maxlength="7">
         <span *ngIf="vesselFormGroup.get('imo').hasError('required') && vesselFormGroup.get('imo').touched" class="p-invalid">The IMO is required</span>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="p-field p-grid">
-      <label for="teu" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Vessel size (TEU)</label>
+      <label for="teu" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" i18n="@@vessel__teu">Vessel size (TEU)</label>
       <div class="p-col-12 p-md-10">
         <p-inputNumber id="teu" mode="decimal" formControlName="teu" [(ngModel)]=vessel.teu></p-inputNumber>
         <span *ngIf="vesselFormGroup.get('teu').hasError('required') && vesselFormGroup.get('teu').touched" class="p-invalid">TEU is required</span>
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="p-field p-grid">
-      <label for="serviceName" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Service name</label>
+      <label for="serviceName" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" i18n="@@vessel__service_name">Service name</label>
       <div class="p-col-12 p-md-10">
         <input id="serviceName" type="text" formControlName="serviceNameCode" pInputText [(ngModel)]=vessel.serviceNameCode>
         <span *ngIf="vesselFormGroup.get('serviceNameCode').hasError('maxlength')" class="p-invalid">Maximum length is 255</span>
@@ -37,8 +37,9 @@
       <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"></label>
       <div class="p-col-12 p-md-10">
         <span class="p-buttonset">
-            <button (click)="saveVessel()" icon="pi pi-check" label="Save" pButton type="button" [disabled]="vesselFormGroup.invalid"></button>
-            <button (click)="cancel()" class="p-button-warning" icon="pi pi-times" label="Cancel" pButton
+            <button (click)="saveVessel()" icon="pi pi-check" label="Save" i18n="@@vessel_dialog_save" pButton type="button"
+                    [disabled]="vesselFormGroup.invalid"></button>
+            <button (click)="cancel()" class="p-button-warning" icon="pi pi-times" label="Cancel" i18n="@@vessel_dialog_cancel" pButton
                     type="button"></button>
         </span>
       </div>

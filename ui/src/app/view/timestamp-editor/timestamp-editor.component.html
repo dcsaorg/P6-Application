@@ -5,7 +5,7 @@
         <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.vessel" [options]="vesselOptions"></p-dropdown>
       </td>
       <td style="width: 7%; padding-left: 0">
-        <p-dropdown  [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
+        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
       </td>
       <td style="width: 4%"></td>
       <td style="width: 11%">
@@ -21,7 +21,7 @@
                     yearRange="2010:2030"></p-calendar>
       </td>
       <td style="width: 8%">
-        <p-dropdown [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"
+        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"
                     filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div *ngIf="port.value">
@@ -32,7 +32,7 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown (onChange)="updateTerminalOptions(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall"
+        <p-dropdown styleClass="dropdown" (onChange)="updateTerminalOptions(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall"
                     [filter]="true" [options]="portOptions"
                     filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
@@ -44,7 +44,7 @@
         </p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions"
+        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions"
                     filterBy="label,value.name">
           <ng-template let-port pTemplate="item">
             <div *ngIf="port.value">
@@ -55,10 +55,10 @@
         </p-dropdown>
       </td>
       <td style="width: 6%">
-        <p-dropdown [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
+        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
       </td>
       <td style="width: 7%">
-        <p-dropdown [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
+        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
                     [filter]="true" [options]="terminalOptions" filterBy="label,value.terminalName">
           <ng-template let-terminal pTemplate="item">
             <div *ngIf="terminal.value">

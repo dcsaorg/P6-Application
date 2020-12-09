@@ -13,6 +13,12 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "de": "src/locale/messages.de.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -34,7 +40,8 @@
               "node_modules/primeng/resources/primeng.min.css",
               "DCSA-Theme.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "localize": true
           },
           "configurations": {
             "production": {
@@ -64,6 +71,9 @@
                   "maximumError": "512kb"
                 }
               ]
+            },
+            "de": {
+              "localize": ["de"]
             }
           }
         },
@@ -76,6 +86,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ui:build:production"
+            },
+            "de": {
+              "browserTarget": "ui:build:de"
             }
           }
         },
