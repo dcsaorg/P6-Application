@@ -4,12 +4,16 @@
   </div>
   <div class="p-col-1"></div>
   <div class="p-col-3 header__menuEntryDiv" >
-    <button pButton (click)="showInstructions()" label="Instructions" class="p-button-text p-button-secondary header__menuEntry" icon="pi pi-question" type="button"></button>
-    <button pButton (click)="showDownloadRequest()" type="button" label="Download Timestamps" class="p-button-text p-button-secondary header__menuEntry" icon="pi pi-download"></button>
+    <button pButton (click)="showInstructions()" label="Instructions" i18n="@@menu_entry_instructions"
+            class="p-button-text p-button-secondary header__menuEntry" icon="pi pi-question" type="button">
+    </button>
+    <button pButton (click)="showDownloadRequest()" type="button" label="Download Timestamps" i18n="@@menu_entry_download_timestamps"
+            class="p-button-text p-button-secondary header__menuEntry" icon="pi pi-download">
+    </button>
   </div>
   <div class="p-col-1"></div>
   <div class="p-col-1 header__menuLabel">
-    <span class="" i18n="@@menu_entry_port_call">Port Call</span>
+    <span i18n="@@menu_entry_port_call">Port Call</span>
   </div>
   <div class="p-col-1"></div>
   <div class="p-col-4 header__menuLabel">
@@ -19,11 +23,14 @@
 </div>
 
 
-<p-dialog [modal]="true" header="Download Timestamps for {{companyName}}" [(visible)]="displayDownloadRequest" [style]="{width: '50vw'}" [baseZIndex]="10000">
-  <p>This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment.</p>
+<p-dialog [modal]="true" header="Download Timestamps for {{companyName}}" [(visible)]="displayDownloadRequest"
+          [style]="{width: '50vw'}" [baseZIndex]="10000">
+  <p i18n="@@menu_entry_download_timestamp_info">
+    This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment.
+  </p>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-download" (click)="downloadTimeStamps()" label="Download" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-times" (click)="displayDownloadRequest=false" label="Cancel"></p-button>
+    <p-button icon="pi pi-times" (click)="displayDownloadRequest=false" label="Cancel" i18n="@@menu_entry_download_timestamp_cancel"></p-button>
   </ng-template>
 </p-dialog>
 <p-toast key="DownloadRequestError" position="bottom-right"></p-toast>
