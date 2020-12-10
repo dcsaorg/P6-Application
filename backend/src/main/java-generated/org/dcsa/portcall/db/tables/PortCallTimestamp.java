@@ -125,6 +125,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
      */
     public final TableField<PortCallTimestampRecord, Boolean> DELETED = createField(DSL.name("deleted"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("false", SQLDataType.BOOLEAN)), this, "");
 
+    /**
+     * The column <code>public.port_call_timestamp.process_id</code>.
+     */
+    public final TableField<PortCallTimestampRecord, String> PROCESS_ID = createField(DSL.name("process_id"), SQLDataType.VARCHAR(36), this, "");
+
     private PortCallTimestamp(Name alias, Table<PortCallTimestampRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -234,11 +239,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row17 type methods
+    // Row18 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row17<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean, Boolean> fieldsRow() {
-        return (Row17) super.fieldsRow();
+    public Row18<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean, Boolean, String> fieldsRow() {
+        return (Row18) super.fieldsRow();
     }
 }

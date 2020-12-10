@@ -123,6 +123,9 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         // Get Vessel
         Vessel vessel = vesselService.findVesselById(portCallTimestamp.getVessel()).get();
 
+        // Create a new process id or generate a new one
+        portCallTimestamp.setProcessId(getOrGenerateProcessId(portCallTimestamp));
+
         try {
             Record1<Integer> id =
                     dsl.insertInto(PORT_CALL_TIMESTAMP, PORT_CALL_TIMESTAMP.VESSEL,
@@ -130,13 +133,13 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                             PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE, PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP, PORT_CALL_TIMESTAMP.LOG_OF_TIMESTAMP,
                             PORT_CALL_TIMESTAMP.DIRECTION, PORT_CALL_TIMESTAMP.TERMINAL, PORT_CALL_TIMESTAMP.LOCATION_ID,
                             PORT_CALL_TIMESTAMP.CHANGE_COMMENT, PORT_CALL_TIMESTAMP.DELAY_CODE, PORT_CALL_TIMESTAMP.CALL_SEQUENCE, PORT_CALL_TIMESTAMP.VESSEL_SERVICE_NAME,
-                            PORT_CALL_TIMESTAMP.MODIFIABLE)
+                            PORT_CALL_TIMESTAMP.PROCESS_ID, PORT_CALL_TIMESTAMP.MODIFIABLE)
                             .values(portCallTimestamp.getVessel(),
                                     portCallTimestamp.getPortOfCall(), portCallTimestamp.getPortPrevious(), portCallTimestamp.getPortNext(),
                                     portCallTimestamp.getTimestampType(), eventTimeStampAtPoc, logOfTimeStampAtPoc,
                                     portCallTimestamp.getDirection(), portCallTimestamp.getTerminal(), portCallTimestamp.getLocationId(),
                                     portCallTimestamp.getChangeComment(), portCallTimestamp.getDelayCode(), seq, vessel.getServiceNameCode(),
-                                    portCallTimestamp.getModifiable())
+                                    portCallTimestamp.getProcessId(), portCallTimestamp.getModifiable())
                             .returningResult(PORT_CALL_TIMESTAMP.ID)
                             .fetchOne();
             portCallTimestamp.setId(id.value1());
@@ -274,6 +277,15 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 .execute();
     }
 
+
+    @Transactional
+    public int updatePortcallTimestampProcessId(final PortCallTimestamp portCallTimestamp) {
+        return dsl.update(PORT_CALL_TIMESTAMP)
+                .set(PORT_CALL_TIMESTAMP.PROCESS_ID, portCallTimestamp.getProcessId())
+                .where(PORT_CALL_TIMESTAMP.ID.eq(portCallTimestamp.getId()))
+                .execute();
+    }
+
     @Transactional
     public int deletePortCallTimestamp(final int portCallTimestampId) {
         return dsl.update(PORT_CALL_TIMESTAMP)
@@ -298,10 +310,23 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
     @Transactional
     public String getOrGenerateProcessId(PortCallTimestamp timestamp) {
-        if (timestamp.getTimestampType() == PortCallTimestampType.ETA_Berth) {
+        Result<Record1<String>> previousProcessId = dsl.select(PORT_CALL_TIMESTAMP.PROCESS_ID)
+                .from(PORT_CALL_TIMESTAMP)
+                .where(PORT_CALL_TIMESTAMP.DELETED.isFalse()
+                        .and(PORT_CALL_TIMESTAMP.VESSEL.eq(timestamp.getVessel()))
+                        .and(PORT_CALL_TIMESTAMP.PORT_PREVIOUS.eq(timestamp.getPortPrevious()))
+                        .and(PORT_CALL_TIMESTAMP.PORT_OF_CALL.eq(timestamp.getPortOfCall()))
+                        .and(PORT_CALL_TIMESTAMP.PORT_NEXT.eq(timestamp.getPortNext()))
+                        .and(PORT_CALL_TIMESTAMP.TERMINAL.eq(timestamp.getTerminal()))
+                        .and(PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP.ge(timestamp.getEventTimestamp().minusDays(14))))
+                .orderBy(PORT_CALL_TIMESTAMP.EVENT_TIMESTAMP.desc(), PORT_CALL_TIMESTAMP.LOG_OF_TIMESTAMP.desc())
+                .limit(1)
+                .fetch();
+
+        if (timestamp.getTimestampType() != PortCallTimestampType.ETA_Berth && previousProcessId.isNotEmpty()) {
+            return previousProcessId.get(0).get(PORT_CALL_TIMESTAMP.PROCESS_ID);
+        } else {
             return UUID.randomUUID().toString();
         }
-
-        return UUID.randomUUID().toString();
     }
 }

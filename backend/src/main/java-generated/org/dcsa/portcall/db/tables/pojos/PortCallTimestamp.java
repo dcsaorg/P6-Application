@@ -36,6 +36,7 @@ public class PortCallTimestamp implements Serializable {
     private Integer               delayCode;
     private Boolean               modifiable;
     private Boolean               deleted;
+    private String                processId;
 
     public PortCallTimestamp() {}
 
@@ -57,6 +58,7 @@ public class PortCallTimestamp implements Serializable {
         this.delayCode = value.delayCode;
         this.modifiable = value.modifiable;
         this.deleted = value.deleted;
+        this.processId = value.processId;
     }
 
     public PortCallTimestamp(
@@ -76,7 +78,8 @@ public class PortCallTimestamp implements Serializable {
         String                changeComment,
         Integer               delayCode,
         Boolean               modifiable,
-        Boolean               deleted
+        Boolean               deleted,
+        String                processId
     ) {
         this.id = id;
         this.vessel = vessel;
@@ -95,6 +98,7 @@ public class PortCallTimestamp implements Serializable {
         this.delayCode = delayCode;
         this.modifiable = modifiable;
         this.deleted = deleted;
+        this.processId = processId;
     }
 
     /**
@@ -352,6 +356,21 @@ public class PortCallTimestamp implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.process_id</code>.
+     */
+    public String getProcessId() {
+        return this.processId;
+    }
+
+    /**
+     * Setter for <code>public.port_call_timestamp.process_id</code>.
+     */
+    public PortCallTimestamp setProcessId(String processId) {
+        this.processId = processId;
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("PortCallTimestamp (");
@@ -373,6 +392,7 @@ public class PortCallTimestamp implements Serializable {
         sb.append(", ").append(delayCode);
         sb.append(", ").append(modifiable);
         sb.append(", ").append(deleted);
+        sb.append(", ").append(processId);
 
         sb.append(")");
         return sb.toString();

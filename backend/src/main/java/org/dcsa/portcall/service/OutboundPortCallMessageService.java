@@ -33,7 +33,6 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     private final TerminalService terminalService;
     private final VesselService vesselService;
     private final CarrierService carrierService;
-    private final PortCallTimestampService timestampService;
     private final MessageService messageService;
     private final PontonXPCommunicationService communicationService;
 
@@ -43,7 +42,6 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
                                           TerminalService terminalService,
                                           VesselService vesselService,
                                           CarrierService carrierService,
-                                          PortCallTimestampService timestampService,
                                           MessageService messageService,
                                           PontonXPCommunicationService communicationService) {
         this.config = config;
@@ -52,7 +50,6 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         this.terminalService = terminalService;
         this.vesselService = vesselService;
         this.carrierService = carrierService;
-        this.timestampService = timestampService;
         this.messageService = messageService;
         this.communicationService = communicationService;
     }
@@ -108,7 +105,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         // Identify the Receiver as of selected Timestamp
         this.identifyReceiver(timestamp, message, portOfCall, terminal, carrier);
         message.setProcessType(ProcessType.PortCall);
-        message.setProcessId(timestampService.getOrGenerateProcessId(timestamp));
+        message.setProcessId(timestamp.getProcessId());
         message.setMessageType(MessageType.PortCallMessage);
 
 
