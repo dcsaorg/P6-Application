@@ -124,7 +124,9 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         Vessel vessel = vesselService.findVesselById(portCallTimestamp.getVessel()).get();
 
         // Create a new process id or generate a new one
-        portCallTimestamp.setProcessId(getOrGenerateProcessId(portCallTimestamp));
+        if (portCallTimestamp.getProcessId() == null) {
+            portCallTimestamp.setProcessId(getOrGenerateProcessId(portCallTimestamp));
+        }
 
         try {
             Record1<Integer> id =
@@ -188,6 +190,8 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         timestamp.setTerminal(originTimestamp.getTerminal());
         timestamp.setLocationId(originTimestamp.getLocationId());
         timestamp.setTimestampType(originTimestamp.getResponse());
+        timestamp.setProcessId(originTimestamp.getProcessId());
+
 
         if (timestamp.getTimestampType().equals(
                 TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), originTimestamp))) {
@@ -277,15 +281,6 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 .execute();
     }
 
-
-    @Transactional
-    public int updatePortcallTimestampProcessId(final PortCallTimestamp portCallTimestamp) {
-        return dsl.update(PORT_CALL_TIMESTAMP)
-                .set(PORT_CALL_TIMESTAMP.PROCESS_ID, portCallTimestamp.getProcessId())
-                .where(PORT_CALL_TIMESTAMP.ID.eq(portCallTimestamp.getId()))
-                .execute();
-    }
-
     @Transactional
     public int deletePortCallTimestamp(final int portCallTimestampId) {
         return dsl.update(PORT_CALL_TIMESTAMP)
@@ -323,10 +318,15 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 .limit(1)
                 .fetch();
 
+        String processId = null;
         if (timestamp.getTimestampType() != PortCallTimestampType.ETA_Berth && previousProcessId.isNotEmpty()) {
-            return previousProcessId.get(0).get(PORT_CALL_TIMESTAMP.PROCESS_ID);
-        } else {
-            return UUID.randomUUID().toString();
+            processId = previousProcessId.get(0).get(PORT_CALL_TIMESTAMP.PROCESS_ID);
         }
+
+        if (processId == null) {
+            processId = UUID.randomUUID().toString();
+        }
+
+        return processId;
     }
 }

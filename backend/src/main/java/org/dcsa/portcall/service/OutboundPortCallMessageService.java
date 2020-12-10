@@ -226,7 +226,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
     private Optional<Message> storeMessage(PortCallTimestamp timestamp, DCSAMessage<PortCallMessage> dcsaMessage) {
         log.debug("New {} PortCall Message will be stored to file system", timestamp.getTimestampType());
         try {
-            Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessageFileName(dcsaMessage));
+            Path path = Paths.get(this.config.getHotfolder().getOutbox(), this.generateMessageFileName(timestamp.getId(), dcsaMessage));
             log.info("{} PortCall Message will be saved to: {}", timestamp.getTimestampType(), path.toString());
             getJsonMapper().writeValue(Paths.get(path.toString()).toFile(), dcsaMessage);
 
@@ -240,9 +240,9 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         }
     }
 
-    private String generateMessageFileName(DCSAMessage<PortCallMessage> message) {
+    private String generateMessageFileName(int timestampId, DCSAMessage<PortCallMessage> message) {
         // Filename {ProcessId}@{SENDER_ID}.JSON
-        return message.getProcessId() + "@" + this.config.getSenderId() + ".json";
+        return message.getProcessId() + "@" + timestampId + "_" + this.config.getSenderId() + ".json";
 
     }
 }
