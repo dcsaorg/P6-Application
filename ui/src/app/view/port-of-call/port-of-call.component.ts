@@ -18,10 +18,13 @@ export class PortOfCallComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.portOptions.push({label: 'Select port', value: null})
-    this.portService.getPorts().subscribe(ports => ports.forEach(port =>
-      this.portOptions.push({label: port.unLocode, value: port}))
-    );
+    this.portService.getPorts().subscribe(ports => {
+      this.portOptions = [];
+      this.portOptions.push({label: 'Select port', value: null});
+      ports.forEach(port => {
+        this.portOptions.push({label: port.unLocode, value: port});
+      });
+    });
   }
 
   selectPortOfCall = () => this.portOfCallNotifier.emit(this.portOfCall);

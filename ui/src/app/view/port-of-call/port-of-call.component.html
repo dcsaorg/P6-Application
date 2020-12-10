@@ -9,6 +9,9 @@
         [options]="portOptions"
         filterBy="label,value.name">
         <ng-template let-port pTemplate="item">
+          <div *ngIf="!port.value">
+            <div>Select port</div>
+          </div>
           <div *ngIf="port.value">
             <div>{{port.value.unLocode}}</div>
             <div class="portListName">{{port.value.name}}</div>
