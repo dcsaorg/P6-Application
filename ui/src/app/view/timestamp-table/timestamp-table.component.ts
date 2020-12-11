@@ -163,6 +163,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   refreshTableData() {
+    console.debug("Refresh table data");
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
