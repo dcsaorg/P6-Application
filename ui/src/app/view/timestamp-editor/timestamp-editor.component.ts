@@ -53,8 +53,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   directions: SelectItem[] = [];
   vesselOptions: SelectItem[] = [];
 
-  en: any;
-
   defaultTimestamp: PortcallTimestamp = {
     id: null,
     timestampType: null,
