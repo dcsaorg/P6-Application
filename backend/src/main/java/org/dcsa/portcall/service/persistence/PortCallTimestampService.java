@@ -49,7 +49,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     }
 
     @Transactional(readOnly = true)
-    public List<PortCallTimestampExtended> findTimestampsById(final int vesselId) {
+    public List<PortCallTimestampExtended> findTimestampsByVesselId(final int vesselId) {
         Result<Record> timestamps = dsl
                 .select(PORT_CALL_TIMESTAMP.asterisk(),
                         MESSAGE.DIRECTION.as("MessageDirection"),
@@ -59,6 +59,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
+                .orderBy(PORT_CALL_TIMESTAMP.ID.asc())
                 .fetch();
 
         List<PortCallTimestampExtended> pcTimestamps = timestamps.into(PortCallTimestampExtended.class);
@@ -76,6 +77,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 .from(PORT_CALL_TIMESTAMP)
                 .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
                 .where(PORT_CALL_TIMESTAMP.DELETED.eq(false))
+                .orderBy(PORT_CALL_TIMESTAMP.ID.asc())
                 .fetch();
         List<PortCallTimestampExtended> pcTimestamps = timestamps.into(PortCallTimestampExtended.class);
         this.identifyResponseOptions(pcTimestamps);
@@ -119,7 +121,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
         }
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
-        List<PortCallTimestampExtended> timestampsOfVessel = findTimestampsById(portCallTimestamp.getVessel());
+        List<PortCallTimestampExtended> timestampsOfVessel = findTimestampsByVesselId(portCallTimestamp.getVessel());
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
 
         // Get Vessel

@@ -50,9 +50,9 @@ public class PortCallTimestampController {
 
     @GetMapping("/{vesselId}")
     @Transactional(readOnly = true)
-    public List<PortCallTimestampExtended> listPortCallTimestampsById(@PathVariable int vesselId) {
+    public List<PortCallTimestampExtended> listPortCallTimestampsByVesselId(@PathVariable int vesselId) {
         log.info("Listing all port call timestamps for vessel {}", vesselId);
-        return portCallTimestampService.findTimestampsById(vesselId);
+        return portCallTimestampService.findTimestampsByVesselId(vesselId);
     }
 
     @GetMapping("/highestTimestampId/{vesselId}")
