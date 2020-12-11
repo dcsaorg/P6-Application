@@ -117,7 +117,7 @@ public class OutboundPortCallMessageService extends AbstractPortCallMessageServi
         pcm.setVesselId(Integer.toString(vesselService.findVesselById(timestamp.getVessel()).get().getImo()));
         pcm.setPortIdType(CodeType.UN_LOCODE);
         pcm.setPortId(portOfCall);
-        pcm.setTerminalIdType(CodeType.TERMINAL);
+        pcm.setTerminalIdType(CodeType.UN_LOCODE);
         pcm.setTerminalId(terminal);
         pcm.setPreviousPortOfCall(portService.findPortById(timestamp.getPortPrevious()).get().getUnLocode());
         pcm.setNextPortOfCall(portService.findPortById(timestamp.getPortNext()).get().getUnLocode());
