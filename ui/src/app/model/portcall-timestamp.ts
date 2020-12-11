@@ -3,6 +3,7 @@ import {Port} from "./port";
 import {Terminal} from "./terminal";
 import {DelayCode} from "./delayCode";
 import {Vessel} from "./vessel";
+import {MessageDirection} from "./messageDirection";
 
 export interface PortcallTimestamp {
   id: number;
@@ -23,6 +24,7 @@ export interface PortcallTimestamp {
   vessel: number | Vessel;
   response?: PortcallTimestampType;
   modifiable: boolean;
+  messageDirection?: MessageDirection;
   messagingStatus?: string;
   messagingDetails?: string;
 }

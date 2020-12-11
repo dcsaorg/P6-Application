@@ -152,6 +152,19 @@
         </p-button>
       </td>
       <td style="width: 8%" class="timestampContent">
+        <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
+                  '' :
+                  (timestamp.messageDirection == 'inbound' ?
+                        'pi-arrow-left' : 'pi-arrow-right'
+                  )
+              }}"
+              pTooltip="{{ timestamp.messageDirection == null ?
+                  '' :
+                  (timestamp.messageDirection == 'inbound' ?
+                        'Inbound' : 'Outbound'
+                  )
+              }}"
+              tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>
         <span *ngIf="timestamp.messagingStatus != null" class="pi pi-info-circle"
               style="{{ timestamp.messagingStatus == null ?
                           '' :

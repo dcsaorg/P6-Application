@@ -52,6 +52,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     public List<PortCallTimestampExtended> findTimestampsById(final int vesselId) {
         Result<Record> timestamps = dsl
                 .select(PORT_CALL_TIMESTAMP.asterisk(),
+                        MESSAGE.DIRECTION.as("MessageDirection"),
                         MESSAGE.STATUS.as("MessagingStatus"),
                         MESSAGE.DETAIL.as("MessagingDetails"))
                 .from(PORT_CALL_TIMESTAMP)
@@ -69,6 +70,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     public List<PortCallTimestampExtended> findTimestamps() {
         Result<Record> timestamps = dsl
                 .select(PORT_CALL_TIMESTAMP.asterisk(),
+                        MESSAGE.DIRECTION.as("MessageDirection"),
                         MESSAGE.STATUS.as("MessagingStatus"),
                         MESSAGE.DETAIL.as("MessagingDetails"))
                 .from(PORT_CALL_TIMESTAMP)

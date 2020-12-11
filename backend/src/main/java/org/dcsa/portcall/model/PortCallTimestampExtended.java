@@ -1,6 +1,7 @@
 package org.dcsa.portcall.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.dcsa.portcall.db.enums.MessageDirection;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 
@@ -11,6 +12,8 @@ public class PortCallTimestampExtended extends PortCallTimestamp {
     @JsonProperty
     private PortCallTimestampType response;
     @JsonProperty
+    private MessageDirection messageDirection;
+    @JsonProperty
     private String messagingStatus;
     @JsonProperty
     private String messagingDetails;
@@ -20,6 +23,14 @@ public class PortCallTimestampExtended extends PortCallTimestamp {
     }
     public void setResponse(PortCallTimestampType response) {
         this.response = response;
+    }
+
+    public MessageDirection getMessageDirection() {
+        return messageDirection;
+    }
+    public PortCallTimestampExtended setMessageDirection(MessageDirection messageDirection) {
+        this.messageDirection = messageDirection;
+        return this;
     }
 
     public String getMessagingStatus() {
