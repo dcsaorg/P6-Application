@@ -116,20 +116,25 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     for (let item in PortcallTimestampType) {
       this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
     }
+
+    this.portService.getPorts().subscribe(ports => {
+      this.ports = ports;
+      this.portOptions = [];
+      this.portOptions.push({label: 'Select port', value: null});
+      ports.forEach(port => {
+        this.portOptions.push({label: port.unLocode, value: port});
+      });
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const $ports: Observable<Port[]> = this.portService.getPorts().pipe(take(1));
     const $terminals: Observable<Terminal[]> = this.terminalService.getTerminals().pipe(take(1));
     const $vessels: Observable<Vessel[]> = this.vesselService.getVessels().pipe(take(1));
 
-    forkJoin({$ports, $terminals, $vessels}).subscribe(results => {
-      this.ports = results.$ports;
+    forkJoin({$terminals, $vessels}).subscribe(results => {
       this.vessels = results.$vessels;
       this.terminals = results.$terminals
 
-      this.portOptions.push({label: 'Select port', value: null});
-      this.ports.forEach(port => this.portOptions.push({label: port.unLocode, value: port}));
       this.vesselOptions = [];
       this.vesselOptions.push({label: 'Select Vessel', value: null});
       this.vessels.forEach(vessel => {
