@@ -2,20 +2,20 @@
   <ng-template pTemplate="body" let-timestamp>
     <tr>
       <td style="width: 8%; padding-left: 0" class="timestampContent">
-        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.vessel" [options]="vesselOptions"></p-dropdown>
+        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.vessel" [options]="vesselOptions" ></p-dropdown>
       </td>
       <td style="width: 7%; padding-left: 0">
         <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
       </td>
       <td style="width: 4%"></td>
       <td style="width: 11%">
-        <p-calendar  [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
+        <p-calendar  appendTo="body" [(ngModel)]="timestamp.logOfTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     showTime="true"
                     showWeek="true" yearNavigator="true" yearRange="2010:2030" [locale]="en"></p-calendar>
       </td>
       <td style="width: 11%">
-        <p-calendar [(ngModel)]="timestamp.eventTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
+        <p-calendar appendTo="body" [(ngModel)]="timestamp.eventTimestamp" hourFormat="24" monthNavigator="true" showButtonBar="true"
                     showIcon="true"
                     [locale]="en" showTime="true" showWeek="true" yearNavigator="true"
                     yearRange="2010:2030"></p-calendar>
