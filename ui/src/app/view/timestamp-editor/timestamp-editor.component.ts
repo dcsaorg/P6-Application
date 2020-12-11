@@ -155,11 +155,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       });
       this.timeStampAddedNotifier.emit(portcallTimestampAdded);
       this.updatePortCallTimeStampToBeEdited();
-    }, error => this.messageService.add({
+    }, response => this.messageService.add({
       key: 'TimestampAddError',
       severity: 'error',
       summary: 'Error while adding port call timestamp',
-      detail: error.message
+      detail: response.error.message
     }));
   }
 
