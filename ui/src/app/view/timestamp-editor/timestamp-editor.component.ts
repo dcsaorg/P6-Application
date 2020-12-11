@@ -101,17 +101,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       {label: 'W', value: 'W'}
     ]
 
-    // Workaround to change Calendr button "today" to "now"
-    this.en = {
-      firstDayOfWeek: 0,
-      dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-      dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      today: 'Now',
-      clear: 'Clear'
-    };
-
     this.timestampTypes = [{label: 'Select timestamp', value: null}];
     for (let item in PortcallTimestampType) {
       this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
