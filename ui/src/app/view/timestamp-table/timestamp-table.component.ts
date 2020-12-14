@@ -64,7 +64,12 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.refreshTableData();
+    this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
+    this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
+    this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
+    this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
+
+    this.$timestamps = this.paginatorService.observePaginatedTimestamps();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -159,14 +164,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
 
-  refreshTableData() {
+  refreshTable() {
     console.debug("Refresh table data");
-    this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
-    this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
-    this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
-    this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
-
-    this.$timestamps = this.paginatorService.observePaginatedTimestamps();
+    this.paginatorService.refreshNotifier().next();
   }
-
 }

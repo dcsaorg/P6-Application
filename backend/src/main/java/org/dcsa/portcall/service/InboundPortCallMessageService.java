@@ -51,6 +51,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
     }
 
     private InboundMessageStatusUpdate readAndProcessMessage(InboundMessage xpMessage, Message message) {
+        log.info("Receiving message {} from {}", xpMessage.getInboundMetaData().getMessageId().getStringValue(), xpMessage.getInboundMetaData().getSenderId().getStringValue());
         try {
             DCSAMessage<PortCallMessage> dcsaMessage = getJsonMapper().readValue(message.getPayload(), new TypeReference<>() {});
             if (dcsaMessage != null && dcsaMessage.getPayload() != null) {
