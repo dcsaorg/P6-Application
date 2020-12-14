@@ -53,12 +53,10 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private portService: PortService,
               private terminalService: TerminalService,
               private vesselService: VesselService,
-
               private confirmationService: ConfirmationService,
               private dialogService: DialogService,
               private messageService: MessageService,
               private paginatorService: PaginatorService,
-
               private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe,
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
               private portIdToPortPipe: PortIdToPortPipe,
@@ -79,7 +77,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
 
-  acceptTimestamp(timestamp: PortcallTimestamp){
+  acceptTimestamp(timestamp: PortcallTimestamp) {
 
     this.portcallTimestampService.acceptTimestamp(timestamp).subscribe((newPortCallTimestamp: PortcallTimestamp) => {
       const port = this.portIdToPortPipe.transform(timestamp.portOfCall as number, this.ports);
@@ -91,7 +89,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         summary: 'Successfully accepted the ' + typeOrigin + " with an " + typeNew + " for port " + port.unLocode,
         detail: ''
       });
-    this.timeStampAcceptNotifier.emit(timestamp);
+      this.timeStampAcceptNotifier.emit(timestamp);
     }, error => this.messageService.add({
       key: 'TimestampToast',
       severity: 'error',
@@ -99,7 +97,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       detail: error.message
     }));
   }
-
 
 
   deleteTimestamp(timestamp: any) {
@@ -138,7 +135,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: 'Add change comment to port call event',
       width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: timestamp.modifiable}
-    }).onClose.subscribe((portcallTimestamp : PortcallTimestamp) => {
+    }).onClose.subscribe((portcallTimestamp: PortcallTimestamp) => {
       if (portcallTimestamp != null) {
         this.portcallTimestampService.updatePortcallTimestampDelayCodeAndComment(portcallTimestamp).subscribe(() => {
           console.log("Updated port call timestamp " + timestamp.id);
