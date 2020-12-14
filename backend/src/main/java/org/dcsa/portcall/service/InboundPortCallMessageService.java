@@ -58,7 +58,7 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
 
                     Optional<PortCallTimestamp> timestamp = process(dcsaMessage);
                     if (timestamp.isPresent()) {
-                        timestampService.addTimestamp(timestamp.get(), false);
+                        timestampService.addTimestamp(timestamp.get());
                         messageService.updatePortCallTimestampId(message.getId(), timestamp.get().getId());
                         return InboundMessageStatusUpdate.newBuilder()
                                 .setInboundMessage(xpMessage)

@@ -12,15 +12,21 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.model.PortCallTimestampExtended;
 import org.dcsa.portcall.service.OutboundPortCallMessageService;
 import org.dcsa.portcall.service.persistence.PortCallTimestampService;
+import org.dcsa.portcall.service.persistence.PortService;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+
+import static org.dcsa.portcall.util.TimeZoneConverter.convertToTimezone;
 
 /**
  * <p>&copy; 2020 <a href="http://www.ponton.de" target="_blank">PONTON GmbH</a></p>
@@ -30,11 +36,14 @@ import java.util.List;
 public class PortCallTimestampController {
     private static final Logger log = LogManager.getLogger(PortCallTimestampController.class);
 
+    private final PortService portService;
     private final PortCallTimestampService portCallTimestampService;
     private final OutboundPortCallMessageService outboundPortCallMessageService;
 
-    public PortCallTimestampController(PortCallTimestampService portCallTimestampService,
+    public PortCallTimestampController(PortService portService,
+                                       PortCallTimestampService portCallTimestampService,
                                        OutboundPortCallMessageService outboundPortCallMessageService) {
+        this.portService = portService;
         this.portCallTimestampService = portCallTimestampService;
         this.outboundPortCallMessageService = outboundPortCallMessageService;
     }
@@ -44,7 +53,7 @@ public class PortCallTimestampController {
     @Transactional(readOnly = true)
     public List<PortCallTimestampExtended> listPortCallTimestamps() {
         log.info("Listing all port call timestamps");
-        List<PortCallTimestampExtended> resp =  portCallTimestampService.findTimestamps();
+        List<PortCallTimestampExtended> resp = portCallTimestampService.findTimestamps();
         return resp;
     }
 
@@ -66,7 +75,21 @@ public class PortCallTimestampController {
         log.info("Add PortCall Timestamp requested for vessel id [{}]", vesselId);
         portCallTimestamp.setVessel(vesselId);
         portCallTimestamp.setModifiable(true);
-        portCallTimestampService.addTimestamp(portCallTimestamp, true);
+
+        Port portOfCall = portService.findPortById(portCallTimestamp.getPortOfCall()).get();
+        portCallTimestamp.setEventTimestamp(convertToTimezone(portCallTimestamp.getEventTimestamp(), portOfCall));
+        portCallTimestamp.setLogOfTimestamp(convertToTimezone(portCallTimestamp.getLogOfTimestamp(), portOfCall));
+
+        // check if Timestamps are prior current time
+        OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+        if (portCallTimestamp.getLogOfTimestamp().isAfter(now)) {
+            String msg = String.format("Log timestamp [%s] is in the future", portCallTimestamp.getLogOfTimestamp());
+            log.error(msg);
+            PortCallException portCallException = new PortCallException(HttpStatus.CONFLICT, msg);
+            throw portCallException;
+        }
+
+        portCallTimestampService.addTimestamp(portCallTimestamp);
 
         // Generate PortCall Message
         outboundPortCallMessageService.process(portCallTimestamp);
@@ -105,8 +128,8 @@ public class PortCallTimestampController {
 
     @PostMapping("/accept")
     @Transactional
-    public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampExtended timestamp){
-       PortCallTimestamp acceptTimestamp =  this.portCallTimestampService.acceptTimestamp(timestamp);
+    public PortCallTimestamp acceptPortCallTimestamp(@RequestBody final PortCallTimestampExtended timestamp) {
+        PortCallTimestamp acceptTimestamp = this.portCallTimestampService.acceptTimestamp(timestamp);
         // Generate PortCall Message
         outboundPortCallMessageService.process(acceptTimestamp);
         return acceptTimestamp;

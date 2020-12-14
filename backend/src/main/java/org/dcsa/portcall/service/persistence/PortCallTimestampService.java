@@ -5,13 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.PortCallException;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
-import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
 import org.dcsa.portcall.message.EventClassifierCode;
 import org.dcsa.portcall.model.PortCallTimestampExtended;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
-import org.dcsa.portcall.util.TimeZoneConverter;
 import org.dcsa.portcall.util.TimestampResponseOptionMapping;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -95,31 +93,11 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     }
 
     @Transactional
-    public void addTimestamp(PortCallTimestamp portCallTimestamp, Boolean transformTimezone) {
+    public void addTimestamp(PortCallTimestamp portCallTimestamp) {
         // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp
         OffsetDateTime eventTimeStampAtPoc = portCallTimestamp.getEventTimestamp();
         OffsetDateTime logOfTimeStampAtPoc = portCallTimestamp.getLogOfTimestamp();
 
-        if (transformTimezone) {
-            Port portOfCall = portService.findPortById(portCallTimestamp.getPortOfCall()).get();
-
-            eventTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
-                    portCallTimestamp.getEventTimestamp(), portOfCall);
-
-            // Calculate received UTC Timestamp to Time Zone of PotOfCall for Log of TimeStamp
-            logOfTimeStampAtPoc = TimeZoneConverter.convertToTimezone(
-                    portCallTimestamp.getLogOfTimestamp(), portOfCall);
-
-            // check if Timestamps are prior current time
-            OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-            if (logOfTimeStampAtPoc.isAfter(now)) {
-                String msg = String.format("Log timestamp [%s] is in the future", logOfTimeStampAtPoc);
-                log.error(msg);
-                PortCallException portCallException = new PortCallException(HttpStatus.CONFLICT, msg);
-                throw portCallException;
-            }
-
-        }
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
         List<PortCallTimestampExtended> timestampsOfVessel = findTimestampsByVesselId(portCallTimestamp.getVessel());
         int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
@@ -199,7 +177,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
         if (timestamp.getTimestampType().equals(
                 TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), originTimestamp))) {
-            this.addTimestamp(timestamp, false);
+            this.addTimestamp(timestamp);
 
         } else {
             String msg = String.format("As %s, you can not accept a %s with an %s", config.getSenderRole(), originTimestamp.getTimestampType(), timestamp.getTimestampType());
