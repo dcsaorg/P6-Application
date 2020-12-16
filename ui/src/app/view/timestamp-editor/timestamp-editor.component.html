@@ -11,9 +11,10 @@
       <td style="width: 15%;">
         <div class="p-inputgroup">
           <p-calendar appendTo="body" [(ngModel)]="logOfTimestampDate" hourFormat="24" monthNavigator="true" showButtonBar="false"
-                        showIcon="true" showWeek="true"
-                        yearNavigator="true" yearRange="2010:2030"
-                        styleClass="date-time-date-field" placeholder="Log date"></p-calendar>
+                      showIcon="true" showWeek="true"
+                      yearNavigator="true" yearRange="2010:2030"
+                      styleClass="date-time-date-field" placeholder="Log date"
+                      [panelStyleClass]="'datetime-panel'"></p-calendar>
           <p-inputMask [(ngModel)]="logOfTimestampTime" mask="99:99" placeholder="Time" styleClass="datetime-time-time-field"></p-inputMask>
           <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success" (click)="setLogOfTimestampToNow()"></button>
         </div>
@@ -21,9 +22,10 @@
       <td style="width: 15%;">
         <div class="p-inputgroup">
           <p-calendar appendTo="body" [(ngModel)]="eventTimestampDate" hourFormat="24" monthNavigator="true" showButtonBar="false"
-                        showIcon="true" showWeek="true"
-                        yearNavigator="true" yearRange="2010:2030"
-                        styleClass="date-time-date-field" placeholder="Event date"></p-calendar>
+                      showIcon="true" showWeek="true"
+                      yearNavigator="true" yearRange="2010:2030"
+                      styleClass="date-time-date-field" placeholder="Event date"
+                      [panelStyleClass]="'datetime-panel'"></p-calendar>
           <p-inputMask [(ngModel)]="eventTimestampTime" mask="99:99" placeholder="Time" styleClass="datetime-time-time-field"></p-inputMask>
           <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success" (click)="setEventTimestampToNow()"></button>
         </div>
