@@ -397,6 +397,54 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>bamboo_variables</id>
+            <activation>
+                <property>
+                    <name>env.bamboo_shortPlanName</name>
+                </property>
+            </activation>
+            <properties>
+                <bamboo.build.working.directory>${bamboo_build_working_directory}</bamboo.build.working.directory>
+                <bamboo.agentId>${bamboo_agentId}</bamboo.agentId>
+                <bamboo.buildNumber>${bamboo_buildNumber}</bamboo.buildNumber>
+                <bamboo.buildTimeStamp>${bamboo_buildTimeStamp}</bamboo.buildTimeStamp>
+                <bamboo.shortJobKey>${bamboo_shortJobKey}</bamboo.shortJobKey>
+                <bamboo.shortPlanKey>${bamboo_shortPlanKey}</bamboo.shortPlanKey>
+                <bamboo.shortPlanName>${bamboo_shortPlanName}</bamboo.shortPlanName>
+                <bamboo.planRepository.branchName>${bamboo_planRepository_branchName}</bamboo.planRepository.branchName>
+                <bamboo.planRepository.name>${bamboo_planRepository_name}</bamboo.planRepository.name>
+                <bamboo.planRepository.revision>${bamboo_planRepository_revision}</bamboo.planRepository.revision>
+                <bamboo.planRepository.branch>${bamboo_planRepository_branch}</bamboo.planRepository.branch>
+                <bamboo.buildResultKey>${bamboo_buildResultKey}</bamboo.buildResultKey>
+                <revision>${bamboo_shortPlanKey}</revision>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>bamboo_default_variables</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <bamboo.build.working.directory>${project.build.directory}</bamboo.build.working.directory>
+                <bamboo.agentId>local</bamboo.agentId>
+                <bamboo.buildNumber>1</bamboo.buildNumber>
+                <bamboo.buildTimeStamp>${maven.build.timestamp}</bamboo.buildTimeStamp>
+                <bamboo.shortJobKey/>
+                <bamboo.shortPlanKey/>
+                <bamboo.shortPlanName/>
+                <bamboo.planRepository.branchName/>
+                <bamboo.planRepository.name>SMSS Repository</bamboo.planRepository.name>
+                <bamboo.planRepository.revision/>
+                <bamboo.planRepository.branch/>
+                <bamboo.buildResultKey/>
+                <revision>LOCAL</revision>
+            </properties>
+        </profile>
+    </profiles>
+
     <scm>
         <connection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</connection>
         <developerConnection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</developerConnection>
