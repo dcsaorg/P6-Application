@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {PortcallTimestamp} from "../model/portcall-timestamp";
 import {Port} from "../model/port";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,9 @@ export class AppComponent {
   portCallTimeStampDeleted: PortcallTimestamp;
   portCallTimeStampResponded: PortcallTimestamp;
 
-  constructor() {
+  constructor(translate: TranslateService) {
+    translate.setDefaultLang('en');
+    translate.use('en');
   }
 
   vesselChangedHandler = ($vesselId: number) => this.vesselId = $vesselId;

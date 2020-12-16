@@ -3,9 +3,10 @@ import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
 import {ConfigService} from "../../controller/services/config.service";
 import {DownloadService} from "../../controller/services/download.service";
-import {MessageService} from "primeng/api";
+import {MessageService, SelectItem} from "primeng/api";
 import {RoleType} from "../../model/roleType";
 import {CodeType} from "../../model/codeType";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-header',
@@ -21,10 +22,17 @@ export class HeaderComponent implements OnInit {
   companyId: string;
   displayDownloadRequest: boolean;
 
+  availableLanguages: SelectItem[] = [
+    {label: "English", value: "en"},
+    {label: "Deutsch", value: "de"}
+  ];
+  currentLanguage: SelectItem = this.availableLanguages[0];
+
   constructor(private dialogService: DialogService,
               private configService: ConfigService,
               private downloadService: DownloadService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private translate: TranslateService) {
     configService.getConfig().subscribe(config => {
       this.companyName = config.company;
       this.companyRole = config.senderRole;
@@ -66,4 +74,10 @@ export class HeaderComponent implements OnInit {
       detail: error.message
     });
   }
+
+  changeLanguage(selectedLanguage: SelectItem) {
+    console.log(selectedLanguage);
+    this.translate.use(selectedLanguage.value);
+  }
+
 }

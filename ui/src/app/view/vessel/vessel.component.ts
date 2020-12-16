@@ -4,6 +4,7 @@ import {Vessel} from "../../model/vessel";
 import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
 import {VesselService} from "../../controller/services/vessel.service";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-vessel',
@@ -20,16 +21,21 @@ export class VesselComponent implements OnInit {
   @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
 
   constructor(public dialogService: DialogService,
-              private vesselService: VesselService) {
+              private vesselService: VesselService,
+              private translate: TranslateService) {
   }
 
   ngOnInit(): void {
     this.updateVesselOptions();
+
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.updateVesselOptions();
+    });
   }
 
   createNewVessel() {
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
-      header: 'Create a new vessel',
+      header: this.translate.instant('general.vessel.add.header'),
       width: '50%'
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
@@ -48,7 +54,7 @@ export class VesselComponent implements OnInit {
       serviceNameCode: this.selectedVessel.serviceNameCode
     };
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
-      header: 'Edit vessel',
+      header: this.translate.instant('general.vessel.edit.header'),
       width: '50%',
       data: selectedVessel
     });
@@ -76,7 +82,7 @@ export class VesselComponent implements OnInit {
   private updateVesselOptions() {
     this.vesselService.getVessels().subscribe(vessels => {
       this.vessels = [];
-      this.vessels.push({label: 'Select Vessel', value: null});
+      this.vessels.push({label: this.translate.instant('general.vessel.select'), value: null});
       vessels.forEach(vessel => {
         this.vessels.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
       });

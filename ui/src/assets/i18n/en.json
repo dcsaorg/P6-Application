@@ -1,0 +1,73 @@
+{
+	"general": {
+		"cancel": {
+			"label": "Cancel"
+		},
+		"company": "Company",
+		"download": {
+			"label": "Download",
+			"timestamps": {
+				"header": "Download timestamps for",
+				"label": "Download timestamps",
+				"tooltip": "This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment."
+			}
+		},
+		"instructions": "Instructions",
+		"port": {
+			"call": "Port Call",
+			"ofCall": "Port of Call",
+			"select": "Select port"
+		},
+		"save": {
+			"label": "Save"
+		},
+		"table": {
+			"header": {
+				"refresh": "Refresh table data",
+				"search": {
+					"label": "Search in table",
+					"tooltip": "This enables table search containing for Timestamp, Classifier Code, Event Type Code, Port From, Port To and Next Port"
+				}
+			}
+		},
+		"vessel": {
+			"add": {
+				"header": "Create a new vessel",
+				"label": "Add a new vessel"
+			},
+			"edit": {
+				"header": "Edit vessel",
+				"label": "Edit a vessel"
+			},
+			"label": "Vessel",
+			"name": "Vessel name",
+			"number": "IMO number",
+			"select": "Select vessel",
+			"serviceName": "Service name",
+			"size": "Vessel size (TEU)",
+			"validation": {
+				"name": {
+					"empty": "The vessel name is required",
+					"length": {
+						"max": "The vessel name should be maximal 100 characters long",
+						"min": "The vessel name should be at least 1 character long"
+					}
+				},
+				"number": {
+					"empty": "The IMO is required",
+					"length": {
+						"max": "Maximum length is 7",
+						"min": "The IMO should be 7 digits"
+					}
+				},
+				"size": {
+					"empty": "TEU is required",
+					"max": {
+						"length": "Maximum length is 255",
+						"number": "The maximal number of TEU is 32767"
+					}
+				}
+			}
+		}
+	}
+}

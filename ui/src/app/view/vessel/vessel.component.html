@@ -1,7 +1,7 @@
 <div class="vessel">
   <p-card>
     <div class="vessel__content">
-      <span class="vessel__header" i18n="@@vessel">Vessel</span>
+      <span class="vessel__header">{{ 'general.vessel.label' | translate }}</span>
 
       <div class="vessel__content__first">
         <div class="vessel__select_modify">
@@ -12,28 +12,28 @@
 
           <div class="vessel__select_modify__buttons">
             <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__select_modify__buttons__addVesselBtn"
-                      icon="pi pi-plus" pTooltip="Add a new vessel" tooltipPosition="top" type="button"
+                      icon="pi pi-plus" pTooltip="{{ 'general.vessel.add' | translate }}" tooltipPosition="top" type="button"
                       tooltipStyleClass="ToolTipClass"></p-button>
             <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded"
-                      icon="pi pi-pencil" pTooltip="Edit a vessel" tooltipPosition="top" type="button"
+                      icon="pi pi-pencil" pTooltip="{{ 'general.vessel.edit' | translate }}" tooltipPosition="top" type="button"
                       tooltipStyleClass="ToolTipClass"></p-button>
           </div>
         </div>
 
         <div class="vessel__vesselDetails">
           <div class="vessel__vesselDetails__element">
-            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label" i18n="@@vessel__imo_number">&nbsp;</span>
-            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label" i18n="@@vessel__imo_number">IMO number: </span>
+            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label">&nbsp;</span>
+            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label">{{ 'general.vessel.number' | translate }}: </span>
             <span *ngIf="selectedVessel">{{ selectedVessel.imo }}</span>
           </div>
           <div class="vessel__vesselDetails__element">
-            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label" i18n="@@vessel__teu">&nbsp;</span>
-            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label" i18n="@@vessel__teu">Vessel size (TEU): </span>
+            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label">&nbsp;</span>
+            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label">{{ 'general.vessel.size' | translate }}: </span>
             <span *ngIf="selectedVessel">{{ selectedVessel.teu | number }}</span>
           </div>
           <div class="vessel__vesselDetails__element">
-            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label" i18n="@@vessel__service_name">&nbsp;</span>
-            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label" i18n="@@vessel__service_name">Service name: </span>
+            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label">&nbsp;</span>
+            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label">{{ 'general.vessel.serviceName' | translate }}: </span>
             <span *ngIf="selectedVessel">{{ selectedVessel.serviceNameCode }}</span>
           </div>
         </div>

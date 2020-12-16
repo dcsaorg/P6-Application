@@ -1,7 +1,7 @@
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './view/app.component';
@@ -39,6 +39,12 @@ import {DateToUtcPipe} from './controller/pipes/date-to-utc.pipe';
 import {TimestampToTimezonePipe} from './controller/pipes/timeStampToTimeZone.pipe';
 import {PortOfCallComponent} from './view/port-of-call/port-of-call.component';
 import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -81,7 +87,14 @@ import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
         ToastModule,
         TooltipModule,
         DialogModule,
-
+        TranslateModule.forRoot({
+          defaultLanguage: 'en',
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        }),
     ],
   providers: [
     ConfirmationService,

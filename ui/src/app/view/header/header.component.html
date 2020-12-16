@@ -4,33 +4,36 @@
   </div>
   <div class="p-col-1"></div>
   <div class="p-col-3 header__menuEntryDiv" >
-    <button pButton (click)="showInstructions()" label="Instructions" i18n="@@menu_entry_instructions"
+    <p-button (click)="showInstructions()" label="{{ 'general.instructions' | translate }}"
             class="p-button-text p-button-secondary header__menuEntry" icon="pi pi-question" type="button">
-    </button>
-    <button pButton (click)="showDownloadRequest()" type="button" label="Download Timestamps" i18n="@@menu_entry_download_timestamps"
+    </p-button>
+    <p-button (click)="showDownloadRequest()" type="button" label="{{ 'general.download.timestamps.label' | translate }}"
             class="p-button-text p-button-secondary header__menuEntry" icon="pi pi-download">
-    </button>
+    </p-button>
   </div>
   <div class="p-col-1"></div>
   <div class="p-col-1 header__menuLabel">
-    <span i18n="@@menu_entry_port_call">Port Call</span>
+    <span>{{ 'general.port.call' | translate }}</span>
   </div>
   <div class="p-col-1"></div>
-  <div class="p-col-4 header__menuLabel header__company_container">
-    <span i18n="@@menu_entry_mandator" class="header__company">Company: {{ companyName }}</span>
+  <div class="p-col-3 header__menuLabel header__company_container">
+    <span class="header__company">{{ 'general.company' | translate }}: {{ companyName }}</span>
     <span class="header__info_small">{{companyCodeType}}: {{companyId}}</span>
+  </div>
+  <div class="p-col-1">
+    <p-dropdown styleClass="dropdown" (onChange)="changeLanguage($event)" [(ngModel)]="currentLanguage" [filter]="true"
+                [options]="availableLanguages" autofocus="true">
+    </p-dropdown>
   </div>
 </div>
 
 
-<p-dialog [modal]="true" header="Download Timestamps for {{companyName}}" [(visible)]="displayDownloadRequest"
+<p-dialog [modal]="true" header="{{ 'general.download.timestamps.header' | translate }} {{companyName}}" [(visible)]="displayDownloadRequest"
           [style]="{width: '50vw'}" [baseZIndex]="10000">
-  <p i18n="@@menu_entry_download_timestamp_info">
-    This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment.
-  </p>
+  <p>{{ 'general.download.timestamps.tooltip' | translate }}</p>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-download" (click)="downloadTimeStamps()" label="Download" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-times" (click)="displayDownloadRequest=false" label="Cancel" i18n="@@menu_entry_download_timestamp_cancel"></p-button>
+    <p-button icon="pi pi-download" (click)="downloadTimeStamps()" label="{{ 'general.download.label' | translate }}" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-times" (click)="displayDownloadRequest=false" label="{{ 'general.cancel.label' | translate }}"></p-button>
   </ng-template>
 </p-dialog>
 <p-toast key="DownloadRequestError" position="bottom-right"></p-toast>

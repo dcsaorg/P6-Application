@@ -1,0 +1,73 @@
+{
+	"general": {
+		"cancel": {
+			"label": "Abbrechen"
+		},
+		"company": "Firma",
+		"download": {
+			"label": "Herunterladen",
+			"timestamps": {
+				"header": "Zeitstempel herunteladen für",
+				"label": "Zeitstempel herunterladen",
+				"tooltip": "Läd eine CSV-Datei herunter, welche die eingefügten Zeitstempel für alle Schiffe die in diesem Login gemeldet wurden beinhaltet."
+			}
+		},
+		"instructions": "Anweisungen",
+		"port": {
+			"call": "Hafenaufruf",
+			"ofCall": "Aufruf des Hafens",
+			"select": "Hafen auswählen"
+		},
+		"save": {
+			"label": "Speichern"
+		},
+		"table": {
+			"header": {
+				"refresh": "Tabellendaten neu laden",
+				"search": {
+					"label": "In der Tabelle suchen",
+					"tooltip": "Dies schaltet die Suche in der tabelle über zeitstempel, Klassifizierungscode, Event Typ Code, vorheriger Hafen, nächster Hafen und der momentane Hafen"
+				}
+			}
+		},
+		"vessel": {
+			"add": {
+				"header": "Neues Schiff anlegen",
+				"label": "Ein neues Schiff hinzufügen"
+			},
+			"edit": {
+				"header": "Schiff bearbeiten",
+				"label": "Ein Schiff bearbeiten"
+			},
+			"label": "Schiff",
+			"name": "Schiffsname",
+			"number": "IMO Nummer",
+			"select": "Schiff auswählen",
+			"serviceName": "Servicename",
+			"size": "Schiffsgröße (TEU)",
+			"validation": {
+				"name": {
+					"empty": "Der Schiffsname ist notwendig",
+					"length": {
+						"max": "Der Schiffsname sollte maximal 100 Zeichen lang sein",
+						"min": "Der Schiffsname sollte mindestens 1 Zeichen lang sein"
+					}
+				},
+				"number": {
+					"empty": "Die IMO Nummer ist notwendig",
+					"length": {
+						"max": "Maximallänge ist 7 Zeichen",
+						"min": "Die IMO Nummer sollte 7 zeichen lang sein"
+					}
+				},
+				"size": {
+					"empty": "TEU ist notwendig",
+					"max": {
+						"length": "Maximallänge ist 255",
+						"number": "Die maximale Nummer für TEU ist 32767"
+					}
+				}
+			}
+		}
+	}
+}
