@@ -25,6 +25,7 @@ import {CardModule} from 'primeng/card';
 import {DropdownModule} from 'primeng/dropdown';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputNumberModule} from "primeng/inputnumber";
+import {InputMaskModule} from 'primeng/inputmask';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ConfirmationService, MessageService} from "primeng/api";
@@ -73,6 +74,7 @@ import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
         FormsModule,
         HttpClientModule,
         InputNumberModule,
+        InputMaskModule,
         InputTextModule,
         InputTextareaModule,
         PaginatorModule,

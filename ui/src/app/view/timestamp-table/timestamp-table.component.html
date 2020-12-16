@@ -33,21 +33,21 @@
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table__timestamp">Timestamp
         <p-sortIcon field="timestampType" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 4%" pSortableColumn="sequence"
+      <th style="width: 2%" pSortableColumn="sequence"
           pTooltip="How often the planning of a process was changed. This will change automatically."
           tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_sequence">Sequence
+          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_sequence">#
       </th>
       <th pSortableColumn="logOfTimestamp" pTooltip="When was the event communicated (local time for port)."
           tooltipPosition="top"
-          style="width: 11%"
+          style="width: 15%"
           tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_log_of_timestamp">Log of Timestamp
         <p-sortIcon field="logOfTimestamp"></p-sortIcon>
       </th>
       <th pSortableColumn="eventTimestamp"
           pTooltip="What is the estimated, requested, planned or actual timestamp of the event (local time for port)."
           tooltipPosition="top"
-          style="width: 11%"
+          style="width: 15%"
           tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_event_timestamp">Event Timestamp
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
@@ -116,13 +116,13 @@
           class="timestampContent">
         {{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}
       </td>
-      <td style="width: 4%" class="timestampContent">
+      <td style="width: 2%" class="timestampContent">
         {{ timestamp.callSequence + 1 }}
       </td>
-      <td style="width: 11%" class="dateTimeStamp timestampContent">
+      <td style="width: 15%" class="dateTimeStamp timestampContent">
         {{timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}
       </td>
-      <td class="dateTimeStamp timestampContent">
+      <td style="width: 15%" class="dateTimeStamp timestampContent">
         {{timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}
       </td>
       <td style="width: 11%">

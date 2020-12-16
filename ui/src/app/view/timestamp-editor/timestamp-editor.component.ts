@@ -41,6 +41,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
   $timestamps: BehaviorSubject<PortcallTimestamp[]>;
+  logOfTimestampDate: Date;
+  logOfTimestampTime: String;
+  eventTimestampDate: Date;
+  eventTimestampTime: String;
 
   delayCodes: DelayCode[] = [];
   ports: Port[] = [];
@@ -134,8 +138,21 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   savePortcallTimestamp(portcallTimestamp: PortcallTimestamp, vesselId: number) {
     const dateToUtc = new DateToUtcPipe();
-    portcallTimestamp.eventTimestamp = dateToUtc.transform(portcallTimestamp.eventTimestamp)
+
+    portcallTimestamp.logOfTimestamp = this.logOfTimestampDate;
+    let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
+    portcallTimestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
+    console.debug("LogOfTimestamp before conversion: " +  portcallTimestamp.logOfTimestamp);
+
+    portcallTimestamp.eventTimestamp = this.eventTimestampDate;
+    let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
+    portcallTimestamp.eventTimestamp.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
+    console.debug("EventTimestamp before conversion: " +  portcallTimestamp.eventTimestamp);
+
     portcallTimestamp.logOfTimestamp = dateToUtc.transform(portcallTimestamp.logOfTimestamp)
+    console.debug("LogOfTimestamp: " +  portcallTimestamp.logOfTimestamp);
+    portcallTimestamp.eventTimestamp = dateToUtc.transform(portcallTimestamp.eventTimestamp)
+    console.debug("EventTimestamp: " +  portcallTimestamp.eventTimestamp);
 
     const vesselIdToBeSend: number = (portcallTimestamp.vessel as Vessel).id
     this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselIdToBeSend).subscribe((portcallTimestampAdded: PortcallTimestamp) => {
@@ -166,8 +183,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   validatePortOfCallTimestamp(timestamp: PortcallTimestamp): boolean {
     return !(timestamp.timestampType &&
-      timestamp.logOfTimestamp &&
-      timestamp.eventTimestamp &&
+      this.logOfTimestampDate && this.logOfTimestampTime &&
+      this.eventTimestampDate && this.eventTimestampTime &&
       timestamp.direction &&
       timestamp.portNext &&
       timestamp.portPrevious &&
@@ -207,5 +224,20 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       header: 'Add change comment to port call event',
       width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: false}
     });
+  }
+
+  setLogOfTimestampToNow() {
+    this.logOfTimestampDate = new Date();
+    this.logOfTimestampTime = this.leftPadWithZero(this.logOfTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.logOfTimestampDate.getMinutes());
+  }
+
+
+  setEventTimestampToNow() {
+    this.eventTimestampDate = new Date();
+    this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
+  }
+
+  leftPadWithZero(item: number) : String {
+    return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
 }
