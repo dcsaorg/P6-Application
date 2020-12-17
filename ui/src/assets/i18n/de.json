@@ -27,7 +27,7 @@
 			"explanation": {
 				"berth": {
 					"ata": "Die echte Ankunftszeit am Liegeplatz (Actual Time of Arrival).",
-					"atd": "Echte zeit des Ablegens vom Liegeplatz (Actual Time of Departure).",
+					"atd": "Echte Zeit des Ablegens vom Liegeplatz (Actual Time of Departure).",
 					"eta": "Vorraussichtliche Ankunftszeit am Liegeplatz des Schiffs, kommuniziert durch die Reederei (Estimated Time of Arrival).",
 					"etd": "Die vorraussichtliche Zeit des Ablegens vom Liegeplatz, vom Agent oder Kapitän geschätzt (Estimated Time of Departure).",
 					"pta": "Geplante Ankunftszeit am Liegeplatz. Wenn ein Schiffsbetreiber (oder Agent) die angefragte Ankunftzeit am Liegeplatz dem Terminalbetreiber bestätigt (Planned Time of Arrival).",
