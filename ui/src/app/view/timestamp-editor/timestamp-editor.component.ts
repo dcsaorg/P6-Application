@@ -101,7 +101,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updateVesselOptions();
-      this.updateTerminalOptions(this.portOfCall.id);
+      this.updateTerminalOptions(this.portOfCall ? this.portOfCall.id : -1);
       this.updateTimestampTypeOptions();
       this.updateDirectionOptions();
       this.updatePortOptions();
