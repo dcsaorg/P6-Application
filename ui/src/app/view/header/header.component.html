@@ -4,7 +4,7 @@
   </div>
   <div class="p-col-1"></div>
   <div class="p-col-3 header__menuEntryDiv" >
-    <p-button (click)="showInstructions()" label="{{ 'general.instructions' | translate }}"
+    <p-button (click)="showInstructions()" label="{{ 'general.instructions.label' | translate }}"
             class="p-button-text p-button-secondary header__menuEntry" icon="pi pi-question" type="button">
     </p-button>
     <p-button (click)="showDownloadRequest()" type="button" label="{{ 'general.download.timestamps.label' | translate }}"
@@ -12,11 +12,11 @@
     </p-button>
   </div>
   <div class="p-col-1"></div>
-  <div class="p-col-1 header__menuLabel">
+  <div class="p-col-2 header__menuLabel">
     <span>{{ 'general.port.call' | translate }}</span>
   </div>
   <div class="p-col-1"></div>
-  <div class="p-col-3 header__menuLabel header__company_container">
+  <div class="p-col-2 header__menuLabel header__company_container">
     <span class="header__company">{{ 'general.company' | translate }}: {{ companyName }}</span>
     <span class="header__info_small">{{companyCodeType}}: {{companyId}}</span>
   </div>

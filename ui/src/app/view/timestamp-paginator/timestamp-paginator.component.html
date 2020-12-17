@@ -4,5 +4,7 @@
              [showCurrentPageReport]="true"
              [totalRecords]="timestamps.length"
              [first]="first"
-             currentPageReportTemplate="Page {currentPage} to {totalPages} ({totalRecords} entries)">
+             currentPageReportTemplate="{{ 'general.table.pagination' | translate:{currentPage: (first / selectedRowSize + 1),
+                                                                                        totalPages: (timestamps.length / selectedRowSize),
+                                                                                        totalRecords: timestamps.length} }}">
 </p-paginator>

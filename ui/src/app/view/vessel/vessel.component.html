@@ -12,10 +12,10 @@
 
           <div class="vessel__select_modify__buttons">
             <p-button (onClick)="createNewVessel()" class="p-button-raised p-button-rounded vessel__select_modify__buttons__addVesselBtn"
-                      icon="pi pi-plus" pTooltip="{{ 'general.vessel.add' | translate }}" tooltipPosition="top" type="button"
+                      icon="pi pi-plus" pTooltip="{{ 'general.vessel.add.label' | translate }}" tooltipPosition="top" type="button"
                       tooltipStyleClass="ToolTipClass"></p-button>
             <p-button (onClick)="editVessel()" [disabled]="!selectedVessel" class="p-button-raised p-button-rounded"
-                      icon="pi pi-pencil" pTooltip="{{ 'general.vessel.edit' | translate }}" tooltipPosition="top" type="button"
+                      icon="pi pi-pencil" pTooltip="{{ 'general.vessel.edit.label' | translate }}" tooltipPosition="top" type="button"
                       tooltipStyleClass="ToolTipClass"></p-button>
           </div>
         </div>

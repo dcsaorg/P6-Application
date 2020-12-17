@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   showInstructions() {
     console.log("Instructions!")
     this.dialogService.open(InstructionsComponent, {
-      header: 'Instructions',
+      header: this.translate.instant('general.instructions.label'),
       width: '65%'
     })
   }

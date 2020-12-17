@@ -1,110 +1,88 @@
 <div class="p-fluid">
 
-  <p-card header="Instructions" [style]="{width: '100%'}" styleClass="p-card-shadow">
+  <p-card header="{{ 'general.instructions.label' | translate }}" [style]="{width: '100%'}" styleClass="p-card-shadow">
     <ng-template pTemplate="header">
       <img style="object-fit: cover; object-position: 0 80%; height: 220px" alt="Card"
            src="assets/JIT-Port-Call-Image.jpg">
     </ng-template>
-    <p i18n="@@instructions_paragraph_1">
-      Below are the explanations of the timestamps. Please fill these timestamps as detailed as possible and add every
-      change that is communicated (e.g. by phone or e-mail) by the Terminal Operator, Port, or you as Carrier. This will
-      give us a detailed view of how often the estimated times of arrival, cargo operations and departure change. Note
-      that for cargo operations, not every change is absolutely necessary, just a good overview of the ETC 12 hours, 6
-      hours and 3 hours before the end. Services other than cargo operations do not need to be reported.
+    <p>
+      {{ 'general.instructions.explanation.paragraph.1' | translate }}
     </p>
-    <p i18n="@@instructions_paragraph_2">
-      We aim to receive full cycles of information for vessels over 2000TEU. Please consult with your internal contact
-      if you have questions about the scope or number of vessels you report. If you have any questions or see any bugs
-      or issues, please contact us via <a href="mailto:guido.debeer@dcsa.org">guido.debeer@dcsa.org</a>
+    <p>
+      {{ 'general.instructions.explanation.paragraph.2' | translate }} <a href="mailto:guido.debeer@dcsa.org">guido.debeer@dcsa.org</a>
 
     </p>
-    <p i18n="@@instructions_paragraph_3">
-      Thank you very much for your time and effort!
+    <p>
+      {{ 'general.instructions.explanation.paragraph.3' | translate }}
     </p>
     <br/>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ETA BERTH</b></div>
-      <div i18n="@@instructions_ETA_BERTH" class="p-col">Estimated time of arrival at berth of vessel, communicated by carrier</div>
+      <div i18n="@@instructions_ETA_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.eta' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>RTA BERTH</b></div>
-      <div i18n="@@instructions_RTA_BERTH" class="p-col">Time of arrival at berth as requested by the terminal operator</div>
+      <div i18n="@@instructions_RTA_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.rta' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>PTA BERTH</b></div>
-      <div i18n="@@instructions_PTA_BERTH" class="p-col">Planned time of arrival at berth. When a vessel operator (or agent) confirmed the requested
-        time of arrival berth to the terminal operator.
-      </div>
+      <div i18n="@@instructions_PTA_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.pta' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ETA PBP</b></div>
-      <div i18n="@@instructions_ETA_PBP" class="p-col">Estimated time of arrival at pilot boarding place or zone. This is communicated by the vessel /
-        agent to the port authority.
-      </div>
+      <div i18n="@@instructions_ETA_PBP" class="p-col">{{ 'general.instructions.explanation.pbp.eta' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>RTA PBP</b></div>
-      <div i18n="@@instructions_RTA_PBP" class="p-col">Time of arrival at pilot boarding place as requested by the port authority or pilot
-      </div>
+      <div i18n="@@instructions_RTA_PBP" class="p-col">{{ 'general.instructions.explanation.pbp.rta' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>PTA PBP</b></div>
-      <div i18n="@@instructions_PTA_PBP" class="p-col">Planned time of arrival at pilot boarding place. When a vessel operator (or his agent)
-        confirmed the requested time of arrival PBP to the pilot/port authority.
-      </div>
+      <div i18n="@@instructions_PTA_PBP" class="p-col">{{ 'general.instructions.explanation.pbp.pta' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATA PBP</b></div>
-      <div i18n="@@instructions_ATA_PBP" class="p-col">The actual time of arrival of the vessel at Pilot Boarding Place
-      </div>
+      <div i18n="@@instructions_ATA_PBP" class="p-col">{{ 'general.instructions.explanation.pbp.ata' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATA BERTH</b></div>
-      <div i18n="@@instructions_ATA_BERTH" class="p-col">The actual time of arrival of the vessel at Berth
-      </div>
+      <div i18n="@@instructions_ATA_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.ata' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATS CARGO OPS</b></div>
-      <div i18n="@@instructions_ATS_CARGO_OPS" class="p-col">The actual time at which the cargo operations has started (first commercial lift)
-      </div>
+      <div i18n="@@instructions_ATS_CARGO_OPS" class="p-col">{{ 'general.instructions.explanation.cargoOps.ats' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ETC CARGO OPS</b></div>
-      <div i18n="@@instructions_ETC_CARGO_OPS" class="p-col">Estimated time of completion cargo operations. The estimate is usually based on the estimated
-        productivity to perform the total number of moves
-      </div>
+      <div i18n="@@instructions_ETC_CARGO_OPS" class="p-col">{{ 'general.instructions.explanation.cargoOps.etc' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>RTC CARGO OPS</b></div>
-      <div i18n="@@instructions_RTC_CARGO_OPS" class="p-col">The requested time at which the vessel operator or agent would like the cargo operations to
-        finish (last commercial lift) e.g. The vessel operator might request an earlier departure in case of cut & run
-      </div>
+      <div i18n="@@instructions_RTC_CARGO_OPS" class="p-col">{{ 'general.instructions.explanation.cargoOps.rtc' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>PTC CARGO OPS</b></div>
-      <div i18n="@@instructions_PTC_CARGO_OPS" class="p-col">The agreed upon planned time of completion of cargo operations</div>
+      <div i18n="@@instructions_PTC_CARGO_OPS" class="p-col">{{ 'general.instructions.explanation.cargoOps.ptc' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATC CARGO OPS</b></div>
-      <div i18n="@@instructions_ATC_CARGO_OPS" class="p-col">The actual time of completion of cargo operations (last commercial lift)</div>
+      <div i18n="@@instructions_ATC_CARGO_OPS" class="p-col">{{ 'general.instructions.explanation.cargoOps.atc' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ETD BERTH</b></div>
-      <div i18n="@@instructions_ETD_BERTH" class="p-col">The estimated time of departure from the berth, as estimated by the agent or captain</div>
+      <div i18n="@@instructions_ETD_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.etd' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>RTD BERTH</b></div>
-      <div i18n="@@instructions_RTD_BERTH" class="p-col">The requested time of departure from berth, as requested by the port authority</div>
+      <div i18n="@@instructions_RTD_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.rtd' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>PTD BERTH</b></div>
-      <div i18n="@@instructions_PTD_BERTH" class="p-col">Planned time of departure of the vessel from berth. This is the confirmation from the vessel of
-        the requested time of departure done by the vessel operator/agent or captain
-      </div>
+      <div i18n="@@instructions_PTD_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.ptd' | translate }}</div>
     </div>
     <div class="p-grid">
       <div class="p-col-fixed" style="width:140px"><b>ATD BERTH</b></div>
-      <div i18n="@@instructions_ATD_BERTH" class="p-col">Actual time of departure from berth</div>
+      <div i18n="@@instructions_ATD_BERTH" class="p-col">{{ 'general.instructions.explanation.berth.atd' | translate }}</div>
     </div>
 
 
