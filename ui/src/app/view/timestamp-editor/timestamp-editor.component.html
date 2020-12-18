@@ -87,6 +87,9 @@
               <div class="terminalListDetails">{{terminal.value.terminalName}}</div>
               <div class="terminalListDetails">{{terminal.value.terminalOperator}}</div>
             </div>
+            <div *ngIf="!terminal.value">
+              <div>{{terminal.label}}</div>
+            </div>
           </ng-template>
         </p-dropdown>
       </td>
