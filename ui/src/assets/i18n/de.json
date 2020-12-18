@@ -66,7 +66,7 @@
 		"save": {
 			"editor": {
 				"failure": "Fehler beim Hinzufügen des Hafen-Anfrage-Zeitstempels",
-				"success": "Neuer Hafen-Anfrage-Zeitstempel wurde erfolgreich zum Schiff hinzugefügt."
+				"success": "Neuer Hafen-Anfrage-Zeitstempel wurde erfolgreich zum Schiff hinzugefügt"
 			},
 			"label": "Speichern"
 		},
