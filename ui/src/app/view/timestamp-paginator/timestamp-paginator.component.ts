@@ -28,7 +28,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.selectedRowSize = 25;
+    this.selectedRowSize = this.rowSizes[1];
     this.paginatorService.refreshNotifier().subscribe(() => {
       this.refreshTimestamps();
     });

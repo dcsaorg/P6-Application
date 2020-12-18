@@ -8,84 +8,77 @@
       <div class="p-col tableHeader">
         <div class="tableHeader__buttons">
           <p-button (onClick)="refreshTable()" class="p-button-raised p-button-rounded"
-                    icon="pi pi-refresh" pTooltip="Refresh table data." tooltipPosition="top" type="button"
+                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}" tooltipPosition="top" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
         </div>
         <div class="p-input-icon-left globalSearch">
           <i class="pi pi-search"></i>
           <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                 placeholder="Search in table" class="p-column-filter"
-                 pTooltip="This enables table search containing for Timestamp, Classifier Code, Event Type Code, Port From, Port To and Next Port">
+                 placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
+                 pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
         </div>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="vesselId" pTooltip="The vessel of a process event"
-          style="width: 8%"
-          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@vessel">Vessel
+      <th pSortableColumn="vesselId" pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}"
+          style="width: 8%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.vessel.label' | translate }}
         <p-sortIcon field="vessel"></p-sortIcon>
       </th>
-      <th pSortableColumn="timestampType"
-          pTooltip="An estimated, requested, planned or actual timestamp of a process event."
-          style="width: 7%"
-          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table__timestamp">Timestamp
+      <th pSortableColumn="timestampType" pTooltip="{{ 'general.table.header.timestamp.tooltip' | translate }}"
+          style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.timestamp.label' | translate }}
         <p-sortIcon field="timestampType" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 2%" pSortableColumn="sequence"
-          pTooltip="How often the planning of a process was changed. This will change automatically."
-          tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_sequence">#
+      <th style="width: 2%" pSortableColumn="sequence" pTooltip="{{ 'general.table.header.sequence.tooltip' | translate }}"
+          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.sequence.label' | translate }}
       </th>
-      <th pSortableColumn="logOfTimestamp" pTooltip="When was the event communicated (local time for port)."
-          tooltipPosition="top"
-          style="width: 15%"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_log_of_timestamp">Log of Timestamp
+      <th pSortableColumn="logOfTimestamp" pTooltip="{{ 'general.table.header.logOfTimestamp.tooltip' | translate }}"
+          tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.logOfTimestamp.label' | translate }}
         <p-sortIcon field="logOfTimestamp"></p-sortIcon>
       </th>
-      <th pSortableColumn="eventTimestamp"
-          pTooltip="What is the estimated, requested, planned or actual timestamp of the event (local time for port)."
-          tooltipPosition="top"
-          style="width: 15%"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_event_timestamp">Event Timestamp
+      <th pSortableColumn="eventTimestamp" pTooltip="{{ 'general.table.header.eventTimestamp.tooltip' | translate }}"
+          tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.eventTimestamp.label' | translate }}
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
-      <th style="width: 8%" pSortableColumn="portPrevious" pTooltip="What port does the vessel come from?"
-          tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_prev_port">Previous Port
+      <th style="width: 8%" pSortableColumn="portPrevious" pTooltip="{{ 'general.table.header.previousPort.tooltip' | translate }}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.previousPort.label' | translate }}
         <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
-      <th pSortableColumn="portOfCall"
-          pTooltip="What is the approaching port of call? For the agent: this is your own port"
-          style="width: 7%"
-          tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_port_of_call">Port of Call
+      <th pSortableColumn="portOfCall" pTooltip="{{ 'general.table.header.portOfCall.tooltip' | translate }}"
+          style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.portOfCall.label' | translate }}
         <p-sortIcon field="portOfCall"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="portNext" pTooltip="What is the next port in the rotation"
-          tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_next_port">Next Port
+      <th style="width: 7%" pSortableColumn="portNext" pTooltip="{{ 'general.table.header.nextPort.tooltip' | translate }}"
+          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.nextPort.label' | translate }}
         <p-sortIcon field="portNext"></p-sortIcon>
       </th>
-      <th style="width: 6%" pSortableColumn="direction"
-          pTooltip="What is the vessel direction, e.g. north or southbound" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_direction">Direction
+      <th style="width: 6%" pSortableColumn="direction" pTooltip="{{ 'general.table.header.direction.tooltip' | translate }}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.direction.label' | translate }}
         <p-sortIcon field="direction"></p-sortIcon>
       </th>
-      <th style="width: 7%" pSortableColumn="terminal" pTooltip="What is the name and/or SMDG code of the terminal?"
-          tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_terminal_id">Terminal Id
+      <th style="width: 7%" pSortableColumn="terminal" pTooltip="{{ 'general.table.header.terminalId.tooltip' | translate }}"
+          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.terminalId.label' | translate }}
         <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 8%" pSortableColumn="locationId"
-          pTooltip="If available: where will the vessel berth (bollard number or name)"
-          tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_berth_id">Berth Id
+      <th style="width: 8%" pSortableColumn="locationId" pTooltip="{{ 'general.table.header.berthId.tooltip' | translate }}"
+          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.berthId.label' | translate }}
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
-      <th style="width: 6%" pTooltip="Root cause and/or comment for (change of) port call event" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent" i18n="@@table_comment">Comment
+      <th style="width: 6%" pTooltip="{{ 'general.table.header.comment.tooltip' | translate }}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" class="timestampContent">
+        {{ 'general.table.header.comment.label' | translate }}
       </th>
       <th style="width: 3%"></th>
       <th style="width: 3%"></th>
@@ -161,7 +154,7 @@
               pTooltip="{{ timestamp.messageDirection == null ?
                   '' :
                   (timestamp.messageDirection == 'inbound' ?
-                        'Inbound' : 'Outbound'
+                        ( 'general.direction.inbound' | translate ) : ( 'general.direction.outbound' | translate )
                   )
               }}"
               tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>
@@ -179,11 +172,11 @@
       <td style="width: 6%">
         <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
                   icon="pi pi-trash"
-                  (click)="deleteTimestamp(timestamp)" pTooltip="Delete the timestamp" tooltipPosition="top"
+                  (click)="deleteTimestamp(timestamp)" pTooltip="{{ 'general.table.delete.tooltip' | translate }}" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass"></p-button>
 
         <p-button class="timestampContent" *ngIf="timestamp.response != null" icon="pi pi-check"
-                  pTooltip="Accept timestamp and send a response as {{timestamp.response}}" tooltipPosition="top"
+                  pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}" tooltipPosition="top"
                   tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
       </td>
     </tr>
