@@ -154,7 +154,7 @@
               pTooltip="{{ timestamp.messageDirection == null ?
                   '' :
                   (timestamp.messageDirection == 'inbound' ?
-                        'Inbound' : 'Outbound'
+                        ( 'general.direction.inbound' | translate ) : ( 'general.direction.outbound' | translate )
                   )
               }}"
               tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>

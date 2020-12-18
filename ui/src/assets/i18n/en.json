@@ -13,6 +13,8 @@
 		},
 		"company": "Company",
 		"direction": {
+			"inbound": "Inbound",
+			"outbound": "Outbound",
 			"select": "Select direction"
 		},
 		"download": {
