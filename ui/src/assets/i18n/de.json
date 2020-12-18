@@ -93,15 +93,15 @@
 					"tooltip": "Wann wurde das Ereignis kommuniziert (lokale Zeit des Hafens)"
 				},
 				"nextPort": {
-					"label": "Nächster Hafen",
+					"label": "Nachf. Hafen",
 					"tooltip": "Welcher ist der nächste Hafen?"
 				},
 				"portOfCall": {
-					"label": "Anfrage-Hafen",
+					"label": "Betr. Hafen",
 					"tooltip": "Welcher ist der Anlauf-Hafen? Für den Agenten: dies ist Ihr eigener Hafen"
 				},
 				"previousPort": {
-					"label": "Vorheriger Hafen",
+					"label": "Vorh. Hafen",
 					"tooltip": "Aus welchem Hafen kommt das Schiff?"
 				},
 				"refresh": "Tabellendaten neu laden",
