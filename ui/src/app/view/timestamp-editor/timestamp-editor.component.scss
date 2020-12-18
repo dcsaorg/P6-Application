@@ -20,20 +20,21 @@ p-dropdown::ng-deep {
 .ui-dropdown-label-container {
   width: 100%;
 }
+
 .ui-dropdown .ui-dropdown-clearable .ui-dropdown-label {
   text-overflow: ellipsis;
   padding-right: 2em !important;
 }
+
 ::ng-deep .p-dropdown .p-dropdown-label {
   text-overflow: ellipsis;
   padding-right: 1em !important;
 }
-.p-dropdown-label{
+
+.p-dropdown-label {
   font-size: $tableSize !important;
 }
 
-.timestampContent{
+.timestampContent {
 
 }
-
-
