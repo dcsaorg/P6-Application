@@ -70,10 +70,9 @@ public class PortCallTimestampController {
         return portCallTimestampService.getHighestTimestampId(vesselId);
     }
 
-    @PostMapping("/{vesselId}")
-    public PortCallTimestamp addPortCallTimestamp(@PathVariable final int vesselId, @RequestBody final PortCallTimestamp portCallTimestamp) {
-        log.info("Add PortCall Timestamp requested for vessel id [{}]", vesselId);
-        portCallTimestamp.setVessel(vesselId);
+    @PostMapping()
+    public PortCallTimestamp addPortCallTimestamp(@RequestBody final PortCallTimestamp portCallTimestamp) {
+        log.info("Add PortCall Timestamp requested for vessel id [{}]", portCallTimestamp.getVessel());
         portCallTimestamp.setModifiable(true);
 
         Port portOfCall = portService.findPortById(portCallTimestamp.getPortOfCall()).get();

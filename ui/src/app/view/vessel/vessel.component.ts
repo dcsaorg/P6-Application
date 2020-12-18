@@ -19,6 +19,7 @@ export class VesselComponent implements OnInit {
   selectedVessel: Vessel;
 
   @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
+  @Output() vesselSavedNotifier: EventEmitter<number> = new EventEmitter<number>()
 
   constructor(public dialogService: DialogService,
               private vesselService: VesselService,
@@ -41,6 +42,7 @@ export class VesselComponent implements OnInit {
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
         this.updateVesselOptions();
+        this.vesselSavedNotifier.emit(result.id);
       }
     })
   }

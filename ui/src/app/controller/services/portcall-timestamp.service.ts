@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {Port} from "../../model/port";
 import {Terminal} from "../../model/terminal";
 import {DelayCode} from "../../model/delayCode";
+import {Vessel} from "../../model/vessel";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class PortcallTimestampService {
 
   getHighesTimestampId = (vesselId: number): Observable<number> => this.httpClient.get<number>(this.TIMESTAMP_URL + "/highestTimestampId/" + vesselId);
 
-  addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp, vesselId: number): Observable<PortcallTimestamp> => this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL + "/" + vesselId, PortcallTimestampService.convertPortcallTimestamp(portcallTimestamp));
+  addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> => this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL, PortcallTimestampService.convertPortcallTimestamp(portcallTimestamp));
 
 
   updatePortcallTimestampDelayCodeAndComment = (portcallTimestamp: PortcallTimestamp): Observable<Object> => {
@@ -48,6 +49,7 @@ export class PortcallTimestampService {
     return {
       id: null,
       timestampType: portcallTimestamp.timestampType.replace('(-|\s)', '_'),
+      vessel: portcallTimestamp.vessel = (portcallTimestamp.vessel as Vessel).id,
       callSequence: portcallTimestamp.callSequence,
       portNext: (portcallTimestamp.portNext as Port).id,
       portPrevious: (portcallTimestamp.portPrevious as Port).id,

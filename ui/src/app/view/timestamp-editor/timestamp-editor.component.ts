@@ -37,6 +37,7 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
+  @Input('vesselSavedId') vesselSavedId: number;
   @Input('portOfCall') portOfCall: Port;
 
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
@@ -126,26 +127,25 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     })
   }
 
-  savePortcallTimestamp(portcallTimestamp: PortcallTimestamp, vesselId: number) {
+  savePortcallTimestamp(portcallTimestamp: PortcallTimestamp) {
     const dateToUtc = new DateToUtcPipe();
 
     portcallTimestamp.logOfTimestamp = this.logOfTimestampDate;
     let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
     portcallTimestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
-    console.debug("LogOfTimestamp before conversion: " +  portcallTimestamp.logOfTimestamp);
+    console.debug("LogOfTimestamp before conversion: " + portcallTimestamp.logOfTimestamp);
 
     portcallTimestamp.eventTimestamp = this.eventTimestampDate;
     let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
     portcallTimestamp.eventTimestamp.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
-    console.debug("EventTimestamp before conversion: " +  portcallTimestamp.eventTimestamp);
+    console.debug("EventTimestamp before conversion: " + portcallTimestamp.eventTimestamp);
 
     portcallTimestamp.logOfTimestamp = dateToUtc.transform(portcallTimestamp.logOfTimestamp)
-    console.debug("LogOfTimestamp: " +  portcallTimestamp.logOfTimestamp);
+    console.debug("LogOfTimestamp: " + portcallTimestamp.logOfTimestamp);
     portcallTimestamp.eventTimestamp = dateToUtc.transform(portcallTimestamp.eventTimestamp)
-    console.debug("EventTimestamp: " +  portcallTimestamp.eventTimestamp);
+    console.debug("EventTimestamp: " + portcallTimestamp.eventTimestamp);
 
-    const vesselIdToBeSend: number = (portcallTimestamp.vessel as Vessel).id
-    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp, vesselIdToBeSend).subscribe((portcallTimestampAdded: PortcallTimestamp) => {
+    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp).subscribe((portcallTimestampAdded: PortcallTimestamp) => {
       this.messageService.add({
         key: 'TimestampAddSuccess',
         severity: 'success',
@@ -229,7 +229,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
         newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
         newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
-        newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(newPortcallTimestamp.vessel as number, this.vessels);
+        if (this.vesselId) {
+          newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(this.vesselId, this.vessels);
+        } else {
+          newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(newPortcallTimestamp.vessel as number, this.vessels);
+        }
 
         //ToDo switch time zone to local time zone, quick fix to show last time at port of call
         newPortcallTimestamp.logOfTimestamp = null;
@@ -264,7 +268,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
   }
 
-  leftPadWithZero(item: number) : String {
+  leftPadWithZero(item: number): String {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
 }

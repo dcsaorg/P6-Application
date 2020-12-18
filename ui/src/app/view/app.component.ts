@@ -9,8 +9,9 @@ import {TranslateService} from "@ngx-translate/core";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  vesselId: number
-  portOfCall: Port
+  vesselId: number;
+  vesselSavedId: number;
+  portOfCall: Port;
   portCallTimeStampAdded: PortcallTimestamp;
   portCallTimeStampDeleted: PortcallTimestamp;
   portCallTimeStampResponded: PortcallTimestamp;
@@ -21,6 +22,7 @@ export class AppComponent {
   }
 
   vesselChangedHandler = ($vesselId: number) => this.vesselId = $vesselId;
+  vesselSavedHandler = ($vesselSavedId: number) => this.vesselSavedId = $vesselSavedId;
 
   timeStampAddedHandler = ($portCallTimeStampAdded: PortcallTimestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
 
