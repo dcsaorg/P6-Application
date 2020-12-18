@@ -110,8 +110,8 @@
 					"tooltip": "Dies schaltet die Suche in der tabelle über zeitstempel, Klassifizierungscode, Event Typ Code, vorheriger Hafen, nächster Hafen und der momentane Hafen"
 				},
 				"sequence": {
-					"label": "Sequenz",
-					"tooltip": "Wie oft die Planung eines Prozesses geändert wurde. Dies verändert sich automatisch."
+					"label": "#",
+					"tooltip": "Wie oft die Planung eines Prozesses geändert wurde. Dies verändert sich automatisch"
 				},
 				"terminalId": {
 					"label": "Terminal Id",

@@ -110,8 +110,8 @@
 					"tooltip": "This enables table search containing for Timestamp, Classifier Code, Event Type Code, Port From, Port To and Next Port"
 				},
 				"sequence": {
-					"label": "Sequence",
-					"tooltip": "How often the planning of a process was changed. This will change automatically."
+					"label": "#",
+					"tooltip": "How often the planning of a process was changed. This will change automatically"
 				},
 				"terminalId": {
 					"label": "Terminal Id",
