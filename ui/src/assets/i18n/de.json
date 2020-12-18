@@ -94,11 +94,11 @@
 				},
 				"nextPort": {
 					"label": "Nachf. Hafen",
-					"tooltip": "Welcher ist der nächste Hafen?"
+					"tooltip": "Welcher ist der nachfolgende Hafen?"
 				},
 				"portOfCall": {
 					"label": "Betr. Hafen",
-					"tooltip": "Welcher ist der Anlauf-Hafen? Für den Agenten: dies ist Ihr eigener Hafen"
+					"tooltip": "Welcher ist der betroffene Hafen? Für den Agenten: dies ist Ihr eigener Hafen"
 				},
 				"previousPort": {
 					"label": "Vorh. Hafen",
@@ -107,7 +107,7 @@
 				"refresh": "Tabellendaten neu laden",
 				"search": {
 					"label": "In der Tabelle suchen",
-					"tooltip": "Dies schaltet die Suche in der tabelle über zeitstempel, Klassifizierungscode, Event Typ Code, vorheriger Hafen, nächster Hafen und der momentane Hafen"
+					"tooltip": "Dies schaltet die Suche in der Tabelle über Zeitstempel, Klassifizierungscode, Event Typ Code, vorheriger Hafen, nachfolgender Hafen und der betroffene Hafen"
 				},
 				"sequence": {
 					"label": "#",
