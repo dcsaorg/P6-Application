@@ -20,6 +20,7 @@ import {take} from "rxjs/operators";
 import {VesselService} from "../../controller/services/vessel.service";
 import {Vessel} from "../../model/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -60,6 +61,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe,
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
               private portIdToPortPipe: PortIdToPortPipe,
+              private translate: TranslateService,
   ) {
   }
 
@@ -138,7 +140,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }
 
     this.dialogService.open(TimestampCommentDialogComponent, {
-      header: 'Add change comment to port call event',
+      header: this.translate.instant('general.comment.header'),
       width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: timestamp.modifiable}
     }).onClose.subscribe((portcallTimestamp: PortcallTimestamp) => {
       if (portcallTimestamp != null) {

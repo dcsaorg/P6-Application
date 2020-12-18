@@ -1,7 +1,7 @@
 <div class="portOfCall">
   <p-card class="card">
     <div class="portOfCall__content">
-      <span class="portOfCall__header" i18n="@@portOfCall">Port of Call</span>
+      <span class="portOfCall__header">{{ 'general.port.ofCall' | translate }}</span>
       <p-dropdown class="portOfCall__dropDown"
         (onChange)="selectPortOfCall()"
         [(ngModel)]="portOfCall"

@@ -20,6 +20,7 @@ import {take} from "rxjs/operators";
 import {VesselService} from "../../controller/services/vessel.service";
 import {Vessel} from "../../model/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -88,7 +89,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
               private portCallTimestampTypePipe: PortCallTimestampTypeToStringPipe,
               private terminalIdToTerminalPipe: TerminalIdToTerminalPipe,
               private vesselIdToVesselPipe: VesselIdToVesselPipe,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -96,26 +98,18 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
     this.$timestamps = new BehaviorSubject([this.defaultTimestamp]);
 
-    this.directions = [
-      {label: 'Select direction', value: null},
-      {label: 'N', value: 'N'},
-      {label: 'E', value: 'E'},
-      {label: 'S', value: 'S'},
-      {label: 'W', value: 'W'}
-    ]
+    this.updateDirectionOptions();
 
-    this.timestampTypes = [{label: 'Select timestamp', value: null}];
-    for (let item in PortcallTimestampType) {
-      this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
-    }
+    this.updateTimestampTypeOptions();
 
-    this.portService.getPorts().subscribe(ports => {
-      this.ports = ports;
-      this.portOptions = [];
-      this.portOptions.push({label: 'Select port', value: null});
-      ports.forEach(port => {
-        this.portOptions.push({label: port.unLocode, value: port});
-      });
+    this.updatePortOptions();
+
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.updateVesselOptions();
+      this.updateTerminalOptions(this.portOfCall ? this.portOfCall.id : -1);
+      this.updateTimestampTypeOptions();
+      this.updateDirectionOptions();
+      this.updatePortOptions();
     });
   }
 
@@ -126,19 +120,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     forkJoin({$terminals, $vessels}).subscribe(results => {
       this.vessels = results.$vessels;
       this.terminals = results.$terminals
-      this.refreshVessels();
+
+      this.updateVesselOptions();
 
       this.updatePortCallTimeStampToBeEdited()
     })
-  }
-
-  private refreshVessels() {
-    console.debug("Refreshing vessels");
-    this.vesselOptions = [];
-    this.vesselOptions.push({label: 'Select Vessel', value: null});
-    this.vessels.forEach(vessel => {
-      this.vesselOptions.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
-    });
   }
 
   savePortcallTimestamp(portcallTimestamp: PortcallTimestamp) {
@@ -163,7 +149,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.messageService.add({
         key: 'TimestampAddSuccess',
         severity: 'success',
-        summary: 'Successfully added new port call timestamp to vessel',
+        summary: this.translate.instant('general.save.editor.success'),
         detail: ''
       });
       this.timeStampAddedNotifier.emit(portcallTimestampAdded);
@@ -171,18 +157,55 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     }, response => this.messageService.add({
       key: 'TimestampAddError',
       severity: 'error',
-      summary: 'Error while adding port call timestamp',
+      summary: this.translate.instant('general.save.editor.failure'),
       detail: response.error.message
     }));
   }
 
   updateTerminalOptions(portOfCallId: number) {
-    this.terminalOptions = [{label: 'Select terminal', value: null}];
+    this.terminalOptions = [];
+    this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
     this.terminals.forEach(terminal => {
       if (terminal.port === portOfCallId) {
         this.terminalOptions.push({label: terminal.smdgCode, value: terminal});
       }
     })
+  }
+
+  updateVesselOptions() {
+    this.vesselOptions = [];
+    this.vesselOptions.push({label: this.translate.instant('general.vessel.select'), value: null});
+    this.vessels.forEach(vessel => {
+      this.vesselOptions.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
+    });
+  }
+
+  updateTimestampTypeOptions() {
+    this.timestampTypes = [];
+    this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
+    for (let item in PortcallTimestampType) {
+      this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
+    }
+  }
+
+  updateDirectionOptions() {
+    this.directions = [];
+    this.directions.push({label: this.translate.instant('general.direction.select'), value: null});
+    this.directions.push({label: 'N', value: 'N'});
+    this.directions.push({label: 'E', value: 'E'});
+    this.directions.push({label: 'S', value: 'S'});
+    this.directions.push({label: 'W', value: 'W'});
+  }
+
+  updatePortOptions() {
+    this.portService.getPorts().subscribe(ports => {
+      this.ports = ports;
+      this.portOptions = [];
+      this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
+      ports.forEach(port => {
+        this.portOptions.push({label: port.unLocode, value: port});
+      });
+    });
   }
 
   validatePortOfCallTimestamp(timestamp: PortcallTimestamp): boolean {
@@ -229,7 +252,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   addComment(timestamp: PortcallTimestamp) {
     this.dialogService.open(TimestampCommentDialogComponent, {
-      header: 'Add change comment to port call event',
+      header: this.translate.instant('general.comment.header'),
       width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: false}
     });
   }

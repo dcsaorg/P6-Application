@@ -3,6 +3,7 @@ import {PortcallTimestamp} from "../../model/portcall-timestamp";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {SelectItem} from "primeng/api";
 import {DelayCode} from "../../model/delayCode";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-timestamp-comment-dialog',
@@ -18,7 +19,9 @@ export class TimestampCommentDialogComponent implements OnInit {
   private previousDelayCode: DelayCode;
   private previousChangeComment: string;
 
-  constructor(public config: DynamicDialogConfig, public ref: DynamicDialogRef) {
+  constructor(public config: DynamicDialogConfig,
+              public ref: DynamicDialogRef,
+              private translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -27,9 +30,10 @@ export class TimestampCommentDialogComponent implements OnInit {
     this.previousChangeComment = this.timestamp.changeComment;
     this.editMode = this.config.data.editMode;
 
-    this.delayCodeOptions.push({label: 'Select delay code (optional)', value: null});
-    this.config.data.delayCode.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+    this.refreshDropDown();
+
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.refreshDropDown();
     });
   }
 
@@ -46,4 +50,13 @@ export class TimestampCommentDialogComponent implements OnInit {
   close() {
     this.ref.close(null);
   }
+
+  refreshDropDown() {
+    this.delayCodeOptions = [];
+    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
+    this.config.data.delayCode.forEach(delayCode => {
+      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+    });
+  }
+
 }
