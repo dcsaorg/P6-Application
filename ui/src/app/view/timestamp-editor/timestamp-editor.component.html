@@ -13,9 +13,10 @@
           <p-calendar appendTo="body" [(ngModel)]="logOfTimestampDate" hourFormat="24" monthNavigator="true" showButtonBar="false"
                       showIcon="true" showWeek="true"
                       yearNavigator="true" yearRange="2010:2030"
-                      styleClass="date-time-date-field" placeholder="Log date"
+                      styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.log' | translate }}"
                       [panelStyleClass]="'datetime-panel'"></p-calendar>
-          <p-inputMask [(ngModel)]="logOfTimestampTime" mask="99:99" placeholder="Time" styleClass="datetime-time-time-field"></p-inputMask>
+          <p-inputMask [(ngModel)]="logOfTimestampTime" mask="99:99" placeholder="{{ 'general.timestamp.time' | translate }}"
+                       styleClass="datetime-time-time-field"></p-inputMask>
           <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success" (click)="setLogOfTimestampToNow()"></button>
         </div>
       </td>
@@ -24,9 +25,10 @@
           <p-calendar appendTo="body" [(ngModel)]="eventTimestampDate" hourFormat="24" monthNavigator="true" showButtonBar="false"
                       showIcon="true" showWeek="true"
                       yearNavigator="true" yearRange="2010:2030"
-                      styleClass="date-time-date-field" placeholder="Event date"
+                      styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
                       [panelStyleClass]="'datetime-panel'"></p-calendar>
-          <p-inputMask [(ngModel)]="eventTimestampTime" mask="99:99" placeholder="Time" styleClass="datetime-time-time-field"></p-inputMask>
+          <p-inputMask [(ngModel)]="eventTimestampTime" mask="99:99" placeholder="{{ 'general.timestamp.time' | translate }}"
+                       styleClass="datetime-time-time-field"></p-inputMask>
           <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success" (click)="setEventTimestampToNow()"></button>
         </div>
       </td>

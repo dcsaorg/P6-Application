@@ -78,7 +78,7 @@
 				},
 				"comment": {
 					"label": "Kommentar",
-					"tooltip": "Begründung und/oder Kommentare für (die Änderung) die Hafen-Anfrage"
+					"tooltip": "Begründung und/oder Kommentare für (Änderungen) die Hafen-Anfrage"
 				},
 				"direction": {
 					"label": "Richtung",
@@ -132,7 +132,12 @@
 			"select": "Terminal auswählen"
 		},
 		"timestamp": {
-			"select": "Zeitstempel auswählen"
+			"date": {
+				"event": "Ereignisdatum",
+				"log": "Log-Datum"
+			},
+			"select": "Zeitstempel auswählen",
+			"time": "Zeit"
 		},
 		"vessel": {
 			"add": {

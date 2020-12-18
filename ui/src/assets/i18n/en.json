@@ -132,7 +132,12 @@
 			"select": "Select terminal"
 		},
 		"timestamp": {
-			"select": "Select timestamp"
+			"date": {
+				"event": "Event date",
+				"log": "Log date"
+			},
+			"select": "Select timestamp",
+			"time": "Time"
 		},
 		"vessel": {
 			"add": {
