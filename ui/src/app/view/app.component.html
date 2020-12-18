@@ -17,7 +17,7 @@
       <div class="stickyFooterDiv">
         <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
                               [portOfCall]="portOfCall"
-                              [vesselSavedId]="vesselSavedId">
+                              [vesselId]="vesselId" [vesselSavedId]="vesselSavedId">
         </app-timestamp-editor>
         <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
                                  [portCallTimeStampDeleted]="portCallTimeStampDeleted"

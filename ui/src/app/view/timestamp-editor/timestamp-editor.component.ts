@@ -35,6 +35,7 @@ import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pi
   ]
 })
 export class TimestampEditorComponent implements OnInit, OnChanges {
+  @Input('vesselId') vesselId: number;
   @Input('vesselSavedId') vesselSavedId: number;
   @Input('portOfCall') portOfCall: Port;
 
@@ -205,7 +206,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
         newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
         newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
-        newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(newPortcallTimestamp.vessel as number, this.vessels);
+        if (this.vesselId) {
+          newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(this.vesselId, this.vessels);
+        } else {
+          newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(newPortcallTimestamp.vessel as number, this.vessels);
+        }
 
         //ToDo switch time zone to local time zone, quick fix to show last time at port of call
         newPortcallTimestamp.logOfTimestamp = null;
