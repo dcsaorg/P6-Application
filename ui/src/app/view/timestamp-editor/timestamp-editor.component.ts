@@ -149,7 +149,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.messageService.add({
         key: 'TimestampAddSuccess',
         severity: 'success',
-        summary: 'Successfully added new port call timestamp to vessel',
+        summary: this.translate.instant('general.save.editor.success'),
         detail: ''
       });
       this.timeStampAddedNotifier.emit(portcallTimestampAdded);
@@ -157,7 +157,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     }, response => this.messageService.add({
       key: 'TimestampAddError',
       severity: 'error',
-      summary: 'Error while adding port call timestamp',
+      summary: this.translate.instant('general.save.editor.failure'),
       detail: response.error.message
     }));
   }

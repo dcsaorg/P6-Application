@@ -62,6 +62,10 @@
 			"select": "Hafen auswählen"
 		},
 		"save": {
+			"editor": {
+				"failure": "Fehler beim Hinzufügen des Hafen-Anfrage-Zeitstempels",
+				"success": "Neuer Hafen-Anfragen-Zeitstempel wurde erfolgreich zum Schiff hinzugefügt."
+			},
 			"label": "Speichern"
 		},
 		"table": {
