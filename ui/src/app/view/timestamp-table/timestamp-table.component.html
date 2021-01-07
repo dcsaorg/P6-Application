@@ -172,11 +172,11 @@
       <td style="width: 6%">
         <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
                   icon="pi pi-trash"
-                  (click)="deleteTimestamp(timestamp)" pTooltip="{{ 'general.table.delete.tooltip' | translate }}" tooltipPosition="top"
+                  (click)="deleteTimestamp(timestamp)" pTooltip="{{ 'general.table.delete.tooltip' | translate }}" tooltipPosition="left"
                   tooltipStyleClass="ToolTipClass"></p-button>
 
         <p-button class="timestampContent" *ngIf="timestamp.response != null" icon="pi pi-check"
-                  pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}" tooltipPosition="top"
+                  pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}" tooltipPosition="left"
                   tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
       </td>
     </tr>
