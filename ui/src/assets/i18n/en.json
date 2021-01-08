@@ -157,7 +157,7 @@
 			"label": "Vessel",
 			"name": "Vessel name",
 			"number": "IMO number",
-			"select": "Select vessel",
+			"select": "All vessels",
 			"serviceName": "Service name",
 			"size": "Vessel size (TEU)",
 			"validation": {

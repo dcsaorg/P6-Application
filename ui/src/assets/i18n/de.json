@@ -157,7 +157,7 @@
 			"label": "Schiff",
 			"name": "Schiffsname",
 			"number": "IMO Nummer",
-			"select": "Schiff auswählen",
+			"select": "Alle Schiffe",
 			"serviceName": "Servicename",
 			"size": "Schiffsgröße (TEU)",
 			"validation": {
