@@ -95,7 +95,7 @@
 					"tooltip": "What is the estimated, requested, planned or actual timestamp of the event (local time for port)"
 				},
 				"logOfTimestamp": {
-					"label": "Log of timestamp",
+					"label": "Message comm. time. ",
 					"tooltip": "When was the event communicated (local time for port)"
 				},
 				"nextPort": {

@@ -59,8 +59,8 @@
 			"label": "Anweisungen"
 		},
 		"port": {
-			"call": "Hafen-Anfragen",
-			"ofCall": "Anfrage-Hafen",
+			"call": "Port of Call",
+			"ofCall": "Anlaufhafen",
 			"select": "Hafen auswählen"
 		},
 		"save": {
@@ -95,7 +95,7 @@
 					"tooltip": "Was ist der geschätzte, angefragte, geplante oder echte Zeitstempel des Ereignisses (lokale Zeit des Hafens)"
 				},
 				"logOfTimestamp": {
-					"label": "Log des Zeitstempels",
+					"label": "Kommunikationszeit der Nachricht. ",
 					"tooltip": "Wann wurde das Ereignis kommuniziert (lokale Zeit des Hafens)"
 				},
 				"nextPort": {
@@ -103,7 +103,7 @@
 					"tooltip": "Welcher ist der nachfolgende Hafen?"
 				},
 				"portOfCall": {
-					"label": "Betr. Hafen",
+					"label": "Anlaufhafen",
 					"tooltip": "Welcher ist der betroffene Hafen? Für den Agenten: dies ist Ihr eigener Hafen"
 				},
 				"previousPort": {
