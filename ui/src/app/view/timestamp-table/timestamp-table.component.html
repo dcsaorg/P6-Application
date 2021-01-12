@@ -101,50 +101,50 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 8%" class="timestampContent">
+      <td  style="width: 8%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).name}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
       </td>
       <td style="width: 7%"
-          class="timestampContent">
+          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         {{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}
       </td>
-      <td style="width: 2%" class="timestampContent">
+      <td style="width: 2%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         {{ timestamp.callSequence + 1 }}
       </td>
-      <td style="width: 15%" class="dateTimeStamp timestampContent">
+      <td style="width: 15%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'dateTimeStamp timestampContent'">
         {{timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}
       </td>
-      <td style="width: 15%" class="dateTimeStamp timestampContent">
+      <td style="width: 15%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'dateTimeStamp timestampContent'">
         {{timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}
       </td>
-      <td style="width: 11%">
-        <div class="timestampContent">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
+      <td [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'"  style="width: 11%">
+        <div [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
       </td>
-      <td style="width: 8%">
-        <div class="timestampContent">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
+      <td [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'" style="width: 8%">
+        <div [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div>
       </td>
-      <td style="width: 7%">
-        <div class="timestampContent">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
+      <td [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'" style="width: 7%">
+        <div [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
       </td>
-      <td style="width: 7%" class="timestampContent">{{ timestamp.direction }}</td>
-      <td style="width: 6%" class="timestampContent">
+      <td style="width: 7%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">{{ timestamp.direction }}</td>
+      <td style="width: 6%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         <!--   somehow there is a porblem acessing the terminals   -->
         <div *ngIf="terminals.length > 0">
           <div pTooltip="{{(timestamp.terminal | terminalIdToTerminal: terminals).terminalName}}" tooltipPosition="top"
                tooltipStyleClass="ToolTipClass">{{ (timestamp.terminal | terminalIdToTerminal: terminals).smdgCode}}</div>
         </div>
       </td>
-      <td style="width: 7%" class="timestampContent">{{ timestamp.locationId }}</td>
-      <td style="width: 7%" class="timestampContent">
+      <td style="width: 7%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">{{ timestamp.locationId }}</td>
+      <td style="width: 7%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         <p-button class="timestampContent" (onClick)="showComment(timestamp)"
                   icon="pi pi-comment">
         </p-button>
       </td>
-      <td style="width: 8%" class="timestampContent">
+      <td style="width: 8%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
                   '' :
                   (timestamp.messageDirection == 'inbound' ?
@@ -169,7 +169,7 @@
               pTooltip="Commuinication status: {{ timestamp.messagingStatus }}<br/>Details: {{ timestamp.messagingDetails }}"
               [escape]="false" tooltipPosition="top" tooltipStyleClass="ToolTipClass"></span>
       </td>
-      <td style="width: 6%">
+      <td [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'" style="width: 6%">
         <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
                   icon="pi pi-trash"
                   (click)="deleteTimestamp(timestamp)" pTooltip="{{ 'general.table.delete.tooltip' | translate }}" tooltipPosition="left"
