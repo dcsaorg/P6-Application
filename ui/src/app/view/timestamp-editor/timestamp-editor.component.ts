@@ -220,29 +220,27 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   private updatePortCallTimeStampToBeEdited() {
-    this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimeStamps => {
-      const lastTimeStampIndex = portCallTimeStamps.length - 1;
-      const newPortcallTimestamp: PortcallTimestamp = portCallTimeStamps[lastTimeStampIndex];
-      if (newPortcallTimestamp) {
-        newPortcallTimestamp.id = null;
-        newPortcallTimestamp.portOfCall = this.portIdToPortPipe.transform(newPortcallTimestamp.portOfCall as number, this.ports);
-        newPortcallTimestamp.portPrevious = this.portIdToPortPipe.transform(newPortcallTimestamp.portPrevious as number, this.ports);
-        newPortcallTimestamp.portNext = this.portIdToPortPipe.transform(newPortcallTimestamp.portNext as number, this.ports);
-        newPortcallTimestamp.terminal = this.terminalIdToTerminalPipe.transform(newPortcallTimestamp.terminal as number, this.terminals);
+    this.portcallTimestampService.getHighesTimestamp(this.vesselId).pipe(take(1)).subscribe(portCallTimeStamp => {
+      if (portCallTimeStamp) {
+        portCallTimeStamp.id = null;
+        portCallTimeStamp.portOfCall = this.portIdToPortPipe.transform(portCallTimeStamp.portOfCall as number, this.ports);
+        portCallTimeStamp.portPrevious = this.portIdToPortPipe.transform(portCallTimeStamp.portPrevious as number, this.ports);
+        portCallTimeStamp.portNext = this.portIdToPortPipe.transform(portCallTimeStamp.portNext as number, this.ports);
+        portCallTimeStamp.terminal = this.terminalIdToTerminalPipe.transform(portCallTimeStamp.terminal as number, this.terminals);
         if (this.vesselId) {
-          newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(this.vesselId, this.vessels);
+          portCallTimeStamp.vessel = this.vesselIdToVesselPipe.transform(this.vesselId, this.vessels);
         } else {
-          newPortcallTimestamp.vessel = this.vesselIdToVesselPipe.transform(newPortcallTimestamp.vessel as number, this.vessels);
+          portCallTimeStamp.vessel = this.vesselIdToVesselPipe.transform(portCallTimeStamp.vessel as number, this.vessels);
         }
 
         //ToDo switch time zone to local time zone, quick fix to show last time at port of call
-        newPortcallTimestamp.logOfTimestamp = null;
-        newPortcallTimestamp.eventTimestamp = null
-        newPortcallTimestamp.changeComment = ""
+        portCallTimeStamp.logOfTimestamp = null;
+        portCallTimeStamp.eventTimestamp = null
+        portCallTimeStamp.changeComment = ""
 
-        this.portOfCall ? this.updateTerminalOptions(this.portOfCall.id) : this.updateTerminalOptions(newPortcallTimestamp.portOfCall.id);
+        this.portOfCall ? this.updateTerminalOptions(this.portOfCall.id) : this.updateTerminalOptions(portCallTimeStamp.portOfCall.id);
 
-        this.$timestamps.next([newPortcallTimestamp]);
+        this.$timestamps.next([portCallTimeStamp]);
       } else {
         // if there is no entry
         this.$timestamps.next([this.defaultTimestamp]);

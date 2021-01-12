@@ -92,6 +92,27 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         return highestIdRecord.value1();
     }
 
+    @Transactional(readOnly = true)
+    public PortCallTimestampExtended getHighestTimestamp(final int vesselId) {
+        Record timestamp = dsl
+                .select(PORT_CALL_TIMESTAMP.asterisk(),
+                        MESSAGE.DIRECTION.as("MessageDirection"),
+                        MESSAGE.STATUS.as("MessagingStatus"),
+                        MESSAGE.DETAIL.as("MessagingDetails"))
+                .from(PORT_CALL_TIMESTAMP)
+                .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
+                .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
+                        .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
+                .orderBy(PORT_CALL_TIMESTAMP.ID.desc())
+                .limit(1)
+                .fetchOne();
+        if (timestamp != null) {
+            return timestamp.into(PortCallTimestampExtended.class);
+        } else {
+            return null;
+        }
+    }
+
     @Transactional
     public void addTimestamp(PortCallTimestamp portCallTimestamp) {
         // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp

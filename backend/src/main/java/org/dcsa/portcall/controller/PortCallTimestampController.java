@@ -70,6 +70,17 @@ public class PortCallTimestampController {
         return portCallTimestampService.getHighestTimestampId(vesselId);
     }
 
+    @GetMapping("/highestTimestamp/{vesselId}")
+    public PortCallTimestamp getHighestTimestamp(@PathVariable int vesselId) {
+        if (vesselId >= 0) {
+            log.info("Loading highest timestamp  of port call timestamps with vessel id {} ", vesselId);
+            return portCallTimestampService.getHighestTimestamp(vesselId);
+        } else {
+            log.debug("No vessel id supplied");
+            return null;
+        }
+    }
+
     @PostMapping()
     public PortCallTimestamp addPortCallTimestamp(@RequestBody final PortCallTimestamp portCallTimestamp) {
         log.info("Add PortCall Timestamp requested for vessel id [{}]", portCallTimestamp.getVessel());
