@@ -17,12 +17,20 @@ public class PortCallTimestampExtended extends PortCallTimestamp {
     private String messagingStatus;
     @JsonProperty
     private String messagingDetails;
+    @JsonProperty
+    private boolean outdatedMessage;
 
     public PortCallTimestampType getResponse() {
         return this.response;
     }
     public void setResponse(PortCallTimestampType response) {
         this.response = response;
+    }
+
+    public boolean isOutdatedMessage() {return outdatedMessage;}
+    public PortCallTimestampExtended setOutdatedMessage(boolean outdatedMessage) {
+        this.outdatedMessage = outdatedMessage;
+        return this;
     }
 
     public MessageDirection getMessageDirection() {
@@ -48,4 +56,7 @@ public class PortCallTimestampExtended extends PortCallTimestamp {
         this.messagingDetails = messagingDetails;
         return this;
     }
+
+
+
 }

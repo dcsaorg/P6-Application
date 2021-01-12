@@ -11,11 +11,10 @@ import org.dcsa.portcall.message.EventClassifierCode;
 import org.dcsa.portcall.model.PortCallTimestampExtended;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.dcsa.portcall.util.TimestampResponseOptionMapping;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Record1;
-import org.jooq.Result;
+import org.jooq.*;
 import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
+import org.jooq.types.UInteger;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -48,11 +47,19 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
     @Transactional(readOnly = true)
     public List<PortCallTimestampExtended> findTimestampsByVesselId(final int vesselId) {
+        org.dcsa.portcall.db.tables.PortCallTimestamp pct_sub = PORT_CALL_TIMESTAMP.as("pct_sub");
+
+
         Result<Record> timestamps = dsl
                 .select(PORT_CALL_TIMESTAMP.asterisk(),
                         MESSAGE.DIRECTION.as("MessageDirection"),
                         MESSAGE.STATUS.as("MessagingStatus"),
-                        MESSAGE.DETAIL.as("MessagingDetails"))
+                        MESSAGE.DETAIL.as("MessagingDetails"),
+                         DSL.when((dsl.select(DSL.max(pct_sub.CALL_SEQUENCE).as("lastSequence"))
+                                 .from(pct_sub)
+                                 .where(pct_sub.PROCESS_ID.eq(PORT_CALL_TIMESTAMP.PROCESS_ID)).asField().cast(Integer.class))
+                            .gt(PORT_CALL_TIMESTAMP.CALL_SEQUENCE), false)
+                            .otherwise(true).as("OutdatedMessage"))
                 .from(PORT_CALL_TIMESTAMP)
                 .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
@@ -61,24 +68,30 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 .fetch();
 
         List<PortCallTimestampExtended> pcTimestamps = timestamps.into(PortCallTimestampExtended.class);
-        this.identifyResponseOptions(pcTimestamps);
+        this.extendTimestamp(pcTimestamps);
         return pcTimestamps;
     }
 
     @Transactional(readOnly = true)
     public List<PortCallTimestampExtended> findTimestamps() {
+        org.dcsa.portcall.db.tables.PortCallTimestamp pct_sub = PORT_CALL_TIMESTAMP.as("pct_sub");
         Result<Record> timestamps = dsl
                 .select(PORT_CALL_TIMESTAMP.asterisk(),
                         MESSAGE.DIRECTION.as("MessageDirection"),
                         MESSAGE.STATUS.as("MessagingStatus"),
-                        MESSAGE.DETAIL.as("MessagingDetails"))
+                        MESSAGE.DETAIL.as("MessagingDetails"),
+                        DSL.when((dsl.select(DSL.max(pct_sub.CALL_SEQUENCE).as("lastSequence"))
+                                .from(pct_sub)
+                                .where(pct_sub.PROCESS_ID.eq(PORT_CALL_TIMESTAMP.PROCESS_ID)).asField().cast(Integer.class))
+                                .gt(PORT_CALL_TIMESTAMP.CALL_SEQUENCE), false)
+                                .otherwise(true).as("OutdatedMessage"))
                 .from(PORT_CALL_TIMESTAMP)
                 .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
                 .where(PORT_CALL_TIMESTAMP.DELETED.eq(false))
                 .orderBy(PORT_CALL_TIMESTAMP.ID.asc())
                 .fetch();
         List<PortCallTimestampExtended> pcTimestamps = timestamps.into(PortCallTimestampExtended.class);
-        this.identifyResponseOptions(pcTimestamps);
+        this.extendTimestamp(pcTimestamps);
         return pcTimestamps;
     }
 
@@ -163,19 +176,23 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     }
 
     /**
-     * Function identifies if for that timestamp a response is enabled!
+     * Function enhance TimeStampOptions
      */
-    private void identifyResponseOptions(List<PortCallTimestampExtended> timestamps) {
+    private void extendTimestamp(List<PortCallTimestampExtended> timestamps) {
         for (PortCallTimestampExtended timestamp : timestamps) {
-            //ToDo Refactor
-            int lastID = this.getHighestTimestampId(timestamp.getVessel());
-            if (lastID == timestamp.getId()) {
-                timestamp.setResponse(TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), timestamp));
-            }
-
-
+            //Add Response Options
+            this.setResponseOption(timestamp);
+            //Deactivate older sequences
         }
     }
+
+
+    private void setResponseOption(PortCallTimestampExtended timestamp){
+        //ToDo Refactor
+        int lastID = this.getHighestTimestampId(timestamp.getVessel());
+        if (lastID == timestamp.getId()) {
+            timestamp.setResponse(TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), timestamp));        }
+          }
 
 
     public PortCallTimestampExtended acceptTimestamp(PortCallTimestampExtended originTimestamp) {
@@ -214,7 +231,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
     /**
      * Method to calculate a sequence for timestamps:
-     * A sequence always starts with an Estimated Classifier code (EST) and ans with an ACTUAL (ACT
+     * A sequence always starts with an Estimated Classifier code (EST) and ends with an ACTUAL (ACT
      * a sequence is always based on the vessel, the location, and the port and terminals of timestamp
      */
     private int calculatePortCallSequence(List<PortCallTimestampExtended> timestamps, PortCallTimestamp newTimeStamp) {
