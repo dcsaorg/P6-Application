@@ -41,6 +41,8 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   private refreshTimestamps() {
     this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
       this.timestamps = portCallTimestamps;
+      this.colorizeProcessId(this.timestamps);
+      console.log(this.timestamps);
       if (this.vesselId && this.vesselId > 0) {
         this.timestamps = this.timestamps.filter(timestamp => timestamp.vessel === this.vesselId);
       }
@@ -69,6 +71,30 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
           rows: this.selectedRowSize,
         }
       )
+    });
+  }
+
+  private colorizeProcessId(timestamps: PortcallTimestamp[]){
+
+    let colourPalette:string[] = new Array("#45a29e","#f5634a"," #3b8183"," #fad089", "#78b0ee", "#23b866", "#856ac9", '#4cb678', '#b03e3e', '#afc7b2')
+
+    let processIDs = new Map();
+    // extract processIDs
+    timestamps.forEach(function (timestamp){
+      processIDs.set(timestamp.processId, null);
+    });
+    let i = 0
+    // assign color to processId
+    for (let key of processIDs.keys()){
+      processIDs.set(key, colourPalette[i]);
+      i++;
+      if(i==colourPalette.length){
+        i=0;
+      }
+    }
+    //assign color to timestamp
+    timestamps.forEach(function (timestamp){
+      timestamp.sequenceColor = processIDs.get(timestamp.processId);
     });
   }
 

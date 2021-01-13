@@ -22,6 +22,7 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
+      <th style="width:3px"></th>
       <th pSortableColumn="vesselId" pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}"
           style="width: 8%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.vessel.label' | translate }}
@@ -97,10 +98,12 @@
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
+      <td style="width: 3px;" [ngStyle] = "{'background-color': timestamp.sequenceColor}"></td>
       <td  style="width: 8%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).name}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>

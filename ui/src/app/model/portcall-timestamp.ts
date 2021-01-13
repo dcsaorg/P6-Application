@@ -25,7 +25,9 @@ export interface PortcallTimestamp {
   response?: PortcallTimestampType;
   modifiable: boolean;
   messageDirection?: MessageDirection;
+  processId?: string;
   messagingStatus?: string;
   messagingDetails?: string;
-  outdatedMessage?: boolean
+  outdatedMessage?: boolean;
+  sequenceColor?: string;
 }
