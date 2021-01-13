@@ -4,8 +4,20 @@
 package org.dcsa.portcall.db;
 
 
-import org.dcsa.portcall.db.tables.*;
-import org.dcsa.portcall.db.tables.records.*;
+import org.dcsa.portcall.db.tables.Carrier;
+import org.dcsa.portcall.db.tables.DelayCode;
+import org.dcsa.portcall.db.tables.Message;
+import org.dcsa.portcall.db.tables.Port;
+import org.dcsa.portcall.db.tables.PortCallTimestamp;
+import org.dcsa.portcall.db.tables.Terminal;
+import org.dcsa.portcall.db.tables.Vessel;
+import org.dcsa.portcall.db.tables.records.CarrierRecord;
+import org.dcsa.portcall.db.tables.records.DelayCodeRecord;
+import org.dcsa.portcall.db.tables.records.MessageRecord;
+import org.dcsa.portcall.db.tables.records.PortCallTimestampRecord;
+import org.dcsa.portcall.db.tables.records.PortRecord;
+import org.dcsa.portcall.db.tables.records.TerminalRecord;
+import org.dcsa.portcall.db.tables.records.VesselRecord;
 import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;

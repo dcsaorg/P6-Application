@@ -4,9 +4,9 @@
 package org.dcsa.portcall.db.tables.pojos;
 
 
-import org.dcsa.portcall.db.enums.MessageDirection;
-
 import java.io.Serializable;
+
+import org.dcsa.portcall.db.enums.MessageDirection;
 
 
 /**

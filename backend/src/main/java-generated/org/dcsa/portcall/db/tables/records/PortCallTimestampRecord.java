@@ -4,6 +4,8 @@
 package org.dcsa.portcall.db.tables.records;
 
 
+import java.time.OffsetDateTime;
+
 import org.dcsa.portcall.db.enums.Direction;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.PortCallTimestamp;
@@ -12,8 +14,6 @@ import org.jooq.Record1;
 import org.jooq.Record18;
 import org.jooq.Row18;
 import org.jooq.impl.UpdatableRecordImpl;
-
-import java.time.OffsetDateTime;
 
 
 /**

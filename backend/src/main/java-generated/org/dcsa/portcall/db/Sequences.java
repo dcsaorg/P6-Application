@@ -41,6 +41,11 @@ public class Sequences {
     public static final Sequence<Integer> PORT_ID_SEQ = Internal.createSequence("port_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>public.portcall_timestamp_mapping_id_seq</code>
+     */
+    public static final Sequence<Integer> PORTCALL_TIMESTAMP_MAPPING_ID_SEQ = Internal.createSequence("portcall_timestamp_mapping_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.terminal_id_seq</code>
      */
     public static final Sequence<Integer> TERMINAL_ID_SEQ = Internal.createSequence("terminal_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);

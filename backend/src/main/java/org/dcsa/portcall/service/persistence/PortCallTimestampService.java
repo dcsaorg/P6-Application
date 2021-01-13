@@ -7,6 +7,7 @@ import org.dcsa.portcall.controller.PortCallException;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
+import org.dcsa.portcall.db.tables.pojos.PortcallTimestampMapping;
 import org.dcsa.portcall.message.EventClassifierCode;
 import org.dcsa.portcall.model.PortCallTimestampExtended;
 import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
@@ -14,7 +15,6 @@ import org.dcsa.portcall.util.TimestampResponseOptionMapping;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
-import org.jooq.types.UInteger;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,7 @@ import java.util.UUID;
 
 import static org.dcsa.portcall.db.tables.Message.MESSAGE;
 import static org.dcsa.portcall.db.tables.PortCallTimestamp.PORT_CALL_TIMESTAMP;
+import static org.dcsa.portcall.db.tables.PortcallTimestampMapping.PORTCALL_TIMESTAMP_MAPPING;
 
 @Service
 public class PortCallTimestampService extends AbstractPersistenceService {
@@ -48,20 +49,24 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     @Transactional(readOnly = true)
     public List<PortCallTimestampExtended> findTimestampsByVesselId(final int vesselId) {
         org.dcsa.portcall.db.tables.PortCallTimestamp pct_sub = PORT_CALL_TIMESTAMP.as("pct_sub");
-
+        org.dcsa.portcall.db.tables.PortcallTimestampMapping pm_sub = PORTCALL_TIMESTAMP_MAPPING.as("pm_sub");
 
         Result<Record> timestamps = dsl
                 .select(PORT_CALL_TIMESTAMP.asterisk(),
                         MESSAGE.DIRECTION.as("MessageDirection"),
                         MESSAGE.STATUS.as("MessagingStatus"),
                         MESSAGE.DETAIL.as("MessagingDetails"),
-                         DSL.when((dsl.select(DSL.max(pct_sub.CALL_SEQUENCE).as("lastSequence"))
+                         DSL.when((dsl.select(DSL.max(pct_sub.ID).as("lastSequence"))
                                  .from(pct_sub)
-                                 .where(pct_sub.PROCESS_ID.eq(PORT_CALL_TIMESTAMP.PROCESS_ID)).asField().cast(Integer.class))
-                            .gt(PORT_CALL_TIMESTAMP.CALL_SEQUENCE), true)
+                                 .join(pm_sub).on(pm_sub.TIMESTAMP_TYPE.eq(pct_sub.TIMESTAMP_TYPE))
+                                 .where(pct_sub.PROCESS_ID.eq(PORT_CALL_TIMESTAMP.PROCESS_ID))
+                                 .and(pm_sub.LOCATION.eq(PORTCALL_TIMESTAMP_MAPPING.LOCATION))
+                                 .and(pm_sub.TRANSPORT_EVENT.eq(PORTCALL_TIMESTAMP_MAPPING.TRANSPORT_EVENT)).asField().cast(Integer.class))
+                            .gt(PORT_CALL_TIMESTAMP.ID), true)
                             .otherwise(false).as("OutdatedMessage"))
                 .from(PORT_CALL_TIMESTAMP)
                 .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
+                .leftJoin(PORTCALL_TIMESTAMP_MAPPING).on(PORTCALL_TIMESTAMP_MAPPING.TIMESTAMP_TYPE.eq(PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE))
                 .where(PORT_CALL_TIMESTAMP.VESSEL.eq(vesselId)
                         .and(PORT_CALL_TIMESTAMP.DELETED.eq(false)))
                 .orderBy(PORT_CALL_TIMESTAMP.ID.asc())
@@ -75,18 +80,23 @@ public class PortCallTimestampService extends AbstractPersistenceService {
     @Transactional(readOnly = true)
     public List<PortCallTimestampExtended> findTimestamps() {
         org.dcsa.portcall.db.tables.PortCallTimestamp pct_sub = PORT_CALL_TIMESTAMP.as("pct_sub");
+        org.dcsa.portcall.db.tables.PortcallTimestampMapping pm_sub = PORTCALL_TIMESTAMP_MAPPING.as("pm_sub");
         Result<Record> timestamps = dsl
                 .select(PORT_CALL_TIMESTAMP.asterisk(),
                         MESSAGE.DIRECTION.as("MessageDirection"),
                         MESSAGE.STATUS.as("MessagingStatus"),
                         MESSAGE.DETAIL.as("MessagingDetails"),
-                        DSL.when((dsl.select(DSL.max(pct_sub.CALL_SEQUENCE).as("lastSequence"))
+                        DSL.when((dsl.select(DSL.max(pct_sub.ID).as("lastSequence"))
                                 .from(pct_sub)
-                                .where(pct_sub.PROCESS_ID.eq(PORT_CALL_TIMESTAMP.PROCESS_ID)).asField().cast(Integer.class))
-                                .gt(PORT_CALL_TIMESTAMP.CALL_SEQUENCE), true)
+                                .join(pm_sub).on(pm_sub.TIMESTAMP_TYPE.eq(pct_sub.TIMESTAMP_TYPE))
+                                .where(pct_sub.PROCESS_ID.eq(PORT_CALL_TIMESTAMP.PROCESS_ID))
+                                .and(pm_sub.LOCATION.eq(PORTCALL_TIMESTAMP_MAPPING.LOCATION))
+                                .and(pm_sub.TRANSPORT_EVENT.eq(PORTCALL_TIMESTAMP_MAPPING.TRANSPORT_EVENT)).asField().cast(Integer.class))
+                                .gt(PORT_CALL_TIMESTAMP.ID), true)
                                 .otherwise(false).as("OutdatedMessage"))
                 .from(PORT_CALL_TIMESTAMP)
                 .leftJoin(MESSAGE).on(MESSAGE.TIMESTAMP_ID.eq(PORT_CALL_TIMESTAMP.ID))
+                .leftJoin(PORTCALL_TIMESTAMP_MAPPING).on(PORTCALL_TIMESTAMP_MAPPING.TIMESTAMP_TYPE.eq(PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE))
                 .where(PORT_CALL_TIMESTAMP.DELETED.eq(false))
                 .orderBy(PORT_CALL_TIMESTAMP.ID.asc())
                 .fetch();
@@ -188,11 +198,15 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
 
     private void setResponseOption(PortCallTimestampExtended timestamp){
-        //ToDo Refactor
         int lastID = this.getHighestTimestampId(timestamp.getVessel());
         if (lastID == timestamp.getId()) {
             timestamp.setResponse(TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), timestamp));        }
           }
+
+
+    private void identifyOutdatedTimestamps(PortCallTimestamp timestamp){
+
+    }
 
 
     public PortCallTimestampExtended acceptTimestamp(PortCallTimestampExtended originTimestamp) {

@@ -4,14 +4,14 @@
 package org.dcsa.portcall.db.tables.records;
 
 
+import java.time.LocalDate;
+
 import org.dcsa.portcall.db.tables.Carrier;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record5;
 import org.jooq.Row5;
 import org.jooq.impl.UpdatableRecordImpl;
-
-import java.time.LocalDate;
 
 
 /**

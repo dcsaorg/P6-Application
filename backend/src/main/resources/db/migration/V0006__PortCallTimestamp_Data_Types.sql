@@ -24,3 +24,32 @@ create type direction as enum (
     'S',
     'W'
     );
+
+create type event_classifier AS ENUM (
+    'EST',
+    'REQ',
+    'PLA',
+    'ACT');
+
+
+create type location_type AS ENUM (
+    'ANCHORING_AREA',
+    'BERTH',
+    'BOUY',
+    'ETUG_ZONE',
+    'HOME_BASE',
+    'PILOT_BOARDING_AREA',
+    'PORT',
+    'PORT_AREA',
+    'RENDEZV_AREA',
+    'TRAFFIC_AREA',
+    'TUG_ZONE',
+    'VESSEL',
+    'VTS_AREA');
+
+create type transport_event_type AS ENUM (
+    'ARRI',
+    'COPS',
+    'SOPS',
+    'SERV',
+    'DEPT');

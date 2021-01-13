@@ -4,14 +4,21 @@
 package org.dcsa.portcall.db;
 
 
-import org.dcsa.portcall.db.tables.*;
+import java.util.Arrays;
+import java.util.List;
+
+import org.dcsa.portcall.db.tables.Carrier;
+import org.dcsa.portcall.db.tables.DelayCode;
+import org.dcsa.portcall.db.tables.Message;
+import org.dcsa.portcall.db.tables.Port;
+import org.dcsa.portcall.db.tables.PortCallTimestamp;
+import org.dcsa.portcall.db.tables.PortcallTimestampMapping;
+import org.dcsa.portcall.db.tables.Terminal;
+import org.dcsa.portcall.db.tables.Vessel;
 import org.jooq.Catalog;
 import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -53,6 +60,11 @@ public class Public extends SchemaImpl {
     public final PortCallTimestamp PORT_CALL_TIMESTAMP = PortCallTimestamp.PORT_CALL_TIMESTAMP;
 
     /**
+     * The table <code>public.portcall_timestamp_mapping</code>.
+     */
+    public final PortcallTimestampMapping PORTCALL_TIMESTAMP_MAPPING = PortcallTimestampMapping.PORTCALL_TIMESTAMP_MAPPING;
+
+    /**
      * The table <code>public.terminal</code>.
      */
     public final Terminal TERMINAL = Terminal.TERMINAL;
@@ -83,6 +95,7 @@ public class Public extends SchemaImpl {
             Sequences.MESSAGE_ID_SEQ,
             Sequences.PORT_CALL_TIMESTAMP_ID_SEQ,
             Sequences.PORT_ID_SEQ,
+            Sequences.PORTCALL_TIMESTAMP_MAPPING_ID_SEQ,
             Sequences.TERMINAL_ID_SEQ,
             Sequences.VESSEL_ID_SEQ);
     }
@@ -95,6 +108,7 @@ public class Public extends SchemaImpl {
             Message.MESSAGE,
             Port.PORT,
             PortCallTimestamp.PORT_CALL_TIMESTAMP,
+            PortcallTimestampMapping.PORTCALL_TIMESTAMP_MAPPING,
             Terminal.TERMINAL,
             Vessel.VESSEL);
     }
