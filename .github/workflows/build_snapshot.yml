@@ -31,12 +31,7 @@ jobs:
       - name: Configure maven settings
         uses: whelk-io/maven-settings-xml-action@v14
         with:
-          servers: |
-          [{
-            "id": "dcsa-p6",
-            "username": "${{ secrets.DCSA_USER }}",
-            "password": "${{ secrets.DCSA_PACKAGES_PAT }}"
-          }]
+          servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
       - name: Update the maven version when building a feature branch
         if: ${{ steps.branch.outputs.value != 'master' }}
         run: mvn versions:set -DnewVersion=DEVELOP-${{ steps.branch.outputs.value }}-SNAPSHOT
