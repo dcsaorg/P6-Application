@@ -253,7 +253,7 @@ p-calendar.ng-dirty.ng-invalid > .p-calendar > .p-inputtext {
   border-top: 1px solid #dee2e6;
 }
 .p-datepicker .p-datepicker-buttonbar .p-button {
-  width: 165px;
+  width: auto;
 }
 .p-datepicker .p-timepicker {
   border-top: 1px solid #dee2e6;
@@ -488,6 +488,7 @@ p-chips.ng-dirty.ng-invalid > .p-chips > .p-inputtext {
 .p-dropdown .p-dropdown-label {
   background: transparent;
   border: 0 none;
+  font-size:8pt;
 }
 .p-dropdown .p-dropdown-label.p-placeholder {
   color: #6c757d;
@@ -1329,9 +1330,10 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   background: $tealBlue;
   border: 1px solid $tealBlue;
   padding: 0.5rem 0.75rem;
-  font-size: 1rem;
+  font-size: 10pt;
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
   border-radius: 4px;
+
 }
 .p-button:enabled:hover {
   background: $tealBlueBright;
@@ -1878,7 +1880,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 }
 .p-datatable .p-sortable-column .p-sortable-column-icon {
   color: #6c757d;
-  margin-left: 0.5rem;
+  margin-left: 0.1rem;
 }
 .p-datatable .p-sortable-column .p-sortable-column-badge {
   border-radius: 50%;
@@ -2016,19 +2018,19 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   color: $foamWhite;
 }
 .p-datatable.p-datatable-sm .p-datatable-header {
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem 0.2rem;
 }
 .p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem 0.2rem;
 }
 .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem 0.2rem;
 }
 .p-datatable.p-datatable-sm .p-datatable-tfoot > tr > td {
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem 0.2rem;
 }
 .p-datatable.p-datatable-sm .p-datatable-footer {
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem 0.2rem;
 }
 .p-datatable.p-datatable-lg .p-datatable-header {
   padding: 1.25rem 1.25rem;

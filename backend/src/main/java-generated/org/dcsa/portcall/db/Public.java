@@ -7,9 +7,12 @@ package org.dcsa.portcall.db;
 import java.util.Arrays;
 import java.util.List;
 
+import org.dcsa.portcall.db.tables.Carrier;
 import org.dcsa.portcall.db.tables.DelayCode;
+import org.dcsa.portcall.db.tables.Message;
 import org.dcsa.portcall.db.tables.Port;
 import org.dcsa.portcall.db.tables.PortCallTimestamp;
+import org.dcsa.portcall.db.tables.PortcallTimestampMapping;
 import org.dcsa.portcall.db.tables.Terminal;
 import org.dcsa.portcall.db.tables.Vessel;
 import org.jooq.Catalog;
@@ -24,7 +27,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = -1692932465;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The reference instance of <code>public</code>
@@ -32,9 +35,19 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.carrier</code>.
+     */
+    public final Carrier CARRIER = Carrier.CARRIER;
+
+    /**
      * The table <code>public.delay_code</code>.
      */
     public final DelayCode DELAY_CODE = DelayCode.DELAY_CODE;
+
+    /**
+     * The table <code>public.message</code>.
+     */
+    public final Message MESSAGE = Message.MESSAGE;
 
     /**
      * The table <code>public.port</code>.
@@ -45,6 +58,11 @@ public class Public extends SchemaImpl {
      * The table <code>public.port_call_timestamp</code>.
      */
     public final PortCallTimestamp PORT_CALL_TIMESTAMP = PortCallTimestamp.PORT_CALL_TIMESTAMP;
+
+    /**
+     * The table <code>public.portcall_timestamp_mapping</code>.
+     */
+    public final PortcallTimestampMapping PORTCALL_TIMESTAMP_MAPPING = PortcallTimestampMapping.PORTCALL_TIMESTAMP_MAPPING;
 
     /**
      * The table <code>public.terminal</code>.
@@ -72,9 +90,12 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Sequence<?>> getSequences() {
         return Arrays.<Sequence<?>>asList(
+            Sequences.CARRIER_ID_SEQ,
             Sequences.DELAY_CODE_ID_SEQ,
+            Sequences.MESSAGE_ID_SEQ,
             Sequences.PORT_CALL_TIMESTAMP_ID_SEQ,
             Sequences.PORT_ID_SEQ,
+            Sequences.PORTCALL_TIMESTAMP_MAPPING_ID_SEQ,
             Sequences.TERMINAL_ID_SEQ,
             Sequences.VESSEL_ID_SEQ);
     }
@@ -82,9 +103,12 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
+            Carrier.CARRIER,
             DelayCode.DELAY_CODE,
+            Message.MESSAGE,
             Port.PORT,
             PortCallTimestamp.PORT_CALL_TIMESTAMP,
+            PortcallTimestampMapping.PORTCALL_TIMESTAMP_MAPPING,
             Terminal.TERMINAL,
             Vessel.VESSEL);
     }

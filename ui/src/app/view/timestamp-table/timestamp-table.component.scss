@@ -3,17 +3,21 @@
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   position: -webkit-sticky;
   position: sticky;
-  top: 1px;
+  top: 0px;
 }
 
-@media screen and (max-width: 64em) {
-  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-    top: 1px;
-  }
+::ng-deep .p-datatable-header {
+  padding: 7px 0px 5px 0px !important;
 }
 
 .globalSearch {
   float: right;
+  height: 40px;
+  padding: 3px 5px 3px 0px;
+
+  i {
+    padding-top: 3px !important;
+  }
 }
 
 
@@ -23,3 +27,28 @@
   font-size: 12px;
 }
 
+.dateTimeStamp {
+}
+
+.timestampContent{
+  font-size:$tableSize;
+  z-index: 1;
+}
+
+.tableHeader {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  padding: 0px 0px !important;
+  max-width: 320px !important;
+
+  &__buttons {
+    margin: 5px 10px 0px 0px;
+  }
+
+}
+
+.disabledRow{
+  background-color: #eae9e9;
+  color: #797979;
+}

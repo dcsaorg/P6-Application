@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Partner>
+    <PartyIds>
+        <PartyId type="AS2-Name" includeInPackager="EbXml20,AS4">msc</PartyId>
+        <PartyId type="AS3-Name" includeInPackager="EbXml20,AS4">msc</PartyId>
+        <PartyId type="URI" includeInPackager="EbXml20,AS4">http://localhost:8081/pontonxp/SoapListener</PartyId>
+    </PartyIds>
+    <DisplayName>msc</DisplayName>
+    <Certificates/>
+    <Transports>
+        <Transport id="HTTP" preferred="true" fallback="false">
+            <URL>http://localhost:8081/pontonxp/SoapListener</URL>
+        </Transport>
+    </Transports>
+    <Packaging>
+        <Package id="AS2" preferred="false">
+            <Option name="RequestMDN" value="MD5 signed,SHA-1 signed,SHA-224 signed,SHA-256 signed,SHA-384 signed,SHA-512 signed,unsigned" type="list">
+                <Option name="ASyncReply" value="" type="string"/>
+            </Option>
+            <Option name="SignMessage" value="MD5 signed,SHA-1 signed,SHA-1/PSS signed,SHA-224 signed,SHA-224/PSS signed,SHA-256 signed,SHA-256/ECDSA signed,SHA-256/PSS signed,SHA-384 signed,SHA-384/ECDSA signed,SHA-384/PSS signed,SHA-512 signed,SHA-512/ECDSA signed,SHA-512/PSS signed" type="list"/>
+            <Option name="SmimeMdnSignature" value="MD5 signed,Same as business signature,SHA-1 signed,SHA-1/PSS signed,SHA-224 signed,SHA-224/PSS signed,SHA-256 signed,SHA-256/ECDSA signed,SHA-256/PSS signed,SHA-384 signed,SHA-384/ECDSA signed,SHA-384/PSS signed,SHA-512 signed,SHA-512/ECDSA signed,SHA-512/PSS signed" type="list"/>
+            <Option name="CompressMessage" value="true" type="boolean"/>
+            <Option name="EncryptMessage" value="true" type="boolean">
+                <Option name="ExtendedEncryptionAlgorithm" value="AES128_CBC,AES128_CBC/OAEP_SHA1,AES128_CBC/OAEP_SHA256,AES128_CBC/OAEP_SHA512,AES128_GCM,AES128_GCM/ECDH_SHA224,AES128_GCM/ECDH_SHA256,AES128_GCM/ECDH_SHA512,AES128_GCM/OAEP_SHA256,AES128_GCM/OAEP_SHA512,AES192_CBC,AES192_CBC/OAEP_SHA1,AES192_CBC/OAEP_SHA256,AES192_CBC/OAEP_SHA512,AES192_GCM,AES192_GCM/ECDH_SHA224,AES192_GCM/ECDH_SHA256,AES192_GCM/ECDH_SHA512,AES192_GCM/OAEP_SHA256,AES192_GCM/OAEP_SHA512,AES256_CBC,AES256_CBC/OAEP_SHA1,AES256_CBC/OAEP_SHA256,AES256_CBC/OAEP_SHA512,AES256_GCM,AES256_GCM/ECDH_SHA224,AES256_GCM/ECDH_SHA256,AES256_GCM/ECDH_SHA512,AES256_GCM/OAEP_SHA256,AES256_GCM/OAEP_SHA512,DES_EDE3_CBC,DES_EDE3_CBC/OAEP_SHA1" type="list"/>
+            </Option>
+            <Option name="DuplicateElimination" value="true" type="boolean"/>
+        </Package>
+        <Package id="AS3" preferred="false">
+            <Option name="RequestMDN" value="MD5 signed,SHA-1 signed,SHA-224 signed,SHA-256 signed,SHA-384 signed,SHA-512 signed,unsigned" type="list"/>
+            <Option name="ReplyURL" value="ftp://" type="string"/>
+            <Option name="SignMessage" value="MD5 signed,SHA-1 signed,SHA-1/PSS signed,SHA-224 signed,SHA-224/PSS signed,SHA-256 signed,SHA-256/ECDSA signed,SHA-256/PSS signed,SHA-384 signed,SHA-384/ECDSA signed,SHA-384/PSS signed,SHA-512 signed,SHA-512/ECDSA signed,SHA-512/PSS signed" type="list"/>
+            <Option name="CompressMessage" value="true" type="boolean"/>
+            <Option name="EncryptMessage" value="true" type="boolean">
+                <Option name="ExtendedEncryptionAlgorithm" value="AES128_CBC,AES128_CBC/OAEP_SHA1,AES128_CBC/OAEP_SHA256,AES128_CBC/OAEP_SHA512,AES128_GCM,AES128_GCM/ECDH_SHA224,AES128_GCM/ECDH_SHA256,AES128_GCM/ECDH_SHA512,AES128_GCM/OAEP_SHA256,AES128_GCM/OAEP_SHA512,AES192_CBC,AES192_CBC/OAEP_SHA1,AES192_CBC/OAEP_SHA256,AES192_CBC/OAEP_SHA512,AES192_GCM,AES192_GCM/ECDH_SHA224,AES192_GCM/ECDH_SHA256,AES192_GCM/ECDH_SHA512,AES192_GCM/OAEP_SHA256,AES192_GCM/OAEP_SHA512,AES256_CBC,AES256_CBC/OAEP_SHA1,AES256_CBC/OAEP_SHA256,AES256_CBC/OAEP_SHA512,AES256_GCM,AES256_GCM/ECDH_SHA224,AES256_GCM/ECDH_SHA256,AES256_GCM/ECDH_SHA512,AES256_GCM/OAEP_SHA256,AES256_GCM/OAEP_SHA512,DES_EDE3_CBC,DES_EDE3_CBC/OAEP_SHA1" type="list"/>
+            </Option>
+            <Option name="DuplicateElimination" value="true" type="boolean"/>
+        </Package>
+        <Package id="AS4" preferred="false">
+            <Option name="IncludeMessageProperties" value="true" type="boolean"/>
+            <Option name="IncludeContentProperties" value="true" type="boolean"/>
+            <Option name="CertificateUpdate" value="false" type="boolean"/>
+            <Option name="SignMessage" value="rsa-sha1,rsa-sha256,rsa-sha512" type="list">
+                <Option name="KeyInfo" value="BinarySecurityToken,IssuerAndSerialNumber,SubjectKeyIdentifier" type="list"/>
+            </Option>
+            <Option name="EncryptMessage" value="aes128-cbc,aes128-gcm,aes256-cbc,aes256-gcm,tripledes-cbc" type="list">
+                <Option name="KeyInfo" value="BinarySecurityToken,IssuerAndSerialNumber,SubjectKeyIdentifier" type="list"/>
+            </Option>
+            <Option name="CompressContent" value="true" type="boolean"/>
+            <Option name="ExpectReceipt" value="rsa-sha1,rsa-sha256,rsa-sha512,unsigned" type="list"/>
+            <Option name="ExpectSignedMessage" value="rsa-sha1,rsa-sha256,rsa-sha512" type="list"/>
+            <Option name="ExpectEncryptedMessage" value="aes128-cbc,aes128-gcm,aes256-cbc,aes256-gcm,tripledes-cbc" type="list"/>
+            <Option name="ExpectCompressedContent" value="true" type="boolean"/>
+            <Option name="SendReceipt" value="rsa-sha1,rsa-sha256,rsa-sha512,unsigned" type="list">
+                <Option name="KeyInfo" value="BinarySecurityToken,IssuerAndSerialNumber,SubjectKeyIdentifier" type="list"/>
+                <Option name="SyncReply" value="true" type="boolean"/>
+            </Option>
+            <Option name="DuplicateElimination" value="true" type="boolean"/>
+        </Package>
+        <Package id="Plain" preferred="false">
+            <Option name="RequestACK" value="true" type="boolean"/>
+            <Option name="password" value="" type="string"/>
+        </Package>
+        <Package id="EbXml20" preferred="true">
+            <Option name="RequestAck" value="signed,unsigned" type="list"/>
+            <Option name="DuplicateElimination" value="true" type="boolean"/>
+            <Option name="SyncReply" value="true" type="boolean"/>
+        </Package>
+        <Package id="AS1" preferred="false">
+            <Option name="RequestMDN" value="MD5 signed,SHA-1 signed,SHA-224 signed,SHA-256 signed,SHA-384 signed,SHA-512 signed,unsigned,SMTP response" type="list"/>
+            <Option name="SignMessage" value="MD5 signed,SHA-1 signed,SHA-1/PSS signed,SHA-224 signed,SHA-224/PSS signed,SHA-256 signed,SHA-256/ECDSA signed,SHA-256/PSS signed,SHA-384 signed,SHA-384/ECDSA signed,SHA-384/PSS signed,SHA-512 signed,SHA-512/ECDSA signed,SHA-512/PSS signed" type="list"/>
+            <Option name="CompressMessage" value="true" type="boolean"/>
+            <Option name="EncryptMessage" value="true" type="boolean">
+                <Option name="ExtendedEncryptionAlgorithm" value="AES128_CBC,AES128_CBC/OAEP_SHA1,AES128_CBC/OAEP_SHA256,AES128_CBC/OAEP_SHA512,AES128_GCM,AES128_GCM/ECDH_SHA224,AES128_GCM/ECDH_SHA256,AES128_GCM/ECDH_SHA512,AES128_GCM/OAEP_SHA256,AES128_GCM/OAEP_SHA512,AES192_CBC,AES192_CBC/OAEP_SHA1,AES192_CBC/OAEP_SHA256,AES192_CBC/OAEP_SHA512,AES192_GCM,AES192_GCM/ECDH_SHA224,AES192_GCM/ECDH_SHA256,AES192_GCM/ECDH_SHA512,AES192_GCM/OAEP_SHA256,AES192_GCM/OAEP_SHA512,AES256_CBC,AES256_CBC/OAEP_SHA1,AES256_CBC/OAEP_SHA256,AES256_CBC/OAEP_SHA512,AES256_GCM,AES256_GCM/ECDH_SHA224,AES256_GCM/ECDH_SHA256,AES256_GCM/ECDH_SHA512,AES256_GCM/OAEP_SHA256,AES256_GCM/OAEP_SHA512,DES_EDE3_CBC,DES_EDE3_CBC/OAEP_SHA1" type="list"/>
+            </Option>
+            <Option name="DuplicateElimination" value="true" type="boolean"/>
+            <Option name="MailClientSupport" value="" type="boolean"/>
+        </Package>
+    </Packaging>
+    <ProcessingPipelines>
+        <Pipeline id="Messenger 2.1" preferred="true">
+            <Option name="Compression" value="Deflate,GZIP,ZIP,ZIPwithAttachments,Zlib" type="list"/>
+        </Pipeline>
+    </ProcessingPipelines>
+    <PayloadDocuments>
+        <Document type="PortCallMessage" version="" schemaLocation="PortCallMessage.xsd" nameSpace="urn:mrn:ipcdmc:schema:port-call-message"/>
+        <Document type="BINARY" version="1" schemaLocation="BINARY"/>
+    </PayloadDocuments>
+    <Messenger>
+        <VendorName>PONTON GmbH</VendorName>
+        <ProductName>X/P Messenger</ProductName>
+        <ProductVersion>3.10.0 (Build 202009171429)</ProductVersion>
+    </Messenger>
+    <CompatibilityVersion>3.3</CompatibilityVersion>
+</Partner>

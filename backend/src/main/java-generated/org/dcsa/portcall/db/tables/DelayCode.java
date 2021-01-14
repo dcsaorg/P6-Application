@@ -23,6 +23,7 @@ import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 
@@ -32,7 +33,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DelayCode extends TableImpl<DelayCodeRecord> {
 
-    private static final long serialVersionUID = 1140313493;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The reference instance of <code>public.delay_code</code>
@@ -50,33 +51,34 @@ public class DelayCode extends TableImpl<DelayCodeRecord> {
     /**
      * The column <code>public.delay_code.id</code>.
      */
-    public final TableField<DelayCodeRecord, Integer> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('delay_code_id_seq'::regclass)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<DelayCodeRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.delay_code.smdg_code</code>.
      */
-    public final TableField<DelayCodeRecord, String> SMDG_CODE = createField(DSL.name("smdg_code"), org.jooq.impl.SQLDataType.VARCHAR(4).nullable(false), this, "");
+    public final TableField<DelayCodeRecord, String> SMDG_CODE = createField(DSL.name("smdg_code"), SQLDataType.VARCHAR(4).nullable(false), this, "");
 
     /**
      * The column <code>public.delay_code.name</code>.
      */
-    public final TableField<DelayCodeRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(150), this, "");
+    public final TableField<DelayCodeRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(150), this, "");
 
     /**
      * The column <code>public.delay_code.delay_type</code>.
      */
-    public final TableField<DelayCodeRecord, DelayType> DELAY_TYPE = createField(DSL.name("delay_type"), org.jooq.impl.SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.DelayType.class), this, "");
+    public final TableField<DelayCodeRecord, DelayType> DELAY_TYPE = createField(DSL.name("delay_type"), SQLDataType.VARCHAR.nullable(false).asEnumDataType(org.dcsa.portcall.db.enums.DelayType.class), this, "");
 
     /**
      * The column <code>public.delay_code.description</code>.
      */
-    public final TableField<DelayCodeRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.VARCHAR(200), this, "");
+    public final TableField<DelayCodeRecord, String> DESCRIPTION = createField(DSL.name("description"), SQLDataType.VARCHAR(200), this, "");
 
-    /**
-     * Create a <code>public.delay_code</code> table reference
-     */
-    public DelayCode() {
-        this(DSL.name("delay_code"), null);
+    private DelayCode(Name alias, Table<DelayCodeRecord> aliased) {
+        this(alias, aliased, null);
+    }
+
+    private DelayCode(Name alias, Table<DelayCodeRecord> aliased, Field<?>[] parameters) {
+        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
     }
 
     /**
@@ -93,12 +95,11 @@ public class DelayCode extends TableImpl<DelayCodeRecord> {
         this(alias, DELAY_CODE);
     }
 
-    private DelayCode(Name alias, Table<DelayCodeRecord> aliased) {
-        this(alias, aliased, null);
-    }
-
-    private DelayCode(Name alias, Table<DelayCodeRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
+    /**
+     * Create a <code>public.delay_code</code> table reference
+     */
+    public DelayCode() {
+        this(DSL.name("delay_code"), null);
     }
 
     public <O extends Record> DelayCode(Table<O> child, ForeignKey<O, DelayCodeRecord> key) {
@@ -112,7 +113,7 @@ public class DelayCode extends TableImpl<DelayCodeRecord> {
 
     @Override
     public Identity<DelayCodeRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_DELAY_CODE;
+        return (Identity<DelayCodeRecord, Integer>) super.getIdentity();
     }
 
     @Override

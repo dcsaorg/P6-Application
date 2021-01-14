@@ -7,6 +7,16 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="GitHub OWNER Apache Maven Packages" />
+      <option name="url" value="https://maven.pkg.github.com" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="build.snapshots" />
+      <option name="name" value="Ponton Snapshots" />
+      <option name="url" value="https://nexus.ponton.de/content/repositories/ponton-snapshots/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="build.snapshots" />
       <option name="name" value="Ponton Snapshots" />
       <option name="url" value="https://nexus.ponton.de/content/groups/public-snapshots/" />
@@ -24,6 +34,16 @@
     <remote-repository>
       <option name="id" value="build.releases" />
       <option name="name" value="Ponton Releases" />
+      <option name="url" value="https://nexus.ponton.de/content/repositories/ponton-releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="build.releases" />
+      <option name="name" value="Ponton Releases" />
+      <option name="url" value="https://nexus.ponton.de/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="GitHub OWNER Apache Maven Packages" />
       <option name="url" value="https://nexus.ponton.de/content/groups/public/" />
     </remote-repository>
     <remote-repository>

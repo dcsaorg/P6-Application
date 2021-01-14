@@ -13,7 +13,7 @@ import java.io.Serializable;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Port implements Serializable {
 
-    private static final long serialVersionUID = -574224167;
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String  name;
@@ -49,55 +49,91 @@ public class Port implements Serializable {
         this.timezone = timezone;
     }
 
+    /**
+     * Getter for <code>public.port.id</code>.
+     */
     public Integer getId() {
         return this.id;
     }
 
+    /**
+     * Setter for <code>public.port.id</code>.
+     */
     public Port setId(Integer id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port.name</code>.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Setter for <code>public.port.name</code>.
+     */
     public Port setName(String name) {
         this.name = name;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port.un_country</code>.
+     */
     public String getUnCountry() {
         return this.unCountry;
     }
 
+    /**
+     * Setter for <code>public.port.un_country</code>.
+     */
     public Port setUnCountry(String unCountry) {
         this.unCountry = unCountry;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port.un_locode</code>.
+     */
     public String getUnLocode() {
         return this.unLocode;
     }
 
+    /**
+     * Setter for <code>public.port.un_locode</code>.
+     */
     public Port setUnLocode(String unLocode) {
         this.unLocode = unLocode;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port.un_location</code>.
+     */
     public String getUnLocation() {
         return this.unLocation;
     }
 
+    /**
+     * Setter for <code>public.port.un_location</code>.
+     */
     public Port setUnLocation(String unLocation) {
         this.unLocation = unLocation;
         return this;
     }
 
+    /**
+     * Getter for <code>public.port.timezone</code>.
+     */
     public String getTimezone() {
         return this.timezone;
     }
 
+    /**
+     * Setter for <code>public.port.timezone</code>.
+     */
     public Port setTimezone(String timezone) {
         this.timezone = timezone;
         return this;

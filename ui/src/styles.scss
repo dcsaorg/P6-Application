@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 //Dark navy blue
-$darkNavyBlue : #1E1E2C;
+$darkNavyBlue: #1E1E2C;
 //Foam white
 $foamWhite: #F8F7F7;
 //Teal blue
@@ -19,7 +19,49 @@ $steelGrey: #E4E4E6;
 
 $darkGrey: #7c7c7c;
 
+
+$tableSize: 12pt;
+
 body {
   background-color: $steelGrey;
-  font-family: Poppins,sans-serif;
+  font-family: Poppins, sans-serif;
+}
+
+.p-dropdown-panel {
+  min-width: 250px !important;
+}
+
+.p-calendar .p-inputtext {
+  width: 110px !important;
+}
+
+.datetime-time-date-field {
+}
+
+.datetime-time-time-field {
+  width: 67px !important;
+  border-radius: 0 !important;
+}
+
+.datetime-panel table th {
+  padding:  0 !important;
+}
+
+.datetime-panel table th > span {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.datetime-panel table td {
+  padding:  0 !important;
+}
+
+.datetime-panel table td > span {
+  width: 2rem !important;
+  height: 2rem !important;
+  border: 0.5px solid transparent !important;
+}
+
+.datetime-panel .p-datepicker-buttonbar {
+  padding: 0 !important;
 }

@@ -3,6 +3,7 @@ package org.dcsa.portcall.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.dcsa.portcall.db.tables.pojos.Port;
 import org.dcsa.portcall.db.tables.pojos.Terminal;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -56,6 +57,25 @@ public class TerminalController {
         } else {
             log.debug("Loaded terminals with port id {}", portId);
             return terminals.into(Terminal.class);
+        }
+    }
+
+    @GetMapping("/id/{terminalId}")
+    @Transactional(readOnly = true)
+    public Terminal getTerminalById(@PathVariable int terminalId){
+        log.info("Loading Terminal for ID {}", terminalId);
+        Record terminal = dsl.select()
+                .from(TERMINAL)
+                .where(TERMINAL.ID.eq(terminalId))
+                .fetchOne();
+
+        if(terminal == null){
+            String msg = String.format("Terminal with the id %s not found", terminalId);
+            log.error(msg);
+            throw new PortCallException(HttpStatus.NOT_FOUND, msg);
+        } else {
+            log.debug("Loaded terminal with id {}", terminalId);
+            return terminal.into(Terminal.class);
         }
     }
 

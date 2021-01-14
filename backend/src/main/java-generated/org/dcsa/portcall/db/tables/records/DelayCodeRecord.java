@@ -19,7 +19,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DelayCodeRecord extends UpdatableRecordImpl<DelayCodeRecord> implements Record5<Integer, String, String, DelayType, String> {
 
-    private static final long serialVersionUID = 1388785573;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>public.delay_code.id</code>.
@@ -251,10 +251,10 @@ public class DelayCodeRecord extends UpdatableRecordImpl<DelayCodeRecord> implem
     public DelayCodeRecord(Integer id, String smdgCode, String name, DelayType delayType, String description) {
         super(DelayCode.DELAY_CODE);
 
-        set(0, id);
-        set(1, smdgCode);
-        set(2, name);
-        set(3, delayType);
-        set(4, description);
+        setId(id);
+        setSmdgCode(smdgCode);
+        setName(name);
+        setDelayType(delayType);
+        setDescription(description);
     }
 }

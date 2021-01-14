@@ -2,18 +2,69 @@
 
 .header {
   width: 100%;
-  height: 100px;
+  height: 70px;
   background-color: $darkNavyBlue;
 
   &__logo {
     margin-top: 0px;
-    width: 124px;
-    height: 71px;
+    width: 100px;
+    height: 50px;
+  }
+
+  &__menuEntryDiv {
+    margin-top: 10px;
   }
 
   &__menuEntry {
+    color: $foamWhite !important;
+    margin-right: 10px;
+  }
+
+  &__menuLabel {
     color: $foamWhite;
-    margin-top: 30px;
+    margin-top: 10px;
     font-size: 20px;
+  }
+
+  &__company_container {
+    margin-top: 2px;
+  }
+
+  &__company {
+    float: left;
+  }
+
+  &__info_small {
+    font-size: 10pt;
+    float: left;
+    clear: left;
+    margin-top: 10px;
+  }
+}
+
+p-dropdown::ng-deep {
+  .dropdown {
+    width: 100%;
+  }
+}
+
+.ui-dropdown-label-container {
+  width: 100%;
+}
+.ui-dropdown .ui-dropdown-clearable .ui-dropdown-label {
+  text-overflow: ellipsis;
+  padding-right: 2em !important;
+}
+::ng-deep .p-dropdown .p-dropdown-label {
+  text-overflow: ellipsis;
+  padding-right: 1em !important;
+}
+.p-dropdown-label{
+  font-size: $tableSize !important;
+}
+
+p-dropdown::ng-deep {
+  .dropdown {
+    width: 100%;
   }
 }

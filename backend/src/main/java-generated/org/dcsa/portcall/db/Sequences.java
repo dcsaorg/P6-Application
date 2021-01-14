@@ -6,36 +6,52 @@ package org.dcsa.portcall.db;
 
 import org.jooq.Sequence;
 import org.jooq.impl.Internal;
+import org.jooq.impl.SQLDataType;
 
 
 /**
- * Convenience access to all sequences in public
+ * Convenience access to all sequences in public.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Sequences {
 
     /**
+     * The sequence <code>public.carrier_id_seq</code>
+     */
+    public static final Sequence<Integer> CARRIER_ID_SEQ = Internal.createSequence("carrier_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>public.delay_code_id_seq</code>
      */
-    public static final Sequence<Integer> DELAY_CODE_ID_SEQ = Internal.createSequence("delay_code_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Integer> DELAY_CODE_ID_SEQ = Internal.createSequence("delay_code_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>public.message_id_seq</code>
+     */
+    public static final Sequence<Integer> MESSAGE_ID_SEQ = Internal.createSequence("message_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>public.port_call_timestamp_id_seq</code>
      */
-    public static final Sequence<Integer> PORT_CALL_TIMESTAMP_ID_SEQ = Internal.createSequence("port_call_timestamp_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Integer> PORT_CALL_TIMESTAMP_ID_SEQ = Internal.createSequence("port_call_timestamp_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>public.port_id_seq</code>
      */
-    public static final Sequence<Integer> PORT_ID_SEQ = Internal.createSequence("port_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Integer> PORT_ID_SEQ = Internal.createSequence("port_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>public.portcall_timestamp_mapping_id_seq</code>
+     */
+    public static final Sequence<Integer> PORTCALL_TIMESTAMP_MAPPING_ID_SEQ = Internal.createSequence("portcall_timestamp_mapping_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>public.terminal_id_seq</code>
      */
-    public static final Sequence<Integer> TERMINAL_ID_SEQ = Internal.createSequence("terminal_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Integer> TERMINAL_ID_SEQ = Internal.createSequence("terminal_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>public.vessel_id_seq</code>
      */
-    public static final Sequence<Integer> VESSEL_ID_SEQ = Internal.createSequence("vessel_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+    public static final Sequence<Integer> VESSEL_ID_SEQ = Internal.createSequence("vessel_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 }

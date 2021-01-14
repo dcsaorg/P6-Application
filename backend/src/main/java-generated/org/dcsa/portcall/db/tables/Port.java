@@ -22,6 +22,7 @@ import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
+import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
 
@@ -31,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Port extends TableImpl<PortRecord> {
 
-    private static final long serialVersionUID = 1927351759;
+    private static final long serialVersionUID = 1L;
 
     /**
      * The reference instance of <code>public.port</code>
@@ -49,38 +50,39 @@ public class Port extends TableImpl<PortRecord> {
     /**
      * The column <code>public.port.id</code>.
      */
-    public final TableField<PortRecord, Integer> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("nextval('port_id_seq'::regclass)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<PortRecord, Integer> ID = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>public.port.name</code>.
      */
-    public final TableField<PortRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(150).nullable(false), this, "");
+    public final TableField<PortRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(150).nullable(false), this, "");
 
     /**
      * The column <code>public.port.un_country</code>.
      */
-    public final TableField<PortRecord, String> UN_COUNTRY = createField(DSL.name("un_country"), org.jooq.impl.SQLDataType.VARCHAR(2).nullable(false), this, "");
+    public final TableField<PortRecord, String> UN_COUNTRY = createField(DSL.name("un_country"), SQLDataType.VARCHAR(2).nullable(false), this, "");
 
     /**
      * The column <code>public.port.un_locode</code>.
      */
-    public final TableField<PortRecord, String> UN_LOCODE = createField(DSL.name("un_locode"), org.jooq.impl.SQLDataType.VARCHAR(6).nullable(false), this, "");
+    public final TableField<PortRecord, String> UN_LOCODE = createField(DSL.name("un_locode"), SQLDataType.VARCHAR(6).nullable(false), this, "");
 
     /**
      * The column <code>public.port.un_location</code>.
      */
-    public final TableField<PortRecord, String> UN_LOCATION = createField(DSL.name("un_location"), org.jooq.impl.SQLDataType.VARCHAR(3).nullable(false), this, "");
+    public final TableField<PortRecord, String> UN_LOCATION = createField(DSL.name("un_location"), SQLDataType.VARCHAR(3).nullable(false), this, "");
 
     /**
      * The column <code>public.port.timezone</code>.
      */
-    public final TableField<PortRecord, String> TIMEZONE = createField(DSL.name("timezone"), org.jooq.impl.SQLDataType.VARCHAR(40), this, "");
+    public final TableField<PortRecord, String> TIMEZONE = createField(DSL.name("timezone"), SQLDataType.VARCHAR(40), this, "");
 
-    /**
-     * Create a <code>public.port</code> table reference
-     */
-    public Port() {
-        this(DSL.name("port"), null);
+    private Port(Name alias, Table<PortRecord> aliased) {
+        this(alias, aliased, null);
+    }
+
+    private Port(Name alias, Table<PortRecord> aliased, Field<?>[] parameters) {
+        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
     }
 
     /**
@@ -97,12 +99,11 @@ public class Port extends TableImpl<PortRecord> {
         this(alias, PORT);
     }
 
-    private Port(Name alias, Table<PortRecord> aliased) {
-        this(alias, aliased, null);
-    }
-
-    private Port(Name alias, Table<PortRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.table());
+    /**
+     * Create a <code>public.port</code> table reference
+     */
+    public Port() {
+        this(DSL.name("port"), null);
     }
 
     public <O extends Record> Port(Table<O> child, ForeignKey<O, PortRecord> key) {
@@ -116,7 +117,7 @@ public class Port extends TableImpl<PortRecord> {
 
     @Override
     public Identity<PortRecord, Integer> getIdentity() {
-        return Keys.IDENTITY_PORT;
+        return (Identity<PortRecord, Integer>) super.getIdentity();
     }
 
     @Override

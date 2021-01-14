@@ -1,11 +1,17 @@
 @import "DCSA-Theme";
 
 #commentbox {
+  width: 100%;
   height: 300px;
+  max-height: 300px;
+  resize: none;
 }
 
 #commentContainer {
-  margin-top: 15px;
+  margin: 15px 0px 15px 0px;
+  width: 100%;
+  height: 300px;
+  max-height: 300px;
 }
 
 .delayCodeDetails {
@@ -21,4 +27,12 @@
 .delayCodeSelected {
   float: left;
   clear: none;
+}
+
+.dropdownDiv {
+  width: 100%
+}
+
+.p-buttonset {
+  width: 40%;
 }

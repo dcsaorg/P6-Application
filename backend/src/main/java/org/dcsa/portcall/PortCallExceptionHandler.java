@@ -19,7 +19,7 @@ public class PortCallExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(PortCallException.class)
     public ResponseEntity<ErrorResponse> duplicateEntryExceptionHandler(PortCallException ex, WebRequest request) {
 
-        return new ResponseEntity<>(ex.getErrorResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(ex.getErrorResponse(), ex.getErrorResponse().getHttpStatus());
     }
 
     @ExceptionHandler(Exception.class)

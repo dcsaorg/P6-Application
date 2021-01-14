@@ -1,16 +1,16 @@
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './view/app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './view/header/header.component';
-import {PortCallTimestampTypeToStringPipe} from './controller/port-call-timestamp-type-to-string.pipe';
-import {PortCallTimestampTypeToEnumPipe} from './controller/port-call-timestamp-type-to-enum.pipe';
-import {PortIdToPortPipe} from './controller/port-id-to-port.pipe';
-import {TerminalIdToTerminalPipe} from './controller/terminal-id-to-terminal.pipe';
+import {PortCallTimestampTypeToStringPipe} from './controller/pipes/port-call-timestamp-type-to-string.pipe';
+import {PortCallTimestampTypeToEnumPipe} from './controller/pipes/port-call-timestamp-type-to-enum.pipe';
+import {PortIdToPortPipe} from './controller/pipes/port-id-to-port.pipe';
+import {TerminalIdToTerminalPipe} from './controller/pipes/terminal-id-to-terminal.pipe';
 import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
 import {TimestampEditorComponent} from './view/timestamp-editor/timestamp-editor.component';
 import {TimestampPaginatorComponent} from './view/timestamp-paginator/timestamp-paginator.component';
@@ -25,6 +25,7 @@ import {CardModule} from 'primeng/card';
 import {DropdownModule} from 'primeng/dropdown';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {InputNumberModule} from "primeng/inputnumber";
+import {InputMaskModule} from 'primeng/inputmask';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ConfirmationService, MessageService} from "primeng/api";
@@ -33,10 +34,18 @@ import {TableModule} from 'primeng/table';
 import {ToastModule} from "primeng/toast";
 import {TooltipModule} from 'primeng/tooltip';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import { InstructionsComponent } from './view/instructions/instructions.component';
+import {InstructionsComponent} from './view/instructions/instructions.component';
 import {DialogModule} from "primeng/dialog";
-import { DateToUtcPipe } from './controller/date-to-utc.pipe';
-import { TimestampToTimezonePipe } from './controller/timeStampToTimeZone.pipe';
+import {DateToUtcPipe} from './controller/pipes/date-to-utc.pipe';
+import {TimestampToTimezonePipe} from './controller/pipes/timeStampToTimeZone.pipe';
+import {PortOfCallComponent} from './view/port-of-call/port-of-call.component';
+import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -55,6 +64,8 @@ import { TimestampToTimezonePipe } from './controller/timeStampToTimeZone.pipe';
     InstructionsComponent,
     DateToUtcPipe,
     TimestampToTimezonePipe,
+    PortOfCallComponent,
+    VesselIdToVesselPipe,
   ],
     imports: [
         AppRoutingModule,
@@ -69,6 +80,7 @@ import { TimestampToTimezonePipe } from './controller/timeStampToTimeZone.pipe';
         FormsModule,
         HttpClientModule,
         InputNumberModule,
+        InputMaskModule,
         InputTextModule,
         InputTextareaModule,
         PaginatorModule,
@@ -77,7 +89,14 @@ import { TimestampToTimezonePipe } from './controller/timeStampToTimeZone.pipe';
         ToastModule,
         TooltipModule,
         DialogModule,
-
+        TranslateModule.forRoot({
+          defaultLanguage: 'en',
+          loader: {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient]
+          }
+        }),
     ],
   providers: [
     ConfirmationService,

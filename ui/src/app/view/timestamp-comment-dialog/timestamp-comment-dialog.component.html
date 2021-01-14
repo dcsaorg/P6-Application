@@ -1,8 +1,8 @@
 <div class="p-fluid">
-  <div class="p-col-12 p-md-10">
+  <div class="p-col-12 p-md-10 dropdownDiv">
 
     <p-dropdown [options]="delayCodeOptions" [(ngModel)]="timestamp.delayCode" [filter]="true"
-                filterBy="label,value.name" [group]="false" [disabled]="readonly">
+                filterBy="label,value.name" [group]="false" [disabled]="!editMode">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
           <div class="delayCodeSelected">{{delayCode.value.smdgCode}}</div>
@@ -26,16 +26,18 @@
 
   </div>
 
-  <div id="commentContainer" style="height: 350px" class="p-col-12 p-md-10">
+  <div id="commentContainer" class="p-col-12 p-md-10">
     <span class="p-float-label">
-    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment" [disabled]="readonly"></textarea>
-    <label for="commentbox">Comment for new timestamp!</label>
+    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment" [disabled]="!editMode"></textarea>
+    <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
     </span>
   </div>
-  <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="right">
+  <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="left">
     <span class="p-buttonset">
-            <button (click)="close()" label="Close" pButton
-                    type="button"></button>
+        <button *ngIf="!editMode" (click)="close()" label="{{ 'general.close.label' | translate }}" pButton type="button"></button>
+        <button *ngIf="editMode" (click)="save()" icon="pi pi-check" label="{{ 'general.save.label' | translate }}" pButton type="button"></button>
+        <button *ngIf="editMode" (click)="cancelEdit()" class="p-button-warning" icon="pi pi-times" label="{{ 'general.cancel.label' | translate }}"
+                pButton type="button"></button>
     </span>
   </div>
 </div>

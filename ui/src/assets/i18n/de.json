@@ -1,0 +1,188 @@
+{
+	"general": {
+		"cancel": {
+			"label": "Abbrechen"
+		},
+		"close": {
+			"label": "Schließen"
+		},
+		"comment": {
+			"header": "Hinzufügen/ändern eines Kommentars für ein Hafen-Anfrage-Ereignis",
+			"select": "Verspätungs-Code auswählen (optional)",
+			"tooltip": "Kommentar oder Grund der Verspätung für den Zeitstempel"
+		},
+		"company": "Firma",
+		"direction": {
+			"inbound": "Eingehend",
+			"outbound": "Ausgehend",
+			"select": "Richtung auswählen"
+		},
+		"download": {
+			"label": "Herunterladen",
+			"timestamps": {
+				"header": "Zeitstempel herunteladen für",
+				"label": "Zeitstempel herunterladen",
+				"tooltip": "Läd eine CSV-Datei herunter, welche die eingefügten Zeitstempel für alle Schiffe die in diesem Login gemeldet wurden beinhaltet."
+			}
+		},
+		"instructions": {
+			"explanation": {
+				"berth": {
+					"ata": "Die echte Ankunftszeit am Liegeplatz (Actual Time of Arrival).",
+					"atd": "Echte Zeit des Ablegens vom Liegeplatz (Actual Time of Departure).",
+					"eta": "Vorraussichtliche Ankunftszeit am Liegeplatz des Schiffs, kommuniziert durch die Reederei (Estimated Time of Arrival).",
+					"etd": "Die vorraussichtliche Zeit des Ablegens vom Liegeplatz, vom Agent oder Kapitän geschätzt (Estimated Time of Departure).",
+					"pta": "Geplante Ankunftszeit am Liegeplatz. Wenn ein Schiffsbetreiber (oder Agent) die angefragte Ankunftzeit am Liegeplatz dem Terminalbetreiber bestätigt (Planned Time of Arrival).",
+					"ptd": "Geplante Zeit des Ablegens des Schiffs vom Liegeplatz. Dies ist die Bestätigung des Schiffs für die angefragte Zeit des Ablegens vom Schiffsbetreiber/ Agent oder Kapitän (Planned Time of Departure).",
+					"rta": "Ankunftszeit am Liegeplatz wie angefragt vom Terminalbetreiber (Requested Time of Arrival).",
+					"rtd": "Die angefragte Zeit des Ablegens vom Liegeplatz, wie angefragt von der Hafenbehörde (Requested Time of Departure)."
+				},
+				"cargoOps": {
+					"atc": "Die echte zeit der Fertigstellung des Frachtbetriebs (letzte kommerzielle Förderung (Actual Time of Completion).",
+					"ats": "Die echte Zeit an welcher der Frachtbetrieb gestartet ist (erster kommerzielle Förderung) (Actual Time of Start).",
+					"etc": "Vorraussichtliche Zeit des Abschlusses des Frachtbetriebs. Die Schätzung basiert normalerweise auf der geschätzten Produktivität der Gesamtmenge an Operationen (Estimated Time of Completion).",
+					"ptc": "Die akzeptierte geplante Zeit der Fertigstellung des Frachtbetriebs (Planned Time of Completion).",
+					"rtc": "Die angefragte Zeit, an welcher der Schiffsbetreiber oder Agent den Frachtebtrieb abgeschlossen haben will (letzte kommerzielle Förderung) z.B. könnte der Schiffsbetreiber ein früheres Ablegen erfragen im Falle von \"Cut&Run\" (Requested Time of Completion)."
+				},
+				"paragraph": {
+					"1": "Folgend sind die Erklärungen der Zeitstempel. Bitte füllen Sie diese so detailiert wie möglich aus und fügen Sie jede Änderung, welche von Terminalbetreibern, Häfen oder der Reederei kommuniziert wurde (z.B. via Telefon oder Email), hinzu. Dies gibt uns eine detailierte Übersicht, wie oft die geschätzten Ankunftszeiten, Frachtoperationen oder das Ablegen geändert wurden. Bitte berücksichtigen Sie, dass für Frachtoperationen nicht jede Änderung notwendig ist, eher eine gute Übersicht über ETC 12, 6 und 3 Stunden vor dem Ende. Dienste, welche keine Frachtoperationen sind, müssen nicht erfasst werden.",
+					"2": "Wir planen komplette Informations-Zyklen für Schiffe über 2000 TEU zu bekommen. Bitte setzen Sie sich mit Ihrem internen Kontakt in Verbindung, falls Sie Fragen über den Umfang der Schiffe, welchen Sie melden, haben. Wenn Sie weiter Fragen haben oder Fehler bemerken kontaktieren Sie bitte via",
+					"3": "Vielen Dank für Ihre Zeit und Unterstützung!"
+				},
+				"pbp": {
+					"ata": "Die echte Ankunftszeit des schiffs am Lotsen-Boarding-Platz (Actual Time of Arrival).",
+					"eta": "Vorraussichtliche Ankunftszeit am Lotsen-Boarding-Platz oder -Zone. Dies wird vom Schiff/ Agent an die Hafenbehörde kommuniziert (Estimated Time of Arrival).",
+					"pta": "Geplante Ankunftszeit am Lotsen-Boarding-Platz. Wenn ein Schiffsbetreiber (oder sein Agent) die angefragte Ankunftszeit PBP dem Lotsen/ der Hafenbehörde bestätigt (Planned Time of Arrival).",
+					"rta": "Ankunftszeit am Pilot-Boarding-Platz wie angefragt von der Hafenbehörde oder dem Lotsen (Requested Time of Arrival)."
+				}
+			},
+			"label": "Anweisungen"
+		},
+		"port": {
+			"call": "Port of Call",
+			"ofCall": "Anlaufhafen",
+			"select": "Hafen auswählen"
+		},
+		"save": {
+			"editor": {
+				"failure": "Fehler beim Hinzufügen des Hafen-Anfrage-Zeitstempels",
+				"success": "Neuer Hafen-Anfrage-Zeitstempel wurde erfolgreich zum Schiff hinzugefügt"
+			},
+			"label": "Speichern"
+		},
+		"table": {
+			"accept": {
+				"tooltip": "Zeitstempel akzeptieren und Antwort senden als"
+			},
+			"delete": {
+				"tooltip": "Den Zeitstempel löschen"
+			},
+			"header": {
+				"berthId": {
+					"label": "Liegeplatz Id",
+					"tooltip": "Wenn vorhanden: Wo wird das Schiff liegen (Poller Nummer oder Name)?"
+				},
+				"comment": {
+					"label": "Kommentar",
+					"tooltip": "Begründung und/oder Kommentare für (Änderungen) die Hafen-Anfrage"
+				},
+				"direction": {
+					"label": "Richtung",
+					"tooltip": "Wie ist die Richtung des Schiffs, z.B. nord- oder südwärts"
+				},
+				"eventTimestamp": {
+					"label": "Ereignis Zeitstempel",
+					"tooltip": "Was ist der geschätzte, angefragte, geplante oder echte Zeitstempel des Ereignisses (lokale Zeit des Hafens)"
+				},
+				"logOfTimestamp": {
+					"label": "Kommunikationszeit der Nachricht. ",
+					"tooltip": "Wann wurde das Ereignis kommuniziert (lokale Zeit des Hafens)"
+				},
+				"nextPort": {
+					"label": "Nachf. Hafen",
+					"tooltip": "Welcher ist der nachfolgende Hafen?"
+				},
+				"portOfCall": {
+					"label": "Anlaufhafen",
+					"tooltip": "Welcher ist der betroffene Hafen? Für den Agenten: dies ist Ihr eigener Hafen"
+				},
+				"previousPort": {
+					"label": "Vorh. Hafen",
+					"tooltip": "Aus welchem Hafen kommt das Schiff?"
+				},
+				"refresh": "Tabellendaten neu laden",
+				"search": {
+					"label": "In der Tabelle suchen",
+					"tooltip": "Dies schaltet die Suche in der Tabelle über Zeitstempel, Klassifizierungscode, Event Typ Code, vorheriger Hafen, nachfolgender Hafen und der betroffene Hafen"
+				},
+				"sequence": {
+					"label": "#",
+					"tooltip": "Wie oft die Planung eines Prozesses geändert wurde. Dies verändert sich automatisch"
+				},
+				"terminalId": {
+					"label": "Terminal Id",
+					"tooltip": "Wie ist der Name und/oder der SMDG Code des Terminals?"
+				},
+				"timestamp": {
+					"label": "Zeitstempel",
+					"tooltip": "Ein geschätzter, angefragter, geplanter oder echter Zeitstempel eines Prozess-Ereignisses"
+				},
+				"vessel": {
+					"label": "Schiff",
+					"tooltip": "Das Schiff eines Prozess-Ereignisses"
+				}
+			},
+			"pagination": "Seite {currentPage} von {totalPages} ({totalRecords} Einträge)"
+		},
+		"terminal": {
+			"select": "Terminal auswählen"
+		},
+		"timestamp": {
+			"date": {
+				"event": "Ereignisdatum",
+				"log": "Log-Datum"
+			},
+			"select": "Zeitstempel auswählen",
+			"time": "Zeit"
+		},
+		"vessel": {
+			"add": {
+				"header": "Neues Schiff anlegen",
+				"label": "Ein neues Schiff hinzufügen"
+			},
+			"edit": {
+				"header": "Schiff bearbeiten",
+				"label": "Ein Schiff bearbeiten"
+			},
+			"label": "Schiff",
+			"name": "Schiffsname",
+			"number": "IMO Nummer",
+			"select": "Alle Schiffe",
+			"serviceName": "Servicename",
+			"size": "Schiffsgröße (TEU)",
+			"validation": {
+				"name": {
+					"empty": "Der Schiffsname ist notwendig",
+					"length": {
+						"max": "Der Schiffsname sollte maximal 100 Zeichen lang sein",
+						"min": "Der Schiffsname sollte mindestens 1 Zeichen lang sein"
+					}
+				},
+				"number": {
+					"empty": "Die IMO Nummer ist notwendig",
+					"length": {
+						"max": "Maximallänge ist 7 Zeichen",
+						"min": "Die IMO Nummer sollte 7 zeichen lang sein"
+					}
+				},
+				"size": {
+					"empty": "TEU ist notwendig",
+					"max": {
+						"length": "Maximallänge ist 255",
+						"number": "Die maximale Nummer für TEU ist 32767"
+					}
+				}
+			}
+		}
+	}
+}

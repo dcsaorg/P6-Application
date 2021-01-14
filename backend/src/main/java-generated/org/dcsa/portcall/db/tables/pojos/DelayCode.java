@@ -15,7 +15,7 @@ import org.dcsa.portcall.db.enums.DelayType;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DelayCode implements Serializable {
 
-    private static final long serialVersionUID = -1863770813;
+    private static final long serialVersionUID = 1L;
 
     private Integer   id;
     private String    smdgCode;
@@ -47,46 +47,76 @@ public class DelayCode implements Serializable {
         this.description = description;
     }
 
+    /**
+     * Getter for <code>public.delay_code.id</code>.
+     */
     public Integer getId() {
         return this.id;
     }
 
+    /**
+     * Setter for <code>public.delay_code.id</code>.
+     */
     public DelayCode setId(Integer id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Getter for <code>public.delay_code.smdg_code</code>.
+     */
     public String getSmdgCode() {
         return this.smdgCode;
     }
 
+    /**
+     * Setter for <code>public.delay_code.smdg_code</code>.
+     */
     public DelayCode setSmdgCode(String smdgCode) {
         this.smdgCode = smdgCode;
         return this;
     }
 
+    /**
+     * Getter for <code>public.delay_code.name</code>.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Setter for <code>public.delay_code.name</code>.
+     */
     public DelayCode setName(String name) {
         this.name = name;
         return this;
     }
 
+    /**
+     * Getter for <code>public.delay_code.delay_type</code>.
+     */
     public DelayType getDelayType() {
         return this.delayType;
     }
 
+    /**
+     * Setter for <code>public.delay_code.delay_type</code>.
+     */
     public DelayCode setDelayType(DelayType delayType) {
         this.delayType = delayType;
         return this;
     }
 
+    /**
+     * Getter for <code>public.delay_code.description</code>.
+     */
     public String getDescription() {
         return this.description;
     }
 
+    /**
+     * Setter for <code>public.delay_code.description</code>.
+     */
     public DelayCode setDescription(String description) {
         this.description = description;
         return this;

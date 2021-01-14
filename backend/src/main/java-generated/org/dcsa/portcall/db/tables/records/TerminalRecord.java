@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TerminalRecord extends UpdatableRecordImpl<TerminalRecord> implements Record5<Integer, Integer, String, String, String> {
 
-    private static final long serialVersionUID = 641830736;
+    private static final long serialVersionUID = 1L;
 
     /**
      * Setter for <code>public.terminal.id</code>.
@@ -250,10 +250,10 @@ public class TerminalRecord extends UpdatableRecordImpl<TerminalRecord> implemen
     public TerminalRecord(Integer id, Integer port, String smdgCode, String terminalName, String terminalOperator) {
         super(Terminal.TERMINAL);
 
-        set(0, id);
-        set(1, port);
-        set(2, smdgCode);
-        set(3, terminalName);
-        set(4, terminalOperator);
+        setId(id);
+        setPort(port);
+        setSmdgCode(smdgCode);
+        setTerminalName(terminalName);
+        setTerminalOperator(terminalOperator);
     }
 }

@@ -2,6 +2,8 @@ import {PortcallTimestampType} from "./portcall-timestamp-type.enum";
 import {Port} from "./port";
 import {Terminal} from "./terminal";
 import {DelayCode} from "./delayCode";
+import {Vessel} from "./vessel";
+import {MessageDirection} from "./messageDirection";
 
 export interface PortcallTimestamp {
   id: number;
@@ -19,4 +21,13 @@ export interface PortcallTimestamp {
   locationId: string;
   changeComment?: string;
   delayCode?: DelayCode | number;
+  vessel: number | Vessel;
+  response?: PortcallTimestampType;
+  modifiable: boolean;
+  messageDirection?: MessageDirection;
+  processId?: string;
+  messagingStatus?: string;
+  messagingDetails?: string;
+  outdatedMessage?: boolean;
+  sequenceColor?: string;
 }

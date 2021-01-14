@@ -14,6 +14,12 @@ spring:
     password: dcsapw
     hikari:
       auto-commit: false
+      connection-timeout: 30000
+      idle-timeout: 30000
+      minimum-idle: 0
+      maximum-pool-size: 10
+      max-lifetime: 60000
+      leak-detection-threshold: 30000
   flyway:
     url: jdbc:postgresql://127.0.0.1:5432/dcsa
     user: dcsa
@@ -65,3 +71,17 @@ springdoc:
 
 dcsa:
   company: Development
+  sender-role: CARRIER
+  sender-id-type: SMDG_LINER_CODE
+  sender-id: EXP
+
+  hotfolder:
+    outbox: "hotfolder/outbox"
+    inbox: "hotfolder/inbox"
+
+  messenger:
+    adapter:
+      id: DCSA
+      version: 1.0
+    host: localhost
+    port: 2600

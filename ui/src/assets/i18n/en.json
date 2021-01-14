@@ -1,0 +1,188 @@
+{
+	"general": {
+		"cancel": {
+			"label": "Cancel"
+		},
+		"close": {
+			"label": "Close"
+		},
+		"comment": {
+			"header": "Add/change comment to port call event",
+			"select": "Select delay code (optional)",
+			"tooltip": "Comment or reason of delay for timestamp"
+		},
+		"company": "Company",
+		"direction": {
+			"inbound": "Inbound",
+			"outbound": "Outbound",
+			"select": "Select direction"
+		},
+		"download": {
+			"label": "Download",
+			"timestamps": {
+				"header": "Download timestamps for",
+				"label": "Download timestamps",
+				"tooltip": "This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment."
+			}
+		},
+		"instructions": {
+			"explanation": {
+				"berth": {
+					"ata": "The actual time of arrival of the vessel at Berth.",
+					"atd": "Actual time of departure from berth.",
+					"eta": "Estimated time of arrival at berth of vessel, communicated by carrier.",
+					"etd": "The estimated time of departure from the berth, as estimated by the agent or captain.",
+					"pta": "Planned time of arrival at berth. When a vessel operator (or agent) confirmed the requested time of arrival berth to the terminal operator.",
+					"ptd": "Planned time of departure of the vessel from berth. This is the confirmation from the vessel of the requested time of departure done by the vessel operator/agent or captain.",
+					"rta": "Time of arrival at berth as requested by the terminal operator.",
+					"rtd": "The requested time of departure from berth, as requested by the port authority."
+				},
+				"cargoOps": {
+					"atc": "The actual time of completion of cargo operations (last commercial lift).",
+					"ats": "The actual time at which the cargo operations has started (first commercial lift).",
+					"etc": "Estimated time of completion cargo operations. The estimate is usually based on the estimated productivity to perform the total number of moves.",
+					"ptc": "The agreed upon planned time of completion of cargo operations.",
+					"rtc": "The requested time at which the vessel operator or agent would like the cargo operations to finish (last commercial lift) e.g. The vessel operator might request an earlier departure in case of cut & run."
+				},
+				"paragraph": {
+					"1": "Below are the explanations of the timestamps. Please fill these timestamps as detailed as possible and add every change that is communicated (e.g. by phone or e-mail) by the Terminal Operator, Port, or you as Carrier. This will give us a detailed view of how often the estimated times of arrival, cargo operations and departure change. Note that for cargo operations, not every change is absolutely necessary, just a good overview of the ETC 12 hours, 6 hours and 3 hours before the end. Services other than cargo operations do not need to be reported.",
+					"2": "We aim to receive full cycles of information for vessels over 2000 TEU. Please consult with your internal contact if you have questions about the scope or number of vessels you report. If you have any questions or see any bugs or issues, please contact us via",
+					"3": "Thank you very much for your time and effort!"
+				},
+				"pbp": {
+					"ata": "The actual time of arrival of the vessel at Pilot Boarding Place.",
+					"eta": "Estimated time of arrival at pilot boarding place or zone. This is communicated by the vessel / agent to the port authority.",
+					"pta": "Planned time of arrival at pilot boarding place. When a vessel operator (or his agent)  confirmed the requested time of arrival PBP to the pilot/port authority.",
+					"rta": "Time of arrival at pilot boarding place as requested by the port authority or pilot."
+				}
+			},
+			"label": "Instructions"
+		},
+		"port": {
+			"call": "Port Call",
+			"ofCall": "Port of Call",
+			"select": "Select port"
+		},
+		"save": {
+			"editor": {
+				"failure": "Error while adding port call timestamp",
+				"success": "Successfully added new port call timestamp to vessel"
+			},
+			"label": "Save"
+		},
+		"table": {
+			"accept": {
+				"tooltip": "Accept timestamp and send a response as"
+			},
+			"delete": {
+				"tooltip": "Delete the timestamp"
+			},
+			"header": {
+				"berthId": {
+					"label": "Berth Id",
+					"tooltip": "If available: where will the vessel berth (bollard number or name)?"
+				},
+				"comment": {
+					"label": "Comment",
+					"tooltip": "Root cause and/or comment for (change of) port call event"
+				},
+				"direction": {
+					"label": "Direction",
+					"tooltip": "What is the vessel direction, e.g. north or southbound"
+				},
+				"eventTimestamp": {
+					"label": "Event timestamp",
+					"tooltip": "What is the estimated, requested, planned or actual timestamp of the event (local time for port)"
+				},
+				"logOfTimestamp": {
+					"label": "Message comm. time. ",
+					"tooltip": "When was the event communicated (local time for port)"
+				},
+				"nextPort": {
+					"label": "Next port",
+					"tooltip": "What is the next port in the rotation?"
+				},
+				"portOfCall": {
+					"label": "Port of call",
+					"tooltip": "What is the approaching port of call? For the agent: this is your own port"
+				},
+				"previousPort": {
+					"label": "Previous port",
+					"tooltip": "What port does the vessel come from?"
+				},
+				"refresh": "Refresh table data",
+				"search": {
+					"label": "Search in table",
+					"tooltip": "This enables table search containing for Timestamp, Classifier Code, Event Type Code, Port From, Port To and Next Port"
+				},
+				"sequence": {
+					"label": "#",
+					"tooltip": "How often the planning of a process was changed. This will change automatically"
+				},
+				"terminalId": {
+					"label": "Terminal Id",
+					"tooltip": "What is the name and/or SMDG code of the terminal?"
+				},
+				"timestamp": {
+					"label": "Timestamp",
+					"tooltip": "An estimated, requested, planned or actual timestamp of a process event."
+				},
+				"vessel": {
+					"label": "Vessel",
+					"tooltip": "The vessel of a process event"
+				}
+			},
+			"pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"
+		},
+		"terminal": {
+			"select": "Select terminal"
+		},
+		"timestamp": {
+			"date": {
+				"event": "Event date",
+				"log": "Log date"
+			},
+			"select": "Select timestamp",
+			"time": "Time"
+		},
+		"vessel": {
+			"add": {
+				"header": "Create a new vessel",
+				"label": "Add a new vessel"
+			},
+			"edit": {
+				"header": "Edit vessel",
+				"label": "Edit a vessel"
+			},
+			"label": "Vessel",
+			"name": "Vessel name",
+			"number": "IMO number",
+			"select": "All vessels",
+			"serviceName": "Service name",
+			"size": "Vessel size (TEU)",
+			"validation": {
+				"name": {
+					"empty": "The vessel name is required",
+					"length": {
+						"max": "The vessel name should be maximal 100 characters long",
+						"min": "The vessel name should be at least 1 character long"
+					}
+				},
+				"number": {
+					"empty": "The IMO is required",
+					"length": {
+						"max": "Maximum length is 7",
+						"min": "The IMO should be 7 digits"
+					}
+				},
+				"size": {
+					"empty": "TEU is required",
+					"max": {
+						"length": "Maximum length is 255",
+						"number": "The maximal number of TEU is 32767"
+					}
+				}
+			}
+		}
+	}
+}

@@ -13,9 +13,10 @@ import java.io.Serializable;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Vessel implements Serializable {
 
-    private static final long serialVersionUID = 735840375;
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
+    private Integer carrier;
     private String  name;
     private Integer imo;
     private Short   teu;
@@ -25,6 +26,7 @@ public class Vessel implements Serializable {
 
     public Vessel(Vessel value) {
         this.id = value.id;
+        this.carrier = value.carrier;
         this.name = value.name;
         this.imo = value.imo;
         this.teu = value.teu;
@@ -33,58 +35,105 @@ public class Vessel implements Serializable {
 
     public Vessel(
         Integer id,
+        Integer carrier,
         String  name,
         Integer imo,
         Short   teu,
         String  serviceNameCode
     ) {
         this.id = id;
+        this.carrier = carrier;
         this.name = name;
         this.imo = imo;
         this.teu = teu;
         this.serviceNameCode = serviceNameCode;
     }
 
+    /**
+     * Getter for <code>public.vessel.id</code>.
+     */
     public Integer getId() {
         return this.id;
     }
 
+    /**
+     * Setter for <code>public.vessel.id</code>.
+     */
     public Vessel setId(Integer id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Getter for <code>public.vessel.carrier</code>.
+     */
+    public Integer getCarrier() {
+        return this.carrier;
+    }
+
+    /**
+     * Setter for <code>public.vessel.carrier</code>.
+     */
+    public Vessel setCarrier(Integer carrier) {
+        this.carrier = carrier;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.vessel.name</code>.
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Setter for <code>public.vessel.name</code>.
+     */
     public Vessel setName(String name) {
         this.name = name;
         return this;
     }
 
+    /**
+     * Getter for <code>public.vessel.imo</code>.
+     */
     public Integer getImo() {
         return this.imo;
     }
 
+    /**
+     * Setter for <code>public.vessel.imo</code>.
+     */
     public Vessel setImo(Integer imo) {
         this.imo = imo;
         return this;
     }
 
+    /**
+     * Getter for <code>public.vessel.teu</code>.
+     */
     public Short getTeu() {
         return this.teu;
     }
 
+    /**
+     * Setter for <code>public.vessel.teu</code>.
+     */
     public Vessel setTeu(Short teu) {
         this.teu = teu;
         return this;
     }
 
+    /**
+     * Getter for <code>public.vessel.service_name_code</code>.
+     */
     public String getServiceNameCode() {
         return this.serviceNameCode;
     }
 
+    /**
+     * Setter for <code>public.vessel.service_name_code</code>.
+     */
     public Vessel setServiceNameCode(String serviceNameCode) {
         this.serviceNameCode = serviceNameCode;
         return this;
@@ -95,6 +144,7 @@ public class Vessel implements Serializable {
         StringBuilder sb = new StringBuilder("Vessel (");
 
         sb.append(id);
+        sb.append(", ").append(carrier);
         sb.append(", ").append(name);
         sb.append(", ").append(imo);
         sb.append(", ").append(teu);

@@ -1,12 +1,18 @@
 @import "DCSA-Theme";
 
+.stickyFooterDiv {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0px;
+}
+
 .main {
   width: 100%;
   margin: 0;
   padding: 0;
 
   &__spaceBetween {
-    margin-bottom: 15px;
+    margin-bottom: 0px;
   }
 
   &__spaceInnerComponent {
@@ -19,4 +25,26 @@
     font-size: 16pt;
     color: lightgray;
   }
+
+  &__cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    padding: 5px 10px 5px 10px;
+  }
+
+}
+
+root {
+  font-size: 4px;
+}
+
+.rightSpace {
+  margin-right: 10px;
+}
+
+.fullWidthAndHeight {
+  width: 100%;
+  height: auto;
 }

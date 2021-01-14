@@ -4,23 +4,36 @@
 package org.dcsa.portcall.db;
 
 
+import org.dcsa.portcall.db.tables.Carrier;
 import org.dcsa.portcall.db.tables.DelayCode;
+import org.dcsa.portcall.db.tables.Message;
 import org.dcsa.portcall.db.tables.Port;
 import org.dcsa.portcall.db.tables.PortCallTimestamp;
+import org.dcsa.portcall.db.tables.PortcallTimestampMapping;
 import org.dcsa.portcall.db.tables.Terminal;
 import org.dcsa.portcall.db.tables.Vessel;
 
 
 /**
- * Convenience access to all tables in public
+ * Convenience access to all tables in public.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
 
     /**
+     * The table <code>public.carrier</code>.
+     */
+    public static final Carrier CARRIER = Carrier.CARRIER;
+
+    /**
      * The table <code>public.delay_code</code>.
      */
     public static final DelayCode DELAY_CODE = DelayCode.DELAY_CODE;
+
+    /**
+     * The table <code>public.message</code>.
+     */
+    public static final Message MESSAGE = Message.MESSAGE;
 
     /**
      * The table <code>public.port</code>.
@@ -31,6 +44,11 @@ public class Tables {
      * The table <code>public.port_call_timestamp</code>.
      */
     public static final PortCallTimestamp PORT_CALL_TIMESTAMP = PortCallTimestamp.PORT_CALL_TIMESTAMP;
+
+    /**
+     * The table <code>public.portcall_timestamp_mapping</code>.
+     */
+    public static final PortcallTimestampMapping PORTCALL_TIMESTAMP_MAPPING = PortcallTimestampMapping.PORTCALL_TIMESTAMP_MAPPING;
 
     /**
      * The table <code>public.terminal</code>.

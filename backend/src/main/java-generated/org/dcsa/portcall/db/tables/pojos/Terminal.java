@@ -13,7 +13,7 @@ import java.io.Serializable;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Terminal implements Serializable {
 
-    private static final long serialVersionUID = 2011681700;
+    private static final long serialVersionUID = 1L;
 
     private Integer id;
     private Integer port;
@@ -45,46 +45,76 @@ public class Terminal implements Serializable {
         this.terminalOperator = terminalOperator;
     }
 
+    /**
+     * Getter for <code>public.terminal.id</code>.
+     */
     public Integer getId() {
         return this.id;
     }
 
+    /**
+     * Setter for <code>public.terminal.id</code>.
+     */
     public Terminal setId(Integer id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Getter for <code>public.terminal.port</code>.
+     */
     public Integer getPort() {
         return this.port;
     }
 
+    /**
+     * Setter for <code>public.terminal.port</code>.
+     */
     public Terminal setPort(Integer port) {
         this.port = port;
         return this;
     }
 
+    /**
+     * Getter for <code>public.terminal.smdg_code</code>.
+     */
     public String getSmdgCode() {
         return this.smdgCode;
     }
 
+    /**
+     * Setter for <code>public.terminal.smdg_code</code>.
+     */
     public Terminal setSmdgCode(String smdgCode) {
         this.smdgCode = smdgCode;
         return this;
     }
 
+    /**
+     * Getter for <code>public.terminal.terminal_name</code>.
+     */
     public String getTerminalName() {
         return this.terminalName;
     }
 
+    /**
+     * Setter for <code>public.terminal.terminal_name</code>.
+     */
     public Terminal setTerminalName(String terminalName) {
         this.terminalName = terminalName;
         return this;
     }
 
+    /**
+     * Getter for <code>public.terminal.terminal_operator</code>.
+     */
     public String getTerminalOperator() {
         return this.terminalOperator;
     }
 
+    /**
+     * Setter for <code>public.terminal.terminal_operator</code>.
+     */
     public Terminal setTerminalOperator(String terminalOperator) {
         this.terminalOperator = terminalOperator;
         return this;

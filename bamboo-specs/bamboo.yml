@@ -5,6 +5,13 @@ plan:
   key: APP
   name: Build the PortCall application
 
+branches:
+  create:
+    for-new-branch: (feature|release|hotfix)\/.*
+  delete:
+    after-inactive-days: 30
+    after-deleted-days: 7
+
 triggers:
   - polling: 300
 
@@ -16,6 +23,15 @@ stages:
 Build:
   tasks:
     - script:
+        - export JAVA_HOME=${bamboo_capability_system_jdk_OpenJDK_11}
+        - export PATH=${JAVA_HOME}/bin:${PATH}
+        - ${bamboo_capability_system_builder_mvn3_maven_3_6}/bin/mvn ponton.product.maven.plugins:createversion-maven-plugin:create versions:set
         - ${bamboo_capability_system_builder_mvn3_maven_3_6}/bin/mvn clean deploy
   final-tasks:
-    - clean
+      - test-parser:
+          type: junit
+          test-results:
+            - backend/target/surefire-reports
+      - clean
+  requirements:
+    - system.docker.executable
