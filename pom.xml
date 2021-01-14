@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <java.version>11</java.version>
-        <jdk.home>${JAVA_11_OPENJDK_HOME}</jdk.home>
 
         <test.vmparameter>
             -ea -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true
@@ -26,7 +25,6 @@
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
 
         <!-- Maven plugins backend -->
-        <createversion-maven-plugin.version>1.3.0</createversion-maven-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
@@ -243,7 +241,6 @@
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
-                        <executable>${jdk.home}/bin/javac</executable>
                         <compilerVersion>${java.version}</compilerVersion>
                         <fork>true</fork>
                         <encoding>${project.build.sourceEncoding}</encoding>
@@ -262,7 +259,6 @@
                         </dependency>
                     </dependencies>
                     <configuration>
-                        <jvm>${jdk.home}/bin/java</jvm>
                         <forkCount>1</forkCount>
                         <threadCount>1</threadCount>
                         <reuseForks>false</reuseForks>
@@ -326,40 +322,6 @@
         </pluginManagement>
         <plugins>
             <plugin>
-                <groupId>ponton.product.maven.plugins</groupId>
-                <artifactId>createversion-maven-plugin</artifactId>
-                <version>${createversion-maven-plugin.version}</version>
-                <configuration>
-                    <currentBranch>${bamboo.planRepository.branchName}</currentBranch>
-                    <writeVersionToFile>version.txt</writeVersionToFile>
-                    <branchMappings>
-                        <branchMapping>
-                            <branchRegex>release/(.+)</branchRegex>
-                            <version>#{regex.group:1}</version>
-                            <replacementRegex>/</replacementRegex>
-                            <tagFileName>release</tagFileName>
-                        </branchMapping>
-                        <branchMapping>
-                            <branchRegex>hotfix/(.+)</branchRegex>
-                            <version>#{regex.group:1}</version>
-                            <replacementRegex>/</replacementRegex>
-                            <tagFileName>hotfix</tagFileName>
-                        </branchMapping>
-                        <branchMapping>
-                            <branchRegex>support/(.+)</branchRegex>
-                            <version>#{regex.group:1}-SNAPSHOT</version>
-                            <replacementRegex>/</replacementRegex>
-                            <tagFileName>support</tagFileName>
-                        </branchMapping>
-                        <branchMapping>
-                            <branchRegex>feature/(.+)</branchRegex>
-                            <version>#{project.simpleVersion}-#{regex.group:1}-SNAPSHOT</version>
-                            <tagFileName>feature</tagFileName>
-                        </branchMapping>
-                    </branchMappings>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
             <plugin>
@@ -397,72 +359,18 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>bamboo_variables</id>
-            <activation>
-                <property>
-                    <name>env.bamboo_shortPlanName</name>
-                </property>
-            </activation>
-            <properties>
-                <bamboo.build.working.directory>${bamboo_build_working_directory}</bamboo.build.working.directory>
-                <bamboo.agentId>${bamboo_agentId}</bamboo.agentId>
-                <bamboo.buildNumber>${bamboo_buildNumber}</bamboo.buildNumber>
-                <bamboo.buildTimeStamp>${bamboo_buildTimeStamp}</bamboo.buildTimeStamp>
-                <bamboo.shortJobKey>${bamboo_shortJobKey}</bamboo.shortJobKey>
-                <bamboo.shortPlanKey>${bamboo_shortPlanKey}</bamboo.shortPlanKey>
-                <bamboo.shortPlanName>${bamboo_shortPlanName}</bamboo.shortPlanName>
-                <bamboo.planRepository.branchName>${bamboo_planRepository_branchName}</bamboo.planRepository.branchName>
-                <bamboo.planRepository.name>${bamboo_planRepository_name}</bamboo.planRepository.name>
-                <bamboo.planRepository.revision>${bamboo_planRepository_revision}</bamboo.planRepository.revision>
-                <bamboo.planRepository.branch>${bamboo_planRepository_branch}</bamboo.planRepository.branch>
-                <bamboo.buildResultKey>${bamboo_buildResultKey}</bamboo.buildResultKey>
-                <revision>${bamboo_shortPlanKey}</revision>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>bamboo_default_variables</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <bamboo.build.working.directory>${project.build.directory}</bamboo.build.working.directory>
-                <bamboo.agentId>local</bamboo.agentId>
-                <bamboo.buildNumber>1</bamboo.buildNumber>
-                <bamboo.buildTimeStamp>${maven.build.timestamp}</bamboo.buildTimeStamp>
-                <bamboo.shortJobKey/>
-                <bamboo.shortPlanKey/>
-                <bamboo.shortPlanName/>
-                <bamboo.planRepository.branchName/>
-                <bamboo.planRepository.name>SMSS Repository</bamboo.planRepository.name>
-                <bamboo.planRepository.revision/>
-                <bamboo.planRepository.branch/>
-                <bamboo.buildResultKey/>
-                <revision>LOCAL</revision>
-            </properties>
-        </profile>
-    </profiles>
-
     <scm>
-        <connection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</connection>
-        <developerConnection>scm:git:https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</developerConnection>
-        <url>https://bitbucket.ponton.de/scm/dcsa/dcsa-port-call.git</url>
+        <connection>scm:git:git@github.com:dcsaorg/P6-Application.git</connection>
+        <developerConnection>scm:git:git@github.com:dcsaorg/P6-Application.git</developerConnection>
+        <url>https://github.com/dcsaorg/P6-Application</url>
     </scm>
 
     <distributionManagement>
         <repository>
-            <id>build.releases</id>
-            <layout>default</layout>
-            <url>https://nexus.ponton.de/content/repositories/ponton-releases/</url>
+            <id>dcsa-p6</id>
+            <name>DCSA P6 Repository</name>
+            <url>https://maven.pkg.github.com/dcsaorg/P6-Application</url>
         </repository>
-        <snapshotRepository>
-            <id>build.snapshots</id>
-            <layout>default</layout>
-            <url>https://nexus.ponton.de/content/repositories/ponton-snapshots</url>
-            <uniqueVersion>true</uniqueVersion>
-        </snapshotRepository>
     </distributionManagement>
 
 </project>

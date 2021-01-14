@@ -21,7 +21,7 @@ public abstract class AbstractDatabaseTest {
     protected DSLContext dsl;
 
     private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            DockerImageName.parse("registry.ponton.de/postgres:10-alpine").asCompatibleSubstituteFor("postgres"))
+            DockerImageName.parse("postgres:10-alpine").asCompatibleSubstituteFor("postgres"))
             .withDatabaseName("dcsa")
             .withUsername("dcsa")
             .withPassword("dcsapw").withLogConsumer(new Slf4jLogConsumer(log))
