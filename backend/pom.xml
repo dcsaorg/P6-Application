@@ -126,6 +126,8 @@
             <groupId>ponton.product.pontonxp</groupId>
             <artifactId>adapterapi2</artifactId>
             <version>${pontonxp.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/adapterapi2-${pontonxp.version}.jar</systemPath>
         </dependency>
 
         <dependency>
