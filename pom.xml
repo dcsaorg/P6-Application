@@ -299,11 +299,7 @@
                                 <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                                 <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                             </manifest>
-                            <manifestEntries>
-                                <Implementation-Build>${bamboo.planRepository.revision}</Implementation-Build>
-                                <Implementation-Date>${bamboo.buildTimeStamp}</Implementation-Date>
-                            </manifestEntries>
-                            <addMavenDescriptor>false</addMavenDescriptor>
+                            <addMavenDescriptor>true</addMavenDescriptor>
                         </archive>
                         <excludes>
                             <exclude>log4j2.xml</exclude>
