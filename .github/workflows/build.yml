@@ -1,4 +1,4 @@
-name: Build P6 Application Snapshot
+name: Build P6 Application
 
 on:
   push:
