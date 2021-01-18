@@ -162,9 +162,24 @@ public class PontonXPCommunicationService {
 
                 // We can send the result of the sent message to backend.
                 final OutboundStatusEnum status = outboundMessageStatusUpdate.getResult();
-                final String detail = outboundMessageStatusUpdate.getDetailText();
-                log.info("Received status update for message {}: {}:{}", transferId.getValue(), status, detail);
-                messageService.updateStatus(transferId.getValue(), status.name(), detail);
+                StringBuilder detail = new StringBuilder();
+                if (status == OutboundStatusEnum.SUCCESS) {
+                    detail.append("Message successfully sent at ")
+                            .append(outboundMessageStatusUpdate.getStatusMetaData().getReceptionTime())
+                            .append(" to ")
+                            .append(outboundMessageStatusUpdate.getStatusMetaData().getReceiverId())
+                            .append(": ");
+                } else {
+                    detail.append("Message sent at ")
+                            .append(outboundMessageStatusUpdate.getStatusMetaData().getReceptionTime())
+                            .append(" to ")
+                            .append(outboundMessageStatusUpdate.getStatusMetaData().getReceiverId())
+                            .append(": ");
+                }
+                detail.append(outboundMessageStatusUpdate.getDetailText());
+
+                log.info("Received status update for message {}: {}:{}", transferId.getValue(), status, outboundMessageStatusUpdate.getDetailText());
+                messageService.updateStatus(transferId.getValue(), status.name(), detail.toString());
             }
         };
     }
