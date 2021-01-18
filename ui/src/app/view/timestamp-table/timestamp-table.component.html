@@ -103,7 +103,8 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr>
-      <td style="width: 3px;" [ngStyle] = "{'background-color': timestamp.sequenceColor}"></td>
+      <td pTooltip="Process ID: {{timestamp.processId}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" style="width: 3px;" [ngStyle] = "{'background-color': timestamp.sequenceColor}"></td>
       <td  style="width: 8%" [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : 'timestampContent'">
         <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).name}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
