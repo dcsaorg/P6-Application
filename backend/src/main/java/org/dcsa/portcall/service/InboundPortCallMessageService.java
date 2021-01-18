@@ -2,6 +2,7 @@ package org.dcsa.portcall.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import de.ponton.xp.adapter.api.domainvalues.InboundStatusEnum;
+import de.ponton.xp.adapter.api.domainvalues.OutboundStatusEnum;
 import de.ponton.xp.adapter.api.messages.InboundMessage;
 import de.ponton.xp.adapter.api.messages.InboundMessageStatusUpdate;
 import org.apache.logging.log4j.LogManager;
@@ -61,6 +62,10 @@ public class InboundPortCallMessageService extends AbstractPortCallMessageServic
                     if (timestamp.isPresent()) {
                         timestampService.addTimestamp(timestamp.get());
                         messageService.updatePortCallTimestampId(message.getId(), timestamp.get().getId());
+
+                        messageService.updateStatus(message.getTransferId(), InboundStatusEnum.SUCCESS.name(),
+                                "Message successfully received at " + xpMessage.getInboundMetaData().getCreationTime()
+                                        + " from " + xpMessage.getInboundMetaData().getSenderId());
                         return InboundMessageStatusUpdate.newBuilder()
                                 .setInboundMessage(xpMessage)
                                 .setStatus(InboundStatusEnum.SUCCESS)
