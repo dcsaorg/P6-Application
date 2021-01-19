@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dcsa.portcall.PortCallProperties;
 import org.dcsa.portcall.controller.PortCallException;
+import org.dcsa.portcall.db.enums.EventClassifier;
+import org.dcsa.portcall.db.enums.LocationType;
 import org.dcsa.portcall.db.enums.PortCallTimestampType;
 import org.dcsa.portcall.db.tables.pojos.PortCallTimestamp;
 import org.dcsa.portcall.db.tables.pojos.Vessel;
@@ -14,7 +16,6 @@ import org.dcsa.portcall.util.PortcallTimestampTypeMapping;
 import org.dcsa.portcall.util.TimestampResponseOptionMapping;
 import org.jooq.*;
 import org.jooq.impl.DSL;
-import org.jooq.impl.SQLDataType;
 import org.postgresql.util.PSQLException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,12 +39,14 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
     private final PortService portService;
     private final VesselService vesselService;
+    private final PortCallTimestampMappingService timestampMappingService;
     private final PortCallProperties config;
 
-    public PortCallTimestampService(DSLContext dsl, PortService portService, VesselService vesselService, PortCallProperties config) {
+    public PortCallTimestampService(DSLContext dsl, PortService portService, VesselService vesselService, PortCallTimestampMappingService timestampMappingService, PortCallProperties config) {
         super(dsl);
         this.portService = portService;
         this.vesselService = vesselService;
+        this.timestampMappingService = timestampMappingService;
         this.config = config;
     }
 
@@ -143,8 +147,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         OffsetDateTime logOfTimeStampAtPoc = portCallTimestamp.getLogOfTimestamp();
 
         log.info("Set timezone for event timestamp [{}}] and log of timestamp [{}}]", eventTimeStampAtPoc, logOfTimeStampAtPoc);
-        List<PortCallTimestampExtended> timestampsOfVessel = findTimestampsByVesselId(portCallTimestamp.getVessel());
-        int seq = this.calculatePortCallSequence(timestampsOfVessel, portCallTimestamp);
+        int seq = this.calculatePortCallSequence(portCallTimestamp);
 
         // Get Vessel
         Vessel vessel = vesselService.findVesselById(portCallTimestamp.getVessel()).get();
@@ -248,25 +251,31 @@ public class PortCallTimestampService extends AbstractPersistenceService {
      * A sequence always starts with an Estimated Classifier code (EST) and ends with an ACTUAL (ACT
      * a sequence is always based on the vessel, the location, and the port and terminals of timestamp
      */
-    private int calculatePortCallSequence(List<PortCallTimestampExtended> timestamps, PortCallTimestamp newTimeStamp) {
-
+    private int calculatePortCallSequence(PortCallTimestamp newTimeStamp) {
+        HashMap<PortCallTimestampType, PortcallTimestampMapping> mappingTable = this.timestampMappingService.getTimestampTypeMappingTable();
         int seq = 0;
         try {
-            PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(timestamps, newTimeStamp);
+            PortcallTimestampMapping newTimestampObjects = mappingTable.get(newTimeStamp.getTimestampType());
+
+            PortCallTimestamp lastTimestamp = this.getLastTimestampForSequence(newTimeStamp, newTimestampObjects.getLocation());
             if (lastTimestamp != null) {
                 seq = lastTimestamp.getCallSequence();
-                EventClassifierCode lastClassType = PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(lastTimestamp.getTimestampType());
-                if (lastClassType.equals(EventClassifierCode.REQ) || lastClassType.equals(EventClassifierCode.PLA)) {
-                    if (PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(EventClassifierCode.REQ) ||
-                            PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(newTimeStamp.getTimestampType()).equals(EventClassifierCode.EST)) {
-                        seq++;
-                    }
-                }
-
-                // Reset to 0 if Classifiercode of last Timestamp ist ACT
-                if (PortcallTimestampTypeMapping.getEventClassifierCodeForTimeStamp(lastTimestamp.getTimestampType()).equals(EventClassifierCode.ACT)) {
+                PortcallTimestampMapping lastTimestampObjects = mappingTable.get(lastTimestamp.getTimestampType());
+                               if (lastTimestampObjects.getEventClassiefier().equals(EventClassifier.REQ) || lastTimestampObjects.getEventClassiefier().equals(EventClassifier.PLA)) {
+                                   if (newTimestampObjects.getEventClassiefier().equals(EventClassifier.REQ) || newTimestampObjects.getEventClassiefier().equals(EventClassifier.EST)) {
+                                       seq++;
+                                   }
+                               }
+                // If the last EventClassifier was an ACT reset to 0
+                if(lastTimestampObjects.getEventClassiefier().equals(EventClassifier.ACT)){
                     seq = 0;
                 }
+
+                // If the new EventClassifier is EST restart with 0
+                if(newTimestampObjects.getEventClassiefier().equals(EventClassifier.EST)){
+                    seq = 0;
+                }
+
 
             }
         } catch (Exception e) {
@@ -275,24 +284,28 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         return seq;
     }
 
-    /**
-     * Returns the last TimeStamp of a Portcall Sequence (based on Ports and terminals, and Location)
-     */
 
-    private PortCallTimestamp getLastTimestampForSequence(List<PortCallTimestampExtended> timestamps, PortCallTimestamp newTimestamp) {
-        //@ToDo Refactor this, as when the table of timestamps gets bigger, this function uses a lot of resources! e.g. Only pull timestmps from the last five days!
-        PortCallTimestamp lastTimestamp = null;
-        String hash = generateSequenceHash(newTimestamp);
-        for (PortCallTimestamp timestamp : timestamps) {
-            //only consider timestamps for same location and sequence Hash
-            if (PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(timestamp.getTimestampType()).equals(
-                    PortcallTimestampTypeMapping.getLocationCodeForTimeStampType(newTimestamp.getTimestampType())
-            ) &&
-                    hash.equals(generateSequenceHash(timestamp))) {
-                lastTimestamp = timestamp;
-            }
+    private PortCallTimestamp getLastTimestampForSequence(PortCallTimestamp newTimestamp, LocationType locationType){
+
+        Record lastTimestamp = dsl.select()
+                .from(PORT_CALL_TIMESTAMP)
+                .join(PORTCALL_TIMESTAMP_MAPPING)
+                        .on(PORTCALL_TIMESTAMP_MAPPING.TIMESTAMP_TYPE.eq(PORT_CALL_TIMESTAMP.TIMESTAMP_TYPE))
+                .where(PORT_CALL_TIMESTAMP.PORT_PREVIOUS.eq(newTimestamp.getPortPrevious()))
+                        .and(PORT_CALL_TIMESTAMP.PORT_OF_CALL.eq(newTimestamp.getPortOfCall()))
+                        .and(PORT_CALL_TIMESTAMP.PORT_NEXT.eq(newTimestamp.getPortNext()))
+                        .and(PORT_CALL_TIMESTAMP.TERMINAL.eq(newTimestamp.getTerminal()))
+                        .and(PORT_CALL_TIMESTAMP.VESSEL.eq(newTimestamp.getVessel()))
+                        .and(PORTCALL_TIMESTAMP_MAPPING.LOCATION.eq(locationType))
+                .orderBy(PORT_CALL_TIMESTAMP.ID.desc())
+                .limit(1)
+                .fetchOne();
+
+        if (lastTimestamp != null) {
+            return lastTimestamp.into(PortCallTimestamp.class);
+        } else {
+            return null;
         }
-        return lastTimestamp;
     }
 
     /**
@@ -304,6 +317,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
                 + timestamp.getPortNext()
                 + timestamp.getTerminal();
     }
+
 
 
     @Transactional

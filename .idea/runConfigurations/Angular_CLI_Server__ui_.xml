@@ -5,7 +5,8 @@
     <scripts>
       <script value="start" />
     </scripts>
-    <node-interpreter value="/usr/local/bin/node" />
+    <node-interpreter value="$PROJECT_DIR$/../../../Program Files/nodejs/node" />
+    <package-manager value="npm" />
     <envs />
     <method v="2" />
   </configuration>
