@@ -1,4 +1,4 @@
-name: Build P6 Application
+name: Release P6 Application
 
 on:
   workflow_dispatch:
