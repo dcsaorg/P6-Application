@@ -24,6 +24,8 @@ jobs:
           servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
       - name: Compile and test
         run: mvn -B package
+      - name: Deploy
+        run: mvn -B deploy
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v1
         with:
