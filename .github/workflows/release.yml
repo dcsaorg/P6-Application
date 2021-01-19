@@ -1,0 +1,38 @@
+name: Build P6 Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to checkout when cutting the release."
+        required: true
+        default: "master"
+      releaseVersion:
+        description: "Default version to use when preparing a release."
+        required: true
+        default: "X.Y.Z"
+      developmentVersion:
+        description: "Default version to use for new local working copy."
+        required: true
+        default: "X.Y.Z-SNAPSHOT"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Configure maven settings
+        uses: whelk-io/maven-settings-xml-action@v14
+        with:
+          servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+      - name: Deploy
+        run: mvn release:prepare release:perform -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
