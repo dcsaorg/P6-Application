@@ -10,11 +10,11 @@ on:
       releaseVersion:
         description: "Default version to use when preparing a release."
         required: true
-        default: "X.Y.Z"
+        default: "X.Y"
       developmentVersion:
         description: "Default version to use for new local working copy."
         required: true
-        default: "X.Y.Z-SNAPSHOT"
+        default: "DEVELOP-SNAPSHOT"
 
 jobs:
   build:
