@@ -29,19 +29,7 @@ jobs:
       - name: Configure maven settings
         uses: whelk-io/maven-settings-xml-action@v14
         with:
-          servers: '
-            [
-              {
-                "id": "github",
-                "username": "${{ secrets.DCSA_USER }}",
-                "password": "${{ secrets.REPO_ACCESS_PAT }}"
-              },
-              {
-                "id": "dcsa-p6",
-                "username": "${{ secrets.DCSA_USER }}"",
-                "password": "${{ secrets.DCSA_PACKAGES_PAT }}"
-              }
-            ]'
+          servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }, { "id": "github", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.REPO_ACCESS_PAT }}" }]'
       - name: Configure Git User
         run: |
           git config user.email "actions@github.com"
