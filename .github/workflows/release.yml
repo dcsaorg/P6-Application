@@ -34,5 +34,16 @@ jobs:
         run: |
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
-      - name: Deploy
-        run: mvn release:prepare release:perform -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
+      - name: Prepare the release
+        env:
+          SCM_USERNAME_REF: ${{ secrets.DCSA_USER }}
+          SCM_TOKEN_REF: ${{ secrets.REPO_ACCESS_PAT }}
+        run: mvn release:prepare -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
+      - name: Perform the release
+        env:
+          SCM_USERNAME_REF: ${{ secrets.DCSA_USER }}
+          SCM_TOKEN_REF: ${{ secrets.REPO_ACCESS_PAT }}
+        run: mvn release:perform -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
+      - name: Rollback if failure
+        if: ${{ failure() }}
+        run: ./mvnw --batch-mode release:rollback
