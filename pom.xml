@@ -356,9 +356,10 @@
     </build>
 
     <scm>
-        <connection>scm:git:git@github.com:dcsaorg/P6-Application.git</connection>
-        <developerConnection>scm:git:git@github.com:dcsaorg/P6-Application.git</developerConnection>
+        <connection>scm:git:https://github.com/dcsaorg/P6-Application.git</connection>
+        <developerConnection>scm:git:https://github.com/dcsaorg/P6-Application.git</developerConnection>
         <url>https://github.com/dcsaorg/P6-Application</url>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>

@@ -29,21 +29,27 @@ jobs:
       - name: Configure maven settings
         uses: whelk-io/maven-settings-xml-action@v14
         with:
-          servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
+          servers: '
+            [
+              {
+                "id": "github",
+                "username": "${{ secrets.DCSA_USER }}",
+                "password": "${{ secrets.REPO_ACCESS_PAT }}"
+              },
+              {
+                "id": "dcsa-p6",
+                "username": "${{ secrets.DCSA_USER }}"",
+                "password": "${{ secrets.DCSA_PACKAGES_PAT }}"
+              }
+            ]'
       - name: Configure Git User
         run: |
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
       - name: Prepare the release
-        env:
-          SCM_USERNAME_REF: ${{ secrets.DCSA_USER }}
-          SCM_TOKEN_REF: ${{ secrets.REPO_ACCESS_PAT }}
         run: mvn release:prepare -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
       - name: Perform the release
-        env:
-          SCM_USERNAME_REF: ${{ secrets.DCSA_USER }}
-          SCM_TOKEN_REF: ${{ secrets.REPO_ACCESS_PAT }}
         run: mvn release:perform -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
       - name: Rollback if failure
         if: ${{ failure() }}
-        run: ./mvnw --batch-mode release:rollback
+        run: mvn -B release:rollback
