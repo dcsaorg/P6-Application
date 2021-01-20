@@ -6,7 +6,7 @@
     <name>DCSA :: Port Call</name>
     <groupId>org.dcsa.portcall</groupId>
     <artifactId>dcsa-port-call</artifactId>
-    <version>1.1-TEST</version>
+    <version>DEVELOP-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -358,7 +358,7 @@
         <connection>scm:git:https://github.com/dcsaorg/P6-Application.git</connection>
         <developerConnection>scm:git:https://github.com/dcsaorg/P6-Application.git</developerConnection>
         <url>https://github.com/dcsaorg/P6-Application</url>
-        <tag>dcsa-port-call-1.1-TEST</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
