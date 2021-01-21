@@ -76,7 +76,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
 
   private colorizeProcessId(timestamps: PortcallTimestamp[]){
 
-    let colourPalette:string[] = new Array("#45a29e","#f5634a"," #3b8183"," #fad089", "#78b0ee", "#23b866", "#856ac9", '#4cb678', '#b03e3e', '#afc7b2')
+    let colourPalette:string[] = new Array("#30a584","#f5634a","#d00fc2","#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
 
     let processIDs = new Map();
     // extract processIDs
