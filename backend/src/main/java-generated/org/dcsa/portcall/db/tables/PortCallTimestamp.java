@@ -18,7 +18,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row18;
+import org.jooq.Row19;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -140,6 +140,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
      */
     public final TableField<PortCallTimestampRecord, String> PROCESS_ID = createField(DSL.name("process_id"), SQLDataType.VARCHAR(36), this, "");
 
+    /**
+     * The column <code>public.port_call_timestamp.ui_read_by_user</code>.
+     */
+    public final TableField<PortCallTimestampRecord, Boolean> UI_READ_BY_USER = createField(DSL.name("ui_read_by_user"), SQLDataType.BOOLEAN.defaultValue(DSL.field("true", SQLDataType.BOOLEAN)), this, "");
+
     private PortCallTimestamp(Name alias, Table<PortCallTimestampRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -249,11 +254,11 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row18 type methods
+    // Row19 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row18<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean, Boolean, String> fieldsRow() {
-        return (Row18) super.fieldsRow();
+    public Row19<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean, Boolean, String, Boolean> fieldsRow() {
+        return (Row19) super.fieldsRow();
     }
 }

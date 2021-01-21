@@ -33,6 +33,7 @@
 .timestampContent{
   font-size:$tableSize;
   z-index: 1;
+  text-shadow: none;
 }
 
 .tableHeader {
@@ -48,7 +49,16 @@
 
 }
 
+.unreadTimestamp{
+  //background-color: #F3E300;
+  text-shadow: 1px 1px 2px #009093;
+  color:#1E1E2C;
+
+
+}
+
 .disabledRow{
   background-color: #d7d7d7;
   color: #929292;
+  text-shadow: none;
 }

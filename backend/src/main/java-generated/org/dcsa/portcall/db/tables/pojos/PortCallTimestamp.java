@@ -37,6 +37,7 @@ public class PortCallTimestamp implements Serializable {
     private Boolean               modifiable;
     private Boolean               deleted;
     private String                processId;
+    private Boolean               uiReadByUser;
 
     public PortCallTimestamp() {}
 
@@ -59,6 +60,7 @@ public class PortCallTimestamp implements Serializable {
         this.modifiable = value.modifiable;
         this.deleted = value.deleted;
         this.processId = value.processId;
+        this.uiReadByUser = value.uiReadByUser;
     }
 
     public PortCallTimestamp(
@@ -79,7 +81,8 @@ public class PortCallTimestamp implements Serializable {
         Integer               delayCode,
         Boolean               modifiable,
         Boolean               deleted,
-        String                processId
+        String                processId,
+        Boolean               uiReadByUser
     ) {
         this.id = id;
         this.vessel = vessel;
@@ -99,6 +102,7 @@ public class PortCallTimestamp implements Serializable {
         this.modifiable = modifiable;
         this.deleted = deleted;
         this.processId = processId;
+        this.uiReadByUser = uiReadByUser;
     }
 
     /**
@@ -371,6 +375,21 @@ public class PortCallTimestamp implements Serializable {
         return this;
     }
 
+    /**
+     * Getter for <code>public.port_call_timestamp.ui_read_by_user</code>.
+     */
+    public Boolean getUiReadByUser() {
+        return this.uiReadByUser;
+    }
+
+    /**
+     * Setter for <code>public.port_call_timestamp.ui_read_by_user</code>.
+     */
+    public PortCallTimestamp setUiReadByUser(Boolean uiReadByUser) {
+        this.uiReadByUser = uiReadByUser;
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("PortCallTimestamp (");
@@ -393,6 +412,7 @@ public class PortCallTimestamp implements Serializable {
         sb.append(", ").append(modifiable);
         sb.append(", ").append(deleted);
         sb.append(", ").append(processId);
+        sb.append(", ").append(uiReadByUser);
 
         sb.append(")");
         return sb.toString();

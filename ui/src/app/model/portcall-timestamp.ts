@@ -29,5 +29,7 @@ export interface PortcallTimestamp {
   messagingStatus?: string;
   messagingDetails?: string;
   outdatedMessage?: boolean;
+  uiReadByUser?:boolean;
   sequenceColor?: string;
+
 }
