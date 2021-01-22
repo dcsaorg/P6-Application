@@ -140,8 +140,21 @@ public class PortCallTimestampService extends AbstractPersistenceService {
         }
     }
 
+
     @Transactional
-    public void addTimestamp(PortCallTimestamp portCallTimestamp) {
+    public void markTimestampAsRead(int portCallTimestampId){
+        try {
+            dsl.update(PORT_CALL_TIMESTAMP)
+                    .set(PORT_CALL_TIMESTAMP.UI_READ_BY_USER, true)
+                    .where(PORT_CALL_TIMESTAMP.ID.eq(portCallTimestampId))
+                    .execute();
+        } catch (Exception e){
+
+        }
+    }
+
+    @Transactional
+    public void addTimestamp(PortCallTimestamp portCallTimestamp, boolean insertedViaUI) {
         // Calculate received UTC Timestamp to Time Zone of PotOfCall for event TimeStamp
         OffsetDateTime eventTimeStampAtPoc = portCallTimestamp.getEventTimestamp();
         OffsetDateTime logOfTimeStampAtPoc = portCallTimestamp.getLogOfTimestamp();
@@ -232,7 +245,7 @@ public class PortCallTimestampService extends AbstractPersistenceService {
 
         if (timestamp.getTimestampType().equals(
                 TimestampResponseOptionMapping.getResponseOption(this.config.getSenderRole(), originTimestamp))) {
-            this.addTimestamp(timestamp);
+            this.addTimestamp(timestamp, true);
 
         } else {
             String msg = String.format("As %s, you can not accept a %s with an %s", config.getSenderRole(), originTimestamp.getTimestampType(), timestamp.getTimestampType());

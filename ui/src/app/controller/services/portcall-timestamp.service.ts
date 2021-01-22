@@ -34,6 +34,12 @@ export class PortcallTimestampService {
     return this.httpClient.put(this.TIMESTAMP_URL + '/' + portcallTimestamp.id, PortcallTimestampService.convertPortcallTimestamp(portcallTimestamp));
   };
 
+  markTimestampAsRead = (portcallTimestamp: PortcallTimestamp): Observable<Object> => {
+    console.log("Marking timestamp with id "+portcallTimestamp.id+"as read")
+    return this.httpClient.put(this.TIMESTAMP_URL+'/setToRead/'+portcallTimestamp.id, portcallTimestamp);
+  }
+
+
   deleteTimestamp = (timestampId: number): Observable<any> => {
     console.log("Deleting port call timestamp with id " + timestampId);
     return this.httpClient.delete<any>(this.TIMESTAMP_URL + "/" + timestampId);
@@ -44,6 +50,7 @@ export class PortcallTimestampService {
     return this.httpClient.post<any>(this.TIMESTAMP_URL+"/accept", timestamp);
 
   }
+
 
 
   private static convertPortcallTimestamp(portcallTimestamp: PortcallTimestamp) {

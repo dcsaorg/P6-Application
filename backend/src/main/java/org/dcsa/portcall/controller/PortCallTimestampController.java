@@ -99,7 +99,7 @@ public class PortCallTimestampController {
             throw portCallException;
         }
 
-        portCallTimestampService.addTimestamp(portCallTimestamp);
+        portCallTimestampService.addTimestamp(portCallTimestamp, true);
 
         // Generate PortCall Message
         outboundPortCallMessageService.process(portCallTimestamp);
@@ -107,6 +107,12 @@ public class PortCallTimestampController {
         return portCallTimestamp;
     }
 
+    @PutMapping("/setToRead/{portCallTimestampId}")
+    @Transactional
+    public void setPortcallTimestampToRead(@PathVariable int portCallTimestampId){
+        log.info("Set PortCallTimestamp with ID {} to read by user", portCallTimestampId);
+        this.portCallTimestampService.markTimestampAsRead(portCallTimestampId);
+    }
 
     @PutMapping("/{portCallTimestampId}")
     @Transactional
