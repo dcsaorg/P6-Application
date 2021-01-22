@@ -17,6 +17,7 @@ CREATE TABLE port_call_timestamp
     delay_code       int                      null,
     modifiable       boolean                  NOT NULL DEFAULT true,
     deleted          boolean                  NOT NULL DEFAULT false,
+    ui_read_by_user  boolean                  NULL DEFAULT true,
     CONSTRAINT port_call_timestamp_pk PRIMARY KEY (id)
 );
 
