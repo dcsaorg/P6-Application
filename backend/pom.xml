@@ -240,6 +240,7 @@
                     <attach>true</attach>
                     <classifier>app</classifier>
                     <layout>JAR</layout>
+                    <includeSystemScope>true</includeSystemScope>
                     <excludes>
                         <exclude>
                             <groupId>org.springframework.boot</groupId>
