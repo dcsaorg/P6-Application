@@ -36,8 +36,8 @@ public class PortCallTimestamp implements Serializable {
     private Integer               delayCode;
     private Boolean               modifiable;
     private Boolean               deleted;
-    private String                processId;
     private Boolean               uiReadByUser;
+    private String                processId;
 
     public PortCallTimestamp() {}
 
@@ -59,8 +59,8 @@ public class PortCallTimestamp implements Serializable {
         this.delayCode = value.delayCode;
         this.modifiable = value.modifiable;
         this.deleted = value.deleted;
-        this.processId = value.processId;
         this.uiReadByUser = value.uiReadByUser;
+        this.processId = value.processId;
     }
 
     public PortCallTimestamp(
@@ -81,8 +81,8 @@ public class PortCallTimestamp implements Serializable {
         Integer               delayCode,
         Boolean               modifiable,
         Boolean               deleted,
-        String                processId,
-        Boolean               uiReadByUser
+        Boolean               uiReadByUser,
+        String                processId
     ) {
         this.id = id;
         this.vessel = vessel;
@@ -101,8 +101,8 @@ public class PortCallTimestamp implements Serializable {
         this.delayCode = delayCode;
         this.modifiable = modifiable;
         this.deleted = deleted;
-        this.processId = processId;
         this.uiReadByUser = uiReadByUser;
+        this.processId = processId;
     }
 
     /**
@@ -361,21 +361,6 @@ public class PortCallTimestamp implements Serializable {
     }
 
     /**
-     * Getter for <code>public.port_call_timestamp.process_id</code>.
-     */
-    public String getProcessId() {
-        return this.processId;
-    }
-
-    /**
-     * Setter for <code>public.port_call_timestamp.process_id</code>.
-     */
-    public PortCallTimestamp setProcessId(String processId) {
-        this.processId = processId;
-        return this;
-    }
-
-    /**
      * Getter for <code>public.port_call_timestamp.ui_read_by_user</code>.
      */
     public Boolean getUiReadByUser() {
@@ -387,6 +372,21 @@ public class PortCallTimestamp implements Serializable {
      */
     public PortCallTimestamp setUiReadByUser(Boolean uiReadByUser) {
         this.uiReadByUser = uiReadByUser;
+        return this;
+    }
+
+    /**
+     * Getter for <code>public.port_call_timestamp.process_id</code>.
+     */
+    public String getProcessId() {
+        return this.processId;
+    }
+
+    /**
+     * Setter for <code>public.port_call_timestamp.process_id</code>.
+     */
+    public PortCallTimestamp setProcessId(String processId) {
+        this.processId = processId;
         return this;
     }
 
@@ -411,8 +411,8 @@ public class PortCallTimestamp implements Serializable {
         sb.append(", ").append(delayCode);
         sb.append(", ").append(modifiable);
         sb.append(", ").append(deleted);
-        sb.append(", ").append(processId);
         sb.append(", ").append(uiReadByUser);
+        sb.append(", ").append(processId);
 
         sb.append(")");
         return sb.toString();

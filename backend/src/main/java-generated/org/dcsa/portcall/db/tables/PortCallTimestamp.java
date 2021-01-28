@@ -136,14 +136,14 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     public final TableField<PortCallTimestampRecord, Boolean> DELETED = createField(DSL.name("deleted"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("false", SQLDataType.BOOLEAN)), this, "");
 
     /**
-     * The column <code>public.port_call_timestamp.process_id</code>.
-     */
-    public final TableField<PortCallTimestampRecord, String> PROCESS_ID = createField(DSL.name("process_id"), SQLDataType.VARCHAR(36), this, "");
-
-    /**
      * The column <code>public.port_call_timestamp.ui_read_by_user</code>.
      */
     public final TableField<PortCallTimestampRecord, Boolean> UI_READ_BY_USER = createField(DSL.name("ui_read_by_user"), SQLDataType.BOOLEAN.defaultValue(DSL.field("true", SQLDataType.BOOLEAN)), this, "");
+
+    /**
+     * The column <code>public.port_call_timestamp.process_id</code>.
+     */
+    public final TableField<PortCallTimestampRecord, String> PROCESS_ID = createField(DSL.name("process_id"), SQLDataType.VARCHAR(36), this, "");
 
     private PortCallTimestamp(Name alias, Table<PortCallTimestampRecord> aliased) {
         this(alias, aliased, null);
@@ -258,7 +258,7 @@ public class PortCallTimestamp extends TableImpl<PortCallTimestampRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row19<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean, Boolean, String, Boolean> fieldsRow() {
+    public Row19<Integer, Integer, String, Integer, Integer, Integer, PortCallTimestampType, Integer, OffsetDateTime, OffsetDateTime, Direction, Integer, String, String, Integer, Boolean, Boolean, Boolean, String> fieldsRow() {
         return (Row19) super.fieldsRow();
     }
 }
