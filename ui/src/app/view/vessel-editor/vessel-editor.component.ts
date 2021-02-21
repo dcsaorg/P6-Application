@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {Vessel} from "../../model/vessel";
-import {VesselService} from "../../controller/services/vessel.service";
+import {Vessel} from "../../model/base/vessel";
+import {VesselService} from "../../controller/services/base/vessel.service";
 import {MessageService} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 

@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "dcsa.company",
-      "type": "java.lang.String",
-      "description": "Owner company name of the DCSA port call application."
-  }
-] }

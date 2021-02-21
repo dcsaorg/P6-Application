@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {PortcallTimestampService} from "../../controller/services/portcall-timestamp.service";
-import {PortcallTimestamp} from "../../model/portcall-timestamp";
-import {Port} from "../../model/port";
-import {PaginatorService} from "../../controller/services/paginator.service";
+import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
+import {PortcallTimestamp} from "../../model/base/portcall-timestamp";
+import {Port} from "../../model/base/port";
+import {PaginatorService} from "../../controller/services/base/paginator.service";
 import {take} from "rxjs/operators";
 
 @Component({

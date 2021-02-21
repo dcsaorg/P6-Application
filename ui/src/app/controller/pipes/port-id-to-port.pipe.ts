@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Port} from "../../model/port";
+import {Port} from "../../model/base/port";
 
 @Pipe({
   name: 'portIdToPort'

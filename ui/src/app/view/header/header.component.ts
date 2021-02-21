@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
-import {ConfigService} from "../../controller/services/config.service";
-import {DownloadService} from "../../controller/services/download.service";
+import {ConfigService} from "../../controller/services/base/config.service";
+import {DownloadService} from "../../controller/services/base/download.service";
 import {MessageService, SelectItem} from "primeng/api";
-import {RoleType} from "../../model/roleType";
-import {CodeType} from "../../model/codeType";
+import {RoleType} from "../../model/base/roleType";
+import {CodeType} from "../../model/base/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 @Component({

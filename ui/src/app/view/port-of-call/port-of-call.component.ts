@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Port} from "../../model/port";
+import {Port} from "../../model/base/port";
 import {SelectItem} from "primeng/api";
-import {PortService} from "../../controller/services/port.service";
+import {PortService} from "../../controller/services/base/port.service";
 import {translate} from "@angular/localize/src/translate";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 

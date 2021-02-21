@@ -1,9 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SelectItem} from "primeng/api";
-import {Vessel} from "../../model/vessel";
+import {Vessel} from "../../model/base/vessel";
 import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
-import {VesselService} from "../../controller/services/vessel.service";
+import {VesselService} from "../../controller/services/base/vessel.service";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 @Component({

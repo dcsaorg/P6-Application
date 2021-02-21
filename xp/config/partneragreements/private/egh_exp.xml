@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PrivateCollaborationAgreement>
-    <DefaultAdapterId>DCSA</DefaultAdapterId>
-    <Rules SenderRefId="exp" ReceiverRefId="egh"/>
-    <Rules SenderRefId="egh" ReceiverRefId="exp"/>
-    <PingAllEnabled>false</PingAllEnabled>
-</PrivateCollaborationAgreement>

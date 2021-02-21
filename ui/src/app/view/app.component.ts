@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {PortcallTimestamp} from "../model/portcall-timestamp";
-import {Port} from "../model/port";
+import {PortcallTimestamp} from "../model/base/portcall-timestamp";
+import {Port} from "../model/base/port";
 import {TranslateService} from "@ngx-translate/core";
 
 @Component({
