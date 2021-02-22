@@ -7,6 +7,7 @@ import {Port} from "../../../model/base/port";
 import {Terminal} from "../../../model/base/terminal";
 import {DelayCode} from "../../../model/base/delayCode";
 import {Vessel} from "../../../model/base/vessel";
+import {TimestampMappingService} from "../mapping/timestamp-mapping.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,11 @@ export class PortcallTimestampService {
   private readonly TIMESTAMP_URL: string;
 
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private timestampMapping: TimestampMappingService) {
     this.TIMESTAMP_URL = BACKEND_URL + '/portcalltimestamps';
   }
 
-  getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL);
+  getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.timestampMapping.getPortCallTimestamps();
 
   getPortcallTimestampsForVesselId = (vesselId: number): Observable<PortcallTimestamp[]> => this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL + "/" + vesselId);
 

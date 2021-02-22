@@ -96,10 +96,10 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
     let processIDs = new Map();
     // extract processIDs
     timestamps.forEach(function (timestamp){
-      processIDs.set(timestamp.processId, null);
+      processIDs.set(timestamp.transportCallID, null);
     });
     let i = 0
-    // assign color to processId
+    // assign color to transportCallID
     for (let key of processIDs.keys()){
       processIDs.set(key, colourPalette[i]);
       i++;
@@ -109,7 +109,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
     }
     //assign color to timestamp
     timestamps.forEach(function (timestamp){
-      timestamp.sequenceColor = processIDs.get(timestamp.processId);
+      timestamp.sequenceColor = processIDs.get(timestamp.transportCallID);
     });
   }
 

@@ -3,9 +3,9 @@
     "target": "http://localhost:9090/",
     "secure": false,
     "pathRewrite": {
-      "^/api/": "/"
+      "^/api/": "/v1/"
     },
     "changeOrigin": true,
-    "logLevel": "warn"
+    "logLevel": "debug"
   }
 }

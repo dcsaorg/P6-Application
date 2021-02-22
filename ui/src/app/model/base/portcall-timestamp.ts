@@ -6,7 +6,7 @@ import {Vessel} from "./vessel";
 import {MessageDirection} from "./messageDirection";
 
 export interface PortcallTimestamp {
-  id: number;
+  id: string;
   timestampType: PortcallTimestampType | string;
   classifierCode: string;
   eventTypeCode: string;
@@ -25,7 +25,7 @@ export interface PortcallTimestamp {
   response?: PortcallTimestampType;
   modifiable: boolean;
   messageDirection?: MessageDirection;
-  processId?: string;
+  transportCallID?: string;
   messagingStatus?: string;
   messagingDetails?: string;
   outdatedMessage?: boolean;

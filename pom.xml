@@ -50,6 +50,13 @@
         <junit.version>5.7.0</junit.version>
         <mockito.version>3.6.0</mockito.version>
         <testcontainers.version>1.15.0</testcontainers.version>
+
+
+        <!-- DCSA Implementation -->
+        <dcsa.version>0.7.5-SNAPSHOT</dcsa.version>
+        <dcsa.tag/>
+        <dcsa.artifacttype/>
+
     </properties>
 
     <modules>
@@ -148,6 +155,12 @@
                 <artifactId>junit-jupiter-params</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dcsa</groupId>
+                <artifactId>dcsa_core</artifactId>
+                <version>${dcsa.version}${dcsa.tag}${dcsa.artifacttype}</version>
             </dependency>
 
             <dependency>
