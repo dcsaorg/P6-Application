@@ -42,6 +42,7 @@ import {PortOfCallComponent} from './view/port-of-call/port-of-call.component';
 import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {Globals} from "./view/globals";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -101,6 +102,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     ConfirmationService,
     MessageService,
+    Globals
   ],
   bootstrap: [AppComponent]
 })

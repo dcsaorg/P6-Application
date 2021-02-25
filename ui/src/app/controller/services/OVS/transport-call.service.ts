@@ -16,4 +16,7 @@ export class TransportCallService {
   }
 
   getTransportCalls = (): Observable<TransportCall[]> => this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL);
+
+  getTransportCallsById = (transportCallId: string): Observable<TransportCall> => this.httpClient.get<TransportCall>(this.TRANSPORT_CALL_URL+"/"+transportCallId);
+
 }

@@ -4,6 +4,7 @@ import {SelectItem} from "primeng/api";
 import {PortService} from "../../controller/services/base/port.service";
 import {translate} from "@angular/localize/src/translate";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {Globals} from "../globals";
 
 @Component({
   selector: 'app-port-of-call',
@@ -17,7 +18,8 @@ export class PortOfCallComponent implements OnInit {
   @Output() portOfCallNotifier: EventEmitter<Port> = new EventEmitter<Port>()
 
   constructor(private portService: PortService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              public globals: Globals) {
   }
 
   ngOnInit(): void {
@@ -32,6 +34,7 @@ export class PortOfCallComponent implements OnInit {
 
   updatePortOfcallOptions() {
     this.portService.getPorts().subscribe(ports => {
+      this.globals.ports  = ports;
       this.portOptions = [];
       this.portOptions.push({ label: this.translate.instant('general.port.select'), value: null });
       ports.forEach(port => {

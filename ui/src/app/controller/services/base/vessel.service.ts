@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Vessel} from "../../../model/base/vessel";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {StaticVesselService} from "../static/static-vessel.service";
+import {VesselMappingService} from "../mapping/vessel-mapping.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,11 @@ import {StaticVesselService} from "../static/static-vessel.service";
 export class VesselService {
   private readonly VESSEL_URL: string;
 
-  constructor(private httpClient: HttpClient, private staticVesselService : StaticVesselService) {
+  constructor(private httpClient: HttpClient, private vesselMappingService: VesselMappingService, private staticVesselService: StaticVesselService) {
     this.VESSEL_URL = BACKEND_URL + '/vessels';
   }
 
-  getVessels = (): Observable<Vessel[]> => this.staticVesselService.getVessels();
+  getVessels = (): Observable<Vessel[]> => this.vesselMappingService.getVessels();
 
   getVessel = (vesselId: number): Observable<Vessel> => this.staticVesselService.getVessel(vesselId);
 
