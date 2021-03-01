@@ -1,0 +1,67 @@
+<p-table styleClass="p-datatable-sm">
+  <ng-template pTemplate="caption">
+    {{'general.transportCall.label' | translate}}
+    <div class="tableHeader__cards">
+      <app-schedule-selector class="rightSpace fullWidthAndHeight"></app-schedule-selector>
+      <app-port-of-call class="rightSpace fullWidthAndHeight" (portOfCallNotifier)="portOfCallChangedHandler($event)"></app-port-of-call>
+      <app-vessel class="fullWidthAndHeight" (vesselNotifier)="vesselChangedHandler($event)" (vesselSavedNotifier)="vesselSavedHandler($event)"></app-vessel>
+    </div>
+    <div class="p-grid">
+      <div class="p-col"></div>
+      <div class="p-col"></div>
+      <div class="p-col tableHeader">
+        <div class="tableHeader__buttons">
+          <p-button (onClick)="refreshTable()" class="p-button-raised p-button-rounded"
+                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}" tooltipPosition="top" type="button"
+                    tooltipStyleClass="ToolTipClass"></p-button>
+        </div>
+        <div class="p-input-icon-left globalSearch">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                 placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
+                 pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:10%">{{'general.transportCall.table.id' | translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.carrierServiceCode.label' | translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.carrierVoyageNumber.label'| translate}}</th>
+      <th style="width:5%">{{'general.transportCall.table.UNLocationCode.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.UNLocationName.label'| translate}}</th>
+      <th style="width:5%">{{'general.transportCall.table.transportCallNumber.label'| translate}}</th>
+      <th style="width:5%">{{'general.transportCall.table.facilityTypeCode.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.facilityCode.label'| translate}}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body">
+    <tr>
+      <td>8b64d20b-523b-4491-b2e5-32cfa5174eee</td>
+      <td>Y6S</td>
+      <td>9466960</td>
+      <td>NORTHERN JASPER</td>
+      <td>2007W</td>
+      <td>ITGOA</td>
+      <td>Genoa</td>
+      <td>3</td>
+      <td>TERM</td>
+      <td>ITGOAASEA</td>
+    </tr>
+    <tr>
+      <td>8b64d20b-523b-4491-b2e5-32cfa5174eee</td>
+      <td>Y6S</td>
+      <td>9466960</td>
+      <td>NORTHERN JASPER</td>
+      <td>2007W</td>
+      <td>ITGOA</td>
+      <td>Genoa</td>
+      <td>3</td>
+      <td>TERM</td>
+      <td>ITGOAASEA</td>
+    </tr>
+  </ng-template>
+</p-table>

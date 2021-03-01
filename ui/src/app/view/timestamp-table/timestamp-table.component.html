@@ -2,23 +2,7 @@
          [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']"
          sortField="logOfTimestamp" styleClass="p-datatable-sm">
   <ng-template pTemplate="caption">
-    <div class="p-grid">
-      <div class="p-col"></div>
-      <div class="p-col"></div>
-      <div class="p-col tableHeader">
-        <div class="tableHeader__buttons">
-          <p-button (onClick)="refreshTable()" class="p-button-raised p-button-rounded"
-                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}" tooltipPosition="top" type="button"
-                    tooltipStyleClass="ToolTipClass"></p-button>
-        </div>
-        <div class="p-input-icon-left globalSearch">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                 placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
-                 pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
-        </div>
-      </div>
-    </div>
+    {{'general.table.header.timestamps.label' | translate}}
   </ng-template>
   <ng-template pTemplate="header">
     <tr>

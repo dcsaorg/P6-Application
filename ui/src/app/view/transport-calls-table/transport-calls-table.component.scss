@@ -1,0 +1,30 @@
+.tableHeader {
+  display: flex;
+  flex-direction: row;
+  float: right;
+  padding: 0px 0px !important;
+  max-width: 320px !important;
+
+  &__buttons {
+    margin: 5px 10px 0px 0px;
+  }
+  &__cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 5px 10px 20px 10px;
+  }
+
+}
+
+
+.rightSpace {
+  margin-right: 10px;
+}
+
+.fullWidthAndHeight {
+  width: 100%;
+  height: auto;
+}
+

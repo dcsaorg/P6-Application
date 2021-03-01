@@ -1,14 +1,14 @@
 <div class="main">
-  <div class="main__spaceBetween">
+  <div>
     <app-header></app-header>
   </div>
-  <div class="main__cards">
-      <app-port-of-call class="rightSpace fullWidthAndHeight" (portOfCallNotifier)="portOfCallChangedHandler($event)"></app-port-of-call>
-      <app-vessel class="fullWidthAndHeight" (vesselNotifier)="vesselChangedHandler($event)" (vesselSavedNotifier)="vesselSavedHandler($event)"></app-vessel>
+  <div class="main_spcerHeadlin"></div>
+  <div class="main__spaceInnerComponent, main__spaceBetween" style=" min-width: 1200px">
+  <p-card >
+    <app-transport-calls-table></app-transport-calls-table>
+  </p-card>
   </div>
-
-
-  <div class="main__spaceInnerComponent" style=" min-width: 1200px">
+  <div class="main__spaceInnerComponent, main__spaceBetween" style=" min-width: 1200px">
     <p-card>
       <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
                            (timeStampAcceptNotifier)="timestampRespondedHandler($event)"

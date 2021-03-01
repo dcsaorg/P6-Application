@@ -70,6 +70,9 @@
 			},
 			"label": "Save"
 		},
+    "schedule": {
+      "label":"Schedule"
+    },
 		"table": {
 			"accept": {
 				"tooltip": "Accept timestamp and send a response as"
@@ -127,6 +130,9 @@
 					"label": "Timestamp",
 					"tooltip": "An estimated, requested, planned or actual timestamp of a process event."
 				},
+        "timestamps": {
+          "label": "Portcall Timestamps"
+        },
 				"vessel": {
 					"label": "Vessel",
 					"tooltip": "The vessel of a process event"
@@ -145,6 +151,39 @@
 			"select": "Select timestamp",
 			"time": "Time"
 		},
+    "transportCall": {
+      "label": "Transport Call",
+      "table":{
+        "id": "id",
+        "carrierServiceCode": {
+          "label": "Carrier Service Code"
+        },
+        "vesselImo": {
+          "label": "IMO Number"
+        },
+        "vesselName": {
+          "label": "Vessel Name"
+        },
+        "UNLocationCode": {
+          "label": "UN Locode"
+        },
+        "UNLocationName": {
+          "label": "UN Location Name"
+        },
+        "transportCallNumber": {
+          "label": "Call Number"
+        },
+        "carrierVoyageNumber":{
+          "label": "Carrier Voyage Number"
+        },
+        "facilityTypeCode": {
+          "label": "Facility Type"
+        },
+        "facilityCode": {
+          "label": "Facility Code"
+        }
+      }
+    },
 		"vessel": {
 			"add": {
 				"header": "Create a new vessel",

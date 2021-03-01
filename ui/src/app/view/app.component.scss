@@ -11,8 +11,12 @@
   margin: 0;
   padding: 0;
 
+  &__main_spcerHeadlin{
+    margin-top: 10px;
+  }
+
   &__spaceBetween {
-    margin-bottom: 0px;
+    margin-bottom: 8px;
   }
 
   &__spaceInnerComponent {
@@ -30,21 +34,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-
+    width: 100%;
     padding: 5px 10px 5px 10px;
   }
 
 }
 
+
+
+
 root {
   font-size: 4px;
 }
 
-.rightSpace {
-  margin-right: 10px;
-}
 
-.fullWidthAndHeight {
-  width: 100%;
-  height: auto;
-}

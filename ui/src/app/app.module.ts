@@ -43,6 +43,11 @@ import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {Globals} from "./view/globals";
+import { TransportEventsToTimestampsPipe } from './controller/pipes/transport-events-to-timestamps.pipe';
+import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';
+import { TimestampsToTransportEventsPipe } from './controller/pipes/timestamps-to-transport-events.pipe';
+import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
+import { ScheduleSelectorComponent } from './view/schedule-selector/schedule-selector.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -67,6 +72,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimestampToTimezonePipe,
     PortOfCallComponent,
     VesselIdToVesselPipe,
+    TransportEventsToTimestampsPipe,
+    TransportCallsToVesselsPipe,
+    TimestampsToTransportEventsPipe,
+    TransportCallsTableComponent,
+    ScheduleSelectorComponent,
   ],
     imports: [
         AppRoutingModule,
@@ -102,7 +112,10 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     ConfirmationService,
     MessageService,
-    Globals
+    Globals,
+    TransportEventsToTimestampsPipe,
+    TransportCallsToVesselsPipe,
+    TimestampsToTransportEventsPipe
   ],
   bootstrap: [AppComponent]
 })

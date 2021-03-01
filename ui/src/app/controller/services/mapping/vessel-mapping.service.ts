@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {StaticVesselService} from "../static/static-vessel.service";
-import {forkJoin, Observable, zip} from "rxjs";
+import {concat, forkJoin, Observable, zip} from "rxjs";
 import {Vessel} from "../../../model/base/vessel";
 import {TransportCallService} from "../OVS/transport-call.service";
 import {TransportCall} from "../../../model/OVS/transport-call";
 import {concatMap, map} from "rxjs/operators";
+import {TransportCallsToVesselsPipe} from "../../pipes/transport-calls-to-vessels.pipe";
 
 @Injectable({
   providedIn: 'root'
@@ -12,45 +13,28 @@ import {concatMap, map} from "rxjs/operators";
 export class VesselMappingService {
 
   constructor(private staticVesselService: StaticVesselService,
-              private transportCallService: TransportCallService) {
+              private transportCallService: TransportCallService,
+              private transportCallsToVesselPipe: TransportCallsToVesselsPipe) {
   }
 
 
   getVessels(): Observable<Vessel[]> {
-    const tcVessels$ =  this.getVesselsFromTransportCalls();
-    const staticVessels$ = this.staticVesselService.getVessels();
-    return tcVessels$;
+
+
+    const $tcVessels =  this.getVesselsFromTransportCalls();
+    //const $staticVessels = this.staticVesselService.getVessels();
+    const $combined =$tcVessels;
+    return $combined;
+
+
     // return tcVessels$.pipe(concatMap(tcVessels => staticVessels$.pipe(map(staticVessels => {tcVessels, staticVessels}))))
   }
 
+
   public getVesselsFromTransportCalls(): Observable<Vessel[]> {
     return this.transportCallService.getTransportCalls().pipe(map(transportCalls =>
-      this.extractVesselsFromTransportCall(transportCalls)));
+      this.transportCallsToVesselPipe.transform(transportCalls)));
 
-  }
-
-  public extractVesselsFromTransportCall(transportCalls: TransportCall[]): Vessel[] {
-    let vessels: Vessel[] = new Array();
-    let imos = new Set
-    for (let transportCall of transportCalls) {
-      let vessel: Vessel = new class implements Vessel {
-        id: number;
-        imo: number;
-        name: string;
-        serviceNameCode: string;
-        teu: number;
-      }
-      vessel.id = parseInt(transportCall.vesselIMONumber);;
-      vessel.imo = parseInt(transportCall.vesselIMONumber);
-      vessel.name = transportCall.vesselName;
-      if (!imos.has(vessel.imo)) {
-        vessels.push(vessel);
-      }
-      imos.add(vessel.imo)
-
-    }
-
-    return vessels;
   }
 
 }

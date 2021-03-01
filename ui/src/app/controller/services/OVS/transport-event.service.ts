@@ -14,4 +14,7 @@ export class TransportEventService {
   }
 
   getTransportEvents=(): Observable<TransportEvent[]> => this.httpClient.get<TransportEvent[]>(this.TRANSPORT_EVENT_URL);
+
+  addTransportEvent=(transportEvent: TransportEvent): Observable<TransportEvent> =>
+    this.httpClient.post<TransportEvent>(this.TRANSPORT_EVENT_URL, transportEvent);
 }
