@@ -36,6 +36,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {InstructionsComponent} from './view/instructions/instructions.component';
 import {DialogModule} from "primeng/dialog";
+import {SplitterModule} from 'primeng/splitter';
 import {DateToUtcPipe} from './controller/pipes/date-to-utc.pipe';
 import {TimestampToTimezonePipe} from './controller/pipes/timeStampToTimeZone.pipe';
 import {PortOfCallComponent} from './view/port-of-call/port-of-call.component';
@@ -43,6 +44,7 @@ import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {Globals} from "./view/globals";
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TransportEventsToTimestampsPipe } from './controller/pipes/transport-events-to-timestamps.pipe';
 import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';
 import { TimestampsToTransportEventsPipe } from './controller/pipes/timestamps-to-transport-events.pipe';
@@ -86,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         CalendarModule,
         CardModule,
         ConfirmDialogModule,
+        DialogModule,
         DropdownModule,
         DynamicDialogModule,
         FormsModule,
@@ -99,7 +102,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         TableModule,
         ToastModule,
         TooltipModule,
-        DialogModule,
+        SplitterModule,
+        ScrollPanelModule,
         TranslateModule.forRoot({
           defaultLanguage: 'en',
           loader: {

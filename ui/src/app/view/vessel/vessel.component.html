@@ -20,23 +20,7 @@
           </div>
         </div>
 
-        <div class="vessel__vesselDetails">
-          <div class="vessel__vesselDetails__element">
-            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label">&nbsp;</span>
-            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label">{{ 'general.vessel.number' | translate }}: </span>
-            <span *ngIf="selectedVessel">{{ selectedVessel.imo }}</span>
-          </div>
-          <div class="vessel__vesselDetails__element">
-            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label">&nbsp;</span>
-            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label">{{ 'general.vessel.size' | translate }}: </span>
-            <span *ngIf="selectedVessel">{{ selectedVessel.teu | number }}</span>
-          </div>
-          <div class="vessel__vesselDetails__element">
-            <span *ngIf="!selectedVessel" class="vessel__vesselDetails__element__label">&nbsp;</span>
-            <span *ngIf="selectedVessel" class="vessel__vesselDetails__element__label">{{ 'general.vessel.serviceName' | translate }}: </span>
-            <span *ngIf="selectedVessel">{{ selectedVessel.serviceNameCode }}</span>
-          </div>
-        </div>
+
       </div>
     </div>
   </p-card>
