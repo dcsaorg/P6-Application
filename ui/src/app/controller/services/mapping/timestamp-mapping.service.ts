@@ -45,6 +45,14 @@ export class TimestampMappingService {
     ));
   }
 
+  getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<PortcallTimestamp[]>{
+    return this.transportEventService.getTransportEventsByTransportCall(transportCall.transportCallID).pipe(map(events =>{
+      const timestamps = this.transportEventsToTimestampsPipe.transform(events)
+      this.mapTransportCallToTimestamps(timestamps, transportCall);
+      return timestamps;
+    }))
+  }
+
 
   //@Todo refactor, as this might run into a race condition!
   getPortByUnLocode(unlocode: string): Port {

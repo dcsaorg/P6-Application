@@ -109,7 +109,7 @@
       </td>
       <td style="width: 7%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        {{ timestamp.timestampType | portCallTimestampTypeToStringPipe: null }}
+        {{ timestamp.timestampType }}
       </td>
       <td style="width: 2%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">

@@ -7,6 +7,7 @@ import {Port} from "../../model/base/port";
 import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
 import {Terminal} from "../../model/base/terminal";
 import {Vessel} from "../../model/base/vessel";
+import {TransportEventToTimestampTypePipe} from "./transport-event-to-timestamp-type.pipe";
 
 @Pipe({
   name: 'transportEventsToTimestamps'
@@ -55,7 +56,7 @@ export class TransportEventsToTimestampsPipe implements PipeTransform {
     };
 
     timestamp.id = event.eventID;
-    timestamp.timestampType = "TBN";
+    timestamp.timestampType = this.getTimestampType(event);
     timestamp.classifierCode = event.eventClassifierCode;
     timestamp.eventTimestamp = event.eventTypeCode;
     timestamp.callSequence = 0;
@@ -66,14 +67,14 @@ export class TransportEventsToTimestampsPipe implements PipeTransform {
     timestamp.locationId = event.locationID;
     timestamp.uiReadByUser = true;
 
-
-    // Addind dummy Values
-    timestamp.portOfCall = 0;
-
-
     return timestamp;
 
 
+  }
+
+  private getTimestampType(transportEvent: TransportEvent):PortcallTimestampType{
+   const timestampTypeMapping: TransportEventToTimestampTypePipe = new TransportEventToTimestampTypePipe();
+   return timestampTypeMapping.transform(transportEvent);
   }
 
 }

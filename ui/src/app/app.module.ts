@@ -51,6 +51,7 @@ import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-
 import { TimestampsToTransportEventsPipe } from './controller/pipes/timestamps-to-transport-events.pipe';
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
 import { ScheduleSelectorComponent } from './view/schedule-selector/schedule-selector.component';
+import { TransportEventToTimestampTypePipe } from './controller/pipes/transport-event-to-timestamp-type.pipe';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -80,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimestampsToTransportEventsPipe,
     TransportCallsTableComponent,
     ScheduleSelectorComponent,
+    TransportEventToTimestampTypePipe,
   ],
     imports: [
         AppRoutingModule,

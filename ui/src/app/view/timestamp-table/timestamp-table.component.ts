@@ -71,7 +71,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
-    this.loadTimestamps()
+    this.progressing = false;
     //this.$timestamps = this.paginatorService.observePaginatedTimestamps();
 
 
@@ -86,9 +86,10 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   private loadTimestamps() {
     this.progressing = true;
-    this.portcallTimestampService.getPortcallTimestamps().subscribe(timestamps => {
+    this.portcallTimestampService.getPortcallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
       this.colorizeProcessId(timestamps);
       this.timestamps = timestamps;
+      console.log(timestamps);
       this.progressing = false;
     });
   }
