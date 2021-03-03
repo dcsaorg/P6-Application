@@ -18,7 +18,7 @@
         <ng-template>
           <p-card>
             <div class="main__top_content_pane">
-              <app-transport-calls-table></app-transport-calls-table>
+              <app-transport-calls-table (transportCallNotifier)="transportCallSelectHandler($event)"></app-transport-calls-table>
             </div>
           </p-card>
         </ng-template>
@@ -31,19 +31,20 @@
             <div class="main__bottom_content_pane">
               <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
                                    (timeStampAcceptNotifier)="timestampRespondedHandler($event)"
-                                   [vesselId]="vesselId"
+                                   [TransportCallSelected]="transportCallSelected"
+
               ></app-timestamp-table>
               <div class="stickyFooterDiv">
                 <!-- <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
                                       [portOfCall]="portOfCall"
                                       [vesselId]="vesselId" [vesselSavedId]="vesselSavedId">
                 </app-timestamp-editor> -->
-                <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
+                <!-- <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
                                          [portCallTimeStampDeleted]="portCallTimeStampDeleted"
                                          [portCallTimeStampResponded]="portCallTimeStampResponded"
                                          [portOfCall]="portOfCall"
                                          [vesselId]="vesselId">
-                </app-timestamp-paginator>
+                </app-timestamp-paginator> -->
               </div>
             </div>
           </p-card>

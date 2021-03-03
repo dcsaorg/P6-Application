@@ -21,6 +21,7 @@ import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/base/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {TranslateService} from "@ngx-translate/core";
+import {TransportCall} from "../../model/OVS/transport-call";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -36,9 +37,9 @@ import {TranslateService} from "@ngx-translate/core";
   ]
 })
 export class TimestampTableComponent implements OnInit, OnChanges {
-  @Input('vesselId') vesselId: number;
-  $timestamps: Observable<PortcallTimestamp[]>;
-
+  @Input('TransportCallSelected') transportCallSelected: TransportCall;
+  timestamps: PortcallTimestamp[];
+  progressing: boolean = true;
   terminals: Terminal[] = [];
   ports: Port[] = [];
   delayCodes: DelayCode[] = [];
@@ -70,19 +71,27 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
+    this.loadTimestamps()
+    //this.$timestamps = this.paginatorService.observePaginatedTimestamps();
 
-    this.$timestamps = this.paginatorService.observePaginatedTimestamps();
+
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.vesselId && this.vesselId > 0) {
-      this.portcallTimestampService.getHighesTimestampId(this.vesselId).subscribe(highestTimestampId => {
-        this.highestTimestampId = highestTimestampId;
-      })
-    }
-    console.debug(history);
+    console.debug(this.transportCallSelected.transportCallID+" Selected");
+    this.loadTimestamps();
   }
 
+
+  private loadTimestamps() {
+    this.progressing = true;
+    this.portcallTimestampService.getPortcallTimestamps().subscribe(timestamps => {
+      this.colorizeProcessId(timestamps);
+      this.timestamps = timestamps;
+      this.progressing = false;
+    });
+  }
 
   acceptTimestamp(timestamp: PortcallTimestamp) {
 
@@ -105,32 +114,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }));
   }
 
-
-  deleteTimestamp(timestamp: any) {
-    const port = this.portIdToPortPipe.transform(timestamp.portOfCall as number, this.ports);
-    const type = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
-    this.confirmationService.confirm({
-      message: "Do you really want to delete the " + type + " port call timestamp to the port " + port.name + " (" + port.unLocode + ")",
-      key: 'deletetimestamp',
-      accept: () => {
-        this.portcallTimestampService.deleteTimestamp(timestamp.id).subscribe(() => {
-          this.messageService.add({
-            key: 'TimestampToast',
-            severity: 'success',
-            summary: 'Successfully removed port call timestamp from vessel',
-            detail: ''
-          });
-          this.timeStampDeletedNotifier.emit(timestamp);
-
-        }, error => this.messageService.add({
-          key: 'TimestampToast',
-          severity: 'error',
-          summary: 'Error while removing port call timestamp',
-          detail: error.message
-        }));
-      }
-    });
-  }
 
   showComment(timestamp: PortcallTimestamp) {
     if (timestamp.delayCode != null && !(timestamp.delayCode as DelayCode).smdgCode) {
@@ -171,4 +154,30 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     console.debug("Refresh table data");
     this.paginatorService.refreshNotifier().next();
   }
+
+  private colorizeProcessId(timestamps: PortcallTimestamp[]){
+
+    let colourPalette:string[] = new Array("#30a584","#f5634a","#d00fc2","#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
+
+    let processIDs = new Map();
+    // extract processIDs
+    timestamps.forEach(function (timestamp){
+      processIDs.set(timestamp.transportCallID, null);
+    });
+    let i = 0
+    // assign color to transportCallID
+    for (let key of processIDs.keys()){
+      processIDs.set(key, colourPalette[i]);
+      i++;
+      if(i==colourPalette.length){
+        i=0;
+      }
+    }
+    //assign color to timestamp
+    timestamps.forEach(function (timestamp){
+      timestamp.sequenceColor = processIDs.get(timestamp.transportCallID);
+    });
+  }
 }
+
+

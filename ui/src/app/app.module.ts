@@ -40,6 +40,7 @@ import {SplitterModule} from 'primeng/splitter';
 import {DateToUtcPipe} from './controller/pipes/date-to-utc.pipe';
 import {TimestampToTimezonePipe} from './controller/pipes/timeStampToTimeZone.pipe';
 import {PortOfCallComponent} from './view/port-of-call/port-of-call.component';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
@@ -104,6 +105,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         TooltipModule,
         SplitterModule,
         ScrollPanelModule,
+        ProgressSpinnerModule,
         TranslateModule.forRoot({
           defaultLanguage: 'en',
           loader: {

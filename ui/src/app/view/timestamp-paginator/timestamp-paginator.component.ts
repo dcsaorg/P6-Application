@@ -41,7 +41,6 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   private refreshTimestamps() {
     this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
       this.timestamps = portCallTimestamps;
-      this.colorizeProcessId(this.timestamps);
       this.markUnreadAsRead(this.timestamps);
 
       console.log(this.timestamps);
@@ -89,29 +88,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
 
 
 
-  private colorizeProcessId(timestamps: PortcallTimestamp[]){
 
-    let colourPalette:string[] = new Array("#30a584","#f5634a","#d00fc2","#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
-
-    let processIDs = new Map();
-    // extract processIDs
-    timestamps.forEach(function (timestamp){
-      processIDs.set(timestamp.transportCallID, null);
-    });
-    let i = 0
-    // assign color to transportCallID
-    for (let key of processIDs.keys()){
-      processIDs.set(key, colourPalette[i]);
-      i++;
-      if(i==colourPalette.length){
-        i=0;
-      }
-    }
-    //assign color to timestamp
-    timestamps.forEach(function (timestamp){
-      timestamp.sequenceColor = processIDs.get(timestamp.transportCallID);
-    });
-  }
 
   paginate($event: any) {
     //event.first = Index of the first record

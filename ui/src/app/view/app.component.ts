@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {PortcallTimestamp} from "../model/base/portcall-timestamp";
 import {Port} from "../model/base/port";
 import {TranslateService} from "@ngx-translate/core";
+import {TransportCall} from "../model/OVS/transport-call";
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent {
   vesselId: number;
   vesselSavedId: number;
   portOfCall: Port;
+  transportCallSelected: TransportCall;
   portCallTimeStampAdded: PortcallTimestamp;
   portCallTimeStampDeleted: PortcallTimestamp;
   portCallTimeStampResponded: PortcallTimestamp;
@@ -31,4 +33,8 @@ export class AppComponent {
   timestampRespondedHandler = ($portCallTimestampResponded: PortcallTimestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
+
+  transportCallSelectHandler = ($transportCall: TransportCall) => {this.transportCallSelected = $transportCall; console.log("Trigger")};
+
+
 }

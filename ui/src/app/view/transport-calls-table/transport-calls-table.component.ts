@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
 import {TransportCall} from "../../model/OVS/transport-call";
 
@@ -10,6 +10,9 @@ import {TransportCall} from "../../model/OVS/transport-call";
 export class TransportCallsTableComponent implements OnInit {
   transportCall: TransportCall[] = []
   selectedtransportCall: TransportCall;
+
+  @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
+
   constructor(private traansportCallService: TransportCallService) { }
 
   ngOnInit(): void {
@@ -19,7 +22,7 @@ export class TransportCallsTableComponent implements OnInit {
   }
 
   selectTransportCall(event){
-    console.log(event.data.transportCallID);
+    this.transportCallNotifier.emit(event.data);
   }
 
 }
