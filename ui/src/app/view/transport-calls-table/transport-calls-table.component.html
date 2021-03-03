@@ -1,4 +1,4 @@
-<p-table styleClass="p-datatable-sm" [value]="transportCall" [(selection)]="selectedtransportCall" selectionMode="single" dataKey="transportCallId"
+<p-table styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall" selectionMode="single" dataKey="transportCallId"
          (onRowSelect)="selectTransportCall($event)">
   <ng-template pTemplate="caption">
     {{'general.transportCall.label' | translate}}
@@ -22,7 +22,8 @@
   </ng-template>
   <ng-template pTemplate="header" >
     <tr>
-      <th style="width:10%">{{'general.transportCall.table.id' | translate}}</th>
+      <th style="width: 3px"></th>
+      <th>{{'general.transportCall.table.id' | translate}}</th>
       <th style="width:8%">{{'general.transportCall.table.carrierServiceCode.label' | translate}}</th>
       <th style="width:10%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
       <th style="width:15%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
@@ -36,6 +37,9 @@
   </ng-template>
   <ng-template pTemplate="body" let-transportCall let-rowIndex="rowIndex">
     <tr  [pSelectableRow]="transportCall" [pSelectableRowIndex]="rowIndex">
+      <td pTooltip="Schedule ID: {{transportCall.scheduleID}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" style="width: 3px;"
+          [ngStyle]="{'background-color': transportCall.sequenceColor}"></td>
       <td>{{transportCall.transportCallID}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>
       <td>{{transportCall.vesselIMONumber}}</td>

@@ -13,5 +13,6 @@ export interface TransportCall {
   facilityTypeCode: string;
   facilityCode: string;
   otherFacility: string;
+  sequenceColor: string;
 
 }

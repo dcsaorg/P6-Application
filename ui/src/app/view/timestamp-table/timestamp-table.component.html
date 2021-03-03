@@ -8,6 +8,9 @@
          [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']"
          sortField="logOfTimestamp" styleClass="p-datatable-sm">
   <ng-template pTemplate="caption">
+    <p-button class="p-button-raised p-button-rounded tableHeader__add_button"
+              icon="pi pi-plus" pTooltip="{{ 'general.table.add.label' | translate }}" tooltipPosition="top" type="button"
+              tooltipStyleClass="ToolTipClass"></p-button>
     {{'general.table.header.timestamps.label' | translate}} -- {{'general.transportCall.table.transportCallID.label'| translate}}: {{transportCallSelected.transportCallID}}
   </ng-template>
   <ng-template pTemplate="header">

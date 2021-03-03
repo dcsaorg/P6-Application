@@ -67,6 +67,7 @@ export class TransportEventsToTimestampsPipe implements PipeTransform {
     timestamp.locationId = event.locationID;
     timestamp.uiReadByUser = true;
 
+
     return timestamp;
 
 
