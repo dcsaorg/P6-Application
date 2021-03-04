@@ -1,15 +1,25 @@
-<p-table styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall" selectionMode="single" dataKey="transportCallId"
+<p-table styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall"
+         selectionMode="single" dataKey="transportCallId"
          (onRowSelect)="selectTransportCall($event)">
   <ng-template pTemplate="caption">
-    {{'general.transportCall.label' | translate}}
     <div class="p-grid">
-      <div class="p-col"></div>
-      <div class="p-col"></div>
+      <div class="p-col">{{'general.transportCall.label' | translate}}</div>
+      <div class="p-col tableHeader">
+
+      </div>
       <div class="p-col tableHeader">
         <div class="tableHeader__buttons">
-          <p-button (onClick)="refreshTable()" class="p-button-raised p-button-rounded"
-                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}" tooltipPosition="top" type="button"
+          <p-button class="p-button-raised p-button-rounded tableHeader__add_button"
+                    icon="pi pi-plus" pTooltip="{{ 'general.transportCall.create.tooltip' | translate }}"
+                    tooltipPosition="top" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
+        </div>
+        <div class="tableHeader__buttons">
+          <p-button (onClick)="refreshTransportCalls()" class="p-button-raised p-button-rounded"
+                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}"
+                    tooltipPosition="top" type="button"
+                    tooltipStyleClass="ToolTipClass"></p-button>
+
         </div>
         <div class="p-input-icon-left globalSearch">
           <i class="pi pi-search"></i>
@@ -20,7 +30,7 @@
       </div>
     </div>
   </ng-template>
-  <ng-template pTemplate="header" >
+  <ng-template pTemplate="header">
     <tr>
       <th style="width: 3px"></th>
       <th>{{'general.transportCall.table.id' | translate}}</th>
@@ -36,7 +46,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall let-rowIndex="rowIndex">
-    <tr  [pSelectableRow]="transportCall" [pSelectableRowIndex]="rowIndex">
+    <tr [pSelectableRow]="transportCall" [pSelectableRowIndex]="rowIndex">
       <td pTooltip="Schedule ID: {{transportCall.scheduleID}}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': transportCall.sequenceColor}"></td>

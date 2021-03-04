@@ -4,14 +4,25 @@
     {{"general.table.placeHolder.label" | translate}}
   </div>
 </div>
-<p-table *ngIf="!progressing && transportCallSelected" #dt [filterDelay]="0" [lazy]="false" [sortOrder]="1" [value]="timestamps"
+<p-table *ngIf="!progressing && transportCallSelected" #dt [filterDelay]="0" [lazy]="false" [sortOrder]="1"
+         [value]="timestamps"
          [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']"
          sortField="logOfTimestamp" styleClass="p-datatable-sm">
   <ng-template pTemplate="caption">
-    <p-button class="p-button-raised p-button-rounded tableHeader__add_button"
-              icon="pi pi-plus" pTooltip="{{ 'general.table.add.label' | translate }}" tooltipPosition="top" type="button"
-              tooltipStyleClass="ToolTipClass"></p-button>
-    {{'general.table.header.timestamps.label' | translate}} -- {{'general.transportCall.table.transportCallID.label'| translate}}: {{transportCallSelected.transportCallID}}
+
+    <div class="p-grid">
+      <div class="p-col"> {{'general.table.header.timestamps.label' | translate}}
+        -- {{'general.transportCall.table.transportCallID.label'| translate}}
+        : {{transportCallSelected.transportCallID}}</div>
+      <div class="p-col tableHeader">
+        <div class="tableHeader__buttons">
+          <p-button class="p-button-raised p-button-rounded tableHeader__add_button"
+                    icon="pi pi-plus" pTooltip="{{ 'general.table.header.create.tooltip' | translate }}"
+                    tooltipPosition="top" type="button"
+                    tooltipStyleClass="ToolTipClass"></p-button>
+        </div>
+      </div>
+    </div>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>

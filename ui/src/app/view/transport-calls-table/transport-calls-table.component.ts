@@ -14,17 +14,28 @@ export class TransportCallsTableComponent implements OnInit {
 
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
 
-  constructor(private traansportCallService: TransportCallService) { }
+  constructor(private transportCallService: TransportCallService) { }
 
   ngOnInit(): void {
-    this.traansportCallService.getTransportCalls().subscribe(transportCalls => {
-      this.transportCalls = transportCalls;
-      this.colorizeBySchedule(this.transportCalls)
-    })
+    this.loadTransportCalls()
   }
 
   selectTransportCall(event){
     this.transportCallNotifier.emit(event.data);
+  }
+
+  refreshTransportCalls(): void {
+    this.loadTransportCalls()
+    // deactivate PortCallTimestamps
+    this.transportCallNotifier.emit(null);
+
+  }
+
+  loadTransportCalls():void{
+    this.transportCallService.getTransportCalls().subscribe(transportCalls => {
+      this.transportCalls = transportCalls;
+      this.colorizeBySchedule(this.transportCalls)
+    })
   }
 
   private colorizeBySchedule(transportCalls: TransportCall[]){

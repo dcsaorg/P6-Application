@@ -93,6 +93,10 @@
 					"label": "Comment",
 					"tooltip": "Root cause and/or comment for (change of) port call event"
 				},
+        "create": {
+          "label": "Create a Port Call Timestamp",
+          "tooltip": "Create a new Portcall Timestamp for this TransportCall"
+        },
 				"direction": {
 					"label": "Direction",
 					"tooltip": "What is the vessel direction, e.g. north or southbound"
@@ -160,6 +164,10 @@
       "label": "Transport Call",
       "table":{
         "id": "id",
+        "create": {
+          "label": "Create a Transport Call",
+          "tooltip": "Create a new Transportcall "
+        },
         "carrierServiceCode": {
           "label": "Carrier Service Code"
         },
