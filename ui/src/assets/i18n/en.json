@@ -3,6 +3,9 @@
 		"cancel": {
 			"label": "Cancel"
 		},
+    "help": {
+      "label": "Help"
+    },
 		"close": {
 			"label": "Close"
 		},

@@ -3,7 +3,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
 import {ConfigService} from "../../controller/services/base/config.service";
 import {DownloadService} from "../../controller/services/base/download.service";
-import {MessageService, SelectItem} from "primeng/api";
+import {MenuItem, MessageService, SelectItem} from "primeng/api";
 import {RoleType} from "../../model/base/roleType";
 import {CodeType} from "../../model/base/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
@@ -16,6 +16,7 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 })
 export class HeaderComponent implements OnInit {
 
+  helpMenu: MenuItem[];
   companyName: string;
   companyRole: RoleType;
   companyCodeType: CodeType;
@@ -42,6 +43,24 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.helpMenu = [{
+      label: this.translate.instant('Help'),
+      items: [{
+        label: this.translate.instant('Instructions'),
+        icon: 'pi pi-question',
+        command: () => {
+          this.showInstructions();
+        }
+      },
+        {
+          label: this.translate.instant('Download Timestamps'),
+          icon: 'pi pi-download',
+          command: () => {
+            this.showDownloadRequest();
+          }
+        }
+      ]}
+    ];
   }
 
   showInstructions() {

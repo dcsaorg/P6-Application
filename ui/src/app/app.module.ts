@@ -54,6 +54,7 @@ import { ScheduleSelectorComponent } from './view/schedule-selector/schedule-sel
 import { TransportEventToTimestampTypePipe } from './controller/pipes/transport-event-to-timestamp-type.pipe';
 import {MenubarModule} from 'primeng/menubar';
 import {MenuItem} from 'primeng/api';
+import {MenuModule} from "primeng/menu";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -86,41 +87,42 @@ export function HttpLoaderFactory(http: HttpClient) {
     ScheduleSelectorComponent,
     TransportEventToTimestampTypePipe,
   ],
-    imports: [
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        BrowserModule,
-        ButtonModule,
-        CalendarModule,
-        CardModule,
-        ConfirmDialogModule,
-        DialogModule,
-        DropdownModule,
-        DynamicDialogModule,
-        FormsModule,
-        HttpClientModule,
-        InputNumberModule,
-        InputMaskModule,
-        InputTextModule,
-        InputTextareaModule,
-        PaginatorModule,
-        ReactiveFormsModule,
-        TableModule,
-        ToastModule,
-        TooltipModule,
-        SplitterModule,
-        ScrollPanelModule,
-        ProgressSpinnerModule,
-        MenubarModule,
-        TranslateModule.forRoot({
-          defaultLanguage: 'en',
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        }),
-    ],
+  imports: [
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    ButtonModule,
+    CalendarModule,
+    CardModule,
+    ConfirmDialogModule,
+    DialogModule,
+    DropdownModule,
+    DynamicDialogModule,
+    FormsModule,
+    HttpClientModule,
+    InputNumberModule,
+    InputMaskModule,
+    InputTextModule,
+    InputTextareaModule,
+    PaginatorModule,
+    ReactiveFormsModule,
+    TableModule,
+    ToastModule,
+    TooltipModule,
+    SplitterModule,
+    ScrollPanelModule,
+    ProgressSpinnerModule,
+    MenuModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    MenuModule,
+  ],
   providers: [
     ConfirmationService,
     MessageService,
