@@ -5,6 +5,9 @@ import {PortService} from "../../controller/services/base/port.service";
 import {translate} from "@angular/localize/src/translate";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {Globals} from "../globals";
+import {TerminalService} from "../../controller/services/base/terminal.service";
+import {Terminal} from "../../model/base/terminal";
+
 
 @Component({
   selector: 'app-port-of-call',
@@ -13,17 +16,21 @@ import {Globals} from "../globals";
 })
 export class PortOfCallComponent implements OnInit {
   portOfCall: Port;
+  terminal: Terminal;
+  terminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
 
   @Output() portOfCallNotifier: EventEmitter<Port> = new EventEmitter<Port>()
 
   constructor(private portService: PortService,
+              private terminalService: TerminalService,
               private translate: TranslateService,
               public globals: Globals) {
   }
 
   ngOnInit(): void {
     this.updatePortOfcallOptions();
+    this.updateTerminalOptions();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updatePortOfcallOptions();
@@ -31,6 +38,16 @@ export class PortOfCallComponent implements OnInit {
   }
 
   selectPortOfCall = () => this.portOfCallNotifier.emit(this.portOfCall);
+  selectTerminal = () => {}
+
+  updateTerminalOptions(){
+    this.terminalService.getTerminals().subscribe(terminals => {
+      this.globals.terminals = terminals;
+      this.terminalOptions = [];
+      this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
+      terminals.forEach((terminal => this.terminalOptions.push({label: terminal.smdgCode, value: terminal})))
+    })
+  }
 
   updatePortOfcallOptions() {
     this.portService.getPorts().subscribe(ports => {

@@ -15,6 +15,6 @@ export class TerminalService {
     this.TERMINAL_URL = BACKEND_URL + '/terminals';
   }
 
-  getTerminals = (): Observable<Terminal[]> => this.httpClient.get<Terminal[]>(this.TERMINAL_URL);
-  //getTerminals = ():Observable<Terminal[]> => this.staticTerminalService.getTerminals();
+  //getTerminals = (): Observable<Terminal[]> => this.httpClient.get<Terminal[]>(this.TERMINAL_URL);
+  getTerminals = ():Observable<Terminal[]> => this.staticTerminalService.getTerminals();
 }

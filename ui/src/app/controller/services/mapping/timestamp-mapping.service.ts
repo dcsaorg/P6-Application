@@ -4,18 +4,13 @@ import {TransportCallService} from "../OVS/transport-call.service";
 import {TransportEventService} from "../OVS/transport-event.service";
 import {from, Observable} from "rxjs";
 import {PortcallTimestamp} from "../../../model/base/portcall-timestamp";
-import {TransportEvent} from "../../../model/OVS/transport-event";
 import {TransportCall} from "../../../model/OVS/transport-call";
-import {PortcallTimestampType} from "../../../model/base/portcall-timestamp-type.enum";
-import {DelayCode} from "../../../model/base/delayCode";
-import {MessageDirection} from "../../../model/base/messageDirection";
 import {Port} from "../../../model/base/port";
-import {Terminal} from "../../../model/base/terminal";
-import {Vessel} from "../../../model/base/vessel";
-import {flatMap, map, timestamp} from "rxjs/internal/operators";
+import {map} from "rxjs/internal/operators";
 import {Globals} from "../../../view/globals";
 import {TransportEventsToTimestampsPipe} from "../../pipes/transport-events-to-timestamps.pipe";
 import {TimestampsToTransportEventsPipe} from "../../pipes/timestamps-to-transport-events.pipe";
+import {Terminal} from "../../../model/base/terminal";
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +25,8 @@ export class TimestampMappingService {
   }
 
 
-  addPortCallTimestamp(portCallTimestamp: PortcallTimestamp):Observable<PortcallTimestamp>{
-     let $resultEvent =  this.transportEventService.addTransportEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp))
+  addPortCallTimestamp(portCallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> {
+    let $resultEvent = this.transportEventService.addTransportEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp))
     return null;
   }
 
@@ -45,8 +40,8 @@ export class TimestampMappingService {
     ));
   }
 
-  getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<PortcallTimestamp[]>{
-    return this.transportEventService.getTransportEventsByTransportCall(transportCall.transportCallID).pipe(map(events =>{
+  getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<PortcallTimestamp[]> {
+    return this.transportEventService.getTransportEventsByTransportCall(transportCall.transportCallID).pipe(map(events => {
       const timestamps = this.transportEventsToTimestampsPipe.transform(events)
       this.mapTransportCallToTimestamps(timestamps, transportCall);
       return timestamps;
@@ -54,12 +49,22 @@ export class TimestampMappingService {
   }
 
 
-  //@Todo refactor, as this might run into a race condition!
   getPortByUnLocode(unlocode: string): Port {
-    //@todo check if list is available
     for (let port of this.globals.ports) {
       if (port.unLocode == unlocode) {
         return port;
+      }
+    }
+    return null;
+  }
+
+  getTerminalByFacilityCode(facilityCode: string): Terminal {
+    if (facilityCode.length > 5) {
+      const smdgCode = facilityCode.substring(5, facilityCode.length);
+      for (let terminal of this.globals.terminals) {
+        if (terminal.smdgCode == smdgCode) {
+          return terminal
+        }
       }
     }
     return null;
@@ -86,11 +91,13 @@ export class TimestampMappingService {
       if (timestamp.transportCallID == transportCall.transportCallID) {
         timestamp.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode).id;
         timestamp.vessel = parseInt(transportCall.vesselIMONumber);
-
+        // Check if facility is a terminal
+        if (transportCall.facilityTypeCode == "POTE" || transportCall.facilityTypeCode == "TERM" ) {
+          timestamp.terminal = this.getTerminalByFacilityCode(transportCall.facilityCode)
+        }
       }
     }
   }
-
 
 
 }

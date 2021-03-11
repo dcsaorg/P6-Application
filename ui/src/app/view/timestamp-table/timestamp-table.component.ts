@@ -14,7 +14,6 @@ import {DelayCode} from "../../model/base/delayCode";
 import {DialogService} from "primeng/dynamicdialog";
 import {PortService} from "../../controller/services/base/port.service";
 import {TerminalService} from "../../controller/services/base/terminal.service";
-import {Observable} from "rxjs";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
 import {take} from "rxjs/operators";
 import {VesselService} from "../../controller/services/base/vessel.service";
@@ -22,6 +21,8 @@ import {Vessel} from "../../model/base/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
+import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
+import {Globals} from "../globals";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -44,6 +45,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   ports: Port[] = [];
   delayCodes: DelayCode[] = [];
   vessels: Vessel[] = [];
+  portOfCall: Port;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
   @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
@@ -63,24 +65,24 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
               private portIdToPortPipe: PortIdToPortPipe,
               private translate: TranslateService,
+              public globals: Globals
   ) {
   }
 
   ngOnInit(): void {
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
-    this.terminalService.getTerminals().pipe(take(1)).subscribe(terminals => this.terminals = terminals);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
     this.progressing = false;
     //this.$timestamps = this.paginatorService.observePaginatedTimestamps();
 
 
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.debug(this.transportCallSelected.transportCallID+" Selected");
+    this.terminals = this.globals.terminals;
     this.loadTimestamps();
+    console.log(this.terminals);
   }
 
 
@@ -151,18 +153,33 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
 
+  showCreationDialog() {
+    console.log("Creation!")
+    this.dialogService.open(TimestampEditorComponent, {
+      header: this.translate.instant('general.timestamp.create.label'),
+      width: '65%',
+      height: '80%',
+      data: {
+        transportCall: this.transportCallSelected,
+        timestamps: this.timestamps,
+      }
+    })
+  }
+
   refreshTable() {
     console.debug("Refresh table data");
     this.paginatorService.refreshNotifier().next();
   }
 
-  private colorizeProcessId(timestamps: PortcallTimestamp[]){
+  private colorizeProcessId(timestamps: PortcallTimestamp[]) {
     const color = this.transportCallSelected.sequenceColor
-    timestamps.forEach(function (timestamp){
+    timestamps.forEach(function (timestamp) {
       timestamp.sequenceColor = color;
     });
 
   }
+
+
 }
 
 

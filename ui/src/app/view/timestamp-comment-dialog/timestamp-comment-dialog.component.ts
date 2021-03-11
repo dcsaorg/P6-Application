@@ -40,17 +40,14 @@ export class TimestampCommentDialogComponent implements OnInit {
   save() {
     this.ref.close(this.timestamp);
   }
-
   cancelEdit() {
     this.timestamp.delayCode = this.previousDelayCode;
     this.timestamp.changeComment = this.previousChangeComment;
     this.ref.close(null);
   }
-
   close() {
     this.ref.close(null);
   }
-
   refreshDropDown() {
     this.delayCodeOptions = [];
     this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});

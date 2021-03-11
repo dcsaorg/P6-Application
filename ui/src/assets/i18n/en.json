@@ -20,6 +20,9 @@
 			"outbound": "Outbound",
 			"select": "Select direction"
 		},
+    "delaycode": {
+      "label": "Delay Code (SMDG)"
+    },
 		"download": {
 			"label": "Download",
 			"timestamps": {
@@ -153,9 +156,14 @@
 			"pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"
 		},
 		"terminal": {
+      "label": "Terminal",
 			"select": "Select terminal"
 		},
 		"timestamp": {
+      "create": {
+        "label": "New Port Call Timestamp",
+        "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
+      },
 			"date": {
 				"event": "Event date",
 				"log": "Log date"

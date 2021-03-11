@@ -1,5 +1,6 @@
 @import "DCSA-Theme";
 
+
 p-dropdown::ng-deep {
   .dropdown {
     width: 100%;
@@ -35,6 +36,8 @@ p-dropdown::ng-deep {
   font-size: $tableSize !important;
 }
 
-.timestampContent {
-
+.headline{
+  margin-bottom: 30px;
 }
+
+
