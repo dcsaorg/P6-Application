@@ -1,32 +1,40 @@
 <h4>For Transport-Call {{ transportCall.transportCallID}}</h4>
-<div class="headline"><p-card styleClass="card-scondary">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-col-12 p-md-4">
-      <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}: </label>
-      <span id="vesselName"> {{transportCall.vesselName}} </span>
+<div class="headline">
+  <p-card styleClass="card-scondary">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
+          : </label>
+        <span id="vesselName"> {{transportCall.vesselName}} </span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
+        <span id="portOfCall"
+              *ngIf="defaultTimestamp.portOfCall != null"> {{defaultTimestamp.portOfCall.unLocode}} </span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed"
+               for="CarrierServiceCode">{{'general.transportCall.table.carrierServiceCode.label'| translate}}: </label>
+        <span id="CarrierServiceCode"> {{transportCall.carrierServiceCode}} </span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="vesselIMO">{{'general.transportCall.table.vesselImo.label'| translate}}
+          : </label>
+        <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="terminal">{{'general.terminal.label'| translate}}: </label>
+        <span *ngIf="defaultTimestamp.terminal != null" id="terminal"> {{defaultTimestamp.terminal.smdgCode}}
+          ({{defaultTimestamp.terminal.terminalName}})</span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed"
+               for="CarrierVoyageNumber">{{'general.transportCall.table.carrierVoyageNumber.label'| translate}}
+          : </label>
+        <span id="CarrierVoyageNumber"> {{transportCall.carrierVoyageNumber}}</span>
+      </div>
     </div>
-    <div class="p-field p-col-12 p-md-4">
-      <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
-      <span id="portOfCall"> {{defaultTimestamp.portOfCall.unLocode}} </span>
-    </div>
-    <div class="p-field p-col-12 p-md-4">
-      <label class="label-compressed" for="CarrierServiceCode">{{'general.transportCall.table.carrierServiceCode.label'| translate}}: </label>
-      <span id="CarrierServiceCode"> {{transportCall.carrierServiceCode}} </span>
-    </div>
-    <div class="p-field p-col-12 p-md-4">
-      <label class="label-compressed" for="vesselIMO">{{'general.transportCall.table.vesselImo.label'| translate}}: </label>
-      <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
-    </div>
-    <div class="p-field p-col-12 p-md-4">
-      <label class="label-compressed" for="terminal">{{'general.terminal.label'| translate}}: </label>
-      <span *ngIf="defaultTimestamp.terminal != null" id="terminal"> {{defaultTimestamp.terminal.smdgCode}} ({{defaultTimestamp.terminal.terminalName}})</span>
-    </div>
-    <div class="p-field p-col-12 p-md-4">
-      <label class="label-compressed" for="CarrierVoyageNumber">{{'general.transportCall.table.carrierVoyageNumber.label'| translate}}: </label>
-      <span id="CarrierVoyageNumber"> {{transportCall.carrierVoyageNumber}}</span>
-    </div>
-  </div>
-</p-card>
+  </p-card>
 </div>
 <div class="p-fluid p-formgrid p-grid">
   <div class="p-field p-col-12 p-md-4">
@@ -76,7 +84,6 @@
         <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success"
                 (click)="setEventTimestampToNow()"></button>
       </div>
-
     </div>
   </div>
   <div class="p-field p-col-12 p-md-2">
@@ -91,40 +98,60 @@
 
   <div class="p-field p-col-12 p-md-5">
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
-    <p-dropdown id="delayCode" [(ngModel)]="defaultTimestamp.delayCode" [filter]="true"
+    <p-dropdown id="delayCode" [options]="delayCodeOptions" [(ngModel)]="defaultTimestamp.delayCode" [filter]="true"
                 filterBy="label,value.name" [group]="false">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
-          <div class="delayCodeSelected">{{delayCode.value.smdgCode}}</div>
-          <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;<b>{{delayCode.value.delayType}}</b>
+          <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
+          <div class="delayCodeSelected__delayType">&nbsp;&middot;&nbsp;{{delayCode.value.delayType}}
           </div>
-          <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
-          <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
+          <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
+          <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
         </div>
         <div *ngIf="!delayCode.value">
           <div>{{delayCode.label}}</div>
         </div>
       </ng-template>
       <ng-template let-delayCode pTemplate="item">
-        <div *ngIf="delayCode.value">
-          <div>{{delayCode.value.smdgCode}}</div>
-          <div class="delayCodeDetails"><b>{{delayCode.value.delayType}}</b></div>
-          <div class="delayCodeDetails">{{delayCode.value.name}}</div>
-          <div class="delayCodeDetails">{{delayCode.value.description}}</div>
+        <div class="delayCodeDetails" *ngIf="delayCode.value">
+          <div class="delayCodeDetails__smdgCode">{{delayCode.value.smdgCode}}</div>
+          <div class="delayCodeDetails__delayType">{{delayCode.value.delayType}}</div>
+          <div class="delayCodeDetails__delayName">{{delayCode.value.name}}</div>
+          <div class="delayCodeDetails__delaydescription">{{delayCode.value.description}}</div>
         </div>
       </ng-template>
     </p-dropdown>
+  </div>
+  <div class="p-field p-col-12 p-md-7">
+  </div>
 
 
+  <div class="p-field p-col-12 p-md-6">
     <span class="p-float-label">
-    <textarea id="commentbox" pInputTextarea [(ngModel)]="defaultTimestamp.changeComment"
+    <textarea class="commentBox" id="commentbox" pInputTextarea [(ngModel)]="defaultTimestamp.changeComment"
     ></textarea>
     <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
     </span>
   </div>
-  <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="left">
+  <div class="p-field p-col-12 p-md-6">
+  </div>
+</div>
+<div class="p-grid">
+<div class="p-col-8">
+</div>
+  <div class="p-col-4 footer_option" style="; justify-content: flex-end">
+    <p-button (onClick)="close()" class="footer_option__buttons"
+              icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
+    </p-button>
+
+    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
+              [disabled]="!validatePortOfCallTimestamp(defaultTimestamp)" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}" iconPos="left">
+    </p-button>
+
   </div>
 </div>
 
+
 <p-toast key="TimestampAddSuccess" position="bottom-right"></p-toast>
 <p-toast key="TimestampAddError" position="bottom-right"></p-toast>
+

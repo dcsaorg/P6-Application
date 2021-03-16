@@ -71,6 +71,7 @@
 		},
 		"save": {
 			"editor": {
+        "label": "Create Timestamp",
 				"failure": "Error while adding port call timestamp",
 				"success": "Successfully added new port call timestamp to vessel"
 			},

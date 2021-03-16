@@ -157,8 +157,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     console.log("Creation!")
     this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.create.label'),
-      width: '65%',
-      height: '80%',
+      width: '75%',
       data: {
         transportCall: this.transportCallSelected,
         timestamps: this.timestamps,

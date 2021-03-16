@@ -30,10 +30,10 @@ export class TimestampCommentDialogComponent implements OnInit {
     this.previousChangeComment = this.timestamp.changeComment;
     this.editMode = this.config.data.editMode;
 
-    this.refreshDropDown();
+
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.refreshDropDown();
+
     });
   }
 
@@ -47,13 +47,6 @@ export class TimestampCommentDialogComponent implements OnInit {
   }
   close() {
     this.ref.close(null);
-  }
-  refreshDropDown() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
-    this.config.data.delayCode.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
-    });
   }
 
 }

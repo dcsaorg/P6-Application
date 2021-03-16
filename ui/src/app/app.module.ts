@@ -55,6 +55,9 @@ import { TransportEventToTimestampTypePipe } from './controller/pipes/transport-
 import {MenubarModule} from 'primeng/menubar';
 import {MenuItem} from 'primeng/api';
 import {MenuModule} from "primeng/menu";
+import { TimestampTypeToEventTypePipe } from './controller/pipes/timestamp-type-to-event-type.pipe';
+import { TimestampTypeToEventClassifierCodePipe } from './controller/pipes/timestamp-type-to-event-classifier-code.pipe';
+import { TimestampTypeToLocationTypePipe } from './controller/pipes/timestamp-type-to-location-type.pipe';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -86,6 +89,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransportCallsTableComponent,
     ScheduleSelectorComponent,
     TransportEventToTimestampTypePipe,
+    TimestampTypeToEventTypePipe,
+    TimestampTypeToEventClassifierCodePipe,
+    TimestampTypeToLocationTypePipe,
   ],
   imports: [
     AppRoutingModule,

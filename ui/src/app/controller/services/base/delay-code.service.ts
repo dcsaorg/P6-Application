@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {Observable} from "rxjs";
 import {DelayCode} from "../../../model/base/delayCode";
+import {StaticDelaycodeService} from "../static/static-delaycode.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import {DelayCode} from "../../../model/base/delayCode";
 export class DelayCodeService {
   private readonly DELAY_CODE_URL: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private staticDelayCodeService: StaticDelaycodeService) {
     this.DELAY_CODE_URL = BACKEND_URL + '/delaycodes';
   }
 
@@ -18,5 +19,5 @@ export class DelayCodeService {
     return this.httpClient.get<DelayCode>(this.DELAY_CODE_URL + '/' + delayCodeId);
   }
 
-  getDelayCodes = (): Observable<DelayCode[]> => this.httpClient.get<DelayCode[]>(this.DELAY_CODE_URL);
+  getDelayCodes = (): Observable<DelayCode[]> => this.staticDelayCodeService.getDelayCodes();
 }

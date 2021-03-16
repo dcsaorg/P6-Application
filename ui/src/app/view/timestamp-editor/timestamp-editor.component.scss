@@ -40,4 +40,68 @@ p-dropdown::ng-deep {
   margin-bottom: 30px;
 }
 
+.commentBox{
+  height: 200px;
+  width: 600px;
+}
+
+.footer_option{
+  display: flex;
+
+  &__buttons{
+    display: flex;
+    flex-direction: row;
+    padding-left: 2px;
+  }
+}
+
+.delayCodeDetails{
+
+  margin: 1px;
+
+  &____smdgCode{
+    font-size: 12px;
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+
+  &__delayType {
+    color: $tealBlue;
+    text-transform: capitalize;
+    font-size: 12px;
+
+  }
+  &__delayName {
+    color: $darkGrey;
+    text-transform: capitalize;
+    font-size: 10px;
+  }
+  &__delaydescription {
+    color: $darkGrey;
+    text-transform: capitalize;
+    font-size: 10px;
+  }
+}
+
+
+
+.delayCodeSelectedWrapper {
+  display: flex;
+  align-items: center;
+}
+.delayCodeSelected {
+  float: left;
+  clear: none;
+  font-size: 10pt;
+
+  &__smdgCode{
+    font-weight: bold;
+  }
+  &__delayType{
+    color: $tealBlue;
+  }
+  &__delayDetails{
+    color:$darkGrey
+  }
+}
 

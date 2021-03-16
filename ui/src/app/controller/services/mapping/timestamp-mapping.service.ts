@@ -26,7 +26,7 @@ export class TimestampMappingService {
 
 
   addPortCallTimestamp(portCallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> {
-    let $resultEvent = this.transportEventService.addTransportEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp))
+    this.transportEventService.addTransportEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp));
     return null;
   }
 
