@@ -83,7 +83,26 @@ p-dropdown::ng-deep {
   }
 }
 
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
+  animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+}
 
+@keyframes custom-progress-spinner-color {
+  100%,
+  0% {
+    stroke: #fafafa;
+  }
+  40% {
+    stroke: #fafafa;
+  }
+  66% {
+    stroke: #fafafa;
+  }
+  80%,
+  90% {
+    stroke: #fafafa;
+  }
+}
 
 .delayCodeSelectedWrapper {
   display: flex;

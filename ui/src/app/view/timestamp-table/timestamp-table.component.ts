@@ -23,6 +23,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../globals";
+import {RoleType} from "../../model/base/roleType";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -93,12 +94,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.timestamps = timestamps;
       console.log(timestamps);
       this.progressing = false;
+      this.portcallTimestampService.setResponseType(timestamps[timestamps.length-1], RoleType.CARRIER);
     });
   }
 
   acceptTimestamp(timestamp: PortcallTimestamp) {
-
-    this.portcallTimestampService.acceptTimestamp(timestamp).subscribe((newPortCallTimestamp: PortcallTimestamp) => {
+    timestamp.timestampType = timestamp.response;
+    timestamp.logOfTimestamp = new Date();
+    timestamp.id = null;
+    this.portcallTimestampService.addPortcallTimestamp(timestamp).subscribe((newPortCallTimestamp: PortcallTimestamp) => {
       const port = this.portIdToPortPipe.transform(timestamp.portOfCall as number, this.ports);
       const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
       const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newPortCallTimestamp.timestampType as PortcallTimestampType);
@@ -155,14 +159,19 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   showCreationDialog() {
     console.log("Creation!")
-    this.dialogService.open(TimestampEditorComponent, {
+    const timestampEditor = this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.create.label'),
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
         timestamps: this.timestamps,
       }
-    })
+    });
+    timestampEditor.onClose.subscribe((result: PortcallTimestamp) => {
+      if(result){
+        this.loadTimestamps();
+      }
+    });
   }
 
   refreshTable() {

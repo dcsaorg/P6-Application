@@ -22,7 +22,7 @@ export class TimestampTypeToEventClassifierCodePipe implements PipeTransform {
         PortcallTimestampType.PTA_Berth,
         PortcallTimestampType.PTA_PBP]
         .includes(timestampType)) {
-      ret = "PLA"
+      ret = "PLN"
     } else if (
       [PortcallTimestampType.RTA_Berth,
         PortcallTimestampType.RTA_PBP,

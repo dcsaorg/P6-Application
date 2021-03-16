@@ -72,8 +72,14 @@
 		"save": {
 			"editor": {
         "label": "Create Timestamp",
-				"failure": "Error while adding port call timestamp",
-				"success": "Successfully added new port call timestamp to vessel"
+				"failure": {
+          "summary": "Error!",
+          "detail":"Error while adding port call timestamp: "
+        },
+				"success": {
+          "detail":"Successfully added new port call timestamp for transportcall",
+          "summary": "Success!"
+        }
 			},
 			"label": "Save"
 		},

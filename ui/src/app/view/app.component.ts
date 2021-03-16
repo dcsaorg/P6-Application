@@ -34,7 +34,7 @@ export class AppComponent {
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
 
-  transportCallSelectHandler = ($transportCall: TransportCall) => {this.transportCallSelected = $transportCall; console.log("Trigger")};
+  transportCallSelectHandler = ($transportCall: TransportCall) => {this.transportCallSelected = $transportCall;};
 
 
 }

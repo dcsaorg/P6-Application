@@ -47,6 +47,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   eventTimestampDate: Date;
   eventTimestampTime: String;
 
+  creationProgress: boolean = false;
+
   transportCall: TransportCall;
 
   timestampTypes: SelectItem[] = [];
@@ -78,6 +80,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private portIdToPortPipe: PortIdToPortPipe,
+              private messageService: MessageService,
               private delayCodeService: DelayCodeService,
               private portCallTimestampTypePipe: PortCallTimestampTypeToStringPipe,
               private dialogService: DialogService,
@@ -121,7 +124,25 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     portcallTimestamp.eventTimestamp = dateToUtc.transform(portcallTimestamp.eventTimestamp)
     console.log("Save Timestamp:");
     console.log(portcallTimestamp);
-    this.timestampMappingService.addPortCallTimestamp(portcallTimestamp);
+    this.creationProgress = true;
+    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp).subscribe(respTimestamp =>{
+      this.creationProgress = false;
+      this.messageService.add(
+        {key: 'TimestampAddSuccess',
+          severity:'success',
+          summary: this.translate.instant('general.save.editor.success.summary'),
+          detail: this.translate.instant('general.save.editor.success.detail')})
+        this.ref.close(respTimestamp);
+    },
+    error => {
+      this.messageService.add(
+        {key: 'TimestampAddError',
+          severity:'success',
+          summary: this.translate.instant('general.save.editor.failure.summary'),
+          detail: this.translate.instant('general.save.editor.failure.detail')+ error.message})
+      this.creationProgress = false;
+    })
+
 
   }
 

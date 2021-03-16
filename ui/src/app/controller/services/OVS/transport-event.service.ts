@@ -24,7 +24,8 @@ export class TransportEventService {
   }
 
   addTransportEvent = (transportEvent: TransportEvent): Observable<TransportEvent> => {
-    console.log(transportEvent);
+    console.log("Fire!");
     return this.httpClient.post<TransportEvent>(this.TRANSPORT_EVENT_URL, transportEvent);
-  }
+    //
+}
 }

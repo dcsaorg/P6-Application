@@ -204,11 +204,6 @@
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 6%">
-        <p-button class="timestampContent" *ngIf="highestTimestampId == timestamp.id && timestamp.modifiable"
-                  icon="pi pi-trash"
-                  (click)="deleteTimestamp(timestamp)" pTooltip="{{ 'general.table.delete.tooltip' | translate }}"
-                  tooltipPosition="left"
-                  tooltipStyleClass="ToolTipClass"></p-button>
 
         <p-button class="timestampContent" *ngIf="timestamp.response != null" icon="pi pi-check"
                   pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
@@ -223,3 +218,5 @@
                  appendTo="body"></p-confirmDialog>
 
 <p-toast key="TimestampToast" position="bottom-right"></p-toast>
+<p-toast key="TimestampAddSuccess" position="bottom-right"></p-toast>
+<p-toast key="TimestampAddError" position="bottom-right"></p-toast>

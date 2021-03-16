@@ -29,16 +29,11 @@
           <p-card>
 
             <div class="main__bottom_content_pane">
-              <app-timestamp-table (timeStampDeletedNotifier)="timestampDeletedHandler($event)"
-                                   (timeStampAcceptNotifier)="timestampRespondedHandler($event)"
+              <app-timestamp-table (timeStampAcceptNotifier)="timestampRespondedHandler($event)"
                                    [TransportCallSelected]="transportCallSelected"
 
               ></app-timestamp-table>
               <div class="stickyFooterDiv">
-                <!-- <app-timestamp-editor (timeStampAddedNotifier)="timeStampAddedHandler($event)"
-                                      [portOfCall]="portOfCall"
-                                      [vesselId]="vesselId" [vesselSavedId]="vesselSavedId">
-                </app-timestamp-editor> -->
                 <!-- <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
                                          [portCallTimeStampDeleted]="portCallTimeStampDeleted"
                                          [portCallTimeStampResponded]="portCallTimeStampResponded"

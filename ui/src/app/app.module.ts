@@ -58,6 +58,7 @@ import {MenuModule} from "primeng/menu";
 import { TimestampTypeToEventTypePipe } from './controller/pipes/timestamp-type-to-event-type.pipe';
 import { TimestampTypeToEventClassifierCodePipe } from './controller/pipes/timestamp-type-to-event-classifier-code.pipe';
 import { TimestampTypeToLocationTypePipe } from './controller/pipes/timestamp-type-to-location-type.pipe';
+import { TransportEventToTimestampPipe } from './controller/pipes/transport-event-to-timestamp.pipe';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -92,6 +93,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimestampTypeToEventTypePipe,
     TimestampTypeToEventClassifierCodePipe,
     TimestampTypeToLocationTypePipe,
+    TransportEventToTimestampPipe,
   ],
   imports: [
     AppRoutingModule,
@@ -135,7 +137,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     Globals,
     TransportEventsToTimestampsPipe,
     TransportCallsToVesselsPipe,
-    TimestampsToTransportEventsPipe
+    TimestampsToTransportEventsPipe,
+    TransportEventToTimestampPipe
   ],
   bootstrap: [AppComponent]
 })

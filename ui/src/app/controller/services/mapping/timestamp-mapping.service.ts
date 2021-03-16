@@ -11,6 +11,7 @@ import {Globals} from "../../../view/globals";
 import {TransportEventsToTimestampsPipe} from "../../pipes/transport-events-to-timestamps.pipe";
 import {TimestampsToTransportEventsPipe} from "../../pipes/timestamps-to-transport-events.pipe";
 import {Terminal} from "../../../model/base/terminal";
+import {TransportEventToTimestampPipe} from "../../pipes/transport-event-to-timestamp.pipe";
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,19 @@ export class TimestampMappingService {
   constructor(private scheduleService: ScheduleService, private transportCallService: TransportCallService,
               private transportEventService: TransportEventService, private globals: Globals,
               private transportEventsToTimestampsPipe: TransportEventsToTimestampsPipe,
-              private timestampToTransportEventPipe: TimestampsToTransportEventsPipe) {
+              private transportEventToTimestampPipe: TransportEventToTimestampPipe,
+              private timestampToTransportEventPipe: TimestampsToTransportEventsPipe
+  ) {
 
   }
 
 
   addPortCallTimestamp(portCallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> {
-    this.transportEventService.addTransportEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp));
-    return null;
+    return this.transportEventService.addTransportEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp)).pipe(
+      map(event => {return this.transportEventToTimestampPipe.transform(event)})
+    )
+
+
   }
 
   getPortCallTimestamps(): Observable<PortcallTimestamp[]> {

@@ -143,15 +143,17 @@
     <p-button (onClick)="close()" class="footer_option__buttons"
               icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-
-    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
+       <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
               [disabled]="!validatePortOfCallTimestamp(defaultTimestamp)" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}" iconPos="left">
-    </p-button>
+         <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
+                            styleClass="custom-spinner"
+                            strokeWidth="3"
+                            animationDuration=".9s"></p-progressSpinner>
+       </p-button>
 
   </div>
 </div>
 
 
-<p-toast key="TimestampAddSuccess" position="bottom-right"></p-toast>
-<p-toast key="TimestampAddError" position="bottom-right"></p-toast>
+
 

@@ -34,7 +34,8 @@ export class TimestampsToTransportEventsPipe implements PipeTransform {
     transportEvent.eventClassifierCode = new TimestampTypeToEventClassifierCodePipe().transform(PortcallTimestampType[portcallTimestamp.timestampType]);
     transportEvent.eventTypeCode = new TimestampTypeToEventTypePipe().transform(PortcallTimestampType[portcallTimestamp.timestampType])
     transportEvent.locationType = new TimestampTypeToLocationTypePipe().transform(PortcallTimestampType[portcallTimestamp.timestampType])
-
+    transportEvent.transportCallID = portcallTimestamp.transportCallID;
+    transportEvent.eventType = "TRANSPORT";
 
     return transportEvent;
   }
