@@ -7,7 +7,7 @@ import {PortcallTimestamp} from "../../../model/base/portcall-timestamp";
 import {TransportCall} from "../../../model/OVS/transport-call";
 import {Port} from "../../../model/base/port";
 import {map} from "rxjs/internal/operators";
-import {Globals} from "../../../view/globals";
+import {Globals} from "../../../model/base/globals";
 import {TransportEventsToTimestampsPipe} from "../../pipes/transport-events-to-timestamps.pipe";
 import {TimestampsToTransportEventsPipe} from "../../pipes/timestamps-to-transport-events.pipe";
 import {Terminal} from "../../../model/base/terminal";

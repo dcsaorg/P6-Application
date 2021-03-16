@@ -44,7 +44,7 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import {Globals} from "./view/globals";
+import {Globals} from "./model/base/globals";
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TransportEventsToTimestampsPipe } from './controller/pipes/transport-events-to-timestamps.pipe';
 import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';

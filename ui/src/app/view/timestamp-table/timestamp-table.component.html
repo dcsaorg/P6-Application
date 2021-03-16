@@ -91,8 +91,7 @@
           tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.comment.label' | translate }}
       </th>
-      <th style="width: 3%"></th>
-      <th style="width: 3%"></th>
+      <th style="width: 6%"></th>
     </tr>
     <tr>
       <td></td>
@@ -108,7 +107,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
+
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
@@ -171,35 +170,9 @@
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.locationId }}</td>
       <td style="width: 7%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        <p-button class="timestampContent" (onClick)="showComment(timestamp)"
+        <p-button *ngIf="timestamp.changeComment || timestamp.delayCode" class="timestampContent" (onClick)="showComment(timestamp)"
                   icon="pi pi-comment">
         </p-button>
-      </td>
-      <td style="width: 8%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
-                  '' :
-                  (timestamp.messageDirection == 'inbound' ?
-                        'pi-arrow-left' : 'pi-arrow-right'
-                  )
-              }}"
-              pTooltip="{{ timestamp.messageDirection == null ?
-                  '' :
-                  (timestamp.messageDirection == 'inbound' ?
-                        ( 'general.direction.inbound' | translate ) : ( 'general.direction.outbound' | translate )
-                  )
-              }}"
-              tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>
-        <span *ngIf="timestamp.messagingStatus != null" class="pi pi-info-circle"
-              style="{{ timestamp.messagingStatus == null ?
-                          '' :
-                          (timestamp.messagingStatus.includes('ERROR') ?
-                                'color: #DE5141;' :
-                                (timestamp.messagingStatus.includes('SUCCESS') ? 'color: #009093;' : '')
-                          )
-                      }}"
-              pTooltip="Commuinication status: {{ timestamp.messagingStatus }}<br/>Details: {{ timestamp.messagingDetails }}"
-              [escape]="false" tooltipPosition="top" tooltipStyleClass="ToolTipClass"></span>
       </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "

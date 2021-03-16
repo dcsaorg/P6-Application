@@ -24,6 +24,7 @@ export class TransportEventToTimestampPipe implements PipeTransform {
       direction: string;
       eventTimestamp: string | Date;
       eventTypeCode: string;
+      locationType;
       id: string;
       locationId: string;
       logOfTimestamp: string | Date;
@@ -38,7 +39,7 @@ export class TransportEventToTimestampPipe implements PipeTransform {
       response: PortcallTimestampType;
       sequenceColor: string;
       terminal: Terminal | number;
-      timestampType: PortcallTimestampType | string;
+      timestampType: PortcallTimestampType;
       transportCallID: string;
       uiReadByUser: boolean;
       vessel: number | Vessel;
@@ -47,7 +48,8 @@ export class TransportEventToTimestampPipe implements PipeTransform {
     timestamp.id = transportEvent.eventID;
     timestamp.timestampType = this.getTimestampType(transportEvent);
     timestamp.classifierCode = transportEvent.eventClassifierCode;
-    timestamp.eventTimestamp = transportEvent.eventTypeCode;
+    timestamp.eventTypeCode = transportEvent.eventTypeCode;
+    timestamp.locationType = transportEvent.locationType;
     timestamp.callSequence = 0;
     timestamp.logOfTimestamp = transportEvent.creationDateTime;
     timestamp.eventTimestamp = transportEvent.eventDateTime;

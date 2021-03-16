@@ -3,7 +3,7 @@ import {Port} from "../../model/base/port";
 import {SelectItem} from "primeng/api";
 import {PortService} from "../../controller/services/base/port.service";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {Globals} from "../globals";
+import {Globals} from "../../model/base/globals";
 import {TerminalService} from "../../controller/services/base/terminal.service";
 import {Terminal} from "../../model/base/terminal";
 

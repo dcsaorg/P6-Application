@@ -3,7 +3,6 @@ import {PortcallTimestamp} from "../../model/base/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
-import {BehaviorSubject, forkJoin, Observable} from "rxjs";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {Port} from "../../model/base/port";
@@ -12,13 +11,11 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
 import {DelayCode} from "../../model/base/delayCode";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
-import {take} from "rxjs/operators";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {Terminal} from "../../model/base/terminal";
-import {Vessel} from "../../model/base/vessel";
+import {Util} from "../../controller/services/util/util";
 
 
 @Component({
@@ -46,7 +43,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   logOfTimestampTime: String;
   eventTimestampDate: Date;
   eventTimestampTime: String;
-
+  timestampSelected: string;
   creationProgress: boolean = false;
 
   transportCall: TransportCall;
@@ -97,6 +94,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
     this.generateDefaultTimestamp();
+    this.timestampSelected = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
+    this.defaultTimestamp.timestampType;
     this.setLogOfTimestampToNow();
     this.updateTimestampTypeOptions();
 
@@ -122,6 +121,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     portcallTimestamp.eventTimestamp.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     portcallTimestamp.logOfTimestamp = dateToUtc.transform(portcallTimestamp.logOfTimestamp)
     portcallTimestamp.eventTimestamp = dateToUtc.transform(portcallTimestamp.eventTimestamp)
+    portcallTimestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     console.log("Save Timestamp:");
     console.log(portcallTimestamp);
     this.creationProgress = true;
@@ -137,7 +137,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     error => {
       this.messageService.add(
         {key: 'TimestampAddError',
-          severity:'success',
+          severity:'error',
           summary: this.translate.instant('general.save.editor.failure.summary'),
           detail: this.translate.instant('general.save.editor.failure.detail')+ error.message})
       this.creationProgress = false;
@@ -205,6 +205,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       // Generate Initial ETA Berth
       this.defaultTimestamp.timestampType = PortcallTimestampType.ETA_Berth;
     } else {
+
       // Check for last timestamp and generate based on this
       let lastTimestamp = this.getLatestTimestamp();
       this.defaultTimestamp.vessel = lastTimestamp.vessel;
@@ -214,6 +215,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.defaultTimestamp.eventTimestamp = lastTimestamp.eventTimestamp;
       this.defaultTimestamp.locationId = lastTimestamp.locationId;
       this.defaultTimestamp.terminal = this.timestampMappingService.getTerminalByFacilityCode(this.transportCall.facilityCode)
+
       // Set eventDateTime if required
       this.defaultTimestamp.eventTimestamp = lastTimestamp.eventTimestamp;
       this.setEventTimestampToDate(new Date(lastTimestamp.eventTimestamp));

@@ -7,9 +7,10 @@ import {MessageDirection} from "./messageDirection";
 
 export interface PortcallTimestamp {
   id: string;
-  timestampType: PortcallTimestampType | string;
+  timestampType: PortcallTimestampType;
   classifierCode: string;
   eventTypeCode: string;
+  locationType: string;
   callSequence?: number;
   logOfTimestamp: string | Date;
   eventTimestamp: string | Date;

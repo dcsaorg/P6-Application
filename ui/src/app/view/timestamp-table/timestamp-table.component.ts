@@ -22,7 +22,7 @@ import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pi
 import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
-import {Globals} from "../globals";
+import {Globals} from "../../model/base/globals";
 import {RoleType} from "../../model/base/roleType";
 
 @Component({
@@ -90,11 +90,11 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   private loadTimestamps() {
     this.progressing = true;
     this.portcallTimestampService.getPortcallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
-      this.colorizeProcessId(timestamps);
+      this.colorizetimestampByLocation(timestamps);
       this.timestamps = timestamps;
       console.log(timestamps);
       this.progressing = false;
-      this.portcallTimestampService.setResponseType(timestamps[timestamps.length-1], RoleType.CARRIER);
+      this.portcallTimestampService.setResponseType(timestamps[timestamps.length-1], this.globals.config.senderRole);
     });
   }
 
@@ -106,6 +106,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       const port = this.portIdToPortPipe.transform(timestamp.portOfCall as number, this.ports);
       const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
       const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newPortCallTimestamp.timestampType as PortcallTimestampType);
+      this.loadTimestamps();
       this.messageService.add({
         key: "TimestampToast",
         severity: 'success',
@@ -179,11 +180,26 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.paginatorService.refreshNotifier().next();
   }
 
-  private colorizeProcessId(timestamps: PortcallTimestamp[]) {
-    const color = this.transportCallSelected.sequenceColor
+  private colorizetimestampByLocation(timestamps: PortcallTimestamp[]) {
+    const colorBerthArrival = "#30a584";
+    const colorPBP = "#f5634a";
+    const colorCargoOps = "#ff9d00"
+    const colorCagroService = "#d00fc2"
+    const colorBerthDepature = "#0400ff"
+
     timestamps.forEach(function (timestamp) {
-      timestamp.sequenceColor = color;
-    });
+      timestamp.sequenceColor = "#0fa9d0";
+        if(timestamp.locationType == "BERTH" && timestamp.eventTypeCode == "ARRI"){
+          timestamp.sequenceColor = colorBerthArrival;
+        } else if(timestamp.locationType == "PBP"){
+          timestamp.sequenceColor = colorPBP;
+        } else if (timestamp.locationType == "CARGO_OPS"){
+          timestamp.sequenceColor = colorCargoOps;
+        } else if (timestamp.eventTypeCode == "SOPS"){
+          timestamp.sequenceColor = colorCagroService;}
+        else if (timestamp.locationType == "BERTH" && timestamp.eventTypeCode == "DEPT"){
+          timestamp.sequenceColor = colorBerthDepature;}
+  });
 
   }
 

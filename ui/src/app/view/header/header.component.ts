@@ -7,6 +7,7 @@ import {MenuItem, MessageService, SelectItem} from "primeng/api";
 import {RoleType} from "../../model/base/roleType";
 import {CodeType} from "../../model/base/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {Globals} from "../../model/base/globals";
 
 @Component({
   selector: 'app-header',
@@ -33,8 +34,10 @@ export class HeaderComponent implements OnInit {
               private configService: ConfigService,
               private downloadService: DownloadService,
               private messageService: MessageService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private globals: Globals) {
     configService.getConfig().subscribe(config => {
+      this.globals.config = config;
       this.companyName = config.company;
       this.companyRole = config.senderRole;
       this.companyCodeType = config.senderIdType;
