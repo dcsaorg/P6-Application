@@ -15,7 +15,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {PortService} from "../../controller/services/base/port.service";
 import {TerminalService} from "../../controller/services/base/terminal.service";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
-import {take} from "rxjs/operators";
+import {take, timestamp} from "rxjs/operators";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/base/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
@@ -180,26 +180,30 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.paginatorService.refreshNotifier().next();
   }
 
+  /*
+    Function that will colorize
+   */
   private colorizetimestampByLocation(timestamps: PortcallTimestamp[]) {
-    const colorBerthArrival = "#30a584";
-    const colorPBP = "#f5634a";
-    const colorCargoOps = "#ff9d00"
-    const colorCagroService = "#d00fc2"
-    const colorBerthDepature = "#0400ff"
+    let colourPalette:string[] = new Array("#30a584","#f5634a","#d00fc2","#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
 
-    timestamps.forEach(function (timestamp) {
-      timestamp.sequenceColor = "#0fa9d0";
-        if(timestamp.locationType == "BERTH" && timestamp.eventTypeCode == "ARRI"){
-          timestamp.sequenceColor = colorBerthArrival;
-        } else if(timestamp.locationType == "PBP"){
-          timestamp.sequenceColor = colorPBP;
-        } else if (timestamp.locationType == "CARGO_OPS"){
-          timestamp.sequenceColor = colorCargoOps;
-        } else if (timestamp.eventTypeCode == "SOPS"){
-          timestamp.sequenceColor = colorCagroService;}
-        else if (timestamp.locationType == "BERTH" && timestamp.eventTypeCode == "DEPT"){
-          timestamp.sequenceColor = colorBerthDepature;}
-  });
+    let portaproaches = new Map();
+    // extract processIDs
+    timestamps.forEach(function (timestamp){
+      portaproaches.set(timestamp.locationType+timestamp.eventTypeCode, null);
+    });
+    let i = 0
+    // assign color to portApproaches
+    for (let key of portaproaches.keys()){
+      portaproaches.set(key, colourPalette[i]);
+      i++;
+      if(i==colourPalette.length){
+        i=0;
+      }
+    }
+    //assign color to timestamp
+    timestamps.forEach(function (timestamp){
+      timestamp.sequenceColor = portaproaches.get(timestamp.locationType+timestamp.eventTypeCode);
+    });
 
   }
 

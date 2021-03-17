@@ -20,7 +20,7 @@ export class TransportEventToTimestampPipe implements PipeTransform {
       callSequence: number;
       changeComment: string;
       classifierCode: string;
-      delayCode: DelayCode | number;
+      delayCode: string;
       direction: string;
       eventTimestamp: string | Date;
       eventTypeCode: string;
@@ -57,6 +57,7 @@ export class TransportEventToTimestampPipe implements PipeTransform {
     timestamp.transportCallID = transportEvent.transportCallID;
     timestamp.locationId = transportEvent.locationID;
     timestamp.uiReadByUser = true;
+    timestamp.delayCode = transportEvent.delayReasonCode;
 
 
     return timestamp;

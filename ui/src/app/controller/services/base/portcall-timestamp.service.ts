@@ -82,6 +82,17 @@ export class PortcallTimestampService {
   }
 
   /**
+   * Method to calculate a sequence for timestamps:
+   * A sequence always starts with an Estimated Classifier code (EST) and ends with an ACTUAL (ACT
+   * a sequence is always based on the vessel, the location, and the port and terminals of timestamp
+   */
+  private calculateCallSequence(portcallTimestamps: PortcallTimestamp[]){
+    portcallTimestamps.forEach(function (timestamp){
+
+    })
+  }
+
+  /**
    *
    * Identifying who can accept a timestamp and which timestamp type would be the response on this timestamp.
    *

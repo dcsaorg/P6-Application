@@ -47,12 +47,15 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   creationProgress: boolean = false;
 
   transportCall: TransportCall;
+  delayCode: DelayCode;
 
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[] = [];
 
+
   defaultTimestamp: PortcallTimestamp = {
+    locationType: "",
     callSequence: 0,
     changeComment: "",
     classifierCode: "",
@@ -122,6 +125,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     portcallTimestamp.logOfTimestamp = dateToUtc.transform(portcallTimestamp.logOfTimestamp)
     portcallTimestamp.eventTimestamp = dateToUtc.transform(portcallTimestamp.eventTimestamp)
     portcallTimestamp.timestampType = PortcallTimestampType[this.timestampSelected];
+    portcallTimestamp.delayCode = this.delayCode.smdgCode;
     console.log("Save Timestamp:");
     console.log(portcallTimestamp);
     this.creationProgress = true;

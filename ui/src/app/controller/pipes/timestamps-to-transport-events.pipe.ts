@@ -30,7 +30,7 @@ export class TimestampsToTransportEventsPipe implements PipeTransform {
     transportEvent.eventDateTime = portcallTimestamp.eventTimestamp;
     transportEvent.locationID = portcallTimestamp.locationId;
     transportEvent.comment = portcallTimestamp.changeComment;
-    transportEvent.delayReasonCode = "";
+    transportEvent.delayReasonCode = portcallTimestamp.delayCode.toString();
     transportEvent.eventClassifierCode = new TimestampTypeToEventClassifierCodePipe().transform(portcallTimestamp.timestampType);
     transportEvent.eventTypeCode = new TimestampTypeToEventTypePipe().transform(portcallTimestamp.timestampType)
     transportEvent.locationType = new TimestampTypeToLocationTypePipe().transform(portcallTimestamp.timestampType)
