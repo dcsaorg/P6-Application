@@ -125,7 +125,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     portcallTimestamp.logOfTimestamp = dateToUtc.transform(portcallTimestamp.logOfTimestamp)
     portcallTimestamp.eventTimestamp = dateToUtc.transform(portcallTimestamp.eventTimestamp)
     portcallTimestamp.timestampType = PortcallTimestampType[this.timestampSelected];
-    portcallTimestamp.delayCode = this.delayCode.smdgCode;
+    portcallTimestamp.delayCode = (this.delayCode?this.delayCode.smdgCode:null);
     console.log("Save Timestamp:");
     console.log(portcallTimestamp);
     this.creationProgress = true;

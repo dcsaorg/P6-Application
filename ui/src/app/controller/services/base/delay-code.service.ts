@@ -15,9 +15,6 @@ export class DelayCodeService {
     this.DELAY_CODE_URL = BACKEND_URL + '/delaycodes';
   }
 
-  getDelayCode(delayCodeId: number): Observable<DelayCode> {
-    return this.httpClient.get<DelayCode>(this.DELAY_CODE_URL + '/' + delayCodeId);
-  }
 
   getDelayCodes = (): Observable<DelayCode[]> => this.staticDelayCodeService.getDelayCodes();
 }

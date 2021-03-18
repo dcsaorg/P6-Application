@@ -3,6 +3,7 @@ import {PortcallTimestamp} from "../model/base/portcall-timestamp";
 import {Port} from "../model/base/port";
 import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../model/OVS/transport-call";
+import {take} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent {
   portCallTimeStampAdded: PortcallTimestamp;
   portCallTimeStampDeleted: PortcallTimestamp;
   portCallTimeStampResponded: PortcallTimestamp;
+
 
   constructor(translate: TranslateService) {
     translate.setDefaultLang('en');

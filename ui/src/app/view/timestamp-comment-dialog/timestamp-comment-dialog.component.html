@@ -1,47 +1,26 @@
 <div class="p-fluid">
-  <div class="p-col-12 p-md-10 dropdownDiv">
-
-    <p-dropdown [options]="delayCodeOptions" [(ngModel)]="timestamp.delayCode" [filter]="true"
-                filterBy="label,value.name" [group]="false" [disabled]="!editMode">
-      <ng-template let-delayCode pTemplate="selectedItem">
-        <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
-          <div class="delayCodeSelected">{{delayCode.value.smdgCode}}</div>
-          <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;<b>{{delayCode.value.delayType}}</b></div>
-          <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
-          <div class="delayCodeSelected delayCodeDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
-        </div>
-        <div *ngIf="!delayCode.value">
-          <div>{{delayCode.label}}</div>
-        </div>
-      </ng-template>
-      <ng-template let-delayCode pTemplate="item">
-        <div *ngIf="delayCode.value">
-          <div>{{delayCode.value.smdgCode}}</div>
-          <div class="delayCodeDetails"><b>{{delayCode.value.delayType}}</b></div>
-          <div class="delayCodeDetails">{{delayCode.value.name}}</div>
-          <div class="delayCodeDetails">{{delayCode.value.description}}</div>
-        </div>
-      </ng-template>
-    </p-dropdown>
-
+  <p-panel header="{{'general.delaycode.label' | translate}}">
+   <div *ngIf="delayCode" class="p-col-12 p-md-10 delayCodeDiv">
+    <span class="delayCodeSelected__smdgCode">{{delayCode.smdgCode}}</span><br>
+    <span class="delayCodeSelected__delayType">{{delayCode.delayType}}</span><br>
+    <span class="delayCodeSelected__delayDetails">{{delayCode.description}}</span>
   </div>
+    <div *ngIf="!delayCode" class="p-col-12 p-md-10 delayCodeDiv">
+      n/a
+    </div>
+  </p-panel>
 
-  <div id="commentContainer" class="p-col-12 p-md-10">
-    <span class="p-float-label">
-    <textarea id="commentbox" pInputTextarea [(ngModel)]="timestamp.changeComment" [disabled]="!editMode"></textarea>
-    <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
-    </span>
-  </div>
+  <div class="separator"></div>
+
+  <p-panel header="{{'general.comment.tooltip' | translate}}">
+    {{timestamp.changeComment}}
+  </p-panel>
   <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="left">
     <span class="p-buttonset">
-        <button *ngIf="!editMode" (click)="close()" label="{{ 'general.close.label' | translate }}" pButton type="button"></button>
-        <button *ngIf="editMode" (click)="save()" icon="pi pi-check" label="{{ 'general.save.label' | translate }}" pButton type="button"></button>
-        <button *ngIf="editMode" (click)="cancelEdit()" class="p-button-warning" icon="pi pi-times" label="{{ 'general.cancel.label' | translate }}"
-                pButton type="button"></button>
+        <button  (click)="close()" label="{{ 'general.close.label' | translate }}" pButton type="button"></button>
     </span>
   </div>
 </div>
-
 
 
 

@@ -10,7 +10,7 @@
 			"label": "Close"
 		},
 		"comment": {
-			"header": "Add/change comment to port call event",
+			"header": "Delay Code and Comment to port call event",
 			"select": "Select delay code (optional)",
 			"tooltip": "Comment or reason of delay for timestamp"
 		},

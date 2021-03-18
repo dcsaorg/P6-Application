@@ -94,7 +94,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.timestamps = timestamps;
       console.log(timestamps);
       this.progressing = false;
-      this.portcallTimestampService.setResponseType(timestamps[timestamps.length-1], this.globals.config.senderRole);
+      this.portcallTimestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.senderRole);
     });
   }
 
@@ -124,13 +124,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
 
   showComment(timestamp: PortcallTimestamp) {
-    if (timestamp.delayCode != null && !(timestamp.delayCode as DelayCode).smdgCode) {
-      this.delayCodeService.getDelayCode(timestamp.delayCode as number).subscribe(data => {
-        timestamp.delayCode = data;
-
-      });
-    }
-
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
       width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: timestamp.modifiable}
@@ -169,7 +162,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       }
     });
     timestampEditor.onClose.subscribe((result: PortcallTimestamp) => {
-      if(result){
+      if (result) {
         this.loadTimestamps();
       }
     });
@@ -184,25 +177,25 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     Function that will colorize
    */
   private colorizetimestampByLocation(timestamps: PortcallTimestamp[]) {
-    let colourPalette:string[] = new Array("#30a584","#f5634a","#d00fc2","#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
+    let colourPalette: string[] = new Array("#30a584", "#f5634a", "#d00fc2", "#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
 
     let portaproaches = new Map();
     // extract processIDs
-    timestamps.forEach(function (timestamp){
-      portaproaches.set(timestamp.locationType+timestamp.eventTypeCode, null);
+    timestamps.forEach(function (timestamp) {
+      portaproaches.set(timestamp.locationType + timestamp.eventTypeCode, null);
     });
     let i = 0
     // assign color to portApproaches
-    for (let key of portaproaches.keys()){
+    for (let key of portaproaches.keys()) {
       portaproaches.set(key, colourPalette[i]);
       i++;
-      if(i==colourPalette.length){
-        i=0;
+      if (i == colourPalette.length) {
+        i = 0;
       }
     }
     //assign color to timestamp
-    timestamps.forEach(function (timestamp){
-      timestamp.sequenceColor = portaproaches.get(timestamp.locationType+timestamp.eventTypeCode);
+    timestamps.forEach(function (timestamp) {
+      timestamp.sequenceColor = portaproaches.get(timestamp.locationType + timestamp.eventTypeCode);
     });
 
   }

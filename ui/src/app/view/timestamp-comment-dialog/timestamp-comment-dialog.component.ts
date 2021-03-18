@@ -13,7 +13,7 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 export class TimestampCommentDialogComponent implements OnInit {
 
   public timestamp: PortcallTimestamp;
-  delayCodeOptions: SelectItem[] = [];
+  delayCode: DelayCode;
   editMode: boolean;
 
   private previousDelayCode: DelayCode;
@@ -29,8 +29,15 @@ export class TimestampCommentDialogComponent implements OnInit {
     this.previousDelayCode = this.timestamp.delayCode as DelayCode;
     this.previousChangeComment = this.timestamp.changeComment;
     this.editMode = this.config.data.editMode;
+    const delayCodes : DelayCode[] = this.config.data.delayCode;
 
-
+    if(this.timestamp.delayCode != null){
+      for(let delayCode of delayCodes){
+        if (delayCode.smdgCode == this.timestamp.delayCode){
+          this.delayCode = delayCode;
+        }
+      }
+    }
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
 

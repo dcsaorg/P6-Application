@@ -52,8 +52,7 @@ import { TimestampsToTransportEventsPipe } from './controller/pipes/timestamps-t
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
 import { ScheduleSelectorComponent } from './view/schedule-selector/schedule-selector.component';
 import { TransportEventToTimestampTypePipe } from './controller/pipes/transport-event-to-timestamp-type.pipe';
-import {MenubarModule} from 'primeng/menubar';
-import {MenuItem} from 'primeng/api';
+import {PanelModule} from 'primeng/panel';
 import {MenuModule} from "primeng/menu";
 import { TimestampTypeToEventTypePipe } from './controller/pipes/timestamp-type-to-event-type.pipe';
 import { TimestampTypeToEventClassifierCodePipe } from './controller/pipes/timestamp-type-to-event-classifier-code.pipe';
@@ -120,6 +119,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SplitterModule,
     ScrollPanelModule,
     ProgressSpinnerModule,
+    PanelModule,
     MenuModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
