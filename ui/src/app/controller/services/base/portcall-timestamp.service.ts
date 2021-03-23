@@ -10,7 +10,9 @@ import {Vessel} from "../../../model/base/vessel";
 import {TimestampMappingService} from "../mapping/timestamp-mapping.service";
 import {TransportCall} from "../../../model/OVS/transport-call";
 import {RoleType} from "../../../model/base/roleType";
+import { of } from 'rxjs';
 import {PortcallTimestampType} from "../../../model/base/portcall-timestamp-type.enum";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -26,38 +28,13 @@ export class PortcallTimestampService {
   getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.timestampMapping.getPortCallTimestamps();
 
   getPortcallTimestampsByTransportCall = (transportCall: TransportCall): Observable<PortcallTimestamp[]> =>
-    this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall);
+  this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall).pipe(map( timestamp => this.preProcess(timestamp)))
 
-  getPortcallTimestampsForVesselId = (vesselId: number): Observable<PortcallTimestamp[]> => this.httpClient.get<PortcallTimestamp[]>(this.TIMESTAMP_URL + "/" + vesselId);
 
-  getHighesTimestampId = (vesselId: number): Observable<number> => this.httpClient.get<number>(this.TIMESTAMP_URL + "/highestTimestampId/" + vesselId);
-  getHighesTimestamp = (vesselId: number): Observable<PortcallTimestamp> => this.httpClient.get<PortcallTimestamp>(this.TIMESTAMP_URL + "/highestTimestamp/" + vesselId);
 
   addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> => this.timestampMapping.addPortCallTimestamp(portcallTimestamp);
   //(portcallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> => this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL, PortcallTimestampService.convertPortcallTimestamp(portcallTimestamp));
 
-
-  updatePortcallTimestampDelayCodeAndComment = (portcallTimestamp: PortcallTimestamp): Observable<Object> => {
-    console.log("Updating port call timestamp with id " + portcallTimestamp.id);
-    return this.httpClient.put(this.TIMESTAMP_URL + '/' + portcallTimestamp.id, PortcallTimestampService.convertPortcallTimestamp(portcallTimestamp));
-  };
-
-  markTimestampAsRead = (portcallTimestamp: PortcallTimestamp): Observable<Object> => {
-    console.log("Marking timestamp with id " + portcallTimestamp.id + "as read")
-    return this.httpClient.put(this.TIMESTAMP_URL + '/setToRead/' + portcallTimestamp.id, portcallTimestamp);
-  }
-
-
-  deleteTimestamp = (timestampId: number): Observable<any> => {
-    console.log("Deleting port call timestamp with id " + timestampId);
-    return this.httpClient.delete<any>(this.TIMESTAMP_URL + "/" + timestampId);
-  }
-
-  acceptTimestamp = (timestamp: PortcallTimestamp): Observable<any> => {
-    console.log("Send a accept Message for timestampID " + timestamp.id);
-    return this.httpClient.post<any>(this.TIMESTAMP_URL + "/accept", timestamp);
-
-  }
 
 
   private static convertPortcallTimestamp(portcallTimestamp: PortcallTimestamp) {
@@ -81,6 +58,44 @@ export class PortcallTimestampService {
     };
   }
 
+
+  /**
+   *
+   * This function will process the timestamps and add some additional information as of their order!
+   *
+   */
+  private preProcess(timestmaps: PortcallTimestamp[]): PortcallTimestamp[]{
+
+    let portaproaches = new Set<String>();
+    for (let timestamp of timestmaps){
+      portaproaches.add(this.getPortCallTimestampHash(timestamp));
+    }
+    this.markTimestampsOutdated(portaproaches, timestmaps);
+    return timestmaps;
+  }
+
+
+  /**
+   * Function that will retrive the last timestamp of an aproach an mark all others as outdated
+   */
+    private markTimestampsOutdated(portaproaches: Set<String>, timestamps: PortcallTimestamp[]){
+      for (let approach of portaproaches){
+        let latest:PortcallTimestamp;
+        for (let timestamp of timestamps){
+          if(this.getPortCallTimestampHash(timestamp) == approach){
+            if(latest == null){
+              latest = timestamp;
+            } else if(latest.logOfTimestamp <= timestamp.logOfTimestamp){
+              latest.outdatedMessage = true;
+              latest = timestamp;
+            }
+          }
+        }
+      }
+  }
+
+
+
   /**
    * Method to calculate a sequence for timestamps:
    * A sequence always starts with an Estimated Classifier code (EST) and ends with an ACTUAL (ACT
@@ -90,6 +105,13 @@ export class PortcallTimestampService {
     portcallTimestamps.forEach(function (timestamp){
 
     })
+  }
+
+
+
+
+  private getPortCallTimestampHash(timestamp: PortcallTimestamp): string{
+    return timestamp.transportCallID+timestamp.locationType + timestamp.eventTypeCode;
   }
 
   /**

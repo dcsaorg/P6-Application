@@ -128,26 +128,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       header: this.translate.instant('general.comment.header'),
       width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: timestamp.modifiable}
     }).onClose.subscribe((portcallTimestamp: PortcallTimestamp) => {
-      if (portcallTimestamp != null) {
-        this.portcallTimestampService.updatePortcallTimestampDelayCodeAndComment(portcallTimestamp).subscribe(() => {
-          console.log("Updated port call timestamp " + timestamp.id);
-
-          this.messageService.add({
-            key: 'TimestampToast',
-            severity: 'success',
-            summary: 'Successfully updated the timestamp with id ' + timestamp.id,
-            detail: ''
-          })
-        }, error => {
-          console.log(error);
-          this.messageService.add({
-            key: 'TimestampToast',
-            severity: 'error',
-            summary: 'Error while updating the timestamp with id ' + timestamp.id,
-            detail: error.message
-          });
-        });
-      }
     });
   }
 
