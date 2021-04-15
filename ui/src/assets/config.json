@@ -1,7 +1,7 @@
 {
   "company": "DCSA",
-  "senderRole": "CARRIER",
-  "senderIdType": "SMDG_LINER_CODE",
-  "senderId": "EXP"
+  "publisherRole": "CA",
+  "publisher": "EXP",
+  "publisherCodeType": "SMDG_LINER_CODE"
 }
 

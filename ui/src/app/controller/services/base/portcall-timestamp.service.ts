@@ -9,10 +9,9 @@ import {DelayCode} from "../../../model/base/delayCode";
 import {Vessel} from "../../../model/base/vessel";
 import {TimestampMappingService} from "../mapping/timestamp-mapping.service";
 import {TransportCall} from "../../../model/OVS/transport-call";
-import {RoleType} from "../../../model/base/roleType";
-import { of } from 'rxjs';
 import {PortcallTimestampType} from "../../../model/base/portcall-timestamp-type.enum";
 import {map} from "rxjs/operators";
+import {PartyFunction} from "../../../model/OVS/partyFunction";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +27,7 @@ export class PortcallTimestampService {
   getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.timestampMapping.getPortCallTimestamps();
 
   getPortcallTimestampsByTransportCall = (transportCall: TransportCall): Observable<PortcallTimestamp[]> =>
-  this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall).pipe(map( timestamp => this.preProcess(timestamp)))
+  this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall).pipe(map( timestamp => this.postProcess(timestamp)))
 
 
 
@@ -64,14 +63,15 @@ export class PortcallTimestampService {
    * This function will process the timestamps and add some additional information as of their order!
    *
    */
-  private preProcess(timestmaps: PortcallTimestamp[]): PortcallTimestamp[]{
+  private postProcess(timestmaps: PortcallTimestamp[]): PortcallTimestamp[]{
 
     let portaproaches = new Set<String>();
     for (let timestamp of timestmaps){
       portaproaches.add(this.getPortCallTimestampHash(timestamp));
     }
     this.markTimestampsOutdated(portaproaches, timestmaps);
-    return timestmaps;
+    return timestmaps
+
   }
 
 
@@ -119,11 +119,11 @@ export class PortcallTimestampService {
    * Identifying who can accept a timestamp and which timestamp type would be the response on this timestamp.
    *
    */
-  public setResponseType(portCallTimestamp: PortcallTimestamp, role: RoleType) {
+  public setResponseType(portCallTimestamp: PortcallTimestamp, role: PartyFunction) {
     let response: PortcallTimestampType = null;
 
     // If I'm a carrier
-    if (role == RoleType.CARRIER) {
+    if (role == PartyFunction.CA) {
       switch (portCallTimestamp.timestampType) {
         case PortcallTimestampType.RTA_Berth:
           response = PortcallTimestampType.PTA_Berth;
@@ -139,7 +139,7 @@ export class PortcallTimestampService {
       }
     }
     // If I'm a terminal
-    else if(role = RoleType.TERMINAL){
+    else if(role = PartyFunction.TR){
       switch (portCallTimestamp.timestampType){
         case PortcallTimestampType.ETA_Berth:
           response = PortcallTimestampType.RTA_Berth;
@@ -150,7 +150,7 @@ export class PortcallTimestampService {
       }
     }
     // if I'm a port
-    else if(role = RoleType.PORT){
+    else if(role = PartyFunction.POR){
       switch (portCallTimestamp.timestampType){
         case PortcallTimestampType.ETA_PBP:
           response= PortcallTimestampType.RTA_PBP;

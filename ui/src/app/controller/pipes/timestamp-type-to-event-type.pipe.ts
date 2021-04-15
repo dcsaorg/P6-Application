@@ -1,13 +1,14 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
+import {OperationsEventTypeCode} from "../../model/OVS/operationsEventTypeCode";
 
 @Pipe({
   name: 'timestampTypeToEventType'
 })
 export class TimestampTypeToEventTypePipe implements PipeTransform {
 
-  transform(timestampType: PortcallTimestampType): string {
-    let ret: string =""
+  transform(timestampType: PortcallTimestampType): OperationsEventTypeCode {
+    let ret: OperationsEventTypeCode
       if(
         [PortcallTimestampType.ATA_PBP,
           PortcallTimestampType.RTA_PBP,
@@ -18,25 +19,26 @@ export class TimestampTypeToEventTypePipe implements PipeTransform {
           PortcallTimestampType.ETA_Berth,
           PortcallTimestampType.ATA_Berth
         ].includes(timestampType)) {
-        ret = "ARRI"
+        ret = OperationsEventTypeCode.ARRI
       } else if (
         [PortcallTimestampType.ATD_Berth,
           PortcallTimestampType.RTD_Berth,
           PortcallTimestampType.PTD_Berth,
           PortcallTimestampType.ETD_Berth
         ].includes(timestampType)) {
-        ret = "DEPT"
+        ret = OperationsEventTypeCode.DEPA
       } else if(
         [PortcallTimestampType.ATC_Cargo_Ops,
           PortcallTimestampType.PTC_Cargo_Ops,
           PortcallTimestampType.RTC_Cargo_Ops,
           PortcallTimestampType.ETC_Cargo_Ops
         ].includes(timestampType)
-      ){ret = "COPS"}
+      ){ret = OperationsEventTypeCode.CMPL}
       else if (
-       [PortcallTimestampType.ATS
+       [PortcallTimestampType.ATS_Cargo_Ops,
+         PortcallTimestampType.ATS_Pilot
        ].includes(timestampType)){
-        ret = "SOPS"
+        ret = OperationsEventTypeCode.STRT
       }
     return ret;
   }

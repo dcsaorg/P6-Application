@@ -46,18 +46,19 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {Globals} from "./model/base/globals";
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { TransportEventsToTimestampsPipe } from './controller/pipes/transport-events-to-timestamps.pipe';
+import { OperationsEventsToTimestampsPipe } from './controller/pipes/operations-events-to-timestamps.pipe';
 import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';
-import { TimestampsToTransportEventsPipe } from './controller/pipes/timestamps-to-transport-events.pipe';
+import { TimestampsToOperationsEventsPipe } from './controller/pipes/timestamps-to-operations-events.pipe';
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
 import { ScheduleSelectorComponent } from './view/schedule-selector/schedule-selector.component';
-import { TransportEventToTimestampTypePipe } from './controller/pipes/transport-event-to-timestamp-type.pipe';
+import { OperationsEventToTimestampTypePipe } from './controller/pipes/operations-event-to-timestamp-type.pipe';
 import {PanelModule} from 'primeng/panel';
 import {MenuModule} from "primeng/menu";
 import { TimestampTypeToEventTypePipe } from './controller/pipes/timestamp-type-to-event-type.pipe';
 import { TimestampTypeToEventClassifierCodePipe } from './controller/pipes/timestamp-type-to-event-classifier-code.pipe';
-import { TimestampTypeToLocationTypePipe } from './controller/pipes/timestamp-type-to-location-type.pipe';
-import { TransportEventToTimestampPipe } from './controller/pipes/transport-event-to-timestamp.pipe';
+import { TimestampTypeToFacilityCodeCodePipe } from './controller/pipes/timestamp-type-to-facility-code-type.pipe';
+import { OperationsEventToTimestampPipe } from './controller/pipes/operations-event-to-timestamp.pipe';
+import { TimestampTypeToPortcallServiceTypeCodePipe } from './controller/pipes/timestamp-type-to-portcall-service-type-code.pipe';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -83,16 +84,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimestampToTimezonePipe,
     PortOfCallComponent,
     VesselIdToVesselPipe,
-    TransportEventsToTimestampsPipe,
+    OperationsEventsToTimestampsPipe,
     TransportCallsToVesselsPipe,
-    TimestampsToTransportEventsPipe,
+    TimestampsToOperationsEventsPipe,
     TransportCallsTableComponent,
     ScheduleSelectorComponent,
-    TransportEventToTimestampTypePipe,
+    OperationsEventToTimestampTypePipe,
     TimestampTypeToEventTypePipe,
     TimestampTypeToEventClassifierCodePipe,
-    TimestampTypeToLocationTypePipe,
-    TransportEventToTimestampPipe,
+    TimestampTypeToFacilityCodeCodePipe,
+    OperationsEventToTimestampPipe,
+    TimestampTypeToPortcallServiceTypeCodePipe,
   ],
   imports: [
     AppRoutingModule,
@@ -135,10 +137,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfirmationService,
     MessageService,
     Globals,
-    TransportEventsToTimestampsPipe,
+    OperationsEventsToTimestampsPipe,
     TransportCallsToVesselsPipe,
-    TimestampsToTransportEventsPipe,
-    TransportEventToTimestampPipe
+    TimestampsToOperationsEventsPipe,
+    OperationsEventToTimestampPipe
   ],
   bootstrap: [AppComponent]
 })

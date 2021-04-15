@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import {TransportEvent} from "../../model/OVS/transport-event";
+import {Pipe, PipeTransform} from '@angular/core';
+import {OperationsEvent} from "../../model/OVS/operations-event";
 import {PortcallTimestamp} from "../../model/base/portcall-timestamp";
 import {DelayCode} from "../../model/base/delayCode";
 import {MessageDirection} from "../../model/base/messageDirection";
@@ -7,14 +7,14 @@ import {Port} from "../../model/base/port";
 import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
 import {Terminal} from "../../model/base/terminal";
 import {Vessel} from "../../model/base/vessel";
-import {TransportEventToTimestampTypePipe} from "./transport-event-to-timestamp-type.pipe";
+import {OperationsEventToTimestampTypePipe} from "./operations-event-to-timestamp-type.pipe";
 
 @Pipe({
   name: 'transportEventToTimestamp'
 })
-export class TransportEventToTimestampPipe implements PipeTransform {
+export class OperationsEventToTimestampPipe implements PipeTransform {
 
-  transform(transportEvent: TransportEvent): PortcallTimestamp {
+  transform(operationsEvent: OperationsEvent): PortcallTimestamp {
     let timestamp: PortcallTimestamp;
     timestamp = new class implements PortcallTimestamp {
       callSequence: number;
@@ -45,19 +45,20 @@ export class TransportEventToTimestampPipe implements PipeTransform {
       vessel: number | Vessel;
     };
 
-    timestamp.id = transportEvent.eventID;
-    timestamp.timestampType = this.getTimestampType(transportEvent);
-    timestamp.classifierCode = transportEvent.eventClassifierCode;
-    timestamp.eventTypeCode = transportEvent.eventTypeCode;
-    timestamp.locationType = transportEvent.locationType;
+    timestamp.id = operationsEvent.eventID;
+    timestamp.timestampType = this.getTimestampType(operationsEvent);
+    timestamp.classifierCode = operationsEvent.eventClassifierCode;
+    timestamp.eventTypeCode = operationsEvent.operationsEventTypeCode;
+    timestamp.locationType = (!operationsEvent.portCallServiceTypeCode ?
+      operationsEvent.facilityTypeCode : operationsEvent.portCallServiceTypeCode);
     timestamp.callSequence = 0;
-    timestamp.logOfTimestamp = transportEvent.creationDateTime;
-    timestamp.eventTimestamp = transportEvent.eventDateTime;
-    timestamp.changeComment = transportEvent.comment;
-    timestamp.transportCallID = transportEvent.transportCallID;
-    timestamp.locationId = transportEvent.locationID;
+    timestamp.logOfTimestamp = operationsEvent.eventCreatedDateTime;
+    timestamp.eventTimestamp = operationsEvent.eventDateTime;
+    timestamp.changeComment = operationsEvent.changeRemark;
+    timestamp.transportCallID = operationsEvent.transportCallID;
+    timestamp.locationId = operationsEvent.eventLocation;
     timestamp.uiReadByUser = true;
-    timestamp.delayCode = transportEvent.delayReasonCode;
+    timestamp.delayCode = operationsEvent.delayReasonCode;
 
 
     return timestamp;
@@ -65,8 +66,9 @@ export class TransportEventToTimestampPipe implements PipeTransform {
 
   }
 
-  private getTimestampType(transportEvent: TransportEvent):PortcallTimestampType{
-    const timestampTypeMapping: TransportEventToTimestampTypePipe = new TransportEventToTimestampTypePipe();
+
+  private getTimestampType(transportEvent: OperationsEvent): PortcallTimestampType {
+    const timestampTypeMapping: OperationsEventToTimestampTypePipe = new OperationsEventToTimestampTypePipe();
     return timestampTypeMapping.transform(transportEvent);
   }
 

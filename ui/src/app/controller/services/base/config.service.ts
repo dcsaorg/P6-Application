@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Config} from "../../../model/base/config";
+import {Config} from "../../../model/OVS/config";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {BACKEND_URL} from "../../../../environments/environment";

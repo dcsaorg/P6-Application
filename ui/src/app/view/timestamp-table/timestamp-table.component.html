@@ -112,7 +112,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr class="unreadTimestamp">
-      <td pTooltip="Process ID: {{timestamp.processId}}" tooltipPosition="top"
+      <td pTooltip="Event ID: {{timestamp.id}}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
       <td style="width: 8%"

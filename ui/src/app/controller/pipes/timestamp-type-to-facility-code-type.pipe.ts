@@ -1,22 +1,15 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
+import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
 
 @Pipe({
-  name: 'timestampTypeToLocationType'
+  name: 'timestampTypeToFacilityCodeCode'
 })
-export class TimestampTypeToLocationTypePipe implements PipeTransform {
+export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
 
-  transform(timestampType: PortcallTimestampType): string {
-    let ret: string = "";
-    if(
-      [PortcallTimestampType.ETC_Cargo_Ops,
-        PortcallTimestampType.ATS,
-        PortcallTimestampType.RTC_Cargo_Ops,
-        PortcallTimestampType.PTC_Cargo_Ops,
-        PortcallTimestampType.ATC_Cargo_Ops
-      ].includes(timestampType)){
-      ret = "CARGO_OPS"
-    } else if(
+  transform(timestampType: PortcallTimestampType): FacilityCodeType {
+    let ret: FacilityCodeType = null;
+ if(
       [PortcallTimestampType.ETD_Berth,
         PortcallTimestampType.PTD_Berth,
         PortcallTimestampType.RTD_Berth,
@@ -26,7 +19,7 @@ export class TimestampTypeToLocationTypePipe implements PipeTransform {
         PortcallTimestampType.PTA_Berth,
         PortcallTimestampType.RTA_Berth
       ].includes(timestampType)
-    ) {ret = "BERTH"}
+    ) {ret = FacilityCodeType.BRTH}
     else if (
       [PortcallTimestampType.ETA_PBP,
         PortcallTimestampType.PTA_PBP,
@@ -34,7 +27,7 @@ export class TimestampTypeToLocationTypePipe implements PipeTransform {
         PortcallTimestampType.ATA_PBP
       ].includes(timestampType)
     ){
-      ret = "PBP"
+      ret = FacilityCodeType.PBPL
     }
     return ret;
   }

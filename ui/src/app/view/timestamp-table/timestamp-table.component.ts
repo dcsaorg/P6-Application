@@ -23,7 +23,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/base/globals";
-import {RoleType} from "../../model/base/roleType";
+
 
 @Component({
   selector: 'app-timestamp-table',
@@ -94,7 +94,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.timestamps = timestamps;
       console.log(timestamps);
       this.progressing = false;
-      this.portcallTimestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.senderRole);
+      this.portcallTimestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
     });
   }
 

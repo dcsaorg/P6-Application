@@ -41,7 +41,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   private refreshTimestamps() {
     this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
       this.timestamps = portCallTimestamps;
-      this.markUnreadAsRead(this.timestamps);
+
 
       console.log(this.timestamps);
       if (this.vesselId && this.vesselId > 0) {
@@ -75,16 +75,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
     });
   }
 
-  private markUnreadAsRead(timestamps: PortcallTimestamp[]){
-    let self = this;
-    timestamps.forEach(function (timestamp){
-      if(timestamp.uiReadByUser == false){
-          self.portcallTimestampService.markTimestampAsRead(timestamp).subscribe(()=>{
-          console.log("marked timestamp "+timestamp.id+" as read")
-        })
-      }
-    });
-  }
+
 
 
 

@@ -4,10 +4,10 @@ import {InstructionsComponent} from "../instructions/instructions.component";
 import {ConfigService} from "../../controller/services/base/config.service";
 import {DownloadService} from "../../controller/services/base/download.service";
 import {MenuItem, MessageService, SelectItem} from "primeng/api";
-import {RoleType} from "../../model/base/roleType";
 import {CodeType} from "../../model/base/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/base/globals";
+import {PartyFunction} from "../../model/OVS/partyFunction";
 
 @Component({
   selector: 'app-header',
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
 
   helpMenu: MenuItem[];
   companyName: string;
-  companyRole: RoleType;
+  companyRole: PartyFunction;
   companyCodeType: CodeType;
   companyId: string;
   displayDownloadRequest: boolean;
@@ -39,9 +39,9 @@ export class HeaderComponent implements OnInit {
     configService.getConfig().subscribe(config => {
       this.globals.config = config;
       this.companyName = config.company;
-      this.companyRole = config.senderRole;
-      this.companyCodeType = config.senderIdType;
-      this.companyId = config.senderId;
+      this.companyRole = config.publisherRole;
+      this.companyId = config.publisher;
+      this.companyCodeType = config.publisherCodeType;
     });
   }
 

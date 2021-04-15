@@ -1,4 +1,5 @@
 import {Schedule} from "./schedule";
+import {FacilityCodeType} from "./facilityCodeType";
 
 export interface TransportCall {
   transportCallID: string;
@@ -8,9 +9,8 @@ export interface TransportCall {
   vesselName: string;
   carrierVoyageNumber: string;
   UNLocationCode: string;
-  UNLocationName: string;
   transportCallNumber: number;
-  facilityTypeCode: string;
+  facilityTypeCode: FacilityCodeType;
   facilityCode: string;
   otherFacility: string;
   sequenceColor: string;
