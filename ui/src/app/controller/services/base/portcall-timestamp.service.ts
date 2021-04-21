@@ -1,17 +1,19 @@
 import {Injectable} from '@angular/core';
-import {PortcallTimestamp} from "../../../model/base/portcall-timestamp";
+import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
 import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {Port} from "../../../model/base/port";
-import {Terminal} from "../../../model/base/terminal";
-import {DelayCode} from "../../../model/base/delayCode";
-import {Vessel} from "../../../model/base/vessel";
+import {Port} from "../../../model/portCall/port";
+import {Terminal} from "../../../model/portCall/terminal";
+import {DelayCode} from "../../../model/portCall/delayCode";
+import {Vessel} from "../../../model/portCall/vessel";
 import {TimestampMappingService} from "../mapping/timestamp-mapping.service";
 import {TransportCall} from "../../../model/OVS/transport-call";
-import {PortcallTimestampType} from "../../../model/base/portcall-timestamp-type.enum";
+import {PortcallTimestampType} from "../../../model/portCall/portcall-timestamp-type.enum";
 import {map} from "rxjs/operators";
 import {PartyFunction} from "../../../model/OVS/partyFunction";
+import {Globals} from "../../../model/portCall/globals";
+import {MessageDirection} from "../../../model/portCall/messageDirection";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,9 @@ export class PortcallTimestampService {
   private readonly TIMESTAMP_URL: string;
 
 
-  constructor(private httpClient: HttpClient, private timestampMapping: TimestampMappingService) {
+  constructor(private httpClient: HttpClient,
+              private timestampMapping: TimestampMappingService,
+              private globals: Globals) {
     this.TIMESTAMP_URL = BACKEND_URL + '/portcalltimestamps';
   }
 
@@ -65,9 +69,14 @@ export class PortcallTimestampService {
    */
   private postProcess(timestmaps: PortcallTimestamp[]): PortcallTimestamp[]{
 
-    let portaproaches = new Set<String>();
+    let portaproaches = new Map<string,number>();
     for (let timestamp of timestmaps){
-      portaproaches.add(this.getPortCallTimestampHash(timestamp));
+      this.setMessageDirection(timestamp);
+
+      let hash:string = this.getPortCallTimestampHash(timestamp);
+      let count:number;
+      count = (portaproaches.get(hash)?portaproaches.get(hash)+1:1);
+      portaproaches.set(hash, 0);
     }
     this.markTimestampsOutdated(portaproaches, timestmaps);
     return timestmaps
@@ -77,14 +86,19 @@ export class PortcallTimestampService {
 
   /**
    * Function that will retrive the last timestamp of an aproach an mark all others as outdated
+   * @toDo Refactor!
    */
-    private markTimestampsOutdated(portaproaches: Set<String>, timestamps: PortcallTimestamp[]){
-      for (let approach of portaproaches){
-        let latest:PortcallTimestamp;
+    private markTimestampsOutdated(portaproaches: Map<string, number>, timestamps: PortcallTimestamp[]){
+      for (let approach of portaproaches.keys()){
+        let latest:PortcallTimestamp = null;
         for (let timestamp of timestamps){
-          if(this.getPortCallTimestampHash(timestamp) == approach){
+          let hash:string = this.getPortCallTimestampHash(timestamp)
+          if(hash == approach){
             if(latest == null){
               latest = timestamp;
+              if(portaproaches.get(hash) > 1){
+                timestamp.outdatedMessage = true;
+              }
             } else if(latest.logOfTimestamp <= timestamp.logOfTimestamp){
               latest.outdatedMessage = true;
               latest = timestamp;
@@ -95,6 +109,19 @@ export class PortcallTimestampService {
   }
 
 
+  /**
+   * Method that will define the messaging direction based on publisherID and PublisherRole
+   *
+   **/
+
+  private setMessageDirection(portcallTimestamp: PortcallTimestamp){
+    if(portcallTimestamp.publisherRole == this.globals.config.publisherRole
+      && portcallTimestamp.publisher == this.globals.config.publisher) {
+      portcallTimestamp.messageDirection = MessageDirection.outbound;
+    } else {
+      portcallTimestamp.messageDirection = MessageDirection.outbound;
+    }
+  }
 
   /**
    * Method to calculate a sequence for timestamps:

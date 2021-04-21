@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Vessel} from "../../../model/base/vessel";
+import {Vessel} from "../../../model/portCall/vessel";
 import {map} from "rxjs/operators";
 
 @Injectable({

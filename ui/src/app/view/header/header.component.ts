@@ -4,9 +4,9 @@ import {InstructionsComponent} from "../instructions/instructions.component";
 import {ConfigService} from "../../controller/services/base/config.service";
 import {DownloadService} from "../../controller/services/base/download.service";
 import {MenuItem, MessageService, SelectItem} from "primeng/api";
-import {CodeType} from "../../model/base/codeType";
+import {CodeType} from "../../model/portCall/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {Globals} from "../../model/base/globals";
+import {Globals} from "../../model/portCall/globals";
 import {PartyFunction} from "../../model/OVS/partyFunction";
 
 @Component({

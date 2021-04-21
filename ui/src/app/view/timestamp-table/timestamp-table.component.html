@@ -87,11 +87,10 @@
         {{ 'general.table.header.berthId.label' | translate }}
         <p-sortIcon field="locationId"></p-sortIcon>
       </th>
-      <th style="width: 6%" pTooltip="{{ 'general.table.header.comment.tooltip' | translate }}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.comment.label' | translate }}
+      <th style="width: 4%" >
       </th>
-      <th style="width: 6%"></th>
+      <th style="width: 6%" pTooltip="{{ 'general.table.header.comment.tooltip' | translate }}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" class="timestampContent"></th>
     </tr>
     <tr>
       <td></td>
@@ -112,7 +111,9 @@
   </ng-template>
   <ng-template pTemplate="body" let-timestamp>
     <tr class="unreadTimestamp">
-      <td pTooltip="Event ID: {{timestamp.id}}" tooltipPosition="top"
+      <td pTooltip="Event ID: {{timestamp.id}}
+        Publisher: {{timestamp.publisher}}
+        PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
       <td style="width: 8%"
@@ -168,15 +169,31 @@
       </td>
       <td style="width: 7%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.locationId }}</td>
-      <td style="width: 7%"
+      <td style="width: 4%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        <p-button *ngIf="timestamp.changeComment || timestamp.delayCode" class="timestampContent" (onClick)="showComment(timestamp)"
-                  icon="pi pi-comment">
-        </p-button>
+                <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
+                  '' :
+                  (timestamp.messageDirection == 'inbound' ?
+                        'pi-arrow-left' : 'pi-arrow-right'
+                  )
+              }}"
+                      pTooltip="{{ timestamp.messageDirection == null ?
+                  '' :
+                  (timestamp.messageDirection == 'inbound' ?
+                        ( 'general.direction.inbound' | translate ) : ( 'general.direction.outbound' | translate )
+                  )
+              }}"
+                      tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>
+
+
       </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 6%">
+
+        <p-button *ngIf="timestamp.changeComment || timestamp.delayCode" class="timestampContent" (onClick)="showComment(timestamp)"
+                  icon="pi pi-comment">
+        </p-button>
 
         <p-button class="timestampContent" *ngIf="timestamp.response != null" icon="pi pi-check"
                   pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"

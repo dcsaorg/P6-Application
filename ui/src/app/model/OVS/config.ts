@@ -1,4 +1,4 @@
-import {CodeType} from "../base/codeType";
+import {CodeType} from "../portCall/codeType";
 import {PartyFunction} from "./partyFunction";
 
 export interface Config {

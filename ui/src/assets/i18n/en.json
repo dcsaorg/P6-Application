@@ -204,8 +204,8 @@
         "transportCallID": {
           "label": "Transport Call ID"
         },
-        "transportCallNumber": {
-          "label": "Call Number"
+        "transportCallSequenceNumber": {
+          "label": "Call Sequence Number"
         },
         "carrierVoyageNumber":{
           "label": "Carrier Voyage Number"

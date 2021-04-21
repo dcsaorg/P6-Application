@@ -1,11 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Port} from "../../model/base/port";
+import {Port} from "../../model/portCall/port";
 import {SelectItem} from "primeng/api";
 import {PortService} from "../../controller/services/base/port.service";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {Globals} from "../../model/base/globals";
+import {Globals} from "../../model/portCall/globals";
 import {TerminalService} from "../../controller/services/base/terminal.service";
-import {Terminal} from "../../model/base/terminal";
+import {Terminal} from "../../model/portCall/terminal";
 
 
 @Component({

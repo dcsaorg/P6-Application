@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {PortcallTimestamp} from "../../model/base/portcall-timestamp";
+import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {OperationsEvent} from "../../model/OVS/operations-event";
-import {DelayCode} from "../../model/base/delayCode";
-import {MessageDirection} from "../../model/base/messageDirection";
-import {Port} from "../../model/base/port";
-import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
-import {Terminal} from "../../model/base/terminal";
-import {Vessel} from "../../model/base/vessel";
+import {DelayCode} from "../../model/portCall/delayCode";
+import {MessageDirection} from "../../model/portCall/messageDirection";
+import {Port} from "../../model/portCall/port";
+import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
+import {Terminal} from "../../model/portCall/terminal";
+import {Vessel} from "../../model/portCall/vessel";
 import {OperationsEventToTimestampTypePipe} from "./operations-event-to-timestamp-type.pipe";
 import {OperationsEventToTimestampPipe} from "./operations-event-to-timestamp.pipe";
 

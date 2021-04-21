@@ -34,15 +34,12 @@
     <tr>
       <th style="width: 3px"></th>
       <th>{{'general.transportCall.table.id' | translate}}</th>
-      <th style="width:8%">{{'general.transportCall.table.carrierServiceCode.label' | translate}}</th>
-      <th style="width:10%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
-      <th style="width:15%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
-      <th style="width:10%">{{'general.transportCall.table.carrierVoyageNumber.label'| translate}}</th>
-      <th style="width:5%">{{'general.transportCall.table.UNLocationCode.label'| translate}}</th>
-      <th style="width:15%">{{'general.transportCall.table.UNLocationName.label'| translate}}</th>
-      <th style="width:5%">{{'general.transportCall.table.transportCallNumber.label'| translate}}</th>
-      <th style="width:5%">{{'general.transportCall.table.facilityTypeCode.label'| translate}}</th>
-      <th style="width:10%">{{'general.transportCall.table.facilityCode.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
+      <th style="width:20%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.UNLocationCode.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.transportCallSequenceNumber.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.facilityTypeCode.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.facilityCode.label'| translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall let-rowIndex="rowIndex">
@@ -51,13 +48,10 @@
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': transportCall.sequenceColor}"></td>
       <td>{{transportCall.transportCallID}}</td>
-      <td>{{transportCall.carrierServiceCode}}</td>
       <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.vesselName}}</td>
-      <td>{{transportCall.carrierVoyageNumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
-      <td>{{transportCall.UNLocationName}}</td>
-      <td>{{transportCall.transportCallNumber}}</td>
+      <td>{{transportCall.transportCallSequenceNumber}}</td>
       <td>{{transportCall.facilityTypeCode}}</td>
       <td>{{transportCall.facilityCode}}</td>
     </tr>

@@ -4,6 +4,7 @@ import {Terminal} from "./terminal";
 import {DelayCode} from "./delayCode";
 import {Vessel} from "./vessel";
 import {MessageDirection} from "./messageDirection";
+import {PartyFunction} from "../OVS/partyFunction";
 
 export interface PortcallTimestamp {
   id: string;
@@ -26,6 +27,8 @@ export interface PortcallTimestamp {
   response?: PortcallTimestampType;
   modifiable: boolean;
   messageDirection?: MessageDirection;
+  publisher?: string;
+  publisherRole: PartyFunction;
   transportCallID?: string;
   messagingStatus?: string;
   messagingDetails?: string;

@@ -9,7 +9,7 @@ export interface TransportCall {
   vesselName: string;
   carrierVoyageNumber: string;
   UNLocationCode: string;
-  transportCallNumber: number;
+  transportCallSequenceNumber: number;
   facilityTypeCode: FacilityCodeType;
   facilityCode: string;
   otherFacility: string;

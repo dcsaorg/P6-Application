@@ -3,14 +3,14 @@ import {ScheduleService} from "../OVS/schedule.service";
 import {TransportCallService} from "../OVS/transport-call.service";
 import {OperationsEventService} from "../OVS/operations-event.service";
 import {from, Observable} from "rxjs";
-import {PortcallTimestamp} from "../../../model/base/portcall-timestamp";
+import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
 import {TransportCall} from "../../../model/OVS/transport-call";
-import {Port} from "../../../model/base/port";
+import {Port} from "../../../model/portCall/port";
 import {map} from "rxjs/internal/operators";
-import {Globals} from "../../../model/base/globals";
+import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
 import {TimestampsToOperationsEventsPipe} from "../../pipes/timestamps-to-operations-events.pipe";
-import {Terminal} from "../../../model/base/terminal";
+import {Terminal} from "../../../model/portCall/terminal";
 import {OperationsEventToTimestampPipe} from "../../pipes/operations-event-to-timestamp.pipe";
 import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
 

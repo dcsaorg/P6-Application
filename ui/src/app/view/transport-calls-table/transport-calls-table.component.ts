@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
 import {TransportCall} from "../../model/OVS/transport-call";
-import {PortcallTimestamp} from "../../model/base/portcall-timestamp";
+import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 
 @Component({
   selector: 'app-transport-calls-table',

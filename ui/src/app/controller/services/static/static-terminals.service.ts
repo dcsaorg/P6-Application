@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Terminal} from "../../../model/base/terminal";
+import {Terminal} from "../../../model/portCall/terminal";
 
 
 @Injectable({

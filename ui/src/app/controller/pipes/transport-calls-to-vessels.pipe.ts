@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {TransportCall} from "../../model/OVS/transport-call";
-import {Vessel} from "../../model/base/vessel";
+import {Vessel} from "../../model/portCall/vessel";
 
 @Pipe({
   name: 'transportCallsToVessels'

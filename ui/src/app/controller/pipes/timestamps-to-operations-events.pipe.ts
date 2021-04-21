@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {PortcallTimestamp} from "../../model/base/portcall-timestamp";
+import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {OperationsEvent} from "../../model/OVS/operations-event";
 import {TimestampTypeToEventClassifierCodePipe} from "./timestamp-type-to-event-classifier-code.pipe";
 import {TimestampTypeToEventTypePipe} from "./timestamp-type-to-event-type.pipe";

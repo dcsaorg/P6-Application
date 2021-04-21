@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
-import {Vessel} from "../../../model/base/vessel";
+import {Vessel} from "../../../model/portCall/vessel";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {StaticVesselService} from "../static/static-vessel.service";
 import {VesselMappingService} from "../mapping/vessel-mapping.service";

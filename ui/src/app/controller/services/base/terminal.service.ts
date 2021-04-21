@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
-import {Terminal} from "../../../model/base/terminal";
+import {Terminal} from "../../../model/portCall/terminal";
 import {Observable} from "rxjs";
 import {StaticTerminalsService} from "../static/static-terminals.service";
 

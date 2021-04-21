@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {PortcallTimestamp} from "../../../model/base/portcall-timestamp";
+import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 @Injectable({

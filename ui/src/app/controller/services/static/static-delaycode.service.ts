@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {DelayCode} from "../../../model/base/delayCode";
+import {DelayCode} from "../../../model/portCall/delayCode";
 import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
 

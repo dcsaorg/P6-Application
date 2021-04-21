@@ -1,28 +1,28 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PortcallTimestamp} from "../../model/base/portcall-timestamp";
+import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
-import {Port} from "../../model/base/port";
-import {Terminal} from "../../model/base/terminal";
+import {Port} from "../../model/portCall/port";
+import {Terminal} from "../../model/portCall/terminal";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
-import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
+import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {PortCallTimestampTypeToEnumPipe} from "../../controller/pipes/port-call-timestamp-type-to-enum.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
-import {DelayCode} from "../../model/base/delayCode";
+import {DelayCode} from "../../model/portCall/delayCode";
 import {DialogService} from "primeng/dynamicdialog";
 import {PortService} from "../../controller/services/base/port.service";
 import {TerminalService} from "../../controller/services/base/terminal.service";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
 import {take, timestamp} from "rxjs/operators";
 import {VesselService} from "../../controller/services/base/vessel.service";
-import {Vessel} from "../../model/base/vessel";
+import {Vessel} from "../../model/portCall/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
-import {Globals} from "../../model/base/globals";
+import {Globals} from "../../model/portCall/globals";
 
 
 @Component({
@@ -155,6 +155,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   /*
     Function that will colorize
+    //@ToDo Move this function to postProcessing in timestampService
    */
   private colorizetimestampByLocation(timestamps: PortcallTimestamp[]) {
     let colourPalette: string[] = new Array("#30a584", "#f5634a", "#d00fc2", "#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")

@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {OperationsEvent} from "../../model/OVS/operations-event";
-import {PortcallTimestampType} from "../../model/base/portcall-timestamp-type.enum";
+import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {OperationsEventTypeCode} from "../../model/OVS/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../../model/OVS/portCallServiceTypeCode";
 import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
