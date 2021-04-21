@@ -28,7 +28,7 @@ export interface PortcallTimestamp {
   modifiable: boolean;
   messageDirection?: MessageDirection;
   publisher?: string;
-  publisherRole: PartyFunction;
+  publisherRole?: PartyFunction;
   transportCallID?: string;
   messagingStatus?: string;
   messagingDetails?: string;

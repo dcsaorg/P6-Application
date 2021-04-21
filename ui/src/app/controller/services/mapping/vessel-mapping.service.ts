@@ -3,7 +3,6 @@ import {StaticVesselService} from "../static/static-vessel.service";
 import {concat, forkJoin, Observable, zip} from "rxjs";
 import {Vessel} from "../../../model/portCall/vessel";
 import {TransportCallService} from "../OVS/transport-call.service";
-import {TransportCall} from "../../../model/OVS/transport-call";
 import {concatMap, map} from "rxjs/operators";
 import {TransportCallsToVesselsPipe} from "../../pipes/transport-calls-to-vessels.pipe";
 

@@ -131,8 +131,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
 
-  showCreationDialog() {
-    console.log("Creation!")
+  openCreationDialog() {
     const timestampEditor = this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.create.label'),
       width: '75%',

@@ -20,7 +20,7 @@ import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
 export class TimestampMappingService {
 
   constructor(private scheduleService: ScheduleService, private transportCallService: TransportCallService,
-              private transportEventService: OperationsEventService,
+              private operationsEventService: OperationsEventService,
               private globals: Globals,
               private transportEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
               private transportEventToTimestampPipe: OperationsEventToTimestampPipe,
@@ -33,7 +33,7 @@ export class TimestampMappingService {
 
 
   addPortCallTimestamp(portCallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> {
-    return this.transportEventService.addTransportEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp, this.globals.config)).pipe(
+    return this.operationsEventService.addOperationsEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp, this.globals.config)).pipe(
       map(event => {return this.transportEventToTimestampPipe.transform(event)})
     )
 
@@ -42,7 +42,7 @@ export class TimestampMappingService {
 
   getPortCallTimestamps(): Observable<PortcallTimestamp[]> {
 
-    return this.transportEventService.getTransportEvents().pipe(map(events => {
+    return this.operationsEventService.getOperationsEvents().pipe(map(events => {
         const timestamps = this.transportEventsToTimestampsPipe.transform(events);
         this.loadTransportCalls(timestamps)
         return timestamps;
@@ -51,7 +51,7 @@ export class TimestampMappingService {
   }
 
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<PortcallTimestamp[]> {
-    return this.transportEventService.getTransportEventsByTransportCall(transportCall.transportCallID).pipe(map(events => {
+    return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(map(events => {
       const timestamps = this.transportEventsToTimestampsPipe.transform(events)
       this.mapTransportCallToTimestamps(timestamps, transportCall);
       return timestamps;

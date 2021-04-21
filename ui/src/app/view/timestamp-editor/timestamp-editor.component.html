@@ -132,19 +132,20 @@
   </div>
 </div>
 <div class="p-grid">
-<div class="p-col-8">
-</div>
+  <div class="p-col-8">
+  </div>
   <div class="p-col-4 footer_option" style="; justify-content: flex-end">
     <p-button (onClick)="close()" class="footer_option__buttons"
               icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-       <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
-              [disabled]="!validatePortOfCallTimestamp(defaultTimestamp)" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}" iconPos="left">
-         <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
-                            styleClass="custom-spinner"
-                            strokeWidth="3"
-                            animationDuration=".9s"></p-progressSpinner>
-       </p-button>
+    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
+              [disabled]="!validatePortOfCallTimestamp(defaultTimestamp)" icon="pi pi-save"
+              label="{{'general.save.editor.label' | translate}}" iconPos="left">
+      <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
+                         styleClass="custom-spinner"
+                         strokeWidth="3"
+                         animationDuration=".9s"></p-progressSpinner>
+    </p-button>
 
   </div>
 </div>

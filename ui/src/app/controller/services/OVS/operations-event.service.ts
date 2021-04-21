@@ -16,16 +16,16 @@ export class OperationsEventService {
     this.TRANSPORT_CALL_URL = BACKEND_URL + "/transport-calls"
   }
 
-  getTransportEvents = (): Observable<OperationsEvent[]> => this.httpClient.get<OperationsEvent[]>(this.OPERATIONS_EVENT_URL);
+  getOperationsEvents = (): Observable<OperationsEvent[]> => this.httpClient.get<OperationsEvent[]>(this.OPERATIONS_EVENT_URL);
 
-  getTransportEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
+  getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
     const url = this.TRANSPORT_CALL_URL + "/" + transportCallId + "/operations-events";
     return this.httpClient.get<OperationsEvent[]>(url);
   }
 
-  addTransportEvent = (transportEvent: OperationsEvent): Observable<OperationsEvent> => {
+  addOperationsEvent = (operationsEvent: OperationsEvent): Observable<OperationsEvent> => {
     console.log("Fire!");
-    return this.httpClient.post<OperationsEvent>(this.OPERATIONS_EVENT_URL, transportEvent);
+    return this.httpClient.post<OperationsEvent>(this.OPERATIONS_EVENT_URL, operationsEvent);
     //
 }
 }
