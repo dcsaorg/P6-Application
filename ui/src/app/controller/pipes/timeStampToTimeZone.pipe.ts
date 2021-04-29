@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Port} from "../../model/port";
-import {PortcallTimestamp} from "../../model/portcall-timestamp";
+import {Port} from "../../model/portCall/port";
+import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {PortIdToPortPipe} from "./port-id-to-port.pipe";
 import {DatePipe} from "@angular/common";
 

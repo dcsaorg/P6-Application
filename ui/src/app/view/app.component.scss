@@ -11,8 +11,12 @@
   margin: 0;
   padding: 0;
 
+  &__main_spcerHeadlin{
+    margin-top: 10px;
+  }
+
   &__spaceBetween {
-    margin-bottom: 0px;
+    margin-bottom: 5px;
   }
 
   &__spaceInnerComponent {
@@ -30,21 +34,40 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-
-    padding: 5px 10px 5px 10px;
+    width: 100%;
+    padding: 5px 0px 5px 0px;
   }
 
-}
+  &__content{
+    height: 80vh;
+    position: absolute;
+  }
 
-root {
-  font-size: 4px;
-}
+  &__top_content_pane{
+    height: 39vh;
+    width: 98vw;
+    overflow: scroll;
+  }
 
-.rightSpace {
-  margin-right: 10px;
+  &__bottom_content_pane{
+    height: 39vh;
+    width: 98vw;
+    overflow: scroll;
+  }
+
 }
 
 .fullWidthAndHeight {
   width: 100%;
   height: auto;
 }
+
+.rightSpace {
+  margin-right: 10px;
+}
+
+root {
+  font-size: 4px;
+}
+
+

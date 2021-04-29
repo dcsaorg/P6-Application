@@ -1,115 +1,155 @@
-<p-table [value]="($timestamps | async)" styleClass="p-datatable-sm">
-  <ng-template pTemplate="body" let-timestamp>
-    <tr>
-      <td style="width: 3px"></td>
-      <td style="width: 8%; padding-left: 0" class="timestampContent">
-        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.vessel" [options]="vesselOptions" ></p-dropdown>
-      </td>
-      <td style="width: 7%; padding-left: 0">
-        <p-dropdown styleClass="dropdown" [(ngModel)]="timestamp.timestampType" [options]="timestampTypes"></p-dropdown>
-      </td>
-      <td style="width: 2%"></td>
-      <td style="width: 15%;">
-        <div class="p-inputgroup">
-          <p-calendar appendTo="body" [(ngModel)]="logOfTimestampDate" hourFormat="24" monthNavigator="true" showButtonBar="false"
-                      showIcon="true" showWeek="true"
-                      yearNavigator="true" yearRange="2010:2030"
-                      styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.log' | translate }}"
-                      [panelStyleClass]="'datetime-panel'"></p-calendar>
-          <p-inputMask [(ngModel)]="logOfTimestampTime" mask="99:99" placeholder="{{ 'general.timestamp.time' | translate }}"
-                       styleClass="datetime-time-time-field"></p-inputMask>
-          <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success" (click)="setLogOfTimestampToNow()"></button>
+<h4>For Transport-Call {{ transportCall.transportCallSequenceNumber}}</h4>
+<div class="headline">
+  <p-card styleClass="card-scondary">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
+          : </label>
+        <span id="vesselName"> {{transportCall.vesselName}} </span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
+        <span id="portOfCall"
+              *ngIf="defaultTimestamp.portOfCall != null"> {{defaultTimestamp.portOfCall.unLocode}} </span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <!-- Placeholder for additional information -->
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="vesselIMO">{{'general.transportCall.table.vesselImo.label'| translate}}
+          : </label>
+        <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <label class="label-compressed" for="terminal">{{'general.terminal.label'| translate}}: </label>
+        <span *ngIf="defaultTimestamp.terminal != null" id="terminal"> {{defaultTimestamp.terminal.smdgCode}}
+          ({{defaultTimestamp.terminal.terminalName}})</span>
+      </div>
+      <div class="p-field p-col-12 p-md-4">
+        <!-- Placeholder for additional information -->
+      </div>
+    </div>
+  </p-card>
+</div>
+<div class="p-fluid p-formgrid p-grid">
+  <div class="p-field p-col-12 p-md-4">
+    <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
+    <p-dropdown id="timestampType" styleClass="dropdown" [(ngModel)]="timestampSelected"
+                [options]="timestampTypes"></p-dropdown>
+  </div>
+  <div class="p-field p-col-12 p-md-8">
+  </div>
+  <div class="p-field p-col-12 p-md-5">
+    <label for="logoftimestamp">{{ 'general.table.header.logOfTimestamp.label' | translate }}: </label>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <p-calendar id="logoftimestamp" appendTo="body" [(ngModel)]="logOfTimestampDate" hourFormat="24"
+                    monthNavigator="true" showButtonBar="false"
+                    showIcon="true" showWeek="true"
+                    yearNavigator="true" yearRange="2010:2040"
+                    styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.log' | translate }}"
+                    [panelStyleClass]="'datetime-panel'"></p-calendar>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <p-inputMask [(ngModel)]="logOfTimestampTime" mask="99:99"
+                     placeholder="{{ 'general.timestamp.time' | translate }}"
+                     styleClass="datetime-time-time-field"></p-inputMask>
+        <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success"
+                (click)="setLogOfTimestampToNow()"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-field p-col-12 p-md-5">
+    <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
+
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <p-calendar id="eventtimestamp" appendTo="body" [(ngModel)]="eventTimestampDate" hourFormat="24"
+                    monthNavigator="true" showButtonBar="false"
+                    showIcon="true" showWeek="true"
+                    yearNavigator="true" yearRange="2010:2030"
+                    styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
+                    [panelStyleClass]="'datetime-panel'"></p-calendar>
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <p-inputMask [(ngModel)]="eventTimestampTime" mask="99:99"
+                     placeholder="{{ 'general.timestamp.time' | translate }}"
+                     styleClass="datetime-time-time-field"></p-inputMask>
+        <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success"
+                (click)="setEventTimestampToNow()"></button>
+      </div>
+    </div>
+  </div>
+  <div class="p-field p-col-12 p-md-2">
+  </div>
+
+  <div class="p-field p-col-12 p-md-5">
+    <label for="locationID">{{'general.table.header.berthId.label' | translate }}</label>
+    <input id="locationID" [(ngModel)]="defaultTimestamp.locationId" pInputText style="width: 100%" type="text"/>
+  </div>
+  <div class="p-field p-col-12 p-md-7">
+  </div>
+
+  <div class="p-field p-col-12 p-md-5">
+    <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
+    <p-dropdown id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
+                filterBy="label,value.name" [group]="false">
+      <ng-template let-delayCode pTemplate="selectedItem">
+        <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
+          <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
+          <div class="delayCodeSelected__delayType">&nbsp;&middot;&nbsp;{{delayCode.value.delayType}}
+          </div>
+          <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
+          <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
         </div>
-      </td>
-      <td style="width: 15%;">
-        <div class="p-inputgroup">
-          <p-calendar appendTo="body" [(ngModel)]="eventTimestampDate" hourFormat="24" monthNavigator="true" showButtonBar="false"
-                      showIcon="true" showWeek="true"
-                      yearNavigator="true" yearRange="2010:2030"
-                      styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
-                      [panelStyleClass]="'datetime-panel'"></p-calendar>
-          <p-inputMask [(ngModel)]="eventTimestampTime" mask="99:99" placeholder="{{ 'general.timestamp.time' | translate }}"
-                       styleClass="datetime-time-time-field"></p-inputMask>
-          <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success" (click)="setEventTimestampToNow()"></button>
+        <div *ngIf="!delayCode.value">
+          <div>{{delayCode.label}}</div>
         </div>
-      </td>
-      <td style="width: 8%">
-        <p-dropdown appendTo="body" styleClass="dropdown" [(ngModel)]="timestamp.portPrevious" [filter]="true" [options]="portOptions"
-                    filterBy="label,value.name">
-          <ng-template let-port pTemplate="item">
-            <div *ngIf="!port.value">
-              <div>{{ 'general.port.select' | translate }}</div>
-            </div>
-            <div *ngIf="port.value">
-              <div>{{port.value.unLocode}}</div>
-              <div class="portListName">{{port.value.name}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </td>
-      <td style="width: 7%">
-        <p-dropdown appendTo="body" styleClass="dropdown" (onChange)="updateTerminalOptions(timestamp.portOfCall.id)" [(ngModel)]="timestamp.portOfCall"
-                    [filter]="true" [options]="portOptions"
-                    filterBy="label,value.name">
-          <ng-template let-port pTemplate="item">
-            <div *ngIf="!port.value">
-              <div>{{ 'general.port.select' | translate }}</div>
-            </div>
-            <div *ngIf="port.value">
-              <div>{{port.value.unLocode}}</div>
-              <div class="portListName">{{port.value.name}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </td>
-      <td style="width: 7%">
-        <p-dropdown appendTo="body" styleClass="dropdown" [(ngModel)]="timestamp.portNext" [filter]="true" [options]="portOptions"
-                    filterBy="label,value.name">
-          <ng-template let-port pTemplate="item">
-            <div *ngIf="!port.value">
-              <div>{{ 'general.port.select' | translate }}</div>
-            </div>
-            <div *ngIf="port.value">
-              <div>{{port.value.unLocode}}</div>
-              <div class="portListName">{{port.value.name}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </td>
-      <td style="width: 6%">
-        <p-dropdown appendTo="body" styleClass="dropdown" [(ngModel)]="timestamp.direction" [options]="directions"></p-dropdown>
-      </td>
-      <td style="width: 7%">
-        <p-dropdown appendTo="body" styleClass="dropdown" [(ngModel)]="timestamp.terminal" [disabled]="timestamp.portOfCall === null"
-                    [filter]="true" [options]="terminalOptions" filterBy="label,value.terminalName">
-          <ng-template let-terminal pTemplate="item">
-            <div *ngIf="terminal.value">
-              <div>{{terminal.value.smdgCode}}</div>
-              <div class="terminalListDetails">{{terminal.value.terminalName}}</div>
-              <div class="terminalListDetails">{{terminal.value.terminalOperator}}</div>
-            </div>
-            <div *ngIf="!terminal.value">
-              <div>{{terminal.label}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </td>
-      <td style="width: 8%">
-        <label><input [(ngModel)]="timestamp.locationId" pInputText style="width: 100%" type="text"/></label>
-      </td>
-      <td style="width: 6%">
-        <p-button (onClick)="addComment(timestamp)" icon="pi pi-comment"
-                  pTooltip="{{ 'general.comment.tooltip' | translate }}" tooltipPosition="top"
-                  tooltipStyleClass="ToolTipClass" class="buttonInTable"></p-button>
-      </td>
-      <td style="width: 3%">
-        <p-button (onClick)="savePortcallTimestamp(timestamp)"
-                  [disabled]="validatePortOfCallTimestamp(timestamp)" icon="pi pi-save"></p-button>
-      </td>
-      <td style="width: 3%">
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
-<p-toast key="TimestampAddSuccess" position="bottom-right"></p-toast>
-<p-toast key="TimestampAddError" position="bottom-right"></p-toast>
+      </ng-template>
+      <ng-template let-delayCode pTemplate="item">
+        <div class="delayCodeDetails" *ngIf="delayCode.value">
+          <div class="delayCodeDetails__smdgCode">{{delayCode.value.smdgCode}}</div>
+          <div class="delayCodeDetails__delayType">{{delayCode.value.delayType}}</div>
+          <div class="delayCodeDetails__delayName">{{delayCode.value.name}}</div>
+          <div class="delayCodeDetails__delaydescription">{{delayCode.value.description}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
+  <div class="p-field p-col-12 p-md-7">
+  </div>
+
+
+  <div class="p-field p-col-12 p-md-6">
+    <span class="p-float-label">
+    <textarea class="commentBox" id="commentbox" pInputTextarea [(ngModel)]="defaultTimestamp.changeComment"
+    ></textarea>
+    <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
+    </span>
+  </div>
+  <div class="p-field p-col-12 p-md-6">
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-8">
+  </div>
+  <div class="p-col-4 footer_option" style="; justify-content: flex-end">
+    <p-button (onClick)="close()" class="footer_option__buttons"
+              icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
+    </p-button>
+    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
+              [disabled]="!validatePortOfCallTimestamp(defaultTimestamp)" icon="pi pi-save"
+              label="{{'general.save.editor.label' | translate}}" iconPos="left">
+      <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
+                         styleClass="custom-spinner"
+                         strokeWidth="3"
+                         animationDuration=".9s"></p-progressSpinner>
+    </p-button>
+
+  </div>
+</div>
+
+
+
+

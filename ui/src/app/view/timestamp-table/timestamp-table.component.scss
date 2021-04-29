@@ -30,6 +30,17 @@
 .dateTimeStamp {
 }
 
+.dummyContent{
+   width: 98vw;
+   margin-top: 100px;
+   text-align: center;
+   font-size: 16pt;
+   color: $darkGrey;
+   font-family: Tahoma, sans-serif;
+
+
+}
+
 .timestampContent{
   font-size:$tableSize;
   z-index: 1;
@@ -41,10 +52,15 @@
   flex-direction: row;
   float: right;
   padding: 0px 0px !important;
-  max-width: 320px !important;
+  max-width: 60px !important;
 
   &__buttons {
-    margin: 5px 10px 0px 0px;
+    margin: 5px 25px 0px 0px;
+  }
+
+  &__add_button {
+    height: 25px;
+    width: 25px;
   }
 
 }
@@ -62,3 +78,6 @@
   color: #929292;
   text-shadow: none;
 }
+
+
+

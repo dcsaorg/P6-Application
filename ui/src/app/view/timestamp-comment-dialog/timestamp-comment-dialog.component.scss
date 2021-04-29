@@ -29,10 +29,35 @@
   clear: none;
 }
 
-.dropdownDiv {
+.delayCodeDiv {
   width: 100%
 }
 
 .p-buttonset {
   width: 40%;
+}
+
+.separator{
+  height: 10px;
+}
+
+.delayCodeSelected {
+  float: left;
+  clear: none;
+  font-size: 10pt;
+
+  &__smdgCode {
+    font-weight: bold;
+    font-size: 10pt;
+  }
+
+  &__delayType {
+    color: $tealBlue;
+    font-size: 9pt;
+  }
+
+  &__delayDetails {
+    color: $darkGrey;
+    font-size: 9pt;
+  }
 }

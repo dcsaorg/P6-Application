@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Vessel} from "../../model/vessel";
+import {Vessel} from "../../model/portCall/vessel";
 
 @Pipe({
   name: 'vesselIdToVessel'

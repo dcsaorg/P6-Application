@@ -18,6 +18,23 @@
           </div>
         </ng-template>
       </p-dropdown>
+      <span class="portOfCall__header">{{ 'general.terminal.label' | translate }}</span>
+      <p-dropdown  disabled="{{!portOfCall}}" class="portOfCall__dropDown"
+                  (onChange)="selectTerminal()"
+                  [(ngModel)]="terminal"
+                  [filter]="true"
+                  [options]="terminalOptions"
+                  filterBy="label,value.name">
+        <ng-template let-terminal pTemplate="item">
+          <div *ngIf="!terminal.value">
+            <div>Select Terminal</div>
+          </div>
+          <div *ngIf="terminal.value">
+            <div>{{terminal.value.smdgCode}}</div>
+            <div class="portListName">{{terminal.value.terminalName}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
   </p-card>
 </div>

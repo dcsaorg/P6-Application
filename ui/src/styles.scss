@@ -65,3 +65,21 @@ body {
 .datetime-panel .p-datepicker-buttonbar {
   padding: 0 !important;
 }
+
+.card-scondary {
+
+  &.p-card {
+    background: #f1f1f1;
+    color: #222222;
+    margin-bottom: 1px;
+    padding-bottom: 1px;
+  }
+}
+
+.label-compressed{
+    margin-bottom: 0px;
+}
+
+h4{
+  margin: 5px;
+}

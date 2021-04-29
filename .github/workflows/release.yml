@@ -1,4 +1,4 @@
-name: Release P6 Application
+name: Release P6 GUI
 
 on:
   workflow_dispatch:
@@ -7,37 +7,35 @@ on:
         description: "The branch to checkout when cutting the release."
         required: true
         default: "master"
-      releaseVersion:
-        description: "Default version to use when preparing a release."
-        required: true
-        default: "X.Y"
-      developmentVersion:
-        description: "Default version to use for new local working copy."
-        required: true
-        default: "DEVELOP-SNAPSHOT"
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
     steps:
       - name: Checkout the source code
         uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - name: Cache node modules
+        uses: actions/cache@v1
+         with:
+           path: ~/.npm
+           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+           restore-keys: |
+             ${{ runner.os }}-node-
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          java-version: 11
-      - name: Configure maven settings
-        uses: whelk-io/maven-settings-xml-action@v14
-        with:
-          servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }, { "id": "github", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.REPO_ACCESS_PAT }}" }]'
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and npm run build
+        run: |
+          npm i
+          if: ${{ github.ref == 'refs/heads/main' }}
+          npm run build:prod
       - name: Configure Git User
         run: |
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
-      - name: Prepare the release
-        run: mvn release:prepare -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
-      - name: Perform the release
-        run: mvn release:perform -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
-      - name: Rollback if failure
-        if: ${{ failure() }}
-        run: mvn -B release:rollback
+      - name: Pushe Releaes

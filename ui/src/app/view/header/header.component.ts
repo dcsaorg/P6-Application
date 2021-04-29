@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
-import {ConfigService} from "../../controller/services/config.service";
-import {DownloadService} from "../../controller/services/download.service";
-import {MessageService, SelectItem} from "primeng/api";
-import {RoleType} from "../../model/roleType";
-import {CodeType} from "../../model/codeType";
+import {ConfigService} from "../../controller/services/base/config.service";
+import {DownloadService} from "../../controller/services/base/download.service";
+import {MenuItem, MessageService, SelectItem} from "primeng/api";
+import {CodeType} from "../../model/portCall/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {Globals} from "../../model/portCall/globals";
+import {PartyFunction} from "../../model/OVS/partyFunction";
 
 @Component({
   selector: 'app-header',
@@ -16,8 +17,9 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 })
 export class HeaderComponent implements OnInit {
 
+  helpMenu: MenuItem[];
   companyName: string;
-  companyRole: RoleType;
+  companyRole: PartyFunction;
   companyCodeType: CodeType;
   companyId: string;
   displayDownloadRequest: boolean;
@@ -32,16 +34,36 @@ export class HeaderComponent implements OnInit {
               private configService: ConfigService,
               private downloadService: DownloadService,
               private messageService: MessageService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private globals: Globals) {
     configService.getConfig().subscribe(config => {
+      this.globals.config = config;
       this.companyName = config.company;
-      this.companyRole = config.senderRole;
-      this.companyCodeType = config.senderIdType;
-      this.companyId = config.senderId;
+      this.companyRole = config.publisherRole;
+      this.companyId = config.publisher;
+      this.companyCodeType = config.publisherCodeType;
     });
   }
 
   ngOnInit(): void {
+    this.helpMenu = [{
+      label: this.translate.instant('Help'),
+      items: [{
+        label: this.translate.instant('Instructions'),
+        icon: 'pi pi-question',
+        command: () => {
+          this.showInstructions();
+        }
+      },
+        {
+          label: this.translate.instant('Download Timestamps'),
+          icon: 'pi pi-download',
+          command: () => {
+            this.showDownloadRequest();
+          }
+        }
+      ]}
+    ];
   }
 
   showInstructions() {

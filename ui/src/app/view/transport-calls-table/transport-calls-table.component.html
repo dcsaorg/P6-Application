@@ -1,0 +1,63 @@
+<p-table styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall"
+         selectionMode="single" dataKey="transportCallId"
+         (onRowSelect)="selectTransportCall($event)">
+  <ng-template pTemplate="caption">
+    <div class="p-grid">
+      <div class="p-col">{{'general.transportCall.label' | translate}}</div>
+      <div class="p-col tableHeader">
+
+      </div>
+      <div class="p-col tableHeader">
+        <div class="tableHeader__buttons">
+          <p-button (onClick)="openCreationDialog()" class="p-button-raised p-button-rounded tableHeader__add_button"
+                    icon="pi pi-plus" pTooltip="{{ 'general.transportCall.create.tooltip' | translate }}"
+                    tooltipPosition="top" type="button"
+                    tooltipStyleClass="ToolTipClass"></p-button>
+        </div>
+        <div class="tableHeader__buttons">
+          <p-button (onClick)="refreshTransportCalls()" class="p-button-raised p-button-rounded"
+                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}"
+                    tooltipPosition="top" type="button"
+                    tooltipStyleClass="ToolTipClass"></p-button>
+
+        </div>
+        <div class="p-input-icon-left globalSearch">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                 placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
+                 pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3px"></th>
+      <th>{{'general.transportCall.table.id' | translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
+      <th style="width:20%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.UNLocationCode.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.transportCallSequenceNumber.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.facilityTypeCode.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.facilityCode.label'| translate}}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-transportCall let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="transportCall" [pSelectableRowIndex]="rowIndex">
+      <td pTooltip="Schedule ID: {{transportCall.scheduleID}}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" style="width: 3px;"
+          [ngStyle]="{'background-color': transportCall.sequenceColor}"></td>
+      <td>{{transportCall.transportCallID}}</td>
+      <td>{{transportCall.vesselIMONumber}}</td>
+      <td>{{transportCall.vesselName}}</td>
+      <td>{{transportCall.UNLocationCode}}</td>
+      <td>{{transportCall.transportCallSequenceNumber}}</td>
+      <td>{{transportCall.facilityTypeCode}}</td>
+      <td>{{transportCall.facilityCode}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+<p-toast key="TransportcallAddSuccess" position="bottom-right"></p-toast>
+<p-toast key="TransportcallAddError" position="bottom-right"></p-toast>
