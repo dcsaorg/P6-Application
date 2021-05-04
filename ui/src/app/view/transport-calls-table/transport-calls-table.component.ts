@@ -66,7 +66,7 @@ export class TransportCallsTableComponent implements OnInit {
     let processIDs = new Map();
     // extract processIDs
     transportCalls.forEach(function (transportCall){
-      processIDs.set(transportCall.vesselIMONumber, null);
+      processIDs.set(transportCall.vessel, null);
     });
     let i = 0
     // assign color to transportCallID
@@ -79,7 +79,7 @@ export class TransportCallsTableComponent implements OnInit {
     }
     //assign color to timestamp
     transportCalls.forEach(function (timestamp){
-      timestamp.sequenceColor = processIDs.get(timestamp.vesselIMONumber);
+      timestamp.sequenceColor = processIDs.get(timestamp.vessel);
     });
   }
 

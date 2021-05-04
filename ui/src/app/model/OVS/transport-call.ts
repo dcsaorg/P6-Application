@@ -1,9 +1,9 @@
 import {FacilityCodeType} from "./facilityCodeType";
+import {Vessel} from "./vessel";
 
 export interface TransportCall {
   transportCallID: string;
-  vesselIMONumber: string;
-  vesselName: string;
+  vessel: Vessel;
   UNLocationCode: string;
   transportCallSequenceNumber: number;
   facilityTypeCode: FacilityCodeType;

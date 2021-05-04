@@ -100,7 +100,7 @@ export class TimestampMappingService {
     for (let timestamp of timestamps) {
       if (timestamp.transportCallID == transportCall.transportCallID) {
         timestamp.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode).id;
-        timestamp.vessel = parseInt(transportCall.vesselIMONumber);
+        timestamp.vessel = parseInt(transportCall.vessel);
         // Check if facility is a terminal
         if (transportCall.facilityTypeCode == FacilityCodeType.POTE) {
           timestamp.terminal = this.getTerminalByFacilityCode(transportCall.facilityCode)

@@ -10,6 +10,7 @@ import {Schedule} from "../../model/OVS/schedule";
 import {Terminal} from "../../model/portCall/terminal";
 import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
+import {Vessel} from "../../model/OVS/vessel";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -90,16 +91,23 @@ export class TransportCallCreatorComponent implements OnInit {
       sequenceColor: string;
       transportCallID: string;
       transportCallSequenceNumber: number;
-      vesselIMONumber: string;
-      vesselName: string;
+      vessel: Vessel;
+    }
+
+    let vessel: Vessel = new class implements Vessel {
+      vesselCallSignNumber: String;
+      vesselFlag: String;
+      vesselIMONumber: String;
+      vesselName: String;
     }
 
     const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
     const port: Port = this.transportCallFormGroup.controls.port.value
 
+    vessel.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
     transportCall.facilityTypeCode = FacilityCodeType.POTE;
     transportCall.facilityCode = port.unLocode + terminal.smdgCode;
-    transportCall.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
+    transportCall.vessel = vessel;
     transportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.callSequenceNumber.value
 
     this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {

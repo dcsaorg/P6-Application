@@ -18,9 +18,9 @@ export class TransportCallsToVesselsPipe implements PipeTransform {
         serviceNameCode: string;
         teu: number;
       }
-      vessel.id = parseInt(transportCall.vesselIMONumber);;
-      vessel.imo = parseInt(transportCall.vesselIMONumber);
-      vessel.name = transportCall.vesselName;
+      vessel.id = Number(transportCall.vessel.vesselIMONumber);
+      vessel.imo = Number(transportCall.vessel.vesselIMONumber);
+      vessel.name = transportCall.vessel.vesselName;
       if (!imos.has(vessel.imo)) {
         vessels.push(vessel);
       }

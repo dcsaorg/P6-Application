@@ -48,8 +48,8 @@
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': transportCall.sequenceColor}"></td>
       <td>{{transportCall.transportCallID}}</td>
-      <td>{{transportCall.vesselIMONumber}}</td>
-      <td>{{transportCall.vesselName}}</td>
+      <td>{{transportCall.vessel.vesselIMONumber}}</td>
+      <td>{{transportCall.vessel.vesselName}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
       <td>{{transportCall.transportCallSequenceNumber}}</td>
       <td>{{transportCall.facilityTypeCode}}</td>
