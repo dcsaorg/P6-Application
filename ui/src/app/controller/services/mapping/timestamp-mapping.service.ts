@@ -5,14 +5,11 @@ import {OperationsEventService} from "../OVS/operations-event.service";
 import {from, Observable} from "rxjs";
 import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
 import {TransportCall} from "../../../model/OVS/transport-call";
-import {Port} from "../../../model/portCall/port";
 import {map} from "rxjs/internal/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
 import {TimestampsToOperationsEventsPipe} from "../../pipes/timestamps-to-operations-events.pipe";
-import {Terminal} from "../../../model/portCall/terminal";
 import {OperationsEventToTimestampPipe} from "../../pipes/operations-event-to-timestamp.pipe";
-import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
 
 @Injectable({
   providedIn: 'root'
@@ -59,26 +56,6 @@ export class TimestampMappingService {
   }
 
 
-  getPortByUnLocode(unlocode: string): Port {
-    for (let port of this.globals.ports) {
-      if (port.unLocode == unlocode) {
-        return port;
-      }
-    }
-    return null;
-  }
-
-  getTerminalByFacilityCode(facilityCode: string): Terminal {
-    if (facilityCode.length > 5) {
-      const smdgCode = facilityCode.substring(5, facilityCode.length);
-      for (let terminal of this.globals.terminals) {
-        if (terminal.smdgCode == smdgCode) {
-          return terminal
-        }
-      }
-    }
-    return null;
-  }
 
 
   private loadTransportCalls(timestamps: PortcallTimestamp[]) {
@@ -99,12 +76,7 @@ export class TimestampMappingService {
 
     for (let timestamp of timestamps) {
       if (timestamp.transportCallID == transportCall.transportCallID) {
-        timestamp.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode).id;
-        timestamp.vessel = parseInt(transportCall.vessel);
-        // Check if facility is a terminal
-        if (transportCall.facilityTypeCode == FacilityCodeType.POTE) {
-          timestamp.terminal = this.getTerminalByFacilityCode(transportCall.facilityCode)
-        }
+        timestamp.vessel = Number(transportCall.vessel.vesselIMONumber);
       }
     }
   }

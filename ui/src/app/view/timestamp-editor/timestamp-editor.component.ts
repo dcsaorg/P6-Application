@@ -16,6 +16,9 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {Util} from "../../controller/services/util/util";
+import {UnlocodeToPortPipe} from "../../controller/pipes/unlocode-to-port.pipe";
+import {FacilitycodeToTerminalPipe} from "../../controller/pipes/facilitycode-to-terminal.pipe";
+import {Globals} from "../../model/portCall/globals";
 
 
 @Component({
@@ -87,7 +90,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
               public config: DynamicDialogConfig,
               private translate: TranslateService,
               public ref: DynamicDialogRef,
-              private timestampMappingService: TimestampMappingService) {
+              private globals: Globals
+
+  ) {
   }
 
   ngOnInit(): void {
@@ -127,6 +132,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     portcallTimestamp.eventTimestamp = portcallTimestamp.eventTimestamp
     portcallTimestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     portcallTimestamp.delayCode = (this.delayCode?this.delayCode.smdgCode:null);
+
     console.log("Save Timestamp:");
     console.log(portcallTimestamp);
     this.creationProgress = true;
@@ -203,10 +209,12 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   private generateDefaultTimestamp() {
+    const unlocodeToPortPipe: UnlocodeToPortPipe = new UnlocodeToPortPipe(this.globals);
+    const facilityCodeToTerminalPipe: FacilitycodeToTerminalPipe = new FacilitycodeToTerminalPipe(this.globals)
     this.defaultTimestamp.logOfTimestamp = new Date();
     this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
-    this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
-    this.defaultTimestamp.terminal = this.timestampMappingService.getTerminalByFacilityCode(this.transportCall.facilityCode)
+    this.defaultTimestamp.portOfCall =  unlocodeToPortPipe.transform(this.transportCall.UNLocationCode);
+    this.defaultTimestamp.terminal = facilityCodeToTerminalPipe.transform(this.transportCall.facilityCode);
 
 
 

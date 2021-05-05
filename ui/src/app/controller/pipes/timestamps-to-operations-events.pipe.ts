@@ -12,6 +12,8 @@ import {PortCallServiceTypeCode} from "../../model/OVS/portCallServiceTypeCode";
 import {PartyFunction} from "../../model/OVS/partyFunction";
 import {TimestampTypeToPortcallServiceTypeCodePipe} from "./timestamp-type-to-portcall-service-type-code.pipe";
 import {Config} from "../../model/OVS/config";
+import {TransportCall} from "../../model/OVS/transport-call";
+import {Vessel} from "../../model/OVS/vessel";
 
 @Pipe({
   name: 'timestampsToTransportEvents'
@@ -33,9 +35,22 @@ export class TimestampsToOperationsEventsPipe implements PipeTransform {
       portCallServiceTypeCode: PortCallServiceTypeCode;
       publisher: string;
       publisherRole: PartyFunction;
-      transportCallID: string;
+      publisherCodeListProvider: string;
+      transportCall: TransportCall;
     }
 
+    let transportCall: TransportCall = new class implements TransportCall {
+      UNLocationCode: string;
+      facilityCode: string;
+      facilityTypeCode: FacilityCodeType;
+      otherFacility: string;
+      sequenceColor: string;
+      transportCallID: string;
+      transportCallSequenceNumber: number;
+      vessel: Vessel;
+    }
+
+    operationsEvent.transportCall = transportCall;
     operationsEvent.eventCreatedDateTime = portcallTimestamp.logOfTimestamp;
     operationsEvent.eventDateTime = portcallTimestamp.eventTimestamp;
     operationsEvent.eventLocation = portcallTimestamp.locationId;
@@ -45,11 +60,14 @@ export class TimestampsToOperationsEventsPipe implements PipeTransform {
     operationsEvent.operationsEventTypeCode = new TimestampTypeToEventTypePipe().transform(portcallTimestamp.timestampType)
     operationsEvent.facilityTypeCode = new TimestampTypeToFacilityCodeCodePipe().transform(portcallTimestamp.timestampType)
     operationsEvent.portCallServiceTypeCode = new TimestampTypeToPortcallServiceTypeCodePipe().transform(portcallTimestamp.timestampType);
-    operationsEvent.transportCallID = portcallTimestamp.transportCallID;
+    operationsEvent.transportCall.transportCallID = portcallTimestamp.transportCallID;
     operationsEvent.eventType = EventType.OPERATIONS;
+
+
 
     operationsEvent.publisherRole = configurations.publisherRole;
     operationsEvent.publisher = configurations.publisher;
+    operationsEvent.publisherCodeListProvider = configurations.publisherCodeType;
 
 
 

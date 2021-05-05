@@ -60,6 +60,8 @@ import { TimestampTypeToFacilityCodeCodePipe } from './controller/pipes/timestam
 import { OperationsEventToTimestampPipe } from './controller/pipes/operations-event-to-timestamp.pipe';
 import { TimestampTypeToPortcallServiceTypeCodePipe } from './controller/pipes/timestamp-type-to-portcall-service-type-code.pipe';
 import { TransportCallCreatorComponent } from './view/transport-call-creator/transport-call-creator.component';
+import { UnlocodeToPortPipe } from './controller/pipes/unlocode-to-port.pipe';
+import { FacilitycodeToTerminalPipe } from './controller/pipes/facilitycode-to-terminal.pipe';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -97,6 +99,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     OperationsEventToTimestampPipe,
     TimestampTypeToPortcallServiceTypeCodePipe,
     TransportCallCreatorComponent,
+    UnlocodeToPortPipe,
+    FacilitycodeToTerminalPipe,
   ],
   imports: [
     AppRoutingModule,

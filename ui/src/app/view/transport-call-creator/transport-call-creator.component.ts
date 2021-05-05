@@ -95,11 +95,12 @@ export class TransportCallCreatorComponent implements OnInit {
     }
 
     let vessel: Vessel = new class implements Vessel {
-      vesselCallSignNumber: String;
-      vesselFlag: String;
-      vesselIMONumber: String;
-      vesselName: String;
+      vesselCallSignNumber: string;
+      vesselFlag: string;
+      vesselIMONumber: string;
+      vesselName: string;
     }
+
 
     const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
     const port: Port = this.transportCallFormGroup.controls.port.value
