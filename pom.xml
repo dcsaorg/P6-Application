@@ -60,7 +60,6 @@
     </properties>
 
     <modules>
-        <module>backend</module>
         <module>ui</module>
     </modules>
 
