@@ -6,7 +6,6 @@ import {TranslateService} from "@ngx-translate/core";
 import {Port} from "../../model/portCall/port";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
-import {Schedule} from "../../model/OVS/schedule";
 import {Terminal} from "../../model/portCall/terminal";
 import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
@@ -86,7 +85,6 @@ export class TransportCallCreatorComponent implements OnInit {
       facilityCode: string;
       facilityTypeCode: FacilityCodeType;
       otherFacility: string;
-      scheduleID: Schedule | string;
       sequenceColor: string;
       transportCallID: string;
       transportCallSequenceNumber: number;

@@ -50,7 +50,6 @@ import { OperationsEventsToTimestampsPipe } from './controller/pipes/operations-
 import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';
 import { TimestampsToOperationsEventsPipe } from './controller/pipes/timestamps-to-operations-events.pipe';
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
-import { ScheduleSelectorComponent } from './view/schedule-selector/schedule-selector.component';
 import { OperationsEventToTimestampTypePipe } from './controller/pipes/operations-event-to-timestamp-type.pipe';
 import {PanelModule} from 'primeng/panel';
 import {MenuModule} from "primeng/menu";
@@ -89,7 +88,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransportCallsToVesselsPipe,
     TimestampsToOperationsEventsPipe,
     TransportCallsTableComponent,
-    ScheduleSelectorComponent,
     OperationsEventToTimestampTypePipe,
     TimestampTypeToEventTypePipe,
     TimestampTypeToEventClassifierCodePipe,

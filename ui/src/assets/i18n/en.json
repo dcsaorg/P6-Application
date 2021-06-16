@@ -84,9 +84,6 @@
       },
       "label": "Save"
     },
-    "schedule": {
-      "label": "Schedule"
-    },
     "table": {
       "accept": {
         "tooltip": "Accept timestamp and send a response as"
