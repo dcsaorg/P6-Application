@@ -44,9 +44,6 @@
   </ng-template>
   <ng-template pTemplate="body" let-transportCall let-rowIndex="rowIndex">
     <tr [pSelectableRow]="transportCall" [pSelectableRowIndex]="rowIndex">
-      <td pTooltip="Schedule ID: {{transportCall.scheduleID}}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" style="width: 3px;"
-          [ngStyle]="{'background-color': transportCall.sequenceColor}"></td>
       <td>{{transportCall.transportCallID}}</td>
       <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.vesselName}}</td>

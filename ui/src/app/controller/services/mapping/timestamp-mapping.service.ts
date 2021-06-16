@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {ScheduleService} from "../OVS/schedule.service";
 import {TransportCallService} from "../OVS/transport-call.service";
 import {OperationsEventService} from "../OVS/operations-event.service";
 import {from, Observable} from "rxjs";
@@ -19,7 +18,7 @@ import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
 })
 export class TimestampMappingService {
 
-  constructor(private scheduleService: ScheduleService, private transportCallService: TransportCallService,
+  constructor(private transportCallService: TransportCallService,
               private operationsEventService: OperationsEventService,
               private globals: Globals,
               private transportEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
