@@ -52,10 +52,7 @@
       <label for="flag" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{ 'general.vessel.flag' | translate }}</label>
       <div class="p-col-12 p-md-10">
         <input id="flag" type="text" formControlName="flag" pInputText [(ngModel)]=vessel.vesselFlag>
-        <span *ngIf="vesselFormGroup.get('flag').hasError('maxlength')" class="p-invalid">
-          {{ 'general.vessel.validation.flag.length' | translate }}
-        </span>
-        <span *ngIf="vesselFormGroup.get('flag').hasError('minlength')" class="p-invalid">
+        <span *ngIf="vesselFormGroup.get('flag').hasError('pattern')" class="p-invalid">
           {{ 'general.vessel.validation.flag.length' | translate }}
         </span>
       </div>

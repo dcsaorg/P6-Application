@@ -262,12 +262,12 @@
       "validation": {
         "flag": {
           "empty": "The vessel name is required",
-          "length": "The vessel flag should be exactly 2 characters long"
+          "length": "The vessel flag should be either 0 or 2 characters long"
         },
         "name": {
           "empty": "The vessel name is required",
           "length": {
-            "max": "The vessel name should be maximal 100 characters long",
+            "max": "The vessel name should be maximal 35 characters long",
             "min": "The vessel name should be at least 1 character long"
           }
         },
@@ -289,6 +289,12 @@
           "max": {
             "length": "Maximum length is 255",
             "number": "The maximal number of TEU is 32767"
+          }
+        },
+        "operatorCarrierID": {
+          "empty": "Operator Carrier ID is required",
+          "length": {
+            "max": "The Operator CarrierID should be maximal 36 characters long"
           }
         }
       }
