@@ -29,11 +29,12 @@
     <div class="p-field p-grid">
       <label for="callSignNumber" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{ 'general.vessel.callSignNumber' | translate }}</label>
       <div class="p-col-12 p-md-10">
-        <p-inputNumber id="callSignNumber" mode="decimal" formControlName="callSignNumber" [(ngModel)]=vessel.vesselCallSignNumber></p-inputNumber>
+<!--        <input id="imo" type="text" formControlName="imoId" pInputText [(ngModel)]=vessel.vesselIMONumber maxlength="70">-->
+        <input id="callSignNumber" type="text" formControlName="callSignNumber" pInputText [(ngModel)]=vessel.vesselCallSignNumber>
         <span *ngIf="vesselFormGroup.get('callSignNumber').hasError('required') && vesselFormGroup.get('callSignNumber').touched" class="p-invalid">
           {{ 'general.vessel.validation.callSignNumber.empty' | translate }}
         </span>
-        <span *ngIf="vesselFormGroup.get('callSignNumber').hasError('max')" class="p-invalid">
+        <span *ngIf="vesselFormGroup.get('callSignNumber').hasError('maxlength')" class="p-invalid">
           {{ 'general.vessel.validation.callSignNumber.length.max' | translate }}
         </span>
       </div>

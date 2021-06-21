@@ -36,9 +36,10 @@ export class VesselEditorComponent implements OnInit {
         Validators.minLength(2), Validators.maxLength(2)
       ]),
       name: new FormControl(null, [
-        Validators.required, Validators.minLength(1), Validators.maxLength(100)]),
+        Validators.required, Validators.minLength(1), Validators.maxLength(100)
+      ]),
       callSignNumber: new FormControl(null, [
-        Validators.required, Validators.min(1), Validators.max(32767)
+        Validators.required, Validators.minLength(1), Validators.maxLength(10)
       ]),
       operatorCarrierID: new FormControl(null, [
         Validators.maxLength(255)
