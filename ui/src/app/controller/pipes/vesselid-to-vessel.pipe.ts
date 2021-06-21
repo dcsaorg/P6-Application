@@ -8,13 +8,15 @@ export class VesselIdToVesselPipe implements PipeTransform {
 
   transform(vesselId: number, vessels: Vessel[]): Vessel {
     const vesselNotFound: Vessel = {
-      id: vesselId,
+      vesselIMONumber: vesselId,
       serviceNameCode: '',
-      name: '',
+      vesselName: '',
       teu: -1,
-      imo: -1
+      vesselFlag: '',
+      vesselCallSignNumber: '',
+      vesselOperatorCarrierID: ''
     }
-    const vesselFound = vessels.find(vessel => vessel.id === vesselId)
+    const vesselFound = vessels.find(vessel => vessel.vesselIMONumber === vesselId)
     return vesselFound ? vesselFound : vesselNotFound;
   }
 

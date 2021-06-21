@@ -42,18 +42,20 @@ export class VesselComponent implements OnInit {
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
         this.updateVesselOptions();
-        this.vesselSavedNotifier.emit(result.id);
+        this.vesselSavedNotifier.emit(result.vesselIMONumber);
       }
     })
   }
 
   editVessel() {
     const selectedVessel: Vessel = {
-      id: this.selectedVessel.id,
-      imo: this.selectedVessel.imo,
+      vesselIMONumber: this.selectedVessel.vesselIMONumber,
+      vesselName: this.selectedVessel.vesselName,
       teu: this.selectedVessel.teu,
-      name: this.selectedVessel.name,
-      serviceNameCode: this.selectedVessel.serviceNameCode
+      vesselFlag: this.selectedVessel.vesselFlag,
+      serviceNameCode: this.selectedVessel.serviceNameCode,
+      vesselOperatorCarrierID: this.selectedVessel.vesselOperatorCarrierID,
+      vesselCallSignNumber: this.selectedVessel.vesselCallSignNumber,
     };
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
       header: this.translate.instant('general.vessel.edit.header'),
@@ -63,7 +65,7 @@ export class VesselComponent implements OnInit {
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
         this.updateVesselOptions();
-        this.vesselService.getVessel(result.id).subscribe(nextVessel => {
+        this.vesselService.getVessel(result.vesselIMONumber).subscribe(nextVessel => {
           this.selectedVessel = nextVessel;
         });
       }
@@ -72,9 +74,9 @@ export class VesselComponent implements OnInit {
 
   selectVessel() {
     if (this.selectedVessel) {
-      this.vesselService.getVessel(this.selectedVessel.id).subscribe(nextVessel => {
+      this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
-        this.vesselNotifier.emit(this.selectedVessel.id)
+        this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
       });
     } else {
       this.vesselNotifier.emit(-1)
@@ -86,7 +88,7 @@ export class VesselComponent implements OnInit {
       this.vessels = [];
       this.vessels.push({label: this.translate.instant('general.vessel.select'), value: null});
       vessels.forEach(vessel => {
-        this.vessels.push({label: vessel.name + ' (' + vessel.imo + ')', value: vessel});
+        this.vessels.push({label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel});
       });
     });
   }
