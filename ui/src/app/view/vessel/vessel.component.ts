@@ -41,11 +41,8 @@ export class VesselComponent implements OnInit {
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
-        console.log("Got new result!")
         this.updateVesselOptions();
         this.vesselSavedNotifier.emit(result.vesselIMONumber);
-      } else {
-        console.log("got no result...!");
       }
     })
   }
