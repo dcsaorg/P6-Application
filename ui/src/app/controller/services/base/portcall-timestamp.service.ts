@@ -44,7 +44,7 @@ export class PortcallTimestampService {
     return {
       id: null,
       timestampType: portcallTimestamp.timestampType.replace('(-|\s)', '_'),
-      vessel: portcallTimestamp.vessel = (portcallTimestamp.vessel as Vessel).id,
+      vessel: portcallTimestamp.vessel = (portcallTimestamp.vessel as Vessel).vesselIMONumber,
       callSequence: portcallTimestamp.callSequence,
       portNext: (portcallTimestamp.portNext as Port).id,
       portPrevious: (portcallTimestamp.portPrevious as Port).id,

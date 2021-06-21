@@ -17,8 +17,8 @@ private VESSEL_FILE: string;
   getVessels= (): Observable<Vessel[]> => this.httpClient.get<Vessel[]>(this.VESSEL_FILE);
 
   getVessel(id: number): Observable<Vessel>{
-    return this.getVessels().pipe(map(vessels => vessels.find(vessel => vessel.id == id)));
-
+    console.log("here I am!");
+    return this.getVessels().pipe(map(vessels => vessels.find(vessel => vessel.vesselIMONumber == id)));
     }
 
 }

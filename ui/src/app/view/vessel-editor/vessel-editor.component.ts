@@ -25,19 +25,22 @@ export class VesselEditorComponent implements OnInit {
     if (this.config.data) {
       this.vessel = this.config.data;
     } else {
-      this.vessel = {id: null, name: "", imo: null, teu: null, serviceNameCode: ""};
+      this.vessel = {vesselIMONumber: null, vesselName: "", vesselOperatorCarrierID: null, teu: null, serviceNameCode: "", vesselFlag: "", vesselCallSignNumber: ""};
     }
 
     this.vesselFormGroup = this.formBuilder.group({
-      name: new FormControl(null, [
-        Validators.required, Validators.minLength(1), Validators.maxLength(100)]),
-      imo: new FormControl(null, [
+      imoId: new FormControl(null, [
         Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)
       ]),
-      teu: new FormControl(null, [
+      flag: new FormControl(null, [
+        Validators.minLength(2), Validators.maxLength(2)
+      ]),
+      name: new FormControl(null, [
+        Validators.required, Validators.minLength(1), Validators.maxLength(100)]),
+      callSignNumber: new FormControl(null, [
         Validators.required, Validators.min(1), Validators.max(32767)
       ]),
-      serviceNameCode: new FormControl(null, [
+      operatorCarrierID: new FormControl(null, [
         Validators.maxLength(255)
       ]),
     });

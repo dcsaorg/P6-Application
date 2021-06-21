@@ -21,6 +21,7 @@ export class VesselMappingService {
 
 
     const $tcVessels =  this.getVesselsFromTransportCalls();
+
     //const $staticVessels = this.staticVesselService.getVessels();
     const $combined =$tcVessels;
     return $combined;
