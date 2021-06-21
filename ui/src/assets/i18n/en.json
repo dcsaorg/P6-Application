@@ -261,7 +261,6 @@
       "flag": "Vessel Flag",
       "validation": {
         "flag": {
-          "empty": "The vessel name is required",
           "length": "The vessel flag should be either 0 or 2 characters long"
         },
         "name": {
