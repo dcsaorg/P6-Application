@@ -8,7 +8,7 @@ import {Terminal} from "../../../model/portCall/terminal";
 import {DelayCode} from "../../../model/portCall/delayCode";
 import {Vessel} from "../../../model/portCall/vessel";
 import {TimestampMappingService} from "../mapping/timestamp-mapping.service";
-import {TransportCall} from "../../../model/OVS/transport-call";
+import {Transport} from "../../../model/OVS/transport";
 import {PortcallTimestampType} from "../../../model/portCall/portcall-timestamp-type.enum";
 import {map} from "rxjs/operators";
 import {PartyFunction} from "../../../model/OVS/partyFunction";
@@ -30,8 +30,8 @@ export class PortcallTimestampService {
 
   getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.timestampMapping.getPortCallTimestamps();
 
-  getPortcallTimestampsByTransportCall = (transportCall: TransportCall): Observable<PortcallTimestamp[]> =>
-  this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall).pipe(map( timestamp => this.postProcess(timestamp)))
+  getPortcallTimestampsByTransportCall = (transportCall: Transport): Observable<PortcallTimestamp[]> =>
+  this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall.dischargeTransportCall).pipe(map( timestamp => this.postProcess(timestamp)))
 
 
 

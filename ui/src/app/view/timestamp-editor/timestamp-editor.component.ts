@@ -13,7 +13,7 @@ import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/OVS/transport-call";
+import {Transport} from "../../model/OVS/transport";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {Util} from "../../controller/services/util/util";
 
@@ -34,7 +34,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('vesselId') vesselId: number;
   @Input('vesselSavedId') vesselSavedId: number;
   @Input('portOfCall') portOfCall: Port;
-  @Input('TransportCallSelected') transportCallSelected: TransportCall;
+  @Input('TransportCallSelected') transportCallSelected: Transport;
 
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
 
@@ -46,7 +46,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   timestampSelected: string;
   creationProgress: boolean = false;
 
-  transportCall: TransportCall;
+  transport: Transport;
   delayCode: DelayCode;
 
   timestampTypes: SelectItem[] = [];
@@ -95,7 +95,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()});
     this.timestamps = this.config.data.timestamps;
-    this.transportCall = this.config.data.transportCall;
+    this.transport = this.config.data.transportCall.dischargeTransportCall;
     this.generateDefaultTimestamp();
     this.timestampSelected = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
     this.defaultTimestamp.timestampType;
@@ -204,9 +204,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   private generateDefaultTimestamp() {
     this.defaultTimestamp.logOfTimestamp = new Date();
-    this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
-    this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
-    this.defaultTimestamp.terminal = this.timestampMappingService.getTerminalByFacilityCode(this.transportCall.facilityCode)
+    this.defaultTimestamp.transportCallID = this.transport.dischargeTransportCall.transportCallID;
+    this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transport.dischargeTransportCall.UNLocationCode);
+    this.defaultTimestamp.terminal = this.timestampMappingService.getTerminalByFacilityCode(this.transport.dischargeTransportCall.facilityCode)
 
 
 

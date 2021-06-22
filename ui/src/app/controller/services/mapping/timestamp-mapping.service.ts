@@ -3,7 +3,7 @@ import {TransportCallService} from "../OVS/transport-call.service";
 import {OperationsEventService} from "../OVS/operations-event.service";
 import {from, Observable} from "rxjs";
 import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
-import {TransportCall} from "../../../model/OVS/transport-call";
+import {Transport} from "../../../model/OVS/transport";
 import {Port} from "../../../model/portCall/port";
 import {map} from "rxjs/internal/operators";
 import {Globals} from "../../../model/portCall/globals";
@@ -49,10 +49,10 @@ export class TimestampMappingService {
     ));
   }
 
-  getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<PortcallTimestamp[]> {
-    return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(map(events => {
+  getPortCallTimestampsByTransportCall(transport: Transport): Observable<PortcallTimestamp[]> {
+    return this.operationsEventService.getOperationsEventsByTransportCall(transport.dischargeTransportCall.transportCallID).pipe(map(events => {
       const timestamps = this.transportEventsToTimestampsPipe.transform(events)
-      this.mapTransportCallToTimestamps(timestamps, transportCall);
+      this.mapTransportCallToTimestamps(timestamps, transport);
       return timestamps;
     }))
   }
@@ -86,7 +86,7 @@ export class TimestampMappingService {
     this.callTransportCalls(transportCallIDs, timestamps)
   }
 
-  private callTransportCalls(transportCallIDs: string[], timestamps: PortcallTimestamp[]): Observable<TransportCall[]> {
+  private callTransportCalls(transportCallIDs: string[], timestamps: PortcallTimestamp[]): Observable<Transport[]> {
     // load all required transportCalls
     from(transportCallIDs).subscribe(transportCallID => {
       this.transportCallService.getTransportCallsById(transportCallID).subscribe(transportCall => this.mapTransportCallToTimestamps(timestamps, transportCall));
@@ -94,15 +94,15 @@ export class TimestampMappingService {
     return null;
   }
 
-  private mapTransportCallToTimestamps(timestamps: PortcallTimestamp[], transportCall: TransportCall) {
+  private mapTransportCallToTimestamps(timestamps: PortcallTimestamp[], transport: Transport) {
 
     for (let timestamp of timestamps) {
-      if (timestamp.transportCallID == transportCall.transportCallID) {
-        timestamp.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode).id;
-        timestamp.vessel = parseInt(transportCall.vesselIMONumber);
+      if (timestamp.transportCallID == transport.dischargeTransportCall.transportCallID) {
+        timestamp.portOfCall = this.getPortByUnLocode(transport.dischargeTransportCall.UNLocationCode).id;
+        timestamp.vessel = parseInt(transport.dischargeTransportCall.vesselIMONumber);
         // Check if facility is a terminal
-        if (transportCall.facilityTypeCode == FacilityCodeType.POTE) {
-          timestamp.terminal = this.getTerminalByFacilityCode(transportCall.facilityCode)
+        if (transport.dischargeTransportCall.facilityTypeCode == FacilityCodeType.POTE) {
+          timestamp.terminal = this.getTerminalByFacilityCode(transport.dischargeTransportCall.facilityCode)
         }
       }
     }

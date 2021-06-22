@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {TransportCall} from "../../../model/OVS/transport-call";
+import {Transport} from "../../../model/OVS/transport";
 import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
 import {map} from "rxjs/operators";
 
@@ -14,32 +14,32 @@ export class TransportCallService {
   private readonly TRANSPORT_CALL_URL: string;
 
   constructor(private httpClient: HttpClient) {
-    this.TRANSPORT_CALL_URL=BACKEND_URL+"/transport-calls"
+    this.TRANSPORT_CALL_URL = BACKEND_URL + "/transport-calls"
   }
 
-  getTransportCalls = (): Observable<TransportCall[]> =>
-    this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL).pipe(map(transportCalls => this.postProcess(transportCalls)));
+  getTransportCalls = (): Observable<Transport[]> =>
+    this.httpClient.get<Transport[]>(this.TRANSPORT_CALL_URL).pipe(map(transportCalls => this.postProcess(transportCalls)));
 
-  getTransportCallsById = (transportCallId: string): Observable<TransportCall> => this.httpClient.get<TransportCall>(this.TRANSPORT_CALL_URL+"/"+transportCallId);
+  getTransportCallsById = (transportCallId: string): Observable<Transport> => this.httpClient.get<Transport>(this.TRANSPORT_CALL_URL + "/" + transportCallId);
 
-  addTransportCall = (transportCall: TransportCall): Observable<TransportCall> =>
-    this.httpClient.post<TransportCall>(this.TRANSPORT_CALL_URL, transportCall)
+  addTransportCall = (transport: Transport): Observable<Transport> =>
+    this.httpClient.post<Transport>(this.TRANSPORT_CALL_URL, transport.dischargeTransportCall)
 
 
   /**
    * Function that will process the retrieved transportCalls in order to add som additional information
    */
-  private postProcess(transportCalls: TransportCall[]):TransportCall[]{
-    for(let transportCall of transportCalls){
+  private postProcess(transportCalls: Transport[]): Transport[] {
+    for (let transportCall of transportCalls) {
       this.extractPortFromFacility(transportCall);
     }
     return transportCalls;
   }
 
 
-  private extractPortFromFacility(transportCall: TransportCall){
-    if(transportCall.facilityTypeCode == FacilityCodeType.POTE){
-      transportCall.UNLocationCode = transportCall.facilityCode.substring(0,5);
+  private extractPortFromFacility(transportCall: Transport) {
+    if (transportCall.dischargeTransportCall.facilityTypeCode == FacilityCodeType.POTE) {
+      transportCall.dischargeTransportCall.UNLocationCode = transportCall.dischargeTransportCall.facilityCode.substring(0, 5);
     }
   }
 
