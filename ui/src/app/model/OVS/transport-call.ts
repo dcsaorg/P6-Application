@@ -10,5 +10,4 @@ export interface TransportCall {
   facilityCode: string;
   otherFacility: string;
   sequenceColor: string;
-
 }
