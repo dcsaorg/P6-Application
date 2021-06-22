@@ -1,10 +1,10 @@
-import {TransportCallWank} from "./transport-call";
+import {TransportCall} from "./transport-call";
 import {Vessel} from "../portCall/vessel";
 
 export interface Transport {
   vessel: Vessel;
-  dischargeTransportCall: TransportCallWank;
-  loadTransportCall: TransportCallWank;
+  dischargeTransportCall: TransportCall;
+  loadTransportCall: TransportCall;
   modeOfTransport: string;
   transportReference: string;
 }

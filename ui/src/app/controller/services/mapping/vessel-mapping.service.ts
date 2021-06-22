@@ -32,8 +32,8 @@ export class VesselMappingService {
 
 
   public getVesselsFromTransportCalls(): Observable<Vessel[]> {
-    return this.transportCallService.getTransportCalls().pipe(map(transportCalls =>
-      this.transportCallsToVesselPipe.transform(transportCalls)));
+    return this.transportCallService.getTransports().pipe(map(transports =>
+      this.transportCallsToVesselPipe.transform(transports)));
 
   }
 

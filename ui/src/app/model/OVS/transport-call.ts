@@ -1,6 +1,6 @@
 import {FacilityCodeType} from "./facilityCodeType";
 
-export interface TransportCallWank {
+export interface TransportCall {
   transportCallID: string;
   vesselIMONumber: string;
   vesselName: string;

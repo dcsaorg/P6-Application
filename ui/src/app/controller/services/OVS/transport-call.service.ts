@@ -17,27 +17,25 @@ export class TransportCallService {
     this.TRANSPORT_CALL_URL = BACKEND_URL + "/transport-calls"
   }
 
-  getTransportCalls = (): Observable<Transport[]> =>
-    this.httpClient.get<Transport[]>(this.TRANSPORT_CALL_URL).pipe(map(transportCalls => this.postProcess(transportCalls)));
+  getTransports = (): Observable<Transport[]> =>
+    this.httpClient.get<Transport[]>(this.TRANSPORT_CALL_URL).pipe(map(transports => TransportCallService.postProcess(transports)));
 
   getTransportCallsById = (transportCallId: string): Observable<Transport> => this.httpClient.get<Transport>(this.TRANSPORT_CALL_URL + "/" + transportCallId);
 
   addTransportCall = (transport: Transport): Observable<Transport> =>
     this.httpClient.post<Transport>(this.TRANSPORT_CALL_URL, transport.dischargeTransportCall)
 
-
   /**
    * Function that will process the retrieved transportCalls in order to add som additional information
    */
-  private postProcess(transportCalls: Transport[]): Transport[] {
+  private static postProcess(transportCalls: Transport[]): Transport[] {
     for (let transportCall of transportCalls) {
-      this.extractPortFromFacility(transportCall);
+      TransportCallService.extractPortFromFacility(transportCall);
     }
     return transportCalls;
   }
 
-
-  private extractPortFromFacility(transportCall: Transport) {
+  private static extractPortFromFacility(transportCall: Transport) {
     if (transportCall.dischargeTransportCall.facilityTypeCode == FacilityCodeType.POTE) {
       transportCall.dischargeTransportCall.UNLocationCode = transportCall.dischargeTransportCall.facilityCode.substring(0, 5);
     }

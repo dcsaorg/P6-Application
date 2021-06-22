@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
 import {TransportCall} from "../../model/OVS/transport-call";
+import {Transport} from "../../model/OVS/transport";
 import {DialogService} from "primeng/dynamicdialog";
 import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
 import {TranslateService} from "@ngx-translate/core";
@@ -16,7 +17,7 @@ import {TranslateService} from "@ngx-translate/core";
 
 
 export class TransportCallsTableComponent implements OnInit {
-  transportCalls: TransportCall[] = []
+  transports: Transport[] = new Array<Transport>();
   selectedtransportCall: TransportCall;
 
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
@@ -53,8 +54,8 @@ export class TransportCallsTableComponent implements OnInit {
   }
 
   loadTransportCalls():void{
-    this.transportCallService.getTransportCalls().subscribe(transportCalls => {
-      this.transportCalls = transportCalls;
+    this.transportCallService.getTransports().subscribe(transports => {
+      this.transports = transports;
     })
   }
 }
