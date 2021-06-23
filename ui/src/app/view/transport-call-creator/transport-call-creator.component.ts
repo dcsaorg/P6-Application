@@ -50,14 +50,14 @@ export class TransportCallCreatorComponent implements OnInit {
       // imo: new FormControl(null, [
       //   Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
 
-      dispatchPort: new FormControl(null, [
-        Validators.required]),
-      dispatchTerminal: new FormControl({value: '', disabled: true}, [
-        Validators.required]),
-
       loadPort: new FormControl(null, [
         Validators.required]),
       loadTerminal: new FormControl({value: '', disabled: true}, [
+        Validators.required]),
+
+      dischargePort: new FormControl(null, [
+        Validators.required]),
+      dischargeTerminal: new FormControl({value: '', disabled: true}, [
         Validators.required]),
 
       vessel: new FormControl({value: '', disabled: true}, [
@@ -94,15 +94,15 @@ export class TransportCallCreatorComponent implements OnInit {
     }
   }
 
-  private updateVesselOptions() {
-    this.vesselService.getVessels().subscribe(vessels => {
-      this.vessels = [];
-      this.vessels.push({label: this.translate.instant('general.vessel.select'), value: null});
-      vessels.forEach(vessel => {
-        this.vessels.push({label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel});
-      });
-    });
-  }
+  // private updateVesselOptions() {
+  //   this.vesselService.getVessels().subscribe(vessels => {
+  //     this.vessels = [];
+  //     this.vessels.push({label: this.translate.instant('general.vessel.select'), value: null});
+  //     vessels.forEach(vessel => {
+  //       this.vessels.push({label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel});
+  //     });
+  //   });
+  // }
 
   portSelected() {
     if (this.transportCallFormGroup.controls.port.value) {

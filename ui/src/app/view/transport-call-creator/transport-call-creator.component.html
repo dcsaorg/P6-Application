@@ -1,8 +1,8 @@
 <form [formGroup]="transportCallFormGroup">
   <div class="p-fluid p-formgrid p-grid">
     <div class="p-field p-col-12 p-md-4">
-      <h4>{{ 'general.vessel.label' | translate }} (Transport Reference)</h4>
-      <label for="transportReference">{{ 'general.vessel.number' | translate }} (Transport Name):</label>
+      <h4>Transport Reference</h4>
+      <label for="transportReference">Transport Reference:</label>
       <input id="transportReference" formControlName="transportReference" pInputText style="width: 100%" type="text"/>
       <span
         *ngIf="transportCallFormGroup.get('transportReference').hasError('required') && transportCallFormGroup.get('transportReference').touched"
@@ -16,11 +16,10 @@
           {{ 'general.transportCall.validation.vessel.lenght' | translate }}
         </span>
     </div>
-    <div class="p-field p-col-12 p-md-8">
-    </div>
+    <!--    <div class="p-field p-col-12 p-md-8"></div>-->
     <div class="p-field p-col-12 p-md-4">
-      <h4>{{ 'general.vessel.label' | translate }} (Transport Name)</h4>
-      <label for="transportName">{{ 'general.vessel.number' | translate }} (Transport Name):</label>
+      <h4>Transport Name</h4>
+      <label for="transportName">Transport Name:</label>
       <input id="transportName" formControlName="transportName" pInputText style="width: 100%" type="text"/>
       <span
         *ngIf="transportCallFormGroup.get('transportName').hasError('required') && transportCallFormGroup.get('transportName').touched"
@@ -34,29 +33,31 @@
           {{ 'general.transportCall.validation.vessel.lenght' | translate }}
         </span>
     </div>
-<!--    <div class="p-field p-col-12 p-md-8"></div>-->
-<!--    <div class="p-field p-col-12 p-md-4">-->
-<!--      <h4>{{ 'general.vessel.label' | translate }}</h4>-->
-<!--      <label for="vesselIMO">{{ 'general.vessel.number' | translate }}:</label>-->
-<!--      <input id="vesselIMO" formControlName="imo" pInputText style="width: 100%" type="text"/>-->
-<!--      <span *ngIf="transportCallFormGroup.get('imo').hasError('required') && transportCallFormGroup.get('imo').touched"-->
-<!--            class="p-invalid">-->
-<!--          {{ 'general.transportCall.validation.vessel.empty' | translate }}-->
-<!--        </span>-->
-<!--      <span *ngIf="transportCallFormGroup.get('imo').hasError('pattern')" class="p-invalid">-->
-<!--          {{ 'general.transportCall.validation.vessel.length' | translate }}-->
-<!--        </span>-->
-<!--      <span *ngIf="transportCallFormGroup.get('imo').hasError('maxlength')" class="p-invalid">-->
-<!--          {{ 'general.transportCall.validation.vessel.lenght' | translate }}-->
-<!--        </span>-->
-<!--    </div>-->
+    <!--    <div class="p-field p-col-12 p-md-8"></div>-->
+    <!--    <div class="p-field p-col-12 p-md-4">-->
+    <!--      <h4>{{ 'general.vessel.label' | translate }}</h4>-->
+    <!--      <label for="vesselIMO">{{ 'general.vessel.number' | translate }}:</label>-->
+    <!--      <input id="vesselIMO" formControlName="imo" pInputText style="width: 100%" type="text"/>-->
+    <!--      <span *ngIf="transportCallFormGroup.get('imo').hasError('required') && transportCallFormGroup.get('imo').touched"-->
+    <!--            class="p-invalid">-->
+    <!--          {{ 'general.transportCall.validation.vessel.empty' | translate }}-->
+    <!--        </span>-->
+    <!--      <span *ngIf="transportCallFormGroup.get('imo').hasError('pattern')" class="p-invalid">-->
+    <!--          {{ 'general.transportCall.validation.vessel.length' | translate }}-->
+    <!--        </span>-->
+    <!--      <span *ngIf="transportCallFormGroup.get('imo').hasError('maxlength')" class="p-invalid">-->
+    <!--          {{ 'general.transportCall.validation.vessel.lenght' | translate }}-->
+    <!--        </span>-->
+    <!--    </div>-->
+
+    <!-- Load -->
     <div class="p-field p-col-12 p-md-8"></div>
     <div class="p-field p-col-12 p-md-12">
       <h4>{{ 'general.port.label' | translate }}</h4>
       <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-4">
-          <label for="dispatchPortOfCall">{{ 'general.port.ofCall' | translate }}:</label>
-          <p-dropdown appendTo="body" formControlName="dispatchPort" id="dispatchPortOfCall" class="portOfCall__dropDown"
+          <label for="loadPortOfCall">Load {{ 'general.port.ofCall' | translate }}:</label>
+          <p-dropdown appendTo="body" formControlName="loadPort" id="loadPortOfCall" class="portOfCall__dropDown"
                       [options]="portOptions"
                       [filter]="true"
                       (onChange)="portSelected()"
@@ -71,13 +72,13 @@
               </div>
             </ng-template>
           </p-dropdown>
-          <span *ngIf="transportCallFormGroup.get('dispatchPort').hasError('required')" class="p-invalid">
+          <span *ngIf="transportCallFormGroup.get('loadPort').hasError('required')" class="p-invalid">
            {{ 'general.transportCall.validation.port.empty' | translate }}
           </span>
         </div>
         <div class="p-field p-col-12 p-md-4">
-          <label for="dispatchTerminal">{{ 'general.terminal.label' | translate }}:</label>
-          <p-dropdown appendTo="body" formControlName="dispatchTerminal" id="dispatchTerminal" class="portOfCall__dropDown"
+          <label for="loadTerminal">Load {{ 'general.terminal.label' | translate }}:</label>
+          <p-dropdown appendTo="body" formControlName="loadTerminal" id="loadTerminal" class="portOfCall__dropDown"
                       [options]="terminalOptions"
                       [filter]="true"
                       filterBy="label,value.name">
@@ -91,47 +92,98 @@
               </div>
             </ng-template>
           </p-dropdown>
-          <span *ngIf="transportCallFormGroup.get('dispatchTerminal').hasError('required')" class="p-invalid">
+          <span *ngIf="transportCallFormGroup.get('loadTerminal').hasError('required')" class="p-invalid">
             {{ 'general.transportCall.validation.terminal.empty' | translate }}
           </span>
         </div>
-         <div class="p-field p-col-12 p-md-4"></div>
-
-        <div class="dropDownDiv p-col-12 p-md-4">
-          <label for="vessel">{{ 'general.transportCall.table.vessel.label' | translate }}:</label>
-          <p-dropdown id="vessel" (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true" [options]="vessels" autofocus="true"></p-dropdown>
-        </div>
-
-        <!--        <div class="p-field p-col-12 p-md-4">-->
-<!--          <label for="vessel">{{ 'general.transportCall.table.transportCallSequenceNumber.label' | translate }}:</label>-->
-<!--          <input formControlName="vessel" id="vessel" pInputText style="width: 100%" type="text"/>-->
-<!--          <span *ngIf="transportCallFormGroup.get('vessel').hasError('required')" class="p-invalid">-->
-<!--          {{ 'general.transportCall.validation.sequenceNumber.empty' | translate }}-->
-<!--          </span>-->
-<!--          <span *ngIf="transportCallFormGroup.get('vessel').hasError('max')" class="p-invalid">-->
-<!--          {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}-->
-<!--          </span>-->
-<!--          <span *ngIf="transportCallFormGroup.get('vessel').hasError('min')" class="p-invalid">-->
-<!--          {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}-->
-<!--          </span>-->
-<!--        </div>-->
         <div class="p-field p-col-12 p-md-4"></div>
+      </div>
+
+      <h4>{{ 'general.port.label' | translate }}</h4>
+      <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-4">
-          <label for="sequenceNumber">{{ 'general.transportCall.table.transportCallSequenceNumber.label' | translate }}:</label>
-          <input formControlName="callSequenceNumber" id="sequenceNumber" pInputText style="width: 100%" type="text"/>
-          <span *ngIf="transportCallFormGroup.get('callSequenceNumber').hasError('required')" class="p-invalid">
+          <label for="dischargePortOfCall">Discharge {{ 'general.port.ofCall' | translate }}:</label>
+          <p-dropdown appendTo="body" formControlName="dischargePort" id="dischargePortOfCall" class="portOfCall__dropDown"
+                      [options]="portOptions"
+                      [filter]="true"
+                      (onChange)="portSelected()"
+                      filterBy="label,value.name">
+            <ng-template let-port pTemplate="item">
+              <div *ngIf="!port.value">
+                <div>Select port</div>
+              </div>
+              <div *ngIf="port.value">
+                <div>{{port.value.unLocode}}</div>
+                <div class="portListName">{{port.value.name}}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+          <span *ngIf="transportCallFormGroup.get('loadPort').hasError('required')" class="p-invalid">
+           {{ 'general.transportCall.validation.port.empty' | translate }}
+          </span>
+        </div>
+        <div class="p-field p-col-12 p-md-4">
+          <label for="dischargeTerminal">Discharge {{ 'general.terminal.label' | translate }}:</label>
+          <p-dropdown appendTo="body" formControlName="dischargeTerminal" id="dischargeTerminal" class="portOfCall__dropDown"
+                      [options]="terminalOptions"
+                      [filter]="true"
+                      filterBy="label,value.name">
+            <ng-template let-terminal pTemplate="item">
+              <div *ngIf="!terminal.value">
+                <div>Select Terminal</div>
+              </div>
+              <div *ngIf="terminal.value">
+                <div>{{terminal.value.smdgCode}}</div>
+                <div class="portListName">{{terminal.value.terminalName}}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+          <span *ngIf="transportCallFormGroup.get('loadTerminal').hasError('required')" class="p-invalid">
+            {{ 'general.transportCall.validation.terminal.empty' | translate }}
+          </span>
+        </div>
+        <div class="p-field p-col-12 p-md-4"></div>
+      </div>
+
+      <!-- Vessle -->
+      <div class="dropDownDiv p-col-12 p-md-4">
+        <label for="vessel">Vessel:</label>
+        <p-dropdown id="vessel" (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true"
+                    [options]="vessels" autofocus="true">
+        </p-dropdown>
+      </div>
+
+      <!--        <div class="p-field p-col-12 p-md-4">-->
+      <!--          <label for="vessel">{{ 'general.transportCall.table.transportCallSequenceNumber.label' | translate }}:</label>-->
+      <!--          <input formControlName="vessel" id="vessel" pInputText style="width: 100%" type="text"/>-->
+      <!--          <span *ngIf="transportCallFormGroup.get('vessel').hasError('required')" class="p-invalid">-->
+      <!--          {{ 'general.transportCall.validation.sequenceNumber.empty' | translate }}-->
+      <!--          </span>-->
+      <!--          <span *ngIf="transportCallFormGroup.get('vessel').hasError('max')" class="p-invalid">-->
+      <!--          {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}-->
+      <!--          </span>-->
+      <!--          <span *ngIf="transportCallFormGroup.get('vessel').hasError('min')" class="p-invalid">-->
+      <!--          {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}-->
+      <!--          </span>-->
+      <!--        </div>-->
+      <div class="p-field p-col-12 p-md-4"></div>
+      <div class="p-field p-col-12 p-md-4">
+        <label
+          for="sequenceNumber">{{ 'general.transportCall.table.transportCallSequenceNumber.label' | translate }}
+          :</label>
+        <input formControlName="callSequenceNumber" id="sequenceNumber" pInputText style="width: 100%" type="text"/>
+        <span *ngIf="transportCallFormGroup.get('callSequenceNumber').hasError('required')" class="p-invalid">
           {{ 'general.transportCall.validation.sequenceNumber.empty' | translate }}
           </span>
-          <span *ngIf="transportCallFormGroup.get('callSequenceNumber').hasError('max')" class="p-invalid">
+        <span *ngIf="transportCallFormGroup.get('callSequenceNumber').hasError('max')" class="p-invalid">
           {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}
           </span>
-          <span *ngIf="transportCallFormGroup.get('callSequenceNumber').hasError('min')" class="p-invalid">
+        <span *ngIf="transportCallFormGroup.get('callSequenceNumber').hasError('min')" class="p-invalid">
           {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}
           </span>
-        </div>
-        <div class="p-field p-col-12 p-md-8"></div>
-
       </div>
+      <div class="p-field p-col-12 p-md-8"></div>
+
     </div>
 
   </div>
