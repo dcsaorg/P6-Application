@@ -22,6 +22,9 @@ export class TransportCallService {
 
   getTransportCallsById = (transportCallId: string): Observable<TransportCall> => this.httpClient.get<TransportCall>(this.TRANSPORT_CALL_URL+"/"+transportCallId);
 
+  addTransport = (transport: Transport): Observable<Transport> =>
+    this.httpClient.post<Transport>(this.TRANSPORT_CALL_URL, transport)
+
   addTransportCall = (transportCall: TransportCall): Observable<TransportCall> =>
     this.httpClient.post<TransportCall>(this.TRANSPORT_CALL_URL, transportCall)
 

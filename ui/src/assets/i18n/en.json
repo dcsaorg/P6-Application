@@ -209,6 +209,9 @@
         "carrierVoyageNumber": {
           "label": "Carrier Voyage Number"
         },
+        "vessel": {
+          "label": "Vessel"
+        },
         "facilityTypeCode": {
           "label": "Facility Type"
         },
