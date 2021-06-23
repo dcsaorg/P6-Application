@@ -244,6 +244,9 @@
         }
       }
     },
+    "carrier": {
+      "select": "All carrier operator IDs"
+    },
     "vessel": {
       "add": {
         "header": "Create a new vessel",

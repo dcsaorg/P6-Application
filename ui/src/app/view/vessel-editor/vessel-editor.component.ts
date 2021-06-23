@@ -5,12 +5,14 @@ import {VesselService} from "../../controller/services/base/vessel.service";
 import {MessageService, SelectItem} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Carrier} from "../../model/portCall/carrier";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-vessel-editor',
   templateUrl: './vessel-editor.component.html',
   styleUrls: ['./vessel-editor.component.scss']
 })
+
 export class VesselEditorComponent implements OnInit {
   vessel: Vessel;
   carriers: SelectItem[];
@@ -21,6 +23,7 @@ export class VesselEditorComponent implements OnInit {
   @Output() carrierSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
 
   constructor(public ref: DynamicDialogRef,
+              private translate: TranslateService,
               public config: DynamicDialogConfig,
               private vesselService: VesselService,
               private messageService: MessageService,
@@ -119,7 +122,7 @@ export class VesselEditorComponent implements OnInit {
         });
       } else {
         this.carriers.push({
-          label: "All Carrier Operator IDs",
+          label: this.translate.instant('general.carrier.select'),
           value: null
         });
       }

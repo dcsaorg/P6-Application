@@ -41,11 +41,11 @@
       <h4>{{ 'general.port.label' | translate }}</h4>
       <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-4">
-          <label for="loadPortOfCall">Load {{ 'general.port.ofCall' | translate }}:</label>
-          <p-dropdown appendTo="body" formControlName="loadPort" id="loadPortOfCall" class="portOfCall__dropDown"
+          <label for="loadPort">Load {{ 'general.port.ofCall' | translate }}:</label>
+          <p-dropdown appendTo="body" formControlName="loadPort" id="loadPort" class="portOfCall__dropDown"
                       [options]="portOptions"
                       [filter]="true"
-                      (onChange)="portSelected()"
+                      (onChange)="portSelected(false)"
                       filterBy="label,value.name">
             <ng-template let-port pTemplate="item">
               <div *ngIf="!port.value">
@@ -66,7 +66,7 @@
         <div class="p-field p-col-12 p-md-4">
           <label for="loadTerminal">Load {{ 'general.terminal.label' | translate }}:</label>
           <p-dropdown appendTo="body" formControlName="loadTerminal" id="loadTerminal" class="portOfCall__dropDown"
-                      [options]="terminalOptions"
+                      [options]="loadTerminalOptions"
                       [filter]="true"
                       filterBy="label,value.name">
             <ng-template let-terminal pTemplate="item">
@@ -90,12 +90,12 @@
       <h4>{{ 'general.port.label' | translate }}</h4>
       <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-4">
-          <label for="dischargePortOfCall">Discharge {{ 'general.port.ofCall' | translate }}:</label>
-          <p-dropdown appendTo="body" formControlName="dischargePort" id="dischargePortOfCall"
+          <label for="dischargePort">Discharge {{ 'general.port.ofCall' | translate }}:</label>
+          <p-dropdown appendTo="body" formControlName="dischargePort" id="dischargePort"
                       class="portOfCall__dropDown"
                       [options]="portOptions"
                       [filter]="true"
-                      (onChange)="portSelected()"
+                      (onChange)="portSelected(true)"
                       filterBy="label,value.name">
             <ng-template let-port pTemplate="item">
               <div *ngIf="!port.value">
@@ -107,7 +107,7 @@
               </div>
             </ng-template>
           </p-dropdown>
-          <span *ngIf="transportCallFormGroup.get('loadPort').hasError('required')" class="p-invalid">
+          <span *ngIf="transportCallFormGroup.get('dischargePort').hasError('required')" class="p-invalid">
            {{ 'general.transportCall.validation.port.empty' | translate }}
           </span>
         </div>
@@ -117,7 +117,7 @@
           <label for="dischargeTerminal">Discharge {{ 'general.terminal.label' | translate }}:</label>
           <p-dropdown appendTo="body" formControlName="dischargeTerminal" id="dischargeTerminal"
                       class="portOfCall__dropDown"
-                      [options]="terminalOptions"
+                      [options]="dischargeTerminalOptions"
                       [filter]="true"
                       filterBy="label,value.name">
             <ng-template let-terminal pTemplate="item">
@@ -130,11 +130,10 @@
               </div>
             </ng-template>
           </p-dropdown>
-          <span *ngIf="transportCallFormGroup.get('loadTerminal').hasError('required')" class="p-invalid">
+          <span *ngIf="transportCallFormGroup.get('dischargeTerminal').hasError('required')" class="p-invalid">
             {{ 'general.transportCall.validation.terminal.empty' | translate }}
           </span>
         </div>
-        <!--        <div class="p-field p-col-12 p-md-4"></div>-->
       </div>
 
       <!-- Vessle -->

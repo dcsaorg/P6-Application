@@ -20,7 +20,8 @@ import {VesselService} from "../../controller/services/base/vessel.service";
 export class TransportCallCreatorComponent implements OnInit {
   transportCallFormGroup: FormGroup;
   portOfCall: Port;
-  terminalOptions: SelectItem[] = [];
+  loadTerminalOptions: SelectItem[] = [];
+  dischargeTerminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
   creationProgress: boolean;
   selectedVessel: Vessel;
@@ -48,9 +49,6 @@ export class TransportCallCreatorComponent implements OnInit {
       transportReference: new FormControl(null, [
         Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
 
-      // imo: new FormControl(null, [
-      //   Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
-
       loadPort: new FormControl(null, [
         Validators.required]),
       loadTerminal: new FormControl({value: '', disabled: true}, [
@@ -77,14 +75,24 @@ export class TransportCallCreatorComponent implements OnInit {
     this.ref.close(null);
   }
 
-  private updateTerminalOptions() {
-    this.terminalOptions = [];
-    this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
-    this.globals.terminals.forEach(terminal => {
-      if (this.portOfCall.id == terminal.port) {
-        this.terminalOptions.push({label: terminal.smdgCode, value: terminal})
-      }
-    })
+  private updateTerminalOptions(isDischarge: boolean) {
+    if (!isDischarge) {
+      this.loadTerminalOptions = [];
+      this.loadTerminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
+      this.globals.terminals.forEach(terminal => {
+        if (this.portOfCall.id == terminal.port) {
+          this.loadTerminalOptions.push({label: terminal.smdgCode, value: terminal})
+        }
+      })
+    } else {
+      this.dischargeTerminalOptions = [];
+      this.dischargeTerminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
+      this.globals.terminals.forEach(terminal => {
+        if (this.portOfCall.id == terminal.port) {
+          this.dischargeTerminalOptions.push({label: terminal.smdgCode, value: terminal})
+        }
+      })
+    }
   }
 
   selectVessel() {
@@ -108,12 +116,16 @@ export class TransportCallCreatorComponent implements OnInit {
     });
   }
 
-  portSelected() {
-    if (this.transportCallFormGroup.controls.port.value) {
-      this.portOfCall = this.transportCallFormGroup.controls.port.value;
-      this.transportCallFormGroup.controls.terminal.enable();
-      this.updateTerminalOptions();
-
+  portSelected(isDischarge: boolean) {
+    if (!isDischarge && this.transportCallFormGroup.controls.loadPort.value) {
+      this.portOfCall = this.transportCallFormGroup.controls.loadPort.value;
+      this.transportCallFormGroup.controls.loadTerminal.enable();
+      this.updateTerminalOptions(isDischarge);
+    }
+    if (isDischarge && this.transportCallFormGroup.controls.dischargePort.value) {
+      this.portOfCall = this.transportCallFormGroup.controls.dischargePort.value;
+      this.transportCallFormGroup.controls.dischargeTerminal.enable();
+      this.updateTerminalOptions(isDischarge);
     }
   }
 
@@ -141,11 +153,11 @@ export class TransportCallCreatorComponent implements OnInit {
       facilityCodeListProvider: string;
     }
 
-    const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
-    const port: Port = this.transportCallFormGroup.controls.port.value
+    const dischargeTerminal: Terminal = this.transportCallFormGroup.controls.dischargeTerminal.value
+    const dischargePort: Port = this.transportCallFormGroup.controls.dischargePort.value
 
     transportCall.facilityTypeCode = FacilityCodeType.POTE;
-    transportCall.facilityCode = port.unLocode + terminal.smdgCode;
+    transportCall.facilityCode = dischargePort.unLocode + dischargeTerminal.smdgCode;
     transportCall.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
     transportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.callSequenceNumber.value
 
