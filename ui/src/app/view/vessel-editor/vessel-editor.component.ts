@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {Vessel} from "../../model/portCall/vessel";
 import {VesselService} from "../../controller/services/base/vessel.service";
-import {MessageService} from "primeng/api";
+import {MessageService, SelectItem} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Carrier} from "../../model/portCall/carrier";
 
 @Component({
   selector: 'app-vessel-editor',
@@ -12,7 +13,12 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class VesselEditorComponent implements OnInit {
   vessel: Vessel;
+  carriers: SelectItem[];
   vesselFormGroup: FormGroup;
+  selectedCarrier: Carrier;
+
+  @Output() carrierNotifier: EventEmitter<string> = new EventEmitter<string>()
+  @Output() carrierSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
 
   constructor(public ref: DynamicDialogRef,
               public config: DynamicDialogConfig,
@@ -24,9 +30,11 @@ export class VesselEditorComponent implements OnInit {
   ngOnInit(): void {
     if (this.config.data) {
       this.vessel = this.config.data;
+      console.log(this.vessel);
     } else {
       this.vessel = {vesselIMONumber: null, vesselName: "", vesselOperatorCarrierID: null, teu: null, serviceNameCode: "", vesselFlag: "", vesselCallSignNumber: ""};
     }
+    this.updateCarriersOptions();
 
     this.vesselFormGroup = this.formBuilder.group({
       imoId: new FormControl(null, [
@@ -85,6 +93,42 @@ export class VesselEditorComponent implements OnInit {
 
     }
   }
+
+  selectCarrier() {
+    if (this.selectedCarrier) {
+      this.vesselService.getCarrier(this.selectedCarrier.id).subscribe(nextCarrier => {
+        this.selectedCarrier = nextCarrier;
+        this.carrierNotifier.emit(this.selectedCarrier.id)
+      });
+      console.log("Setting vessel id to: " + this.selectedCarrier.id);
+      this.vessel.vesselOperatorCarrierID = this.selectedCarrier.id;
+    } else {
+      this.carrierNotifier.emit(null)
+    }
+  }
+
+  private updateCarriersOptions() {
+    this.vesselService.getCarriers().subscribe(vessels => {
+      this.carriers = [];
+      if (this.vessel.vesselOperatorCarrierID != null) {
+        this.vesselService.getCarrier(this.vessel.vesselOperatorCarrierID).subscribe(x => {
+          this.carriers.push({
+            label: x.carrierName,
+            value: x.id
+          });
+        });
+      } else {
+        this.carriers.push({
+          label: "All Carrier Operator IDs",
+          value: null
+        });
+      }
+      vessels.forEach(vessel => {
+        this.carriers.push({label: vessel.carrierName + ' (' + vessel.id + ')', value: vessel});
+      });
+    });
+  }
+
 
   cancel() {
     this.ref.close(null);

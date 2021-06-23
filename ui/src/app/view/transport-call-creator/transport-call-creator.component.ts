@@ -41,6 +41,7 @@ export class TransportCallCreatorComponent implements OnInit {
   ngOnInit(): void {
     this.creationProgress = false;
     this.updatePortOptions();
+    this.updateVesselOptions();
     this.transportCallFormGroup = this.formBuilder.group({
       transportName: new FormControl(null, [
         Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
@@ -97,15 +98,15 @@ export class TransportCallCreatorComponent implements OnInit {
     }
   }
 
-  // private updateVesselOptions() {
-  //   this.vesselService.getVessels().subscribe(vessels => {
-  //     this.vessels = [];
-  //     this.vessels.push({label: this.translate.instant('general.vessel.select'), value: null});
-  //     vessels.forEach(vessel => {
-  //       this.vessels.push({label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel});
-  //     });
-  //   });
-  // }
+  private updateVesselOptions() {
+    this.vesselService.getVessels().subscribe(vessels => {
+      this.vessels = [];
+      this.vessels.push({label: this.translate.instant('general.vessel.select'), value: null});
+      vessels.forEach(vessel => {
+        this.vessels.push({label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel});
+      });
+    });
+  }
 
   portSelected() {
     if (this.transportCallFormGroup.controls.port.value) {
