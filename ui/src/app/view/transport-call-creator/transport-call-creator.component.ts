@@ -63,7 +63,10 @@ export class TransportCallCreatorComponent implements OnInit {
       vessel: new FormControl({value: '', disabled: true}, [
         Validators.required]),
 
-      callSequenceNumber: new FormControl(null, [
+      loadCallSequenceNumber: new FormControl(null, [
+        Validators.required, Validators.min(1), Validators.max(2147483647)]),
+
+      dischargeCallSequenceNumber: new FormControl(null, [
         Validators.required, Validators.min(1), Validators.max(2147483647)])
 
     });
