@@ -5,6 +5,7 @@ import {MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {Port} from "../../model/portCall/port";
 import {TransportCall} from "../../model/OVS/transport-call";
+import {Transport} from "../../model/OVS/transport";
 import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
 import {Terminal} from "../../model/portCall/terminal";
 import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
@@ -59,7 +60,7 @@ export class TransportCallCreatorComponent implements OnInit {
       dischargeTerminal: new FormControl({value: '', disabled: true}, [
         Validators.required]),
 
-      vessel: new FormControl({value: '', disabled: true}, [
+      vessel: new FormControl({value: '', disabled: false}, [
         Validators.required]),
 
       loadCallSequenceNumber: new FormControl(null, [
@@ -96,6 +97,7 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   selectVessel() {
+    console.log(this.selectedVessel);
     if (this.selectedVessel) {
       this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
@@ -138,7 +140,31 @@ export class TransportCallCreatorComponent implements OnInit {
 
   saveNewTransportCall() {
     this.creationProgress = true;
-    let transportCall: TransportCall = new class implements TransportCall {
+
+    let transport: Transport = new class implements Transport {
+      transportName: string;
+      vessel: Vessel;
+      dischargeTransportCall: TransportCall;
+      loadTransportCall: TransportCall;
+      transportReference: string;
+    }
+
+    let dischargeTransportCall: TransportCall = new class implements TransportCall {
+      UNLocationCode: string;
+      carrierServiceCode: string;
+      carrierVoyageNumber: string;
+      facilityCode: string;
+      facilityTypeCode: FacilityCodeType;
+      otherFacility: string;
+      sequenceColor: string;
+      transportCallID: string;
+      transportCallSequenceNumber: number;
+      vesselIMONumber: string;
+      vesselName: string;
+      facilityCodeListProvider: string;
+    }
+
+    let loadTransportCall: TransportCall = new class implements TransportCall {
       UNLocationCode: string;
       carrierServiceCode: string;
       carrierVoyageNumber: string;
@@ -156,12 +182,28 @@ export class TransportCallCreatorComponent implements OnInit {
     const dischargeTerminal: Terminal = this.transportCallFormGroup.controls.dischargeTerminal.value
     const dischargePort: Port = this.transportCallFormGroup.controls.dischargePort.value
 
-    transportCall.facilityTypeCode = FacilityCodeType.POTE;
-    transportCall.facilityCode = dischargePort.unLocode + dischargeTerminal.smdgCode;
-    transportCall.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
-    transportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.callSequenceNumber.value
+    dischargeTransportCall.facilityTypeCode = FacilityCodeType.POTE;
+    dischargeTransportCall.facilityCode = dischargePort.unLocode + dischargeTerminal.smdgCode;
+    console.log("discharge facilityTypeCode:" + dischargeTransportCall.facilityTypeCode);
+    console.log("discharge facilityCode:" + dischargeTransportCall.facilityCode);
+    dischargeTransportCall.vesselIMONumber = this.selectedVessel.vesselIMONumber.toString();
+    dischargeTransportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.dischargeCallSequenceNumber.value
 
-    this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
+    const loadTerminal: Terminal = this.transportCallFormGroup.controls.loadTerminal.value
+    const loadPort: Port = this.transportCallFormGroup.controls.loadPort.value
+
+    loadTransportCall.facilityTypeCode = FacilityCodeType.POTE;
+    loadTransportCall.facilityCode = loadPort.unLocode + loadTerminal.smdgCode;
+    console.log("load facilityTypeCode:" + loadTransportCall.facilityTypeCode);
+    console.log("load facilityCode:" + loadTransportCall.facilityCode);
+    loadTransportCall.vesselIMONumber = this.selectedVessel.vesselIMONumber.toString();
+    loadTransportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.loadCallSequenceNumber.value
+
+    transport.dischargeTransportCall = dischargeTransportCall;
+    transport.loadTransportCall = loadTransportCall;
+    transport.vessel = this.selectedVessel;
+
+    this.transportCallService.addTransport(transport).subscribe(transportCall => {
         this.creationProgress = false;
 
         this.messageService.add(

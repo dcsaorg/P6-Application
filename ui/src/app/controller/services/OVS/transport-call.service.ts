@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {Observable} from "rxjs";
 import {TransportCall} from "../../../model/OVS/transport-call";
+import {Transport} from "../../../model/OVS/transport";
 import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
 import {map} from "rxjs/operators";
 

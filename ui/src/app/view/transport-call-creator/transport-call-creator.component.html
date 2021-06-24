@@ -139,7 +139,7 @@
       <!-- Vessle -->
       <div class="dropDownDiv p-col-12 p-md-4">
         <label for="vessel">Vessel:</label>
-        <p-dropdown id="vessel" (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true"
+        <p-dropdown id="vessel" formControlName="vessel" (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true"
                     [options]="vessels" autofocus="true">
         </p-dropdown>
       </div>
