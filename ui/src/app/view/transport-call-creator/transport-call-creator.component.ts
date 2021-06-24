@@ -46,9 +46,9 @@ export class TransportCallCreatorComponent implements OnInit {
     this.updateVesselOptions();
     this.transportCallFormGroup = this.formBuilder.group({
       transportName: new FormControl(null, [
-        Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
+        Validators.required, Validators.maxLength(100)]),
       transportReference: new FormControl(null, [
-        Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
+        Validators.required, Validators.maxLength(50)]),
 
       loadPort: new FormControl(null, [
         Validators.required]),
@@ -64,10 +64,10 @@ export class TransportCallCreatorComponent implements OnInit {
         Validators.required]),
 
       loadCallSequenceNumber: new FormControl(null, [
-        Validators.required, Validators.min(1), Validators.max(2147483647)]),
+        Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(2147483647)]),
 
       dischargeCallSequenceNumber: new FormControl(null, [
-        Validators.required, Validators.min(1), Validators.max(2147483647)])
+        Validators.required, Validators.pattern("^\\d+$"), Validators.min(1), Validators.max(2147483647)])
 
     });
   }
@@ -182,26 +182,29 @@ export class TransportCallCreatorComponent implements OnInit {
     const dischargeTerminal: Terminal = this.transportCallFormGroup.controls.dischargeTerminal.value
     const dischargePort: Port = this.transportCallFormGroup.controls.dischargePort.value
 
-    dischargeTransportCall.facilityTypeCode = FacilityCodeType.POTE;
-    dischargeTransportCall.facilityCode = dischargePort.unLocode + dischargeTerminal.smdgCode;
-    console.log("discharge facilityTypeCode:" + dischargeTransportCall.facilityTypeCode);
-    console.log("discharge facilityCode:" + dischargeTransportCall.facilityCode);
-    dischargeTransportCall.vesselIMONumber = this.selectedVessel.vesselIMONumber.toString();
+    // dischargeTransportCall.facilityTypeCode = FacilityCodeType.POTE;
+    dischargeTransportCall.UNLocationCode = dischargePort.unLocode;
+    dischargeTransportCall.facilityCode = dischargeTerminal.smdgCode
+    // dischargeTransportCall.facilityCode = dischargePort.unLocode + dischargeTerminal.smdgCode;
     dischargeTransportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.dischargeCallSequenceNumber.value
+    dischargeTransportCall.facilityCodeListProvider = "SMDG";
 
     const loadTerminal: Terminal = this.transportCallFormGroup.controls.loadTerminal.value
     const loadPort: Port = this.transportCallFormGroup.controls.loadPort.value
 
-    loadTransportCall.facilityTypeCode = FacilityCodeType.POTE;
-    loadTransportCall.facilityCode = loadPort.unLocode + loadTerminal.smdgCode;
-    console.log("load facilityTypeCode:" + loadTransportCall.facilityTypeCode);
-    console.log("load facilityCode:" + loadTransportCall.facilityCode);
-    loadTransportCall.vesselIMONumber = this.selectedVessel.vesselIMONumber.toString();
+    // loadTransportCall.facilityTypeCode = FacilityCodeType.POTE;
+    loadTransportCall.UNLocationCode = loadPort.unLocode;
+    loadTransportCall.facilityCode = loadTerminal.smdgCode
+    // loadTransportCall.facilityCode = loadPort.unLocode + loadTerminal.smdgCode;
     loadTransportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.loadCallSequenceNumber.value
+    loadTransportCall.facilityCodeListProvider = "SMDG";
 
     transport.dischargeTransportCall = dischargeTransportCall;
     transport.loadTransportCall = loadTransportCall;
     transport.vessel = this.selectedVessel;
+    transport.transportName = this.transportCallFormGroup.controls.transportName.value;
+    transport.transportReference = this.transportCallFormGroup.controls.transportReference.value;
+
 
     this.transportCallService.addTransport(transport).subscribe(transportCall => {
         this.creationProgress = false;

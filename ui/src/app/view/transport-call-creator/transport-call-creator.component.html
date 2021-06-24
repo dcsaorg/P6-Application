@@ -6,14 +6,10 @@
       <input id="transportReference" formControlName="transportReference" pInputText style="width: 100%" type="text"/>
       <span
         *ngIf="transportCallFormGroup.get('transportReference').hasError('required') && transportCallFormGroup.get('transportReference').touched"
-        class="p-invalid">
-          {{ 'general.transportCall.validation.vessel.empty' | translate }}
-      </span>
-      <span *ngIf="transportCallFormGroup.get('transportReference').hasError('pattern')" class="p-invalid">
-          {{ 'general.transportCall.validation.vessel.length' | translate }}
+        class="p-invalid">Transport reference is required
       </span>
       <span *ngIf="transportCallFormGroup.get('transportReference').hasError('maxlength')" class="p-invalid">
-          {{ 'general.transportCall.validation.vessel.lenght' | translate }}
+          Transport reference should max be 50 characters
       </span>
     </div>
     <div class="p-field p-col-12 p-md-4">
@@ -139,13 +135,12 @@
       <!-- Vessle -->
       <div class="dropDownDiv p-col-12 p-md-4">
         <label for="vessel">Vessel:</label>
-        <p-dropdown id="vessel" formControlName="vessel" (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true"
+        <p-dropdown id="vessel" formControlName="vessel" (onChange)="selectVessel()" [(ngModel)]="selectedVessel"
+                    [filter]="true"
                     [options]="vessels" autofocus="true">
         </p-dropdown>
       </div>
     </div>
-
-    <div class="p-field p-col-12 p-md-4"></div>
 
     <!-- Load -->
     <div class="p-field p-col-12 p-md-4">
@@ -155,19 +150,27 @@
       <span *ngIf="transportCallFormGroup.get('loadCallSequenceNumber').hasError('required')" class="p-invalid">
         {{ 'general.transportCall.validation.sequenceNumber.empty' | translate }}
       </span>
+      <span *ngIf="transportCallFormGroup.get('loadCallSequenceNumber').hasError('pattern')" class="p-invalid">
+        Only numbers allowed
+      </span>
       <span *ngIf="transportCallFormGroup.get('loadCallSequenceNumber').hasError('max')" class="p-invalid">
         {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}
       </span>
       <span *ngIf="transportCallFormGroup.get('loadCallSequenceNumber').hasError('min')" class="p-invalid">
         {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}
       </span>
+    </div>
 
     <!-- Discharge -->
+    <div class="p-field p-col-12 p-md-4">
       <label for="dischargeSequenceNumber">Discharge Call Sequence Numbers:</label>
       <input formControlName="dischargeCallSequenceNumber" id="dischargeSequenceNumber" pInputText style="width: 100%"
              type="text"/>
       <span *ngIf="transportCallFormGroup.get('dischargeCallSequenceNumber').hasError('required')" class="p-invalid">
         {{ 'general.transportCall.validation.sequenceNumber.empty' | translate }}
+      </span>
+      <span *ngIf="transportCallFormGroup.get('dischargeCallSequenceNumber').hasError('pattern')" class="p-invalid">
+        Only numbers allowed
       </span>
       <span *ngIf="transportCallFormGroup.get('dischargeCallSequenceNumber').hasError('max')" class="p-invalid">
         {{ 'general.transportCall.validation.sequenceNumber.length' | translate }}
