@@ -97,7 +97,6 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   selectVessel() {
-    console.log(this.selectedVessel);
     if (this.selectedVessel) {
       this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
