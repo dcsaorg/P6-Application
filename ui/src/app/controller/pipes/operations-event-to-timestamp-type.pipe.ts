@@ -12,43 +12,45 @@ import {EventClassifierCode} from "../../model/OVS/eventClassifierCode";
 export class OperationsEventToTimestampTypePipe implements PipeTransform {
 
   transform(transportEvent: OperationsEvent): PortcallTimestampType {
-    if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.BRTH) {
       return PortcallTimestampType.ETA_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.BRTH) {
       return PortcallTimestampType.PTA_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.BRTH) {
       return PortcallTimestampType.RTA_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.transportCall.facilityTypeCode== FacilityCodeType.BRTH) {
       return PortcallTimestampType.ATA_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.BRTH) {
       return PortcallTimestampType.ETD_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.BRTH) {
       return PortcallTimestampType.PTD_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.BRTH) {
       return PortcallTimestampType.RTD_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.facilityTypeCode == FacilityCodeType.BRTH) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.BRTH) {
       return PortcallTimestampType.ATD_Berth
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.facilityTypeCode == FacilityCodeType.PBPL) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.PBPL) {
       return PortcallTimestampType.ETA_PBP
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.facilityTypeCode == FacilityCodeType.PBPL) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.PBPL) {
       return PortcallTimestampType.PTA_PBP
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.facilityTypeCode == FacilityCodeType.PBPL) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.PBPL) {
       return PortcallTimestampType.RTA_PBP
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.facilityTypeCode == FacilityCodeType.PBPL) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.transportCall.facilityTypeCode == FacilityCodeType.PBPL) {
       return PortcallTimestampType.ATA_PBP
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.EST && transportEvent.transportCall.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.ETC_Cargo_Ops
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.PLN && transportEvent.transportCall.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.PTC_Cargo_Ops
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.REQ && transportEvent.transportCall.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.RTC_Cargo_Ops
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.transportCall.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.ATC_Cargo_Ops
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.transportCall.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.ATS_Cargo_Ops
-    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
+    } else if (transportEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && transportEvent.eventClassifierCode == EventClassifierCode.ACT && transportEvent.transportCall.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
       return PortcallTimestampType.ATS_Pilot
     } else {
+      console.log(transportEvent)
+      console.log("putting null in type")
       return null;
     }
 

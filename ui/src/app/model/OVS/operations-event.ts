@@ -4,6 +4,7 @@ import {FacilityCodeType} from "./facilityCodeType";
 import {OperationsEventTypeCode} from "./operationsEventTypeCode";
 import {PartyFunction} from "./partyFunction";
 import {PortCallServiceTypeCode} from "./portCallServiceTypeCode";
+import {TransportCall} from "./transport-call";
 
 export interface OperationsEvent {
   eventID: string;
@@ -13,6 +14,7 @@ export interface OperationsEvent {
   operationsEventTypeCode: OperationsEventTypeCode;
   eventCreatedDateTime: string | Date;
   transportCallID: string;
+  transportCall: TransportCall;
   facilityTypeCode: FacilityCodeType;
   publisher: string;
   portCallServiceTypeCode: PortCallServiceTypeCode;

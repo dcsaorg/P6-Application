@@ -118,7 +118,7 @@
           [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
       <td style="width: 8%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).name}}</div>
+        <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).vesselName}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
       </td>
       <td style="width: 7%"
@@ -148,7 +148,7 @@
         style="width: 8%">
         <div
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
-        <div class="rowDetails">{{ (timestamp.portOfCall | portIdToPort: ports).name}}</div>
+        <div class="rowDetails">{{timestamp.portOfCall?.name}}</div>
       </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "

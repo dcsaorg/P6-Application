@@ -35,7 +35,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       modifiable: boolean;
       outdatedMessage: boolean;
       portNext: Port | number;
-      portOfCall: Port | number;
+      portOfCall: Port;
       portPrevious: Port | number;
       publisher: string;
       publisherRole: PartyFunction;

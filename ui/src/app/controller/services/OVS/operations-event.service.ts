@@ -8,24 +8,24 @@ import {BACKEND_URL} from "../../../../environments/environment";
   providedIn: 'root'
 })
 export class OperationsEventService {
-  private readonly OPERATIONS_EVENT_URL: string;
+  private readonly TIMESTAMPS_URL: string;
   private readonly TRANSPORT_CALL_URL: string;
 
   constructor(private httpClient: HttpClient) {
-    this.OPERATIONS_EVENT_URL = BACKEND_URL + "/transport-calls/operations-events";
-    this.TRANSPORT_CALL_URL = BACKEND_URL + "/transport-calls"
+    this.TIMESTAMPS_URL = BACKEND_URL + "/timestamps";
+    this.TRANSPORT_CALL_URL = BACKEND_URL + "/events"
   }
 
   getOperationsEvents = (): Observable<OperationsEvent[]> => this.httpClient.get<OperationsEvent[]>(this.OPERATIONS_EVENT_URL);
 
   getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
-    const url = this.TRANSPORT_CALL_URL + "/" + transportCallId + "/operations-events";
+    const url = this.TRANSPORT_CALL_URL + "?transportCallID=" + transportCallId ;
     return this.httpClient.get<OperationsEvent[]>(url);
   }
 
   addOperationsEvent = (operationsEvent: OperationsEvent): Observable<OperationsEvent> => {
     console.log("Fire!");
-    return this.httpClient.post<OperationsEvent>(this.OPERATIONS_EVENT_URL, operationsEvent);
+    return this.httpClient.post<OperationsEvent>(this.TIMESTAMPS_URL, operationsEvent);
     //
 }
 }

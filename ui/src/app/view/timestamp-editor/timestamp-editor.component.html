@@ -10,7 +10,7 @@
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
         <span id="portOfCall"
-              *ngIf="defaultTimestamp.portOfCall != null"> {{defaultTimestamp.portOfCall.unLocode}} </span>
+              *ngIf="defaultTimestamp.portOfCall != null">  {{$any(defaultTimestamp.portOfCall).unLocode}} </span> <!-- {{defaultTimestamp.portOfCall.unLocode}} </span> -->
       </div>
       <div class="p-field p-col-12 p-md-4">
         <!-- Placeholder for additional information -->
@@ -22,8 +22,8 @@
       </div>
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="terminal">{{'general.terminal.label'| translate}}: </label>
-        <span *ngIf="defaultTimestamp.terminal != null" id="terminal"> {{defaultTimestamp.terminal.smdgCode}}
-          ({{defaultTimestamp.terminal.terminalName}})</span>
+        <span *ngIf="defaultTimestamp.terminal != null" id="terminal">/* {{$any(defaultTimestamp.terminal).smdgCode}}
+          ({{$any(defaultTimestamp.terminal).terminalName}})</span>
       </div>
       <div class="p-field p-col-12 p-md-4">
         <!-- Placeholder for additional information -->
@@ -44,9 +44,9 @@
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12 p-md-6">
         <p-calendar id="logoftimestamp" appendTo="body" [(ngModel)]="logOfTimestampDate" hourFormat="24"
-                    monthNavigator="true" showButtonBar="false"
-                    showIcon="true" showWeek="true"
-                    yearNavigator="true" yearRange="2010:2040"
+                    [monthNavigator]="true" [showButtonBar]="false"
+                    [showIcon]="true" [showWeek]="true"
+                    [yearNavigator]="true" yearRange="2010:2040"
                     styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.log' | translate }}"
                     [panelStyleClass]="'datetime-panel'"></p-calendar>
       </div>
@@ -66,9 +66,9 @@
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12 p-md-6">
         <p-calendar id="eventtimestamp" appendTo="body" [(ngModel)]="eventTimestampDate" hourFormat="24"
-                    monthNavigator="true" showButtonBar="false"
-                    showIcon="true" showWeek="true"
-                    yearNavigator="true" yearRange="2010:2030"
+                    [monthNavigator]="true" [showButtonBar]="false"
+                    [showIcon]="true" [showWeek]="true"
+                    [yearNavigator]="true" yearRange="2010:2030"
                     styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
                     [panelStyleClass]="'datetime-panel'"></p-calendar>
       </div>
@@ -134,7 +134,7 @@
 <div class="p-grid">
   <div class="p-col-8">
   </div>
-  <div class="p-col-4 footer_option" style="; justify-content: flex-end">
+  <div class="p-col-4 footer_option" style="justify-content: flex-end">
     <p-button (onClick)="close()" class="footer_option__buttons"
               icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>

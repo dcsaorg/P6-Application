@@ -73,7 +73,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
-    this.vesselService.getVessels().pipe(take(1)).subscribe(vessels => this.vessels = vessels);
+    this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
     this.progressing = false;
     //this.$timestamps = this.paginatorService.observePaginatedTimestamps();
 
@@ -83,19 +83,21 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.terminals = this.globals.terminals;
     this.loadTimestamps();
-    console.log(this.terminals);
   }
 
 
   private loadTimestamps() {
+    if(this.transportCallSelected){
     this.progressing = true;
     this.portcallTimestampService.getPortcallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
       this.colorizetimestampByLocation(timestamps);
       this.timestamps = timestamps;
+      console.log("selceeted timestamp");
       console.log(timestamps);
       this.progressing = false;
       this.portcallTimestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
     });
+  }
   }
 
   acceptTimestamp(timestamp: PortcallTimestamp) {
@@ -103,7 +105,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     timestamp.logOfTimestamp = new Date();
     timestamp.id = null;
     this.portcallTimestampService.addPortcallTimestamp(timestamp).subscribe((newPortCallTimestamp: PortcallTimestamp) => {
-      const port = this.portIdToPortPipe.transform(timestamp.portOfCall as number, this.ports);
+      const port = this.portIdToPortPipe.transform(timestamp.portOfCall.id, this.ports);
       const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
       const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newPortCallTimestamp.timestampType as PortcallTimestampType);
       this.loadTimestamps();
