@@ -106,7 +106,7 @@
         },
         "create": {
           "label": "Create a Port Call Timestamp",
-          "tooltip": "Create a new Portcall Timestamp for this TransportCall"
+          "tooltip": "Create a new Timestamp for this TransportCall"
         },
         "direction": {
           "label": "Direction",
@@ -175,6 +175,16 @@
       "select": "Select timestamp",
       "time": "Time"
     },
+    "transport": {
+      "label": "Transport Call",
+      "table": {
+        "id": "id",
+        "create": {
+          "label": "Create a Transport",
+          "tooltip": "Create a new Transport"
+        }
+    }
+    },
     "transportCall": {
       "add": "Add a new Transport Call",
       "create": "Create Transport Call",
@@ -185,6 +195,7 @@
           "label": "Create a Transport Call",
           "tooltip": "Create a new Transportcall "
         },
+
         "carrierServiceCode": {
           "label": "Carrier Service Code"
         },
@@ -257,6 +268,7 @@
       "serviceName": "Service name",
       "operatorCarrierID": "Operator Carrier ID",
       "callSignNumber": "Call Sign Number",
+      "vesselOperatorCarrierCode": "Operator Carrier Code",
       "size": "Vessel size (TEU)",
       "flag": "Vessel Flag",
       "validation": {
@@ -296,6 +308,28 @@
             "max": "The Operator CarrierID should be maximal 36 characters long"
           }
         }
+      }
+    }, 
+    "carrier":{
+      "name":"Carrier name",
+      "label": "Carrier",
+      "number": "",
+      "select": "All carriers",
+      "serviceName": "Service name",
+      "add": {
+        "header": "Create a new carrier",
+        "label": "Add a new carrier"
+      },
+      "edit": {
+        "header": "Edit carrier",
+        "label": "Edit a carrier"
+      }, 
+      "smdgCode": {
+        "label": "Carrier smdg Code"
+      },
+      "CarrierCodeListProvider": {
+        "select": "All Carrier code list providers",
+        "label": "Carrier code list provider"
       }
     }
   }
