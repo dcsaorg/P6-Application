@@ -3,14 +3,19 @@ import {PortCallServiceTypeCode} from "./portCallServiceTypeCode";
 
 export interface TransportCall {
   transportCallID: string;
+  transportCallSequenceNumber: number;
+
   vesselIMONumber: string;
   vesselName: string;
+
   UNLocationCode: string;
-  transportCallSequenceNumber: number;
+
   facilityTypeCode: FacilityCodeType;
   portCallServiceTypeCode: PortCallServiceTypeCode;
   facilityCode: string;
   otherFacility: string;
-  sequenceColor: string;
 
+  facilityCodeListProvider: string; // "SMDG"
+
+  sequenceColor: string;
 }

@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {Vessel} from "../../model/portCall/vessel";
 import {Carrier} from "../../model/portCall/carrier";
 import {VesselService} from "../../controller/services/base/vessel.service";
-import {CarrierService} from "../../controller/services/base/carrier.service";
 import {MessageService} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {VesselComponent} from "../../view/vessel/vessel.component"
@@ -16,18 +15,21 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
   templateUrl: './vessel-editor.component.html',
   styleUrls: ['./vessel-editor.component.scss']
 })
+
 export class VesselEditorComponent implements OnInit {
   vessel: Vessel;
-  vesselFormGroup: FormGroup;
   carriers: SelectItem[];
+  vesselFormGroup: FormGroup;
   selectedCarrier: Carrier;
-  
+
+  @Output() carrierNotifier: EventEmitter<string> = new EventEmitter<string>()
+  @Output() carrierSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
 
   constructor(public ref: DynamicDialogRef,
+              private translate: TranslateService,
               public config: DynamicDialogConfig,
               private vesselService: VesselService,
               private messageService: MessageService,
-              private translate: TranslateService,
               private formBuilder: FormBuilder) {
   }
 
@@ -40,6 +42,7 @@ export class VesselEditorComponent implements OnInit {
     } else {
       this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "PA", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: null, vesselCallSignNumber: ""};
     }
+    this.updateCarriersOptions();
 
 
     this.vesselFormGroup = this.formBuilder.group({
@@ -104,6 +107,42 @@ export class VesselEditorComponent implements OnInit {
     }
   }
 
+  selectCarrier() {
+    if (this.selectedCarrier) {
+      this.vesselService.getCarrier(this.selectedCarrier.id).subscribe(nextCarrier => {
+        this.selectedCarrier = nextCarrier;
+        this.carrierNotifier.emit(this.selectedCarrier.id)
+      });
+      console.log("Setting vessel id to: " + this.selectedCarrier.id);
+      this.vessel.vesselOperatorCarrierID = this.selectedCarrier.id;
+    } else {
+      this.carrierNotifier.emit(null)
+    }
+  }
+
+  private updateCarriersOptions() {
+    this.vesselService.getCarriers().subscribe(vessels => {
+      this.carriers = [];
+      if (this.vessel.vesselOperatorCarrierID != null) {
+        this.vesselService.getCarrier(this.vessel.vesselOperatorCarrierID).subscribe(x => {
+          this.carriers.push({
+            label: x.carrierName,
+            value: x.id
+          });
+        });
+      } else {
+        this.carriers.push({
+          label: this.translate.instant('general.carrier.select'),
+          value: null
+        });
+      }
+      vessels.forEach(vessel => {
+        this.carriers.push({label: vessel.carrierName + ' (' + vessel.id + ')', value: vessel});
+      });
+    });
+  }
+
+
   cancel() {
     this.ref.close(null);
   }
@@ -119,9 +158,5 @@ export class VesselEditorComponent implements OnInit {
       });
     });
   }
-  selectCarrier() {
-
-  //  if (this.selectedCarrier && Select) {   // Check that these are fullfilled before moving on
-
-  }
+ 
 }
