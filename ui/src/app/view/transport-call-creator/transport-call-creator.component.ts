@@ -9,6 +9,7 @@ import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
 import {Terminal} from "../../model/portCall/terminal";
 import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
+import { PortCallServiceTypeCode } from 'src/app/model/OVS/portCallServiceTypeCode';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -90,6 +91,7 @@ export class TransportCallCreatorComponent implements OnInit {
       transportCallSequenceNumber: number;
       vesselIMONumber: string;
       vesselName: string;
+      portCallServiceTypeCode: PortCallServiceTypeCode;
     }
 
     const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value

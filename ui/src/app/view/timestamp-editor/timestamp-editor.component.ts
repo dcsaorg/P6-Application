@@ -16,6 +16,7 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/OVS/transport-call";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {Util} from "../../controller/services/util/util";
+import { Console } from 'console';
 
 
 @Component({
@@ -95,6 +96,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()});
     this.timestamps = this.config.data.timestamps;
+    console.log("TIMESTAMPING FOR CREAte");
+    console.log(this.timestamps);
     this.transportCall = this.config.data.transportCall;
     this.generateDefaultTimestamp();
     this.timestampSelected = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
@@ -217,6 +220,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
       // Check for last timestamp and generate based on this
       let lastTimestamp = this.getLatestTimestamp();
+      console.log("lastTimestamp");
+      console.log(lastTimestamp);
       this.defaultTimestamp.vessel = lastTimestamp.vessel;
       this.defaultTimestamp.timestampType = lastTimestamp.timestampType;
       this.defaultTimestamp.terminal = lastTimestamp.terminal;

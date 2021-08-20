@@ -12,6 +12,7 @@ import {PortCallServiceTypeCode} from "../../model/OVS/portCallServiceTypeCode";
 import {PartyFunction} from "../../model/OVS/partyFunction";
 import {TimestampTypeToPortcallServiceTypeCodePipe} from "./timestamp-type-to-portcall-service-type-code.pipe";
 import {Config} from "../../model/OVS/config";
+import { TransportCall } from 'src/app/model/OVS/transport-call';
 
 @Pipe({
   name: 'timestampsToTransportEvents'
@@ -34,6 +35,7 @@ export class TimestampsToOperationsEventsPipe implements PipeTransform {
       publisher: string;
       publisherRole: PartyFunction;
       transportCallID: string;
+      transportCall: TransportCall;
     }
 
     operationsEvent.eventCreatedDateTime = portcallTimestamp.logOfTimestamp;

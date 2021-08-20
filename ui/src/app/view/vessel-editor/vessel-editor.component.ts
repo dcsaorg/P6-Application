@@ -3,7 +3,6 @@ import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {Vessel} from "../../model/portCall/vessel";
 import {Carrier} from "../../model/portCall/carrier";
 import {VesselService} from "../../controller/services/base/vessel.service";
-import {CarrierService} from "../../controller/services/base/carrier.service";
 import {MessageService} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {VesselComponent} from "../../view/vessel/vessel.component"

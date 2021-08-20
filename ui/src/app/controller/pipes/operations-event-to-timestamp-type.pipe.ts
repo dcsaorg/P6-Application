@@ -51,7 +51,7 @@ export class OperationsEventToTimestampTypePipe implements PipeTransform {
     } else {
       console.log(transportEvent)
       console.log("putting null in type")
-      return null;
+      return PortcallTimestampType.ETA_Berth;  // Should return null 
     }
 
   }
