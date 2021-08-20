@@ -10,7 +10,7 @@
       <div class="p-col tableHeader">
         <div class="tableHeader__buttons">
           <p-button (onClick)="openCreationDialog()" class="p-button-raised p-button-rounded tableHeader__add_button"
-                    icon="pi pi-plus" pTooltip="{{ 'general.transportCall.create.tooltip' | translate }}"
+                    icon="pi pi-plus" pTooltip="{{ 'general.transport.table.create.tooltip' | translate }}"
                     tooltipPosition="top" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
         </div>
@@ -21,19 +21,20 @@
                     tooltipStyleClass="ToolTipClass"></p-button>
 
         </div>
-        <div class="p-input-icon-left globalSearch">
+     <!--         <div class="p-input-icon-left globalSearch">
           <i class="pi pi-search"></i>
           <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                  placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
                  pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
         </div>
+      -->
+
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 3px"></th>
-      <th>{{'general.transportCall.table.id' | translate}}</th>
+      <th style="width:15%"> {{'general.transportCall.table.id' | translate}}</th>
       <th style="width:15%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
       <th style="width:20%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
       <th style="width:10%">{{'general.transportCall.table.UNLocationCode.label'| translate}}</th>

@@ -35,14 +35,13 @@ export class TransportCallsTableComponent implements OnInit {
 
   refreshTransportCalls(): void {
     this.loadTransportCalls()
-    // deactivate PortCallTimestamps
     this.transportCallNotifier.emit(null);
 
   }
 
   openCreationDialog(){
     const transportCallEditor = this.dialogService.open(TransportCallCreatorComponent, {
-      header: this.translate.instant('general.transportCall.add'),
+      header: this.translate.instant('general.transport.table.create'),
       width: '75%'
     });
     transportCallEditor.onClose.subscribe(result => {

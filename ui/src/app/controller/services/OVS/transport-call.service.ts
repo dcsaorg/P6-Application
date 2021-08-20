@@ -14,7 +14,7 @@ export class TransportCallService {
   private readonly TRANSPORT_CALL_URL: string;
 
   constructor(private httpClient: HttpClient) {
-    this.TRANSPORT_CALL_URL=BACKEND_URL+"/transport-calls"
+    this.TRANSPORT_CALL_URL=BACKEND_URL+"/unofficial-transport-calls"
   }
 
   getTransportCalls = (): Observable<TransportCall[]> =>
@@ -31,7 +31,7 @@ export class TransportCallService {
    */
   private postProcess(transportCalls: TransportCall[]):TransportCall[]{
     for(let transportCall of transportCalls){
-      this.extractPortFromFacility(transportCall);
+      transportCall = this.extractVesselAttributes(transportCall)
     }
     return transportCalls;
   }
@@ -41,6 +41,19 @@ export class TransportCallService {
     if(transportCall.facilityTypeCode == FacilityCodeType.POTE){
       transportCall.UNLocationCode = transportCall.facilityCode.substring(0,5);
     }
+  }
+
+  private extractVesselAttributes(transportCall: TransportCall){
+   if (transportCall['vessel'] === null){
+    transportCall.vesselName = null;
+    transportCall.vesselIMONumber = null;  
+   }
+   else{
+   transportCall.vesselName = transportCall['vessel']['vesselName'];
+   transportCall.vesselIMONumber = transportCall['vessel']['vesselIMONumber'];
+    }
+      return transportCall
+
   }
 
 }

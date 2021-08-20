@@ -1,4 +1,5 @@
 import {FacilityCodeType} from "./facilityCodeType";
+import {PortCallServiceTypeCode} from "./portCallServiceTypeCode";
 
 export interface TransportCall {
   transportCallID: string;
@@ -7,6 +8,7 @@ export interface TransportCall {
   UNLocationCode: string;
   transportCallSequenceNumber: number;
   facilityTypeCode: FacilityCodeType;
+  portCallServiceTypeCode: PortCallServiceTypeCode;
   facilityCode: string;
   otherFacility: string;
   sequenceColor: string;

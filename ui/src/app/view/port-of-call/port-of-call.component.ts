@@ -49,7 +49,7 @@ export class PortOfCallComponent implements OnInit {
       this.terminalOptions = [];
       this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
       terminals.forEach(terminal => {
-        if (terminal.port == this.portOfCall.id) {
+        if ((this.portOfCall) &&  terminal.port == this.portOfCall.id ) {
           this.terminalOptions.push({label: terminal.smdgCode, value: terminal})
         }
       });

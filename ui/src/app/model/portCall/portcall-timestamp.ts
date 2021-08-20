@@ -16,7 +16,7 @@ export interface PortcallTimestamp {
   logOfTimestamp: string | Date;
   eventTimestamp: string | Date;
   portPrevious: Port | number;
-  portOfCall: Port | number;
+  portOfCall: Port;
   portNext: Port | number;
   direction: string;
   terminal: Terminal | number;
