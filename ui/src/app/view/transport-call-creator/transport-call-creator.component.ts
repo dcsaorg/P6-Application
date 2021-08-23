@@ -4,12 +4,12 @@ import {Globals} from "../../model/portCall/globals";
 import {MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {Port} from "../../model/portCall/port";
-import {TransportCall} from "../../model/OVS/transport-call";
-import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
+import {TransportCall} from "../../model/ovs/transport-call";
+import {FacilityCodeType} from "../../model/ovs/facilityCodeType";
 import {Terminal} from "../../model/portCall/terminal";
-import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
+import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
-import { PortCallServiceTypeCode } from 'src/app/model/OVS/portCallServiceTypeCode';
+import { PortCallServiceTypeCode } from 'src/app/model/enums/portCallServiceTypeCode';
 
 @Component({
   selector: 'app-add-transport-call',

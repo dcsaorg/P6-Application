@@ -8,10 +8,10 @@ import {Terminal} from "../../../model/portCall/terminal";
 import {DelayCode} from "../../../model/portCall/delayCode";
 import {Vessel} from "../../../model/portCall/vessel";
 import {TimestampMappingService} from "../mapping/timestamp-mapping.service";
-import {TransportCall} from "../../../model/OVS/transport-call";
+import {TransportCall} from "../../../model/ovs/transport-call";
 import {PortcallTimestampType} from "../../../model/portCall/portcall-timestamp-type.enum";
 import {map} from "rxjs/operators";
-import {PartyFunction} from "../../../model/OVS/partyFunction";
+import {PartyFunction} from "../../../model/ovs/partyFunction";
 import {Globals} from "../../../model/portCall/globals";
 import {MessageDirection} from "../../../model/portCall/messageDirection";
 
@@ -35,7 +35,7 @@ export class PortcallTimestampService {
 
 
 
-  addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> => this.timestampMapping.addPortCallTimestamp(portcallTimestamp);
+  //addPortcallTimestamp = (portcallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> => this.timestampMapping.addTimestamp(portcallTimestamp);
   //(portcallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> => this.httpClient.post<PortcallTimestamp>(this.TIMESTAMP_URL, PortcallTimestampService.convertPortcallTimestamp(portcallTimestamp));
 
 
@@ -71,7 +71,7 @@ export class PortcallTimestampService {
 
     let portaproaches = new Map<string,number>();
     for (let timestamp of timestmaps){
-      this.setMessageDirection(timestamp);
+    //  this.setMessageDirection(timestamp);
 
       let hash:string = this.getPortCallTimestampHash(timestamp);
       let count:number;
@@ -112,7 +112,7 @@ export class PortcallTimestampService {
   /**
    * Method that will define the messaging direction based on publisherID and PublisherRole
    *
-   **/
+
 
   private setMessageDirection(portcallTimestamp: PortcallTimestamp){
     if(portcallTimestamp.publisherRole == this.globals.config.publisherRole
@@ -122,6 +122,7 @@ export class PortcallTimestampService {
       portcallTimestamp.messageDirection = MessageDirection.outbound;
     }
   }
+   **/
 
   /**
    * Method to calculate a sequence for timestamps:

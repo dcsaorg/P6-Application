@@ -20,7 +20,7 @@ import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/OVS/transport-call";
+import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
 
@@ -95,7 +95,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       console.log("selceeted timestamp");
       console.log(timestamps);
       this.progressing = false;
-      this.portcallTimestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
+     // this.portcallTimestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
     });
   }
   }

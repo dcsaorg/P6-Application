@@ -120,7 +120,7 @@ export class VesselEditorComponent implements OnInit {
   }
   selectCarrier() {
 
-  //  if (this.selectedCarrier && Select) {   // Check that these are fullfilled before moving on
+  // Check that a carirrier is chosen before allowing creation 
 
   }
 }

@@ -34,24 +34,24 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width:15%"> {{'general.transportCall.table.id' | translate}}</th>
-      <th style="width:15%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
       <th style="width:20%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
-      <th style="width:10%">{{'general.transportCall.table.UNLocationCode.label'| translate}}</th>
-      <th style="width:10%">{{'general.transportCall.table.transportCallSequenceNumber.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
+      <th style="width:10%">{{'general.transportCall.table.UNLocationCode.secondLabel'| translate}}</th>
       <th style="width:10%">{{'general.transportCall.table.facilityTypeCode.label'| translate}}</th>
-      <th style="width:15%">{{'general.transportCall.table.facilityCode.label'| translate}}</th>
+      <th style="width:15%">{{'general.table.header.terminalId.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.carrierVoyageNumber.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall let-rowIndex="rowIndex">
     <tr [pSelectableRow]="transportCall" [pSelectableRowIndex]="rowIndex">
-      <td>{{transportCall.transportCallID}}</td>
-      <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.vesselName}}</td>
+      <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
-      <td>{{transportCall.transportCallSequenceNumber}}</td>
       <td>{{transportCall.facilityTypeCode}}</td>
       <td>{{transportCall.facilityCode}}</td>
+      <td>{{transportCall.carrierVoyageNumber}}</td>
+      <td>{{transportCall.carrierServiceCode}}</td>
     </tr>
   </ng-template>
 </p-table>

@@ -3,7 +3,7 @@ import {EventClassifierCode} from "./eventClassifierCode";
 import {FacilityCodeType} from "./facilityCodeType";
 import {OperationsEventTypeCode} from "./operationsEventTypeCode";
 import {PartyFunction} from "./partyFunction";
-import {PortCallServiceTypeCode} from "./portCallServiceTypeCode";
+import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import {TransportCall} from "./transport-call";
 
 export interface OperationsEvent {

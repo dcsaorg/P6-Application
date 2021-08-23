@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {TransportCallService} from "../OVS/transport-call.service";
-import {OperationsEventService} from "../OVS/operations-event.service";
+import {TransportCallService} from "../ovs/transport-call.service";
+import {OperationsEventService} from "../ovs/operations-event.service";
 import {from, Observable} from "rxjs";
 import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
-import {TransportCall} from "../../../model/OVS/transport-call";
+import {TransportCall} from "../../../model/ovs/transport-call";
 import {Port} from "../../../model/portCall/port";
 import {map} from "rxjs/internal/operators";
 import {Globals} from "../../../model/portCall/globals";
@@ -11,7 +11,9 @@ import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to
 import {TimestampsToOperationsEventsPipe} from "../../pipes/timestamps-to-operations-events.pipe";
 import {Terminal} from "../../../model/portCall/terminal";
 import {OperationsEventToTimestampPipe} from "../../pipes/operations-event-to-timestamp.pipe";
-import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
+import {FacilityCodeType} from "../../../model/ovs/facilityCodeType";
+import {Timestamp} from "../../../model/ovs/timestamp";
+import {TimestampService} from "../ovs/timestamps.service";
 
 @Injectable({
   providedIn: 'root'
@@ -31,11 +33,16 @@ export class TimestampMappingService {
   }
 
 
-  addPortCallTimestamp(portCallTimestamp: PortcallTimestamp): Observable<PortcallTimestamp> {
+  addPortCallTimestamp(timestamp: Timestamp): void {//Observable<Timestamp> {
+    console.log("last timestamp proccess");
+    console.log(timestamp);  
+    console.log(this.globals.config);
+    /*
     return this.operationsEventService.addOperationsEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp, this.globals.config)).pipe(
       map(event => {return this.transportEventToTimestampPipe.transform(event)})
-    )
-
+      )
+*/
+ // return this.TimestampService
 
   }
 

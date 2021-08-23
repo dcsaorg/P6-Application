@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {StaticVesselService} from "../static/static-vessel.service";
 import {concat, forkJoin, Observable, zip} from "rxjs";
 import {Vessel} from "../../../model/portCall/vessel";
-import {TransportCallService} from "../OVS/transport-call.service";
+import {TransportCallService} from "../ovs/transport-call.service";
 import {concatMap, map} from "rxjs/operators";
 import {TransportCallsToVesselsPipe} from "../../pipes/transport-calls-to-vessels.pipe";
 

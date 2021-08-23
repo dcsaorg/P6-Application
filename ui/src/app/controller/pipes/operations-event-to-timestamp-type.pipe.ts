@@ -1,10 +1,10 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {OperationsEvent} from "../../model/OVS/operations-event";
+import {OperationsEvent} from "../../model/ovs/operations-event";
 import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
-import {OperationsEventTypeCode} from "../../model/OVS/operationsEventTypeCode";
-import {PortCallServiceTypeCode} from "../../model/OVS/portCallServiceTypeCode";
-import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
-import {EventClassifierCode} from "../../model/OVS/eventClassifierCode";
+import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
+import {PortCallServiceTypeCode} from "../../model/enums/portCallServiceTypeCode";
+import {FacilityCodeType} from "../../model/ovs/facilityCodeType";
+import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
 
 @Pipe({
   name: 'transportEventToTimestampType'
@@ -51,7 +51,7 @@ export class OperationsEventToTimestampTypePipe implements PipeTransform {
     } else {
       console.log(transportEvent)
       console.log("putting null in type")
-      return PortcallTimestampType.ETA_Berth;  // Should return null 
+      return PortcallTimestampType.PTA_Berth;  // Should return null 
     }
 
   }

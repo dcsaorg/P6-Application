@@ -7,7 +7,7 @@ import {MenuItem, MessageService, SelectItem} from "primeng/api";
 import {CodeType} from "../../model/portCall/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
-import {PartyFunction} from "../../model/OVS/partyFunction";
+import { PublisherRole } from 'src/app/model/enums/publisherRole';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
 
   helpMenu: MenuItem[];
   companyName: string;
-  companyRole: PartyFunction;
+  companyRole: PublisherRole;
   companyCodeType: CodeType;
   companyId: string;
   displayDownloadRequest: boolean;
@@ -40,8 +40,8 @@ export class HeaderComponent implements OnInit {
       this.globals.config = config;
       this.companyName = config.company;
       this.companyRole = config.publisherRole;
-      this.companyId = config.publisher;
-      this.companyCodeType = config.publisherCodeType;
+      this.companyId = config.publisher.partyName;
+   //   this.companyCodeType = config.publisherCodeType; // WHAT IS SUPPOSE TO REPRESENT 
     });
   }
 

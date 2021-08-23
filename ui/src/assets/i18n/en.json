@@ -9,6 +9,12 @@
     "close": {
       "label": "Close"
     },
+    "schedule": {
+      "header": "Delay Code and Comment to port call event",
+      "select": "Select delay code (optional)",
+      "tooltip": "Comment or reason of delay for timestamp",
+      "create": "Create a table"
+    },
     "comment": {
       "header": "Delay Code and Comment to port call event",
       "select": "Select delay code (optional)",
@@ -153,6 +159,7 @@
           "label": "Portcall Timestamps"
         },
         "vessel": {
+          "name": "Vessel name",
           "label": "Vessel",
           "tooltip": "The vessel of a process event"
         }
@@ -185,6 +192,10 @@
         }
     }
     },
+    "publisherRole": {
+      "tooltip":"publisher role",
+      "label": "publisher role"
+    },
     "transportCall": {
       "add": "Add a new Transport Call",
       "create": "Create Transport Call",
@@ -203,10 +214,11 @@
           "label": "IMO Number"
         },
         "vesselName": {
-          "label": "Vessel Name"
+          "label": "Vessel Name"  
         },
         "UNLocationCode": {
-          "label": "UN Locode"
+          "label": "UN Locode",
+          "secondLabel": "Port of Call"
         },
         "UNLocationName": {
           "label": "UN Location Name"

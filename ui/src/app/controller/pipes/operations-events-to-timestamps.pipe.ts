@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
-import {OperationsEvent} from "../../model/OVS/operations-event";
+import {OperationsEvent} from "../../model/ovs/operations-event";
 import {DelayCode} from "../../model/portCall/delayCode";
 import {MessageDirection} from "../../model/portCall/messageDirection";
 import {Port} from "../../model/portCall/port";

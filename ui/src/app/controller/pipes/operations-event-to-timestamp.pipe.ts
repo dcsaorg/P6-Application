@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {OperationsEvent} from "../../model/OVS/operations-event";
+import {OperationsEvent} from "../../model/ovs/operations-event";
 import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {DelayCode} from "../../model/portCall/delayCode";
 import {MessageDirection} from "../../model/portCall/messageDirection";
@@ -8,7 +8,7 @@ import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-typ
 import {Terminal} from "../../model/portCall/terminal";
 import {Vessel} from "../../model/portCall/vessel";
 import {OperationsEventToTimestampTypePipe} from "./operations-event-to-timestamp-type.pipe";
-import {PartyFunction} from "../../model/OVS/partyFunction";
+import {PartyFunction} from "../../model/ovs/partyFunction";
 
 @Pipe({
   name: 'transportEventToTimestamp'

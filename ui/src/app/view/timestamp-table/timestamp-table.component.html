@@ -29,9 +29,15 @@
       <th style="width:3px"></th>
       <th pSortableColumn="vesselId" pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}"
           style="width: 8%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.vessel.label' | translate }}
+        {{ 'general.table.header.vessel.name' | translate }}
         <p-sortIcon field="vessel"></p-sortIcon>
       </th>
+      <th style="width: 7%" pSortableColumn="publisherRole"
+      pTooltip="{{ 'general.publisherRole.label' | translate }}"
+      tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+    {{ 'general.publisherRole.label' | translate }}
+    <p-sortIcon field="publisherRole" class="timestampContent"></p-sortIcon>
+  </th>
       <th pSortableColumn="timestampType" pTooltip="{{ 'general.table.header.timestamp.tooltip' | translate }}"
           style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.timestamp.label' | translate }}
@@ -52,17 +58,20 @@
         {{ 'general.table.header.eventTimestamp.label' | translate }}
         <p-sortIcon field="eventTimestamp"></p-sortIcon>
       </th>
+        <!--
       <th style="width: 8%" pSortableColumn="portPrevious"
           pTooltip="{{ 'general.table.header.previousPort.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.previousPort.label' | translate }}
         <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
+    -->
       <th pSortableColumn="portOfCall" pTooltip="{{ 'general.table.header.portOfCall.tooltip' | translate }}"
           style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.portOfCall.label' | translate }}
         <p-sortIcon field="portOfCall"></p-sortIcon>
       </th>
+      <!--
       <th style="width: 7%" pSortableColumn="portNext"
           pTooltip="{{ 'general.table.header.nextPort.tooltip' | translate }}"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
@@ -75,17 +84,12 @@
         {{ 'general.table.header.direction.label' | translate }}
         <p-sortIcon field="direction"></p-sortIcon>
       </th>
+      -->
       <th style="width: 7%" pSortableColumn="terminal"
           pTooltip="{{ 'general.table.header.terminalId.tooltip' | translate }}"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.terminalId.label' | translate }}
         <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
-      </th>
-      <th style="width: 8%" pSortableColumn="locationId"
-          pTooltip="{{ 'general.table.header.berthId.tooltip' | translate }}"
-          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.berthId.label' | translate }}
-        <p-sortIcon field="locationId"></p-sortIcon>
       </th>
       <th style="width: 4%" >
       </th>
@@ -121,6 +125,11 @@
         <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).vesselName}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
       </td>
+      <td style="width: 8%"
+      [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+    <div>{{ (timestamp.publisherRole)}}</div>
+    <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
+  </td>
       <td style="width: 7%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         {{ timestamp.timestampType }}
@@ -129,20 +138,24 @@
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         {{ timestamp.callSequence + 1 }}
       </td>
-      <td style="width: 15%"
+      <td pTooltip ="Time difference: +{{(timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports)[1]}}"
+          style="width: 15%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        {{timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports}}
+        {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports)[0]}}
       </td>
-      <td style="width: 15%"
+      <td pTooltip =" Time difference: +{{(timestamp.eventTimestamp | timestampToTimezone: timestamp: ports)[1]}}"
+          style="width: 15%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        {{timestamp.eventTimestamp | timestampToTimezone: timestamp: ports}}
+        {{(timestamp.eventTimestamp | timestampToTimezone: timestamp: ports)[0]}}
       </td>
+        <!--
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         <div
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
       </td>
+       -->
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 8%">
@@ -153,12 +166,13 @@
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 7%">
-        <div
+   <!--     <div
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
       </td>
       <td style="width: 7%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}</td>
+     -->
       <td style="width: 6%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         <!--   somehow there is a porblem acessing the terminals   -->
@@ -167,8 +181,6 @@
                tooltipStyleClass="ToolTipClass">{{timestamp.terminal.smdgCode}}</div>
         </div>
       </td>
-      <td style="width: 7%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.locationId }}</td>
       <td style="width: 4%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
                 <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?

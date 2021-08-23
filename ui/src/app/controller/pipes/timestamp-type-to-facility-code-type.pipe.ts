@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
-import {FacilityCodeType} from "../../model/OVS/facilityCodeType";
+import {FacilityCodeType} from "../../model/ovs/facilityCodeType";
 
 @Pipe({
   name: 'timestampTypeToFacilityCodeCode'

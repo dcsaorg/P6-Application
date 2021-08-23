@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {TransportCall} from "../../model/OVS/transport-call";
+import {TransportCall} from "../../model/ovs/transport-call";
 import {Vessel} from "../../model/portCall/vessel";
-import {vesselOperatorCarrierCodeListProvider} from "../../model/Enums/vesselOperatorCarrierCodeListProvider";
+import {vesselOperatorCarrierCodeListProvider} from "../../model/enums/vesselOperatorCarrierCodeListProvider";
 
 @Pipe({
   name: 'transportCallsToVessels'

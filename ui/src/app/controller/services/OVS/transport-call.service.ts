@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {Observable} from "rxjs";
-import {TransportCall} from "../../../model/OVS/transport-call";
-import {FacilityCodeType} from "../../../model/OVS/facilityCodeType";
+import {TransportCall} from "../../../model/ovs/transport-call";
+import {FacilityCodeType} from "../../../model/ovs/facilityCodeType";
 import {map} from "rxjs/operators";
 
 @Injectable({

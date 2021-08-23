@@ -4,7 +4,7 @@ import {Terminal} from "./terminal";
 import {DelayCode} from "./delayCode";
 import {Vessel} from "./vessel";
 import {MessageDirection} from "./messageDirection";
-import {PartyFunction} from "../OVS/partyFunction";
+import {PartyFunction} from "../ovs/partyFunction";
 
 export interface PortcallTimestamp {
   id: string;

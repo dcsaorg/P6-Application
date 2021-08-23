@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {PortcallTimestamp} from "../model/portCall/portcall-timestamp";
 import {Port} from "../model/portCall/port";
 import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../model/OVS/transport-call";
+import {TransportCall} from "../model/ovs/transport-call";
 import {take} from "rxjs/operators";
 
 @Component({

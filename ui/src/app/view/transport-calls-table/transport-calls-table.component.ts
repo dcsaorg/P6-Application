@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {TransportCallService} from "../../controller/services/OVS/transport-call.service";
-import {TransportCall} from "../../model/OVS/transport-call";
+import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
+import {TransportCall} from "../../model/ovs/transport-call";
 import {DialogService} from "primeng/dynamicdialog";
 import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
 import {TranslateService} from "@ngx-translate/core";
@@ -41,7 +41,7 @@ export class TransportCallsTableComponent implements OnInit {
 
   openCreationDialog(){
     const transportCallEditor = this.dialogService.open(TransportCallCreatorComponent, {
-      header: this.translate.instant('general.transport.table.create'),
+      header: this.translate.instant('general.schedule.create'),
       width: '75%'
     });
     transportCallEditor.onClose.subscribe(result => {
