@@ -29,6 +29,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Configure maven settings
+        uses: whelk-io/maven-settings-xml-action@v14
+        with:
+          servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
+      - name: Compile and test
+        run: mvn -B package
+
       - name: Build Docker image
         run:
           cd ui && docker-compose up --build --no-start
