@@ -13,7 +13,7 @@ export class TransportCallsToVesselsPipe implements PipeTransform {
     let imos = new Set
     for (let transportCall of transportCalls) {
       let vessel: Vessel = new class implements Vessel {
-        vesselIMONumber: number;
+        vesselIMONumber: string;
         vesselName: string;
         serviceNameCode: string;
         teu: number;
@@ -23,7 +23,7 @@ export class TransportCallsToVesselsPipe implements PipeTransform {
         vesselOperatorCarrierCode:string;
         vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider;
       }
-      vessel.vesselIMONumber = parseInt(transportCall.vesselIMONumber);
+      vessel.vesselIMONumber = transportCall.vesselIMONumber;
       vessel.vesselName = transportCall.vesselName;
       if (!imos.has(vessel.vesselIMONumber)) {
         vessels.push(vessel);

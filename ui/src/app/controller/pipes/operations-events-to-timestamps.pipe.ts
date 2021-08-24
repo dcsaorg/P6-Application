@@ -9,15 +9,19 @@ import {Terminal} from "../../model/portCall/terminal";
 import {Vessel} from "../../model/portCall/vessel";
 import {OperationsEventToTimestampTypePipe} from "./operations-event-to-timestamp-type.pipe";
 import {OperationsEventToTimestampPipe} from "./operations-event-to-timestamp.pipe";
+import { Timestamp } from 'src/app/model/ovs/timestamp';
 
 @Pipe({
   name: 'transportEventsToTimestamps'
 })
 export class OperationsEventsToTimestampsPipe implements PipeTransform {
 
-  transform(transportEvents: OperationsEvent[]): PortcallTimestamp[] {
-    let timestamps: PortcallTimestamp[] = new Array();
-     for (let event of transportEvents) {
+  transform(transportEvents: OperationsEvent[]): Timestamp[] {
+    let timestamps: Timestamp[] = new Array();
+    console.log("TRNASFORMING");
+    console.log(transportEvents); 
+    for (let event of transportEvents) {
+       
       timestamps.push(new OperationsEventToTimestampPipe().transform(event));
     }
 

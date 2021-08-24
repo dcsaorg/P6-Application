@@ -19,8 +19,8 @@ export class VesselComponent implements OnInit {
   vessels: SelectItem[];
   selectedVessel: Vessel;
 
-  @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
-  @Output() vesselSavedNotifier: EventEmitter<number> = new EventEmitter<number>()
+  @Output() vesselNotifier: EventEmitter<string> = new EventEmitter<string>()
+  @Output() vesselSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
 
   constructor(public dialogService: DialogService,
               private vesselService: VesselService,
@@ -95,7 +95,7 @@ export class VesselComponent implements OnInit {
         this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
       });
     } else {
-      this.vesselNotifier.emit(-1)
+      this.vesselNotifier.emit(null)
     }
   }
 

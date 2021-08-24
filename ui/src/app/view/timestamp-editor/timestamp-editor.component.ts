@@ -119,12 +119,12 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.logOfTimestamp = this.logOfTimestampDate;
     let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
     timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
-    timestamp.eventTimestamp = this.eventTimestampDate;
+    timestamp.eventDateTime = this.eventTimestampDate;
     let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
-    timestamp.eventTimestamp.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
+    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     //@ToDo To UTC Converter!
     timestamp.logOfTimestamp = timestamp.logOfTimestamp
-    timestamp.eventTimestamp = timestamp.eventTimestamp
+    timestamp.eventDateTime = timestamp.eventTimestamp
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     timestamp.delayCode = (this.delayCode?this.delayCode.smdgCode:null);
     console.log("Save Timestamp:");
@@ -223,12 +223,12 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
      // console.log(this.defaultTimestamp);
       this.defaultTimestamp.timestampType = lastTimestamp.timestampType;
-      this.defaultTimestamp.eventTimestamp = lastTimestamp.eventTimestamp;
+      this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
 
 
       // Set eventDateTime if required
-      this.defaultTimestamp.eventTimestamp = lastTimestamp.eventTimestamp;
-      this.setEventTimestampToDate(new Date(lastTimestamp.eventTimestamp));
+      this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
+      this.setEventTimestampToDate(new Date(lastTimestamp.eventDateTime));
     
     // FAKING ATTRIBUTES, TODO: DELETE THIS! 
 

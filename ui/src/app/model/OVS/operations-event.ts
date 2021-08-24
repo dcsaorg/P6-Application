@@ -1,11 +1,11 @@
 import {EventType} from "./eventType";
 import {EventClassifierCode} from "./eventClassifierCode";
-import {FacilityCodeType} from "./facilityCodeType";
 import {OperationsEventTypeCode} from "./operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import {TransportCall} from "./transport-call";
 import { PublisherRole } from "../enums/publisherRole";
 import { Publisher } from "../publisher";
+import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 
 export interface OperationsEvent {
   eventID: string;
@@ -16,7 +16,7 @@ export interface OperationsEvent {
   eventCreatedDateTime: string | Date;
   transportCallID: string;
   transportCall: TransportCall;
-  facilityTypeCode: FacilityCodeType;
+  facilityTypeCode: FacilityTypeCode;
   publisher: Publisher;
   portCallServiceTypeCode: PortCallServiceTypeCode;
   publisherRole: PublisherRole;

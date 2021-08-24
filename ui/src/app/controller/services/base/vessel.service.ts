@@ -24,7 +24,7 @@ export class VesselService {
 
   getVessels = (): Observable<Vessel[]> =>  this.httpClient.get<Vessel[]>(this.VESSEL_URL); //this.vesselMappingService.getVessels();
 
-  getVessel = (vesselId: number): Observable<Vessel> => this.getVessels().pipe(map(vessels => vessels.find(vessel => vessel.vesselIMONumber == vesselId)));
+  getVessel = (vesselId: string): Observable<Vessel> => this.getVessels().pipe(map(vessels => vessels.find(vessel => vessel.vesselIMONumber == vesselId)));
 
   updateVessel = (vessel: Vessel): Observable<Object> => this.httpClient.put(this.VESSEL_URL + '/' + vessel.vesselIMONumber, vessel);
 

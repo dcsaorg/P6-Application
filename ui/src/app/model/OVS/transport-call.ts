@@ -1,5 +1,5 @@
-import {FacilityCodeType} from "./facilityCodeType";
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
+import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 
 export interface TransportCall {
   transportCallID: string;
@@ -7,7 +7,7 @@ export interface TransportCall {
   vesselName: string;
   UNLocationCode: string;
   transportCallSequenceNumber: number;
-  facilityTypeCode: FacilityCodeType;
+  facilityTypeCode: FacilityTypeCode;
   portCallServiceTypeCode: PortCallServiceTypeCode;
   facilityCode: string;
   otherFacility: string;

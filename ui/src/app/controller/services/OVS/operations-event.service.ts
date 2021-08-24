@@ -16,18 +16,15 @@ export class OperationsEventService {
     this.TRANSPORT_CALL_URL = BACKEND_URL + "/events";  
   }
 
-  getOperationsEvents = (): Observable<OperationsEvent[]> => this.httpClient.get<OperationsEvent[]>(this.TIMESTAMPS_URL + + "?eventType=OPERATIONS");
-
-// TO_DO: UNCOMMENT LINE TO RETURN THE SPECIFIC TRANSPORT  
+  getOperationsEvents = (): Observable<OperationsEvent[]> => this.httpClient.get<OperationsEvent[]>(this.TIMESTAMPS_URL + "?eventType=OPERATIONS");
 
   getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
-    const url = this.TRANSPORT_CALL_URL + "?transportCallID=" + transportCallId ;
+    const url = this.TRANSPORT_CALL_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId ;
     return this.httpClient.get<OperationsEvent[]>(url);
   }
 
   addOperationsEvent = (operationsEvent: OperationsEvent): Observable<OperationsEvent> => {
     console.log("Fire!");
     return this.httpClient.post<OperationsEvent>(this.TIMESTAMPS_URL, operationsEvent);
-    //
 }
 }

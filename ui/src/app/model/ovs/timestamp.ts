@@ -1,6 +1,6 @@
 import { Publisher } from "../publisher";
 import { PublisherRole } from "../enums/publisherRole";
-import { FacilityCodeType } from "../enums/facilityTypeCode";
+import {FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import { OperationsEventTypeCode } from "../enums/operationsEventTypeCode";
 import { EventLocation } from "../eventLocation";
 import { VesselPosition } from "../vesselPosition";
@@ -16,7 +16,7 @@ export interface Timestamp {
     vesselIMONumber: string;
     UNLocationCode: string;
     facilitySMDGCode?: string;
-    facilityTypeCode: FacilityCodeType;
+    facilityTypeCode: FacilityTypeCode;
     eventClassifierCode: EventClassifierCode;
     operationsEventTypeCode: OperationsEventTypeCode;
     eventLocation?: EventLocation;

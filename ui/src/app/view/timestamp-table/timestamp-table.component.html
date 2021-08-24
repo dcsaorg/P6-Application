@@ -43,11 +43,6 @@
         {{ 'general.table.header.timestamp.label' | translate }}
         <p-sortIcon field="timestampType" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 2%" pSortableColumn="sequence"
-          pTooltip="{{ 'general.table.header.sequence.tooltip' | translate }}"
-          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.sequence.label' | translate }}
-      </th>
       <th pSortableColumn="logOfTimestamp" pTooltip="{{ 'general.table.header.logOfTimestamp.tooltip' | translate }}"
           tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.logOfTimestamp.label' | translate }}
@@ -122,7 +117,7 @@
           [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
       <td style="width: 8%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        <div>{{ (timestamp.vessel | vesselIdToVessel: vessels).vesselName}}</div>
+        <div>{{ (timestamp.vesselIMONumber | vesselIdToVessel: vessels).vesselName}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
       </td>
       <td style="width: 8%"
@@ -134,19 +129,15 @@
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         {{ timestamp.timestampType }}
       </td>
-      <td style="width: 2%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        {{ timestamp.callSequence + 1 }}
-      </td>
       <td pTooltip ="Time difference: +{{(timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports)[1]}}"
           style="width: 15%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports)[0]}}
       </td>
-      <td pTooltip =" Time difference: +{{(timestamp.eventTimestamp | timestampToTimezone: timestamp: ports)[1]}}"
+      <td pTooltip =" Time difference: +{{(timestamp.eventDateTime | timestampToTimezone: timestamp: ports)[1]}}"
           style="width: 15%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        {{(timestamp.eventTimestamp | timestampToTimezone: timestamp: ports)[0]}}
+        {{(timestamp.eventDateTime | timestampToTimezone: timestamp: ports)[0]}}
       </td>
         <!--
       <td

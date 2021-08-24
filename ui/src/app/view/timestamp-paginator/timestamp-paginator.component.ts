@@ -15,7 +15,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   displayTimestamps: PortcallTimestamp[] = [];
   first: number;
 
-  @Input('vesselId') vesselId: number;
+  @Input('vesselId') vesselId: string;
   @Input('portOfCall') portOfCall: Port;
   @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
   @Input('portCallTimeStampDeleted') portCallTimeStampDeleted: PortcallTimestamp;
@@ -44,7 +44,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
 
 
       console.log(this.timestamps);
-      if (this.vesselId && this.vesselId > 0) {
+      if (this.vesselId && parseInt(this.vesselId) > 0) {
         this.timestamps = this.timestamps.filter(timestamp => timestamp.vessel === this.vesselId);
       }
       if (this.portOfCall) {

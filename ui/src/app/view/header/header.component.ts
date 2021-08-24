@@ -48,11 +48,18 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.helpMenu = [{
       label: this.translate.instant('Help'),
-      items: [{
+      items: [
+      {
         label: this.translate.instant('Instructions'),
         icon: 'pi pi-question',
         command: () => {
           this.showInstructions();
+        }
+      },
+      {
+        label: this.translate.instant('Pending from Guido'),
+        icon: 'pi pi-exclamation-circle',
+        command: () => {
         }
       },
         {

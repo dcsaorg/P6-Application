@@ -6,6 +6,9 @@
     "help": {
       "label": "Help"
     },
+    "terms": {
+      "label": "Pending from Guido"
+    },
     "close": {
       "label": "Close"
     },
@@ -91,6 +94,12 @@
       "label": "Save"
     },
     "table": {
+      "schedule": {
+        "create": {
+          "label": "Create Schedule",
+          "tooltip": "Create a new schedule"
+        }
+      },
       "accept": {
         "tooltip": "Accept timestamp and send a response as"
       },

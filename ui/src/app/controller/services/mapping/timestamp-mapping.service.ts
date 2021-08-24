@@ -46,7 +46,7 @@ export class TimestampMappingService {
 
   }
 
-  getPortCallTimestamps(): Observable<PortcallTimestamp[]> {
+  getPortCallTimestamps(): Observable<Timestamp[]> {
 
     return this.operationsEventService.getOperationsEvents().pipe(map(events => {
         const timestamps = this.transportEventsToTimestampsPipe.transform(events);
@@ -56,7 +56,7 @@ export class TimestampMappingService {
     ));
   }
 
-  getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<PortcallTimestamp[]> {
+  getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
     return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(map(events => {
       const timestamps = this.transportEventsToTimestampsPipe.transform(events)
       this.mapTransportCallToTimestamps(timestamps, transportCall);
@@ -85,13 +85,13 @@ export class TimestampMappingService {
   }
 
 
-  private loadTransportCalls(timestamps: PortcallTimestamp[]) {
+  private loadTransportCalls(timestamps: Timestamp[]) {
     // get TransportCallIds to be loaded
     const transportCallIDs: string[] = Array.from([...new Set(timestamps.map(timestamp => timestamp.transportCallID))]);
     this.callTransportCalls(transportCallIDs, timestamps)
   }
 
-  private callTransportCalls(transportCallIDs: string[], timestamps: PortcallTimestamp[]): Observable<TransportCall[]> {
+  private callTransportCalls(transportCallIDs: string[], timestamps: Timestamp[]): Observable<TransportCall[]> {
     // load all required transportCalls
     from(transportCallIDs).subscribe(transportCallID => {
       this.transportCallService.getTransportCallsById(transportCallID).subscribe(transportCall => this.mapTransportCallToTimestamps(timestamps, transportCall));
@@ -99,18 +99,12 @@ export class TimestampMappingService {
     return null;
   }
 
-  private mapTransportCallToTimestamps(timestamps: PortcallTimestamp[], transportCall: TransportCall) {
+  private mapTransportCallToTimestamps(timestamps: Timestamp[], transportCall: TransportCall) {
 
     for (let timestamp of timestamps) {
       if (timestamp.transportCallID == transportCall.transportCallID) {
         timestamp.portOfCall =  this.getPortByUnLocode(transportCall.UNLocationCode);
-        timestamp.vessel = parseInt(transportCall.vesselIMONumber);
-        console.log("timestamp.vessel");
-        console.log(timestamp.vessel);
-        // Check if facility is a terminal
-        if (transportCall.facilityTypeCode == FacilityCodeType.POTE) {
-          timestamp.terminal = this.getTerminalByFacilityCode(transportCall.facilityCode)
-        }
+        timestamp.vesselIMONumber = transportCall.vesselIMONumber;
       }
     }
   }

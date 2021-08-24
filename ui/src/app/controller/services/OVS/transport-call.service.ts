@@ -36,13 +36,6 @@ export class TransportCallService {
     return transportCalls;
   }
 
-
-  private extractPortFromFacility(transportCall: TransportCall){
-    if(transportCall.facilityTypeCode == FacilityCodeType.POTE){
-      transportCall.UNLocationCode = transportCall.facilityCode.substring(0,5);
-    }
-  }
-
   private extractVesselAttributes(transportCall: TransportCall){
    if (transportCall['vessel'] === null){
     transportCall.vesselName = null;

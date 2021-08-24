@@ -23,7 +23,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
-
+import {TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service"
+import { Timestamp } from 'src/app/model/ovs/timestamp';
 
 @Component({
   selector: 'app-timestamp-table',
@@ -40,7 +41,7 @@ import {Globals} from "../../model/portCall/globals";
 })
 export class TimestampTableComponent implements OnInit, OnChanges {
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
-  timestamps: PortcallTimestamp[];
+  timestamps: Timestamp[];
   progressing: boolean = true;
   terminals: Terminal[] = [];
   ports: Port[] = [];
@@ -66,6 +67,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
               private portIdToPortPipe: PortIdToPortPipe,
               private translate: TranslateService,
+              private timestampMappingService: TimestampMappingService,
               public globals: Globals
   ) {
   }
@@ -89,7 +91,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   private loadTimestamps() {
     if(this.transportCallSelected){
     this.progressing = true;
-    this.portcallTimestampService.getPortcallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
+    this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
       this.colorizetimestampByLocation(timestamps);
       this.timestamps = timestamps;
       console.log("selceeted timestamp");
@@ -158,13 +160,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     Function that will colorize
     //@ToDo Move this function to postProcessing in timestampService
    */
-  private colorizetimestampByLocation(timestamps: PortcallTimestamp[]) {
+  private colorizetimestampByLocation(timestamps: Timestamp[]) {
     let colourPalette: string[] = new Array("#30a584", "#f5634a", "#d00fc2", "#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
 
     let portaproaches = new Map();
     // extract processIDs
     timestamps.forEach(function (timestamp) {
-      portaproaches.set(timestamp.locationType + timestamp.eventTypeCode, null);
+      portaproaches.set(timestamp.locationType + timestamp.facilityTypeCode, null);
     });
     let i = 0
     // assign color to portApproaches
@@ -177,7 +179,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }
     //assign color to timestamp
     timestamps.forEach(function (timestamp) {
-      timestamp.sequenceColor = portaproaches.get(timestamp.locationType + timestamp.eventTypeCode);
+      timestamp.sequenceColor = portaproaches.get(timestamp.locationType + timestamp.facilityTypeCode);
     });
 
   }

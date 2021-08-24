@@ -1,14 +1,14 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
-import {FacilityCodeType} from "../../model/ovs/facilityCodeType";
+import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
 
 @Pipe({
   name: 'timestampTypeToFacilityCodeCode'
 })
 export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
 
-  transform(timestampType: PortcallTimestampType): FacilityCodeType {
-    let ret: FacilityCodeType = null;
+  transform(timestampType: PortcallTimestampType): FacilityTypeCode {
+    let ret: FacilityTypeCode = null;
  if(
       [PortcallTimestampType.ETD_Berth,
         PortcallTimestampType.PTD_Berth,
@@ -19,7 +19,7 @@ export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
         PortcallTimestampType.PTA_Berth,
         PortcallTimestampType.RTA_Berth
       ].includes(timestampType)
-    ) {ret = FacilityCodeType.BRTH}
+    ) {ret = FacilityTypeCode.BRTH}
     else if (
       [PortcallTimestampType.ETA_PBP,
         PortcallTimestampType.PTA_PBP,
@@ -27,7 +27,7 @@ export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
         PortcallTimestampType.ATA_PBP
       ].includes(timestampType)
     ){
-      ret = FacilityCodeType.PBPL
+      ret = FacilityTypeCode.PBPL
     }
     return ret;
   }

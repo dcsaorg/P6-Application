@@ -5,7 +5,7 @@ import {MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {Port} from "../../model/portCall/port";
 import {TransportCall} from "../../model/ovs/transport-call";
-import {FacilityCodeType} from "../../model/ovs/facilityCodeType";
+import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
 import {Terminal} from "../../model/portCall/terminal";
 import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
@@ -84,7 +84,7 @@ export class TransportCallCreatorComponent implements OnInit {
       carrierServiceCode: string;
       carrierVoyageNumber: string;
       facilityCode: string;
-      facilityTypeCode: FacilityCodeType;
+      facilityTypeCode: FacilityTypeCode;
       otherFacility: string;
       sequenceColor: string;
       transportCallID: string;
@@ -97,7 +97,6 @@ export class TransportCallCreatorComponent implements OnInit {
     const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
     const port: Port = this.transportCallFormGroup.controls.port.value
 
-    transportCall.facilityTypeCode = FacilityCodeType.POTE;
     transportCall.facilityCode = port.unLocode + terminal.smdgCode;
     transportCall.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
     transportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.callSequenceNumber.value

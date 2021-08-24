@@ -23,7 +23,7 @@ export interface PortcallTimestamp {
   locationId: string;
   changeComment?: string;
   delayCode?: DelayCode | string;
-  vessel: number | Vessel;
+  vessel: string | Vessel;
   response?: PortcallTimestampType;
   modifiable: boolean;
   messageDirection?: MessageDirection;

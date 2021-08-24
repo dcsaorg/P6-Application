@@ -1,7 +1,7 @@
 import {vesselOperatorCarrierCodeListProvider} from "../enums/vesselOperatorCarrierCodeListProvider";
 
 export interface Vessel {
-  vesselIMONumber: number;            // id: number; (7)
+  vesselIMONumber: string;            // id: number; (7)
   vesselName: string;                 // name: string; (35)
   vesselFlag: string;                 // (2)
   vesselCallSignNumber: string;       // (10)
