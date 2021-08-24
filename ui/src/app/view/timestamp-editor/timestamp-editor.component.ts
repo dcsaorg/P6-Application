@@ -17,7 +17,6 @@ import {TimestampMappingService} from "../../controller/services/mapping/timesta
 import {Util} from "../../controller/services/util/util";
 import {Timestamp} from "../../model/ovs/timestamp";
 import {TimestampService} from "../../controller/services/ovs/timestamps.service";
-import { threadId } from 'worker_threads';
 import {Globals} from "../../model/portCall/globals";
 
 @Component({
@@ -233,7 +232,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     
     // FAKING ATTRIBUTES, TODO: DELETE THIS! 
 
-    
+
     
     }
 

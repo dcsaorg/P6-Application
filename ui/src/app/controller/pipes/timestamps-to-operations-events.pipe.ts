@@ -13,6 +13,8 @@ import {PartyFunction} from "../../model/ovs/partyFunction";
 import {TimestampTypeToPortcallServiceTypeCodePipe} from "./timestamp-type-to-portcall-service-type-code.pipe";
 import {Config} from "../../model/ovs/config";
 import { TransportCall } from 'src/app/model/ovs/transport-call';
+import { Publisher } from 'src/app/model/publisher';
+import { PublisherRole } from 'src/app/model/enums/publisherRole';
 
 
 @Pipe({
@@ -33,8 +35,8 @@ export class TimestampsToOperationsEventsPipe implements PipeTransform {
       facilityTypeCode: FacilityCodeType;
       operationsEventTypeCode: OperationsEventTypeCode;
       portCallServiceTypeCode: PortCallServiceTypeCode;
-      publisher: string;
-      publisherRole: PartyFunction;
+      publisher: Publisher;
+      publisherRole: PublisherRole;
       transportCallID: string;
       transportCall: TransportCall;
     }
