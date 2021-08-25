@@ -9,7 +9,6 @@ import {BACKEND_URL} from "../../../../environments/environment";
 import {StaticVesselService} from "../static/static-vessel.service";
 import {VesselMappingService} from "../mapping/vessel-mapping.service";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -26,10 +25,13 @@ export class VesselService {
 
   getVessel = (vesselId: string): Observable<Vessel> => this.getVessels().pipe(map(vessels => vessels.find(vessel => vessel.vesselIMONumber == vesselId)));
 
+  getCarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIERS_URL); //this.vesselMappingService.getVessels();
+  getCarrier = (carrierId: string): Observable<Carrier> => this.getCarriers().pipe(map(carriers => carriers.find(carrier => carrier.id == carrierId)));
+
   updateVessel = (vessel: Vessel): Observable<Object> => this.httpClient.put(this.VESSEL_URL + '/' + vessel.vesselIMONumber, vessel);
 
   addVessel = (vessel: Vessel): Observable<Vessel> => this.httpClient.post<Vessel>(this.VESSEL_URL, vessel);
 
   getcarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIER_URL);
- 
+
 }
