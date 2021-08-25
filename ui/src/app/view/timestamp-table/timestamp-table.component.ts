@@ -23,7 +23,8 @@ import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
-import {TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service"
+import {TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
+import {TimestampService } from "../../controller/services/ovs/timestamps.service";
 import { Timestamp } from 'src/app/model/ovs/timestamp';
 
 @Component({
@@ -49,8 +50,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   vessels: Vessel[] = [];
   portOfCall: Port;
 
-  @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
-  @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
+  @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
+  @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
   highestTimestampId: number;
 
@@ -68,6 +69,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private portIdToPortPipe: PortIdToPortPipe,
               private translate: TranslateService,
               private timestampMappingService: TimestampMappingService,
+              private timestampService: TimestampService,
               public globals: Globals
   ) {
   }
@@ -94,36 +96,40 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
       this.colorizetimestampByLocation(timestamps);
       this.timestamps = timestamps;
-      console.log("selceeted timestamp");
-      console.log(timestamps);
+      console.log("selected timestamp");
+      console.log(timestamps);console.log(timestamps.length);console.log(timestamps[0]);
       this.progressing = false;
-     // this.portcallTimestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
+     this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
     });
   }
   }
 
-  acceptTimestamp(timestamp: PortcallTimestamp) {
+  acceptTimestamp(timestamp: Timestamp) {
+    console.log("ACCEPT");
+    console.log(timestamp);
     timestamp.timestampType = timestamp.response;
     timestamp.logOfTimestamp = new Date();
-    timestamp.id = null;
-    this.portcallTimestampService.addPortcallTimestamp(timestamp).subscribe((newPortCallTimestamp: PortcallTimestamp) => {
+    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(
+      (newtimestamp: Timestamp) => {
       const port = this.portIdToPortPipe.transform(timestamp.portOfCall.id, this.ports);
       const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
-      const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newPortCallTimestamp.timestampType as PortcallTimestampType);
+      const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newtimestamp.timestampType as PortcallTimestampType);
       this.loadTimestamps();
-      this.messageService.add({
-        key: "TimestampToast",
-        severity: 'success',
-        summary: 'Successfully accepted the ' + typeOrigin + " with an " + typeNew + " for port " + port.unLocode,
-        detail: ''
-      });
+        this.messageService.add({
+          key: "TimestampToast",
+          severity: 'success',
+          summary: 'Successfully accepted the ' + typeOrigin + " with an " + typeNew + " for port " + port.unLocode,
+          detail: ''
+        });
       this.timeStampAcceptNotifier.emit(timestamp);
-    }, error => this.messageService.add({
-      key: 'TimestampToast',
-      severity: 'error',
-      summary: 'Error while trying to accept the timestamp',
-      detail: error.message
-    }));
+      }, 
+      error => this.messageService.add({
+        key: 'TimestampToast',
+        severity: 'error',
+        summary: 'Error while trying to accept the timestamp',
+        detail: error.message
+      })
+    );
   }
 
 

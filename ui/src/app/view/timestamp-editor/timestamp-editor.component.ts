@@ -48,11 +48,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   creationProgress: boolean = false;
 
   transportCall: TransportCall;
-  delayCode: DelayCode;
 
   timestampTypes: SelectItem[] = [];
-  delayCodeOptions: SelectItem[] = [];
-  delayCodes: DelayCode[] = [];
 
 
   defaultTimestamp: Timestamp = {
@@ -87,15 +84,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
-      this.delayCodes = delayCodes;
-      this.updateDelayCodeOptions()});
+
     this.timestamps = this.config.data.timestamps;
-    console.log("TIMESTAMPING FOR CREAte");
-    console.log(this.timestamps);
     this.transportCall = this.config.data.transportCall;
-    console.log("transportCall FOR CREAte");
-    console.log(this.transportCall);
     this.generateDefaultTimestamp();
     this.timestampSelected = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
     this.defaultTimestamp.timestampType;
@@ -119,18 +110,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.logOfTimestamp = this.logOfTimestampDate;
     let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
     timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
-    timestamp.eventDateTime = this.eventTimestampDate;
     let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
-    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
+//    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     //@ToDo To UTC Converter!
-    timestamp.logOfTimestamp = timestamp.logOfTimestamp
-    timestamp.eventDateTime = timestamp.eventTimestamp
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
-    timestamp.delayCode = (this.delayCode?this.delayCode.smdgCode:null);
     console.log("Save Timestamp:");
     console.log(timestamp);
     this.creationProgress = true;
-    this.TimestampService.addTimestamp(timestamp).subscribe(respTimestamp =>{
+    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(respTimestamp =>{
       this.creationProgress = false;
       this.messageService.add(
         {key: 'TimestampAddSuccess',
@@ -151,14 +138,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   }
 
-  updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
-    });
-  }
-
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
@@ -174,8 +153,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   validatePortOfCallTimestamp(timestamp: Timestamp): boolean {
     return !(timestamp.timestampType &&
       this.logOfTimestampDate && this.logOfTimestampTime &&
-      this.eventTimestampDate && this.eventTimestampTime &&
-      timestamp.portNext &&
+      timestamp.portNext && this.eventTimestampTime &&
       timestamp.portPrevious &&
       timestamp.portOfCall 
       );
@@ -205,12 +183,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.defaultTimestamp.logOfTimestamp = new Date();
     this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
     this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
-
     this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
 
     // Set publisher based on globals 
-   // this.defaultTimestamp.publisher = this.globals.config.publisher;
- //  this.defaultTimestamp.publisherRole = this.globals.config.publisherRole;
+    this.defaultTimestamp.publisher = this.globals.config.publisher;
+    this.defaultTimestamp.publisherRole = this.globals.config.publisherRole;
 
 
     if (this.timestamps.length == 0) {
@@ -228,10 +205,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
       // Set eventDateTime if required
       this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
-      this.setEventTimestampToDate(new Date(lastTimestamp.eventDateTime));
-    
-    // FAKING ATTRIBUTES, TODO: DELETE THIS! 
 
+      this.defaultTimestamp.UNLocationCode = this.transportCall.UNLocationCode;
 
     
     }
@@ -250,8 +225,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
         latestTimestamp = timestamp;
       }
     });
-    console.log("getLatestTimestamp generation");
-    console.log(latestTimestamp);
     return latestTimestamp;
   }
 

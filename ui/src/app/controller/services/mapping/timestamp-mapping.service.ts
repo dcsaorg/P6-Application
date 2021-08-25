@@ -2,18 +2,16 @@ import {Injectable} from '@angular/core';
 import {TransportCallService} from "../ovs/transport-call.service";
 import {OperationsEventService} from "../ovs/operations-event.service";
 import {from, Observable} from "rxjs";
-import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
 import {TransportCall} from "../../../model/ovs/transport-call";
 import {Port} from "../../../model/portCall/port";
 import {map} from "rxjs/internal/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
-import {TimestampsToOperationsEventsPipe} from "../../pipes/timestamps-to-operations-events.pipe";
 import {Terminal} from "../../../model/portCall/terminal";
 import {OperationsEventToTimestampPipe} from "../../pipes/operations-event-to-timestamp.pipe";
-import {FacilityCodeType} from "../../../model/ovs/facilityCodeType";
 import {Timestamp} from "../../../model/ovs/timestamp";
 import {TimestampService} from "../ovs/timestamps.service";
+import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
 
 @Injectable({
   providedIn: 'root'
@@ -24,26 +22,16 @@ export class TimestampMappingService {
               private operationsEventService: OperationsEventService,
               private globals: Globals,
               private transportEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
-              private transportEventToTimestampPipe: OperationsEventToTimestampPipe,
-              private timestampToTransportEventPipe: TimestampsToOperationsEventsPipe,
-
+              private timestampToTransportEventPipe: TimestampToStandardizedtTimestampPipe,
+              private timestampService: TimestampService
 
   ) {
 
   }
 
 
-  addPortCallTimestamp(timestamp: Timestamp): void {//Observable<Timestamp> {
-    console.log("last timestamp proccess");
-    console.log(timestamp);  
-    console.log(this.globals.config);
-    /*
-    return this.operationsEventService.addOperationsEvent(this.timestampToTransportEventPipe.transform(portCallTimestamp, this.globals.config)).pipe(
-      map(event => {return this.transportEventToTimestampPipe.transform(event)})
-      )
-*/
- // return this.TimestampService
-
+  addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
+    return this.timestampService.addTimestamp(this.timestampToTransportEventPipe.transform(timestamp, this.globals.config))
   }
 
   getPortCallTimestamps(): Observable<Timestamp[]> {
@@ -105,6 +93,10 @@ export class TimestampMappingService {
       if (timestamp.transportCallID == transportCall.transportCallID) {
         timestamp.portOfCall =  this.getPortByUnLocode(transportCall.UNLocationCode);
         timestamp.vesselIMONumber = transportCall.vesselIMONumber;
+        timestamp.UNLocationCode = transportCall.UNLocationCode;
+        timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
+        timestamp.carrierServiceCode = transportCall.carrierServiceCode;
+      timestamp.facilitySMDGCode = transportCall.facilityCode;
       }
     }
   }

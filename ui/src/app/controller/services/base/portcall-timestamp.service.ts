@@ -28,10 +28,10 @@ export class PortcallTimestampService {
     this.TIMESTAMP_URL = BACKEND_URL + '/portcalltimestamps';
   }
 
-  getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.timestampMapping.getPortCallTimestamps();
+//  getPortcallTimestamps = (): Observable<PortcallTimestamp[]> => this.timestampMapping.getPortCallTimestamps();
 
-  getPortcallTimestampsByTransportCall = (transportCall: TransportCall): Observable<PortcallTimestamp[]> =>
-  this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall).pipe(map( timestamp => this.postProcess(timestamp)))
+//  getPortcallTimestampsByTransportCall = (transportCall: TransportCall): Observable<PortcallTimestamp[]> =>
+  //this.timestampMapping.getPortCallTimestampsByTransportCall(transportCall).pipe(map( timestamp => this.postProcess(timestamp)))
 
 
 

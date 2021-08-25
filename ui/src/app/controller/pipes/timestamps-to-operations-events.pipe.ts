@@ -20,9 +20,11 @@ import { Timestamp } from 'src/app/model/ovs/timestamp';
 @Pipe({
   name: 'timestampsToTransportEvents'
 })
+
 export class TimestampsToOperationsEventsPipe implements PipeTransform {
 
   transform(portcallTimestamp: Timestamp, configurations: Config): OperationsEvent {
+    /*
     let operationsEvent: OperationsEvent = new class implements OperationsEvent {
       changeRemark: string;
       delayReasonCode: string;
@@ -43,7 +45,7 @@ export class TimestampsToOperationsEventsPipe implements PipeTransform {
 
     operationsEvent.eventCreatedDateTime = portcallTimestamp.logOfTimestamp;
     operationsEvent.eventDateTime = portcallTimestamp.eventDateTime;
-    operationsEvent.delayReasonCode = (portcallTimestamp.delayCode?portcallTimestamp.delayCode.toString():null);
+    operationsEvent.delayReasonCode = (portcallTimestamp.delayReasonCode);
     operationsEvent.eventClassifierCode = new TimestampTypeToEventClassifierCodePipe().transform(portcallTimestamp.timestampType);
     operationsEvent.operationsEventTypeCode = new TimestampTypeToEventTypePipe().transform(portcallTimestamp.timestampType)
     operationsEvent.facilityTypeCode = new TimestampTypeToFacilityCodeCodePipe().transform(portcallTimestamp.timestampType)
@@ -56,8 +58,11 @@ export class TimestampsToOperationsEventsPipe implements PipeTransform {
 
 
 
-
+    console.log("timestamp fired below")
+    console.log(operationsEvent)
     return operationsEvent;
+    */
+   return null; 
   }
 
 

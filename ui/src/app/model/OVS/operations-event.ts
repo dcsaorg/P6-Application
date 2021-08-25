@@ -17,10 +17,12 @@ export interface OperationsEvent {
   transportCallID: string;
   transportCall: TransportCall;
   facilityTypeCode: FacilityTypeCode;
+  UNLocationCode: string;
   publisher: Publisher;
   portCallServiceTypeCode: PortCallServiceTypeCode;
   publisherRole: PublisherRole;
   eventLocation: string;
   changeRemark: string;
+  remark: string;
   delayReasonCode: string;
 }

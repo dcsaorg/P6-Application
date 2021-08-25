@@ -1,6 +1,6 @@
 import { Publisher } from "../publisher";
 import { PublisherRole } from "../enums/publisherRole";
-import {FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
+import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import { OperationsEventTypeCode } from "../enums/operationsEventTypeCode";
 import { EventLocation } from "../eventLocation";
 import { VesselPosition } from "../vesselPosition";
@@ -24,6 +24,13 @@ export interface Timestamp {
     modeOfTransport?: ModeOfTransport;
     portCallServiceTypeCode?: PortCallServiceTypeCode;
     eventDateTime: string | Date;
+    carrierServiceCode?: string;
+    carrierVoyageNumber?: string;
+    portCallSequence?: string;
+    remark?: string;
+    delayReasonCode?: string;
+
+  
   /**
    * @deprecated
    */
@@ -82,11 +89,6 @@ export interface Timestamp {
    logOfTimestamp?: string | Date;
 
         /**
-   * @deprecated
-   */
-    delayCode?: string | Date;
-
-            /**
    * @deprecated
    */
     eventTimestamp?: string | Date;

@@ -8,7 +8,6 @@ import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-typ
 import {Terminal} from "../../model/portCall/terminal";
 import {Vessel} from "../../model/portCall/vessel";
 import {OperationsEventToTimestampTypePipe} from "./operations-event-to-timestamp-type.pipe";
-import {PartyFunction} from "../../model/ovs/partyFunction";
 import { Timestamp } from 'src/app/model/ovs/timestamp';
 import { Publisher } from 'src/app/model/publisher';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
@@ -58,25 +57,33 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       vessel: number | Vessel;
     }
 
-    timestamp.timestampType = this.getTimestampType(operationsEvent);
-    timestamp.logOfTimestamp = operationsEvent.eventCreatedDateTime;
-    timestamp.eventDateTime = operationsEvent.eventDateTime;
- //   timestamp.changeComment = operationsEvent.changeRemark;
-    timestamp.transportCallID = operationsEvent.transportCall.transportCallID;
-  //  timestamp.locationId = operationsEvent.eventLocation;
-    timestamp.uiReadByUser = true;
-    timestamp.delayCode = operationsEvent.delayReasonCode;
     timestamp.publisher = operationsEvent.publisher;
     timestamp.publisherRole = operationsEvent.publisherRole;
+
+    timestamp.uiReadByUser = true;
+    timestamp.publisher = operationsEvent.publisher;
+    timestamp.publisherRole = operationsEvent.publisherRole;
+    timestamp.eventClassifierCode = operationsEvent.eventClassifierCode;
+    timestamp.operationsEventTypeCode = operationsEvent.operationsEventTypeCode;
+    timestamp.eventDateTime = operationsEvent.eventDateTime;
+    timestamp.portCallServiceTypeCode = operationsEvent.portCallServiceTypeCode;
+    timestamp.facilityTypeCode = operationsEvent.facilityTypeCode;
+    timestamp.remark = operationsEvent.remark;
+    timestamp.delayReasonCode = operationsEvent.remark;
+
+    // Extras 
+    timestamp.timestampType = this.getTimestampType(operationsEvent);
+    timestamp.logOfTimestamp = operationsEvent.eventCreatedDateTime;
+    timestamp.transportCallID = operationsEvent.transportCall.transportCallID;
 
 
     return timestamp;
   }
 
 
-  private getTimestampType(transportEvent: OperationsEvent): PortcallTimestampType {
+  private getTimestampType(operationsEvent: OperationsEvent): PortcallTimestampType {
     const timestampTypeMapping: OperationsEventToTimestampTypePipe = new OperationsEventToTimestampTypePipe();
-    return timestampTypeMapping.transform(transportEvent);
+    return timestampTypeMapping.transform(operationsEvent);
   }
 
 }

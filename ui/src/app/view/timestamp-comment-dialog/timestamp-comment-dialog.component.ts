@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {SelectItem} from "primeng/api";
 import {DelayCode} from "../../model/portCall/delayCode";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import { Timestamp } from 'src/app/model/ovs/timestamp';
 
 @Component({
   selector: 'app-timestamp-comment-dialog',
@@ -12,12 +11,12 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 })
 export class TimestampCommentDialogComponent implements OnInit {
 
-  public timestamp: PortcallTimestamp;
-  delayCode: DelayCode;
+  public timestamp: Timestamp;
+  delayReasonCode: string;
   editMode: boolean;
 
-  private previousDelayCode: DelayCode;
-  private previousChangeComment: string;
+  private previousDelayCode: string;
+  private previousRemark: string;
 
   constructor(public config: DynamicDialogConfig,
               public ref: DynamicDialogRef,
@@ -26,18 +25,10 @@ export class TimestampCommentDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.timestamp = this.config.data.timestamp;
-    this.previousDelayCode = this.timestamp.delayCode as DelayCode;
-    this.previousChangeComment = this.timestamp.changeComment;
+    this.previousDelayCode = this.timestamp.delayReasonCode;
+    this.previousRemark = this.timestamp.remark;
+    this.delayReasonCode = this.timestamp.delayReasonCode;
     this.editMode = this.config.data.editMode;
-    const delayCodes : DelayCode[] = this.config.data.delayCode;
-
-    if(this.timestamp.delayCode != null){
-      for(let delayCode of delayCodes){
-        if (delayCode.smdgCode == this.timestamp.delayCode){
-          this.delayCode = delayCode;
-        }
-      }
-    }
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
 
@@ -48,8 +39,8 @@ export class TimestampCommentDialogComponent implements OnInit {
     this.ref.close(this.timestamp);
   }
   cancelEdit() {
-    this.timestamp.delayCode = this.previousDelayCode;
-    this.timestamp.changeComment = this.previousChangeComment;
+    this.timestamp.delayReasonCode = this.previousDelayCode;
+    this.timestamp.remark = this.previousRemark;
     this.ref.close(null);
   }
   close() {
