@@ -6,7 +6,7 @@ export const environment = {
   production: false
 };
 
-export const BACKEND_URL = "http://localhost:9090/v2" // window.location.origin + "/api";
+export const BACKEND_URL = window.location.origin + "/api";
 
 /*
  * For easier debugging in development mode, you can import the following file
