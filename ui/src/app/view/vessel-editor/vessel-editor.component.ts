@@ -145,7 +145,7 @@ export class VesselEditorComponent implements OnInit {
   }
 
   private updatCarrrierOptions() {
-    this.vesselService.getcarriers().subscribe(carriers => {
+    this.vesselService.getCarriers().subscribe(carriers => {
       this.carriers = [];
 
       console.log(this.carriers);

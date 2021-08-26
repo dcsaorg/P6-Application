@@ -30,50 +30,50 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.selectedRowSize = this.rowSizes[1];
     this.paginatorService.refreshNotifier().subscribe(() => {
-      this.refreshTimestamps();
+      // this.refreshTimestamps();
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.refreshTimestamps();
+    // this.refreshTimestamps();
   }
 
-  private refreshTimestamps() {
-    this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
-      this.timestamps = portCallTimestamps;
-
-
-      console.log(this.timestamps);
-      if (this.vesselId && parseInt(this.vesselId) > 0) {
-        this.timestamps = this.timestamps.filter(timestamp => timestamp.vessel === this.vesselId);
-      }
-      if (this.portOfCall) {
-        this.timestamps = this.timestamps.filter(timestamp => (timestamp.portOfCall.id ) === this.portOfCall.id);
-      }
-      const pageCount = Math.ceil(this.timestamps.length / this.selectedRowSize);
-
-      console.debug("...");
-      console.debug("Timestamp length: " + this.timestamps.length);
-      console.debug("Calculated page count: " + pageCount);
-
-      let page = pageCount - 1;
-      if (page < 0) {
-        page = 0;
-      }
-      let first = page * this.selectedRowSize;
-      if (first < 0) {
-        first = 0;
-      }
-      this.paginate(
-        {
-          first: first,
-          page: page,
-          pageCount: pageCount,
-          rows: this.selectedRowSize,
-        }
-      )
-    });
-  }
+  // private refreshTimestamps() {
+  //   this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
+  //     this.timestamps = portCallTimestamps;
+  //
+  //
+  //     console.log(this.timestamps);
+  //     if (this.vesselId && parseInt(this.vesselId) > 0) {
+  //       this.timestamps = this.timestamps.filter(timestamp => timestamp.vessel === this.vesselId);
+  //     }
+  //     if (this.portOfCall) {
+  //       this.timestamps = this.timestamps.filter(timestamp => (timestamp.portOfCall.id ) === this.portOfCall.id);
+  //     }
+  //     const pageCount = Math.ceil(this.timestamps.length / this.selectedRowSize);
+  //
+  //     console.debug("...");
+  //     console.debug("Timestamp length: " + this.timestamps.length);
+  //     console.debug("Calculated page count: " + pageCount);
+  //
+  //     let page = pageCount - 1;
+  //     if (page < 0) {
+  //       page = 0;
+  //     }
+  //     let first = page * this.selectedRowSize;
+  //     if (first < 0) {
+  //       first = 0;
+  //     }
+  //     this.paginate(
+  //       {
+  //         first: first,
+  //         page: page,
+  //         pageCount: pageCount,
+  //         rows: this.selectedRowSize,
+  //       }
+  //     )
+  //   });
+  // }
 
 
 

@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
-import {Observable, map} from "rxjs";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
 import {TransportCall} from "../../../model/ovs/transport-call";
 import {Transport} from "../../../model/OVS/transport";
 import {FacilityCodeType} from "../../../model/ovs/facilityCodeType";
