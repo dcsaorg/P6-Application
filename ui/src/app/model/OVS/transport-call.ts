@@ -5,7 +5,6 @@ export interface TransportCall {
   carrierServiceCode?: string;
   carrierVoyageNumber?: string;
   transportCallID: string;
-  transportCallSequenceNumber: number;
 
   vesselIMONumber: string;
   vesselName: string;

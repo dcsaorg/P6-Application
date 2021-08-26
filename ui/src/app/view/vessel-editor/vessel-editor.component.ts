@@ -1,11 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {Vessel} from "../../model/portCall/vessel";
-import {Carrier} from "../../model/portCall/carrier";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {MessageService, SelectItem} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {SelectItem} from "primeng/api";
 import {Carrier} from "../../model/portCall/carrier";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -25,7 +23,6 @@ export class VesselEditorComponent implements OnInit {
   @Output() carrierSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
 
   constructor(public ref: DynamicDialogRef,
-              private translate: TranslateService,
               public config: DynamicDialogConfig,
               private vesselService: VesselService,
               private messageService: MessageService,
@@ -157,10 +154,5 @@ export class VesselEditorComponent implements OnInit {
         this.carriers.push({label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode});
       });
     });
-  }
-  selectCarrier() {
-
-  // Check that a carirrier is chosen before allowing creation
-
   }
 }

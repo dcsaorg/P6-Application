@@ -13,6 +13,7 @@ import {DynamicDialogRef} from "primeng/dynamicdialog";
 import { PortCallServiceTypeCode } from 'src/app/model/enums/portCallServiceTypeCode';
 import {Vessel} from "../../model/portCall/vessel";
 import {VesselService} from "../../controller/services/base/vessel.service";
+import {FacilityTypeCode} from "../../model/Enums/facilityTypeCodeOPR";
 
 
 @Component({
@@ -102,7 +103,7 @@ export class TransportCallCreatorComponent implements OnInit {
     if (this.selectedVessel) {
       this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
-        this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
+        this.vesselNotifier.emit(Number.parseInt(this.selectedVessel.vesselIMONumber))
       });
     } else {
       this.vesselNotifier.emit(-1)
@@ -162,6 +163,7 @@ export class TransportCallCreatorComponent implements OnInit {
       transportCallSequenceNumber: number;
       vesselIMONumber: string;
       vesselName: string;
+      facilityCodeListProvider: string;
       portCallServiceTypeCode: PortCallServiceTypeCode;
     }
 
@@ -170,7 +172,7 @@ export class TransportCallCreatorComponent implements OnInit {
       carrierServiceCode: string;
       carrierVoyageNumber: string;
       facilityCode: string;
-      facilityTypeCode: FacilityCodeType;
+      facilityTypeCode: FacilityTypeCode;
       otherFacility: string;
       sequenceColor: string;
       transportCallID: string;
@@ -178,6 +180,7 @@ export class TransportCallCreatorComponent implements OnInit {
       vesselIMONumber: string;
       vesselName: string;
       facilityCodeListProvider: string;
+      portCallServiceTypeCode: PortCallServiceTypeCode;
     }
 
     const dischargeTerminal: Terminal = this.transportCallFormGroup.controls.dischargeTerminal.value
@@ -206,9 +209,9 @@ export class TransportCallCreatorComponent implements OnInit {
     transport.transportName = this.transportCallFormGroup.controls.transportName.value;
     transport.transportReference = this.transportCallFormGroup.controls.transportReference.value;
 
-    transportCall.facilityCode = port.unLocode + terminal.smdgCode;
-    transportCall.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
-    transportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.callSequenceNumber.value
+    // transportCall.facilityCode = port.unLocode + terminal.smdgCode;
+    // transportCall.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
+    // transportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.callSequenceNumber.value
 
     this.transportCallService.addTransport(transport).subscribe(transportCall => {
         this.creationProgress = false;
