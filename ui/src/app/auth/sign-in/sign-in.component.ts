@@ -15,6 +15,8 @@ export class SignInComponent implements OnInit {
   userName: string = "";
   password: string = "";
   accessToken: string;
+  sessionUserAttributes: any;
+  cognitoUser: any;
 
   constructor(private router: Router) { }
 
@@ -30,8 +32,8 @@ export class SignInComponent implements OnInit {
       });
      
       let poolData = {
-        UserPoolId: environment.cognitoUserPoolId, // Your user pool id here
-        ClientId: environment.cognitoAppClientId // Your client id here
+        UserPoolId: environment.cognitoUserPoolId,
+        ClientId: environment.cognitoAppClientId 
       };
 
       let userPool = new CognitoUserPool(poolData);
@@ -40,8 +42,8 @@ export class SignInComponent implements OnInit {
         Pool: userPool,
       };
 
-      var cognitoUser = new CognitoUser(userData);
-      cognitoUser.authenticateUser(authenticationDetails, {
+      this.cognitoUser = new CognitoUser(userData);
+      this.cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: (result) => {
           this.accessToken = result.getAccessToken().getJwtToken();
           this.router.navigate(["dashboard"])
@@ -51,11 +53,17 @@ export class SignInComponent implements OnInit {
           alert(err.message || JSON.stringify(err));
           this.isLoading = false;
         },
-      });
-
+        newPasswordRequired: (userAttributes, requiredAttributes) => {
+          this.sessionUserAttributes = userAttributes;
+          //  \n check notes for issue 21
+          alert("Confirmation of password is not implemented");
+          this.isLoading = false;     
+        },
+    });
     }
     else{
       console.log("invalid")
     }
   }
+
 }
