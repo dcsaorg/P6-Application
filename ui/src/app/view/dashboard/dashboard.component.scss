@@ -1,0 +1,73 @@
+@import "DCSA-Theme";
+
+.stickyFooterDiv {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0px;
+}
+
+.main {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  &__main_spcerHeadlin{
+    margin-top: 10px;
+  }
+
+  &__spaceBetween {
+    margin-bottom: 5px;
+  }
+
+  &__spaceInnerComponent {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  &__notSelectedIdicator{
+    text-align: center;
+    font-size: 16pt;
+    color: lightgray;
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 5px 0px 5px 0px;
+  }
+
+  &__content{
+    height: 80vh;
+    position: absolute;
+  }
+
+  &__top_content_pane{
+    height: 39vh;
+    width: 98vw;
+    overflow: scroll;
+  }
+
+  &__bottom_content_pane{
+    height: 39vh;
+    width: 98vw;
+    overflow: scroll;
+  }
+
+}
+
+.fullWidthAndHeight {
+  width: 100%;
+  height: auto;
+}
+
+.rightSpace {
+  margin-right: 10px;
+}
+
+root {
+  font-size: 4px;
+}
+
+
