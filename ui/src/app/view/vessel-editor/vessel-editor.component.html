@@ -48,16 +48,32 @@
         </span>
       </div>
     </div>
-
     <div class="p-field p-grid">
-      <label for="flag" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{ 'general.vessel.operatorCarrierID' | translate }}</label>
-      <div class="dropDownDiv p-col-12 p-md-10">
-        <p-dropdown id="vessel" formControlName="operatorCarrierID" (onChange)="selectCarrier()" [(ngModel)]="selectedCarrier" [filter]="true"
-                    [options]="carriers" autofocus="true">
-        </p-dropdown>
+      <label for="vesselOperatorCarrierCode" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{ 'general.vessel.vesselOperatorCarrierCode' | translate }}</label>
+      <div class="p-col-12 p-md-10">
+      <p-dropdown appendTo="body" [(ngModel)]="vessel.vesselOperatorCarrierCode" [filter]="true" [required] = "true" [options]="carriers"  [ngModelOptions]="{standalone: true}"
+      placeholder="{{ 'general.carrier.select' | translate }}"></p-dropdown>
+      </div>
+    </div>
+        <!--
+    <div class="p-field p-grid">
+      <label for="vesselOperatorCarrierCodeListProvider" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{ 'general.vessel.vesselOperatorCarrierCodeListProvider' | translate }}</label>
+      <div class="p-col-12 p-md-10">
+      <p-dropdown appendTo="body" [(ngModel)]="vessel.vesselOperatorCarrierCodeListProvider" [filter]="true" [options]="CarrierCodeListProviders"  [ngModelOptions]="{standalone: true} "
+      placeholder="{{ 'general.carrier.CarrierCodeListProvider.select' | translate }}"></p-dropdown>
       </div>
     </div>
 
+    <div class="p-field p-grid">
+      <label for="vesselOperatorCarrierCodeListProvider" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{ 'general.vessel.operatorCarrierID' | translate }}</label>
+      <div class="p-col-12 p-md-10">
+        <input id="operatorCarrierID" type="text" formControlName="operatorCarrierID" pInputText [(ngModel)]=vessel.vesselOperatorCarrierID>
+        <span *ngIf="vesselFormGroup.get('operatorCarrierID').hasError('maxlength')" class="p-invalid">
+          {{ 'general.vessel.validation.size.max.length' | translate }}
+        </span>
+      </div>
+    </div>
+    -->
     <div class="p-field p-grid">
       <label class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"></label>
       <div class="p-col-12 p-md-10">

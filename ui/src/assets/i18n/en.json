@@ -241,9 +241,6 @@
         "carrierVoyageNumber": {
           "label": "Carrier Voyage Number"
         },
-        "vessel": {
-          "label": "Vessel"
-        },
         "facilityTypeCode": {
           "label": "Facility Type"
         },
@@ -275,9 +272,6 @@
           "detail": "Creating a new transport call failed with: "
         }
       }
-    },
-    "carrier": {
-      "select": "All carrier operator IDs"
     },
     "vessel": {
       "add": {
