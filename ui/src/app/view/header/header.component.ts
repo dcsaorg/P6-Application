@@ -8,6 +8,9 @@ import {CodeType} from "../../model/portCall/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import { environment } from 'src/environments/environment';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -35,7 +38,8 @@ export class HeaderComponent implements OnInit {
               private downloadService: DownloadService,
               private messageService: MessageService,
               private translate: TranslateService,
-              private globals: Globals) {
+              private globals: Globals,
+              private router: Router) {
     configService.getConfig().subscribe(config => {
       this.globals.config = config;
       this.companyName = config.company;
@@ -108,5 +112,18 @@ export class HeaderComponent implements OnInit {
     console.log(selectedLanguage);
     this.translate.use(selectedLanguage.value);
   }
+
+  
+  onLogout(): void {
+    let poolData = {
+      UserPoolId: environment.cognitoUserPoolId,
+      ClientId: environment.cognitoAppClientId
+    };
+    let userPool = new CognitoUserPool(poolData);
+    let cognitoUser = userPool.getCurrentUser();
+    cognitoUser?.signOut();
+    this.router.navigate(["signin"])
+  }
+
 
 }

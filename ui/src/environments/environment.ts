@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   cognitoUserPoolId: "eu-west-1_rJGpA7BVH",
-  cognitoAppClientId: "1430omncmj7hqqpft3m6hr44o0" 
+  cognitoAppClientId: "3bdgnq3ihck83j6pkl36ccdker" 
 };
 
 export const BACKEND_URL = window.location.origin + "/api";
