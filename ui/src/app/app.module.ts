@@ -1,7 +1,7 @@
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './view/app.component';
@@ -149,7 +149,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransportCallsToVesselsPipe,
     TimestampsToOperationsEventsPipe,
     OperationsEventToTimestampPipe,
-    TimestampToStandardizedtTimestampPipe
+    TimestampToStandardizedtTimestampPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+     }
   ],
   bootstrap: [AppComponent]
 })
