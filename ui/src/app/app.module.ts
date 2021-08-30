@@ -60,6 +60,9 @@ import { OperationsEventToTimestampPipe } from './controller/pipes/operations-ev
 import { TimestampTypeToPortcallServiceTypeCodePipe } from './controller/pipes/timestamp-type-to-portcall-service-type-code.pipe';
 import { TransportCallCreatorComponent } from './view/transport-call-creator/transport-call-creator.component';
 import { TimestampToStandardizedtTimestampPipe } from "./controller/pipes/timestamp-to-standardized-timestamp";
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { DashboardComponent } from './view/dashboard/dashboard.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -69,6 +72,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
+    SignInComponent,
+    SignUpComponent,
+    DashboardComponent,
     HeaderComponent,
     PortCallTimestampTypeToEnumPipe,
     PortCallTimestampTypeToStringPipe,

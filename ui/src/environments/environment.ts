@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  cognitoUserPoolId: "eu-west-1_rJGpA7BVH",
+  cognitoAppClientId: "1430omncmj7hqqpft3m6hr44o0" 
 };
 
 export const BACKEND_URL = window.location.origin + "/api";
