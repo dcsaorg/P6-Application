@@ -8,7 +8,7 @@ import { Publisher } from "../publisher";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 
 export interface OperationsEvent {
-  eventID: string;
+  eventID?: string;
   eventType: EventType;
   eventDateTime: string | Date;
   eventClassifierCode: EventClassifierCode;
@@ -22,7 +22,7 @@ export interface OperationsEvent {
   portCallServiceTypeCode: PortCallServiceTypeCode;
   publisherRole: PublisherRole;
   eventLocation: string;
-  changeRemark: string;
-  remark: string;
-  delayReasonCode: string;
+  changeRemark?: string;
+  remark?: string;
+  delayReasonCode?: string;
 }

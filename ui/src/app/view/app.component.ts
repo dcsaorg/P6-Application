@@ -4,6 +4,7 @@ import {Port} from "../model/portCall/port";
 import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../model/ovs/transport-call";
 import {take} from "rxjs/operators";
+import { Timestamp } from '../model/ovs/timestamp';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +16,9 @@ export class AppComponent {
   vesselSavedId: number;
   portOfCall: Port;
   transportCallSelected: TransportCall;
-  portCallTimeStampAdded: PortcallTimestamp;
-  portCallTimeStampDeleted: PortcallTimestamp;
-  portCallTimeStampResponded: PortcallTimestamp;
+  portCallTimeStampAdded: Timestamp;
+  portCallTimeStampDeleted: Timestamp;
+  portCallTimeStampResponded: Timestamp;
 
 
   constructor(translate: TranslateService) {
@@ -25,14 +26,14 @@ export class AppComponent {
     translate.use('en');
   }
 
-  vesselChangedHandler = ($vesselId: number) => this.vesselId = $vesselId;
-  vesselSavedHandler = ($vesselSavedId: number) => this.vesselSavedId = $vesselSavedId;
+  vesselChangedHandler = ($vesselId: string) => this.vesselId =  parseInt($vesselId) ;
+  vesselSavedHandler = ($vesselSavedId: string) => this.vesselSavedId = parseInt($vesselSavedId);
 
-  timeStampAddedHandler = ($portCallTimeStampAdded: PortcallTimestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
+  timeStampAddedHandler = ($portCallTimeStampAdded: Timestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
 
-  timestampDeletedHandler = ($portCallTimestampDeleted: PortcallTimestamp) => this.portCallTimeStampDeleted = $portCallTimestampDeleted;
+  timestampDeletedHandler = ($portCallTimestampDeleted: Timestamp) => this.portCallTimeStampDeleted = $portCallTimestampDeleted;
 
-  timestampRespondedHandler = ($portCallTimestampResponded: PortcallTimestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
+  timestampRespondedHandler = ($portCallTimestampResponded: Timestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
 

@@ -30,14 +30,14 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.selectedRowSize = this.rowSizes[1];
     this.paginatorService.refreshNotifier().subscribe(() => {
-      this.refreshTimestamps();
+   //   this.refreshTimestamps();
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.refreshTimestamps();
+ //   this.refreshTimestamps();
   }
-
+/*
   private refreshTimestamps() {
     this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
       this.timestamps = portCallTimestamps;
@@ -75,7 +75,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
     });
   }
 
-
+*/
 
 
 

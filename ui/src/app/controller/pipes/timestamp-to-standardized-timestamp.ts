@@ -21,23 +21,7 @@ import { Timestamp } from 'src/app/model/ovs/timestamp';
 export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
 
   transform(portcallTimestamp: Timestamp, configurations: Config): Timestamp {
-      /*
-    publisher: Publisher; 
-    publisherRole: PublisherRole;
-    vesselIMONumber: string;
-    UNLocationCode: string;
-    facilitySMDGCode?: string;
-    facilityTypeCode: FacilityTypeCode;
-    eventClassifierCode: EventClassifierCode;
-    operationsEventTypeCode: OperationsEventTypeCode;
-    eventLocation?: EventLocation;
-    vesselPosition?: VesselPosition;
-    modeOfTransport?: ModeOfTransport;
-    portCallServiceTypeCode?: PortCallServiceTypeCode;
-    eventDateTime: string | Date;
-    remark?: string;
-    delayCode?: string | Date;
-      */
+
     let newTimestamp: Timestamp = new class implements Timestamp {
         publisher: Publisher;
         publisherRole: PublisherRole;

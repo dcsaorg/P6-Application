@@ -22,8 +22,8 @@
       </div>
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="terminal">{{'general.terminal.label'| translate}}: </label>
-        <span *ngIf="defaultTimestamp.terminal != null" id="terminal">/* {{$any(defaultTimestamp.terminal).smdgCode}}
-          ({{$any(defaultTimestamp.terminal).terminalName}})</span>
+        <span *ngIf="defaultTimestamp.facilitySMDGCode != null" id="terminal">/* {{$any(defaultTimestamp.facilitySMDGCode)}}
+          ({{$any(defaultTimestamp.portOfCall)}})</span>
       </div>
       <div class="p-field p-col-12 p-md-4">
         <!-- Placeholder for additional information -->
