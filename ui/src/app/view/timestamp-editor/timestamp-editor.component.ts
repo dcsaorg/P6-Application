@@ -50,13 +50,16 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   transportCall: TransportCall;
 
   timestampTypes: SelectItem[] = [];
-
+  delayCodeOptions: SelectItem[] = [];
+  delayCodes: DelayCode[];
+  delayCode: DelayCode;
 
   defaultTimestamp: Timestamp = {
     publisher: undefined,
     publisherRole: undefined,
     vesselIMONumber: undefined,
     UNLocationCode: undefined,
+    facilityCode: undefined,
     facilityTypeCode: undefined,
     eventClassifierCode: undefined,
     operationsEventTypeCode: undefined,
@@ -68,6 +71,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestampType: undefined,
     transportCallID: ""
   };
+
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private portIdToPortPipe: PortIdToPortPipe,
@@ -84,7 +88,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-
+    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
+      this.delayCodes = delayCodes;
+      this.updateDelayCodeOptions()});
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
     this.generateDefaultTimestamp();
@@ -110,7 +116,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.logOfTimestamp = this.logOfTimestampDate;
     let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
     timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
-    let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
+    timestamp.delayReasonCode =  (this.delayCode?this.delayCode.smdgCode:null);
+ //   let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
 //    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     //@ToDo To UTC Converter!
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
@@ -144,6 +151,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     for (let item in PortcallTimestampType) {
       this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
     }
+  }
+
+  updateDelayCodeOptions() {
+    this.delayCodeOptions = [];
+    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
+    this.delayCodes.forEach(delayCode => {
+      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+    });
   }
 
   close() {
@@ -184,11 +199,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
     this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
     this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
-
+    this.defaultTimestamp.facilityCode = this.transportCall.facilityCode;
     // Set publisher based on globals 
     this.defaultTimestamp.publisher = this.globals.config.publisher;
     this.defaultTimestamp.publisherRole = this.globals.config.publisherRole;
-
 
     if (this.timestamps.length == 0) {
       // Generate Initial ETA Berth

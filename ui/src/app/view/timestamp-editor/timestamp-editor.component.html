@@ -22,8 +22,7 @@
       </div>
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="terminal">{{'general.terminal.label'| translate}}: </label>
-        <span *ngIf="defaultTimestamp.facilitySMDGCode != null" id="terminal">/* {{$any(defaultTimestamp.facilitySMDGCode)}}
-          ({{$any(defaultTimestamp.portOfCall)}})</span>
+        <span *ngIf="defaultTimestamp.facilityCode != null" id="terminal"> {{defaultTimestamp.facilityCode}}</span>
       </div>
       <div class="p-field p-col-12 p-md-4">
         <!-- Placeholder for additional information -->
@@ -37,8 +36,9 @@
     <p-dropdown id="timestampType" styleClass="dropdown" [(ngModel)]="timestampSelected"
                 [options]="timestampTypes"></p-dropdown>
   </div>
-  <div class="p-field p-col-12 p-md-8">
+  <div class="p-field p-col-12 p-md-2">
   </div>
+  <!-- 
   <div class="p-field p-col-12 p-md-5">
     <label for="logoftimestamp">{{ 'general.table.header.logOfTimestamp.label' | translate }}: </label>
     <div class="p-fluid p-formgrid p-grid">
@@ -59,7 +59,7 @@
       </div>
     </div>
   </div>
-
+ -->
   <div class="p-field p-col-12 p-md-5">
     <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
 
@@ -81,6 +81,7 @@
       </div>
     </div>
   </div>
+  <!--
   <div class="p-field p-col-12 p-md-2">
   </div>
 
@@ -90,7 +91,7 @@
   </div>
   <div class="p-field p-col-12 p-md-7">
   </div>
-
+-->
   <div class="p-field p-col-12 p-md-5">
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
     <p-dropdown id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
