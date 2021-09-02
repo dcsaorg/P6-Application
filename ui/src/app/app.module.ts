@@ -63,6 +63,7 @@ import { TimestampToStandardizedtTimestampPipe } from "./controller/pipes/timest
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
+import { AuthInterceptor } from "./auth/auth-interceptor";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
