@@ -8,7 +8,6 @@ import {map} from "rxjs/internal/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
 import {Terminal} from "../../../model/portCall/terminal";
-import {OperationsEventToTimestampPipe} from "../../pipes/operations-event-to-timestamp.pipe";
 import {Timestamp} from "../../../model/ovs/timestamp";
 import {TimestampService} from "../ovs/timestamps.service";
 import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';

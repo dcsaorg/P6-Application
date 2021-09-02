@@ -30,7 +30,10 @@ export interface Timestamp {
     remark?: string;
     delayReasonCode?: string;
 
-  
+    /**
+   * @deprecated
+   */
+     facilityCode?: string;
   /**
    * @deprecated
    */
