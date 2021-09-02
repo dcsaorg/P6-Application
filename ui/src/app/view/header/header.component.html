@@ -7,7 +7,7 @@
     <p-menu #menu [popup]="true" [model]="helpMenu"></p-menu>
   </div>
   <div class="p-col-1">
-
+    <button (click)="onLogout()">Log out</button>
 
   </div>
 
@@ -21,7 +21,7 @@
   </div>
   <div class="p-col-1 header__language">
     <p-dropdown styleClass="dropdown" (onChange)="changeLanguage($event)" [(ngModel)]="currentLanguage" [filter]="true"
-                [options]="availableLanguages" autofocus="true">
+                [options]="availableLanguages" [autofocus]="true">
     </p-dropdown>
   </div>
 </div>

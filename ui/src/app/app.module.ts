@@ -1,7 +1,7 @@
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './view/app.component';
@@ -59,6 +59,11 @@ import { TimestampTypeToFacilityCodeCodePipe } from './controller/pipes/timestam
 import { OperationsEventToTimestampPipe } from './controller/pipes/operations-event-to-timestamp.pipe';
 import { TimestampTypeToPortcallServiceTypeCodePipe } from './controller/pipes/timestamp-type-to-portcall-service-type-code.pipe';
 import { TransportCallCreatorComponent } from './view/transport-call-creator/transport-call-creator.component';
+import { TimestampToStandardizedtTimestampPipe } from "./controller/pipes/timestamp-to-standardized-timestamp";
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { DashboardComponent } from './view/dashboard/dashboard.component';
+import { AuthInterceptor } from "./auth/auth-interceptor";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,6 +73,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
+    SignInComponent,
+    SignUpComponent,
+    DashboardComponent,
     HeaderComponent,
     PortCallTimestampTypeToEnumPipe,
     PortCallTimestampTypeToStringPipe,
@@ -93,6 +101,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TimestampTypeToEventClassifierCodePipe,
     TimestampTypeToFacilityCodeCodePipe,
     OperationsEventToTimestampPipe,
+    TimestampToStandardizedtTimestampPipe,
     TimestampTypeToPortcallServiceTypeCodePipe,
     TransportCallCreatorComponent,
   ],
@@ -140,7 +149,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     OperationsEventsToTimestampsPipe,
     TransportCallsToVesselsPipe,
     TimestampsToOperationsEventsPipe,
-    OperationsEventToTimestampPipe
+    OperationsEventToTimestampPipe,
+    TimestampToStandardizedtTimestampPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+     }
   ],
   bootstrap: [AppComponent]
 })

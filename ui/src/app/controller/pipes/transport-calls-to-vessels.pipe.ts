@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {TransportCall} from "../../model/OVS/transport-call";
+import {TransportCall} from "../../model/ovs/transport-call";
 import {Vessel} from "../../model/portCall/vessel";
+import {vesselOperatorCarrierCodeListProvider} from "../../model/enums/vesselOperatorCarrierCodeListProvider";
 
 @Pipe({
   name: 'transportCallsToVessels'
@@ -12,16 +13,17 @@ export class TransportCallsToVesselsPipe implements PipeTransform {
     let imos = new Set
     for (let transportCall of transportCalls) {
       let vessel: Vessel = new class implements Vessel {
-        vesselIMONumber: number;
+        vesselIMONumber: string;
         vesselName: string;
         serviceNameCode: string;
         teu: number;
         vesselFlag: string;
         vesselOperatorCarrierID: string;
         vesselCallSignNumber: string;
+        vesselOperatorCarrierCode:string;
+        vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider;
       }
-      // vessel.id = parseInt(transportCall.vesselIMONumber);
-      vessel.vesselIMONumber = parseInt(transportCall.vesselIMONumber);
+      vessel.vesselIMONumber = transportCall.vesselIMONumber;
       vessel.vesselName = transportCall.vesselName;
       if (!imos.has(vessel.vesselIMONumber)) {
         vessels.push(vessel);

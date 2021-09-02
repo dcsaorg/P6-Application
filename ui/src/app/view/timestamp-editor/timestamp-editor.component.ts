@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
@@ -13,10 +12,12 @@ import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/OVS/transport-call";
+import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {Util} from "../../controller/services/util/util";
-
+import {Timestamp} from "../../model/ovs/timestamp";
+import {TimestampService} from "../../controller/services/ovs/timestamps.service";
+import {Globals} from "../../model/portCall/globals";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -36,9 +37,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   @Input('portOfCall') portOfCall: Port;
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
 
-  @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<PortcallTimestamp> = new EventEmitter<PortcallTimestamp>()
+  @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
-  timestamps: PortcallTimestamp[];
+  timestamps: Timestamp[];
   logOfTimestampDate: Date;
   logOfTimestampTime: String;
   eventTimestampDate: Date;
@@ -47,36 +48,30 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   creationProgress: boolean = false;
 
   transportCall: TransportCall;
-  delayCode: DelayCode;
 
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
-  delayCodes: DelayCode[] = [];
+  delayCodes: DelayCode[];
+  delayCode: DelayCode;
 
-
-  defaultTimestamp: PortcallTimestamp = {
-    locationType: "",
-    callSequence: 0,
-    changeComment: "",
-    classifierCode: "",
-    delayCode: undefined,
-    direction: "",
-    eventTimestamp: undefined,
-    eventTypeCode: "",
-    id: "",
-    locationId: "",
-    logOfTimestamp: undefined,
+  defaultTimestamp: Timestamp = {
+    publisher: undefined,
+    publisherRole: undefined,
+    vesselIMONumber: undefined,
+    UNLocationCode: undefined,
+    facilityCode: undefined,
+    facilityTypeCode: undefined,
+    eventClassifierCode: undefined,
+    operationsEventTypeCode: undefined,
+    eventDateTime: undefined,
     modifiable: false,
     portNext: undefined,
     portOfCall: undefined,
     portPrevious: undefined,
-    response: undefined,
-    terminal: undefined,
     timestampType: undefined,
-    transportCallID: "",
-    vessel: undefined
-
+    transportCallID: ""
   };
+
 
   constructor(private portcallTimestampService: PortcallTimestampService,
               private portIdToPortPipe: PortIdToPortPipe,
@@ -84,9 +79,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
               private delayCodeService: DelayCodeService,
               private portCallTimestampTypePipe: PortCallTimestampTypeToStringPipe,
               private dialogService: DialogService,
+              private globals: Globals,
               public config: DynamicDialogConfig,
               private translate: TranslateService,
               public ref: DynamicDialogRef,
+              private TimestampService: TimestampService,
               private timestampMappingService: TimestampMappingService) {
   }
 
@@ -113,24 +110,21 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
 
-  savePortcallTimestamp(portcallTimestamp: PortcallTimestamp) {
+  savePortcallTimestamp(timestamp: Timestamp) {
     const dateToUtc = new DateToUtcPipe();
 
-    portcallTimestamp.logOfTimestamp = this.logOfTimestampDate;
+    timestamp.logOfTimestamp = this.logOfTimestampDate;
     let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
-    portcallTimestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
-    portcallTimestamp.eventTimestamp = this.eventTimestampDate;
-    let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
-    portcallTimestamp.eventTimestamp.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
+    timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
+    timestamp.delayReasonCode =  (this.delayCode?this.delayCode.smdgCode:null);
+ //   let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
+//    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     //@ToDo To UTC Converter!
-    portcallTimestamp.logOfTimestamp = portcallTimestamp.logOfTimestamp
-    portcallTimestamp.eventTimestamp = portcallTimestamp.eventTimestamp
-    portcallTimestamp.timestampType = PortcallTimestampType[this.timestampSelected];
-    portcallTimestamp.delayCode = (this.delayCode?this.delayCode.smdgCode:null);
+    timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     console.log("Save Timestamp:");
-    console.log(portcallTimestamp);
+    console.log(timestamp);
     this.creationProgress = true;
-    this.portcallTimestampService.addPortcallTimestamp(portcallTimestamp).subscribe(respTimestamp =>{
+    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(respTimestamp =>{
       this.creationProgress = false;
       this.messageService.add(
         {key: 'TimestampAddSuccess',
@@ -151,14 +145,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   }
 
-  updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
-    });
-  }
-
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
@@ -167,19 +153,25 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     }
   }
 
+  updateDelayCodeOptions() {
+    this.delayCodeOptions = [];
+    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
+    this.delayCodes.forEach(delayCode => {
+      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+    });
+  }
+
   close() {
     this.ref.close(null);
   }
 
-  validatePortOfCallTimestamp(timestamp: PortcallTimestamp): boolean {
+  validatePortOfCallTimestamp(timestamp: Timestamp): boolean {
     return !(timestamp.timestampType &&
       this.logOfTimestampDate && this.logOfTimestampTime &&
-      this.eventTimestampDate && this.eventTimestampTime &&
-      timestamp.direction &&
-      timestamp.portNext &&
+      timestamp.portNext && this.eventTimestampTime &&
       timestamp.portPrevious &&
-      timestamp.portOfCall &&
-      timestamp.terminal);
+      timestamp.portOfCall 
+      );
   }
 
   setLogOfTimestampToNow() {
@@ -206,9 +198,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.defaultTimestamp.logOfTimestamp = new Date();
     this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
     this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
-    this.defaultTimestamp.terminal = this.timestampMappingService.getTerminalByFacilityCode(this.transportCall.facilityCode)
-
-
+    this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
+    this.defaultTimestamp.facilityCode = this.transportCall.facilityCode;
+    // Set publisher based on globals 
+    this.defaultTimestamp.publisher = this.globals.config.publisher;
+    this.defaultTimestamp.publisherRole = this.globals.config.publisherRole;
 
     if (this.timestamps.length == 0) {
       // Generate Initial ETA Berth
@@ -217,24 +211,28 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
       // Check for last timestamp and generate based on this
       let lastTimestamp = this.getLatestTimestamp();
-      this.defaultTimestamp.vessel = lastTimestamp.vessel;
+
+     // console.log(this.defaultTimestamp);
       this.defaultTimestamp.timestampType = lastTimestamp.timestampType;
-      this.defaultTimestamp.terminal = lastTimestamp.terminal;
-      this.defaultTimestamp.eventTimestamp = lastTimestamp.eventTimestamp;
-      this.defaultTimestamp.locationId = lastTimestamp.locationId;
+      this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
 
 
       // Set eventDateTime if required
-      this.defaultTimestamp.eventTimestamp = lastTimestamp.eventTimestamp;
-      this.setEventTimestampToDate(new Date(lastTimestamp.eventTimestamp));
+      this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
+
+      this.defaultTimestamp.UNLocationCode = this.transportCall.UNLocationCode;
+
+    
     }
 
-    console.log(this.defaultTimestamp);
-
+ 
+    
+  //  console.log("Last Timestamp");
+//console.log(lastTimestamp);
 
   }
 
-  private getLatestTimestamp(): PortcallTimestamp {
+  private getLatestTimestamp(): Timestamp {
     let latestTimestamp = this.timestamps[0];
     this.timestamps.forEach(function (timestamp) {
       if (timestamp.logOfTimestamp > latestTimestamp.logOfTimestamp) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Config} from "../../../model/OVS/config";
+import {Config} from "../../../model/ovs/config";
 
 
 @Injectable({

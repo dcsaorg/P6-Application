@@ -7,7 +7,11 @@ import {MenuItem, MessageService, SelectItem} from "primeng/api";
 import {CodeType} from "../../model/portCall/codeType";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
-import {PartyFunction} from "../../model/OVS/partyFunction";
+import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import { environment } from 'src/environments/environment';
+import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +23,7 @@ export class HeaderComponent implements OnInit {
 
   helpMenu: MenuItem[];
   companyName: string;
-  companyRole: PartyFunction;
+  companyRole: PublisherRole;
   companyCodeType: CodeType;
   companyId: string;
   displayDownloadRequest: boolean;
@@ -35,24 +39,32 @@ export class HeaderComponent implements OnInit {
               private downloadService: DownloadService,
               private messageService: MessageService,
               private translate: TranslateService,
-              private globals: Globals) {
+              private globals: Globals,
+              private authService: AuthService) {
     configService.getConfig().subscribe(config => {
       this.globals.config = config;
       this.companyName = config.company;
       this.companyRole = config.publisherRole;
-      this.companyId = config.publisher;
-      this.companyCodeType = config.publisherCodeType;
+      this.companyId = config.publisher.partyName;
+   //   this.companyCodeType = config.publisherCodeType; // WHAT IS SUPPOSE TO REPRESENT 
     });
   }
 
   ngOnInit(): void {
     this.helpMenu = [{
       label: this.translate.instant('Help'),
-      items: [{
+      items: [
+      {
         label: this.translate.instant('Instructions'),
         icon: 'pi pi-question',
         command: () => {
           this.showInstructions();
+        }
+      },
+      {
+        label: this.translate.instant('Pending from Guido'),
+        icon: 'pi pi-exclamation-circle',
+        command: () => {
         }
       },
         {
@@ -100,6 +112,11 @@ export class HeaderComponent implements OnInit {
   changeLanguage(selectedLanguage: SelectItem) {
     console.log(selectedLanguage);
     this.translate.use(selectedLanguage.value);
+  }
+
+  
+  onLogout(){
+    this.authService.logUserOut();
   }
 
 }

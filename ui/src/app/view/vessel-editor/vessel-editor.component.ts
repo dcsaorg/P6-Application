@@ -1,43 +1,45 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {Vessel} from "../../model/portCall/vessel";
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {MessageService, SelectItem} from "primeng/api";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Carrier} from "../../model/portCall/carrier";
-import {TranslateService} from "@ngx-translate/core";
+import {VesselService} from "../../controller/services/base/vessel.service";
+import {MessageService} from "primeng/api";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {VesselComponent} from "../../view/vessel/vessel.component"
+import { VesselIdToVesselPipe } from 'src/app/controller/pipes/vesselid-to-vessel.pipe';
+import {SelectItem} from "primeng/api";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-vessel-editor',
   templateUrl: './vessel-editor.component.html',
   styleUrls: ['./vessel-editor.component.scss']
 })
-
 export class VesselEditorComponent implements OnInit {
   vessel: Vessel;
-  carriers: SelectItem[];
   vesselFormGroup: FormGroup;
+  carriers: SelectItem[];
   selectedCarrier: Carrier;
-
-  @Output() carrierNotifier: EventEmitter<string> = new EventEmitter<string>()
-  @Output() carrierSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
+  
 
   constructor(public ref: DynamicDialogRef,
-              private translate: TranslateService,
               public config: DynamicDialogConfig,
               private vesselService: VesselService,
               private messageService: MessageService,
+              private translate: TranslateService,
               private formBuilder: FormBuilder) {
   }
+
+
 
   ngOnInit(): void {
     if (this.config.data) {
       this.vessel = this.config.data;
-      console.log(this.vessel);
+      console.log(this.vessel)
     } else {
-      this.vessel = {vesselIMONumber: null, vesselName: "", vesselOperatorCarrierID: null, teu: null, serviceNameCode: "", vesselFlag: "", vesselCallSignNumber: ""};
+      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "PA", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: null, vesselCallSignNumber: ""};
     }
-    this.updateCarriersOptions();
+
 
     this.vesselFormGroup = this.formBuilder.group({
       imoId: new FormControl(null, [
@@ -56,9 +58,13 @@ export class VesselEditorComponent implements OnInit {
         Validators.maxLength(36)
       ]),
     });
+
+    this.updatCarrrierOptions();
+    this.selectCarrier();
   }
 
   saveVessel() {
+    this.selectCarrier();
     if (this.config.data) {
       this.vesselService.updateVessel(this.vessel).subscribe(() => {
         this.messageService.add({
@@ -97,43 +103,24 @@ export class VesselEditorComponent implements OnInit {
     }
   }
 
-  selectCarrier() {
-    if (this.selectedCarrier) {
-      this.vesselService.getCarrier(this.selectedCarrier.id).subscribe(nextCarrier => {
-        this.selectedCarrier = nextCarrier;
-        this.carrierNotifier.emit(this.selectedCarrier.id)
-      });
-      console.log("Setting vessel id to: " + this.selectedCarrier.id);
-      this.vessel.vesselOperatorCarrierID = this.selectedCarrier.id;
-    } else {
-      this.carrierNotifier.emit(null)
-    }
+  cancel() {
+    this.ref.close(null);
   }
 
-  private updateCarriersOptions() {
-    this.vesselService.getCarriers().subscribe(vessels => {
+  private updatCarrrierOptions() {
+    this.vesselService.getcarriers().subscribe(carriers => {
       this.carriers = [];
-      if (this.vessel.vesselOperatorCarrierID != null) {
-        this.vesselService.getCarrier(this.vessel.vesselOperatorCarrierID).subscribe(x => {
-          this.carriers.push({
-            label: x.carrierName,
-            value: x.id
-          });
-        });
-      } else {
-        this.carriers.push({
-          label: this.translate.instant('general.carrier.select'),
-          value: null
-        });
-      }
-      vessels.forEach(vessel => {
-        this.carriers.push({label: vessel.carrierName + ' (' + vessel.id + ')', value: vessel});
+
+      console.log(this.carriers);
+      
+      carriers.forEach(carrier => {
+        this.carriers.push({label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode}); 
       });
     });
   }
+  selectCarrier() {
 
+  // Check that a carirrier is chosen before allowing creation 
 
-  cancel() {
-    this.ref.close(null);
   }
 }

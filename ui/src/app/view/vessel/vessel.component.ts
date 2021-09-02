@@ -5,6 +5,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-vessel',
@@ -18,11 +19,12 @@ export class VesselComponent implements OnInit {
   vessels: SelectItem[];
   selectedVessel: Vessel;
 
-  @Output() vesselNotifier: EventEmitter<number> = new EventEmitter<number>()
-  @Output() vesselSavedNotifier: EventEmitter<number> = new EventEmitter<number>()
+  @Output() vesselNotifier: EventEmitter<string> = new EventEmitter<string>()
+  @Output() vesselSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
 
   constructor(public dialogService: DialogService,
               private vesselService: VesselService,
+              private messageService: MessageService,
               private translate: TranslateService) {
   }
 
@@ -48,6 +50,7 @@ export class VesselComponent implements OnInit {
   }
 
   editVessel() {
+    if (this.selectedVessel) {
     const selectedVessel: Vessel = {
       vesselIMONumber: this.selectedVessel.vesselIMONumber,
       vesselName: this.selectedVessel.vesselName,
@@ -56,12 +59,17 @@ export class VesselComponent implements OnInit {
       serviceNameCode: this.selectedVessel.serviceNameCode,
       vesselOperatorCarrierID: this.selectedVessel.vesselOperatorCarrierID,
       vesselCallSignNumber: this.selectedVessel.vesselCallSignNumber,
+      vesselOperatorCarrierCode: this.selectedVessel.vesselOperatorCarrierCode,
+      vesselOperatorCarrierCodeListProvider: this.selectedVessel.vesselOperatorCarrierCodeListProvider
     };
+
+
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
       header: this.translate.instant('general.vessel.edit.header'),
       width: '50%',
       data: selectedVessel
     });
+  
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
         this.updateVesselOptions();
@@ -71,6 +79,14 @@ export class VesselComponent implements OnInit {
       }
     })
   }
+  else{
+    this.messageService.add({
+      key: 'vesselNotSelectedWarning',
+      severity: 'warn',
+      summary: 'You need to choose a vessel'
+    });
+  }
+  }
 
   selectVessel() {
     if (this.selectedVessel) {
@@ -79,7 +95,7 @@ export class VesselComponent implements OnInit {
         this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
       });
     } else {
-      this.vesselNotifier.emit(-1)
+      this.vesselNotifier.emit(null)
     }
   }
 

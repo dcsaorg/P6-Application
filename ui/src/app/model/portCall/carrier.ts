@@ -1,6 +1,7 @@
+
 export interface Carrier {
-  id: string;
-  carrierName: string;
-  smdgCode: string;
-  nmftaCode: string;
-}
+    id: string;
+    carrierName: string;
+    smdgCode: string;
+    nmftaCode: number;
+  }

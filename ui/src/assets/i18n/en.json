@@ -6,8 +6,17 @@
     "help": {
       "label": "Help"
     },
+    "terms": {
+      "label": "Pending from Guido"
+    },
     "close": {
       "label": "Close"
+    },
+    "schedule": {
+      "header": "Delay Code and Comment to port call event",
+      "select": "Select delay code (optional)",
+      "tooltip": "Comment or reason of delay for timestamp",
+      "create": "Create a table"
     },
     "comment": {
       "header": "Delay Code and Comment to port call event",
@@ -85,6 +94,12 @@
       "label": "Save"
     },
     "table": {
+      "schedule": {
+        "create": {
+          "label": "Create Schedule",
+          "tooltip": "Create a new schedule"
+        }
+      },
       "accept": {
         "tooltip": "Accept timestamp and send a response as"
       },
@@ -106,7 +121,7 @@
         },
         "create": {
           "label": "Create a Port Call Timestamp",
-          "tooltip": "Create a new Portcall Timestamp for this TransportCall"
+          "tooltip": "Create a new Timestamp for this TransportCall"
         },
         "direction": {
           "label": "Direction",
@@ -153,6 +168,7 @@
           "label": "Portcall Timestamps"
         },
         "vessel": {
+          "name": "Vessel name",
           "label": "Vessel",
           "tooltip": "The vessel of a process event"
         }
@@ -175,6 +191,20 @@
       "select": "Select timestamp",
       "time": "Time"
     },
+    "transport": {
+      "label": "Transport Call",
+      "table": {
+        "id": "id",
+        "create": {
+          "label": "Create a Transport",
+          "tooltip": "Create a new Transport"
+        }
+    }
+    },
+    "publisherRole": {
+      "tooltip":"publisher role",
+      "label": "publisher role"
+    },
     "transportCall": {
       "add": "Add a new Transport Call",
       "create": "Create Transport Call",
@@ -185,6 +215,7 @@
           "label": "Create a Transport Call",
           "tooltip": "Create a new Transportcall "
         },
+
         "carrierServiceCode": {
           "label": "Carrier Service Code"
         },
@@ -192,10 +223,11 @@
           "label": "IMO Number"
         },
         "vesselName": {
-          "label": "Vessel Name"
+          "label": "Vessel Name"  
         },
         "UNLocationCode": {
-          "label": "UN Locode"
+          "label": "UN Locode",
+          "secondLabel": "Port of Call"
         },
         "UNLocationName": {
           "label": "UN Location Name"
@@ -208,9 +240,6 @@
         },
         "carrierVoyageNumber": {
           "label": "Carrier Voyage Number"
-        },
-        "vessel": {
-          "label": "Vessel"
         },
         "facilityTypeCode": {
           "label": "Facility Type"
@@ -244,9 +273,6 @@
         }
       }
     },
-    "carrier": {
-      "select": "All carrier operator IDs"
-    },
     "vessel": {
       "add": {
         "header": "Create a new vessel",
@@ -263,6 +289,7 @@
       "serviceName": "Service name",
       "operatorCarrierID": "Operator Carrier ID",
       "callSignNumber": "Call Sign Number",
+      "vesselOperatorCarrierCode": "Operator Carrier Code",
       "size": "Vessel size (TEU)",
       "flag": "Vessel Flag",
       "validation": {
@@ -302,6 +329,28 @@
             "max": "The Operator CarrierID should be maximal 36 characters long"
           }
         }
+      }
+    }, 
+    "carrier":{
+      "name":"Carrier name",
+      "label": "Carrier",
+      "number": "",
+      "select": "All carriers",
+      "serviceName": "Service name",
+      "add": {
+        "header": "Create a new carrier",
+        "label": "Add a new carrier"
+      },
+      "edit": {
+        "header": "Edit carrier",
+        "label": "Edit a carrier"
+      }, 
+      "smdgCode": {
+        "label": "Carrier smdg Code"
+      },
+      "CarrierCodeListProvider": {
+        "select": "All Carrier code list providers",
+        "label": "Carrier code list provider"
       }
     }
   }

@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {PortcallTimestamp} from "../model/portCall/portcall-timestamp";
 import {Port} from "../model/portCall/port";
 import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../model/OVS/transport-call";
-import {take} from "rxjs/operators";
+import {TransportCall} from "../model/ovs/transport-call";
+import { Timestamp } from '../model/ovs/timestamp';
 
 @Component({
   selector: 'app-root',
@@ -15,28 +14,13 @@ export class AppComponent {
   vesselSavedId: number;
   portOfCall: Port;
   transportCallSelected: TransportCall;
-  portCallTimeStampAdded: PortcallTimestamp;
-  portCallTimeStampDeleted: PortcallTimestamp;
-  portCallTimeStampResponded: PortcallTimestamp;
+  portCallTimeStampAdded: Timestamp;
+  portCallTimeStampDeleted: Timestamp;
+  portCallTimeStampResponded: Timestamp;
 
 
   constructor(translate: TranslateService) {
     translate.setDefaultLang('en');
     translate.use('en');
   }
-
-  vesselChangedHandler = ($vesselId: number) => this.vesselId = $vesselId;
-  vesselSavedHandler = ($vesselSavedId: number) => this.vesselSavedId = $vesselSavedId;
-
-  timeStampAddedHandler = ($portCallTimeStampAdded: PortcallTimestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
-
-  timestampDeletedHandler = ($portCallTimestampDeleted: PortcallTimestamp) => this.portCallTimeStampDeleted = $portCallTimestampDeleted;
-
-  timestampRespondedHandler = ($portCallTimestampResponded: PortcallTimestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
-
-  portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
-
-  transportCallSelectHandler = ($transportCall: TransportCall) => {this.transportCallSelected = $transportCall;};
-
-
 }

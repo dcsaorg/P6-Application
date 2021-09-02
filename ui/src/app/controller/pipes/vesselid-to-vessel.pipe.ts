@@ -6,17 +6,21 @@ import {Vessel} from "../../model/portCall/vessel";
 })
 export class VesselIdToVesselPipe implements PipeTransform {
 
-  transform(vesselId: number, vessels: Vessel[]): Vessel {
+  transform(vesselId: string, vessels: Vessel[]): Vessel {
     const vesselNotFound: Vessel = {
       vesselIMONumber: vesselId,
-      serviceNameCode: '',
       vesselName: '',
-      teu: -1,
+      serviceNameCode: '',  
       vesselFlag: '',
       vesselCallSignNumber: '',
-      vesselOperatorCarrierID: ''
+      vesselOperatorCarrierID: '',
+      vesselOperatorCarrierCode: '',
+       vesselOperatorCarrierCodeListProvider: null
     }
-    const vesselFound = vessels.find(vessel => vessel.vesselIMONumber === vesselId)
+    console.log("vessels pip");
+    console.log(vessels);
+    console.log(vesselId);
+    const vesselFound = vessels.find(vessel => vessel.vesselIMONumber == vesselId)
     return vesselFound ? vesselFound : vesselNotFound;
   }
 

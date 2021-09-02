@@ -4,7 +4,7 @@ import {Terminal} from "./terminal";
 import {DelayCode} from "./delayCode";
 import {Vessel} from "./vessel";
 import {MessageDirection} from "./messageDirection";
-import {PartyFunction} from "../OVS/partyFunction";
+import {PartyFunction} from "../ovs/partyFunction";
 
 export interface PortcallTimestamp {
   id: string;
@@ -16,14 +16,14 @@ export interface PortcallTimestamp {
   logOfTimestamp: string | Date;
   eventTimestamp: string | Date;
   portPrevious: Port | number;
-  portOfCall: Port | number;
+  portOfCall: Port;
   portNext: Port | number;
   direction: string;
   terminal: Terminal | number;
   locationId: string;
   changeComment?: string;
   delayCode?: DelayCode | string;
-  vessel: number | Vessel;
+  vessel: string | Vessel;
   response?: PortcallTimestampType;
   modifiable: boolean;
   messageDirection?: MessageDirection;

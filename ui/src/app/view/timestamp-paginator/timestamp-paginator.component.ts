@@ -15,7 +15,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   displayTimestamps: PortcallTimestamp[] = [];
   first: number;
 
-  @Input('vesselId') vesselId: number;
+  @Input('vesselId') vesselId: string;
   @Input('portOfCall') portOfCall: Port;
   @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
   @Input('portCallTimeStampDeleted') portCallTimeStampDeleted: PortcallTimestamp;
@@ -30,25 +30,25 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.selectedRowSize = this.rowSizes[1];
     this.paginatorService.refreshNotifier().subscribe(() => {
-      this.refreshTimestamps();
+   //   this.refreshTimestamps();
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.refreshTimestamps();
+ //   this.refreshTimestamps();
   }
-
+/*
   private refreshTimestamps() {
     this.portcallTimestampService.getPortcallTimestamps().pipe(take(1)).subscribe(portCallTimestamps => {
       this.timestamps = portCallTimestamps;
 
 
       console.log(this.timestamps);
-      if (this.vesselId && this.vesselId > 0) {
+      if (this.vesselId && parseInt(this.vesselId) > 0) {
         this.timestamps = this.timestamps.filter(timestamp => timestamp.vessel === this.vesselId);
       }
       if (this.portOfCall) {
-        this.timestamps = this.timestamps.filter(timestamp => (timestamp.portOfCall as number) === this.portOfCall.id);
+        this.timestamps = this.timestamps.filter(timestamp => (timestamp.portOfCall.id ) === this.portOfCall.id);
       }
       const pageCount = Math.ceil(this.timestamps.length / this.selectedRowSize);
 
@@ -75,7 +75,7 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
     });
   }
 
-
+*/
 
 
 
