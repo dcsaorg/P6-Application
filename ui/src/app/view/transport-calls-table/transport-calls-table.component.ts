@@ -50,10 +50,11 @@ export class TransportCallsTableComponent implements OnInit {
       }
     })
   }
-
+  
   loadTransportCalls():void{
     this.transportCallService.getTransportCalls().subscribe(transportCalls => {
       this.transportCalls = transportCalls;
+      console.log(transportCalls)
     })
   }
 }

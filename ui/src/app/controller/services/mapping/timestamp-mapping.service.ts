@@ -20,7 +20,7 @@ export class TimestampMappingService {
   constructor(private transportCallService: TransportCallService,
               private operationsEventService: OperationsEventService,
               private globals: Globals,
-              private transportEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
+              private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
               private timestampToTransportEventPipe: TimestampToStandardizedtTimestampPipe,
               private timestampService: TimestampService
 
@@ -36,7 +36,7 @@ export class TimestampMappingService {
   getPortCallTimestamps(): Observable<Timestamp[]> {
 
     return this.operationsEventService.getOperationsEvents().pipe(map(events => {
-        const timestamps = this.transportEventsToTimestampsPipe.transform(events);
+        const timestamps = this.operationsEventsToTimestampsPipe.transform(events);
         this.loadTransportCalls(timestamps)
         return timestamps;
       }
@@ -45,13 +45,14 @@ export class TimestampMappingService {
 
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
     return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(map(events => {
-      const timestamps = this.transportEventsToTimestampsPipe.transform(events)
+      const timestamps = this.operationsEventsToTimestampsPipe.transform(events)
       this.mapTransportCallToTimestamps(timestamps, transportCall);
       return timestamps;
     }))
   }
 
 
+  
   getPortByUnLocode(unlocode: string): Port {
     for (let port of this.globals.ports) {
       if (port.unLocode == unlocode) {
