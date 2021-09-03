@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
-import {FacilityCodeType} from "../../../model/ovs/facilityCodeType";
 import {map} from "rxjs/operators";
 import { Timestamp } from 'src/app/model/ovs/timestamp';
 
@@ -39,8 +38,7 @@ export class TransportCallService {
     for(let transportCall of transportCalls){
 
       transportCall = this.extractVesselAttributes(transportCall)
-      transportCall = this.extractEstimatedDateofArrival(transportCall); 
-      console.log(transportCall)
+      transportCall = this.extractEstimatedDateofArrival(transportCall);
     }
     return transportCalls;
   }
@@ -58,17 +56,16 @@ export class TransportCallService {
 
   }
   private extractEstimatedDateofArrival(transportCall: TransportCall){
-
+    
     this.getOperationsEventstoTimestamp(transportCall.transportCallID).subscribe(timestamps => {
-      this.timestamps = timestamps[0]
-      console.log(this.timestamps) 
-      transportCall.estimatedDateofArrival = this.timestamps['eventDateTime'] ;
+      if(timestamps.length > 0){
+        let timestamp = timestamps[0]
+    
+        transportCall.estimatedDateofArrival = timestamp['eventDateTime'] ;
+      } else  {
+        transportCall.estimatedDateofArrival = 'N/A';
+      }
     });
-
- 
-      return transportCall
- 
+       return transportCall
    }
-  
-
 }
