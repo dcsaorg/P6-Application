@@ -18,8 +18,8 @@ export class VesselService {
   private readonly CARRIER_URL: string;
 
   constructor(private httpClient: HttpClient, private vesselMappingService: VesselMappingService, private staticVesselService: StaticVesselService) {
-    this.VESSEL_URL = BACKEND_URL + '/unofficial-vessels';
-    this.CARRIER_URL = BACKEND_URL + '/unofficial-carriers';
+    this.VESSEL_URL = BACKEND_URL + '/unofficial/vessels';
+    this.CARRIER_URL = BACKEND_URL + '/unofficial/carriers';
   }
 
   getVessels = (): Observable<Vessel[]> =>  this.httpClient.get<Vessel[]>(this.VESSEL_URL); //this.vesselMappingService.getVessels();

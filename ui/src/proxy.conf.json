@@ -1,4 +1,13 @@
 {
+  "/api/unofficial/": {
+    "target": "http://localhost:9091/",
+    "secure": false,
+    "pathRewrite": {
+      "^/api/unofficial/": "/v1/unofficial/"
+    },
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
   "/api": {
     "target": "http://localhost:9090/",
     "secure": false,
