@@ -15,7 +15,7 @@ export class TransportCallService {
   private readonly OPERATIONS_EVENT_URL: string;
 
   constructor(private httpClient: HttpClient) {
-    this.TRANSPORT_CALL_URL=BACKEND_URL+"/unofficial-transport-calls"
+    this.TRANSPORT_CALL_URL=BACKEND_URL+ "/unofficial/transport-calls"
     this.OPERATIONS_EVENT_URL=BACKEND_URL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
   }
 
