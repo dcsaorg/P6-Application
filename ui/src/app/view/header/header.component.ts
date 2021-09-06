@@ -64,8 +64,7 @@ export class HeaderComponent implements OnInit {
       {
         label: this.translate.instant('Pending from Guido'),
         icon: 'pi pi-exclamation-circle',
-        command: () => {
-        }
+        url: '/assets/termsofuse.pdf',
       },
         {
           label: this.translate.instant('Download Timestamps'),
@@ -79,7 +78,6 @@ export class HeaderComponent implements OnInit {
   }
 
   showInstructions() {
-    console.log("Instructions!")
     this.dialogService.open(InstructionsComponent, {
       header: this.translate.instant('general.instructions.label'),
       width: '65%'
