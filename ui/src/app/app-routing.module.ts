@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/signin', pathMatch: 'full' },
   { path: 'signup', component: SignUpComponent,},
   { path: 'signin', component: SignInComponent,},
-  { path: 'dashboard', component: DashboardComponent ,canActivate: [AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent},
 ];
 
 @NgModule({
