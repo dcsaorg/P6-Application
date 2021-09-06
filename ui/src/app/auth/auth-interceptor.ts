@@ -42,9 +42,6 @@ export class AuthInterceptor implements HttpInterceptor {
           }
           return event;
         }));
-      } else {
-        this.authService.logUserOut();
-        this.router.navigateByUrl('signin');
       }
       return next.handle(req);
     }
