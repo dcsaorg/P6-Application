@@ -9,6 +9,7 @@ import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import {Port} from "../../model/portCall/port";
 import { EventClassifierCode } from "./eventClassifierCode";
 import { PortcallTimestampType } from "../portCall/portcall-timestamp-type.enum";
+import { identifyingCodes } from "../portCall/identifyingCodes";
 
 export interface Timestamp {
     publisher: Publisher; 
@@ -29,6 +30,7 @@ export interface Timestamp {
     portCallSequence?: string;
     remark?: string;
     delayReasonCode?: string;
+    identifyingCodes?: identifyingCodes; 
 
     /**
    * @deprecated

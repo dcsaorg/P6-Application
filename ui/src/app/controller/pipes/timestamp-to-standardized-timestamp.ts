@@ -13,6 +13,7 @@ import { Publisher } from 'src/app/model/publisher';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
 import { Timestamp } from 'src/app/model/ovs/timestamp';
+import { identifyingCodes } from 'src/app/model/portCall/identifyingCodes';
 
 
 @Pipe({
@@ -35,6 +36,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
         portCallServiceTypeCode: PortCallServiceTypeCode;
         transportCallID: string;
         transportCall: TransportCall;
+        identifyingCodes?: identifyingCodes;   
     }
     
     newTimestamp.publisher = configurations.publisher;
@@ -54,17 +56,8 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode; 
     newTimestamp.portCallSequence = portcallTimestamp.portCallSequence; 
     newTimestamp.remark = portcallTimestamp.remark; 
-    newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode; 
-
-    
-
-
-    console.log("newTimestamp");
-    console.log(newTimestamp);
-
-
-
-
+    newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
+    newTimestamp.identifyingCodes = configurations.identifyingCodes;
 
     return newTimestamp;
   }
