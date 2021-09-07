@@ -86,10 +86,12 @@
         {{ 'general.table.header.terminalId.label' | translate }}
         <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 4%" >
-      </th>
       <th style="width: 6%" pTooltip="{{ 'general.table.header.comment.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent"></th>
+      <th style="width: 4%" >
+      </th>
+      <th style="width: 4%" >
+      </th>
     </tr>
     <tr>
       <td></td>
@@ -108,7 +110,7 @@
 
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-timestamp>
+  <ng-template pTemplate="body" let-timestamp >
     <tr class="unreadTimestamp">
       <td pTooltip="Event ID: {{timestamp.id}}
         Publisher: {{timestamp.publisher}}
@@ -154,6 +156,14 @@
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{timestamp.portOfCall?.name}}</div>
       </td>
+      <td style="width: 6%"
+          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+        <!--   somehow there is a porblem acessing the terminals   -->
+        <div *ngIf="timestamp.facilitySMDGCode!= null">
+          <div pTooltip="{{timestamp.facilitySMDGCode}}" tooltipPosition="top"
+               tooltipStyleClass="ToolTipClass">{{timestamp.facilitySMDGCode}}</div>
+        </div>
+      </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 7%">
@@ -162,16 +172,14 @@
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
       </td>
       <td style="width: 7%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}</td>
+          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}
      -->
-      <td style="width: 6%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
-        <!--   somehow there is a porblem acessing the terminals   -->
-        <div *ngIf="timestamp.terminal != null">
-          <div pTooltip="{{timestamp.facilitySMDGCode}}" tooltipPosition="top"
-               tooltipStyleClass="ToolTipClass">{{timestamp.facilitySMDGCode}}</div>
-        </div>
-      </td>
+    <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
+    <div *ngIf="!isOutGoing(timestamp)">Ingoing</div>
+    
+    </td>
+     
+      
       <td style="width: 4%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
                 <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?

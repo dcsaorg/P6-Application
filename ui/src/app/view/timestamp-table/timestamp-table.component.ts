@@ -71,6 +71,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private timestampMappingService: TimestampMappingService,
               private timestampService: TimestampService,
               public globals: Globals
+
+              
   ) {
   }
 
@@ -103,6 +105,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
   }
+
+  isOutGoing(timestamp:Timestamp): boolean{
+    if(timestamp.publisherRole == this.globals.config.publisherRole){
+      return true
+    } 
+    return false
+  }
+
 
   acceptTimestamp(timestamp: Timestamp) {
     console.log("ACCEPT");
