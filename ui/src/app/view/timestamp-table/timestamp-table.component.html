@@ -167,7 +167,7 @@
       <td style="width: 6%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         <!--   somehow there is a porblem acessing the terminals   -->
-        <div *ngIf="timestamp.terminal != null">
+        <div>
           <div pTooltip="{{timestamp.facilitySMDGCode}}" tooltipPosition="top"
                tooltipStyleClass="ToolTipClass">{{timestamp.facilitySMDGCode}}</div>
         </div>
