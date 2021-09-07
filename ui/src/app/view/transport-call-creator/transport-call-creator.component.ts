@@ -24,7 +24,8 @@ export class TransportCallCreatorComponent implements OnInit {
   portOfCall: Port;
   terminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
-  vesselOptions: SelectItem[] = []
+  vesselOptions: SelectItem[] = [];
+  facilityCodeListProviderOptions: SelectItem[] = [];
   creationProgress: boolean;
   vessels: Vessel[] = [];
 
@@ -41,11 +42,12 @@ export class TransportCallCreatorComponent implements OnInit {
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
+    // this.updateFacilityCodeListProvider();
     this.transportCallFormGroup = this.formBuilder.group({
-      imo: new FormControl(null, [Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
+      serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
+      voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
       terminal: new FormControl({value: '', disabled: true}, [Validators.required]),
-      callSequenceNumber: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(2147483647)]),
       vessel: new FormControl(null, [Validators.required])
 
     });
@@ -70,9 +72,14 @@ export class TransportCallCreatorComponent implements OnInit {
       this.portOfCall = this.transportCallFormGroup.controls.port.value;
       this.transportCallFormGroup.controls.terminal.enable();
       this.updateTerminalOptions();
-
     }
   }
+
+  // private updateFacilityCodeListProvider() {
+  //   this.facilityCodeListProviderOptions.push({label: this.translate.instant('general.carrier.CarrierCodeListProvider.select'), value: null});
+  //   this.facilityCodeListProviderOptions.push({label: FacilityCodeListProvider.BIC.toString(), value: FacilityCodeListProvider.BIC});
+  //   this.facilityCodeListProviderOptions.push({label: FacilityCodeListProvider.SMDG.toString(), value: FacilityCodeListProvider.SMDG});
+  // }
 
   private updateVesselOptions() {
     this.vesselService.getVessels().subscribe(vessels => {
@@ -111,21 +118,19 @@ export class TransportCallCreatorComponent implements OnInit {
       vessel: Vessel;
     }
 
-    const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
-    const port: Port = this.transportCallFormGroup.controls.port.value
-    let vessel: Vessel = this.transportCallFormGroup.controls.vessel.value;
+    let terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
+    let port: Port = this.transportCallFormGroup.controls.port.value
 
-    // transportCall.facilityCode = port.unLocode + terminal.smdgCode;
+    // Hardcoded shit
+    transportCall.transportCallSequenceNumber = 1;  //this.transportCallFormGroup.controls.callSequenceNumber.value;
+    transportCall.modeOfTransport = "VESSEL";
+    transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG; // this.transportCallFormGroup.controls.facilityCodeListProvider.value;
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
-    transportCall.vesselIMONumber = this.transportCallFormGroup.controls.vessel.value.vesselIMONumber;
-    transportCall.vesselName = this.transportCallFormGroup.controls.vessel.value.vesselName;
     transportCall.facilityCode = terminal.smdgCode;
     transportCall.UNLocationCode = port.unLocode;
-    // transportCall.vesselIMONumber = this.transportCallFormGroup.controls.imo.value;
-    transportCall.transportCallSequenceNumber = this.transportCallFormGroup.controls.callSequenceNumber.value
-    transportCall.modeOfTransport = "VESSEL";
-    transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
+    transportCall.carrierVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
+    transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
 
     this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
         this.creationProgress = false;

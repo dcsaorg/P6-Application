@@ -110,8 +110,13 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
 
-  savePortcallTimestamp(timestamp: Timestamp) {
+  savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
     const dateToUtc = new DateToUtcPipe();
+
+    timestamp.UNLocationCode = transportCall.UNLocationCode;
+    timestamp.facilityTypeCode = transportCall.facilityTypeCode;
+    timestamp.carrierServiceCode = transportCall.carrierServiceCode;
+    timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
 
     timestamp.logOfTimestamp = this.logOfTimestampDate;
     let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
@@ -170,7 +175,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.logOfTimestampDate && this.logOfTimestampTime &&
       timestamp.portNext && this.eventTimestampTime &&
       timestamp.portPrevious &&
-      timestamp.portOfCall 
+      timestamp.portOfCall
       );
   }
 
@@ -200,7 +205,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
     this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
     this.defaultTimestamp.facilityCode = this.transportCall.facilityCode;
-    // Set publisher based on globals 
+    // Set publisher based on globals
     this.defaultTimestamp.publisher = this.globals.config.publisher;
     this.defaultTimestamp.publisherRole = this.globals.config.publisherRole;
 
@@ -222,11 +227,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
       this.defaultTimestamp.UNLocationCode = this.transportCall.UNLocationCode;
 
-    
+
     }
 
- 
-    
+
+
   //  console.log("Last Timestamp");
 //console.log(lastTimestamp);
 

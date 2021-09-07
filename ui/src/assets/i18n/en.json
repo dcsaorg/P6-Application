@@ -223,7 +223,7 @@
           "label": "IMO Number"
         },
         "vesselName": {
-          "label": "Vessel Name"  
+          "label": "Vessel Name"
         },
         "UNLocationCode": {
           "label": "UN Locode",
@@ -253,14 +253,23 @@
       },
       "validation": {
         "vessel": {
+          "noVesselSelected": "You need to select a vessel, chucklefuck!",
           "empty" : "The IMO number of the vessel is Required",
-          "length" : "The IMO number must has a fix lenght of 7 digits!"
+          "length" : "The IMO number must has a fix length of 7 digits!"
         },
         "port": {
           "empty": "Please select a port for this transport call"
         },
         "terminal": {
           "empty": "Please select a terminal for this transport call"
+        },
+        "carrierServiceCode": {
+          "empty": "Carrier Service Code is required!",
+          "length": "Max length for Carrier Service Code is 5 characters!"
+        },
+        "carrierVoyageNumber": {
+          "empty": "Carrier Voyage Number is required!",
+          "length": "Max length for Carrier Voyage Number is 50 characters!"
         },
         "sequenceNumber": {
           "empty": "Please define a call sequence number for this transport call",
@@ -333,7 +342,7 @@
           }
         }
       }
-    }, 
+    },
     "carrier":{
       "name":"Carrier name",
       "label": "Carrier",
@@ -347,7 +356,7 @@
       "edit": {
         "header": "Edit carrier",
         "label": "Edit a carrier"
-      }, 
+      },
       "smdgCode": {
         "label": "Carrier smdg Code"
       },

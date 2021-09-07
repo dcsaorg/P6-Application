@@ -22,6 +22,7 @@ export class TransportCallService {
   getTransportCalls = (): Observable<TransportCall[]> =>
     this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL).pipe(
       mergeMap((transportCalls => {
+        console.log(transportCalls);
         return from(transportCalls).pipe(
           map(this.extractVesselAttributes),
           concatMap((transportCall) =>

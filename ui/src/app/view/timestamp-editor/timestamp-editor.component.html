@@ -38,7 +38,7 @@
   </div>
   <div class="p-field p-col-12 p-md-2">
   </div>
-  <!-- 
+  <!--
   <div class="p-field p-col-12 p-md-5">
     <label for="logoftimestamp">{{ 'general.table.header.logOfTimestamp.label' | translate }}: </label>
     <div class="p-fluid p-formgrid p-grid">
@@ -139,7 +139,7 @@
     <p-button (onClick)="close()" class="footer_option__buttons"
               icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
+    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp, transportCall)" class="footer_option__buttons"
               [disabled]="!validatePortOfCallTimestamp(defaultTimestamp)" icon="pi pi-save"
               label="{{'general.save.editor.label' | translate}}" iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
