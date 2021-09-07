@@ -202,8 +202,8 @@
     }
     },
     "publisherRole": {
-      "tooltip":"publisher role",
-      "label": "publisher role"
+      "tooltip":"Publisher role",
+      "label": "Publisher role"
     },
     "transportCall": {
       "add": "Add a new Transport Call",
