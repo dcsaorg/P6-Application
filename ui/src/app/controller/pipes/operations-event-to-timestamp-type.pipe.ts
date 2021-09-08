@@ -12,7 +12,19 @@ import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
 export class OperationsEventToTimestampTypePipe implements PipeTransform {
 
   transform(operationEvent: OperationsEvent): PortcallTimestampType {
-    if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.facilityTypeCode == FacilityTypeCode.BRTH) {
+    if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+      return PortcallTimestampType.ETC_Cargo_Ops
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+      return PortcallTimestampType.PTC_Cargo_Ops
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.REQ && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+      return PortcallTimestampType.RTC_Cargo_Ops
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+      return PortcallTimestampType.ATC_Cargo_Ops
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+      return PortcallTimestampType.ATS_Cargo_Ops
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
+      return PortcallTimestampType.ATS_Pilot
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.facilityTypeCode == FacilityTypeCode.BRTH) {
       return PortcallTimestampType.ETA_Berth
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.facilityTypeCode == FacilityTypeCode.BRTH) {
       return PortcallTimestampType.PTA_Berth
@@ -36,20 +48,8 @@ export class OperationsEventToTimestampTypePipe implements PipeTransform {
       return PortcallTimestampType.RTA_PBP
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.facilityTypeCode == FacilityTypeCode.PBPL) {
       return PortcallTimestampType.ATA_PBP
-    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
-      return PortcallTimestampType.ETC_Cargo_Ops
-    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
-      return PortcallTimestampType.PTC_Cargo_Ops
-    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.REQ && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
-      return PortcallTimestampType.RTC_Cargo_Ops
-    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
-      return PortcallTimestampType.ATC_Cargo_Ops
-    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
-      return PortcallTimestampType.ATS_Cargo_Ops
-    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
-      return PortcallTimestampType.ATS_Pilot
     } else {
-      return  null; 
+      return null;
     }
 
   }
