@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit {
       this.globals.config = config;
       this.companyName = config.publisher.partyName;
       this.companyRole = config.publisher.nmftaCode;
-      this.companyId = config.publisher.identifyingCodes.partyCode;
+     // this.companyId = config.publisher.identifyingCodes.partyCode;
       this.companyCodeType = config.publisherRole;
     });
   }
