@@ -1,7 +1,27 @@
 {
-  "company": "DCSA",
-  "publisherRole": "CA",
-  "publisher": "EXP",
-  "publisherCodeType": "SMDG_LINER_CODE"
+  "publisher": {
+    "partyName": "Asseco Denmark",
+    "taxReference1": "CVR-25645774",
+    "taxReference2": "CVR-25645774",
+    "publicKey": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFzaW",
+    "address": {
+      "name": "Henrik",
+      "street": "Kronprincessegade",
+      "streetNumber": "54",
+      "floor": "5. sal",
+      "postCode": "1306",
+      "city": "København",
+      "stateRegion": "N/A",
+      "country": "Denmark"
+    },
+    "identifyingCodes": [
+      {
+        "codeListResponsibleAgencyCode": "306",
+        "partyCode": "MSK"
+      }
+    ],
+    "nmftaCode" : "CSK"
+  },
+  "publisherRole": "TR"
 }
 
