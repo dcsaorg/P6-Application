@@ -1,7 +1,24 @@
 {
+  "id": "be5bc290-7bac-48bb-a211-f3fa5a3ab3ae",
   "company": "DCSA",
   "publisherRole": "CA",
-  "publisher": "EXP",
+  "publisher": {
+    "partyName": "Asseco Denmark",
+    "taxReference1": "CVR-25645774",
+    "taxReference2": "CVR-25645774",
+    "publicKey": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFzaW",
+    "nmftaCode": "MMCU",
+    "address": {
+      "name": "Lagkagehuset",
+      "street": "Islands Brygge",
+      "street_number": "43",
+      "floor": "St",
+      "postal_code": "2300",
+      "city": "København S",
+      "state_region": "N/A",
+      "country": "Denmark"
+    }
+  },
   "publisherCodeType": "SMDG_LINER_CODE"
 }
 

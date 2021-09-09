@@ -13,6 +13,16 @@ import {PortCallServiceTypeCode} from 'src/app/model/enums/portCallServiceTypeCo
 import {FacilityCodeListProvider} from "../../model/Enums/facilityCodeListProvider";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
+import {DelayCode} from "../../model/portCall/delayCode";
+import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
+import {Timestamp} from "../../model/OVS/timestamp";
+import {DelayCodeService} from "../../controller/services/base/delay-code.service";
+import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {EventClassifierCode} from "../../model/OVS/eventClassifierCode";
+import {OperationsEventTypeCode} from "../../model/OVS/operationsEventTypeCode";
+import {Publisher} from "../../model/publisher";
+import {PublisherRole} from "../../model/Enums/publisherRole";
+import {Util} from "../../controller/services/util/util";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -25,30 +35,79 @@ export class TransportCallCreatorComponent implements OnInit {
   terminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
   vesselOptions: SelectItem[] = [];
+  facilityTypeCodeOptions: SelectItem[] = [];
   facilityCodeListProviderOptions: SelectItem[] = [];
+  eventClassifierCode: EventClassifierCode;
   creationProgress: boolean;
   vessels: Vessel[] = [];
+
+  timestampType: string;
+  timestamp: Timestamp;
+  eventTimestampDate: Date;
+  eventTimestampTime: String;
+  timestampSelected: string;
+  timestampTypes: SelectItem[] = [];
+  delayCodeOptions: SelectItem[] = [];
+  eventClassifierCodeOptions: SelectItem[] = [];
+  delayCodes: DelayCode[];
+  delayCode: DelayCode;
+  defaultTimestampRemark: string;
+
+  defaultTimestamp: Timestamp = {
+    publisher: undefined,
+    publisherRole: undefined,
+    vesselIMONumber: undefined,
+    UNLocationCode: undefined,
+    facilityCode: undefined,
+    facilityTypeCode: undefined,
+    eventClassifierCode: undefined,
+    operationsEventTypeCode: undefined,
+    eventDateTime: undefined,
+    modifiable: false,
+    portNext: undefined,
+    portOfCall: undefined,
+    portPrevious: undefined,
+    timestampType: undefined,
+    transportCallID: ""
+  };
 
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
               private globals: Globals,
               public ref: DynamicDialogRef,
               private messageService: MessageService,
+              private delayCodeService: DelayCodeService,
               private transportCallService: TransportCallService,
-              private vesselService: VesselService) {
+              private vesselService: VesselService,
+              private timestampMappingService: TimestampMappingService) {
   }
 
   ngOnInit(): void {
+    console.log(this.globals.config.publisher);
+
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
+    this.updateTimestampTypeOptions();
+    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
+      this.delayCodes = delayCodes;
+      this.updateDelayCodeOptions()
+    });
+    this.updateFacilityTypeCode();
+    this.timestampType = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
     // this.updateFacilityCodeListProvider();
     this.transportCallFormGroup = this.formBuilder.group({
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
       terminal: new FormControl({value: '', disabled: true}, [Validators.required]),
-      vessel: new FormControl(null, [Validators.required])
+      vessel: new FormControl(null, [Validators.required]),
+      timestampType: new FormControl(null),
+      delayCode: new FormControl(null),
+      eventTimestampTime: new FormControl(null),
+      eventTimestampDate: new FormControl(null),
+      defaultTimestampRemark: new FormControl(null),
+      facilityTypeCode: new FormControl(null),
 
     });
   }
@@ -98,7 +157,48 @@ export class TransportCallCreatorComponent implements OnInit {
     })
   }
 
-  saveNewTransportCall() {
+  private updateFacilityTypeCode() {
+    this.facilityTypeCodeOptions.push({label: this.translate.instant('general.facilityTypeCode.select'), value: null});
+    this.facilityTypeCodeOptions.push({label: FacilityTypeCode.PBPL.toString(), value: FacilityTypeCode.PBPL});
+    this.facilityTypeCodeOptions.push({label: FacilityTypeCode.BRTH.toString(), value: FacilityTypeCode.BRTH});
+  }
+
+  // private updateEventClassifierCode() {
+  //   this.eventClassifierCodeOptions.push({label: this.translate.instant('general.facilityTypeCode.select'), value: null});
+  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.EST.toString(), value: EventClassifierCode.EST});
+  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.PLN.toString(), value: EventClassifierCode.PLN});
+  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.ACT.toString(), value: EventClassifierCode.ACT});
+  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.REQ.toString(), value: EventClassifierCode.REQ});
+  // }
+
+  updateTimestampTypeOptions() {
+    this.timestampTypes = [];
+    this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
+    for (let item in PortcallTimestampType) {
+      this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
+    }
+  }
+
+  updateDelayCodeOptions() {
+    this.delayCodeOptions = [];
+    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
+    this.delayCodes.forEach(delayCode => {
+      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+    });
+  }
+
+  leftPadWithZero(item: number): String {
+    return (String('0').repeat(2) + item).substr((2 * -1), 2);
+  }
+
+  setEventTimestampToNow() {
+    this.eventTimestampDate = new Date();
+    this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
+    this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate);
+    this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
+  }
+
+  async saveNewTransportCall() {
     this.creationProgress = true;
     let transportCall: TransportCall = new class implements TransportCall {
       UNLocationCode: string;
@@ -131,10 +231,44 @@ export class TransportCallCreatorComponent implements OnInit {
     transportCall.UNLocationCode = port.unLocode;
     transportCall.carrierVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
+    transportCall.facilityTypeCode = this.transportCallFormGroup.controls.facilityTypeCode.value;
+
+    // Timestamp
+    this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    let createTimestamp = this.timestampType != undefined && this.eventTimestampDate != undefined && this.eventTimestampTime != undefined;
+
+    console.log("Create timestamp? " + createTimestamp);
+
+    this.timestamp = new class implements Timestamp {
+      UNLocationCode: string;
+      eventClassifierCode: EventClassifierCode;
+      eventDateTime: string | Date;
+      facilityTypeCode: FacilityTypeCode;
+      operationsEventTypeCode: OperationsEventTypeCode;
+      publisher: Publisher;
+      publisherRole: PublisherRole;
+      vesselIMONumber: string;
+      delayReasonCode: string;
+      timestampType: PortcallTimestampType;
+    }
+
+    this.timestamp.UNLocationCode = transportCall.UNLocationCode;
+    this.timestamp.facilitySMDGCode = transportCall.facilityCode;
+    this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
+    this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
+    this.timestamp.publisherRole = this.globals.config.publisherRole;
+    this.timestamp.publisher = this.globals.config.publisher;
+    this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
+    this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
+    this.timestamp.eventDateTime = this.eventTimestampDate;
+    this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+
+    this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
 
     this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
         this.creationProgress = false;
 
+        console.log("Creating transport call!");
         this.messageService.add(
           {
             key: 'TransportcallAddSuccess',
@@ -144,6 +278,31 @@ export class TransportCallCreatorComponent implements OnInit {
           });
         this.ref.close(transportCall);
 
+        if (createTimestamp) {
+          console.log("Creating timestamp!");
+          this.creationProgress = true;
+          this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(respTimestamp => {
+              this.creationProgress = false;
+              this.messageService.add(
+                {
+                  key: 'TimestampAddSuccess',
+                  severity: 'success',
+                  summary: this.translate.instant('general.save.editor.success.summary'),
+                  detail: this.translate.instant('general.save.editor.success.detail')
+                })
+              this.ref.close(respTimestamp);
+            },
+            error => {
+              this.messageService.add(
+                {
+                  key: 'TimestampAddError',
+                  severity: 'error',
+                  summary: this.translate.instant('general.save.editor.failure.summary'),
+                  detail: this.translate.instant('general.save.editor.failure.detail') + error.message
+                })
+              this.creationProgress = false;
+            })
+        }
 
       },
       error => {
@@ -155,7 +314,6 @@ export class TransportCallCreatorComponent implements OnInit {
             summary: this.translate.instant('general.transportCall.validation.error.summery'),
             detail: this.translate.instant('general.transportCall.validation.error.detail') + error.message
           });
-
       })
   }
 

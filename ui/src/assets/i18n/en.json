@@ -199,10 +199,10 @@
           "label": "Create a Transport",
           "tooltip": "Create a new Transport"
         }
-    }
+      }
     },
     "publisherRole": {
-      "tooltip":"publisher role",
+      "tooltip": "publisher role",
       "label": "publisher role"
     },
     "transportCall": {
@@ -215,7 +215,6 @@
           "label": "Create a Transport Call",
           "tooltip": "Create a new Transportcall "
         },
-
         "carrierServiceCode": {
           "label": "Carrier Service Code"
         },
@@ -238,14 +237,17 @@
         "transportCallSequenceNumber": {
           "label": "Call Sequence Number"
         },
-          "estimatedDateofArrival": {
-            "label": "Estimated Date of Arrival"
-          },
+        "estimatedDateofArrival": {
+          "label": "Estimated Date of Arrival"
+        },
         "carrierVoyageNumber": {
           "label": "Carrier Voyage Number"
         },
         "facilityTypeCode": {
           "label": "Facility Type"
+        },
+        "eventClassifierCode": {
+          "label": "Event Classifier Code"
         },
         "facilityCode": {
           "label": "Facility Code"
@@ -253,9 +255,9 @@
       },
       "validation": {
         "vessel": {
-          "noVesselSelected": "You need to select a vessel, chucklefuck!",
-          "empty" : "The IMO number of the vessel is Required",
-          "length" : "The IMO number must has a fix length of 7 digits!"
+          "noVesselSelected": "You need to select a vessel!",
+          "empty": "The IMO number of the vessel is Required",
+          "length": "The IMO number must has a fix length of 7 digits!"
         },
         "port": {
           "empty": "Please select a port for this transport call"
@@ -282,6 +284,12 @@
         "error": {
           "summery": "Error creating new transport call!",
           "detail": "Creating a new transport call failed with: "
+        },
+        "facilityTypeCode": {
+          "noFacilityTypeCodeSelected": "You need to select a facility type code!"
+        },
+        "eventClassifierCode": {
+          "noeventClassifierCodeSelected": "You need to select an event classifier code!"
         }
       }
     },
@@ -343,8 +351,8 @@
         }
       }
     },
-    "carrier":{
-      "name":"Carrier name",
+    "carrier": {
+      "name": "Carrier name",
       "label": "Carrier",
       "number": "",
       "select": "All carriers",
@@ -364,6 +372,14 @@
         "select": "All Carrier code list providers",
         "label": "Carrier code list provider"
       }
+    },
+    "facilityTypeCode": {
+      "label": "Facility Type Code",
+      "select": "select factility type code"
+    },
+    "eventClassifierCode": {
+      "label": "Event Classifier Code",
+      "select": "select event classifier code"
     }
   }
 }
