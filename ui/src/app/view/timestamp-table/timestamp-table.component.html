@@ -88,9 +88,9 @@
       </th>
       <th style="width: 15%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">{{ 'general.table.header.transportCallStatus.label' | translate }}</th>
-      <th style="width: 4%" >
+      <th style="width: 4%" class="timestampContent" >
       </th>
-      <th style="width: 4%" >
+      <th style="width: 4%" class="timestampContent" >
       </th>
     </tr>
     <tr>
@@ -216,7 +216,7 @@
                   icon="pi pi-comment">
         </p-button>
 
-        <p-button class="timestampContent" *ngIf="timestamp.response != null" icon="pi pi-check"
+        <p-button *ngIf="timestamp.response != null" icon="pi pi-check"
                   pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
                   tooltipPosition="left"
                   tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
