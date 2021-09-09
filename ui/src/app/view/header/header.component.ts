@@ -96,7 +96,7 @@ export class HeaderComponent implements OnInit {
       this.messageService.add({
         key: 'DownloadRequestSuccess',
         severity: 'success',
-        summary: 'Successfully downloading',
+        summary: 'Downloaded successfully',
         detail: ''
       });
     }, error =>
@@ -110,9 +110,16 @@ export class HeaderComponent implements OnInit {
   }
 
   downloadingTimeStamps(data) {
-    const blob = new Blob([data], { type: '.xlsx' });
-    const url = window.URL.createObjectURL(blob);
-    window.open(url);
+//    const blob = new Blob([data], { type: '.xlsx' });
+ //   const url = window.URL.createObjectURL(blob);
+  //  window.open(url);
+  let file: Blob = new Blob([data], {type: 'xlsx'});
+  const a = document.createElement('a')
+  const objectUrl = URL.createObjectURL(file)
+  a.href = objectUrl;
+  a.download = "PortCall_Timestamps_Export.xlsx";
+  a.click();
+  URL.revokeObjectURL(objectUrl);
   }
 
   changeLanguage(selectedLanguage: SelectItem) {
