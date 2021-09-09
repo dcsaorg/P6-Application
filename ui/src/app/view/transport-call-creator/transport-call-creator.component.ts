@@ -22,7 +22,6 @@ import {EventClassifierCode} from "../../model/OVS/eventClassifierCode";
 import {OperationsEventTypeCode} from "../../model/OVS/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/Enums/publisherRole";
-import {Util} from "../../controller/services/util/util";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -53,24 +52,6 @@ export class TransportCallCreatorComponent implements OnInit {
   delayCode: DelayCode;
   defaultTimestampRemark: string;
 
-  defaultTimestamp: Timestamp = {
-    publisher: undefined,
-    publisherRole: undefined,
-    vesselIMONumber: undefined,
-    UNLocationCode: undefined,
-    facilityCode: undefined,
-    facilityTypeCode: undefined,
-    eventClassifierCode: undefined,
-    operationsEventTypeCode: undefined,
-    eventDateTime: undefined,
-    modifiable: false,
-    portNext: undefined,
-    portOfCall: undefined,
-    portPrevious: undefined,
-    timestampType: undefined,
-    transportCallID: ""
-  };
-
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
               private globals: Globals,
@@ -94,8 +75,6 @@ export class TransportCallCreatorComponent implements OnInit {
       this.updateDelayCodeOptions()
     });
     this.updateFacilityTypeCode();
-    this.timestampType = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
-    // this.updateFacilityCodeListProvider();
     this.transportCallFormGroup = this.formBuilder.group({
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
@@ -221,10 +200,9 @@ export class TransportCallCreatorComponent implements OnInit {
     let terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
     let port: Port = this.transportCallFormGroup.controls.port.value
 
-    // Hardcoded shit
-    transportCall.transportCallSequenceNumber = 1;  //this.transportCallFormGroup.controls.callSequenceNumber.value;
+    transportCall.transportCallSequenceNumber = 1;
     transportCall.modeOfTransport = "VESSEL";
-    transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG; // this.transportCallFormGroup.controls.facilityCodeListProvider.value;
+    transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
     transportCall.facilityCode = terminal.smdgCode;
@@ -235,9 +213,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
     // Timestamp
     this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    let createTimestamp = this.timestampType != undefined && this.eventTimestampDate != undefined && this.eventTimestampTime != undefined;
-
-    console.log("Create timestamp? " + createTimestamp);
+    let createTimestamp = this.timestampType != null && this.eventTimestampDate != undefined && this.eventTimestampTime != undefined;
 
     this.timestamp = new class implements Timestamp {
       UNLocationCode: string;

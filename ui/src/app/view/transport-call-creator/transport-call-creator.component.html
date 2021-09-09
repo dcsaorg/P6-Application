@@ -110,31 +110,7 @@
           </div>
         </ng-template>
       </p-dropdown>
-      <span *ngIf="transportCallFormGroup.get('vessel').hasError('required')" class="p-invalid">
-        {{ 'general.transportCall.validation.facilityTypeCode.noFacilityTypeCodeSelected' | translate }}
-      </span>
     </div>
-
-    <!-- eventClassifierCode -->
-<!--    <div class="p-field p-col-12 p-md-4">-->
-<!--      <label for="eventClassifierCodes">{{ 'general.facilityTypeCode.label' | translate }}:</label>-->
-<!--      <p-dropdown appendTo="body" formControlName="facilityTypeCode" id="eventClassifierCodes"-->
-<!--                  class="eventClassifierCodes__dropDown"-->
-<!--                  [options]="eventClassifierCodeOptions" [filter]="true" filterBy="label,value.name">-->
-<!--        <ng-template let-eventClassifierCode pTemplate="item">-->
-<!--          <div *ngIf="!eventClassifierCode.value">-->
-<!--            <div>Select facility type code</div>-->
-<!--          </div>-->
-<!--          <div *ngIf="eventClassifierCode.value">-->
-<!--            <div>{{eventClassifierCode.value}}</div>-->
-<!--            <div class="portListName">{{eventClassifierCode.value.name}}</div>-->
-<!--          </div>-->
-<!--        </ng-template>-->
-<!--      </p-dropdown>-->
-<!--      <span *ngIf="transportCallFormGroup.get('vessel').hasError('required')" class="p-invalid">-->
-<!--        {{ 'general.transportCall.validation.facilityTypeCode.noFacilityTypeCodeSelected' | translate }}-->
-<!--      </span>-->
-<!--    </div>-->
 
   </div>
 
