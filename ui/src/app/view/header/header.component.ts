@@ -3,13 +3,9 @@ import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
 import {ConfigService} from "../../controller/services/base/config.service";
 import {MenuItem, MessageService, SelectItem} from "primeng/api";
-import {CodeType} from "../../model/portCall/codeType";
-import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import { environment } from 'src/environments/environment';
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import {ExportService} from "../../controller/services/base/export.service";
 
@@ -23,8 +19,8 @@ export class HeaderComponent implements OnInit {
 
   helpMenu: MenuItem[];
   companyName: string;
-  companyRole: PublisherRole;
-  companyCodeType: CodeType;
+  companyRole: string;
+  companyCodeType: PublisherRole;
   companyId: string;
   displayDownloadRequest: boolean;
 
@@ -44,10 +40,10 @@ export class HeaderComponent implements OnInit {
               ) {
     configService.getConfig().subscribe(config => {
       this.globals.config = config;
-      this.companyName = config.company;
-      this.companyRole = config.publisherRole;
-      this.companyId = config.publisher.partyName;
-   //   this.companyCodeType = config.publisherCodeType; // WHAT IS SUPPOSE TO REPRESENT 
+      this.companyName = config.publisher.partyName;
+      this.companyRole = config.publisher.nmftaCode;
+      this.companyId = config.publisher.identifyingCodes.partyCode;
+      this.companyCodeType = config.publisherRole;
     });
   }
 
