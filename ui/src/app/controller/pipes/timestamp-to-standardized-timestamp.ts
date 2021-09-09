@@ -57,7 +57,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.portCallSequence = portcallTimestamp.portCallSequence; 
     newTimestamp.remark = portcallTimestamp.remark; 
     newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
-    newTimestamp.identifyingCodes = configurations.identifyingCodes;
+    newTimestamp.publisher.identifyingCodes = configurations.identifyingCodes;
 
     return newTimestamp;
   }
