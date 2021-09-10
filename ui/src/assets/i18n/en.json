@@ -37,7 +37,7 @@
       "timestamps": {
         "header": "Download timestamps for",
         "label": "Download timestamps",
-        "tooltip": "This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment."
+        "tooltip": "This downloads an xlsx file, which includes the inserted timestamps for all the vessels that have been reported in this login environment."
       }
     },
     "instructions": {
@@ -171,6 +171,10 @@
           "name": "Vessel name",
           "label": "Vessel",
           "tooltip": "The vessel of a process event"
+        },
+        "transportCallStatus": {
+          "label": "Status of the call",
+          "tooltip": "Shows the current status of the call"
         }
       },
       "pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"
@@ -202,8 +206,8 @@
     }
     },
     "publisherRole": {
-      "tooltip":"publisher role",
-      "label": "publisher role"
+      "tooltip":"Publisher role",
+      "label": "Publisher role"
     },
     "transportCall": {
       "add": "Add a new Transport Call",

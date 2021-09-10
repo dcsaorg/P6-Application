@@ -25,4 +25,5 @@ export interface OperationsEvent {
   changeRemark?: string;
   remark?: string;
   delayReasonCode?: string;
+  eventDeliveryStatus: string;
 }

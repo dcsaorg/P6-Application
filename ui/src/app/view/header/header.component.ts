@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {DialogService} from "primeng/dynamicdialog";
 import {InstructionsComponent} from "../instructions/instructions.component";
 import {ConfigService} from "../../controller/services/base/config.service";
-import {DownloadService} from "../../controller/services/base/download.service";
 import {MenuItem, MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import { AuthService } from 'src/app/auth/auth.service';
+import {ExportService} from "../../controller/services/base/export.service";
 
 @Component({
   selector: 'app-header',
@@ -32,11 +32,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(private dialogService: DialogService,
               private configService: ConfigService,
-              private downloadService: DownloadService,
               private messageService: MessageService,
               private translate: TranslateService,
               private globals: Globals,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private exportService: ExportService,
+              ) {
     configService.getConfig().subscribe(config => {
       this.globals.config = config;
       this.companyName = config.publisher.partyName;
@@ -84,23 +85,37 @@ export class HeaderComponent implements OnInit {
     this.displayDownloadRequest = true;
   }
 
+
   downloadTimeStamps() {
-    console.log("Download clicked");
-    this.downloadService.downloadTimestampsAsCsv().subscribe((data) => {
-      let file: Blob = new Blob([data], {type: 'text/csv'});
-      const a = document.createElement('a')
-      const objectUrl = URL.createObjectURL(file)
-      a.href = objectUrl;
-      a.download = "PortCall_Timestamps_Export.csv";
-      a.click();
-      URL.revokeObjectURL(objectUrl);
-      this.displayDownloadRequest = false;
-    }), error => this.messageService.add({
-      key: 'DownloadRequestError',
-      severity: 'error',
-      summary: 'Error on requesting the $timestamps in an CSV file.',
-      detail: error.message
-    });
+    this.exportService.getExport().subscribe(data => {
+      this.downloadingTimeStamps(data);
+      this.messageService.add({
+        key: 'DownloadRequestSuccess',
+        severity: 'success',
+        summary: 'Downloaded successfully',
+        detail: ''
+      });
+    }, error =>
+        this.messageService.add({
+          key: 'DownloadRequestError',
+          severity: 'error',
+          summary: 'Error while downloading file.',
+          detail: error.message
+        })
+    )
+  }
+
+  downloadingTimeStamps(data) {
+//    const blob = new Blob([data], { type: '.xlsx' });
+ //   const url = window.URL.createObjectURL(blob);
+  //  window.open(url);
+  let file: Blob = new Blob([data], {type: 'xlsx'});
+  const a = document.createElement('a')
+  const objectUrl = URL.createObjectURL(file)
+  a.href = objectUrl;
+  a.download = "PortCall_Timestamps_Export.xlsx";
+  a.click();
+  URL.revokeObjectURL(objectUrl);
   }
 
   changeLanguage(selectedLanguage: SelectItem) {
