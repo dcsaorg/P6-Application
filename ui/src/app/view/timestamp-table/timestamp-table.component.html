@@ -86,11 +86,11 @@
         {{ 'general.table.header.terminalId.label' | translate }}
         <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
       </th>
-      <th style="width: 6%" pTooltip="{{ 'general.table.header.comment.tooltip' | translate }}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent"></th>
-      <th style="width: 4%" >
+      <th style="width: 15%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
+          tooltipStyleClass="ToolTipClass" class="timestampContent">{{ 'general.table.header.transportCallStatus.label' | translate }}</th>
+      <th style="width: 4%" class="timestampContent" >
       </th>
-      <th style="width: 4%" >
+      <th style="width: 4%" class="timestampContent" >
       </th>
     </tr>
     <tr>
@@ -166,7 +166,7 @@
       </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
-        style="width: 7%">
+        style="width: 15%">
    <!--     <div
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
@@ -176,12 +176,22 @@
      -->
     <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
     <div *ngIf="!isOutGoing(timestamp)">Ingoing</div>
+    <div *ngIf="isOutGoing(timestamp)">{{ timestamp.eventDeliveryStatus }}</div>
     
     </td>
-     
-      
-      <td style="width: 4%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+    <td *ngIf="isOutGoing(timestamp)" [ngClass]="
+      {'outgoingAttempted': timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY',
+      'outgoingPending': timestamp.eventDeliveryStatus === 'PENDING_DELIVERY',
+      'outgoingDelivered': timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'
+      }"
+      style="width: 100%;"
+      > </td>
+
+                <!--this has been removed from the below td-->
+              <!-- [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp' "--> 
+      <td *ngIf="!isOutGoing(timestamp)" style="width: 4%"  
+      class="ingoing">
+      <!--
                 <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
                   '' :
                   (timestamp.messageDirection == 'inbound' ?
@@ -194,8 +204,8 @@
                         ( 'general.direction.inbound' | translate ) : ( 'general.direction.outbound' | translate )
                   )
               }}"
-                      tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>
-
+                      tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>  -->
+        
 
       </td>
       <td
@@ -206,7 +216,7 @@
                   icon="pi pi-comment">
         </p-button>
 
-        <p-button class="timestampContent" *ngIf="timestamp.response != null" icon="pi pi-check"
+        <p-button *ngIf="timestamp.response != null" icon="pi pi-check"
                   pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
                   tooltipPosition="left"
                   tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
