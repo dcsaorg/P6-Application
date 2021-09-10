@@ -269,7 +269,6 @@ export class TransportCallCreatorComponent implements OnInit {
               this.creationProgress = false;
             })
         }
-
       },
       error => {
         this.creationProgress = false;
