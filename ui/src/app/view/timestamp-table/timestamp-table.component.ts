@@ -42,6 +42,7 @@ import { Timestamp } from 'src/app/model/ovs/timestamp';
 })
 export class TimestampTableComponent implements OnInit, OnChanges {
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
+  @Input('portOfCallNotifier') portofCallNotifier: Port;
   timestamps: Timestamp[];
   progressing: boolean = true;
   terminals: Terminal[] = [];
@@ -87,7 +88,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.terminals = this.globals.terminals;
+    this.terminals = this.globals.terminals; 
     this.loadTimestamps();
   }
 

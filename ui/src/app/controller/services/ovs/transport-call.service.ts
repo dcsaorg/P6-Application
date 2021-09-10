@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { BACKEND_URL } from "../../../../environments/environment";
 import { from, Observable } from "rxjs";
 import { TransportCall } from "../../../model/ovs/transport-call";
 import { map, mergeMap, toArray, concatMap } from "rxjs/operators";
 import { Timestamp } from 'src/app/model/ovs/timestamp';
+import { Port } from 'src/app/model/portCall/port';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,17 @@ export class TransportCallService {
     this.OPERATIONS_EVENT_URL=BACKEND_URL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
   }
 
-  getTransportCalls = (): Observable<TransportCall[]> =>
-    this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL).pipe(
+  getTransportCalls(unLocode? : string, smdgCode? : string ): Observable<TransportCall[]> {
+    let httpParams = new HttpParams()
+    if(unLocode != null) {
+      httpParams = httpParams.set('facility.UNLocationCode', unLocode)
+      if(smdgCode != null) {
+        httpParams = httpParams.set('facility.facilitySMGDCode', smdgCode)
+      }
+    } 
+    return this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL, {
+     params: httpParams
+    }).pipe(
       mergeMap((transportCalls => {
         return from(transportCalls).pipe(
           map(this.extractVesselAttributes),
@@ -40,6 +50,7 @@ export class TransportCallService {
         
       }))
     );
+  }
 
   getOperationsEventstoTimestamp = (transportCallId: string): Observable<Timestamp[]> =>
   this.httpClient.get<Timestamp[]>(this.OPERATIONS_EVENT_URL+ "&transportCallID=" + transportCallId).pipe(map(transportCalls => (transportCalls)));
