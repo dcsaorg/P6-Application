@@ -64,6 +64,7 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
+import { PortFilterService } from "./controller/services/base/portfilter.service";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -144,6 +145,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     ConfirmationService,
+    PortFilterService,
     MessageService,
     Globals,
     OperationsEventsToTimestampsPipe,
