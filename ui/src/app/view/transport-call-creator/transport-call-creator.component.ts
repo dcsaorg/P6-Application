@@ -22,7 +22,6 @@ import {EventClassifierCode} from "../../model/OVS/eventClassifierCode";
 import {OperationsEventTypeCode} from "../../model/OVS/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/Enums/publisherRole";
-import {Util} from "../../controller/services/util/util";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -37,7 +36,6 @@ export class TransportCallCreatorComponent implements OnInit {
   vesselOptions: SelectItem[] = [];
   facilityTypeCodeOptions: SelectItem[] = [];
   facilityCodeListProviderOptions: SelectItem[] = [];
-  eventClassifierCode: EventClassifierCode;
   creationProgress: boolean;
   vessels: Vessel[] = [];
 
@@ -48,7 +46,6 @@ export class TransportCallCreatorComponent implements OnInit {
   timestampSelected: string;
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
-  eventClassifierCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   delayCode: DelayCode;
   defaultTimestampRemark: string;
@@ -142,14 +139,6 @@ export class TransportCallCreatorComponent implements OnInit {
     this.facilityTypeCodeOptions.push({label: FacilityTypeCode.PBPL.toString(), value: FacilityTypeCode.PBPL});
     this.facilityTypeCodeOptions.push({label: FacilityTypeCode.BRTH.toString(), value: FacilityTypeCode.BRTH});
   }
-
-  // private updateEventClassifierCode() {
-  //   this.eventClassifierCodeOptions.push({label: this.translate.instant('general.facilityTypeCode.select'), value: null});
-  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.EST.toString(), value: EventClassifierCode.EST});
-  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.PLN.toString(), value: EventClassifierCode.PLN});
-  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.ACT.toString(), value: EventClassifierCode.ACT});
-  //   this.eventClassifierCodeOptions.push({label: EventClassifierCode.REQ.toString(), value: EventClassifierCode.REQ});
-  // }
 
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
