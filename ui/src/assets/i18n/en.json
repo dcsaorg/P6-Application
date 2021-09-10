@@ -37,7 +37,7 @@
       "timestamps": {
         "header": "Download timestamps for",
         "label": "Download timestamps",
-        "tooltip": "This downloads a csv file, which includes the inserted timestamps for all the vessels that have been reported in this login environment."
+        "tooltip": "This downloads an xlsx file, which includes the inserted timestamps for all the vessels that have been reported in this login environment."
       }
     },
     "instructions": {

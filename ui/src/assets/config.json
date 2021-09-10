@@ -9,16 +9,23 @@
     "publicKey": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFzaW",
     "nmftaCode": "MMCU",
     "address": {
-      "name": "Lagkagehuset",
-      "street": "Islands Brygge",
-      "street_number": "43",
-      "floor": "St",
-      "postal_code": "2300",
-      "city": "København S",
-      "state_region": "N/A",
+      "name": "Henrik",
+      "street": "Kronprincessegade",
+      "streetNumber": "54",
+      "floor": "5. sal",
+      "postCode": "1306",
+      "city": "København",
+      "stateRegion": "N/A",
       "country": "Denmark"
-    }
+    },
+    "identifyingCodes": [
+      {
+        "codeListResponsibleAgencyCode": "306",
+        "partyCode": "MSK"
+      }
+    ],
+    "nmftaCode" : "CSK"
   },
-  "publisherCodeType": "SMDG_LINER_CODE"
+  "publisherRole": "TR"
 }
 
