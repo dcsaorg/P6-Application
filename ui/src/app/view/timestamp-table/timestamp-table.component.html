@@ -27,31 +27,31 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="width:3px"></th>
-      <th pSortableColumn="vesselId" pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}"
+      <th pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}"
           style="width: 8%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.vessel.name' | translate }}
-        <p-sortIcon field="vessel"></p-sortIcon>
+         
       </th>
-      <th style="width: 7%" pSortableColumn="publisherRole"
+      <th style="width: 7%"
       pTooltip="{{ 'general.publisherRole.label' | translate }}"
       tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
     {{ 'general.publisherRole.label' | translate }}
-    <p-sortIcon field="publisherRole" class="timestampContent"></p-sortIcon>
+    
   </th>
-      <th pSortableColumn="timestampType" pTooltip="{{ 'general.table.header.timestamp.tooltip' | translate }}"
+      <th pTooltip="{{ 'general.table.header.timestamp.tooltip' | translate }}"
           style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.timestamp.label' | translate }}
-        <p-sortIcon field="timestampType" class="timestampContent"></p-sortIcon>
+        
       </th>
-      <th pSortableColumn="logOfTimestamp" pTooltip="{{ 'general.table.header.logOfTimestamp.tooltip' | translate }}"
+      <th pTooltip="{{ 'general.table.header.logOfTimestamp.tooltip' | translate }}"
           tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.logOfTimestamp.label' | translate }}
-        <p-sortIcon field="logOfTimestamp"></p-sortIcon>
+        
       </th>
-      <th pSortableColumn="eventTimestamp" pTooltip="{{ 'general.table.header.eventTimestamp.tooltip' | translate }}"
+      <th pTooltip="{{ 'general.table.header.eventTimestamp.tooltip' | translate }}"
           tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.eventTimestamp.label' | translate }}
-        <p-sortIcon field="eventTimestamp"></p-sortIcon>
+       
       </th>
         <!--
       <th style="width: 8%" pSortableColumn="portPrevious"
@@ -61,10 +61,10 @@
         <p-sortIcon field="portPrevious"></p-sortIcon>
       </th>
     -->
-      <th pSortableColumn="portOfCall" pTooltip="{{ 'general.table.header.portOfCall.tooltip' | translate }}"
+      <th pTooltip="{{ 'general.table.header.portOfCall.tooltip' | translate }}"
           style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.portOfCall.label' | translate }}
-        <p-sortIcon field="portOfCall"></p-sortIcon>
+       
       </th>
       <!--
       <th style="width: 7%" pSortableColumn="portNext"
@@ -80,11 +80,11 @@
         <p-sortIcon field="direction"></p-sortIcon>
       </th>
       -->
-      <th style="width: 7%" pSortableColumn="terminal"
+      <th style="width: 7%"
           pTooltip="{{ 'general.table.header.terminalId.tooltip' | translate }}"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.terminalId.label' | translate }}
-        <p-sortIcon field="terminal" class="timestampContent"></p-sortIcon>
+        
       </th>
       <th style="width: 15%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">{{ 'general.table.header.transportCallStatus.label' | translate }}</th>
