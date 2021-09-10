@@ -10,18 +10,18 @@ import {Terminal} from "../../model/portCall/terminal";
 import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
 import {PortCallServiceTypeCode} from 'src/app/model/enums/portCallServiceTypeCode';
-import {FacilityCodeListProvider} from "../../model/Enums/facilityCodeListProvider";
+import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvider";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {DelayCode} from "../../model/portCall/delayCode";
 import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
-import {Timestamp} from "../../model/OVS/timestamp";
+import {Timestamp} from "../../model/ovs/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {EventClassifierCode} from "../../model/OVS/eventClassifierCode";
-import {OperationsEventTypeCode} from "../../model/OVS/operationsEventTypeCode";
+import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
+import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
-import {PublisherRole} from "../../model/Enums/publisherRole";
+import {PublisherRole} from "../../model/enums/publisherRole";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -226,8 +226,9 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestamp.publisher = this.globals.config.publisher;
     this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
-    this.timestamp.eventDateTime = this.eventTimestampDate;
     this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+    this.timestamp.eventDateTime = this.eventTimestampDate;
+    this.timestamp.eventDateTime.setHours(parseInt(this.eventTimestampTime[0]), parseInt(this.eventTimestampTime[1]));
 
     this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
 

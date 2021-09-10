@@ -1,6 +1,6 @@
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
-import {FacilityCodeListProvider} from "../Enums/facilityCodeListProvider";
+import {FacilityCodeListProvider} from "../enums/facilityCodeListProvider";
 import {Vessel} from "../portCall/vessel";
 
 export interface TransportCall {
