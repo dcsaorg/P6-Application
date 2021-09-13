@@ -62,8 +62,6 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.globals.config.publisher);
-
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
@@ -257,7 +255,7 @@ export class TransportCallCreatorComponent implements OnInit {
           {
             key: 'TransportcallAddSuccess',
             severity: 'success',
-            summary: this.translate.instant('general.transportCall.validation.success.summery'),
+            summary: this.translate.instant('general.transportCall.validation.success.summary'),
             detail: this.translate.instant('general.transportCall.validation.success.detail')
           });
         this.ref.close(transportCall);
@@ -294,7 +292,7 @@ export class TransportCallCreatorComponent implements OnInit {
           {
             key: 'TransportcallAddError',
             severity: 'error',
-            summary: this.translate.instant('general.transportCall.validation.error.summery'),
+            summary: this.translate.instant('general.transportCall.validation.error.summary'),
             detail: this.translate.instant('general.transportCall.validation.error.detail') + error.message
           });
       })
