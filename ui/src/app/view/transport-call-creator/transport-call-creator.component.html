@@ -131,16 +131,18 @@
                       [showIcon]="true" [showWeek]="true"
                       [yearNavigator]="true" yearRange="2010:2030"
                       styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
-                      [panelStyleClass]="'datetime-panel'">
+                      [panelStyleClass]="'datetime-panel'"
+                      [disabled]="!shouldCreateTimestamp()">
           </p-calendar>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <p-inputMask formControlName="eventTimestampTime" mask="99:99"
                        placeholder="{{ 'general.timestamp.time' | translate }}"
+                       [disabled]="!shouldCreateTimestamp()"
                        styleClass="datetime-time-time-field">
           </p-inputMask>
           <button type="button" pButton pRipple icon="pi pi-clock" styleClass="p-button-success"
-                  (click)="setEventTimestampToNow()">
+                  [disabled]="!shouldCreateTimestamp()" (click)="setEventTimestampToNow()">
           </button>
         </div>
       </div>
@@ -149,7 +151,7 @@
     <div class="p-field p-col-12 p-md-5">
       <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
       <p-dropdown id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
-                  filterBy="label,value.name" [group]="false">
+                  filterBy="label,value.name" [group]="false" [disabled]="!shouldCreateTimestamp()">
         <ng-template let-delayCode pTemplate="selectedItem">
           <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
             <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
@@ -178,7 +180,8 @@
 
     <div class="p-field p-col-12 p-md-6">
       <span class="p-float-label">
-        <textarea class="commentBox" id="commentbox" pInputTextarea formControlName="defaultTimestampRemark"></textarea>
+        <textarea class="commentBox" id="commentbox" pInputTextarea formControlName="defaultTimestampRemark"
+                  [readOnly]="!shouldCreateTimestamp()" [disabled]="!shouldCreateTimestamp()"></textarea>
         <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
       </span>
     </div>

@@ -168,12 +168,16 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   shouldCreateTimestamp(): boolean {
+    return this.transportCallFormGroup.controls.timestampType.value;
+  }
+
+  canCreateTimestamp(): boolean {
     this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    return this.timestampType != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
+    return this.transportCallFormGroup.controls.facilityTypeCode.value && this.timestampType != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
   }
 
   createButtonText(): string {
-    if (this.shouldCreateTimestamp()) return 'general.transportCall.createWithTimestamp';
+    if (this.canCreateTimestamp()) return 'general.transportCall.createWithTimestamp';
     return 'general.transportCall.create';
   }
 
@@ -213,7 +217,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
     // Timestamp
     this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    let createTimestamp = this.shouldCreateTimestamp();
+    let createTimestamp = this.canCreateTimestamp();
 
     this.timestamp = new class implements Timestamp {
       UNLocationCode: string;
@@ -228,19 +232,22 @@ export class TransportCallCreatorComponent implements OnInit {
       timestampType: PortcallTimestampType;
     }
 
-    this.timestamp.UNLocationCode = transportCall.UNLocationCode;
-    this.timestamp.facilitySMDGCode = transportCall.facilityCode;
-    this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-    this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
-    this.timestamp.publisherRole = this.globals.config.publisherRole;
-    this.timestamp.publisher = this.globals.config.publisher;
-    this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-    this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
-    this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
-    this.timestamp.eventDateTime = this.eventTimestampDate;
-    this.timestamp.eventDateTime.setHours(parseInt(this.eventTimestampTime[0]), parseInt(this.eventTimestampTime[1]));
+    if (createTimestamp) {
+      this.timestamp.UNLocationCode = transportCall.UNLocationCode;
+      this.timestamp.facilitySMDGCode = transportCall.facilityCode;
+      this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
+      this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
+      this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
+      this.timestamp.publisherRole = this.globals.config.publisherRole;
+      this.timestamp.publisher = this.globals.config.publisher;
+      this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
+      this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
+      this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+      this.timestamp.eventDateTime = this.eventTimestampDate;
+      this.timestamp.eventDateTime.setHours(parseInt(this.eventTimestampTime[0]), parseInt(this.eventTimestampTime[1]));
 
-    this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
+      this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
+    }
 
     this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
         this.creationProgress = false;
