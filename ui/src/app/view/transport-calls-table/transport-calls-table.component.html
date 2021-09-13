@@ -1,6 +1,10 @@
-<p-table styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall"
-         selectionMode="single" dataKey="transportCallId"
-         (onRowSelect)="selectTransportCall($event)">
+<p-table styleClass="p-datatable-sm"
+         [value]="transportCalls"
+         [(selection)]="selectedtransportCall"
+         selectionMode="single"
+         dataKey="transportCallId"
+         (onRowSelect)="selectTransportCall($event)"
+         (onRowUnselect)="selectTransportCall($event)">
   <ng-template pTemplate="caption">
     <div class="p-grid">
       <div class="p-col">{{'general.transportCall.label' | translate}}</div>
@@ -21,13 +25,13 @@
                     tooltipStyleClass="ToolTipClass"></p-button>
 
         </div>
-     <!--         <div class="p-input-icon-left globalSearch">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                 placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
-                 pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
-        </div>
-      -->
+        <!--         <div class="p-input-icon-left globalSearch">
+             <i class="pi pi-search"></i>
+             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
+                    pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
+           </div>
+         -->
 
       </div>
     </div>

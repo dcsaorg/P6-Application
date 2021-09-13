@@ -23,9 +23,9 @@ import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
-import {TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
-import {TimestampService } from "../../controller/services/ovs/timestamps.service";
-import { Timestamp } from 'src/app/model/ovs/timestamp';
+import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {TimestampService} from "../../controller/services/ovs/timestamps.service";
+import {Timestamp} from 'src/app/model/ovs/timestamp';
 
 @Component({
   selector: 'app-timestamp-table',
@@ -72,8 +72,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private timestampMappingService: TimestampMappingService,
               private timestampService: TimestampService,
               public globals: Globals
-
-              
   ) {
   }
 
@@ -88,30 +86,30 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.terminals = this.globals.terminals; 
+    this.terminals = this.globals.terminals;
     this.loadTimestamps();
   }
 
 
   private loadTimestamps() {
-    if(this.transportCallSelected){
-    this.progressing = true;
-    this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
-      this.colorizetimestampByLocation(timestamps);
-      this.timestamps = timestamps;
-      console.log("selected timestamp");
-      console.log(timestamps);console.log(timestamps.length);console.log(timestamps[0]);
-      this.progressing = false;
-     this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
-    });
-  }
+    if (this.transportCallSelected) {
+      this.progressing = true;
+      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
+        this.colorizetimestampByLocation(timestamps);
+        this.timestamps = timestamps;
+        console.log("selected timestamp");
+        console.log(timestamps);
+        console.log(timestamps.length);
+        console.log(timestamps[0]);
+        this.progressing = false;
+        this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
+      });
+    }
   }
 
-  isOutGoing(timestamp:Timestamp): boolean{
-    if(timestamp.publisherRole == this.globals.config.publisherRole){
-      return true
-    } 
-    return false
+  isOutGoing(timestamp: Timestamp): boolean {
+    return timestamp.publisherRole == this.globals.config.publisherRole;
+
   }
 
 
@@ -122,18 +120,18 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     timestamp.logOfTimestamp = new Date();
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(
       (newtimestamp: Timestamp) => {
-      const port = this.portIdToPortPipe.transform(timestamp.portOfCall.id, this.ports);
-      const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
-      const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newtimestamp.timestampType as PortcallTimestampType);
-      this.loadTimestamps();
+        const port = this.portIdToPortPipe.transform(timestamp.portOfCall.id, this.ports);
+        const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
+        const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newtimestamp.timestampType as PortcallTimestampType);
+        this.loadTimestamps();
         this.messageService.add({
           key: "TimestampToast",
           severity: 'success',
           summary: 'Successfully accepted the ' + typeOrigin + " with an " + typeNew + " for port " + port.unLocode,
           detail: ''
         });
-      this.timeStampAcceptNotifier.emit(timestamp);
-      }, 
+        this.timeStampAcceptNotifier.emit(timestamp);
+      },
       error => this.messageService.add({
         key: 'TimestampToast',
         severity: 'error',
