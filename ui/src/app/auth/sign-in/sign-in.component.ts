@@ -23,8 +23,5 @@ export class SignInComponent implements OnInit {
     if (form.valid) {
       this.authService.logUserIn(this.userName, this.password);
     }
-    else{
-      console.log("invalid")
-    }
   }
 }

@@ -250,7 +250,6 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
         this.creationProgress = false;
 
-        console.log("Creating transport call!");
         this.messageService.add(
           {
             key: 'TransportcallAddSuccess',
@@ -261,7 +260,6 @@ export class TransportCallCreatorComponent implements OnInit {
         this.ref.close(transportCall);
 
         if (createTimestamp) {
-          console.log("Creating timestamp!");
           this.creationProgress = true;
           this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(respTimestamp => {
               this.creationProgress = false;
