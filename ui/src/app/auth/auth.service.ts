@@ -65,7 +65,7 @@ logUserOut(){
         this.accessToken = session.getAccessToken().getJwtToken();
       })
     }
-    return this.accessToken;
+    return 'Bearer ' + this.accessToken;
   }
 
 
