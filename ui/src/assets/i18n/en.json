@@ -208,6 +208,7 @@
     "transportCall": {
       "add": "Add a new Transport Call",
       "create": "Create Transport Call",
+      "createWithTimestamp": "Create Transport Call + Timestamp",
       "label": "Transport Call",
       "table": {
         "id": "id",

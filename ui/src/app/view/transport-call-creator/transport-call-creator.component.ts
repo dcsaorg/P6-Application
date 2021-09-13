@@ -167,6 +167,16 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
   }
 
+  shouldCreateTimestamp(): boolean {
+    this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    return this.timestampType != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
+  }
+
+  createButtonText(): string {
+    if (this.shouldCreateTimestamp()) return 'general.transportCall.createWithTimestamp';
+    return 'general.transportCall.create';
+  }
+
   async saveNewTransportCall() {
     this.creationProgress = true;
     let transportCall: TransportCall = new class implements TransportCall {
@@ -203,7 +213,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
     // Timestamp
     this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    let createTimestamp = this.timestampType != null && this.eventTimestampDate != undefined && this.eventTimestampTime != undefined;
+    let createTimestamp = this.shouldCreateTimestamp();
 
     this.timestamp = new class implements Timestamp {
       UNLocationCode: string;
