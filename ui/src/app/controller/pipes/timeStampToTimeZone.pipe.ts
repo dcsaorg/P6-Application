@@ -14,11 +14,7 @@ export class TimestampToTimezonePipe implements PipeTransform {
     if(portCallTimestamp.portOfCall){
     const portId: number = portCallTimestamp.portOfCall.id;
     const timeZone = new PortIdToPortPipe().transform(portId, portlist).timezone;
-    console.log("timeZone")
-    console.log(inputDate)
-    console.log(timeZone)
     let newTime = new DatePipe('en-GB').transform(inputDate, "MM/dd/yyyy HH:mm ZZZZZ", timeZone)
-    console.log(newTime)
     if (newTime.includes('Z')){
       return [newTime.slice(0,-2),"00:00"]
     }
