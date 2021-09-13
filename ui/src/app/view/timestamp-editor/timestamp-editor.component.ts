@@ -134,7 +134,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     //   let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
 //    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     //@ToDo To UTC Converter!
-    console.log("splat: " + this.timestampSelected);
+    if (this.eventTimestampDate) {
+      timestamp.eventDateTime = this.eventTimestampDate;
+      timestamp.eventDateTime.setHours(parseInt(this.eventTimestampTime[0]), parseInt(this.eventTimestampTime[1]));
+    }
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     console.log("Save Timestamp:");
     console.log(timestamp);
