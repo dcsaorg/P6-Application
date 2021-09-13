@@ -48,7 +48,6 @@ import {Globals} from "./model/portCall/globals";
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { OperationsEventsToTimestampsPipe } from './controller/pipes/operations-events-to-timestamps.pipe';
 import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';
-import { TimestampsToOperationsEventsPipe } from './controller/pipes/timestamps-to-operations-events.pipe';
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
 import { OperationsEventToTimestampTypePipe } from './controller/pipes/operations-event-to-timestamp-type.pipe';
 import {PanelModule} from 'primeng/panel';
@@ -95,7 +94,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     VesselIdToVesselPipe,
     OperationsEventsToTimestampsPipe,
     TransportCallsToVesselsPipe,
-    TimestampsToOperationsEventsPipe,
     TransportCallsTableComponent,
     OperationsEventToTimestampTypePipe,
     TimestampTypeToEventTypePipe,
@@ -150,7 +148,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     Globals,
     OperationsEventsToTimestampsPipe,
     TransportCallsToVesselsPipe,
-    TimestampsToOperationsEventsPipe,
     OperationsEventToTimestampPipe,
     TimestampToStandardizedtTimestampPipe,
     {
