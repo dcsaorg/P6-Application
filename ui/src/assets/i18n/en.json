@@ -135,6 +135,9 @@
           "label": "Message comm. time. ",
           "tooltip": "When was the event communicated (local time for port)"
         },
+        "eventDeliveryStatus": {
+          "tooltip": "Delivery status of the timestamp"
+        },
         "nextPort": {
           "label": "Next port",
           "tooltip": "What is the next port in the rotation?"
@@ -173,7 +176,7 @@
           "tooltip": "The vessel of a process event"
         },
         "transportCallStatus": {
-          "label": "Status of the call",
+          "label": "Status of call",
           "tooltip": "Shows the current status of the call"
         }
       },
