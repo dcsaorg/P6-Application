@@ -4,7 +4,7 @@ import {OperationsEventService} from "../ovs/operations-event.service";
 import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
 import {Port} from "../../../model/portCall/port";
-import {map} from "rxjs/internal/operators";
+import {concatMap, map, mergeMap, toArray} from "rxjs/internal/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
 import {Terminal} from "../../../model/portCall/terminal";
@@ -12,11 +12,11 @@ import {Timestamp} from "../../../model/ovs/timestamp";
 import {TimestampService} from "../ovs/timestamps.service";
 import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class TimestampMappingService {
-
   constructor(private transportCallService: TransportCallService,
               private operationsEventService: OperationsEventService,
               private globals: Globals,
@@ -34,7 +34,6 @@ export class TimestampMappingService {
   }
 
   getPortCallTimestamps(): Observable<Timestamp[]> {
-
     return this.operationsEventService.getOperationsEvents().pipe(map(events => {
         const timestamps = this.operationsEventsToTimestampsPipe.transform(events);
         this.loadTransportCalls(timestamps)
@@ -44,7 +43,21 @@ export class TimestampMappingService {
   }
 
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
-    return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(map(events => {
+    return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(
+      mergeMap(events => {
+        return from(events).pipe(
+          concatMap(operationsEvent => {
+            return this.operationsEventService.getEventDeliveryStatus(operationsEvent.eventID).pipe(
+              map(eventDelivery => {
+                operationsEvent.eventDeliveryStatus = eventDelivery.eventDeliveryStatus
+                return operationsEvent
+              })
+            )
+          }),
+          toArray()
+        )
+      }),
+      map(events => {
       const timestamps = this.operationsEventsToTimestampsPipe.transform(events)
       this.mapTransportCallToTimestamps(timestamps, transportCall);
       return timestamps;

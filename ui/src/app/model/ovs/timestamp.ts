@@ -29,6 +29,7 @@ export interface Timestamp {
     portCallSequence?: string;
     remark?: string;
     delayReasonCode?: string;
+    eventDeliveryStatus?: string;
 
     /**
    * @deprecated

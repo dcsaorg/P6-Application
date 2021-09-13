@@ -171,6 +171,10 @@
           "name": "Vessel name",
           "label": "Vessel",
           "tooltip": "The vessel of a process event"
+        },
+        "transportCallStatus": {
+          "label": "Status of the call",
+          "tooltip": "Shows the current status of the call"
         }
       },
       "pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"

@@ -70,6 +70,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     timestamp.facilityTypeCode = operationsEvent.facilityTypeCode;
     timestamp.remark = operationsEvent.remark;
     timestamp.delayReasonCode = operationsEvent.remark;
+    timestamp.eventDeliveryStatus = operationsEvent.eventDeliveryStatus;
 
     // Extras 
     timestamp.timestampType = this.getTimestampType(operationsEvent);
