@@ -84,10 +84,10 @@
         "label": "Create Timestamp",
         "failure": {
           "summary": "Error!",
-          "detail": "Error while adding port call timestamp: "
+          "detail": "Error while adding imestamp: "
         },
         "success": {
-          "detail": "Successfully added new port call timestamp for transportcall",
+          "detail": "Successfully added a new timestamp",
           "summary": "Success!"
         }
       },
@@ -97,7 +97,7 @@
       "schedule": {
         "create": {
           "label": "Create Schedule",
-          "tooltip": "Create a new schedule"
+          "tooltip": "Create a new transport call"
         }
       },
       "accept": {
@@ -287,11 +287,11 @@
           "length": "The call sequence number must have a value between 1 and 2147483647"
         },
         "success": {
-          "summery": "New transport call added",
-          "detail": "A new ntransport call was created succesfully"
+          "summary": "New transport call added",
+          "detail": "A new transport call was created successfully"
         },
         "error": {
-          "summery": "Error creating new transport call!",
+          "summary": "Error creating new transport call!",
           "detail": "Creating a new transport call failed with: "
         },
         "facilityTypeCode": {
