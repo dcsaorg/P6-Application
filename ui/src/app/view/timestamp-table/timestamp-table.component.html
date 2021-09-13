@@ -84,9 +84,9 @@
           pTooltip="{{ 'general.table.header.terminalId.tooltip' | translate }}"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.terminalId.label' | translate }}
-        
+         
       </th>
-      <th style="width: 15%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
+      <th style="width: 8%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">{{ 'general.table.header.transportCallStatus.label' | translate }}</th>
       <th style="width: 4%" class="timestampContent" >
       </th>
@@ -166,7 +166,7 @@
       </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
-        style="width: 15%">
+        style="width: 8%">
    <!--     <div
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
@@ -176,21 +176,23 @@
      -->
     <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
     <div *ngIf="!isOutGoing(timestamp)">Ingoing</div>
-    <div *ngIf="isOutGoing(timestamp)">{{ timestamp.eventDeliveryStatus }}</div>
     
     </td>
-    <td *ngIf="isOutGoing(timestamp)" [ngClass]="
+    <td *ngIf="isOutGoing(timestamp)" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip' | translate }}" tooltipPosition="top"
+    tooltipStyleClass="ToolTipClass" [ngClass]="
       {'outgoingAttempted': timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY',
       'outgoingPending': timestamp.eventDeliveryStatus === 'PENDING_DELIVERY',
       'outgoingDelivered': timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'
       }"
-      style="width: 100%;"
-      > </td>
+      style="width: 100%;">
+    
+    </td>
 
                 <!--this has been removed from the below td-->
               <!-- [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp' "--> 
       <td *ngIf="!isOutGoing(timestamp)" style="width: 4%"  
-      class="ingoing">
+      class="ingoing" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip' | translate }}" tooltipPosition="top"
+    tooltipStyleClass="ToolTipClass">
       <!--
                 <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
                   '' :
@@ -210,7 +212,7 @@
       </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
-        style="width: 6%">
+        style="width: 4%">
 
         <p-button *ngIf="timestamp.changeComment || timestamp.delayReasonCode" class="timestampContent" (onClick)="showComment(timestamp)"
                   icon="pi pi-comment">
