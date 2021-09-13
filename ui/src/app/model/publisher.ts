@@ -1,4 +1,5 @@
 import { Address } from "../model/address";
+import { identifyingCodes } from "./portCall/identifyingCodes";
 
 export interface Publisher {
     partyName?: string; 
@@ -7,6 +8,7 @@ export interface Publisher {
     publicKey?: string;
     address?: Address;
     nmftaCode?: string;
+    identifyingCodes?: identifyingCodes; 
   
   }
   
