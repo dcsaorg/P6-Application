@@ -8,11 +8,11 @@ import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../../model/enums/portCallServiceTypeCode";
 import {TimestampTypeToPortcallServiceTypeCodePipe} from "./timestamp-type-to-portcall-service-type-code.pipe";
 import {Config} from "../../model/ovs/config";
-import { TransportCall } from 'src/app/model/ovs/transport-call';
-import { Publisher } from 'src/app/model/publisher';
-import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
-import { Timestamp } from 'src/app/model/ovs/timestamp';
+import {TransportCall} from 'src/app/model/ovs/transport-call';
+import {Publisher} from 'src/app/model/publisher';
+import {PublisherRole} from 'src/app/model/enums/publisherRole';
+import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
+import {Timestamp} from 'src/app/model/ovs/timestamp';
 
 
 @Pipe({
@@ -23,20 +23,20 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
   transform(portcallTimestamp: Timestamp, configurations: Config): Timestamp {
 
     let newTimestamp: Timestamp = new class implements Timestamp {
-        publisher: Publisher;
-        publisherRole: PublisherRole;
-        vesselIMONumber: string;
-        UNLocationCode: string;
-        delayReasonCode: string;
-        eventClassifierCode: EventClassifierCode;
-        eventDateTime: string | Date;
-        facilityTypeCode: FacilityTypeCode;
-        operationsEventTypeCode: OperationsEventTypeCode;
-        portCallServiceTypeCode: PortCallServiceTypeCode;
-        transportCallID: string;
-        transportCall: TransportCall;
+      publisher: Publisher;
+      publisherRole: PublisherRole;
+      vesselIMONumber: string;
+      UNLocationCode: string;
+      delayReasonCode: string;
+      eventClassifierCode: EventClassifierCode;
+      eventDateTime: string | Date;
+      facilityTypeCode: FacilityTypeCode;
+      operationsEventTypeCode: OperationsEventTypeCode;
+      portCallServiceTypeCode: PortCallServiceTypeCode;
+      transportCallID: string;
+      transportCall: TransportCall;
     }
-    
+
     newTimestamp.publisher = configurations.publisher;
     newTimestamp.publisherRole = configurations.publisherRole;
     newTimestamp.vesselIMONumber = portcallTimestamp.vesselIMONumber;
@@ -45,30 +45,24 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.facilityTypeCode = new TimestampTypeToFacilityCodeCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.eventClassifierCode = new TimestampTypeToEventClassifierCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.operationsEventTypeCode = new TimestampTypeToEventTypePipe().transform(portcallTimestamp.timestampType);
-    newTimestamp.eventLocation = portcallTimestamp.eventLocation; 
-    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition; 
-    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport; 
+    newTimestamp.eventLocation = portcallTimestamp.eventLocation;
+    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
+    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
     newTimestamp.portCallServiceTypeCode = new TimestampTypeToPortcallServiceTypeCodePipe().transform(portcallTimestamp.timestampType);
-    newTimestamp.eventDateTime = portcallTimestamp.eventDateTime; 
-    newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber; 
-    newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode; 
-    newTimestamp.portCallSequence = portcallTimestamp.portCallSequence; 
-    newTimestamp.remark = portcallTimestamp.remark; 
-    newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode; 
-
-    
+    newTimestamp.eventDateTime = portcallTimestamp.eventDateTime;
+    newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber;
+    newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode;
+    newTimestamp.portCallSequence = portcallTimestamp.portCallSequence;
+    newTimestamp.remark = portcallTimestamp.remark;
+    newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
 
 
     console.log("newTimestamp");
     console.log(newTimestamp);
 
 
-
-
-
     return newTimestamp;
   }
-
 
 
 }

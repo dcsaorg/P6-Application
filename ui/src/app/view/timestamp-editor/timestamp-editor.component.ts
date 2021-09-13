@@ -18,6 +18,8 @@ import {Util} from "../../controller/services/util/util";
 import {Timestamp} from "../../model/ovs/timestamp";
 import {TimestampService} from "../../controller/services/ovs/timestamps.service";
 import {Globals} from "../../model/portCall/globals";
+import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -90,7 +92,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
       this.delayCodes = delayCodes;
-      this.updateDelayCodeOptions()});
+      this.updateDelayCodeOptions()
+    });
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
     this.generateDefaultTimestamp();
@@ -110,37 +113,53 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   }
 
 
-  savePortcallTimestamp(timestamp: Timestamp) {
+  savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
     const dateToUtc = new DateToUtcPipe();
+
+    console.log(transportCall);
+
+    timestamp.UNLocationCode = transportCall.UNLocationCode;
+    timestamp.facilitySMDGCode = transportCall.facilityCode;
+    timestamp.facilityTypeCode = transportCall.facilityTypeCode;
+    timestamp.carrierServiceCode = transportCall.carrierServiceCode;
+    timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
+
+    timestamp.publisher = this.globals.config.publisher;
+    timestamp.publisherRole = this.globals.config.publisherRole;
 
     timestamp.logOfTimestamp = this.logOfTimestampDate;
     let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
     timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
-    timestamp.delayReasonCode =  (this.delayCode?this.delayCode.smdgCode:null);
- //   let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
+    timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
+    //   let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
 //    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     //@ToDo To UTC Converter!
+    console.log("splat: " + this.timestampSelected);
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     console.log("Save Timestamp:");
     console.log(timestamp);
     this.creationProgress = true;
-    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(respTimestamp =>{
-      this.creationProgress = false;
-      this.messageService.add(
-        {key: 'TimestampAddSuccess',
-          severity:'success',
-          summary: this.translate.instant('general.save.editor.success.summary'),
-          detail: this.translate.instant('general.save.editor.success.detail')})
+    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(respTimestamp => {
+        this.creationProgress = false;
+        this.messageService.add(
+          {
+            key: 'TimestampAddSuccess',
+            severity: 'success',
+            summary: this.translate.instant('general.save.editor.success.summary'),
+            detail: this.translate.instant('general.save.editor.success.detail')
+          })
         this.ref.close(respTimestamp);
-    },
-    error => {
-      this.messageService.add(
-        {key: 'TimestampAddError',
-          severity:'error',
-          summary: this.translate.instant('general.save.editor.failure.summary'),
-          detail: this.translate.instant('general.save.editor.failure.detail')+ error.message})
-      this.creationProgress = false;
-    })
+      },
+      error => {
+        this.messageService.add(
+          {
+            key: 'TimestampAddError',
+            severity: 'error',
+            summary: this.translate.instant('general.save.editor.failure.summary'),
+            detail: this.translate.instant('general.save.editor.failure.detail') + error.message
+          })
+        this.creationProgress = false;
+      })
 
 
   }
@@ -170,8 +189,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.logOfTimestampDate && this.logOfTimestampTime &&
       timestamp.portNext && this.eventTimestampTime &&
       timestamp.portPrevious &&
-      timestamp.portOfCall 
-      );
+      timestamp.portOfCall
+    );
   }
 
   setLogOfTimestampToNow() {
@@ -197,22 +216,22 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   private generateDefaultTimestamp() {
     this.defaultTimestamp.logOfTimestamp = new Date();
     this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
-    this.defaultTimestamp.portOfCall =  this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
+    this.defaultTimestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(this.transportCall.UNLocationCode);
     this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
     this.defaultTimestamp.facilityCode = this.transportCall.facilityCode;
-    // Set publisher based on globals 
+    // Set publisher based on globals
     this.defaultTimestamp.publisher = this.globals.config.publisher;
     this.defaultTimestamp.publisherRole = this.globals.config.publisherRole;
 
     if (this.timestamps.length == 0) {
       // Generate Initial ETA Berth
       this.defaultTimestamp.timestampType = PortcallTimestampType.ETA_Berth;
-         } else {
+    } else {
 
       // Check for last timestamp and generate based on this
       let lastTimestamp = this.getLatestTimestamp();
 
-     // console.log(this.defaultTimestamp);
+      // console.log(this.defaultTimestamp);
       this.defaultTimestamp.timestampType = lastTimestamp.timestampType;
       this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
 
@@ -222,12 +241,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
       this.defaultTimestamp.UNLocationCode = this.transportCall.UNLocationCode;
 
-    
+
     }
 
- 
-    
-  //  console.log("Last Timestamp");
+
+    //  console.log("Last Timestamp");
 //console.log(lastTimestamp);
 
   }
