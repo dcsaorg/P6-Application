@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent,},
   { path: 'signin', component: SignInComponent,},
   { path: 'dashboard', component: DashboardComponent ,canActivate: guards},
-  { path: 'transportcall/:id', component: DashboardComponent},
+  { path: 'transportcall/:id', component: DashboardComponent, canActivate: guards},
 ];
 
 @NgModule({
