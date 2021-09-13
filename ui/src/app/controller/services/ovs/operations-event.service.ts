@@ -30,7 +30,6 @@ export class OperationsEventService {
   }
 
   addOperationsEvent = (operationsEvent: OperationsEvent): Observable<OperationsEvent> => {
-    console.log("Fire!");
     return this.httpClient.post<OperationsEvent>(this.TIMESTAMPS_URL, operationsEvent);
 }
 }

@@ -17,7 +17,6 @@ export class TimestampService {
   }
 
   addTimestamp = (timestamp: Timestamp): Observable<Timestamp> => {
-    console.log("Fire Timestamp!");
     return this.httpClient.post<Timestamp>(this.TIMESTAMPS_URL, timestamp);
 }
 

@@ -119,7 +119,6 @@ export class HeaderComponent implements OnInit {
   }
 
   changeLanguage(selectedLanguage: SelectItem) {
-    console.log(selectedLanguage);
     this.translate.use(selectedLanguage.value);
   }
 

@@ -109,9 +109,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
 
-  acceptTimestamp(timestamp: Timestamp) {
-    console.log("ACCEPT");
-    console.log(timestamp);
+  acceptTimestamp(timestamp: Timestamp) {;
     timestamp.timestampType = timestamp.response;
     timestamp.logOfTimestamp = new Date();
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(

@@ -139,8 +139,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       timestamp.eventDateTime.setHours(parseInt(this.eventTimestampTime[0]), parseInt(this.eventTimestampTime[1]));
     }
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
-    console.log("Save Timestamp:");
-    console.log(timestamp);
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(respTimestamp => {
         this.creationProgress = false;
@@ -234,7 +232,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       // Check for last timestamp and generate based on this
       let lastTimestamp = this.getLatestTimestamp();
 
-      // console.log(this.defaultTimestamp);
       this.defaultTimestamp.timestampType = lastTimestamp.timestampType;
       this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
 
@@ -246,10 +243,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
 
     }
-
-
-    //  console.log("Last Timestamp");
-//console.log(lastTimestamp);
 
   }
 
