@@ -57,8 +57,8 @@ export class TransportCallsTableComponent implements OnInit {
 
   openCreationDialog(){
     const transportCallEditor = this.dialogService.open(TransportCallCreatorComponent, {
-      header: this.translate.instant('general.schedule.create'),
-      width: '75%'  
+      header: this.translate.instant('general.transportCall.create'),
+      width: '75%'
     });
     transportCallEditor.onClose.subscribe(result => {
       if(result){
@@ -66,7 +66,7 @@ export class TransportCallsTableComponent implements OnInit {
       }
     })
   }
-  
+
   loadTransportCalls():void{
     this.transportCallService.getTransportCalls(this.filterPort?.unLocode, this.filterTerminal?.smdgCode).subscribe(transportCalls => {
       this.transportCalls = transportCalls;

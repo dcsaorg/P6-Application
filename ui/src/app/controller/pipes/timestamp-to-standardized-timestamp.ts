@@ -37,8 +37,9 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
         transportCallID: string;
         transportCall: TransportCall;
         identifyingCodes?: identifyingCodes;   
+
     }
-    
+
     newTimestamp.publisher = configurations.publisher;
     newTimestamp.publisherRole = configurations.publisherRole;
     newTimestamp.vesselIMONumber = portcallTimestamp.vesselIMONumber;
@@ -47,9 +48,9 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.facilityTypeCode = new TimestampTypeToFacilityCodeCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.eventClassifierCode = new TimestampTypeToEventClassifierCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.operationsEventTypeCode = new TimestampTypeToEventTypePipe().transform(portcallTimestamp.timestampType);
-    newTimestamp.eventLocation = portcallTimestamp.eventLocation; 
-    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition; 
-    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport; 
+    newTimestamp.eventLocation = portcallTimestamp.eventLocation;
+    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
+    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
     newTimestamp.portCallServiceTypeCode = new TimestampTypeToPortcallServiceTypeCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.eventDateTime = portcallTimestamp.eventDateTime; 
     newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber; 
@@ -61,7 +62,6 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
 
     return newTimestamp;
   }
-
 
 
 }

@@ -11,7 +11,7 @@ import { EventClassifierCode } from "./eventClassifierCode";
 import { PortcallTimestampType } from "../portCall/portcall-timestamp-type.enum";
 
 export interface Timestamp {
-    publisher: Publisher; 
+    publisher: Publisher;
     publisherRole: PublisherRole;
     vesselIMONumber: string;
     UNLocationCode: string;
@@ -61,7 +61,7 @@ export interface Timestamp {
    modifable?: Port | number;
     /**
    * @deprecated
-   */ 
+   */
    modifiable?: boolean;
      /**
    * @deprecated
@@ -69,7 +69,7 @@ export interface Timestamp {
   transportCallID?: string;
     /**
    * @deprecated
-   */ 
+   */
   messagingStatus?: string;
     /**
    * @deprecated
@@ -77,7 +77,7 @@ export interface Timestamp {
   messagingDetails?: string;
     /**
    * @deprecated
-   */ 
+   */
   outdatedMessage?: boolean;
      /**
    * @deprecated
@@ -97,7 +97,7 @@ export interface Timestamp {
    */
     eventTimestamp?: string | Date;
 
-    
+
             /**
    * @deprecated
    */
@@ -106,4 +106,3 @@ export interface Timestamp {
 
 
   }
-  
