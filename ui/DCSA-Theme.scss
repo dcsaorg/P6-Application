@@ -1969,10 +1969,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
 .p-datatable .p-datatable-tbody > tr.p-datatable-dragpoint-bottom > td {
   box-shadow: inset 0 -2px 0 0 $tealBlue;
 }
-.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:not(.p-highlight):hover {
-  background: #e9ecef;
-  color: $darkNavyBlue;
-}
+
 .p-datatable .p-column-resizer-helper {
   background: $tealBlue;
 }
@@ -4625,8 +4622,12 @@ body .p-datatable .p-datatable-tbody > tr:nth-child(odd) {
   color: $darkNavyBlue;
 }
 body .p-datatable .p-datatable-tbody > tr:nth-child(odd):focus{
-  background-color: #00e0e4!important;
+  background-color: #00e0e4;
 }
 body .p-datatable .p-datatable-tbody > tr:nth-child(even):focus{
-  background-color: #00e0e4!important;
+  background-color: #00e0e4;
+}
+.p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:hover {
+  background: #e9ecef;
+  color: $darkNavyBlue;
 }
