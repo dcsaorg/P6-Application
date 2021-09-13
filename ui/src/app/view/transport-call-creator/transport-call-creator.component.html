@@ -1,4 +1,5 @@
 <form [formGroup]="transportCallFormGroup">
+  <h4>{{ 'general.transportCall.label' | translate }}</h4>
   <div class="p-fluid p-formgrid p-grid">
 
     <div class="p-field p-col-12 p-md-4">
@@ -7,11 +8,11 @@
       <span
         *ngIf="transportCallFormGroup.get('serviceCode').hasError('required') && transportCallFormGroup.get('serviceCode').touched"
         class="p-invalid">
-            {{ 'general.transportCall.validation.carrierServiceCode.empty' | translate }}
-          </span>
+        {{ 'general.transportCall.validation.carrierServiceCode.empty' | translate }}
+      </span>
       <span *ngIf="transportCallFormGroup.get('serviceCode').hasError('maxlength')" class="p-invalid">
-            {{ 'general.transportCall.validation.carrierServiceCode.length' | translate }}
-          </span>
+        {{ 'general.transportCall.validation.carrierServiceCode.length' | translate }}
+      </span>
     </div>
 
     <div class="p-field p-col-12 p-md-4">
@@ -31,7 +32,6 @@
 
     <!-- UN Location Code + Facility SMDG Code -->
     <div class="p-field p-col-12 p-md-12">
-      <h4>{{ 'general.port.label' | translate }}</h4>
       <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-4">
           <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
@@ -115,6 +115,7 @@
   </div>
 
   <!-- TIMESTAMP -->
+  <h4>{{ 'general.timestamp.label' | translate }}</h4>
   <div class="p-fluid p-formgrid p-grid">
     <div class="p-field p-col-12 p-md-4">
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>

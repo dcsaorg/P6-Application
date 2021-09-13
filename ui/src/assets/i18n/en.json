@@ -184,6 +184,7 @@
       "select": "Select terminal"
     },
     "timestamp": {
+      "label": "Timestamp",
       "create": {
         "label": "New Port Call Timestamp",
         "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
