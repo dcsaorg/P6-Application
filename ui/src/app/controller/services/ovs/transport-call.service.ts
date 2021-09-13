@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { BACKEND_URL } from "../../../../environments/environment";
-import { from, Observable } from "rxjs";
-import { TransportCall } from "../../../model/ovs/transport-call";
-import { map, mergeMap, toArray, concatMap } from "rxjs/operators";
-import { Timestamp } from 'src/app/model/ovs/timestamp';
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {BACKEND_URL} from "../../../../environments/environment";
+import {from, Observable} from "rxjs";
+import {TransportCall} from "../../../model/ovs/transport-call";
+import {map, mergeMap, toArray, concatMap} from "rxjs/operators";
+import {Timestamp} from 'src/app/model/ovs/timestamp';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,6 @@ export class TransportCallService {
   getTransportCalls = (): Observable<TransportCall[]> =>
     this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL).pipe(
       mergeMap((transportCalls => {
-        console.log(transportCalls);
         return from(transportCalls).pipe(
           map(this.extractVesselAttributes),
           concatMap((transportCall) =>
@@ -55,8 +54,7 @@ export class TransportCallService {
     if (transportCall['vessel'] === null) {
       transportCall.vesselName = null;
       transportCall.vesselIMONumber = null;
-    }
-    else {
+    } else {
       transportCall.vesselName = transportCall['vessel']['vesselName'];
       transportCall.vesselIMONumber = transportCall['vessel']['vesselIMONumber'];
     }
