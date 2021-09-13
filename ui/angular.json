@@ -34,7 +34,13 @@
               "node_modules/primeng/resources/primeng.min.css",
               "DCSA-Theme.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "buffer",
+              "crypto-js",
+              "js-cookie",
+              "isomorphic-unfetch"
+            ]
           },
           "configurations": {
             "production": {

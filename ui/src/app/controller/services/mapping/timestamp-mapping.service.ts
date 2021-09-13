@@ -4,7 +4,7 @@ import {OperationsEventService} from "../ovs/operations-event.service";
 import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
 import {Port} from "../../../model/portCall/port";
-import {concatMap, map, mergeMap, toArray} from "rxjs/internal/operators";
+import {concatMap, map, mergeMap, toArray} from "rxjs/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
 import {Terminal} from "../../../model/portCall/terminal";
