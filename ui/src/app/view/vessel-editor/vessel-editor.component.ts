@@ -36,7 +36,6 @@ export class VesselEditorComponent implements OnInit {
   ngOnInit(): void {
     if (this.config.data) {
       this.vessel = this.config.data;
-      console.log(this.vessel)
     } else {
       this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "PA", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG, vesselCallSignNumber: ""};
     }
@@ -112,8 +111,6 @@ export class VesselEditorComponent implements OnInit {
     this.vesselService.getcarriers().subscribe(carriers => {
       this.carriers = [];
 
-      console.log(this.carriers);
-      
       carriers.forEach(carrier => {
         this.carriers.push({label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode}); 
       });
