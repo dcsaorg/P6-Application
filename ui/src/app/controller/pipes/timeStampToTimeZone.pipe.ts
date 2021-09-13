@@ -11,14 +11,21 @@ import {DatePipe} from "@angular/common";
 export class TimestampToTimezonePipe implements PipeTransform {
 
   transform(inputDate: Date, portCallTimestamp: PortcallTimestamp, portlist: Port[]): string[] {
-    console.log("TimestampToTimezonePipe not fully done")
     if(portCallTimestamp.portOfCall){
     const portId: number = portCallTimestamp.portOfCall.id;
     const timeZone = new PortIdToPortPipe().transform(portId, portlist).timezone;
-    console.log("timeZone")
-    console.log(inputDate)
-    console.log(timeZone)
-    return new DatePipe('en-GB').transform(inputDate, "MM/dd/yyyy HH:mm ZZZZZ", timeZone).split("+");
+    let newTime = new DatePipe('en-GB').transform(inputDate, "MM/dd/yyyy HH:mm ZZZZZ", timeZone)
+    if (newTime.includes('Z')){
+      return [newTime.slice(0,-2),"00:00"]
+    }
+    else if(newTime.includes(' -')){
+      let r = newTime.split(' -'); 
+      return [r[0],"-"+ r[1]]
+    }
+     else if(newTime.includes(' +')){
+       let t = newTime.split(' +')
+       return[t[0], "+"+ t[1]]
+     }
   }
   return ["N/A","N/A"]; 
   }

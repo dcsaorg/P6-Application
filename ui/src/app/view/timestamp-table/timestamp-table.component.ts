@@ -92,19 +92,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
 
   private loadTimestamps() {
-    if (this.transportCallSelected) {
-      this.progressing = true;
-      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
-        this.colorizetimestampByLocation(timestamps);
-        this.timestamps = timestamps;
-        console.log("selected timestamp");
-        console.log(timestamps);
-        console.log(timestamps.length);
-        console.log(timestamps[0]);
-        this.progressing = false;
-        this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
-      });
-    }
+    if(this.transportCallSelected){
+    this.progressing = true;
+    this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
+      this.colorizetimestampByLocation(timestamps);
+      this.timestamps = timestamps;
+      this.progressing = false;
+     this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
+    });
+  }
   }
 
   isOutGoing(timestamp: Timestamp): boolean {

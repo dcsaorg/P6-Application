@@ -131,12 +131,12 @@
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         {{ timestamp.timestampType }}
       </td>
-      <td pTooltip ="Time difference: +{{(timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports)[1]}}"
+      <td pTooltip ="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports)[1]}}"
           style="width: 15%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp: ports)[0]}}
       </td>
-      <td pTooltip =" Time difference: +{{(timestamp.eventDateTime | timestampToTimezone: timestamp: ports)[1]}}"
+      <td pTooltip ="UTC: {{(timestamp.eventDateTime | timestampToTimezone: timestamp: ports)[1]}}"
           style="width: 15%"
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
         {{(timestamp.eventDateTime | timestampToTimezone: timestamp: ports)[0]}}
