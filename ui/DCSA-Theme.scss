@@ -4625,8 +4625,8 @@ body .p-datatable .p-datatable-tbody > tr:nth-child(odd) {
   color: $darkNavyBlue;
 }
 body .p-datatable .p-datatable-tbody > tr:nth-child(odd):focus{
-  background-color: #00e0e4;
+  background-color: #00e0e4!important;
 }
 body .p-datatable .p-datatable-tbody > tr:nth-child(even):focus{
-  background-color: #00e0e4;
+  background-color: #00e0e4!important;
 }
