@@ -218,7 +218,7 @@
                   icon="pi pi-comment">
         </p-button>
 
-        <p-button *ngIf="timestamp.response != null" icon="pi pi-check"
+        <p-button *ngIf="timestamp.response != null && !isOutGoing(timestamp)" icon="pi pi-check"
                   pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
                   tooltipPosition="left"
                   tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>

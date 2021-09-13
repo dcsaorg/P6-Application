@@ -84,10 +84,10 @@
         "label": "Create Timestamp",
         "failure": {
           "summary": "Error!",
-          "detail": "Error while adding port call timestamp: "
+          "detail": "Error while adding imestamp: "
         },
         "success": {
-          "detail": "Successfully added new port call timestamp for transportcall",
+          "detail": "Successfully added a new timestamp",
           "summary": "Success!"
         }
       },
@@ -97,7 +97,7 @@
       "schedule": {
         "create": {
           "label": "Create Schedule",
-          "tooltip": "Create a new schedule"
+          "tooltip": "Create a new transport call"
         }
       },
       "accept": {
@@ -187,6 +187,7 @@
       "select": "Select terminal"
     },
     "timestamp": {
+      "label": "Timestamp",
       "create": {
         "label": "New Port Call Timestamp",
         "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
@@ -206,15 +207,16 @@
           "label": "Create a Transport",
           "tooltip": "Create a new Transport"
         }
-    }
+      }
     },
     "publisherRole": {
-      "tooltip":"Publisher role",
+      "tooltip": "Publisher role",
       "label": "Publisher role"
     },
     "transportCall": {
       "add": "Add a new Transport Call",
       "create": "Create Transport Call",
+      "createWithTimestamp": "Create Transport Call + Timestamp",
       "label": "Transport Call",
       "table": {
         "id": "id",
@@ -222,7 +224,6 @@
           "label": "Create a Transport Call",
           "tooltip": "Create a new Transportcall "
         },
-
         "carrierServiceCode": {
           "label": "Carrier Service Code"
         },
@@ -230,7 +231,7 @@
           "label": "IMO Number"
         },
         "vesselName": {
-          "label": "Vessel Name"  
+          "label": "Vessel Name"
         },
         "UNLocationCode": {
           "label": "UN Locode",
@@ -245,14 +246,17 @@
         "transportCallSequenceNumber": {
           "label": "Call Sequence Number"
         },
-          "estimatedDateofArrival": {
-            "label": "Estimated Date of Arrival"
-          },
+        "estimatedDateofArrival": {
+          "label": "Estimated Date of Arrival"
+        },
         "carrierVoyageNumber": {
           "label": "Carrier Voyage Number"
         },
         "facilityTypeCode": {
           "label": "Facility Type"
+        },
+        "eventClassifierCode": {
+          "label": "Event Classifier Code"
         },
         "facilityCode": {
           "label": "Facility Code"
@@ -260,8 +264,9 @@
       },
       "validation": {
         "vessel": {
-          "empty" : "The IMO number of the vessel is Required",
-          "length" : "The IMO number must has a fix lenght of 7 digits!"
+          "noVesselSelected": "You need to select a vessel!",
+          "empty": "The IMO number of the vessel is Required",
+          "length": "The IMO number must has a fix length of 7 digits!"
         },
         "port": {
           "empty": "Please select a port for this transport call"
@@ -269,17 +274,31 @@
         "terminal": {
           "empty": "Please select a terminal for this transport call"
         },
+        "carrierServiceCode": {
+          "empty": "Carrier Service Code is required!",
+          "length": "Max length for Carrier Service Code is 5 characters!"
+        },
+        "carrierVoyageNumber": {
+          "empty": "Carrier Voyage Number is required!",
+          "length": "Max length for Carrier Voyage Number is 50 characters!"
+        },
         "sequenceNumber": {
           "empty": "Please define a call sequence number for this transport call",
           "length": "The call sequence number must have a value between 1 and 2147483647"
         },
         "success": {
-          "summery": "New transport call added",
-          "detail": "A new ntransport call was created succesfully"
+          "summary": "New transport call added",
+          "detail": "A new transport call was created successfully"
         },
         "error": {
-          "summery": "Error creating new transport call!",
+          "summary": "Error creating new transport call!",
           "detail": "Creating a new transport call failed with: "
+        },
+        "facilityTypeCode": {
+          "noFacilityTypeCodeSelected": "You need to select a facility type code!"
+        },
+        "eventClassifierCode": {
+          "noeventClassifierCodeSelected": "You need to select an event classifier code!"
         }
       }
     },
@@ -340,9 +359,9 @@
           }
         }
       }
-    }, 
-    "carrier":{
-      "name":"Carrier name",
+    },
+    "carrier": {
+      "name": "Carrier name",
       "label": "Carrier",
       "number": "",
       "select": "All carriers",
@@ -354,7 +373,7 @@
       "edit": {
         "header": "Edit carrier",
         "label": "Edit a carrier"
-      }, 
+      },
       "smdgCode": {
         "label": "Carrier smdg Code"
       },
@@ -362,6 +381,14 @@
         "select": "All Carrier code list providers",
         "label": "Carrier code list provider"
       }
+    },
+    "facilityTypeCode": {
+      "label": "Facility Type Code",
+      "select": "select factility type code"
+    },
+    "eventClassifierCode": {
+      "label": "Event Classifier Code",
+      "select": "select event classifier code"
     }
   }
 }

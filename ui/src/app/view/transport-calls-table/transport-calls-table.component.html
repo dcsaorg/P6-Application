@@ -1,6 +1,10 @@
-<p-table styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall"
-         selectionMode="single" dataKey="transportCallId"
-         (onRowSelect)="selectTransportCall($event)">
+<p-table styleClass="p-datatable-sm"
+         [value]="transportCalls"
+         [(selection)]="selectedtransportCall"
+         selectionMode="single"
+         dataKey="transportCallId"
+         (onRowSelect)="selectTransportCall($event)"
+         (onRowUnselect)="selectTransportCall($event)">
   <ng-template pTemplate="caption">
     <div class="p-grid">
       <div class="p-col">{{'general.transportCall.label' | translate}}</div>
@@ -10,7 +14,7 @@
       <div class="p-col tableHeader">
         <div class="tableHeader__buttons">
           <p-button (onClick)="openCreationDialog()" class="p-button-raised p-button-rounded tableHeader__add_button"
-                    icon="pi pi-plus" pTooltip="{{ 'general.table.schedule.create.tooltip' | translate }}"
+                    icon="pi pi-plus" pTooltip="{{ 'general.transportCall.table.create.label' | translate }}"
                     tooltipPosition="top" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
         </div>
@@ -21,13 +25,13 @@
                     tooltipStyleClass="ToolTipClass"></p-button>
 
         </div>
-     <!--         <div class="p-input-icon-left globalSearch">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                 placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
-                 pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
-        </div>
-      -->
+        <!--         <div class="p-input-icon-left globalSearch">
+             <i class="pi pi-search"></i>
+             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="{{ 'general.table.header.search.label' | translate }}" class="p-column-filter"
+                    pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
+           </div>
+         -->
 
       </div>
     </div>

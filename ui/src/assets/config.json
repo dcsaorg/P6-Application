@@ -1,9 +1,13 @@
 {
+  "id": "be5bc290-7bac-48bb-a211-f3fa5a3ab3ae",
+  "company": "DCSA",
+  "publisherRole": "CA",
   "publisher": {
     "partyName": "Asseco Denmark",
     "taxReference1": "CVR-25645774",
     "taxReference2": "CVR-25645774",
     "publicKey": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFzaW",
+    "nmftaCode": "MMCU",
     "address": {
       "name": "Henrik",
       "street": "Kronprincessegade",

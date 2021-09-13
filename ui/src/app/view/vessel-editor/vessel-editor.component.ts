@@ -7,6 +7,7 @@ import {MessageService} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {VesselComponent} from "../../view/vessel/vessel.component"
 import { VesselIdToVesselPipe } from 'src/app/controller/pipes/vesselid-to-vessel.pipe';
+import { vesselOperatorCarrierCodeListProvider } from '../../model/enums/vesselOperatorCarrierCodeListProvider';
 import {SelectItem} from "primeng/api";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
@@ -37,7 +38,7 @@ export class VesselEditorComponent implements OnInit {
       this.vessel = this.config.data;
       console.log(this.vessel)
     } else {
-      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "PA", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: null, vesselCallSignNumber: ""};
+      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "PA", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG, vesselCallSignNumber: ""};
     }
 
 

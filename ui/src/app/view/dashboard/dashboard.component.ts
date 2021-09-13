@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
-import { environment } from 'src/environments/environment';
+import {Component} from '@angular/core';
+import {CognitoUserPool} from 'amazon-cognito-identity-js';
+import {environment} from 'src/environments/environment';
 import {Port} from "../../model/portCall/port";
 import {TransportCall} from "../../model/ovs/transport-call";
-import { Timestamp } from '../../model/ovs/timestamp';
-import { Router } from '@angular/router';
+import {Timestamp} from '../../model/ovs/timestamp';
+import {ActivatedRoute, Router} from '@angular/router';
+import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
 
 
 @Component({
@@ -21,11 +22,26 @@ export class DashboardComponent {
   portCallTimeStampDeleted: Timestamp;
   portCallTimeStampResponded: Timestamp;
 
-  constructor(private router: Router) {
+  transportCallID: string;
+  private sub: any;
+
+  constructor(private router: Router, private route: ActivatedRoute, private transportCallService: TransportCallService) {
+  }
+
+  ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+      this.transportCallID = params['id'];
+    });
+    if (this.transportCallID) {
+      console.log("ID: " + this.transportCallID);
+      this.transportCallService.getTransportCalls().subscribe(transportCalls => {
+        this.transportCallSelected = transportCalls.find(x => x.transportCallID == this.transportCallID);
+      })
+    }
   }
 
 
-  vesselChangedHandler = ($vesselId: string) => this.vesselId =  parseInt($vesselId) ;
+  vesselChangedHandler = ($vesselId: string) => this.vesselId = parseInt($vesselId);
   vesselSavedHandler = ($vesselSavedId: string) => this.vesselSavedId = parseInt($vesselSavedId);
 
   timeStampAddedHandler = ($portCallTimeStampAdded: Timestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
@@ -36,6 +52,8 @@ export class DashboardComponent {
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
 
-  transportCallSelectHandler = ($transportCall: TransportCall) => {this.transportCallSelected = $transportCall;};
+  transportCallSelectHandler = ($transportCall: TransportCall) => {
+    this.transportCallSelected = $transportCall;
+  };
 
 }

@@ -13,6 +13,7 @@ import { Publisher } from 'src/app/model/publisher';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
 import { Timestamp } from 'src/app/model/ovs/timestamp';
+import { identifyingCodes } from 'src/app/model/portCall/identifyingCodes';
 
 
 @Pipe({
@@ -35,8 +36,10 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
         portCallServiceTypeCode: PortCallServiceTypeCode;
         transportCallID: string;
         transportCall: TransportCall;
+        identifyingCodes?: identifyingCodes;   
+
     }
-    
+
     newTimestamp.publisher = configurations.publisher;
     newTimestamp.publisherRole = configurations.publisherRole;
     newTimestamp.vesselIMONumber = portcallTimestamp.vesselIMONumber;
@@ -45,30 +48,20 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.facilityTypeCode = new TimestampTypeToFacilityCodeCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.eventClassifierCode = new TimestampTypeToEventClassifierCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.operationsEventTypeCode = new TimestampTypeToEventTypePipe().transform(portcallTimestamp.timestampType);
-    newTimestamp.eventLocation = portcallTimestamp.eventLocation; 
-    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition; 
-    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport; 
+    newTimestamp.eventLocation = portcallTimestamp.eventLocation;
+    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
+    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
     newTimestamp.portCallServiceTypeCode = new TimestampTypeToPortcallServiceTypeCodePipe().transform(portcallTimestamp.timestampType);
     newTimestamp.eventDateTime = portcallTimestamp.eventDateTime; 
     newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber; 
     newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode; 
     newTimestamp.portCallSequence = portcallTimestamp.portCallSequence; 
     newTimestamp.remark = portcallTimestamp.remark; 
-    newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode; 
-
-    
-
-
-    console.log("newTimestamp");
-    console.log(newTimestamp);
-
-
-
-
+    newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
+    newTimestamp.publisher.identifyingCodes = configurations.identifyingCodes;
 
     return newTimestamp;
   }
-
 
 
 }
