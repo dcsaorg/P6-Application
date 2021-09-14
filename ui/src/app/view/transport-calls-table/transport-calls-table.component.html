@@ -55,7 +55,9 @@
       <td>{{transportCall.UNLocationCode}}</td>
       <td>{{transportCall.facilityTypeCode}}</td>
       <td>{{transportCall.facilityCode}}</td>
-      <td>{{transportCall.estimatedDateofArrival}}</td>
+      <td
+      pTooltip ="UTC: {{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall: ports)[1]}}"
+      >{{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall: ports)[0]}}</td>
       <td>{{transportCall.carrierVoyageNumber}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>
     </tr>

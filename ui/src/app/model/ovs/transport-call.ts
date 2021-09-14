@@ -2,10 +2,12 @@ import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import {FacilityCodeListProvider} from "../enums/facilityCodeListProvider";
 import {Vessel} from "../portCall/vessel";
+import { Port } from "../portCall/port";
 
 export interface TransportCall {
   carrierServiceCode?: string;
   carrierVoyageNumber?: string;
+  portOfCall?: Port;
   transportCallID: string;
   modeOfTransport: string;
   vesselIMONumber: string;

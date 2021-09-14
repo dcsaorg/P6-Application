@@ -9,6 +9,7 @@ import { PortIdToPortPipe } from 'src/app/controller/pipes/port-id-to-port.pipe'
 import { PortFilterService } from 'src/app/controller/services/base/portfilter.service';
 import { Port } from 'src/app/model/portCall/port';
 import { Terminal } from 'src/app/model/portCall/terminal';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-transport-calls-table',
@@ -25,15 +26,18 @@ export class TransportCallsTableComponent implements OnInit {
   selectedtransportCall: TransportCall;
   filterPort: Port;
   filterTerminal: Terminal;
+  ports: Port[] = [];
 
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
 
   constructor(private transportCallService: TransportCallService,
               private dialogService: DialogService,
               private portFilterService: PortFilterService,
+              private portService: PortService,
               private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.loadTransportCalls()
     this.portFilterService.portObservable.subscribe(port => {
       this.filterPort = port

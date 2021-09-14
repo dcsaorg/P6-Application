@@ -10,9 +10,9 @@ import {DatePipe} from "@angular/common";
 })
 export class TimestampToTimezonePipe implements PipeTransform {
 
-  transform(inputDate: Date, portCallTimestamp: PortcallTimestamp, portlist: Port[]): string[] {
-    if(portCallTimestamp.portOfCall){
-    const portId: number = portCallTimestamp.portOfCall.id;
+  transform(inputDate: Date, portOfCall: Port, portlist: Port[]): string[] {
+    if(portOfCall && inputDate){
+    const portId: number = portOfCall.id;
     const timeZone = new PortIdToPortPipe().transform(portId, portlist).timezone;
     let newTime = new DatePipe('en-GB').transform(inputDate, "MM/dd/yyyy HH:mm ZZZZZ", timeZone)
     if (newTime.includes('Z')){

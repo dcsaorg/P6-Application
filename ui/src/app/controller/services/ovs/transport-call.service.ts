@@ -6,6 +6,7 @@ import {TransportCall} from "../../../model/ovs/transport-call";
 import {map, mergeMap, toArray, concatMap} from "rxjs/operators";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
 import { Port } from 'src/app/model/portCall/port';
+import { Globals } from 'src/app/model/portCall/globals';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,22 @@ export class TransportCallService {
   private readonly TRANSPORT_CALL_URL: string;
   private readonly OPERATIONS_EVENT_URL: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private globals: Globals,
+  ) {
     this.TRANSPORT_CALL_URL = BACKEND_URL + "/unofficial/transport-calls"
     this.OPERATIONS_EVENT_URL = BACKEND_URL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
+  }
+
+
+  private getPortByUnLocode(unlocode: string): Port {
+    for (let port of this.globals.ports) {
+      if (port.unLocode == unlocode) {
+        return port;
+      }
+    }
+    return null;
   }
 
   getTransportCalls(unLocode? : string, smdgCode? : string ): Observable<TransportCall[]> {
@@ -34,13 +48,15 @@ export class TransportCallService {
       mergeMap((transportCalls => {
         return from(transportCalls).pipe(
           map(this.extractVesselAttributes),
+          map((transportCall) => {
+            transportCall.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode)
+            return transportCall;
+          }),
           concatMap((transportCall) =>
             this.getOperationsEventstoTimestamp(transportCall.transportCallID).pipe(map(timestamps => {
               if (timestamps.length > 0) {
                 let timestamp = timestamps[0]
                 transportCall.estimatedDateofArrival = timestamp['eventDateTime'];
-              } else {
-                transportCall.estimatedDateofArrival = 'N/A';
               }
               return transportCall;
             }))
