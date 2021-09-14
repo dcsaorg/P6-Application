@@ -84,7 +84,7 @@
         "label": "Create Timestamp",
         "failure": {
           "summary": "Error!",
-          "detail": "Error while adding imestamp: "
+          "detail": "Error while adding timestamp: "
         },
         "success": {
           "detail": "Successfully added a new timestamp",
