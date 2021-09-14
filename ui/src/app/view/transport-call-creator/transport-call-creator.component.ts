@@ -241,9 +241,10 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
-      this.timestamp.eventDateTime = this.eventTimestampDate;
-      this.timestamp.eventDateTime.setHours(parseInt(this.eventTimestampTime[0]), parseInt(this.eventTimestampTime[1]));
 
+      let [hour, minute] = this.transportCallFormGroup.controls.eventTimestampTime.value.split(':');
+      this.timestamp.eventDateTime = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
+      this.timestamp.eventDateTime.setHours(parseInt(hour), parseInt(minute));
       this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
     }
 
