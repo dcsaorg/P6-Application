@@ -36,7 +36,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
         portCallServiceTypeCode: PortCallServiceTypeCode;
         transportCallID: string;
         transportCall: TransportCall;
-        identifyingCodes?: identifyingCodes;
+        identifyingCodes?: identifyingCodes;   
 
     }
 
