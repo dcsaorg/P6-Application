@@ -36,9 +36,18 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
         portCallServiceTypeCode: PortCallServiceTypeCode;
         transportCallID: string;
         transportCall: TransportCall;
-        identifyingCodes?: identifyingCodes;   
+        identifyingCodes?: identifyingCodes;
 
     }
+
+    // Fugly, but apparently necessary to format as UTC without changing timezone without using external libraries
+    let d = portcallTimestamp.eventDateTime as Date;
+    let month = String((d.getMonth() + 1)).padStart(2, '0');
+    let day = String(d.getDate()).padStart(2, '0');
+    let hours = String(d.getHours()).padStart(2, '0');
+    let minutes = String(d.getMinutes()).padStart(2, '0');
+    let seconds = String(d.getSeconds()).padStart(2, '0');
+    let dateTimeStringUTCFormat = d.getFullYear() + "-" + month + "-" + day + "T" + hours + ":" + minutes + ":" + seconds + "Z";
 
     newTimestamp.publisher = configurations.publisher;
     newTimestamp.publisherRole = configurations.publisherRole;
@@ -52,10 +61,10 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
     newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
     newTimestamp.portCallServiceTypeCode = new TimestampTypeToPortcallServiceTypeCodePipe().transform(portcallTimestamp.timestampType);
-    newTimestamp.eventDateTime = portcallTimestamp.eventDateTime; 
-    newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber; 
-    newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode; 
-    newTimestamp.portCallSequence = portcallTimestamp.portCallSequence; 
+    newTimestamp.eventDateTime = dateTimeStringUTCFormat;
+    newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber;
+    newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode;
+    newTimestamp.portCallSequence = portcallTimestamp.portCallSequence;
     newTimestamp.remark = portcallTimestamp.remark; 
     newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
     newTimestamp.publisher.identifyingCodes = configurations.identifyingCodes;
