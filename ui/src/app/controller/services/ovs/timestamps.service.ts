@@ -21,14 +21,14 @@ export class TimestampService {
 }
 
 /*
-Setting response for current publisher.
-Check the type of PortcallTimestampType recieved and set response for current publisher.
+Setting response for current publisher. 
+Check the type of PortcallTimestampType recieved and set response for current publisher. 
 Note: No need to response if an "Actual" is recieved
 */
 public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
 
     let response: PortcallTimestampType = null;
-
+    
     // If I'm a carrier
     if (role === PublisherRole.CA || role === PublisherRole.AG || role === PublisherRole.VSL  ) {
       switch (portCallTimestamp.timestampType) {
@@ -37,11 +37,11 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
           response = PortcallTimestampType.PTA_Berth;
           break;
         case PortcallTimestampType.ATS_Cargo_Ops:
-          response = null;                        //    ATC CARGO OPS:  Actual completion time?
-          break;
+          response = null;                        //    ATC CARGO OPS:  Actual completion time? 
+          break;  
         case PortcallTimestampType.ETC_Cargo_Ops:
           response = PortcallTimestampType.RTC_Cargo_Ops; // ASSUMING HOWEVER: NOT LISTED IN BISUNESS_REQ
-          break;
+          break;  
         case PortcallTimestampType.PTC_Cargo_Ops:
           response = PortcallTimestampType.ATC_Cargo_Ops; // assumed
           break;
@@ -58,7 +58,7 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
 
       }
     }
-
+    
     // If I'm a terminal
     else if(role == PublisherRole.TR){
       switch (portCallTimestamp.timestampType) {
@@ -77,7 +77,7 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
           break;
         case PortcallTimestampType.ATS_Pilot:
           response = null;
-          break;
+          break;  
         case PortcallTimestampType.ATA_Berth:
           response = null;
           break;
@@ -115,7 +115,7 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
           break;
         case PortcallTimestampType.ATS_Pilot:
           response = null;
-          break;
+          break;  
         case PortcallTimestampType.ATA_Berth:
           response = null;
           break;
