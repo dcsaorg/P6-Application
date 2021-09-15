@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Config} from "../../../model/ovs/config";
-import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {StaticConfigService} from "../static/static-config.service";
+import {Globals} from "../../../model/portCall/globals"
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import {StaticConfigService} from "../static/static-config.service";
 export class ConfigService {
   private readonly CONFIG_URL: string;
 
-  constructor(private httpClient: HttpClient, private staticConfigService: StaticConfigService) {
+  constructor(private globals: Globals, private staticConfigService: StaticConfigService) {
     this.CONFIG_URL = BACKEND_URL + '/application';
 
   }
@@ -21,4 +21,14 @@ export class ConfigService {
   }
 
   getConfigs = (): Observable<Config> => this.staticConfigService.getConfig();
+
+  load(): Promise<void> {
+    return new Promise((resolve) => {
+      this.getConfig().subscribe((config) => {
+           this.globals.config = config;
+           resolve();
+       });
+    });
+
+  }
 }

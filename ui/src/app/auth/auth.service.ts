@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
 import { environment } from 'src/environments/environment';
+import {Globals} from "../model/portCall/globals";
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,16 @@ export class AuthService {
   sessionUserAttributes: any;
   cognitoUser: any;
 
-  constructor(private router: Router) { }
+  constructor(private globals: Globals,
+              private router: Router,)
+  {
+  }
 
   isLoggedIn(): boolean {
 
     let poolData = {
-      UserPoolId: environment.cognitoUserPoolId,
-      ClientId: environment.cognitoAppClientId
+      UserPoolId: this.globals.config.cognitoUserPoolId,
+      ClientId: this.globals.config.cognitoAppClientId
     };
 
     var userPool = new CognitoUserPool(poolData);
@@ -38,10 +42,10 @@ export class AuthService {
 
 logUserOut(){
   let poolData = {
-    UserPoolId: environment.cognitoUserPoolId,
-    ClientId: environment.cognitoAppClientId
+    UserPoolId: this.globals.config.cognitoUserPoolId,
+    ClientId: this.globals.config.cognitoAppClientId
   };
-  
+
   let userPool = new CognitoUserPool(poolData);
   let cognitoUser = userPool.getCurrentUser();
   cognitoUser?.signOut();
@@ -49,10 +53,10 @@ logUserOut(){
 }
 
   getAuthorizationToken(): string {
-    
+
   let poolData = {
-    UserPoolId: environment.cognitoUserPoolId,
-    ClientId: environment.cognitoAppClientId
+    UserPoolId: this.globals.config.cognitoUserPoolId,
+    ClientId: this.globals.config.cognitoAppClientId
   };
     var userPool = new CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
@@ -77,8 +81,8 @@ logUserOut(){
     });
    
     let poolData = {
-      UserPoolId: environment.cognitoUserPoolId,
-      ClientId: environment.cognitoAppClientId 
+      UserPoolId: this.globals.config.cognitoUserPoolId,
+      ClientId: this.globals.config.cognitoAppClientId
     };
   
     let userPool = new CognitoUserPool(poolData);

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Timestamp} from "../../../model/ovs/timestamp";
-import {BACKEND_URL} from "../../../../environments/environment";
+import {Globals} from "../../../model/portCall/globals";
 import { PortcallTimestampType } from 'src/app/model/portCall/portcall-timestamp-type.enum';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 
@@ -12,8 +12,8 @@ import { PublisherRole } from 'src/app/model/enums/publisherRole';
 export class TimestampService {
   private readonly TIMESTAMPS_URL: string;
 
-  constructor(private httpClient: HttpClient) {
-    this.TIMESTAMPS_URL = BACKEND_URL + "/timestamps";
+  constructor(private httpClient: HttpClient, globals: Globals) {
+    this.TIMESTAMPS_URL = globals.config.ovsBackendURL + "/timestamps";
   }
 
   addTimestamp = (timestamp: Timestamp): Observable<Timestamp> => {

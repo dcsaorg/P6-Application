@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {BACKEND_URL} from "../../../../environments/environment";
 import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
 import {map, mergeMap, toArray, concatMap} from "rxjs/operators";
@@ -20,8 +19,8 @@ export class TransportCallService {
     private httpClient: HttpClient,
     private globals: Globals,
   ) {
-    this.TRANSPORT_CALL_URL = BACKEND_URL + "/unofficial/transport-calls"
-    this.OPERATIONS_EVENT_URL = BACKEND_URL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
+    this.TRANSPORT_CALL_URL = globals.config.uiSupportBackendURL + "/unofficial/transport-calls"
+    this.OPERATIONS_EVENT_URL = globals.config.ovsBackendURL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
   }
 
 

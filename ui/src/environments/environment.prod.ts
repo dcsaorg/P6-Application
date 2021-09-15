@@ -1,8 +1,6 @@
 export const environment = {
   production: true,
-  authentication: true, 
-  cognitoUserPoolId: "eu-west-1_rJGpA7BVH",
-  cognitoAppClientId: "3bdgnq3ihck83j6pkl36ccdker" 
+  authentication: true
 };
 
 // define Server here, if you are not in production mode and want to have another server than http://localhost:8080

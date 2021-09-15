@@ -7,5 +7,8 @@ export interface Config {
   publisherRole: PublisherRole;
   publisher: Publisher;
   identifyingCodes: identifyingCodes;
-
+  uiSupportBackendURL: string;
+  ovsBackendURL: string;
+  cognitoUserPoolId: string;
+  cognitoAppClientId: string;
 }
