@@ -2,7 +2,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
-import {NgModule} from '@angular/core';
+import {NgModule, APP_INITIALIZER} from '@angular/core';
 
 import {AppComponent} from './view/app.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -45,6 +45,7 @@ import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {Globals} from "./model/portCall/globals";
+import {ConfigService} from "./controller/services/base/config.service";
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { OperationsEventsToTimestampsPipe } from './controller/pipes/operations-events-to-timestamps.pipe';
 import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';
@@ -63,11 +64,16 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
+import {AuthService} from "./auth/auth.service";
 import { PortFilterService } from "./controller/services/base/portfilter.service";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function ConfigLoader(configService: ConfigService) {
+    return () => configService.load();
 }
 
 @NgModule({
@@ -142,6 +148,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     MenuModule,
   ],
   providers: [
+    ConfigService,
+    {
+        provide: APP_INITIALIZER,
+        useFactory: ConfigLoader,
+        deps: [ConfigService],
+        multi: true
+    },
     ConfirmationService,
     PortFilterService,
     MessageService,
@@ -150,11 +163,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     TransportCallsToVesselsPipe,
     OperationsEventToTimestampPipe,
     TimestampToStandardizedtTimestampPipe,
+    AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      deps: [AuthService, ConfigService],
       multi: true
-     }
+     },
   ],
   bootstrap: [AppComponent]
 })

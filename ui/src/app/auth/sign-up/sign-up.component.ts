@@ -3,6 +3,7 @@ import { CognitoUserPool,CognitoUserAttribute } from 'amazon-cognito-identity-js
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import {Globals} from "../../model/portCall/globals";
 
 interface formDataInterface {
   "name": string;
@@ -25,7 +26,7 @@ export class SignUpComponent implements OnInit {
   mobileNo:string = '';
   password:string = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private globals: Globals) { }
 
   ngOnInit(): void {}
 
@@ -36,8 +37,8 @@ console.log(this.firstName ,this.lastName,this.email,
   this.mobileNo,this.password
 )
      var poolData = {
-       UserPoolId: environment.cognitoUserPoolId, 
-       ClientId: environment.cognitoAppClientId 
+       UserPoolId: this.globals.config.cognitoUserPoolId,
+       ClientId: this.globals.config.cognitoAppClientId
      };
 
      var userPool = new CognitoUserPool(poolData);

@@ -24,6 +24,10 @@
     ],
     "nmftaCode" : "CSK"
   },
-  "publisherRole": "TR"
+  "publisherRole": "TR",
+  "uiSupportBackendURL": "http://localhost:9091/v1",
+  "ovsBackendURL": "http://localhost:9090/v2",
+  "cognitoUserPoolId": "eu-west-1_rJGpA7BVH",
+  "cognitoAppClientId": "3bdgnq3ihck83j6pkl36ccdker"
 }
 

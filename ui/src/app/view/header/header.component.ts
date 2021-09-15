@@ -38,13 +38,10 @@ export class HeaderComponent implements OnInit {
               private authService: AuthService,
               private exportService: ExportService,
               ) {
-    configService.getConfig().subscribe(config => {
-      this.globals.config = config;
-      this.companyName = config.publisher.partyName;
-      this.companyRole = config.publisher.nmftaCode;
-      this.companyId = config.publisher.identifyingCodes.partyCode;
-      this.companyCodeType = config.publisherRole;
-    });
+    this.companyName = globals.config.publisher.partyName;
+    this.companyRole = globals.config.publisher.nmftaCode;
+    this.companyId = globals.config.publisher.identifyingCodes.partyCode;
+    this.companyCodeType = globals.config.publisherRole;
   }
 
   ngOnInit(): void {
