@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
               ) {
     this.companyName = globals.config.publisher.partyName;
     this.companyRole = globals.config.publisher.nmftaCode;
-    this.companyId = globals.config.publisher.identifyingCodes.partyCode;
+    this.companyId = globals.config.publisher.nmftaCode;
     this.companyCodeType = globals.config.publisherRole;
   }
 
