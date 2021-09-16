@@ -64,7 +64,7 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
       switch (portCallTimestamp.timestampType) {
 
         case PortcallTimestampType.ETA_Berth:
-          response = PortcallTimestampType.PTA_Berth;
+          response = PortcallTimestampType.RTA_Berth;
           break;
         case PortcallTimestampType.PTA_Berth:
           response = PortcallTimestampType.ATA_Berth;
