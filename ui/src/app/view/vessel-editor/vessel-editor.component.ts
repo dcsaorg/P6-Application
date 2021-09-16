@@ -5,11 +5,8 @@ import {Carrier} from "../../model/portCall/carrier";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {MessageService} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {VesselComponent} from "../../view/vessel/vessel.component"
-import { VesselIdToVesselPipe } from 'src/app/controller/pipes/vesselid-to-vessel.pipe';
 import { vesselOperatorCarrierCodeListProvider } from '../../model/enums/vesselOperatorCarrierCodeListProvider';
 import {SelectItem} from "primeng/api";
-import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-vessel-editor',
@@ -27,7 +24,6 @@ export class VesselEditorComponent implements OnInit {
               public config: DynamicDialogConfig,
               private vesselService: VesselService,
               private messageService: MessageService,
-              private translate: TranslateService,
               private formBuilder: FormBuilder) {
   }
 
@@ -37,7 +33,7 @@ export class VesselEditorComponent implements OnInit {
     if (this.config.data) {
       this.vessel = this.config.data;
     } else {
-      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "PA", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG, vesselCallSignNumber: ""};
+      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG, vesselCallSignNumber: ""};
     }
 
 
