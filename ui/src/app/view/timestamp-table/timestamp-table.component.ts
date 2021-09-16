@@ -153,16 +153,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestamps: this.timestamps,
       }
     });
-    timestampEditor.onClose.subscribe((result: PortcallTimestamp) => {
-      if (result) {
-        this.loadTimestamps();
-      }
+    timestampEditor.onClose.subscribe({
+      complete: () => this.loadTimestamps()
     });
   }
 
-  refreshTable() {
-    console.debug("Refresh table data");
-    this.paginatorService.refreshNotifier().next();
+  refreshTimestamps() {
+    this.loadTimestamps();
   }
 
   /*
