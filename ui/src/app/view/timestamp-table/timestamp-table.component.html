@@ -21,6 +21,13 @@
                     tooltipPosition="left" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
         </div>
+        <div class="tableHeader__buttons">
+          <p-button (onClick)="refreshTimestamps()" class="p-button-raised p-button-rounded"
+                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}"
+                    tooltipPosition="top" type="button"
+                    tooltipStyleClass="ToolTipClass"></p-button>
+
+        </div>
       </div>
     </div>
   </ng-template>
