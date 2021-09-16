@@ -41,7 +41,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     }
 
     // Fugly, but apparently necessary to format as UTC without changing timezone without using external libraries
-    let d = portcallTimestamp.eventDateTime as Date;
+    let d = new Date(portcallTimestamp.eventDateTime);
     let month = String((d.getMonth() + 1)).padStart(2, '0');
     let day = String(d.getDate()).padStart(2, '0');
     let hours = String(d.getHours()).padStart(2, '0');
