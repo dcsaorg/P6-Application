@@ -39,7 +39,8 @@
               "buffer",
               "crypto-js",
               "js-cookie",
-              "isomorphic-unfetch"
+              "isomorphic-unfetch",
+              "moment-timezone"
             ]
           },
           "configurations": {
