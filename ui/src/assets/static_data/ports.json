@@ -1,1 +1,3658 @@
-[{"id":1,"name":"Hamburg","unCountry":"DE","unLocode":"DEHAM","unLocation":"HAM","timezone":"UTC+1"},{"id":2,"name":"Antwerpen","unCountry":"BE","unLocode":"BEANR","unLocation":"ANR","timezone":"UTC+1"},{"id":3,"name":"Rotterdam","unCountry":"NL","unLocode":"NLRTM","unLocation":"RTM","timezone":"UTC+1"},{"id":4,"name":"Valencia","unCountry":"ES","unLocode":"ESVLC","unLocation":"VLC","timezone":"UTC+1"},{"id":5,"name":"Algeciras","unCountry":"ES","unLocode":"ESALG","unLocation":"ALG","timezone":"UTC+1"},{"id":6,"name":"Singapore","unCountry":"SG","unLocode":"SGSIN","unLocation":"SIN","timezone":"UTC+8"},{"id":7,"name":"Hong Kong","unCountry":"HK","unLocode":"HKHKG","unLocation":"HKG","timezone":"UTC+8"},{"id":8,"name":"Yokohama","unCountry":"JP","unLocode":"JPYOK","unLocation":"YOK","timezone":"UTC+9"},{"id":9,"name":"Bremerhaven","unCountry":"DE","unLocode":"DEBRV","unLocation":"BRV","timezone":"UTC+1"},{"id":10,"name":"Shanghai","unCountry":"CN","unLocode":"CNSGH","unLocation":"SGH","timezone":"UTC+8"},{"id":11,"name":"Tokyo","unCountry":"JP","unLocode":"JPTYO","unLocation":"TYO","timezone":"UTC+9"},{"id":12,"name":"Abu Dhabi","unCountry":"AE","unLocode":"AEAUH","unLocation":"AUH","timezone":"UTC"},{"id":13,"name":"Jebel Ali","unCountry":"AE","unLocode":"AEJEA","unLocation":"JEA","timezone":"UTC"},{"id":14,"name":"Mina Khalifa/Abu Dhabi","unCountry":"AE","unLocode":"AEKHL","unLocation":"KHL","timezone":"UTC"},{"id":15,"name":"Khor al Fakkan","unCountry":"AE","unLocode":"AEKLF","unLocation":"KLF","timezone":"UTC"},{"id":16,"name":"Sharjah","unCountry":"AE","unLocode":"AESHJ","unLocation":"SHJ","timezone":"UTC"},{"id":17,"name":"Luanda","unCountry":"AO","unLocode":"AOLAD","unLocation":"LAD","timezone":"UTC"},{"id":18,"name":"Bahia Blanca","unCountry":"AR","unLocode":"ARBHI","unLocation":"BHI","timezone":"UTC"},{"id":19,"name":"Buenos Aires","unCountry":"AR","unLocode":"ARBUE","unLocation":"BUE","timezone":"UTC"},{"id":20,"name":"Las Palmas","unCountry":"AR","unLocode":"ARLPS","unLocation":"LPS","timezone":"UTC"},{"id":21,"name":"Mar del Plata","unCountry":"AR","unLocode":"ARMDQ","unLocation":"MDQ","timezone":"UTC"},{"id":22,"name":"Puerto Madryn","unCountry":"AR","unLocode":"ARPMY","unLocation":"PMY","timezone":"UTC"},{"id":23,"name":"Puerto Deseado","unCountry":"AR","unLocode":"ARPUD","unLocation":"PUD","timezone":"UTC"},{"id":24,"name":"Rosario","unCountry":"AR","unLocode":"ARROS","unLocation":"ROS","timezone":"UTC"},{"id":25,"name":"San Antonio Este","unCountry":"AR","unLocode":"ARSAE","unLocation":"SAE","timezone":"UTC"},{"id":26,"name":"Ushuaia","unCountry":"AR","unLocode":"ARUSH","unLocation":"USH","timezone":"UTC"},{"id":27,"name":"Zarate","unCountry":"AR","unLocode":"ARZAE","unLocation":"ZAE","timezone":"UTC"},{"id":28,"name":"Pago Pago","unCountry":"AS","unLocode":"ASPPG","unLocation":"PPG","timezone":"UTC"},{"id":29,"name":"Adelaide","unCountry":"AU","unLocode":"AUADL","unLocation":"ADL","timezone":"UTC"},{"id":30,"name":"Bell Bay","unCountry":"AU","unLocode":"AUBEL","unLocation":"BEL","timezone":"UTC"},{"id":31,"name":"Brisbane","unCountry":"AU","unLocode":"AUBNE","unLocation":"BNE","timezone":"UTC"},{"id":32,"name":"Burnie","unCountry":"AU","unLocode":"AUBWT","unLocation":"BWT","timezone":"UTC"},{"id":33,"name":"Darwin","unCountry":"AU","unLocode":"AUDRW","unLocation":"DRW","timezone":"UTC"},{"id":34,"name":"Fremantle","unCountry":"AU","unLocode":"AUFRE","unLocation":"FRE","timezone":"UTC"},{"id":35,"name":"Geelong","unCountry":"AU","unLocode":"AUGEX","unLocation":"GEX","timezone":"UTC"},{"id":36,"name":"Gladstone","unCountry":"AU","unLocode":"AUGLT","unLocation":"GLT","timezone":"UTC"},{"id":37,"name":"Hamilton","unCountry":"AU","unLocode":"AUHLT","unLocation":"HLT","timezone":"UTC"},{"id":38,"name":"Melbourne","unCountry":"AU","unLocode":"AUMEL","unLocation":"MEL","timezone":"UTC"},{"id":39,"name":"Port Kembla","unCountry":"AU","unLocode":"AUPKL","unLocation":"PKL","timezone":"UTC"},{"id":40,"name":"Sydney","unCountry":"AU","unLocode":"AUSYD","unLocation":"SYD","timezone":"UTC"},{"id":41,"name":"Oranjestad","unCountry":"AW","unLocode":"AWORJ","unLocation":"ORJ","timezone":"UTC"},{"id":42,"name":"Chattogram","unCountry":"BD","unLocode":"BDCGP","unLocation":"CGP","timezone":"UTC"},{"id":43,"name":"Munshiganj","unCountry":"BD","unLocode":"BDMUN","unLocation":"MUN","timezone":"UTC"},{"id":44,"name":"Zeebrugge","unCountry":"BE","unLocode":"BEZEE","unLocation":"ZEE","timezone":"UTC"},{"id":45,"name":"Bahrain International Airport","unCountry":"BH","unLocode":"BHBAH","unLocation":"BAH","timezone":"UTC"},{"id":46,"name":"Cotonou","unCountry":"BJ","unLocode":"BJCOO","unLocation":"COO","timezone":"UTC"},{"id":47,"name":"Fortaleza","unCountry":"BR","unLocode":"BRFOR","unLocation":"FOR","timezone":"UTC"},{"id":48,"name":"Imbituba","unCountry":"BR","unLocode":"BRIBB","unLocation":"IBB","timezone":"UTC"},{"id":49,"name":"Itapoa","unCountry":"BR","unLocode":"BRIOA","unLocation":"IOA","timezone":"UTC"},{"id":50,"name":"Itajai","unCountry":"BR","unLocode":"BRITJ","unLocation":"ITJ","timezone":"UTC"},{"id":51,"name":"Manaus","unCountry":"BR","unLocode":"BRMAO","unLocation":"MAO","timezone":"UTC"},{"id":52,"name":"Navegantes","unCountry":"BR","unLocode":"BRNVT","unLocation":"NVT","timezone":"UTC"},{"id":53,"name":"Pecem Pt/Sao Goncalo do Amarante","unCountry":"BR","unLocode":"BRPEC","unLocation":"PEC","timezone":"UTC"},{"id":54,"name":"Paranagua","unCountry":"BR","unLocode":"BRPNG","unLocation":"PNG","timezone":"UTC"},{"id":55,"name":"Rio Grande","unCountry":"BR","unLocode":"BRRIG","unLocation":"RIG","timezone":"UTC"},{"id":56,"name":"Rio de Janeiro","unCountry":"BR","unLocode":"BRRIO","unLocation":"RIO","timezone":"UTC"},{"id":57,"name":"Sao Francisco do Sul","unCountry":"BR","unLocode":"BRSFS","unLocation":"SFS","timezone":"UTC"},{"id":58,"name":"Sao Luis","unCountry":"BR","unLocode":"BRSLZ","unLocation":"SLZ","timezone":"UTC"},{"id":59,"name":"Itaguai Pt = Sepetiba Pt","unCountry":"BR","unLocode":"BRSPB","unLocation":"SPB","timezone":"UTC"},{"id":60,"name":"Salvador","unCountry":"BR","unLocode":"BRSSA","unLocation":"SSA","timezone":"UTC"},{"id":61,"name":"Santos","unCountry":"BR","unLocode":"BRSSZ","unLocation":"SSZ","timezone":"UTC"},{"id":62,"name":"Suape","unCountry":"BR","unLocode":"BRSUA","unLocation":"SUA","timezone":"UTC"},{"id":63,"name":"Vila do Conde Pt/Barcarena","unCountry":"BR","unLocode":"BRVDC","unLocation":"VDC","timezone":"UTC"},{"id":64,"name":"Vitoria Pt","unCountry":"BR","unLocode":"BRVIX","unLocation":"VIX","timezone":"UTC"},{"id":65,"name":"Halifax","unCountry":"CA","unLocode":"CAHAL","unLocation":"HAL","timezone":"UTC"},{"id":66,"name":"Montreal","unCountry":"CA","unLocode":"CAMTR","unLocation":"MTR","timezone":"UTC"},{"id":67,"name":"Prince Rupert","unCountry":"CA","unLocode":"CAPRR","unLocation":"PRR","timezone":"UTC"},{"id":68,"name":"Vancouver","unCountry":"CA","unLocode":"CAVAN","unLocation":"VAN","timezone":"UTC"},{"id":69,"name":"Pointe Noire","unCountry":"CG","unLocode":"CGPNR","unLocation":"PNR","timezone":"UTC"},{"id":70,"name":"Abidjan","unCountry":"CI","unLocode":"CIABJ","unLocation":"ABJ","timezone":"UTC"},{"id":71,"name":"Antofagasta","unCountry":"CL","unLocode":"CLANF","unLocation":"ANF","timezone":"UTC"},{"id":72,"name":"Arica","unCountry":"CL","unLocode":"CLARI","unLocation":"ARI","timezone":"UTC"},{"id":73,"name":"Coronel","unCountry":"CL","unLocode":"CLCNL","unLocation":"CNL","timezone":"UTC"},{"id":74,"name":"Iquique","unCountry":"CL","unLocode":"CLIQQ","unLocation":"IQQ","timezone":"UTC"},{"id":75,"name":"Lirquen","unCountry":"CL","unLocode":"CLLQN","unLocation":"LQN","timezone":"UTC"},{"id":76,"name":"Puerto Angamos","unCountry":"CL","unLocode":"CLPAG","unLocation":"PAG","timezone":"UTC"},{"id":77,"name":"Punta Arenas","unCountry":"CL","unLocode":"CLPUQ","unLocation":"PUQ","timezone":"UTC"},{"id":78,"name":"San Antonio","unCountry":"CL","unLocode":"CLSAI","unLocation":"SAI","timezone":"UTC"},{"id":79,"name":"San Vicente","unCountry":"CL","unLocode":"CLSVE","unLocation":"SVE","timezone":"UTC"},{"id":80,"name":"Valparaiso","unCountry":"CL","unLocode":"CLVAP","unLocation":"VAP","timezone":"UTC"},{"id":81,"name":"Chongqing","unCountry":"CN","unLocode":"CNCQI","unLocation":"CQI","timezone":"UTC"},{"id":82,"name":"Chiwan Pt","unCountry":"CN","unLocode":"CNCWN","unLocation":"CWN","timezone":"UTC"},{"id":83,"name":"Dalian","unCountry":"CN","unLocode":"CNDAL","unLocation":"DAL","timezone":"UTC"},{"id":84,"name":"DA CHAN BAY","unCountry":"CN","unLocode":"CNDCB","unLocation":"DCB","timezone":"UTC"},{"id":85,"name":"Fuzhou","unCountry":"CN","unLocode":"CNFZH","unLocation":"FZH","timezone":"UTC"},{"id":86,"name":"Lianyungang","unCountry":"CN","unLocode":"CNLYG","unLocation":"LYG","timezone":"UTC"},{"id":87,"name":"Ningbo","unCountry":"CN","unLocode":"CNNBO","unLocation":"NBO","timezone":"UTC"},{"id":88,"name":"Nanjing","unCountry":"CN","unLocode":"CNNJI","unLocation":"NJI","timezone":"UTC"},{"id":89,"name":"Nansha Pt","unCountry":"CN","unLocode":"CNNSA","unLocation":"NSA","timezone":"UTC"},{"id":90,"name":"Qingdao","unCountry":"CN","unLocode":"CNQIN","unLocation":"QIN","timezone":"UTC"},{"id":91,"name":"Rizhao Pt","unCountry":"CN","unLocode":"CNRZH","unLocation":"RZH","timezone":"UTC"},{"id":92,"name":"Shekou Pt","unCountry":"CN","unLocode":"CNSHK","unLocation":"SHK","timezone":"UTC"},{"id":93,"name":"Shantou Pt","unCountry":"CN","unLocode":"CNSTG","unLocation":"STG","timezone":"UTC"},{"id":94,"name":"Taicang Pt","unCountry":"CN","unLocode":"CNTAC","unLocation":"TAC","timezone":"UTC"},{"id":95,"name":"Tianjin","unCountry":"CN","unLocode":"CNTNJ","unLocation":"TNJ","timezone":"UTC"},{"id":96,"name":"Weihai","unCountry":"CN","unLocode":"CNWEI","unLocation":"WEI","timezone":"UTC"},{"id":97,"name":"Xiamen","unCountry":"CN","unLocode":"CNXAM","unLocation":"XAM","timezone":"UTC"},{"id":98,"name":"Yantai","unCountry":"CN","unLocode":"CNYAT","unLocation":"YAT","timezone":"UTC"},{"id":99,"name":"Yingkou Pt","unCountry":"CN","unLocode":"CNYIK","unLocation":"YIK","timezone":"UTC"},{"id":100,"name":"Yantian Pt","unCountry":"CN","unLocode":"CNYTN","unLocation":"YTN","timezone":"UTC"},{"id":101,"name":"Barranquilla","unCountry":"CO","unLocode":"COBAQ","unLocation":"BAQ","timezone":"UTC"},{"id":102,"name":"Buenaventura","unCountry":"CO","unLocode":"COBUN","unLocation":"BUN","timezone":"UTC"},{"id":103,"name":"Cartagena","unCountry":"CO","unLocode":"COCTG","unLocation":"CTG","timezone":"UTC"},{"id":104,"name":"Santa Marta","unCountry":"CO","unLocode":"COSMR","unLocation":"SMR","timezone":"UTC"},{"id":105,"name":"Turbo","unCountry":"CO","unLocode":"COTRB","unLocation":"TRB","timezone":"UTC"},{"id":106,"name":"Caldera","unCountry":"CR","unLocode":"CRCAL","unLocation":"CAL","timezone":"UTC"},{"id":107,"name":"Puerto Limon","unCountry":"CR","unLocode":"CRLIO","unLocation":"LIO","timezone":"UTC"},{"id":108,"name":"Moin","unCountry":"CR","unLocode":"CRMOB","unLocation":"MOB","timezone":"UTC"},{"id":109,"name":"La Habana","unCountry":"CU","unLocode":"CUHAV","unLocation":"HAV","timezone":"UTC"},{"id":110,"name":"Mariel","unCountry":"CU","unLocode":"CUMAR","unLocation":"MAR","timezone":"UTC"},{"id":111,"name":"Willemstad","unCountry":"CW","unLocode":"CWWIL","unLocation":"WIL","timezone":"UTC"},{"id":112,"name":"Limassol","unCountry":"CY","unLocode":"CYLMS","unLocation":"LMS","timezone":"UTC"},{"id":113,"name":"Wilhelmshaven","unCountry":"DE","unLocode":"DEWVN","unLocation":"WVN","timezone":"UTC"},{"id":114,"name":"Aalborg","unCountry":"DK","unLocode":"DKAAL","unLocation":"AAL","timezone":"UTC"},{"id":115,"name":"Aarhus","unCountry":"DK","unLocode":"DKAAR","unLocation":"AAR","timezone":"UTC"},{"id":116,"name":"Kobenhavn","unCountry":"DK","unLocode":"DKCPH","unLocation":"CPH","timezone":"UTC"},{"id":117,"name":"Fredericia","unCountry":"DK","unLocode":"DKFRC","unLocation":"FRC","timezone":"UTC"},{"id":118,"name":"Kalundborg","unCountry":"DK","unLocode":"DKKAL","unLocation":"KAL","timezone":"UTC"},{"id":119,"name":"Caucedo","unCountry":"DO","unLocode":"DOCAU","unLocation":"CAU","timezone":"UTC"},{"id":120,"name":"Rio Haina","unCountry":"DO","unLocode":"DOHAI","unLocation":"HAI","timezone":"UTC"},{"id":121,"name":"San Pedro de Macoris","unCountry":"DO","unLocode":"DOSPM","unLocation":"SPM","timezone":"UTC"},{"id":122,"name":"Alger (Algiers)","unCountry":"DZ","unLocode":"DZALG","unLocation":"ALG","timezone":"UTC"},{"id":123,"name":"Oran","unCountry":"DZ","unLocode":"DZORN","unLocation":"ORN","timezone":"UTC"},{"id":124,"name":"Guayaquil","unCountry":"EC","unLocode":"ECGYE","unLocation":"GYE","timezone":"UTC"},{"id":125,"name":"Puerto Bolivar","unCountry":"EC","unLocode":"ECPBO","unLocation":"PBO","timezone":"UTC"},{"id":126,"name":"Posorja","unCountry":"EC","unLocode":"ECPSJ","unLocation":"PSJ","timezone":"UTC"},{"id":127,"name":"Muuga","unCountry":"EE","unLocode":"EEMUG","unLocation":"MUG","timezone":"UTC"},{"id":128,"name":"El Iskandariya (Alexandria)","unCountry":"EG","unLocode":"EGALY","unLocation":"ALY","timezone":"UTC"},{"id":129,"name":"Dumyat (Damietta)","unCountry":"EG","unLocode":"EGDAM","unLocation":"DAM","timezone":"UTC"},{"id":130,"name":"Port Said","unCountry":"EG","unLocode":"EGPSD","unLocation":"PSD","timezone":"UTC"},{"id":131,"name":"Sokhna Port","unCountry":"EG","unLocode":"EGSOK","unLocation":"SOK","timezone":"UTC"},{"id":132,"name":"Lanzarote","unCountry":"ES","unLocode":"ESACE","unLocation":"ACE","timezone":"UTC"},{"id":133,"name":"Malaga","unCountry":"ES","unLocode":"ESAGP","unLocation":"AGP","timezone":"UTC"},{"id":134,"name":"Barcelona","unCountry":"ES","unLocode":"ESBCN","unLocation":"BCN","timezone":"UTC"},{"id":135,"name":"Bilbao","unCountry":"ES","unLocode":"ESBIO","unLocation":"BIO","timezone":"UTC"},{"id":136,"name":"Cadiz","unCountry":"ES","unLocode":"ESCAD","unLocation":"CAD","timezone":"UTC"},{"id":137,"name":"Cartagena","unCountry":"ES","unLocode":"ESCAR","unLocation":"CAR","timezone":"UTC"},{"id":138,"name":"Ceuta","unCountry":"ES","unLocode":"ESCEU","unLocation":"CEU","timezone":"UTC"},{"id":139,"name":"Gijon","unCountry":"ES","unLocode":"ESGIJ","unLocation":"GIJ","timezone":"UTC"},{"id":140,"name":"Huelva","unCountry":"ES","unLocode":"ESHUV","unLocation":"HUV","timezone":"UTC"},{"id":141,"name":"La Coruna (A Coruna)","unCountry":"ES","unLocode":"ESLCG","unLocation":"LCG","timezone":"UTC"},{"id":142,"name":"Las Palmas de Gran Canaria","unCountry":"ES","unLocode":"ESLPA","unLocation":"LPA","timezone":"UTC"},{"id":143,"name":"Melilla","unCountry":"ES","unLocode":"ESMLN","unLocation":"MLN","timezone":"UTC"},{"id":144,"name":"Marin, Pontevedra","unCountry":"ES","unLocode":"ESMPG","unLocation":"MPG","timezone":"UTC"},{"id":145,"name":"Sagunto","unCountry":"ES","unLocode":"ESSAG","unLocation":"SAG","timezone":"UTC"},{"id":146,"name":"Santa Cruz de Tenerife","unCountry":"ES","unLocode":"ESSCT","unLocation":"SCT","timezone":"UTC"},{"id":147,"name":"Tarragona","unCountry":"ES","unLocode":"ESTAR","unLocation":"TAR","timezone":"UTC"},{"id":148,"name":"Vigo","unCountry":"ES","unLocode":"ESVGO","unLocation":"VGO","timezone":"UTC"},{"id":149,"name":"Helsingfors (Helsinki)","unCountry":"FI","unLocode":"FIHEL","unLocation":"HEL","timezone":"UTC"},{"id":150,"name":"Fredrikshamn (Hamina)","unCountry":"FI","unLocode":"FIHMN","unLocation":"HMN","timezone":"UTC"},{"id":151,"name":"Karleby (Kokkola)","unCountry":"FI","unLocode":"FIKOK","unLocation":"KOK","timezone":"UTC"},{"id":152,"name":"Kotka","unCountry":"FI","unLocode":"FIKTK","unLocation":"KTK","timezone":"UTC"},{"id":153,"name":"Mantyluoto","unCountry":"FI","unLocode":"FIMTY","unLocation":"MTY","timezone":"UTC"},{"id":154,"name":"Rauma (Raumo)","unCountry":"FI","unLocode":"FIRAU","unLocation":"RAU","timezone":"UTC"},{"id":155,"name":"Turku (Abo)","unCountry":"FI","unLocode":"FITKU","unLocation":"TKU","timezone":"UTC"},{"id":156,"name":"Suva","unCountry":"FJ","unLocode":"FJSUV","unLocation":"SUV","timezone":"UTC"},{"id":157,"name":"Dunkerque","unCountry":"FR","unLocode":"FRDKK","unLocation":"DKK","timezone":"UTC"},{"id":158,"name":"Fos-sur-Mer","unCountry":"FR","unLocode":"FRFOS","unLocation":"FOS","timezone":"UTC"},{"id":159,"name":"Le Havre","unCountry":"FR","unLocode":"FRLEH","unLocation":"LEH","timezone":"UTC"},{"id":160,"name":"Montoir-de-Bretagne","unCountry":"FR","unLocode":"FRMTX","unLocation":"MTX","timezone":"UTC"},{"id":161,"name":"Owendo","unCountry":"GA","unLocode":"GAOWE","unLocation":"OWE","timezone":"UTC"},{"id":162,"name":"Belfast","unCountry":"GB","unLocode":"GBBEL","unLocation":"BEL","timezone":"UTC"},{"id":163,"name":"Felixstowe","unCountry":"GB","unLocode":"GBFXT","unLocation":"FXT","timezone":"UTC"},{"id":164,"name":"Grangemouth","unCountry":"GB","unLocode":"GBGRG","unLocation":"GRG","timezone":"UTC"},{"id":165,"name":"Greenock","unCountry":"GB","unLocode":"GBGRK","unLocation":"GRK","timezone":"UTC"},{"id":166,"name":"Hull","unCountry":"GB","unLocode":"GBHUL","unLocation":"HUL","timezone":"UTC"},{"id":167,"name":"London Gateway Port","unCountry":"GB","unLocode":"GBLGP","unLocation":"LGP","timezone":"UTC"},{"id":168,"name":"Liverpool","unCountry":"GB","unLocode":"GBLIV","unLocation":"LIV","timezone":"UTC"},{"id":169,"name":"Rochester","unCountry":"GB","unLocode":"GBRCS","unLocation":"RCS","timezone":"UTC"},{"id":170,"name":"Southampton","unCountry":"GB","unLocode":"GBSOU","unLocation":"SOU","timezone":"UTC"},{"id":171,"name":"Teesport","unCountry":"GB","unLocode":"GBTEE","unLocation":"TEE","timezone":"UTC"},{"id":172,"name":"Tilbury","unCountry":"GB","unLocode":"GBTIL","unLocation":"TIL","timezone":"UTC"},{"id":173,"name":"Poti","unCountry":"GE","unLocode":"GEPTI","unLocation":"PTI","timezone":"UTC"},{"id":174,"name":"Tema","unCountry":"GH","unLocode":"GHTEM","unLocation":"TEM","timezone":"UTC"},{"id":175,"name":"Takoradi","unCountry":"GH","unLocode":"GHTKD","unLocation":"TKD","timezone":"UTC"},{"id":176,"name":"Gibraltar","unCountry":"GI","unLocode":"GIGIB","unLocation":"GIB","timezone":"UTC"},{"id":177,"name":"Piraeus","unCountry":"GR","unLocode":"GRPIR","unLocation":"PIR","timezone":"UTC"},{"id":178,"name":"Thessaloniki","unCountry":"GR","unLocode":"GRSKG","unLocation":"SKG","timezone":"UTC"},{"id":179,"name":"Puerto Barrios","unCountry":"GT","unLocode":"GTPBR","unLocation":"PBR","timezone":"UTC"},{"id":180,"name":"Puerto Quetzal","unCountry":"GT","unLocode":"GTPRQ","unLocation":"PRQ","timezone":"UTC"},{"id":181,"name":"Puerto Santo Tomas de Castilla","unCountry":"GT","unLocode":"GTSTC","unLocation":"STC","timezone":"UTC"},{"id":182,"name":"Puerto Cortes","unCountry":"HN","unLocode":"HNPCR","unLocation":"PCR","timezone":"UTC"},{"id":183,"name":"San Lorenzo","unCountry":"HN","unLocode":"HNSLO","unLocation":"SLO","timezone":"UTC"},{"id":184,"name":"Rijeka","unCountry":"HR","unLocode":"HRRJK","unLocation":"RJK","timezone":"UTC"},{"id":185,"name":"Port-au-Prince","unCountry":"HT","unLocode":"HTPAP","unLocation":"PAP","timezone":"UTC"},{"id":186,"name":"Banjarmasin","unCountry":"ID","unLocode":"IDBDJ","unLocation":"BDJ","timezone":"UTC"},{"id":187,"name":"Batam Island","unCountry":"ID","unLocode":"IDBTM","unLocation":"BTM","timezone":"UTC"},{"id":188,"name":"Jakarta, Java","unCountry":"ID","unLocode":"IDJKT","unLocation":"JKT","timezone":"UTC"},{"id":189,"name":"Palembang, Sumatra","unCountry":"ID","unLocode":"IDPLM","unLocation":"PLM","timezone":"UTC"},{"id":190,"name":"Surabaya","unCountry":"ID","unLocode":"IDSUB","unLocation":"SUB","timezone":"UTC"},{"id":191,"name":"Dublin","unCountry":"IE","unLocode":"IEDUB","unLocation":"DUB","timezone":"UTC"},{"id":192,"name":"Cork","unCountry":"IE","unLocode":"IEORK","unLocation":"ORK","timezone":"UTC"},{"id":193,"name":"Ashdod","unCountry":"IL","unLocode":"ILASH","unLocation":"ASH","timezone":"UTC"},{"id":194,"name":"Haifa","unCountry":"IL","unLocode":"ILHFA","unLocation":"HFA","timezone":"UTC"},{"id":195,"name":"Kolkata (ex Calcutta)","unCountry":"IN","unLocode":"INCCU","unLocation":"CCU","timezone":"UTC"},{"id":196,"name":"Cochin","unCountry":"IN","unLocode":"INCOK","unLocation":"COK","timezone":"UTC"},{"id":197,"name":"Ennore","unCountry":"IN","unLocode":"INENR","unLocation":"ENR","timezone":"UTC"},{"id":198,"name":"Mangalore","unCountry":"IN","unLocode":"INIXE","unLocation":"IXE","timezone":"UTC"},{"id":199,"name":"Chennai (ex Madras)","unCountry":"IN","unLocode":"INMAA","unLocation":"MAA","timezone":"UTC"},{"id":200,"name":"Mundra","unCountry":"IN","unLocode":"INMUN","unLocation":"MUN","timezone":"UTC"},{"id":201,"name":"Jawaharlal Nehru (Nhava Sheva)","unCountry":"IN","unLocode":"INNSA","unLocation":"NSA","timezone":"UTC"},{"id":202,"name":"Port Pipavav","unCountry":"IN","unLocode":"INPPV","unLocation":"PPV","timezone":"UTC"},{"id":203,"name":"Tuticorin","unCountry":"IN","unLocode":"INTUT","unLocation":"TUT","timezone":"UTC"},{"id":204,"name":"Visakhapatnam","unCountry":"IN","unLocode":"INVTZ","unLocation":"VTZ","timezone":"UTC"},{"id":205,"name":"Umm Qasr Port","unCountry":"IQ","unLocode":"IQUQR","unLocation":"UQR","timezone":"UTC"},{"id":206,"name":"Reykjavik","unCountry":"IS","unLocode":"ISREY","unLocation":"REY","timezone":"UTC"},{"id":207,"name":"Ancona","unCountry":"IT","unLocode":"ITAOI","unLocation":"AOI","timezone":"UTC"},{"id":208,"name":"Cagliari","unCountry":"IT","unLocode":"ITCAG","unLocation":"CAG","timezone":"UTC"},{"id":209,"name":"Catania","unCountry":"IT","unLocode":"ITCTA","unLocation":"CTA","timezone":"UTC"},{"id":210,"name":"Civitavecchia","unCountry":"IT","unLocode":"ITCVV","unLocation":"CVV","timezone":"UTC"},{"id":211,"name":"Gioia Tauro","unCountry":"IT","unLocode":"ITGIT","unLocation":"GIT","timezone":"UTC"},{"id":212,"name":"Genova","unCountry":"IT","unLocode":"ITGOA","unLocation":"GOA","timezone":"UTC"},{"id":213,"name":"Livorno","unCountry":"IT","unLocode":"ITLIV","unLocation":"LIV","timezone":"UTC"},{"id":214,"name":"Napoli","unCountry":"IT","unLocode":"ITNAP","unLocation":"NAP","timezone":"UTC"},{"id":215,"name":"Ravenna","unCountry":"IT","unLocode":"ITRAN","unLocation":"RAN","timezone":"UTC"},{"id":216,"name":"Salerno","unCountry":"IT","unLocode":"ITSAL","unLocation":"SAL","timezone":"UTC"},{"id":217,"name":"La Spezia","unCountry":"IT","unLocode":"ITSPE","unLocation":"SPE","timezone":"UTC"},{"id":218,"name":"Trieste","unCountry":"IT","unLocode":"ITTRS","unLocation":"TRS","timezone":"UTC"},{"id":219,"name":"Venezia","unCountry":"IT","unLocode":"ITVCE","unLocation":"VCE","timezone":"UTC"},{"id":220,"name":"Vado Ligure","unCountry":"IT","unLocode":"ITVDL","unLocation":"VDL","timezone":"UTC"},{"id":221,"name":"Kingston","unCountry":"JM","unLocode":"JMKIN","unLocation":"KIN","timezone":"UTC"},{"id":222,"name":"Al Aqabah","unCountry":"JO","unLocode":"JOAQJ","unLocation":"AQJ","timezone":"UTC"},{"id":223,"name":"Aburatsu","unCountry":"JP","unLocode":"JPABU","unLocation":"ABU","timezone":"UTC"},{"id":224,"name":"Akita","unCountry":"JP","unLocode":"JPAXT","unLocation":"AXT","timezone":"UTC"},{"id":225,"name":"Chiba","unCountry":"JP","unLocode":"JPCHB","unLocation":"CHB","timezone":"UTC"},{"id":226,"name":"Fukuyama, Hiroshima","unCountry":"JP","unLocode":"JPFKY","unLocation":"FKY","timezone":"UTC"},{"id":227,"name":"Hachinohe","unCountry":"JP","unLocode":"JPHHE","unLocation":"HHE","timezone":"UTC"},{"id":228,"name":"Hitachinaka","unCountry":"JP","unLocode":"JPHIC","unLocation":"HIC","timezone":"UTC"},{"id":229,"name":"Hiroshima","unCountry":"JP","unLocode":"JPHIJ","unLocation":"HIJ","timezone":"UTC"},{"id":230,"name":"Himeji","unCountry":"JP","unLocode":"JPHIM","unLocation":"HIM","timezone":"UTC"},{"id":231,"name":"Hakata/Fukuoka","unCountry":"JP","unLocode":"JPHKT","unLocation":"HKT","timezone":"UTC"},{"id":232,"name":"Hamada","unCountry":"JP","unLocode":"JPHMD","unLocation":"HMD","timezone":"UTC"},{"id":233,"name":"Hososhima","unCountry":"JP","unLocode":"JPHSM","unLocation":"HSM","timezone":"UTC"},{"id":234,"name":"Hitachi","unCountry":"JP","unLocode":"JPHTC","unLocation":"HTC","timezone":"UTC"},{"id":235,"name":"Imabari","unCountry":"JP","unLocode":"JPIMB","unLocation":"IMB","timezone":"UTC"},{"id":236,"name":"Imari","unCountry":"JP","unLocode":"JPIMI","unLocation":"IMI","timezone":"UTC"},{"id":237,"name":"Ishikari","unCountry":"JP","unLocode":"JPISI","unLocation":"ISI","timezone":"UTC"},{"id":238,"name":"Iwakuni","unCountry":"JP","unLocode":"JPIWK","unLocation":"IWK","timezone":"UTC"},{"id":239,"name":"Kochi","unCountry":"JP","unLocode":"JPKCZ","unLocation":"KCZ","timezone":"UTC"},{"id":240,"name":"Niigata","unCountry":"JP","unLocode":"JPKIJ","unLocation":"KIJ","timezone":"UTC"},{"id":241,"name":"Kamaishi","unCountry":"JP","unLocode":"JPKIS","unLocation":"KIS","timezone":"UTC"},{"id":242,"name":"Kumamoto","unCountry":"JP","unLocode":"JPKMJ","unLocation":"KMJ","timezone":"UTC"},{"id":243,"name":"Kanazawa","unCountry":"JP","unLocode":"JPKNZ","unLocation":"KNZ","timezone":"UTC"},{"id":244,"name":"Komatsushima","unCountry":"JP","unLocode":"JPKOM","unLocation":"KOM","timezone":"UTC"},{"id":245,"name":"Kashima, Ibaraki","unCountry":"JP","unLocode":"JPKSM","unLocation":"KSM","timezone":"UTC"},{"id":246,"name":"Kawasaki","unCountry":"JP","unLocode":"JPKWS","unLocation":"KWS","timezone":"UTC"},{"id":247,"name":"Maizuru","unCountry":"JP","unLocode":"JPMAI","unLocation":"MAI","timezone":"UTC"},{"id":248,"name":"Mizushima","unCountry":"JP","unLocode":"JPMIZ","unLocation":"MIZ","timezone":"UTC"},{"id":249,"name":"Mikawa","unCountry":"JP","unLocode":"JPMKW","unLocation":"MKW","timezone":"UTC"},{"id":250,"name":"Mishima, Kawanoe","unCountry":"JP","unLocode":"JPMKX","unLocation":"MKX","timezone":"UTC"},{"id":251,"name":"Moji/Kitakyushu","unCountry":"JP","unLocode":"JPMOJ","unLocation":"MOJ","timezone":"UTC"},{"id":252,"name":"Muroran","unCountry":"JP","unLocode":"JPMUR","unLocation":"MUR","timezone":"UTC"},{"id":253,"name":"Matsuyama","unCountry":"JP","unLocode":"JPMYJ","unLocation":"MYJ","timezone":"UTC"},{"id":254,"name":"Naha, Okinawa","unCountry":"JP","unLocode":"JPNAH","unLocation":"NAH","timezone":"UTC"},{"id":255,"name":"Nakanoseki","unCountry":"JP","unLocode":"JPNAN","unLocation":"NAN","timezone":"UTC"},{"id":256,"name":"Naoetsu","unCountry":"JP","unLocode":"JPNAO","unLocation":"NAO","timezone":"UTC"},{"id":257,"name":"Nagoya, Aichi","unCountry":"JP","unLocode":"JPNGO","unLocation":"NGO","timezone":"UTC"},{"id":258,"name":"Nagasaki","unCountry":"JP","unLocode":"JPNGS","unLocation":"NGS","timezone":"UTC"},{"id":259,"name":"Oita","unCountry":"JP","unLocode":"JPOIT","unLocation":"OIT","timezone":"UTC"},{"id":260,"name":"Omaezaki","unCountry":"JP","unLocode":"JPOMZ","unLocation":"OMZ","timezone":"UTC"},{"id":261,"name":"Onahama","unCountry":"JP","unLocode":"JPONA","unLocation":"ONA","timezone":"UTC"},{"id":262,"name":"Osaka","unCountry":"JP","unLocode":"JPOSA","unLocation":"OSA","timezone":"UTC"},{"id":263,"name":"Otake","unCountry":"JP","unLocode":"JPOTK","unLocation":"OTK","timezone":"UTC"},{"id":264,"name":"Sakaisenboku","unCountry":"JP","unLocode":"JPSBK","unLocation":"SBK","timezone":"UTC"},{"id":265,"name":"Shibushi","unCountry":"JP","unLocode":"JPSBS","unLocation":"SBS","timezone":"UTC"},{"id":266,"name":"Sendaishiogama","unCountry":"JP","unLocode":"JPSGM","unLocation":"SGM","timezone":"UTC"},{"id":267,"name":"Sakata","unCountry":"JP","unLocode":"JPSKT","unLocation":"SKT","timezone":"UTC"},{"id":268,"name":"Sakaiminato","unCountry":"JP","unLocode":"JPSMN","unLocation":"SMN","timezone":"UTC"},{"id":269,"name":"Shimotsu","unCountry":"JP","unLocode":"JPSMT","unLocation":"SMT","timezone":"UTC"},{"id":270,"name":"Shimizu","unCountry":"JP","unLocode":"JPSMZ","unLocation":"SMZ","timezone":"UTC"},{"id":271,"name":"Toyohashi","unCountry":"JP","unLocode":"JPTHS","unLocation":"THS","timezone":"UTC"},{"id":272,"name":"Tokuyama","unCountry":"JP","unLocode":"JPTKY","unLocation":"TKY","timezone":"UTC"},{"id":273,"name":"Tomakomai","unCountry":"JP","unLocode":"JPTMK","unLocation":"TMK","timezone":"UTC"},{"id":274,"name":"Tsuruga","unCountry":"JP","unLocode":"JPTRG","unLocation":"TRG","timezone":"UTC"},{"id":275,"name":"Tottori","unCountry":"JP","unLocode":"JPTTJ","unLocation":"TTJ","timezone":"UTC"},{"id":276,"name":"Ube","unCountry":"JP","unLocode":"JPUBJ","unLocation":"UBJ","timezone":"UTC"},{"id":277,"name":"Kobe","unCountry":"JP","unLocode":"JPUKB","unLocation":"UKB","timezone":"UTC"},{"id":278,"name":"Wakkanai","unCountry":"JP","unLocode":"JPWKJ","unLocation":"WKJ","timezone":"UTC"},{"id":279,"name":"Yokkaichi","unCountry":"JP","unLocode":"JPYKK","unLocation":"YKK","timezone":"UTC"},{"id":280,"name":"Mombasa","unCountry":"KE","unLocode":"KEMBA","unLocation":"MBA","timezone":"UTC"},{"id":281,"name":"Kampong Saom","unCountry":"KH","unLocode":"KHKOS","unLocation":"KOS","timezone":"UTC"},{"id":282,"name":"Incheon","unCountry":"KR","unLocode":"KRINC","unLocation":"INC","timezone":"UTC"},{"id":283,"name":"Gwangyang","unCountry":"KR","unLocode":"KRKAN","unLocation":"KAN","timezone":"UTC"},{"id":284,"name":"Pohang","unCountry":"KR","unLocode":"KRKPO","unLocation":"KPO","timezone":"UTC"},{"id":285,"name":"Pyeongtaek","unCountry":"KR","unLocode":"KRPTK","unLocation":"PTK","timezone":"UTC"},{"id":286,"name":"Busan","unCountry":"KR","unLocode":"KRPUS","unLocation":"PUS","timezone":"UTC"},{"id":287,"name":"Ulsan","unCountry":"KR","unLocode":"KRUSN","unLocation":"USN","timezone":"UTC"},{"id":288,"name":"Shuaiba","unCountry":"KW","unLocode":"KWSAA","unLocation":"SAA","timezone":"UTC"},{"id":289,"name":"Shuwaikh","unCountry":"KW","unLocode":"KWSWK","unLocation":"SWK","timezone":"UTC"},{"id":290,"name":"Beirut","unCountry":"LB","unLocode":"LBBEY","unLocation":"BEY","timezone":"UTC"},{"id":291,"name":"Colombo","unCountry":"LK","unLocode":"LKCMB","unLocation":"CMB","timezone":"UTC"},{"id":292,"name":"Klaipeda","unCountry":"LT","unLocode":"LTKLJ","unLocation":"KLJ","timezone":"UTC"},{"id":293,"name":"Riga","unCountry":"LV","unLocode":"LVRIX","unLocation":"RIX","timezone":"UTC"},{"id":294,"name":"Casablanca","unCountry":"MA","unLocode":"MACAS","unLocation":"CAS","timezone":"UTC"},{"id":295,"name":"Tanger Med","unCountry":"MA","unLocode":"MAPTM","unLocation":"PTM","timezone":"UTC"},{"id":296,"name":"Tangier","unCountry":"MA","unLocode":"MATNG","unLocation":"TNG","timezone":"UTC"},{"id":297,"name":"Yangon","unCountry":"MM","unLocode":"MMRGN","unLocation":"RGN","timezone":"UTC"},{"id":298,"name":"Nouakchott","unCountry":"MR","unLocode":"MRNKC","unLocation":"NKC","timezone":"UTC"},{"id":299,"name":"Marsaxlokk","unCountry":"MT","unLocode":"MTMAR","unLocation":"MAR","timezone":"UTC"},{"id":300,"name":"Altamira","unCountry":"MX","unLocode":"MXATM","unLocation":"ATM","timezone":"UTC"},{"id":301,"name":"Ensenada","unCountry":"MX","unLocode":"MXESE","unLocation":"ESE","timezone":"UTC"},{"id":302,"name":"Lazaro Cardenas","unCountry":"MX","unLocode":"MXLZC","unLocation":"LZC","timezone":"UTC"},{"id":303,"name":"Mazatlan","unCountry":"MX","unLocode":"MXMZT","unLocation":"MZT","timezone":"UTC"},{"id":304,"name":"Progreso","unCountry":"MX","unLocode":"MXPGO","unLocation":"PGO","timezone":"UTC"},{"id":305,"name":"Tapachula","unCountry":"MX","unLocode":"MXTAP","unLocation":"TAP","timezone":"UTC"},{"id":306,"name":"Tuxpan","unCountry":"MX","unLocode":"MXTUX","unLocation":"TUX","timezone":"UTC"},{"id":307,"name":"Veracruz","unCountry":"MX","unLocode":"MXVER","unLocation":"VER","timezone":"UTC"},{"id":308,"name":"Manzanillo","unCountry":"MX","unLocode":"MXZLO","unLocation":"ZLO","timezone":"UTC"},{"id":309,"name":"Penang (Georgetown)","unCountry":"MY","unLocode":"MYPEN","unLocation":"PEN","timezone":"UTC"},{"id":310,"name":"Pasir Gudang, Johor","unCountry":"MY","unLocode":"MYPGU","unLocation":"PGU","timezone":"UTC"},{"id":311,"name":"Port Klang (Pelabuhan Klang)","unCountry":"MY","unLocode":"MYPKG","unLocation":"PKG","timezone":"UTC"},{"id":312,"name":"Tanjung Pelepas","unCountry":"MY","unLocode":"MYTPP","unLocation":"TPP","timezone":"UTC"},{"id":313,"name":"Maputo","unCountry":"MZ","unLocode":"MZMPM","unLocation":"MPM","timezone":"UTC"},{"id":314,"name":"Walvis Bay","unCountry":"NA","unLocode":"NAWVB","unLocation":"WVB","timezone":"UTC"},{"id":315,"name":"Apapa","unCountry":"NG","unLocode":"NGAPP","unLocation":"APP","timezone":"UTC"},{"id":316,"name":"Port Harcourt","unCountry":"NG","unLocode":"NGPHC","unLocation":"PHC","timezone":"UTC"},{"id":317,"name":"Tincan/Lagos","unCountry":"NG","unLocode":"NGTIN","unLocation":"TIN","timezone":"UTC"},{"id":318,"name":"Corinto","unCountry":"NI","unLocode":"NICIO","unLocation":"CIO","timezone":"UTC"},{"id":319,"name":"Amsterdam","unCountry":"NL","unLocode":"NLAMS","unLocation":"AMS","timezone":"UTC"},{"id":320,"name":"Vlissingen","unCountry":"NL","unLocode":"NLVLI","unLocation":"VLI","timezone":"UTC"},{"id":321,"name":"Alesund","unCountry":"NO","unLocode":"NOAES","unLocation":"AES","timezone":"UTC"},{"id":322,"name":"Bergen","unCountry":"NO","unLocode":"NOBGO","unLocation":"BGO","timezone":"UTC"},{"id":323,"name":"Fredrikstad","unCountry":"NO","unLocode":"NOFRK","unLocation":"FRK","timezone":"UTC"},{"id":324,"name":"Halden","unCountry":"NO","unLocode":"NOHAL","unLocation":"HAL","timezone":"UTC"},{"id":325,"name":"Larvik","unCountry":"NO","unLocode":"NOLAR","unLocation":"LAR","timezone":"UTC"},{"id":326,"name":"Moss","unCountry":"NO","unLocode":"NOMSS","unLocation":"MSS","timezone":"UTC"},{"id":327,"name":"Oslo","unCountry":"NO","unLocode":"NOOSL","unLocation":"OSL","timezone":"UTC"},{"id":328,"name":"Skjerkoya","unCountry":"NO","unLocode":"NOSKI","unLocation":"SKI","timezone":"UTC"},{"id":329,"name":"Tananger","unCountry":"NO","unLocode":"NOTAE","unLocation":"TAE","timezone":"UTC"},{"id":330,"name":"Auckland","unCountry":"NZ","unLocode":"NZAKL","unLocation":"AKL","timezone":"UTC"},{"id":331,"name":"Lyttelton","unCountry":"NZ","unLocode":"NZLYT","unLocation":"LYT","timezone":"UTC"},{"id":332,"name":"Napier","unCountry":"NZ","unLocode":"NZNPE","unLocation":"NPE","timezone":"UTC"},{"id":333,"name":"New Plymouth","unCountry":"NZ","unLocode":"NZNPL","unLocation":"NPL","timezone":"UTC"},{"id":334,"name":"Nelson","unCountry":"NZ","unLocode":"NZNSN","unLocation":"NSN","timezone":"UTC"},{"id":335,"name":"Port Chalmers","unCountry":"NZ","unLocode":"NZPOE","unLocation":"POE","timezone":"UTC"},{"id":336,"name":"Timaru","unCountry":"NZ","unLocode":"NZTIU","unLocation":"TIU","timezone":"UTC"},{"id":337,"name":"Tauranga","unCountry":"NZ","unLocode":"NZTRG","unLocation":"TRG","timezone":"UTC"},{"id":338,"name":"Wellington","unCountry":"NZ","unLocode":"NZWLG","unLocation":"WLG","timezone":"UTC"},{"id":339,"name":"Salalah","unCountry":"OM","unLocode":"OMSLL","unLocation":"SLL","timezone":"UTC"},{"id":340,"name":"Sohar","unCountry":"OM","unLocode":"OMSOH","unLocation":"SOH","timezone":"UTC"},{"id":341,"name":"Balboa","unCountry":"PA","unLocode":"PABLB","unLocation":"BLB","timezone":"UTC"},{"id":342,"name":"Cristobal","unCountry":"PA","unLocode":"PACTB","unLocation":"CTB","timezone":"UTC"},{"id":343,"name":"Manzanillo","unCountry":"PA","unLocode":"PAMIT","unLocation":"MIT","timezone":"UTC"},{"id":344,"name":"Colon","unCountry":"PA","unLocode":"PAONX","unLocation":"ONX","timezone":"UTC"},{"id":345,"name":"Rodman","unCountry":"PA","unLocode":"PAROD","unLocation":"ROD","timezone":"UTC"},{"id":346,"name":"Callao","unCountry":"PE","unLocode":"PECLL","unLocation":"CLL","timezone":"UTC"},{"id":347,"name":"Paita","unCountry":"PE","unLocode":"PEPAI","unLocation":"PAI","timezone":"UTC"},{"id":348,"name":"Papeete","unCountry":"PF","unLocode":"PFPPT","unLocation":"PPT","timezone":"UTC"},{"id":349,"name":"Cebu","unCountry":"PH","unLocode":"PHCEB","unLocation":"CEB","timezone":"UTC"},{"id":350,"name":"Manila","unCountry":"PH","unLocode":"PHMNL","unLocation":"MNL","timezone":"UTC"},{"id":351,"name":"Muhammad Bin Qasim/Karachi","unCountry":"PK","unLocode":"PKBQM","unLocation":"BQM","timezone":"UTC"},{"id":352,"name":"Karachi","unCountry":"PK","unLocode":"PKKHI","unLocation":"KHI","timezone":"UTC"},{"id":353,"name":"Gdansk","unCountry":"PL","unLocode":"PLGDN","unLocation":"GDN","timezone":"UTC"},{"id":354,"name":"Gdynia","unCountry":"PL","unLocode":"PLGDY","unLocation":"GDY","timezone":"UTC"},{"id":355,"name":"Szczecin","unCountry":"PL","unLocode":"PLSZZ","unLocation":"SZZ","timezone":"UTC"},{"id":356,"name":"San Juan","unCountry":"PR","unLocode":"PRSJU","unLocation":"SJU","timezone":"UTC"},{"id":357,"name":"Canical","unCountry":"PT","unLocode":"PTCNL","unLocation":"CNL","timezone":"UTC"},{"id":358,"name":"Figueira da Foz","unCountry":"PT","unLocode":"PTFDF","unLocation":"FDF","timezone":"UTC"},{"id":359,"name":"Funchal, Madeira","unCountry":"PT","unLocode":"PTFNC","unLocation":"FNC","timezone":"UTC"},{"id":360,"name":"Leixoes","unCountry":"PT","unLocode":"PTLEI","unLocation":"LEI","timezone":"UTC"},{"id":361,"name":"Lisboa","unCountry":"PT","unLocode":"PTLIS","unLocation":"LIS","timezone":"UTC"},{"id":362,"name":"Porto Santo Island","unCountry":"PT","unLocode":"PTPXO","unLocation":"PXO","timezone":"UTC"},{"id":363,"name":"Setubal","unCountry":"PT","unLocode":"PTSET","unLocation":"SET","timezone":"UTC"},{"id":364,"name":"Sines","unCountry":"PT","unLocode":"PTSIE","unLocation":"SIE","timezone":"UTC"},{"id":365,"name":"Asuncion","unCountry":"PY","unLocode":"PYASU","unLocation":"ASU","timezone":"UTC"},{"id":366,"name":"Pilar","unCountry":"PY","unLocode":"PYPIL","unLocation":"PIL","timezone":"UTC"},{"id":367,"name":"San Antonio","unCountry":"PY","unLocode":"PYSAN","unLocation":"SAN","timezone":"UTC"},{"id":368,"name":"Villeta","unCountry":"PY","unLocode":"PYVLL","unLocation":"VLL","timezone":"UTC"},{"id":369,"name":"Doha","unCountry":"QA","unLocode":"QADOH","unLocation":"DOH","timezone":"UTC"},{"id":370,"name":"BGN/PCGN1956 - HAMAD","unCountry":"QA","unLocode":"QAHMD","unLocation":"HMD","timezone":"UTC"},{"id":371,"name":"Le Port","unCountry":"RE","unLocode":"RELPT","unLocation":"LPT","timezone":"UTC"},{"id":372,"name":"Constanta","unCountry":"RO","unLocode":"ROCND","unLocation":"CND","timezone":"UTC"},{"id":373,"name":"Saint Petersburg (ex Leningrad)","unCountry":"RU","unLocode":"RULED","unLocation":"LED","timezone":"UTC"},{"id":374,"name":"Novorossiysk","unCountry":"RU","unLocode":"RUNVS","unLocation":"NVS","timezone":"UTC"},{"id":375,"name":"Ust-Luga","unCountry":"RU","unLocode":"RUULU","unLocation":"ULU","timezone":"UTC"},{"id":376,"name":"Vladivostok","unCountry":"RU","unLocode":"RUVVO","unLocation":"VVO","timezone":"UTC"},{"id":377,"name":"Vostochnyy Port","unCountry":"RU","unLocode":"RUVYP","unLocation":"VYP","timezone":"UTC"},{"id":378,"name":"Ad Dammam","unCountry":"SA","unLocode":"SADMM","unLocation":"DMM","timezone":"UTC"},{"id":379,"name":"Jeddah","unCountry":"SA","unLocode":"SAJED","unLocation":"JED","timezone":"UTC"},{"id":380,"name":"Jubail","unCountry":"SA","unLocode":"SAJUB","unLocation":"JUB","timezone":"UTC"},{"id":381,"name":"King Abdullah City","unCountry":"SA","unLocode":"SAKAC","unLocation":"KAC","timezone":"UTC"},{"id":382,"name":"Port Sudan","unCountry":"SD","unLocode":"SDPZU","unLocation":"PZU","timezone":"UTC"},{"id":383,"name":"Ahus","unCountry":"SE","unLocode":"SEAHU","unLocation":"AHU","timezone":"UTC"},{"id":384,"name":"Goteborg","unCountry":"SE","unLocode":"SEGOT","unLocation":"GOT","timezone":"UTC"},{"id":385,"name":"Gavle","unCountry":"SE","unLocode":"SEGVX","unLocation":"GVX","timezone":"UTC"},{"id":386,"name":"Halmstad","unCountry":"SE","unLocode":"SEHAD","unLocation":"HAD","timezone":"UTC"},{"id":387,"name":"Helsingborg","unCountry":"SE","unLocode":"SEHEL","unLocation":"HEL","timezone":"UTC"},{"id":388,"name":"Kapellskar","unCountry":"SE","unLocode":"SEKPS","unLocation":"KPS","timezone":"UTC"},{"id":389,"name":"Malmo","unCountry":"SE","unLocode":"SEMMA","unLocation":"MMA","timezone":"UTC"},{"id":390,"name":"Norrkoping","unCountry":"SE","unLocode":"SENRK","unLocation":"NRK","timezone":"UTC"},{"id":391,"name":"Nynashamn","unCountry":"SE","unLocode":"SENYN","unLocation":"NYN","timezone":"UTC"},{"id":392,"name":"Stockholm","unCountry":"SE","unLocode":"SESTO","unLocation":"STO","timezone":"UTC"},{"id":393,"name":"Vasteras","unCountry":"SE","unLocode":"SEVST","unLocation":"VST","timezone":"UTC"},{"id":394,"name":"Koper","unCountry":"SI","unLocode":"SIKOP","unLocation":"KOP","timezone":"UTC"},{"id":395,"name":"Dakar","unCountry":"SN","unLocode":"SNDKR","unLocation":"DKR","timezone":"UTC"},{"id":396,"name":"Paramaribo","unCountry":"SR","unLocode":"SRPBM","unLocation":"PBM","timezone":"UTC"},{"id":397,"name":"Acajutla","unCountry":"SV","unLocode":"SVAQJ","unLocation":"AQJ","timezone":"UTC"},{"id":398,"name":"La Union","unCountry":"SV","unLocode":"SVLUN","unLocation":"LUN","timezone":"UTC"},{"id":399,"name":"Latakia","unCountry":"SY","unLocode":"SYLTK","unLocation":"LTK","timezone":"UTC"},{"id":400,"name":"Tartus","unCountry":"SY","unLocode":"SYTTS","unLocation":"TTS","timezone":"UTC"},{"id":401,"name":"Bangkok","unCountry":"TH","unLocode":"THBKK","unLocation":"BKK","timezone":"UTC"},{"id":402,"name":"Laem Chabang","unCountry":"TH","unLocode":"THLCH","unLocation":"LCH","timezone":"UTC"},{"id":403,"name":"Sahathai Coastal Seaport","unCountry":"TH","unLocode":"THSCS","unLocation":"SCS","timezone":"UTC"},{"id":404,"name":"Tunis","unCountry":"TN","unLocode":"TNTUN","unLocation":"TUN","timezone":"UTC"},{"id":405,"name":"Aliaga","unCountry":"TR","unLocode":"TRALI","unLocation":"ALI","timezone":"UTC"},{"id":406,"name":"Gebze","unCountry":"TR","unLocode":"TRGEB","unLocation":"GEB","timezone":"UTC"},{"id":407,"name":"Gemlik","unCountry":"TR","unLocode":"TRGEM","unLocation":"GEM","timezone":"UTC"},{"id":408,"name":"Iskenderun","unCountry":"TR","unLocode":"TRISK","unLocation":"ISK","timezone":"UTC"},{"id":409,"name":"Istanbul","unCountry":"TR","unLocode":"TRIST","unLocation":"IST","timezone":"UTC"},{"id":410,"name":"Ä°zmir","unCountry":"TR","unLocode":"TRIZM","unLocation":"IZM","timezone":"UTC"},{"id":411,"name":"Izmit","unCountry":"TR","unLocode":"TRIZT","unLocation":"IZT","timezone":"UTC"},{"id":412,"name":"Port of Karasu","unCountry":"TR","unLocode":"TRKSP","unLocation":"KSP","timezone":"UTC"},{"id":413,"name":"Mersin","unCountry":"TR","unLocode":"TRMER","unLocation":"MER","timezone":"UTC"},{"id":414,"name":"Yarimca","unCountry":"TR","unLocode":"TRYAR","unLocation":"YAR","timezone":"UTC"},{"id":415,"name":"Port-of-Spain","unCountry":"TT","unLocode":"TTPOS","unLocation":"POS","timezone":"UTC"},{"id":416,"name":"Point Lisas","unCountry":"TT","unLocode":"TTPTS","unLocation":"PTS","timezone":"UTC"},{"id":417,"name":"Keelung (Chilung)","unCountry":"TW","unLocode":"TWKEL","unLocation":"KEL","timezone":"UTC"},{"id":418,"name":"Kaohsiung","unCountry":"TW","unLocode":"TWKHH","unLocation":"KHH","timezone":"UTC"},{"id":419,"name":"Dar es Salaam","unCountry":"TZ","unLocode":"TZDAR","unLocation":"DAR","timezone":"UTC"},{"id":420,"name":"Odesa","unCountry":"UA","unLocode":"UAODS","unLocation":"ODS","timezone":"UTC"},{"id":421,"name":"Pivdennyi","unCountry":"UA","unLocode":"UAYUZ","unLocation":"YUZ","timezone":"UTC"},{"id":422,"name":"Baltimore","unCountry":"US","unLocode":"USBAL","unLocation":"BAL","timezone":"UTC"},{"id":423,"name":"Charleston","unCountry":"US","unLocode":"USCHS","unLocation":"CHS","timezone":"UTC"},{"id":424,"name":"Honolulu","unCountry":"US","unLocode":"USHNL","unLocation":"HNL","timezone":"UTC"},{"id":425,"name":"Houston","unCountry":"US","unLocode":"USHOU","unLocation":"HOU","timezone":"UTC"},{"id":426,"name":"Wilmington","unCountry":"US","unLocode":"USILM","unLocation":"ILM","timezone":"UTC"},{"id":427,"name":"Jacksonville","unCountry":"US","unLocode":"USJAX","unLocation":"JAX","timezone":"UTC"},{"id":428,"name":"Los Angeles","unCountry":"US","unLocode":"USLAX","unLocation":"LAX","timezone":"UTC"},{"id":429,"name":"Long Beach","unCountry":"US","unLocode":"USLGB","unLocation":"LGB","timezone":"UTC"},{"id":430,"name":"Miami","unCountry":"US","unLocode":"USMIA","unLocation":"MIA","timezone":"UTC"},{"id":431,"name":"Mobile","unCountry":"US","unLocode":"USMOB","unLocation":"MOB","timezone":"UTC"},{"id":432,"name":"New Orleans","unCountry":"US","unLocode":"USMSY","unLocation":"MSY","timezone":"UTC"},{"id":433,"name":"Port Hueneme","unCountry":"US","unLocode":"USNTD","unLocation":"NTD","timezone":"UTC"},{"id":434,"name":"New York","unCountry":"US","unLocode":"USNYC","unLocation":"NYC","timezone":"UTC"},{"id":435,"name":"Oakland","unCountry":"US","unLocode":"USOAK","unLocation":"OAK","timezone":"UTC"},{"id":436,"name":"Norfolk","unCountry":"US","unLocode":"USORF","unLocation":"ORF","timezone":"UTC"},{"id":437,"name":"Portland","unCountry":"US","unLocode":"USPDX","unLocation":"PDX","timezone":"UTC"},{"id":438,"name":"Port Everglades","unCountry":"US","unLocode":"USPEF","unLocation":"PEF","timezone":"UTC"},{"id":439,"name":"Philadelphia","unCountry":"US","unLocode":"USPHL","unLocation":"PHL","timezone":"UTC"},{"id":440,"name":"Portsmouth","unCountry":"US","unLocode":"USPTM","unLocation":"PTM","timezone":"UTC"},{"id":441,"name":"Savannah","unCountry":"US","unLocode":"USSAV","unLocation":"SAV","timezone":"UTC"},{"id":442,"name":"Seattle","unCountry":"US","unLocode":"USSEA","unLocation":"SEA","timezone":"UTC"},{"id":443,"name":"Tacoma","unCountry":"US","unLocode":"USTIW","unLocation":"TIW","timezone":"UTC"},{"id":444,"name":"Montevideo","unCountry":"UY","unLocode":"UYMVD","unLocation":"MVD","timezone":"UTC"},{"id":445,"name":"Punta Pereyra","unCountry":"UY","unLocode":"UYPTP","unLocation":"PTP","timezone":"UTC"},{"id":446,"name":"Guanta","unCountry":"VE","unLocode":"VEGUT","unLocation":"GUT","timezone":"UTC"},{"id":447,"name":"La Guaira","unCountry":"VE","unLocode":"VELAG","unLocation":"LAG","timezone":"UTC"},{"id":448,"name":"Puerto Cabello","unCountry":"VE","unLocode":"VEPBL","unLocation":"PBL","timezone":"UTC"},{"id":449,"name":"Haiphong","unCountry":"VN","unLocode":"VNHPH","unLocation":"HPH","timezone":"UTC"},{"id":450,"name":"Ninh Hoa","unCountry":"VN","unLocode":"VNNIH","unLocation":"NIH","timezone":"UTC"},{"id":451,"name":"Ho Chi Minh City","unCountry":"VN","unLocode":"VNSGN","unLocation":"SGN","timezone":"UTC"},{"id":452,"name":"Vung Tau","unCountry":"VN","unLocode":"VNVUT","unLocation":"VUT","timezone":"UTC"},{"id":453,"name":"Apia","unCountry":"WS","unLocode":"WSAPW","unLocation":"APW","timezone":"UTC"},{"id":454,"name":"Cape Town","unCountry":"ZA","unLocode":"ZACPT","unLocation":"CPT","timezone":"UTC"},{"id":455,"name":"Durban","unCountry":"ZA","unLocode":"ZADUR","unLocation":"DUR","timezone":"UTC"},{"id":456,"name":"Port of Ngqura","unCountry":"ZA","unLocode":"ZANGQ","unLocation":"NGQ","timezone":"UTC"},{"id":457,"name":"Port Elizabeth","unCountry":"ZA","unLocode":"ZAPLZ","unLocation":"PLZ","timezone":"UTC"}]
+[
+  {
+    "id": 1,
+    "name": "Hamburg",
+    "unCountry": "DE",
+    "unLocode": "DEHAM",
+    "unLocation": "HAM",
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "id": 2,
+    "name": "Antwerpen",
+    "unCountry": "BE",
+    "unLocode": "BEANR",
+    "unLocation": "ANR",
+    "timezone": "Europe/Brussels"
+  },
+  {
+    "id": 3,
+    "name": "Rotterdam",
+    "unCountry": "NL",
+    "unLocode": "NLRTM",
+    "unLocation": "RTM",
+    "timezone": "Europe/Amsterdam"
+  },
+  {
+    "id": 4,
+    "name": "Valencia",
+    "unCountry": "ES",
+    "unLocode": "ESVLC",
+    "unLocation": "VLC",
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "id": 5,
+    "name": "Algeciras",
+    "unCountry": "ES",
+    "unLocode": "ESALG",
+    "unLocation": "ALG",
+    "timezone": "Europe/Madrid"
+  },
+  {
+    "id": 6,
+    "name": "Singapore",
+    "unCountry": "SG",
+    "unLocode": "SGSIN",
+    "unLocation": "SIN",
+    "timezone": "Asia/Singapore"
+  },
+  {
+    "id": 7,
+    "name": "Hong Kong",
+    "unCountry": "HK",
+    "unLocode": "HKHKG",
+    "unLocation": "HKG",
+    "timezone": "Asia/Hong_Kong"
+  },
+  {
+    "id": 8,
+    "name": "Yokohama",
+    "unCountry": "JP",
+    "unLocode": "JPYOK",
+    "unLocation": "YOK",
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "id": 9,
+    "name": "Bremerhaven",
+    "unCountry": "DE",
+    "unLocode": "DEBRV",
+    "unLocation": "BRV",
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "id": 10,
+    "name": "Shanghai",
+    "unCountry": "CN",
+    "unLocode": "CNSGH",
+    "unLocation": "SGH",
+    "timezone": "Asia/Shanghai"
+  },
+  {
+    "id": 11,
+    "name": "Tokyo",
+    "unCountry": "JP",
+    "unLocode": "JPTYO",
+    "unLocation": "TYO",
+    "timezone": "Asia/Tokyo"
+  },
+  {
+    "id": 12,
+    "name": "Abu Dhabi",
+    "unCountry": "AE",
+    "unLocode": "AEAUH",
+    "unLocation": "AUH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 13,
+    "name": "Jebel Ali",
+    "unCountry": "AE",
+    "unLocode": "AEJEA",
+    "unLocation": "JEA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 14,
+    "name": "Mina Khalifa/Abu Dhabi",
+    "unCountry": "AE",
+    "unLocode": "AEKHL",
+    "unLocation": "KHL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 15,
+    "name": "Khor al Fakkan",
+    "unCountry": "AE",
+    "unLocode": "AEKLF",
+    "unLocation": "KLF",
+    "timezone": "UTC"
+  },
+  {
+    "id": 16,
+    "name": "Sharjah",
+    "unCountry": "AE",
+    "unLocode": "AESHJ",
+    "unLocation": "SHJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 17,
+    "name": "Luanda",
+    "unCountry": "AO",
+    "unLocode": "AOLAD",
+    "unLocation": "LAD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 18,
+    "name": "Bahia Blanca",
+    "unCountry": "AR",
+    "unLocode": "ARBHI",
+    "unLocation": "BHI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 19,
+    "name": "Buenos Aires",
+    "unCountry": "AR",
+    "unLocode": "ARBUE",
+    "unLocation": "BUE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 20,
+    "name": "Las Palmas",
+    "unCountry": "AR",
+    "unLocode": "ARLPS",
+    "unLocation": "LPS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 21,
+    "name": "Mar del Plata",
+    "unCountry": "AR",
+    "unLocode": "ARMDQ",
+    "unLocation": "MDQ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 22,
+    "name": "Puerto Madryn",
+    "unCountry": "AR",
+    "unLocode": "ARPMY",
+    "unLocation": "PMY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 23,
+    "name": "Puerto Deseado",
+    "unCountry": "AR",
+    "unLocode": "ARPUD",
+    "unLocation": "PUD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 24,
+    "name": "Rosario",
+    "unCountry": "AR",
+    "unLocode": "ARROS",
+    "unLocation": "ROS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 25,
+    "name": "San Antonio Este",
+    "unCountry": "AR",
+    "unLocode": "ARSAE",
+    "unLocation": "SAE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 26,
+    "name": "Ushuaia",
+    "unCountry": "AR",
+    "unLocode": "ARUSH",
+    "unLocation": "USH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 27,
+    "name": "Zarate",
+    "unCountry": "AR",
+    "unLocode": "ARZAE",
+    "unLocation": "ZAE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 28,
+    "name": "Pago Pago",
+    "unCountry": "AS",
+    "unLocode": "ASPPG",
+    "unLocation": "PPG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 29,
+    "name": "Adelaide",
+    "unCountry": "AU",
+    "unLocode": "AUADL",
+    "unLocation": "ADL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 30,
+    "name": "Bell Bay",
+    "unCountry": "AU",
+    "unLocode": "AUBEL",
+    "unLocation": "BEL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 31,
+    "name": "Brisbane",
+    "unCountry": "AU",
+    "unLocode": "AUBNE",
+    "unLocation": "BNE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 32,
+    "name": "Burnie",
+    "unCountry": "AU",
+    "unLocode": "AUBWT",
+    "unLocation": "BWT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 33,
+    "name": "Darwin",
+    "unCountry": "AU",
+    "unLocode": "AUDRW",
+    "unLocation": "DRW",
+    "timezone": "UTC"
+  },
+  {
+    "id": 34,
+    "name": "Fremantle",
+    "unCountry": "AU",
+    "unLocode": "AUFRE",
+    "unLocation": "FRE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 35,
+    "name": "Geelong",
+    "unCountry": "AU",
+    "unLocode": "AUGEX",
+    "unLocation": "GEX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 36,
+    "name": "Gladstone",
+    "unCountry": "AU",
+    "unLocode": "AUGLT",
+    "unLocation": "GLT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 37,
+    "name": "Hamilton",
+    "unCountry": "AU",
+    "unLocode": "AUHLT",
+    "unLocation": "HLT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 38,
+    "name": "Melbourne",
+    "unCountry": "AU",
+    "unLocode": "AUMEL",
+    "unLocation": "MEL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 39,
+    "name": "Port Kembla",
+    "unCountry": "AU",
+    "unLocode": "AUPKL",
+    "unLocation": "PKL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 40,
+    "name": "Sydney",
+    "unCountry": "AU",
+    "unLocode": "AUSYD",
+    "unLocation": "SYD",
+    "timezone": "Australia/Sydney"
+  },
+  {
+    "id": 41,
+    "name": "Oranjestad",
+    "unCountry": "AW",
+    "unLocode": "AWORJ",
+    "unLocation": "ORJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 42,
+    "name": "Chattogram",
+    "unCountry": "BD",
+    "unLocode": "BDCGP",
+    "unLocation": "CGP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 43,
+    "name": "Munshiganj",
+    "unCountry": "BD",
+    "unLocode": "BDMUN",
+    "unLocation": "MUN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 44,
+    "name": "Zeebrugge",
+    "unCountry": "BE",
+    "unLocode": "BEZEE",
+    "unLocation": "ZEE",
+    "timezone": "Europe/Brussels"
+  },
+  {
+    "id": 45,
+    "name": "Bahrain International Airport",
+    "unCountry": "BH",
+    "unLocode": "BHBAH",
+    "unLocation": "BAH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 46,
+    "name": "Cotonou",
+    "unCountry": "BJ",
+    "unLocode": "BJCOO",
+    "unLocation": "COO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 47,
+    "name": "Fortaleza",
+    "unCountry": "BR",
+    "unLocode": "BRFOR",
+    "unLocation": "FOR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 48,
+    "name": "Imbituba",
+    "unCountry": "BR",
+    "unLocode": "BRIBB",
+    "unLocation": "IBB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 49,
+    "name": "Itapoa",
+    "unCountry": "BR",
+    "unLocode": "BRIOA",
+    "unLocation": "IOA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 50,
+    "name": "Itajai",
+    "unCountry": "BR",
+    "unLocode": "BRITJ",
+    "unLocation": "ITJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 51,
+    "name": "Manaus",
+    "unCountry": "BR",
+    "unLocode": "BRMAO",
+    "unLocation": "MAO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 52,
+    "name": "Navegantes",
+    "unCountry": "BR",
+    "unLocode": "BRNVT",
+    "unLocation": "NVT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 53,
+    "name": "Pecem Pt/Sao Goncalo do Amarante",
+    "unCountry": "BR",
+    "unLocode": "BRPEC",
+    "unLocation": "PEC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 54,
+    "name": "Paranagua",
+    "unCountry": "BR",
+    "unLocode": "BRPNG",
+    "unLocation": "PNG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 55,
+    "name": "Rio Grande",
+    "unCountry": "BR",
+    "unLocode": "BRRIG",
+    "unLocation": "RIG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 56,
+    "name": "Rio de Janeiro",
+    "unCountry": "BR",
+    "unLocode": "BRRIO",
+    "unLocation": "RIO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 57,
+    "name": "Sao Francisco do Sul",
+    "unCountry": "BR",
+    "unLocode": "BRSFS",
+    "unLocation": "SFS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 58,
+    "name": "Sao Luis",
+    "unCountry": "BR",
+    "unLocode": "BRSLZ",
+    "unLocation": "SLZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 59,
+    "name": "Itaguai Pt = Sepetiba Pt",
+    "unCountry": "BR",
+    "unLocode": "BRSPB",
+    "unLocation": "SPB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 60,
+    "name": "Salvador",
+    "unCountry": "BR",
+    "unLocode": "BRSSA",
+    "unLocation": "SSA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 61,
+    "name": "Santos",
+    "unCountry": "BR",
+    "unLocode": "BRSSZ",
+    "unLocation": "SSZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 62,
+    "name": "Suape",
+    "unCountry": "BR",
+    "unLocode": "BRSUA",
+    "unLocation": "SUA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 63,
+    "name": "Vila do Conde Pt/Barcarena",
+    "unCountry": "BR",
+    "unLocode": "BRVDC",
+    "unLocation": "VDC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 64,
+    "name": "Vitoria Pt",
+    "unCountry": "BR",
+    "unLocode": "BRVIX",
+    "unLocation": "VIX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 65,
+    "name": "Halifax",
+    "unCountry": "CA",
+    "unLocode": "CAHAL",
+    "unLocation": "HAL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 66,
+    "name": "Montreal",
+    "unCountry": "CA",
+    "unLocode": "CAMTR",
+    "unLocation": "MTR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 67,
+    "name": "Prince Rupert",
+    "unCountry": "CA",
+    "unLocode": "CAPRR",
+    "unLocation": "PRR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 68,
+    "name": "Vancouver",
+    "unCountry": "CA",
+    "unLocode": "CAVAN",
+    "unLocation": "VAN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 69,
+    "name": "Pointe Noire",
+    "unCountry": "CG",
+    "unLocode": "CGPNR",
+    "unLocation": "PNR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 70,
+    "name": "Abidjan",
+    "unCountry": "CI",
+    "unLocode": "CIABJ",
+    "unLocation": "ABJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 71,
+    "name": "Antofagasta",
+    "unCountry": "CL",
+    "unLocode": "CLANF",
+    "unLocation": "ANF",
+    "timezone": "UTC"
+  },
+  {
+    "id": 72,
+    "name": "Arica",
+    "unCountry": "CL",
+    "unLocode": "CLARI",
+    "unLocation": "ARI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 73,
+    "name": "Coronel",
+    "unCountry": "CL",
+    "unLocode": "CLCNL",
+    "unLocation": "CNL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 74,
+    "name": "Iquique",
+    "unCountry": "CL",
+    "unLocode": "CLIQQ",
+    "unLocation": "IQQ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 75,
+    "name": "Lirquen",
+    "unCountry": "CL",
+    "unLocode": "CLLQN",
+    "unLocation": "LQN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 76,
+    "name": "Puerto Angamos",
+    "unCountry": "CL",
+    "unLocode": "CLPAG",
+    "unLocation": "PAG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 77,
+    "name": "Punta Arenas",
+    "unCountry": "CL",
+    "unLocode": "CLPUQ",
+    "unLocation": "PUQ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 78,
+    "name": "San Antonio",
+    "unCountry": "CL",
+    "unLocode": "CLSAI",
+    "unLocation": "SAI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 79,
+    "name": "San Vicente",
+    "unCountry": "CL",
+    "unLocode": "CLSVE",
+    "unLocation": "SVE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 80,
+    "name": "Valparaiso",
+    "unCountry": "CL",
+    "unLocode": "CLVAP",
+    "unLocation": "VAP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 81,
+    "name": "Chongqing",
+    "unCountry": "CN",
+    "unLocode": "CNCQI",
+    "unLocation": "CQI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 82,
+    "name": "Chiwan Pt",
+    "unCountry": "CN",
+    "unLocode": "CNCWN",
+    "unLocation": "CWN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 83,
+    "name": "Dalian",
+    "unCountry": "CN",
+    "unLocode": "CNDAL",
+    "unLocation": "DAL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 84,
+    "name": "DA CHAN BAY",
+    "unCountry": "CN",
+    "unLocode": "CNDCB",
+    "unLocation": "DCB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 85,
+    "name": "Fuzhou",
+    "unCountry": "CN",
+    "unLocode": "CNFZH",
+    "unLocation": "FZH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 86,
+    "name": "Lianyungang",
+    "unCountry": "CN",
+    "unLocode": "CNLYG",
+    "unLocation": "LYG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 87,
+    "name": "Ningbo",
+    "unCountry": "CN",
+    "unLocode": "CNNBO",
+    "unLocation": "NBO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 88,
+    "name": "Nanjing",
+    "unCountry": "CN",
+    "unLocode": "CNNJI",
+    "unLocation": "NJI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 89,
+    "name": "Nansha Pt",
+    "unCountry": "CN",
+    "unLocode": "CNNSA",
+    "unLocation": "NSA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 90,
+    "name": "Qingdao",
+    "unCountry": "CN",
+    "unLocode": "CNQIN",
+    "unLocation": "QIN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 91,
+    "name": "Rizhao Pt",
+    "unCountry": "CN",
+    "unLocode": "CNRZH",
+    "unLocation": "RZH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 92,
+    "name": "Shekou Pt",
+    "unCountry": "CN",
+    "unLocode": "CNSHK",
+    "unLocation": "SHK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 93,
+    "name": "Shantou Pt",
+    "unCountry": "CN",
+    "unLocode": "CNSTG",
+    "unLocation": "STG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 94,
+    "name": "Taicang Pt",
+    "unCountry": "CN",
+    "unLocode": "CNTAC",
+    "unLocation": "TAC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 95,
+    "name": "Tianjin",
+    "unCountry": "CN",
+    "unLocode": "CNTNJ",
+    "unLocation": "TNJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 96,
+    "name": "Weihai",
+    "unCountry": "CN",
+    "unLocode": "CNWEI",
+    "unLocation": "WEI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 97,
+    "name": "Xiamen",
+    "unCountry": "CN",
+    "unLocode": "CNXAM",
+    "unLocation": "XAM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 98,
+    "name": "Yantai",
+    "unCountry": "CN",
+    "unLocode": "CNYAT",
+    "unLocation": "YAT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 99,
+    "name": "Yingkou Pt",
+    "unCountry": "CN",
+    "unLocode": "CNYIK",
+    "unLocation": "YIK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 100,
+    "name": "Yantian Pt",
+    "unCountry": "CN",
+    "unLocode": "CNYTN",
+    "unLocation": "YTN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 101,
+    "name": "Barranquilla",
+    "unCountry": "CO",
+    "unLocode": "COBAQ",
+    "unLocation": "BAQ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 102,
+    "name": "Buenaventura",
+    "unCountry": "CO",
+    "unLocode": "COBUN",
+    "unLocation": "BUN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 103,
+    "name": "Cartagena",
+    "unCountry": "CO",
+    "unLocode": "COCTG",
+    "unLocation": "CTG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 104,
+    "name": "Santa Marta",
+    "unCountry": "CO",
+    "unLocode": "COSMR",
+    "unLocation": "SMR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 105,
+    "name": "Turbo",
+    "unCountry": "CO",
+    "unLocode": "COTRB",
+    "unLocation": "TRB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 106,
+    "name": "Caldera",
+    "unCountry": "CR",
+    "unLocode": "CRCAL",
+    "unLocation": "CAL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 107,
+    "name": "Puerto Limon",
+    "unCountry": "CR",
+    "unLocode": "CRLIO",
+    "unLocation": "LIO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 108,
+    "name": "Moin",
+    "unCountry": "CR",
+    "unLocode": "CRMOB",
+    "unLocation": "MOB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 109,
+    "name": "La Habana",
+    "unCountry": "CU",
+    "unLocode": "CUHAV",
+    "unLocation": "HAV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 110,
+    "name": "Mariel",
+    "unCountry": "CU",
+    "unLocode": "CUMAR",
+    "unLocation": "MAR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 111,
+    "name": "Willemstad",
+    "unCountry": "CW",
+    "unLocode": "CWWIL",
+    "unLocation": "WIL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 112,
+    "name": "Limassol",
+    "unCountry": "CY",
+    "unLocode": "CYLMS",
+    "unLocation": "LMS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 113,
+    "name": "Wilhelmshaven",
+    "unCountry": "DE",
+    "unLocode": "DEWVN",
+    "unLocation": "WVN",
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "id": 114,
+    "name": "Aalborg",
+    "unCountry": "DK",
+    "unLocode": "DKAAL",
+    "unLocation": "AAL",
+    "timezone": "Europe/Copenhagen"
+  },
+  {
+    "id": 115,
+    "name": "Aarhus",
+    "unCountry": "DK",
+    "unLocode": "DKAAR",
+    "unLocation": "AAR",
+    "timezone": "Europe/Copenhagen"
+  },
+  {
+    "id": 116,
+    "name": "Kobenhavn",
+    "unCountry": "DK",
+    "unLocode": "DKCPH",
+    "unLocation": "CPH",
+    "timezone": "Europe/Copenhagen"
+  },
+  {
+    "id": 117,
+    "name": "Fredericia",
+    "unCountry": "DK",
+    "unLocode": "DKFRC",
+    "unLocation": "FRC",
+    "timezone": "Europe/Copenhagen"
+  },
+  {
+    "id": 118,
+    "name": "Kalundborg",
+    "unCountry": "DK",
+    "unLocode": "DKKAL",
+    "unLocation": "KAL",
+    "timezone": "Europe/Copenhagen"
+  },
+  {
+    "id": 119,
+    "name": "Caucedo",
+    "unCountry": "DO",
+    "unLocode": "DOCAU",
+    "unLocation": "CAU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 120,
+    "name": "Rio Haina",
+    "unCountry": "DO",
+    "unLocode": "DOHAI",
+    "unLocation": "HAI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 121,
+    "name": "San Pedro de Macoris",
+    "unCountry": "DO",
+    "unLocode": "DOSPM",
+    "unLocation": "SPM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 122,
+    "name": "Alger (Algiers)",
+    "unCountry": "DZ",
+    "unLocode": "DZALG",
+    "unLocation": "ALG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 123,
+    "name": "Oran",
+    "unCountry": "DZ",
+    "unLocode": "DZORN",
+    "unLocation": "ORN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 124,
+    "name": "Guayaquil",
+    "unCountry": "EC",
+    "unLocode": "ECGYE",
+    "unLocation": "GYE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 125,
+    "name": "Puerto Bolivar",
+    "unCountry": "EC",
+    "unLocode": "ECPBO",
+    "unLocation": "PBO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 126,
+    "name": "Posorja",
+    "unCountry": "EC",
+    "unLocode": "ECPSJ",
+    "unLocation": "PSJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 127,
+    "name": "Muuga",
+    "unCountry": "EE",
+    "unLocode": "EEMUG",
+    "unLocation": "MUG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 128,
+    "name": "El Iskandariya (Alexandria)",
+    "unCountry": "EG",
+    "unLocode": "EGALY",
+    "unLocation": "ALY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 129,
+    "name": "Dumyat (Damietta)",
+    "unCountry": "EG",
+    "unLocode": "EGDAM",
+    "unLocation": "DAM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 130,
+    "name": "Port Said",
+    "unCountry": "EG",
+    "unLocode": "EGPSD",
+    "unLocation": "PSD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 131,
+    "name": "Sokhna Port",
+    "unCountry": "EG",
+    "unLocode": "EGSOK",
+    "unLocation": "SOK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 132,
+    "name": "Lanzarote",
+    "unCountry": "ES",
+    "unLocode": "ESACE",
+    "unLocation": "ACE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 133,
+    "name": "Malaga",
+    "unCountry": "ES",
+    "unLocode": "ESAGP",
+    "unLocation": "AGP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 134,
+    "name": "Barcelona",
+    "unCountry": "ES",
+    "unLocode": "ESBCN",
+    "unLocation": "BCN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 135,
+    "name": "Bilbao",
+    "unCountry": "ES",
+    "unLocode": "ESBIO",
+    "unLocation": "BIO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 136,
+    "name": "Cadiz",
+    "unCountry": "ES",
+    "unLocode": "ESCAD",
+    "unLocation": "CAD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 137,
+    "name": "Cartagena",
+    "unCountry": "ES",
+    "unLocode": "ESCAR",
+    "unLocation": "CAR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 138,
+    "name": "Ceuta",
+    "unCountry": "ES",
+    "unLocode": "ESCEU",
+    "unLocation": "CEU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 139,
+    "name": "Gijon",
+    "unCountry": "ES",
+    "unLocode": "ESGIJ",
+    "unLocation": "GIJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 140,
+    "name": "Huelva",
+    "unCountry": "ES",
+    "unLocode": "ESHUV",
+    "unLocation": "HUV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 141,
+    "name": "La Coruna (A Coruna)",
+    "unCountry": "ES",
+    "unLocode": "ESLCG",
+    "unLocation": "LCG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 142,
+    "name": "Las Palmas de Gran Canaria",
+    "unCountry": "ES",
+    "unLocode": "ESLPA",
+    "unLocation": "LPA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 143,
+    "name": "Melilla",
+    "unCountry": "ES",
+    "unLocode": "ESMLN",
+    "unLocation": "MLN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 144,
+    "name": "Marin, Pontevedra",
+    "unCountry": "ES",
+    "unLocode": "ESMPG",
+    "unLocation": "MPG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 145,
+    "name": "Sagunto",
+    "unCountry": "ES",
+    "unLocode": "ESSAG",
+    "unLocation": "SAG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 146,
+    "name": "Santa Cruz de Tenerife",
+    "unCountry": "ES",
+    "unLocode": "ESSCT",
+    "unLocation": "SCT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 147,
+    "name": "Tarragona",
+    "unCountry": "ES",
+    "unLocode": "ESTAR",
+    "unLocation": "TAR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 148,
+    "name": "Vigo",
+    "unCountry": "ES",
+    "unLocode": "ESVGO",
+    "unLocation": "VGO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 149,
+    "name": "Helsingfors (Helsinki)",
+    "unCountry": "FI",
+    "unLocode": "FIHEL",
+    "unLocation": "HEL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 150,
+    "name": "Fredrikshamn (Hamina)",
+    "unCountry": "FI",
+    "unLocode": "FIHMN",
+    "unLocation": "HMN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 151,
+    "name": "Karleby (Kokkola)",
+    "unCountry": "FI",
+    "unLocode": "FIKOK",
+    "unLocation": "KOK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 152,
+    "name": "Kotka",
+    "unCountry": "FI",
+    "unLocode": "FIKTK",
+    "unLocation": "KTK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 153,
+    "name": "Mantyluoto",
+    "unCountry": "FI",
+    "unLocode": "FIMTY",
+    "unLocation": "MTY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 154,
+    "name": "Rauma (Raumo)",
+    "unCountry": "FI",
+    "unLocode": "FIRAU",
+    "unLocation": "RAU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 155,
+    "name": "Turku (Abo)",
+    "unCountry": "FI",
+    "unLocode": "FITKU",
+    "unLocation": "TKU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 156,
+    "name": "Suva",
+    "unCountry": "FJ",
+    "unLocode": "FJSUV",
+    "unLocation": "SUV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 157,
+    "name": "Dunkerque",
+    "unCountry": "FR",
+    "unLocode": "FRDKK",
+    "unLocation": "DKK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 158,
+    "name": "Fos-sur-Mer",
+    "unCountry": "FR",
+    "unLocode": "FRFOS",
+    "unLocation": "FOS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 159,
+    "name": "Le Havre",
+    "unCountry": "FR",
+    "unLocode": "FRLEH",
+    "unLocation": "LEH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 160,
+    "name": "Montoir-de-Bretagne",
+    "unCountry": "FR",
+    "unLocode": "FRMTX",
+    "unLocation": "MTX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 161,
+    "name": "Owendo",
+    "unCountry": "GA",
+    "unLocode": "GAOWE",
+    "unLocation": "OWE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 162,
+    "name": "Belfast",
+    "unCountry": "GB",
+    "unLocode": "GBBEL",
+    "unLocation": "BEL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 163,
+    "name": "Felixstowe",
+    "unCountry": "GB",
+    "unLocode": "GBFXT",
+    "unLocation": "FXT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 164,
+    "name": "Grangemouth",
+    "unCountry": "GB",
+    "unLocode": "GBGRG",
+    "unLocation": "GRG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 165,
+    "name": "Greenock",
+    "unCountry": "GB",
+    "unLocode": "GBGRK",
+    "unLocation": "GRK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 166,
+    "name": "Hull",
+    "unCountry": "GB",
+    "unLocode": "GBHUL",
+    "unLocation": "HUL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 167,
+    "name": "London Gateway Port",
+    "unCountry": "GB",
+    "unLocode": "GBLGP",
+    "unLocation": "LGP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 168,
+    "name": "Liverpool",
+    "unCountry": "GB",
+    "unLocode": "GBLIV",
+    "unLocation": "LIV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 169,
+    "name": "Rochester",
+    "unCountry": "GB",
+    "unLocode": "GBRCS",
+    "unLocation": "RCS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 170,
+    "name": "Southampton",
+    "unCountry": "GB",
+    "unLocode": "GBSOU",
+    "unLocation": "SOU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 171,
+    "name": "Teesport",
+    "unCountry": "GB",
+    "unLocode": "GBTEE",
+    "unLocation": "TEE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 172,
+    "name": "Tilbury",
+    "unCountry": "GB",
+    "unLocode": "GBTIL",
+    "unLocation": "TIL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 173,
+    "name": "Poti",
+    "unCountry": "GE",
+    "unLocode": "GEPTI",
+    "unLocation": "PTI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 174,
+    "name": "Tema",
+    "unCountry": "GH",
+    "unLocode": "GHTEM",
+    "unLocation": "TEM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 175,
+    "name": "Takoradi",
+    "unCountry": "GH",
+    "unLocode": "GHTKD",
+    "unLocation": "TKD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 176,
+    "name": "Gibraltar",
+    "unCountry": "GI",
+    "unLocode": "GIGIB",
+    "unLocation": "GIB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 177,
+    "name": "Piraeus",
+    "unCountry": "GR",
+    "unLocode": "GRPIR",
+    "unLocation": "PIR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 178,
+    "name": "Thessaloniki",
+    "unCountry": "GR",
+    "unLocode": "GRSKG",
+    "unLocation": "SKG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 179,
+    "name": "Puerto Barrios",
+    "unCountry": "GT",
+    "unLocode": "GTPBR",
+    "unLocation": "PBR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 180,
+    "name": "Puerto Quetzal",
+    "unCountry": "GT",
+    "unLocode": "GTPRQ",
+    "unLocation": "PRQ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 181,
+    "name": "Puerto Santo Tomas de Castilla",
+    "unCountry": "GT",
+    "unLocode": "GTSTC",
+    "unLocation": "STC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 182,
+    "name": "Puerto Cortes",
+    "unCountry": "HN",
+    "unLocode": "HNPCR",
+    "unLocation": "PCR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 183,
+    "name": "San Lorenzo",
+    "unCountry": "HN",
+    "unLocode": "HNSLO",
+    "unLocation": "SLO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 184,
+    "name": "Rijeka",
+    "unCountry": "HR",
+    "unLocode": "HRRJK",
+    "unLocation": "RJK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 185,
+    "name": "Port-au-Prince",
+    "unCountry": "HT",
+    "unLocode": "HTPAP",
+    "unLocation": "PAP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 186,
+    "name": "Banjarmasin",
+    "unCountry": "ID",
+    "unLocode": "IDBDJ",
+    "unLocation": "BDJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 187,
+    "name": "Batam Island",
+    "unCountry": "ID",
+    "unLocode": "IDBTM",
+    "unLocation": "BTM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 188,
+    "name": "Jakarta, Java",
+    "unCountry": "ID",
+    "unLocode": "IDJKT",
+    "unLocation": "JKT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 189,
+    "name": "Palembang, Sumatra",
+    "unCountry": "ID",
+    "unLocode": "IDPLM",
+    "unLocation": "PLM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 190,
+    "name": "Surabaya",
+    "unCountry": "ID",
+    "unLocode": "IDSUB",
+    "unLocation": "SUB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 191,
+    "name": "Dublin",
+    "unCountry": "IE",
+    "unLocode": "IEDUB",
+    "unLocation": "DUB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 192,
+    "name": "Cork",
+    "unCountry": "IE",
+    "unLocode": "IEORK",
+    "unLocation": "ORK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 193,
+    "name": "Ashdod",
+    "unCountry": "IL",
+    "unLocode": "ILASH",
+    "unLocation": "ASH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 194,
+    "name": "Haifa",
+    "unCountry": "IL",
+    "unLocode": "ILHFA",
+    "unLocation": "HFA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 195,
+    "name": "Kolkata (ex Calcutta)",
+    "unCountry": "IN",
+    "unLocode": "INCCU",
+    "unLocation": "CCU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 196,
+    "name": "Cochin",
+    "unCountry": "IN",
+    "unLocode": "INCOK",
+    "unLocation": "COK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 197,
+    "name": "Ennore",
+    "unCountry": "IN",
+    "unLocode": "INENR",
+    "unLocation": "ENR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 198,
+    "name": "Mangalore",
+    "unCountry": "IN",
+    "unLocode": "INIXE",
+    "unLocation": "IXE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 199,
+    "name": "Chennai (ex Madras)",
+    "unCountry": "IN",
+    "unLocode": "INMAA",
+    "unLocation": "MAA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 200,
+    "name": "Mundra",
+    "unCountry": "IN",
+    "unLocode": "INMUN",
+    "unLocation": "MUN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 201,
+    "name": "Jawaharlal Nehru (Nhava Sheva)",
+    "unCountry": "IN",
+    "unLocode": "INNSA",
+    "unLocation": "NSA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 202,
+    "name": "Port Pipavav",
+    "unCountry": "IN",
+    "unLocode": "INPPV",
+    "unLocation": "PPV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 203,
+    "name": "Tuticorin",
+    "unCountry": "IN",
+    "unLocode": "INTUT",
+    "unLocation": "TUT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 204,
+    "name": "Visakhapatnam",
+    "unCountry": "IN",
+    "unLocode": "INVTZ",
+    "unLocation": "VTZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 205,
+    "name": "Umm Qasr Port",
+    "unCountry": "IQ",
+    "unLocode": "IQUQR",
+    "unLocation": "UQR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 206,
+    "name": "Reykjavik",
+    "unCountry": "IS",
+    "unLocode": "ISREY",
+    "unLocation": "REY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 207,
+    "name": "Ancona",
+    "unCountry": "IT",
+    "unLocode": "ITAOI",
+    "unLocation": "AOI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 208,
+    "name": "Cagliari",
+    "unCountry": "IT",
+    "unLocode": "ITCAG",
+    "unLocation": "CAG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 209,
+    "name": "Catania",
+    "unCountry": "IT",
+    "unLocode": "ITCTA",
+    "unLocation": "CTA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 210,
+    "name": "Civitavecchia",
+    "unCountry": "IT",
+    "unLocode": "ITCVV",
+    "unLocation": "CVV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 211,
+    "name": "Gioia Tauro",
+    "unCountry": "IT",
+    "unLocode": "ITGIT",
+    "unLocation": "GIT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 212,
+    "name": "Genova",
+    "unCountry": "IT",
+    "unLocode": "ITGOA",
+    "unLocation": "GOA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 213,
+    "name": "Livorno",
+    "unCountry": "IT",
+    "unLocode": "ITLIV",
+    "unLocation": "LIV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 214,
+    "name": "Napoli",
+    "unCountry": "IT",
+    "unLocode": "ITNAP",
+    "unLocation": "NAP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 215,
+    "name": "Ravenna",
+    "unCountry": "IT",
+    "unLocode": "ITRAN",
+    "unLocation": "RAN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 216,
+    "name": "Salerno",
+    "unCountry": "IT",
+    "unLocode": "ITSAL",
+    "unLocation": "SAL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 217,
+    "name": "La Spezia",
+    "unCountry": "IT",
+    "unLocode": "ITSPE",
+    "unLocation": "SPE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 218,
+    "name": "Trieste",
+    "unCountry": "IT",
+    "unLocode": "ITTRS",
+    "unLocation": "TRS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 219,
+    "name": "Venezia",
+    "unCountry": "IT",
+    "unLocode": "ITVCE",
+    "unLocation": "VCE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 220,
+    "name": "Vado Ligure",
+    "unCountry": "IT",
+    "unLocode": "ITVDL",
+    "unLocation": "VDL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 221,
+    "name": "Kingston",
+    "unCountry": "JM",
+    "unLocode": "JMKIN",
+    "unLocation": "KIN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 222,
+    "name": "Al Aqabah",
+    "unCountry": "JO",
+    "unLocode": "JOAQJ",
+    "unLocation": "AQJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 223,
+    "name": "Aburatsu",
+    "unCountry": "JP",
+    "unLocode": "JPABU",
+    "unLocation": "ABU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 224,
+    "name": "Akita",
+    "unCountry": "JP",
+    "unLocode": "JPAXT",
+    "unLocation": "AXT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 225,
+    "name": "Chiba",
+    "unCountry": "JP",
+    "unLocode": "JPCHB",
+    "unLocation": "CHB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 226,
+    "name": "Fukuyama, Hiroshima",
+    "unCountry": "JP",
+    "unLocode": "JPFKY",
+    "unLocation": "FKY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 227,
+    "name": "Hachinohe",
+    "unCountry": "JP",
+    "unLocode": "JPHHE",
+    "unLocation": "HHE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 228,
+    "name": "Hitachinaka",
+    "unCountry": "JP",
+    "unLocode": "JPHIC",
+    "unLocation": "HIC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 229,
+    "name": "Hiroshima",
+    "unCountry": "JP",
+    "unLocode": "JPHIJ",
+    "unLocation": "HIJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 230,
+    "name": "Himeji",
+    "unCountry": "JP",
+    "unLocode": "JPHIM",
+    "unLocation": "HIM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 231,
+    "name": "Hakata/Fukuoka",
+    "unCountry": "JP",
+    "unLocode": "JPHKT",
+    "unLocation": "HKT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 232,
+    "name": "Hamada",
+    "unCountry": "JP",
+    "unLocode": "JPHMD",
+    "unLocation": "HMD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 233,
+    "name": "Hososhima",
+    "unCountry": "JP",
+    "unLocode": "JPHSM",
+    "unLocation": "HSM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 234,
+    "name": "Hitachi",
+    "unCountry": "JP",
+    "unLocode": "JPHTC",
+    "unLocation": "HTC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 235,
+    "name": "Imabari",
+    "unCountry": "JP",
+    "unLocode": "JPIMB",
+    "unLocation": "IMB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 236,
+    "name": "Imari",
+    "unCountry": "JP",
+    "unLocode": "JPIMI",
+    "unLocation": "IMI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 237,
+    "name": "Ishikari",
+    "unCountry": "JP",
+    "unLocode": "JPISI",
+    "unLocation": "ISI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 238,
+    "name": "Iwakuni",
+    "unCountry": "JP",
+    "unLocode": "JPIWK",
+    "unLocation": "IWK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 239,
+    "name": "Kochi",
+    "unCountry": "JP",
+    "unLocode": "JPKCZ",
+    "unLocation": "KCZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 240,
+    "name": "Niigata",
+    "unCountry": "JP",
+    "unLocode": "JPKIJ",
+    "unLocation": "KIJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 241,
+    "name": "Kamaishi",
+    "unCountry": "JP",
+    "unLocode": "JPKIS",
+    "unLocation": "KIS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 242,
+    "name": "Kumamoto",
+    "unCountry": "JP",
+    "unLocode": "JPKMJ",
+    "unLocation": "KMJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 243,
+    "name": "Kanazawa",
+    "unCountry": "JP",
+    "unLocode": "JPKNZ",
+    "unLocation": "KNZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 244,
+    "name": "Komatsushima",
+    "unCountry": "JP",
+    "unLocode": "JPKOM",
+    "unLocation": "KOM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 245,
+    "name": "Kashima, Ibaraki",
+    "unCountry": "JP",
+    "unLocode": "JPKSM",
+    "unLocation": "KSM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 246,
+    "name": "Kawasaki",
+    "unCountry": "JP",
+    "unLocode": "JPKWS",
+    "unLocation": "KWS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 247,
+    "name": "Maizuru",
+    "unCountry": "JP",
+    "unLocode": "JPMAI",
+    "unLocation": "MAI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 248,
+    "name": "Mizushima",
+    "unCountry": "JP",
+    "unLocode": "JPMIZ",
+    "unLocation": "MIZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 249,
+    "name": "Mikawa",
+    "unCountry": "JP",
+    "unLocode": "JPMKW",
+    "unLocation": "MKW",
+    "timezone": "UTC"
+  },
+  {
+    "id": 250,
+    "name": "Mishima, Kawanoe",
+    "unCountry": "JP",
+    "unLocode": "JPMKX",
+    "unLocation": "MKX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 251,
+    "name": "Moji/Kitakyushu",
+    "unCountry": "JP",
+    "unLocode": "JPMOJ",
+    "unLocation": "MOJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 252,
+    "name": "Muroran",
+    "unCountry": "JP",
+    "unLocode": "JPMUR",
+    "unLocation": "MUR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 253,
+    "name": "Matsuyama",
+    "unCountry": "JP",
+    "unLocode": "JPMYJ",
+    "unLocation": "MYJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 254,
+    "name": "Naha, Okinawa",
+    "unCountry": "JP",
+    "unLocode": "JPNAH",
+    "unLocation": "NAH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 255,
+    "name": "Nakanoseki",
+    "unCountry": "JP",
+    "unLocode": "JPNAN",
+    "unLocation": "NAN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 256,
+    "name": "Naoetsu",
+    "unCountry": "JP",
+    "unLocode": "JPNAO",
+    "unLocation": "NAO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 257,
+    "name": "Nagoya, Aichi",
+    "unCountry": "JP",
+    "unLocode": "JPNGO",
+    "unLocation": "NGO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 258,
+    "name": "Nagasaki",
+    "unCountry": "JP",
+    "unLocode": "JPNGS",
+    "unLocation": "NGS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 259,
+    "name": "Oita",
+    "unCountry": "JP",
+    "unLocode": "JPOIT",
+    "unLocation": "OIT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 260,
+    "name": "Omaezaki",
+    "unCountry": "JP",
+    "unLocode": "JPOMZ",
+    "unLocation": "OMZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 261,
+    "name": "Onahama",
+    "unCountry": "JP",
+    "unLocode": "JPONA",
+    "unLocation": "ONA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 262,
+    "name": "Osaka",
+    "unCountry": "JP",
+    "unLocode": "JPOSA",
+    "unLocation": "OSA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 263,
+    "name": "Otake",
+    "unCountry": "JP",
+    "unLocode": "JPOTK",
+    "unLocation": "OTK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 264,
+    "name": "Sakaisenboku",
+    "unCountry": "JP",
+    "unLocode": "JPSBK",
+    "unLocation": "SBK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 265,
+    "name": "Shibushi",
+    "unCountry": "JP",
+    "unLocode": "JPSBS",
+    "unLocation": "SBS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 266,
+    "name": "Sendaishiogama",
+    "unCountry": "JP",
+    "unLocode": "JPSGM",
+    "unLocation": "SGM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 267,
+    "name": "Sakata",
+    "unCountry": "JP",
+    "unLocode": "JPSKT",
+    "unLocation": "SKT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 268,
+    "name": "Sakaiminato",
+    "unCountry": "JP",
+    "unLocode": "JPSMN",
+    "unLocation": "SMN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 269,
+    "name": "Shimotsu",
+    "unCountry": "JP",
+    "unLocode": "JPSMT",
+    "unLocation": "SMT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 270,
+    "name": "Shimizu",
+    "unCountry": "JP",
+    "unLocode": "JPSMZ",
+    "unLocation": "SMZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 271,
+    "name": "Toyohashi",
+    "unCountry": "JP",
+    "unLocode": "JPTHS",
+    "unLocation": "THS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 272,
+    "name": "Tokuyama",
+    "unCountry": "JP",
+    "unLocode": "JPTKY",
+    "unLocation": "TKY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 273,
+    "name": "Tomakomai",
+    "unCountry": "JP",
+    "unLocode": "JPTMK",
+    "unLocation": "TMK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 274,
+    "name": "Tsuruga",
+    "unCountry": "JP",
+    "unLocode": "JPTRG",
+    "unLocation": "TRG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 275,
+    "name": "Tottori",
+    "unCountry": "JP",
+    "unLocode": "JPTTJ",
+    "unLocation": "TTJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 276,
+    "name": "Ube",
+    "unCountry": "JP",
+    "unLocode": "JPUBJ",
+    "unLocation": "UBJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 277,
+    "name": "Kobe",
+    "unCountry": "JP",
+    "unLocode": "JPUKB",
+    "unLocation": "UKB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 278,
+    "name": "Wakkanai",
+    "unCountry": "JP",
+    "unLocode": "JPWKJ",
+    "unLocation": "WKJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 279,
+    "name": "Yokkaichi",
+    "unCountry": "JP",
+    "unLocode": "JPYKK",
+    "unLocation": "YKK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 280,
+    "name": "Mombasa",
+    "unCountry": "KE",
+    "unLocode": "KEMBA",
+    "unLocation": "MBA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 281,
+    "name": "Kampong Saom",
+    "unCountry": "KH",
+    "unLocode": "KHKOS",
+    "unLocation": "KOS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 282,
+    "name": "Incheon",
+    "unCountry": "KR",
+    "unLocode": "KRINC",
+    "unLocation": "INC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 283,
+    "name": "Gwangyang",
+    "unCountry": "KR",
+    "unLocode": "KRKAN",
+    "unLocation": "KAN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 284,
+    "name": "Pohang",
+    "unCountry": "KR",
+    "unLocode": "KRKPO",
+    "unLocation": "KPO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 285,
+    "name": "Pyeongtaek",
+    "unCountry": "KR",
+    "unLocode": "KRPTK",
+    "unLocation": "PTK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 286,
+    "name": "Busan",
+    "unCountry": "KR",
+    "unLocode": "KRPUS",
+    "unLocation": "PUS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 287,
+    "name": "Ulsan",
+    "unCountry": "KR",
+    "unLocode": "KRUSN",
+    "unLocation": "USN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 288,
+    "name": "Shuaiba",
+    "unCountry": "KW",
+    "unLocode": "KWSAA",
+    "unLocation": "SAA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 289,
+    "name": "Shuwaikh",
+    "unCountry": "KW",
+    "unLocode": "KWSWK",
+    "unLocation": "SWK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 290,
+    "name": "Beirut",
+    "unCountry": "LB",
+    "unLocode": "LBBEY",
+    "unLocation": "BEY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 291,
+    "name": "Colombo",
+    "unCountry": "LK",
+    "unLocode": "LKCMB",
+    "unLocation": "CMB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 292,
+    "name": "Klaipeda",
+    "unCountry": "LT",
+    "unLocode": "LTKLJ",
+    "unLocation": "KLJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 293,
+    "name": "Riga",
+    "unCountry": "LV",
+    "unLocode": "LVRIX",
+    "unLocation": "RIX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 294,
+    "name": "Casablanca",
+    "unCountry": "MA",
+    "unLocode": "MACAS",
+    "unLocation": "CAS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 295,
+    "name": "Tanger Med",
+    "unCountry": "MA",
+    "unLocode": "MAPTM",
+    "unLocation": "PTM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 296,
+    "name": "Tangier",
+    "unCountry": "MA",
+    "unLocode": "MATNG",
+    "unLocation": "TNG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 297,
+    "name": "Yangon",
+    "unCountry": "MM",
+    "unLocode": "MMRGN",
+    "unLocation": "RGN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 298,
+    "name": "Nouakchott",
+    "unCountry": "MR",
+    "unLocode": "MRNKC",
+    "unLocation": "NKC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 299,
+    "name": "Marsaxlokk",
+    "unCountry": "MT",
+    "unLocode": "MTMAR",
+    "unLocation": "MAR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 300,
+    "name": "Altamira",
+    "unCountry": "MX",
+    "unLocode": "MXATM",
+    "unLocation": "ATM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 301,
+    "name": "Ensenada",
+    "unCountry": "MX",
+    "unLocode": "MXESE",
+    "unLocation": "ESE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 302,
+    "name": "Lazaro Cardenas",
+    "unCountry": "MX",
+    "unLocode": "MXLZC",
+    "unLocation": "LZC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 303,
+    "name": "Mazatlan",
+    "unCountry": "MX",
+    "unLocode": "MXMZT",
+    "unLocation": "MZT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 304,
+    "name": "Progreso",
+    "unCountry": "MX",
+    "unLocode": "MXPGO",
+    "unLocation": "PGO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 305,
+    "name": "Tapachula",
+    "unCountry": "MX",
+    "unLocode": "MXTAP",
+    "unLocation": "TAP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 306,
+    "name": "Tuxpan",
+    "unCountry": "MX",
+    "unLocode": "MXTUX",
+    "unLocation": "TUX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 307,
+    "name": "Veracruz",
+    "unCountry": "MX",
+    "unLocode": "MXVER",
+    "unLocation": "VER",
+    "timezone": "UTC"
+  },
+  {
+    "id": 308,
+    "name": "Manzanillo",
+    "unCountry": "MX",
+    "unLocode": "MXZLO",
+    "unLocation": "ZLO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 309,
+    "name": "Penang (Georgetown)",
+    "unCountry": "MY",
+    "unLocode": "MYPEN",
+    "unLocation": "PEN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 310,
+    "name": "Pasir Gudang, Johor",
+    "unCountry": "MY",
+    "unLocode": "MYPGU",
+    "unLocation": "PGU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 311,
+    "name": "Port Klang (Pelabuhan Klang)",
+    "unCountry": "MY",
+    "unLocode": "MYPKG",
+    "unLocation": "PKG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 312,
+    "name": "Tanjung Pelepas",
+    "unCountry": "MY",
+    "unLocode": "MYTPP",
+    "unLocation": "TPP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 313,
+    "name": "Maputo",
+    "unCountry": "MZ",
+    "unLocode": "MZMPM",
+    "unLocation": "MPM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 314,
+    "name": "Walvis Bay",
+    "unCountry": "NA",
+    "unLocode": "NAWVB",
+    "unLocation": "WVB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 315,
+    "name": "Apapa",
+    "unCountry": "NG",
+    "unLocode": "NGAPP",
+    "unLocation": "APP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 316,
+    "name": "Port Harcourt",
+    "unCountry": "NG",
+    "unLocode": "NGPHC",
+    "unLocation": "PHC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 317,
+    "name": "Tincan/Lagos",
+    "unCountry": "NG",
+    "unLocode": "NGTIN",
+    "unLocation": "TIN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 318,
+    "name": "Corinto",
+    "unCountry": "NI",
+    "unLocode": "NICIO",
+    "unLocation": "CIO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 319,
+    "name": "Amsterdam",
+    "unCountry": "NL",
+    "unLocode": "NLAMS",
+    "unLocation": "AMS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 320,
+    "name": "Vlissingen",
+    "unCountry": "NL",
+    "unLocode": "NLVLI",
+    "unLocation": "VLI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 321,
+    "name": "Alesund",
+    "unCountry": "NO",
+    "unLocode": "NOAES",
+    "unLocation": "AES",
+    "timezone": "UTC"
+  },
+  {
+    "id": 322,
+    "name": "Bergen",
+    "unCountry": "NO",
+    "unLocode": "NOBGO",
+    "unLocation": "BGO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 323,
+    "name": "Fredrikstad",
+    "unCountry": "NO",
+    "unLocode": "NOFRK",
+    "unLocation": "FRK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 324,
+    "name": "Halden",
+    "unCountry": "NO",
+    "unLocode": "NOHAL",
+    "unLocation": "HAL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 325,
+    "name": "Larvik",
+    "unCountry": "NO",
+    "unLocode": "NOLAR",
+    "unLocation": "LAR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 326,
+    "name": "Moss",
+    "unCountry": "NO",
+    "unLocode": "NOMSS",
+    "unLocation": "MSS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 327,
+    "name": "Oslo",
+    "unCountry": "NO",
+    "unLocode": "NOOSL",
+    "unLocation": "OSL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 328,
+    "name": "Skjerkoya",
+    "unCountry": "NO",
+    "unLocode": "NOSKI",
+    "unLocation": "SKI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 329,
+    "name": "Tananger",
+    "unCountry": "NO",
+    "unLocode": "NOTAE",
+    "unLocation": "TAE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 330,
+    "name": "Auckland",
+    "unCountry": "NZ",
+    "unLocode": "NZAKL",
+    "unLocation": "AKL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 331,
+    "name": "Lyttelton",
+    "unCountry": "NZ",
+    "unLocode": "NZLYT",
+    "unLocation": "LYT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 332,
+    "name": "Napier",
+    "unCountry": "NZ",
+    "unLocode": "NZNPE",
+    "unLocation": "NPE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 333,
+    "name": "New Plymouth",
+    "unCountry": "NZ",
+    "unLocode": "NZNPL",
+    "unLocation": "NPL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 334,
+    "name": "Nelson",
+    "unCountry": "NZ",
+    "unLocode": "NZNSN",
+    "unLocation": "NSN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 335,
+    "name": "Port Chalmers",
+    "unCountry": "NZ",
+    "unLocode": "NZPOE",
+    "unLocation": "POE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 336,
+    "name": "Timaru",
+    "unCountry": "NZ",
+    "unLocode": "NZTIU",
+    "unLocation": "TIU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 337,
+    "name": "Tauranga",
+    "unCountry": "NZ",
+    "unLocode": "NZTRG",
+    "unLocation": "TRG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 338,
+    "name": "Wellington",
+    "unCountry": "NZ",
+    "unLocode": "NZWLG",
+    "unLocation": "WLG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 339,
+    "name": "Salalah",
+    "unCountry": "OM",
+    "unLocode": "OMSLL",
+    "unLocation": "SLL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 340,
+    "name": "Sohar",
+    "unCountry": "OM",
+    "unLocode": "OMSOH",
+    "unLocation": "SOH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 341,
+    "name": "Balboa",
+    "unCountry": "PA",
+    "unLocode": "PABLB",
+    "unLocation": "BLB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 342,
+    "name": "Cristobal",
+    "unCountry": "PA",
+    "unLocode": "PACTB",
+    "unLocation": "CTB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 343,
+    "name": "Manzanillo",
+    "unCountry": "PA",
+    "unLocode": "PAMIT",
+    "unLocation": "MIT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 344,
+    "name": "Colon",
+    "unCountry": "PA",
+    "unLocode": "PAONX",
+    "unLocation": "ONX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 345,
+    "name": "Rodman",
+    "unCountry": "PA",
+    "unLocode": "PAROD",
+    "unLocation": "ROD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 346,
+    "name": "Callao",
+    "unCountry": "PE",
+    "unLocode": "PECLL",
+    "unLocation": "CLL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 347,
+    "name": "Paita",
+    "unCountry": "PE",
+    "unLocode": "PEPAI",
+    "unLocation": "PAI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 348,
+    "name": "Papeete",
+    "unCountry": "PF",
+    "unLocode": "PFPPT",
+    "unLocation": "PPT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 349,
+    "name": "Cebu",
+    "unCountry": "PH",
+    "unLocode": "PHCEB",
+    "unLocation": "CEB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 350,
+    "name": "Manila",
+    "unCountry": "PH",
+    "unLocode": "PHMNL",
+    "unLocation": "MNL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 351,
+    "name": "Muhammad Bin Qasim/Karachi",
+    "unCountry": "PK",
+    "unLocode": "PKBQM",
+    "unLocation": "BQM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 352,
+    "name": "Karachi",
+    "unCountry": "PK",
+    "unLocode": "PKKHI",
+    "unLocation": "KHI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 353,
+    "name": "Gdansk",
+    "unCountry": "PL",
+    "unLocode": "PLGDN",
+    "unLocation": "GDN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 354,
+    "name": "Gdynia",
+    "unCountry": "PL",
+    "unLocode": "PLGDY",
+    "unLocation": "GDY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 355,
+    "name": "Szczecin",
+    "unCountry": "PL",
+    "unLocode": "PLSZZ",
+    "unLocation": "SZZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 356,
+    "name": "San Juan",
+    "unCountry": "PR",
+    "unLocode": "PRSJU",
+    "unLocation": "SJU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 357,
+    "name": "Canical",
+    "unCountry": "PT",
+    "unLocode": "PTCNL",
+    "unLocation": "CNL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 358,
+    "name": "Figueira da Foz",
+    "unCountry": "PT",
+    "unLocode": "PTFDF",
+    "unLocation": "FDF",
+    "timezone": "UTC"
+  },
+  {
+    "id": 359,
+    "name": "Funchal, Madeira",
+    "unCountry": "PT",
+    "unLocode": "PTFNC",
+    "unLocation": "FNC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 360,
+    "name": "Leixoes",
+    "unCountry": "PT",
+    "unLocode": "PTLEI",
+    "unLocation": "LEI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 361,
+    "name": "Lisboa",
+    "unCountry": "PT",
+    "unLocode": "PTLIS",
+    "unLocation": "LIS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 362,
+    "name": "Porto Santo Island",
+    "unCountry": "PT",
+    "unLocode": "PTPXO",
+    "unLocation": "PXO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 363,
+    "name": "Setubal",
+    "unCountry": "PT",
+    "unLocode": "PTSET",
+    "unLocation": "SET",
+    "timezone": "UTC"
+  },
+  {
+    "id": 364,
+    "name": "Sines",
+    "unCountry": "PT",
+    "unLocode": "PTSIE",
+    "unLocation": "SIE",
+    "timezone": "UTC"
+  },
+  {
+    "id": 365,
+    "name": "Asuncion",
+    "unCountry": "PY",
+    "unLocode": "PYASU",
+    "unLocation": "ASU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 366,
+    "name": "Pilar",
+    "unCountry": "PY",
+    "unLocode": "PYPIL",
+    "unLocation": "PIL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 367,
+    "name": "San Antonio",
+    "unCountry": "PY",
+    "unLocode": "PYSAN",
+    "unLocation": "SAN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 368,
+    "name": "Villeta",
+    "unCountry": "PY",
+    "unLocode": "PYVLL",
+    "unLocation": "VLL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 369,
+    "name": "Doha",
+    "unCountry": "QA",
+    "unLocode": "QADOH",
+    "unLocation": "DOH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 370,
+    "name": "BGN/PCGN1956 - HAMAD",
+    "unCountry": "QA",
+    "unLocode": "QAHMD",
+    "unLocation": "HMD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 371,
+    "name": "Le Port",
+    "unCountry": "RE",
+    "unLocode": "RELPT",
+    "unLocation": "LPT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 372,
+    "name": "Constanta",
+    "unCountry": "RO",
+    "unLocode": "ROCND",
+    "unLocation": "CND",
+    "timezone": "UTC"
+  },
+  {
+    "id": 373,
+    "name": "Saint Petersburg (ex Leningrad)",
+    "unCountry": "RU",
+    "unLocode": "RULED",
+    "unLocation": "LED",
+    "timezone": "UTC"
+  },
+  {
+    "id": 374,
+    "name": "Novorossiysk",
+    "unCountry": "RU",
+    "unLocode": "RUNVS",
+    "unLocation": "NVS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 375,
+    "name": "Ust-Luga",
+    "unCountry": "RU",
+    "unLocode": "RUULU",
+    "unLocation": "ULU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 376,
+    "name": "Vladivostok",
+    "unCountry": "RU",
+    "unLocode": "RUVVO",
+    "unLocation": "VVO",
+    "timezone": "UTC"
+  },
+  {
+    "id": 377,
+    "name": "Vostochnyy Port",
+    "unCountry": "RU",
+    "unLocode": "RUVYP",
+    "unLocation": "VYP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 378,
+    "name": "Ad Dammam",
+    "unCountry": "SA",
+    "unLocode": "SADMM",
+    "unLocation": "DMM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 379,
+    "name": "Jeddah",
+    "unCountry": "SA",
+    "unLocode": "SAJED",
+    "unLocation": "JED",
+    "timezone": "UTC"
+  },
+  {
+    "id": 380,
+    "name": "Jubail",
+    "unCountry": "SA",
+    "unLocode": "SAJUB",
+    "unLocation": "JUB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 381,
+    "name": "King Abdullah City",
+    "unCountry": "SA",
+    "unLocode": "SAKAC",
+    "unLocation": "KAC",
+    "timezone": "UTC"
+  },
+  {
+    "id": 382,
+    "name": "Port Sudan",
+    "unCountry": "SD",
+    "unLocode": "SDPZU",
+    "unLocation": "PZU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 383,
+    "name": "Ahus",
+    "unCountry": "SE",
+    "unLocode": "SEAHU",
+    "unLocation": "AHU",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 384,
+    "name": "Goteborg",
+    "unCountry": "SE",
+    "unLocode": "SEGOT",
+    "unLocation": "GOT",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 385,
+    "name": "Gavle",
+    "unCountry": "SE",
+    "unLocode": "SEGVX",
+    "unLocation": "GVX",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 386,
+    "name": "Halmstad",
+    "unCountry": "SE",
+    "unLocode": "SEHAD",
+    "unLocation": "HAD",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 387,
+    "name": "Helsingborg",
+    "unCountry": "SE",
+    "unLocode": "SEHEL",
+    "unLocation": "HEL",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 388,
+    "name": "Kapellskar",
+    "unCountry": "SE",
+    "unLocode": "SEKPS",
+    "unLocation": "KPS",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 389,
+    "name": "Malmo",
+    "unCountry": "SE",
+    "unLocode": "SEMMA",
+    "unLocation": "MMA",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 390,
+    "name": "Norrkoping",
+    "unCountry": "SE",
+    "unLocode": "SENRK",
+    "unLocation": "NRK",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 391,
+    "name": "Nynashamn",
+    "unCountry": "SE",
+    "unLocode": "SENYN",
+    "unLocation": "NYN",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 392,
+    "name": "Stockholm",
+    "unCountry": "SE",
+    "unLocode": "SESTO",
+    "unLocation": "STO",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 393,
+    "name": "Vasteras",
+    "unCountry": "SE",
+    "unLocode": "SEVST",
+    "unLocation": "VST",
+    "timezone": "Europe/Stockholm"
+  },
+  {
+    "id": 394,
+    "name": "Koper",
+    "unCountry": "SI",
+    "unLocode": "SIKOP",
+    "unLocation": "KOP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 395,
+    "name": "Dakar",
+    "unCountry": "SN",
+    "unLocode": "SNDKR",
+    "unLocation": "DKR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 396,
+    "name": "Paramaribo",
+    "unCountry": "SR",
+    "unLocode": "SRPBM",
+    "unLocation": "PBM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 397,
+    "name": "Acajutla",
+    "unCountry": "SV",
+    "unLocode": "SVAQJ",
+    "unLocation": "AQJ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 398,
+    "name": "La Union",
+    "unCountry": "SV",
+    "unLocode": "SVLUN",
+    "unLocation": "LUN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 399,
+    "name": "Latakia",
+    "unCountry": "SY",
+    "unLocode": "SYLTK",
+    "unLocation": "LTK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 400,
+    "name": "Tartus",
+    "unCountry": "SY",
+    "unLocode": "SYTTS",
+    "unLocation": "TTS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 401,
+    "name": "Bangkok",
+    "unCountry": "TH",
+    "unLocode": "THBKK",
+    "unLocation": "BKK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 402,
+    "name": "Laem Chabang",
+    "unCountry": "TH",
+    "unLocode": "THLCH",
+    "unLocation": "LCH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 403,
+    "name": "Sahathai Coastal Seaport",
+    "unCountry": "TH",
+    "unLocode": "THSCS",
+    "unLocation": "SCS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 404,
+    "name": "Tunis",
+    "unCountry": "TN",
+    "unLocode": "TNTUN",
+    "unLocation": "TUN",
+    "timezone": "UTC"
+  },
+  {
+    "id": 405,
+    "name": "Aliaga",
+    "unCountry": "TR",
+    "unLocode": "TRALI",
+    "unLocation": "ALI",
+    "timezone": "UTC"
+  },
+  {
+    "id": 406,
+    "name": "Gebze",
+    "unCountry": "TR",
+    "unLocode": "TRGEB",
+    "unLocation": "GEB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 407,
+    "name": "Gemlik",
+    "unCountry": "TR",
+    "unLocode": "TRGEM",
+    "unLocation": "GEM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 408,
+    "name": "Iskenderun",
+    "unCountry": "TR",
+    "unLocode": "TRISK",
+    "unLocation": "ISK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 409,
+    "name": "Istanbul",
+    "unCountry": "TR",
+    "unLocode": "TRIST",
+    "unLocation": "IST",
+    "timezone": "UTC"
+  },
+  {
+    "id": 410,
+    "name": "Ä°zmir",
+    "unCountry": "TR",
+    "unLocode": "TRIZM",
+    "unLocation": "IZM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 411,
+    "name": "Izmit",
+    "unCountry": "TR",
+    "unLocode": "TRIZT",
+    "unLocation": "IZT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 412,
+    "name": "Port of Karasu",
+    "unCountry": "TR",
+    "unLocode": "TRKSP",
+    "unLocation": "KSP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 413,
+    "name": "Mersin",
+    "unCountry": "TR",
+    "unLocode": "TRMER",
+    "unLocation": "MER",
+    "timezone": "UTC"
+  },
+  {
+    "id": 414,
+    "name": "Yarimca",
+    "unCountry": "TR",
+    "unLocode": "TRYAR",
+    "unLocation": "YAR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 415,
+    "name": "Port-of-Spain",
+    "unCountry": "TT",
+    "unLocode": "TTPOS",
+    "unLocation": "POS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 416,
+    "name": "Point Lisas",
+    "unCountry": "TT",
+    "unLocode": "TTPTS",
+    "unLocation": "PTS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 417,
+    "name": "Keelung (Chilung)",
+    "unCountry": "TW",
+    "unLocode": "TWKEL",
+    "unLocation": "KEL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 418,
+    "name": "Kaohsiung",
+    "unCountry": "TW",
+    "unLocode": "TWKHH",
+    "unLocation": "KHH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 419,
+    "name": "Dar es Salaam",
+    "unCountry": "TZ",
+    "unLocode": "TZDAR",
+    "unLocation": "DAR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 420,
+    "name": "Odesa",
+    "unCountry": "UA",
+    "unLocode": "UAODS",
+    "unLocation": "ODS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 421,
+    "name": "Pivdennyi",
+    "unCountry": "UA",
+    "unLocode": "UAYUZ",
+    "unLocation": "YUZ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 422,
+    "name": "Baltimore",
+    "unCountry": "US",
+    "unLocode": "USBAL",
+    "unLocation": "BAL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 423,
+    "name": "Charleston",
+    "unCountry": "US",
+    "unLocode": "USCHS",
+    "unLocation": "CHS",
+    "timezone": "UTC"
+  },
+  {
+    "id": 424,
+    "name": "Honolulu",
+    "unCountry": "US",
+    "unLocode": "USHNL",
+    "unLocation": "HNL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 425,
+    "name": "Houston",
+    "unCountry": "US",
+    "unLocode": "USHOU",
+    "unLocation": "HOU",
+    "timezone": "UTC"
+  },
+  {
+    "id": 426,
+    "name": "Wilmington",
+    "unCountry": "US",
+    "unLocode": "USILM",
+    "unLocation": "ILM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 427,
+    "name": "Jacksonville",
+    "unCountry": "US",
+    "unLocode": "USJAX",
+    "unLocation": "JAX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 428,
+    "name": "Los Angeles",
+    "unCountry": "US",
+    "unLocode": "USLAX",
+    "unLocation": "LAX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 429,
+    "name": "Long Beach",
+    "unCountry": "US",
+    "unLocode": "USLGB",
+    "unLocation": "LGB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 430,
+    "name": "Miami",
+    "unCountry": "US",
+    "unLocode": "USMIA",
+    "unLocation": "MIA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 431,
+    "name": "Mobile",
+    "unCountry": "US",
+    "unLocode": "USMOB",
+    "unLocation": "MOB",
+    "timezone": "UTC"
+  },
+  {
+    "id": 432,
+    "name": "New Orleans",
+    "unCountry": "US",
+    "unLocode": "USMSY",
+    "unLocation": "MSY",
+    "timezone": "UTC"
+  },
+  {
+    "id": 433,
+    "name": "Port Hueneme",
+    "unCountry": "US",
+    "unLocode": "USNTD",
+    "unLocation": "NTD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 434,
+    "name": "New York",
+    "unCountry": "US",
+    "unLocode": "USNYC",
+    "unLocation": "NYC",
+    "timezone": "America/New_York"
+  },
+  {
+    "id": 435,
+    "name": "Oakland",
+    "unCountry": "US",
+    "unLocode": "USOAK",
+    "unLocation": "OAK",
+    "timezone": "UTC"
+  },
+  {
+    "id": 436,
+    "name": "Norfolk",
+    "unCountry": "US",
+    "unLocode": "USORF",
+    "unLocation": "ORF",
+    "timezone": "UTC"
+  },
+  {
+    "id": 437,
+    "name": "Portland",
+    "unCountry": "US",
+    "unLocode": "USPDX",
+    "unLocation": "PDX",
+    "timezone": "UTC"
+  },
+  {
+    "id": 438,
+    "name": "Port Everglades",
+    "unCountry": "US",
+    "unLocode": "USPEF",
+    "unLocation": "PEF",
+    "timezone": "UTC"
+  },
+  {
+    "id": 439,
+    "name": "Philadelphia",
+    "unCountry": "US",
+    "unLocode": "USPHL",
+    "unLocation": "PHL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 440,
+    "name": "Portsmouth",
+    "unCountry": "US",
+    "unLocode": "USPTM",
+    "unLocation": "PTM",
+    "timezone": "UTC"
+  },
+  {
+    "id": 441,
+    "name": "Savannah",
+    "unCountry": "US",
+    "unLocode": "USSAV",
+    "unLocation": "SAV",
+    "timezone": "UTC"
+  },
+  {
+    "id": 442,
+    "name": "Seattle",
+    "unCountry": "US",
+    "unLocode": "USSEA",
+    "unLocation": "SEA",
+    "timezone": "UTC"
+  },
+  {
+    "id": 443,
+    "name": "Tacoma",
+    "unCountry": "US",
+    "unLocode": "USTIW",
+    "unLocation": "TIW",
+    "timezone": "UTC"
+  },
+  {
+    "id": 444,
+    "name": "Montevideo",
+    "unCountry": "UY",
+    "unLocode": "UYMVD",
+    "unLocation": "MVD",
+    "timezone": "UTC"
+  },
+  {
+    "id": 445,
+    "name": "Punta Pereyra",
+    "unCountry": "UY",
+    "unLocode": "UYPTP",
+    "unLocation": "PTP",
+    "timezone": "UTC"
+  },
+  {
+    "id": 446,
+    "name": "Guanta",
+    "unCountry": "VE",
+    "unLocode": "VEGUT",
+    "unLocation": "GUT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 447,
+    "name": "La Guaira",
+    "unCountry": "VE",
+    "unLocode": "VELAG",
+    "unLocation": "LAG",
+    "timezone": "UTC"
+  },
+  {
+    "id": 448,
+    "name": "Puerto Cabello",
+    "unCountry": "VE",
+    "unLocode": "VEPBL",
+    "unLocation": "PBL",
+    "timezone": "UTC"
+  },
+  {
+    "id": 449,
+    "name": "Haiphong",
+    "unCountry": "VN",
+    "unLocode": "VNHPH",
+    "unLocation": "HPH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 450,
+    "name": "Ninh Hoa",
+    "unCountry": "VN",
+    "unLocode": "VNNIH",
+    "unLocation": "NIH",
+    "timezone": "UTC"
+  },
+  {
+    "id": 451,
+    "name": "Ho Chi Minh City",
+    "unCountry": "VN",
+    "unLocode": "VNSGN",
+    "unLocation": "SGN",
+    "timezone": "Asia/Ho_Chi_Minh"
+  },
+  {
+    "id": 452,
+    "name": "Vung Tau",
+    "unCountry": "VN",
+    "unLocode": "VNVUT",
+    "unLocation": "VUT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 453,
+    "name": "Apia",
+    "unCountry": "WS",
+    "unLocode": "WSAPW",
+    "unLocation": "APW",
+    "timezone": "UTC"
+  },
+  {
+    "id": 454,
+    "name": "Cape Town",
+    "unCountry": "ZA",
+    "unLocode": "ZACPT",
+    "unLocation": "CPT",
+    "timezone": "UTC"
+  },
+  {
+    "id": 455,
+    "name": "Durban",
+    "unCountry": "ZA",
+    "unLocode": "ZADUR",
+    "unLocation": "DUR",
+    "timezone": "UTC"
+  },
+  {
+    "id": 456,
+    "name": "Port of Ngqura",
+    "unCountry": "ZA",
+    "unLocode": "ZANGQ",
+    "unLocation": "NGQ",
+    "timezone": "UTC"
+  },
+  {
+    "id": 457,
+    "name": "Port Elizabeth",
+    "unCountry": "ZA",
+    "unLocode": "ZAPLZ",
+    "unLocation": "PLZ",
+    "timezone": "UTC"
+  }
+]
