@@ -49,6 +49,7 @@ export class TransportCallCreatorComponent implements OnInit {
   delayCodes: DelayCode[];
   delayCode: DelayCode;
   defaultTimestampRemark: string;
+  timestampchecking:boolean;
 
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
@@ -72,6 +73,7 @@ export class TransportCallCreatorComponent implements OnInit {
     });
     this.updateFacilityTypeCode();
     this.transportCallFormGroup = this.formBuilder.group({
+     timestampchecking: new FormControl(null),
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
@@ -166,7 +168,7 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   shouldCreateTimestamp(): boolean {
-    return this.transportCallFormGroup.controls.timestampType.value;
+    return this.timestampchecking;
   }
 
   canCreateTimestamp(): boolean {
@@ -175,8 +177,12 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   createButtonText(): string {
-    if (this.canCreateTimestamp()) return 'general.transportCall.createWithTimestamp';
+    if (this.shouldCreateTimestamp()) return 'general.transportCall.createWithTimestamp';
     return 'general.transportCall.create';
+  }
+
+  get addressForm() {
+    return this.transportCallFormGroup.get('timestampchecking') as FormGroup;
   }
 
   async saveNewTransportCall() {
@@ -230,7 +236,7 @@ export class TransportCallCreatorComponent implements OnInit {
       timestampType: PortcallTimestampType;
     }
 
-    if (createTimestamp) {
+    if ( this.shouldCreateTimestamp() && createTimestamp) {
       this.timestamp.UNLocationCode = transportCall.UNLocationCode;
       this.timestamp.facilitySMDGCode = transportCall.facilityCode;
       this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
@@ -246,6 +252,31 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.eventDateTime = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       this.timestamp.eventDateTime.setHours(parseInt(hour), parseInt(minute));
       this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
+
+
+      this.creationProgress = true;
+      this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(respTimestamp => {
+          this.creationProgress = false;
+          this.messageService.add(
+            {
+              key: 'TimestampAddSuccess',
+              severity: 'success',
+              summary: this.translate.instant('general.save.editor.success.summary'),
+              detail: this.translate.instant('general.save.editor.success.detail')
+            })
+          this.ref.close(respTimestamp);
+        },
+        error => {
+          this.messageService.add(
+            {
+              key: 'TimestampAddError',
+              severity: 'error',
+              summary: this.translate.instant('general.save.editor.failure.summary'),
+              detail: this.translate.instant('general.save.editor.failure.detail') + error.message
+            })
+          this.creationProgress = false;
+        })
+        return; 
     }
 
     this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
@@ -259,31 +290,6 @@ export class TransportCallCreatorComponent implements OnInit {
             detail: this.translate.instant('general.transportCall.validation.success.detail')
           });
         this.ref.close(transportCall);
-
-        if (createTimestamp) {
-          this.creationProgress = true;
-          this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(respTimestamp => {
-              this.creationProgress = false;
-              this.messageService.add(
-                {
-                  key: 'TimestampAddSuccess',
-                  severity: 'success',
-                  summary: this.translate.instant('general.save.editor.success.summary'),
-                  detail: this.translate.instant('general.save.editor.success.detail')
-                })
-              this.ref.close(respTimestamp);
-            },
-            error => {
-              this.messageService.add(
-                {
-                  key: 'TimestampAddError',
-                  severity: 'error',
-                  summary: this.translate.instant('general.save.editor.failure.summary'),
-                  detail: this.translate.instant('general.save.editor.failure.detail') + error.message
-                })
-              this.creationProgress = false;
-            })
-        }
       },
       error => {
         this.creationProgress = false;
