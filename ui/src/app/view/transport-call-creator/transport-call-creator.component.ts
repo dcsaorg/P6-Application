@@ -22,6 +22,7 @@ import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
 import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
+import moment from "moment";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -49,7 +50,7 @@ export class TransportCallCreatorComponent implements OnInit {
   delayCodes: DelayCode[];
   delayCode: DelayCode;
   defaultTimestampRemark: string;
-  timestampchecking:boolean;
+  timestampchecking: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
@@ -73,7 +74,7 @@ export class TransportCallCreatorComponent implements OnInit {
     });
     this.updateFacilityTypeCode();
     this.transportCallFormGroup = this.formBuilder.group({
-     timestampchecking: new FormControl(null),
+      timestampchecking: new FormControl(null),
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
@@ -236,7 +237,7 @@ export class TransportCallCreatorComponent implements OnInit {
       timestampType: PortcallTimestampType;
     }
 
-    if ( this.shouldCreateTimestamp() && createTimestamp) {
+    if (this.shouldCreateTimestamp() && createTimestamp) {
       this.timestamp.UNLocationCode = transportCall.UNLocationCode;
       this.timestamp.facilitySMDGCode = transportCall.facilityCode;
       this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
@@ -248,11 +249,18 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
 
-      let [hour, minute] = this.transportCallFormGroup.controls.eventTimestampTime.value.split(':');
-      this.timestamp.eventDateTime = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
-      this.timestamp.eventDateTime.setHours(parseInt(hour), parseInt(minute));
-      this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
+      let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
 
+      // Convert submitted date-time to timezone according to selected port of call
+      let d = new Date(this.transportCallFormGroup.controls.eventTimestampDate.value);
+      let month = String((d.getMonth() + 1)).padStart(2, '0');
+      let day = String(d.getDate()).padStart(2, '0');
+      let [hour, minute] = this.transportCallFormGroup.controls.eventTimestampTime.value.split(':');
+      let second = String(d.getSeconds()).padStart(2, '0');
+      this.timestamp.eventDateTime = moment.tz(`${d.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
+
+      this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
+      this.timestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
 
       this.creationProgress = true;
       this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(respTimestamp => {
@@ -276,7 +284,7 @@ export class TransportCallCreatorComponent implements OnInit {
             })
           this.creationProgress = false;
         })
-        return; 
+      return;
     }
 
     this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
