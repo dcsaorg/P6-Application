@@ -1,0 +1,60 @@
+input[type="checkbox"] {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    -webkit-appearance: none;
+    background: linear-gradient(0deg, #333, #000);
+    outline: none;
+    border-radius: 20px;
+    box-shadow: 0 0 0 4px #009093, 0 0 0 5px #009093,
+      inset 0 0 10px #009093, 0 5px 20px rgba(0, 0, 0, 0.5),
+      inset 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  input:checked[type="checkbox"] {
+    background: linear-gradient(0deg, #ffffff, #ffffff);
+    box-shadow: 0 0 2px #00cdd2, 0 0 0 4px #009093, 0 0 0 5px #009093,
+      inset 0 0 10px #a9a9a9, 0 5px 20px rgba(0, 0, 0, 0.5),
+      inset 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Big black button actually moving */
+  input[type="checkbox"]:before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 40px;
+    height: 28px;
+    background: linear-gradient(0deg, #009093, #005f61);
+    border-radius: 20px;
+    box-shadow: 0 0 0 1px #009da0;
+    transform: scale(0.98, 0.96);
+    transition: 0.5s;
+  }
+  
+  //black slider AFTER click
+  input:checked[type="checkbox"]:before {
+    left: 19px;
+  }
+  
+  //small dot on the black slider BEFORE click
+  input[type="checkbox"]:after {
+    content: "";
+    position: absolute;
+    top: calc(50% - 2px);
+    left: 25px;
+    width: 4px;
+    height: 4px;
+    background: linear-gradient(0deg, #6b6b6b, #000);
+    border-radius: 50%;
+    transition: 0.5s;
+  }
+  //small dot on the black slider AFTER click
+  input:checked[type="checkbox"]:after {
+    background: #ffffff;
+    left: 45px;
+    box-shadow: 0 0 5px #00cdd2, 0 0 15px #009093;
+  }
+
+  
