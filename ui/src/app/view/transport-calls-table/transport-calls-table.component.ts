@@ -37,8 +37,10 @@ export class TransportCallsTableComponent implements OnInit {
               private translate: TranslateService) { }
 
   ngOnInit(): void {
-    this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
-    this.loadTransportCalls()
+    this.portService.getPorts().pipe(take(1)).subscribe(ports => {
+      this.ports = ports
+      this.loadTransportCalls()
+    });
     this.portFilterService.portObservable.subscribe(port => {
       this.filterPort = port
       this.refreshTransportCalls()
