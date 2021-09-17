@@ -253,11 +253,12 @@ export class TransportCallCreatorComponent implements OnInit {
 
       // Convert submitted date-time to timezone according to selected port of call
       let d = new Date(this.transportCallFormGroup.controls.eventTimestampDate.value);
+      let year = d.getFullYear();
       let month = String((d.getMonth() + 1)).padStart(2, '0');
       let day = String(d.getDate()).padStart(2, '0');
       let [hour, minute] = this.transportCallFormGroup.controls.eventTimestampTime.value.split(':');
       let second = String(d.getSeconds()).padStart(2, '0');
-      this.timestamp.eventDateTime = moment.tz(`${d.getFullYear()}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
+      this.timestamp.eventDateTime = moment.tz(`${year}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
 
       this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
       this.timestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
