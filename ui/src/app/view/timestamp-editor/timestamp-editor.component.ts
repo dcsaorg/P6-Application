@@ -20,7 +20,6 @@ import {TimestampService} from "../../controller/services/ovs/timestamps.service
 import {Globals} from "../../model/portCall/globals";
 import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
-import moment from "moment";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -136,11 +135,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
     if (this.eventTimestampDate) {
       timestamp.eventDateTime = this.dateToUTC.transform(this.eventTimestampDate, this.eventTimestampTime, port);
-    } else {
-      // Latest timestamp
-      let date = new Date(timestamp.eventDateTime);
-      let time = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-      timestamp.eventDateTime = this.dateToUTC.transform(date, time, port);
     }
 
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
