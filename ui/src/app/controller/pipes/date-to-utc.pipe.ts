@@ -16,5 +16,4 @@ export class DateToUtcPipe implements PipeTransform {
     // For whatever reason, this only works when passing date as string instead of a Date object
     return moment.tz(`${year}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
   }
-
 }

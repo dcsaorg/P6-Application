@@ -262,7 +262,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
 
       this.creationProgress = true;
-      this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(respTimestamp => {
+      this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(() => {
           this.creationProgress = false;
           this.messageService.add(
             {
@@ -271,7 +271,8 @@ export class TransportCallCreatorComponent implements OnInit {
               summary: this.translate.instant('general.save.editor.success.summary'),
               detail: this.translate.instant('general.save.editor.success.detail')
             })
-          this.ref.close(respTimestamp);
+
+          this.ref.close(this.timestamp);
         },
         error => {
           this.messageService.add(

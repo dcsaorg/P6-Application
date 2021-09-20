@@ -127,9 +127,9 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.publisher = this.globals.config.publisher;
     timestamp.publisherRole = this.globals.config.publisherRole;
 
-   //timestamp.logOfTimestamp = this.logOfTimestampDate;
-   // let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
-   // timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
+    // timestamp.logOfTimestamp = this.logOfTimestampDate;
+    // let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
+    // timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
 
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
@@ -139,7 +139,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     this.creationProgress = true;
-    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(respTimestamp => {
+    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(() => {
         this.creationProgress = false;
         this.messageService.add(
           {
@@ -148,7 +148,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
             summary: this.translate.instant('general.save.editor.success.summary'),
             detail: this.translate.instant('general.save.editor.success.detail')
           })
-        this.ref.close(respTimestamp);
+        this.ref.close(timestamp);
       },
       error => {
         this.messageService.add(
@@ -160,8 +160,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
           })
         this.creationProgress = false;
       })
-
-
   }
 
   updateTimestampTypeOptions() {

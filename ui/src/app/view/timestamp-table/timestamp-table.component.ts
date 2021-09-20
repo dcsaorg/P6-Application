@@ -97,6 +97,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
         this.colorizetimestampByLocation(timestamps);
         this.timestamps = timestamps;
+        console.log(this.timestamps);
         this.progressing = false;
         this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
       });
@@ -153,9 +154,12 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestamps: this.timestamps,
       }
     });
-    timestampEditor.onClose.subscribe({
-      complete: () => this.loadTimestamps()
+    timestampEditor.onClose.subscribe((timestamp) => {
+      if (timestamp) {
+        this.loadTimestamps()
+      }
     });
+
   }
 
   refreshTimestamps() {
