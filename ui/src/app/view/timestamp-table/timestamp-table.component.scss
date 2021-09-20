@@ -20,6 +20,13 @@
   }
 }
 
+tr{
+  height: 59px;
+}
+
+.invisible{
+  height:1px;
+}
 
 .rowDetails {
   color: $darkGrey;
@@ -77,8 +84,13 @@
   text-shadow: none;
 }
 
-.ingoing, .outgoingDelivered{
-  background-color: rgb(0, 0, 0);
+.ingoing{
+  background-color: #009093;
+  transform: scale(0.25);
+}
+
+.outgoingDelivered{
+  background-color: rgb(116, 116, 116);
   transform: scale(0.25);
 }
 

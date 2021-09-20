@@ -136,7 +136,13 @@
           "tooltip": "When was the event communicated (local time for port)"
         },
         "eventDeliveryStatus": {
-          "tooltip": "Delivery status of the timestamp"
+          "label": "status of Timestamp",
+          "tooltip": {
+            "green": "Timestamp is ingoing",
+            "yellow": "Timestamp is pending for delivery",
+            "red": "Error while latest attempt to deliver the timestamp (will retry later).",
+            "grey": "Timestamp has been delivered"
+          }
         },
         "nextPort": {
           "label": "Next port",
