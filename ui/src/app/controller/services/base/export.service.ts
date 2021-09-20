@@ -10,8 +10,8 @@ import {BACKEND_URL} from "../../../../environments/environment";
 export class ExportService {
   private readonly EXPORT_URL: string;
 
-  constructor(private httpClient: HttpClient) {
-    this.EXPORT_URL = BACKEND_URL + '/unofficial/export-timestamps/';
+  constructor(private httpClient: HttpClient, globals: Globals) {
+    this.EXPORT_URL = globals.config.uiSupportBackendURL + '/unofficial/export-timestamps/';
   }
 
   getExport = ():Observable<Blob> => {
