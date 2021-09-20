@@ -18,6 +18,7 @@ export class VesselEditorComponent implements OnInit {
   vesselFormGroup: FormGroup;
   carriers: SelectItem[];
   selectedCarrier: Carrier;
+  allowImoID: boolean;
   
 
   constructor(public ref: DynamicDialogRef,
@@ -30,16 +31,11 @@ export class VesselEditorComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.config.data) {
-      this.vessel = this.config.data;
-    } else {
-      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG, vesselCallSignNumber: ""};
-    }
 
-
+    
     this.vesselFormGroup = this.formBuilder.group({
       imoId: new FormControl(null, [
-        Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)
+        Validators.required , Validators.pattern('^\\d{7}$'), Validators.maxLength(7)
       ]),
       flag: new FormControl(null, [
         Validators.pattern('^\\w{2}?$')
@@ -48,7 +44,7 @@ export class VesselEditorComponent implements OnInit {
         Validators.required, Validators.minLength(1), Validators.maxLength(35)
       ]),
       callSignNumber: new FormControl(null, [
-        Validators.required, Validators.minLength(1), Validators.maxLength(10)
+        Validators.minLength(1), Validators.maxLength(10)
       ]),
       operatorCarrierID: new FormControl(null, [
         Validators.maxLength(36)
@@ -57,6 +53,17 @@ export class VesselEditorComponent implements OnInit {
 
     this.updatCarrrierOptions();
     this.selectCarrier();
+
+    if (this.config.data) {
+      this.allowImoID = false;
+      this.vessel = this.config.data;
+      this.vesselFormGroup.removeControl("imoId");
+
+    } else {
+      this.allowImoID = true;
+      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG, vesselCallSignNumber: ""};
+    }
+
   }
 
   saveVessel() {

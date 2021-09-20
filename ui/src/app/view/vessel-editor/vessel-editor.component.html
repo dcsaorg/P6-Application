@@ -2,7 +2,8 @@
   <div class="p-fluid">
     <div class="p-field p-grid">
       <label for="imo" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">{{ 'general.vessel.number' | translate }}</label>
-      <div class="p-col-12 p-md-10">
+      <label *ngIf="!allowImoID" for="imo" class="p-col-12 p-md-10"> {{ vessel.vesselIMONumber }}</label>
+      <div class="p-col-12 p-md-10"  *ngIf="allowImoID">
         <input id="imo" type="text" formControlName="imoId" pInputText [(ngModel)]=vessel.vesselIMONumber maxlength="70">
         <span *ngIf="vesselFormGroup.get('imoId').hasError('required') && vesselFormGroup.get('imoId').touched" class="p-invalid">
           {{ 'general.vessel.validation.number.empty' | translate }}
