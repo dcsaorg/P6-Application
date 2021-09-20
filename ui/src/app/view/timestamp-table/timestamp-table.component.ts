@@ -103,6 +103,10 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }
   }
 
+  refreshTimestamps() {
+    this.loadTimestamps();
+  }
+
   isOutGoing(timestamp: Timestamp): boolean {
     return timestamp.publisherRole == this.globals.config.publisherRole;
 
@@ -159,10 +163,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       }
     });
 
-  }
-
-  refreshTimestamps() {
-    this.loadTimestamps();
   }
 
   /*
