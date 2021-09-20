@@ -46,9 +46,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   logOfTimestampDate: Date;
   logOfTimestampTime: String;
   eventTimestampDate: Date;
-  eventTimestampTime: String;
+  eventTimestampTime: string;
   timestampSelected: string;
   creationProgress: boolean = false;
+  dateToUTC: DateToUtcPipe
 
   transportCall: TransportCall;
 
@@ -102,6 +103,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.defaultTimestamp.timestampType;
    // this.setLogOfTimestampToNow();
     this.updateTimestampTypeOptions();
+    this.dateToUTC = new DateToUtcPipe();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updateTimestampTypeOptions()
@@ -131,32 +133,18 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
    //timestamp.logOfTimestamp = this.logOfTimestampDate;
    // let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
    // timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
+
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-    //   let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
-//    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
-    //@ToDo To UTC Converter!
+    let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
     if (this.eventTimestampDate) {
-      // console.log(this.eventTimestampDate);
-      // timestamp.eventDateTime = this.eventTimestampDate;
-      // console.log(hour + ":" + minute);
-      // timestamp.eventDateTime.setHours(parseInt(hour), parseInt(minute));
-      // console.log(timestamp.eventDateTime)
-
-      let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
-
-      // Convert submitted date-time to timezone according to selected port of call
-      console.log(this.eventTimestampDate);
-      let d = this.eventTimestampDate;
-      let year = d.getFullYear();
-      let month = String((d.getMonth() + 1)).padStart(2, '0');
-      let day = String(d.getDate()).padStart(2, '0');
-      let [hour, minute] = this.eventTimestampTime.split(':');
-      let second = String(d.getSeconds()).padStart(2, '0');
-      // For whatever reason, this only works when passing date as string instead of a Date object
-      timestamp.eventDateTime = moment.tz(`${year}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
-
-
+      timestamp.eventDateTime = this.dateToUTC.transform(this.eventTimestampDate, this.eventTimestampTime, port);
+    } else {
+      // Latest timestamp
+      let date = new Date(timestamp.eventDateTime);
+      let time = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+      timestamp.eventDateTime = this.dateToUTC.transform(date, time, port);
     }
+
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(respTimestamp => {
