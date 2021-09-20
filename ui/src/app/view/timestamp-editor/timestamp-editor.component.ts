@@ -117,8 +117,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
 
   savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
-    const dateToUtc = new DateToUtcPipe();
-
     console.log(transportCall);
 
     timestamp.UNLocationCode = transportCall.UNLocationCode;

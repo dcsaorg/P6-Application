@@ -8,11 +8,6 @@ import moment from "moment";
 export class DateToUtcPipe implements PipeTransform {
 
   transform(localDate: Date, localTime: string, port: Port): string {
-
-    console.log(localDate)
-    console.log(localTime)
-    console.log(port)
-
     let year = localDate.getFullYear();
     let month = String((localDate.getMonth() + 1)).padStart(2, '0');
     let day = String(localDate.getDate()).padStart(2, '0');
