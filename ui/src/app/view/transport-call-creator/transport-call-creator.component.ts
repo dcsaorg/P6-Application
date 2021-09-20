@@ -258,6 +258,7 @@ export class TransportCallCreatorComponent implements OnInit {
       let day = String(d.getDate()).padStart(2, '0');
       let [hour, minute] = this.transportCallFormGroup.controls.eventTimestampTime.value.split(':');
       let second = String(d.getSeconds()).padStart(2, '0');
+      // For whatever reason, this only works when passing date as string instead of a Date object
       this.timestamp.eventDateTime = moment.tz(`${year}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
 
       this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
