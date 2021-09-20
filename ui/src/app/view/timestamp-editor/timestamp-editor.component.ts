@@ -20,6 +20,7 @@ import {TimestampService} from "../../controller/services/ovs/timestamps.service
 import {Globals} from "../../model/portCall/globals";
 import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
+import moment from "moment";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -99,7 +100,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.generateDefaultTimestamp();
     this.timestampSelected = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
     this.defaultTimestamp.timestampType;
-    this.setLogOfTimestampToNow();
+   // this.setLogOfTimestampToNow();
     this.updateTimestampTypeOptions();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -127,16 +128,34 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.publisher = this.globals.config.publisher;
     timestamp.publisherRole = this.globals.config.publisherRole;
 
-    timestamp.logOfTimestamp = this.logOfTimestampDate;
-    let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
-    timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
+   //timestamp.logOfTimestamp = this.logOfTimestampDate;
+   // let logOfTimestampTimeStrings = this.logOfTimestampTime.split(":");
+   // timestamp.logOfTimestamp.setHours(parseInt(logOfTimestampTimeStrings[0]), parseInt(logOfTimestampTimeStrings[1]));
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     //   let eventTimestampTimeStrings = this.eventTimestampTime.split(":");
 //    timestamp.eventDateTime.setHours(parseInt(eventTimestampTimeStrings[0]), parseInt(eventTimestampTimeStrings[1]));
     //@ToDo To UTC Converter!
     if (this.eventTimestampDate) {
-      timestamp.eventDateTime = this.eventTimestampDate;
-      timestamp.eventDateTime.setHours(parseInt(this.eventTimestampTime[0]), parseInt(this.eventTimestampTime[1]));
+      // console.log(this.eventTimestampDate);
+      // timestamp.eventDateTime = this.eventTimestampDate;
+      // console.log(hour + ":" + minute);
+      // timestamp.eventDateTime.setHours(parseInt(hour), parseInt(minute));
+      // console.log(timestamp.eventDateTime)
+
+      let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
+
+      // Convert submitted date-time to timezone according to selected port of call
+      console.log(this.eventTimestampDate);
+      let d = this.eventTimestampDate;
+      let year = d.getFullYear();
+      let month = String((d.getMonth() + 1)).padStart(2, '0');
+      let day = String(d.getDate()).padStart(2, '0');
+      let [hour, minute] = this.eventTimestampTime.split(':');
+      let second = String(d.getSeconds()).padStart(2, '0');
+      // For whatever reason, this only works when passing date as string instead of a Date object
+      timestamp.eventDateTime = moment.tz(`${year}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
+
+
     }
     timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
     this.creationProgress = true;
@@ -204,12 +223,12 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
   }
-
+/*
   setEventTimestampToDate(eventDate: Date) {
     this.eventTimestampDate = eventDate;
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
   }
-
+*/
   leftPadWithZero(item: number): String {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
@@ -233,8 +252,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       let lastTimestamp = this.getLatestTimestamp();
 
       this.defaultTimestamp.timestampType = lastTimestamp.timestampType;
-      this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
-
 
       // Set eventDateTime if required
       this.defaultTimestamp.eventDateTime = lastTimestamp.eventDateTime;
