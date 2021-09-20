@@ -98,7 +98,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.colorizetimestampByLocation(timestamps);
       this.timestamps = timestamps;
       this.progressing = false;
-     this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
+     this.timestampService.setResponseType(timestamps[0], this.globals.config.publisherRole); // set response for latest (first) timestamp
     });
   }
   }
