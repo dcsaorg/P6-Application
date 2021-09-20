@@ -35,23 +35,13 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
 
         case PortcallTimestampType.RTA_Berth:
           response = PortcallTimestampType.PTA_Berth;
-          break;
-        case PortcallTimestampType.ATS_Cargo_Ops:
-          response = null;                        //    ATC CARGO OPS:  Actual completion time? 
-          break;  
+          break; 
         case PortcallTimestampType.ETC_Cargo_Ops:
-          response = PortcallTimestampType.RTC_Cargo_Ops; // ASSUMING HOWEVER: NOT LISTED IN BISUNESS_REQ
-          break;  
-        case PortcallTimestampType.PTC_Cargo_Ops:
-          response = PortcallTimestampType.ATC_Cargo_Ops; // assumed
-          break;
-        case PortcallTimestampType.ATC_Cargo_Ops:
-          response = null;
+          response = PortcallTimestampType.RTC_Cargo_Ops;
           break;
         case PortcallTimestampType.RTA_PBP:
           response = PortcallTimestampType.PTA_PBP;
           break;
-
         case PortcallTimestampType.RTD_Berth:
           response = PortcallTimestampType.PTD_Berth;
           break;
@@ -66,75 +56,21 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
         case PortcallTimestampType.ETA_Berth:
           response = PortcallTimestampType.RTA_Berth;
           break;
-        case PortcallTimestampType.PTA_Berth:
-          response = PortcallTimestampType.ATA_Berth;
-          break;
-        case PortcallTimestampType.PTA_PBP:
-          response = PortcallTimestampType.ATA_PBP;
-          break;
-        case PortcallTimestampType.ATA_PBP:
-          response = null;
-          break;
-        case PortcallTimestampType.ATS_Pilot:
-          response = null;
-          break;  
-        case PortcallTimestampType.ATA_Berth:
-          response = null;
-          break;
         case PortcallTimestampType.RTC_Cargo_Ops:
           response = PortcallTimestampType.PTC_Cargo_Ops;
           break;
-        case PortcallTimestampType.ETD_Berth:
-          response = PortcallTimestampType.RTD_Berth;
-          break;
-        case PortcallTimestampType.PTD_Berth:
-          response= PortcallTimestampType.ATD_Berth;
-          break;
-        case PortcallTimestampType.ATD_Berth:
-          response= null;
-          break;
-        case PortcallTimestampType.RTA_PBP:
-          response = PortcallTimestampType.PTA_PBP;
-
       }
     }
 
     // if I'm a (Experimental: Port Authorities) OR (Experimental: Port Pilot)
     else if(role === PublisherRole.PLT || role == PublisherRole.ATH) {
       switch (portCallTimestamp.timestampType){
-
         case PortcallTimestampType.ETA_PBP:
           response = PortcallTimestampType.RTA_PBP;
-          break;
-
-        case PortcallTimestampType.PTA_PBP:
-          response = PortcallTimestampType.ATA_PBP;
-          break;
-        case PortcallTimestampType.ATA_PBP:
-          response = null;
-          break;
-        case PortcallTimestampType.ATS_Pilot:
-          response = null;
-          break;  
-        case PortcallTimestampType.ATA_Berth:
-          response = null;
           break;
         case PortcallTimestampType.ETD_Berth:
           response = PortcallTimestampType.RTD_Berth;
           break;
-        case PortcallTimestampType.PTD_Berth:
-          response= PortcallTimestampType.ATD_Berth;
-          break;
-        case PortcallTimestampType.ATD_Berth:
-          response= null;
-          break;
-        case PortcallTimestampType.ATS_Cargo_Ops:
-          response = null;
-          break;
-        case PortcallTimestampType.ATC_Cargo_Ops:
-          response = null;
-          break;
-
       }
     }
     portCallTimestamp.response = response;
