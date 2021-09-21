@@ -92,15 +92,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
 
   private loadTimestamps() {
-    if(this.transportCallSelected){
-    this.progressing = true;
-    this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
-      this.colorizetimestampByLocation(timestamps);
-      this.timestamps = timestamps;
-      this.progressing = false;
-     this.timestampService.setResponseType(timestamps[0], this.globals.config.publisherRole); // set response for latest (first) timestamp
-    });
-  }
+    if (this.transportCallSelected) {
+      this.progressing = true;
+      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
+        this.colorizetimestampByLocation(timestamps);
+        this.timestamps = timestamps;
+        this.progressing = false;
+        this.timestampService.setResponseType(timestamps[0], this.globals.config.publisherRole); // set response for latest (first) timestamp
+      });
+    }
   }
 
   isOutGoing(timestamp: Timestamp): boolean {
@@ -109,14 +109,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
 
-  acceptTimestamp(timestamp: Timestamp) {;
-    timestamp.timestampType = timestamp.response;
-    timestamp.logOfTimestamp = new Date();
-    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(
-      (newtimestamp: Timestamp) => {
-        const port = this.portIdToPortPipe.transform(timestamp.portOfCall.id, this.ports);
-        const typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestamp.timestampType as PortcallTimestampType);
-        const typeNew = this.portCallTimestampTypeToEnumPipe.transform(newtimestamp.timestampType as PortcallTimestampType);
+  acceptTimestamp(timestamp: Timestamp) {
+    let timestampShallowClone = Object.assign({}, timestamp);
+    timestampShallowClone.timestampType = timestamp.response;
+    timestampShallowClone.logOfTimestamp = new Date();
+    this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
+        let port = this.portIdToPortPipe.transform(timestampShallowClone.portOfCall.id, this.ports);
+        let typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestampShallowClone.timestampType as PortcallTimestampType);
+        let typeNew = this.portCallTimestampTypeToEnumPipe.transform(timestampShallowClone.timestampType as PortcallTimestampType);
         this.loadTimestamps();
         this.messageService.add({
           key: "TimestampToast",
@@ -153,9 +153,12 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestamps: this.timestamps,
       }
     });
-    timestampEditor.onClose.subscribe({
-      complete: () => this.loadTimestamps()
+    timestampEditor.onClose.subscribe((timestamp) => {
+      if (timestamp) {
+        this.loadTimestamps()
+      }
     });
+
   }
 
   refreshTimestamps() {

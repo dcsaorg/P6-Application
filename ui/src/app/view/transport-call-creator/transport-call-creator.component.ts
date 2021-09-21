@@ -23,6 +23,7 @@ import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import moment from "moment";
+import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -52,6 +53,8 @@ export class TransportCallCreatorComponent implements OnInit {
   defaultTimestampRemark: string;
   timestampchecking: boolean;
 
+  dateToUTC: DateToUtcPipe
+
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
               private globals: Globals,
@@ -73,6 +76,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.updateDelayCodeOptions()
     });
     this.updateFacilityTypeCode();
+    this.dateToUTC = new DateToUtcPipe();
     this.transportCallFormGroup = this.formBuilder.group({
       timestampchecking: new FormControl(null),
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
@@ -250,23 +254,16 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
 
+      let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
+      let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
       let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
-
-      // Convert submitted date-time to timezone according to selected port of call
-      let d = new Date(this.transportCallFormGroup.controls.eventTimestampDate.value);
-      let year = d.getFullYear();
-      let month = String((d.getMonth() + 1)).padStart(2, '0');
-      let day = String(d.getDate()).padStart(2, '0');
-      let [hour, minute] = this.transportCallFormGroup.controls.eventTimestampTime.value.split(':');
-      let second = String(d.getSeconds()).padStart(2, '0');
-      // For whatever reason, this only works when passing date as string instead of a Date object
-      this.timestamp.eventDateTime = moment.tz(`${year}-${month}-${day} ${hour}:${minute}:${second}`, port.timezone).toISOString();
+      this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, port);
 
       this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
       this.timestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
 
       this.creationProgress = true;
-      this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(respTimestamp => {
+      this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(() => {
           this.creationProgress = false;
           this.messageService.add(
             {
@@ -275,7 +272,8 @@ export class TransportCallCreatorComponent implements OnInit {
               summary: this.translate.instant('general.save.editor.success.summary'),
               detail: this.translate.instant('general.save.editor.success.detail')
             })
-          this.ref.close(respTimestamp);
+
+          this.ref.close(this.timestamp);
         },
         error => {
           this.messageService.add(
