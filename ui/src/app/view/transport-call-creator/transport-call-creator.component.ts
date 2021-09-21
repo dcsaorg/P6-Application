@@ -245,6 +245,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
       this.timestamp.publisherRole = this.globals.config.publisherRole;
       this.timestamp.publisher = this.globals.config.publisher;
+      this.delayCode = this.transportCallFormGroup.controls.delayCode.value;
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
