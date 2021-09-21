@@ -57,4 +57,8 @@ input[type="checkbox"] {
     box-shadow: 0 0 5px #00cdd2, 0 0 15px #009093;
   }
 
-  
+
+  .minus-rounded-borders{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
