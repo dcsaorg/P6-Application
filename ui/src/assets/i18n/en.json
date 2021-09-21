@@ -21,7 +21,7 @@
     "comment": {
       "header": "Delay Code and Comment to port call event",
       "select": "Select delay code (optional)",
-      "tooltip": "Comment or reason of delay for timestamp"
+      "tooltip": "Free text to provide additional comments"
     },
     "company": "Company",
     "direction": {

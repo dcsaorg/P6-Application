@@ -7,7 +7,7 @@
 <p-table *ngIf="!progressing && transportCallSelected" #dt [filterDelay]="0" [lazy]="false" [sortOrder]="1"
          [value]="timestamps"
          [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']"
-         sortField="logOfTimestamp" styleClass="p-datatable-sm">
+         sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
   <ng-template pTemplate="caption">
 
     <div class="p-grid">

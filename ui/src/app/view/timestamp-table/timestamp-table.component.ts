@@ -97,9 +97,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
         this.colorizetimestampByLocation(timestamps);
         this.timestamps = timestamps;
-        console.log(this.timestamps);
         this.progressing = false;
-        this.timestampService.setResponseType(timestamps[timestamps.length - 1], this.globals.config.publisherRole);
+        this.timestampService.setResponseType(timestamps[0], this.globals.config.publisherRole); // set response for latest (first) timestamp
       });
     }
   }

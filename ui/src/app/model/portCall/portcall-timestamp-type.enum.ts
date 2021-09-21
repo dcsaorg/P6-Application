@@ -7,6 +7,7 @@ export enum PortcallTimestampType {
   PTA_PBP = 'PTA-PBP',
   ATA_PBP = 'ATA-PBP',
   ATA_Berth = 'ATA-Berth',
+  ATS_Pilot = "ATS Pilotage",
   ATS_Cargo_Ops = 'ATS Cargo Ops',
   ETC_Cargo_Ops = 'ETC Cargo Ops',
   RTC_Cargo_Ops = 'RTC Cargo Ops',
@@ -15,6 +16,5 @@ export enum PortcallTimestampType {
   ETD_Berth = 'ETD-Berth',
   RTD_Berth = 'RTD-Berth',
   PTD_Berth = 'PTD-Berth',
-  ATD_Berth = 'ATD-Berth',
-  ATS_Pilot = "ATS Pilot"
+  ATD_Berth = 'ATD-Berth'
 }
