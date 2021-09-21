@@ -501,8 +501,6 @@ p-chips.ng-dirty.ng-invalid > .p-chips > .p-inputtext {
   background: transparent;
   color: #495057;
   width: 2.357rem;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
 }
 .p-dropdown .p-dropdown-clear-icon {
   color: #495057;
@@ -1332,6 +1330,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   padding: 0.5rem 0.75rem;
   font-size: 10pt;
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  height:39px;
   border-radius: 4px;
 
 }
@@ -1571,6 +1570,8 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   color: $foamWhite;
   background: #28a745;
   border: 1px solid #28a745;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0
 }
 .p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success > .p-button:enabled:hover, .p-splitbutton.p-button-success > .p-button:enabled:hover {
   background: #218838;

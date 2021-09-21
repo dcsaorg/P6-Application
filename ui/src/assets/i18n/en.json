@@ -3,6 +3,9 @@
     "cancel": {
       "label": "Cancel"
     },
+    "currentTime": {
+      "tooltip": "Click to set current time"
+    },
     "help": {
       "label": "Help"
     },
@@ -171,7 +174,7 @@
         },
         "timestamp": {
           "label": "Timestamp",
-          "tooltip": "An estimated, requested, planned or actual timestamp of a process event."
+          "tooltip": "An estimated, requested, planned or actual timestamp of an event."
         },
         "timestamps": {
           "label": "Portcall Timestamps"
@@ -182,8 +185,8 @@
           "tooltip": "The vessel of a process event"
         },
         "transportCallStatus": {
-          "label": "Status of call",
-          "tooltip": "Shows the current status of the call"
+          "label": "Delivery status",
+          "tooltip": "The current delivery status of the timestamp"
         }
       },
       "pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"
