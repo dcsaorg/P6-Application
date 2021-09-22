@@ -1,8 +1,8 @@
 export enum PublisherRole {
-  CA = "CA",    // Carrier
-  AG = "AG",    // ???
-  VSL = "VSL",  // Vessel?
+  CA = "CA",    // Carrier Operations
+  AG = "AG",    // Carrier local Agent
+  VSL = "VSL",  // Vessel
   ATH = "ATH",  // Port Authority
-  PLT = "PLT",  // Pilot
+  PLT = "PLT",  // Port Pilot
   TR = "TR"     // Terminal
 }
