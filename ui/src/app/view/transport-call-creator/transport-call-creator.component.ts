@@ -24,6 +24,7 @@ import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import moment from "moment";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
+import {Observable, merge} from "rxjs";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -90,7 +91,6 @@ export class TransportCallCreatorComponent implements OnInit {
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
       facilityTypeCode: new FormControl(null),
-
     });
   }
 
@@ -173,6 +173,26 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   shouldCreateTimestamp(): boolean {
+    let facilityTypeCode = this.transportCallFormGroup.get('facilityTypeCode');
+    let timestampType = this.transportCallFormGroup.get('timestampType');
+    let eventTimestampDate = this.transportCallFormGroup.get('eventTimestampDate');
+    let eventTimestampTime = this.transportCallFormGroup.get('eventTimestampTime');
+    if (this.timestampchecking) {
+      facilityTypeCode.setValidators([Validators.required])
+      timestampType.setValidators([Validators.required])
+      eventTimestampDate.setValidators([Validators.required])
+      eventTimestampTime.setValidators([Validators.required])
+    } else {
+      facilityTypeCode.setValidators(null)
+      timestampType.setValidators(null)
+      eventTimestampDate.setValidators(null)
+      eventTimestampTime.setValidators(null)
+    }
+    facilityTypeCode.updateValueAndValidity();
+    timestampType.updateValueAndValidity();
+    eventTimestampDate.updateValueAndValidity();
+    eventTimestampTime.updateValueAndValidity();
+
     return this.timestampchecking;
   }
 

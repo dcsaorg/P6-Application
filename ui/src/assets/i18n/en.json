@@ -138,6 +138,9 @@
           "label": "Message comm. time. ",
           "tooltip": "When was the event communicated (local time for port)"
         },
+        "eventDateTime": {
+          "label": "Event date time"
+        },
         "eventDeliveryStatus": {
           "label": "status of Timestamp",
           "tooltip": {
@@ -206,7 +209,18 @@
         "log": "Log date"
       },
       "select": "Select timestamp",
-      "time": "Time"
+      "time": "Time",
+      "validation": {
+        "timestampType": {
+          "required": "Timestamp Type is required when creating a timestamp!"
+        },
+        "eventTimestamp": {
+          "required": "Event Date Time is required!"
+        },
+        "facilityTypeCode": {
+          "required": "Facility Type Code is required when creating a timestamp!"
+        }
+      }
     },
     "transport": {
       "label": "Transport Call",
