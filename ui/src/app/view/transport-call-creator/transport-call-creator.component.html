@@ -110,15 +110,18 @@
           </div>
         </ng-template>
       </p-dropdown>
+      <span *ngIf="transportCallFormGroup.get('facilityTypeCode').hasError('required')" class="p-invalid">
+        {{ 'general.timestamp.validation.facilityTypeCode.required' | translate }}
+      </span>
     </div>
 
   </div>
 
   <!-- TIMESTAMP -->
   <h4>{{ 'general.timestamp.label' | translate }}</h4>
-  
+
   <div class="p-field p-col-12 p-md-5">
-    <label for="timestampChecks"> Check to create Timestamp </label>
+    <label> Check to create Timestamp </label>
     <input class="p-checkbox-box" type="checkbox" [(ngModel)]="timestampchecking" [ngModelOptions]="{standalone: true}">
   </div>
 
@@ -127,9 +130,14 @@
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes">
       </p-dropdown>
+      <span *ngIf="transportCallFormGroup.get('timestampType').hasError('required')" class="p-invalid">
+        {{ 'general.timestamp.validation.timestampType.required' | translate }}
+      </span>
+
     </div>
 
     <div class="p-field p-col-12 p-md-5" [hidden]="!shouldCreateTimestamp()">
+      <label for="timestampType">{{ 'general.table.header.eventDateTime.label' | translate }}: </label>
       <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-12 p-md-6">
           <p-calendar id="eventtimestamp" appendTo="body" formControlName="eventTimestampDate" hourFormat="24"
@@ -139,6 +147,9 @@
                       styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
                       [panelStyleClass]="'datetime-panel'">
           </p-calendar>
+          <span *ngIf="transportCallFormGroup.get('eventTimestampDate').hasError('required') || transportCallFormGroup.get('eventTimestampTime').hasError('required')" class="p-invalid">
+            {{ 'general.timestamp.validation.eventTimestamp.required' | translate }}
+          </span>
         </div>
         <div class="p-field p-col-12 p-md-6">
           <p-inputMask formControlName="eventTimestampTime" mask="99:99"
