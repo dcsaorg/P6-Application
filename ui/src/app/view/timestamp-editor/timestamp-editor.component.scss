@@ -13,6 +13,11 @@ p-dropdown::ng-deep {
   font-size: $tableSize !important;
 }
 
+.minus-rounded-borders{
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
 .terminalListDetails {
   color: $darkGrey;
   text-transform: capitalize;
@@ -42,7 +47,7 @@ p-dropdown::ng-deep {
 
 .commentBox{
   height: 200px;
-  width: 600px;
+  width: 560px;
 }
 
 .footer_option{

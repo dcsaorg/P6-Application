@@ -99,7 +99,7 @@
       <th style="width: 4%" class="timestampContent" >
       </th>
     </tr>
-    <tr>
+    <tr class="invisible">
       <td></td>
       <td></td>
       <td></td>
@@ -170,34 +170,31 @@
                tooltipStyleClass="ToolTipClass">{{timestamp.facilitySMDGCode}}</div>
         </div>
       </td>
-      <td
-        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
-        style="width: 8%">
-   <!--     <div
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
-        <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
-      </td>
-      <td style="width: 7%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}
-     -->
-    <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
-    <div *ngIf="!isOutGoing(timestamp)">Ingoing</div>
-    
-    </td>
-    <td *ngIf="isOutGoing(timestamp)" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip' | translate }}" tooltipPosition="top"
+    <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.grey' | translate }}" tooltipPosition="top"
     tooltipStyleClass="ToolTipClass" [ngClass]="
-      {'outgoingAttempted': timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY',
-      'outgoingPending': timestamp.eventDeliveryStatus === 'PENDING_DELIVERY',
+      {
       'outgoingDelivered': timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'
       }"
-      style="width: 100%;">
-    
+      style="width: 4%">
     </td>
-
+    <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.red' | translate }}" tooltipPosition="top"
+    tooltipStyleClass="ToolTipClass" [ngClass]="
+      {
+      'outgoingAttempted': timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'
+      }"
+      style="width: 4%">
+    </td>
+    <td  *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.yellow' | translate }}" tooltipPosition="top"
+    tooltipStyleClass="ToolTipClass" [ngClass]="
+      {
+      'outgoingPending': timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'
+      }"
+      style="width: 4%">
+    </td>
                 <!--this has been removed from the below td-->
               <!-- [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp' "--> 
       <td *ngIf="!isOutGoing(timestamp)" style="width: 4%"  
-      class="ingoing" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip' | translate }}" tooltipPosition="top"
+      class="ingoing" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.green' | translate }}" tooltipPosition="top"
     tooltipStyleClass="ToolTipClass">
       <!--
                 <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
@@ -216,6 +213,22 @@
         
 
       </td>
+      <td
+        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
+        style="width: 8%">
+   <!--     <div
+          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
+        <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
+      </td>
+      <td style="width: 7%"
+          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}
+     -->
+
+    
+    <!-- <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
+    <div *ngIf="!isOutGoing(timestamp)">Ingoing</div> -->
+    
+    </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 4%">
