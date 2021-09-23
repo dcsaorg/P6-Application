@@ -30,6 +30,7 @@ export interface Timestamp {
     remark?: string;
     delayReasonCode?: string;
     eventDeliveryStatus?: string;
+    isLatestInCycle?: boolean
 
     /**
    * @deprecated
