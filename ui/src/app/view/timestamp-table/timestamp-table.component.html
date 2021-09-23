@@ -117,7 +117,8 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-timestamp >
-    <tr class="unreadTimestamp">
+    
+    <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestamp.isLatestInCycle == false}">
       <td pTooltip="Event ID: {{timestamp.id}}
         Publisher: {{timestamp.publisher}}
         PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top"
@@ -230,6 +231,7 @@
     
     </td>
       <td
+      
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 4%">
 
@@ -242,6 +244,7 @@
                   tooltipPosition="left"
                   tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
       </td>
+      
     </tr>
   </ng-template>
 </p-table>

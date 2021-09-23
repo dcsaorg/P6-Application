@@ -58,13 +58,19 @@ export class TimestampMappingService {
         )
       }),
       map(events => {
-        const timestamps = this.operationsEventsToTimestampsPipe.transform(events)
-        this.mapTransportCallToTimestamps(timestamps, transportCall);
-        return timestamps;
-      }))
+      const timestamps = this.operationsEventsToTimestampsPipe.transform(events)
+      this.mapTransportCallToTimestamps(timestamps, transportCall);
+      
+      let set = new Set()
+
+      for ( let timestamp of timestamps) {
+        let negotiationCycle = timestamp.timestampType.substring(1)
+        timestamp.isLatestInCycle = !set.has(negotiationCycle)
+        set.add(negotiationCycle)
+      }
+      return timestamps;
+    }))
   }
-
-
 
   getPortByUnLocode(unlocode: string): Port {
     for (let port of this.globals.ports) {
