@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
       {
         label: this.translate.instant('Terms of Service'),
         icon: 'pi pi-exclamation-circle',
-        url: '/assets/termsofuse.pdf',
+        url: '/assets/termsofservice.pdf',
       },
         {
           label: this.translate.instant('Download Timestamps'),
