@@ -22,9 +22,7 @@ import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
 import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
-import moment from "moment";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
-import {Observable, merge} from "rxjs";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -149,7 +147,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
 
-    for (let item of  this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
+    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
       this.timestampTypes.push({label: item, value: item})
     }
   }
@@ -280,7 +278,7 @@ export class TransportCallCreatorComponent implements OnInit {
       let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
       this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, port);
 
-      this.timestamp.timestampType = PortcallTimestampType[this.transportCallFormGroup.controls.timestampType.value];
+      this.timestamp.timestampType = this.timestampType as PortcallTimestampType;
       this.timestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
 
       this.creationProgress = true;

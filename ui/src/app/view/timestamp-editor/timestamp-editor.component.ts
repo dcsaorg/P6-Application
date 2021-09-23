@@ -18,8 +18,6 @@ import {Util} from "../../controller/services/util/util";
 import {Timestamp} from "../../model/ovs/timestamp";
 import {TimestampService} from "../../controller/services/ovs/timestamps.service";
 import {Globals} from "../../model/portCall/globals";
-import {EventLocation} from "../../model/eventLocation";
-import {VesselPosition} from "../../model/vesselPosition";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -101,7 +99,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.generateDefaultTimestamp();
     this.timestampSelected = Util.GetEnumKeyByEnumValue(PortcallTimestampType, this.defaultTimestamp.timestampType);
     this.defaultTimestamp.timestampType;
-   // this.setLogOfTimestampToNow();
+    // this.setLogOfTimestampToNow();
     this.updateTimestampTypeOptions();
     this.dateToUTC = new DateToUtcPipe();
 
@@ -138,7 +136,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       timestamp.eventDateTime = this.dateToUTC.transform(this.eventTimestampDate, this.eventTimestampTime, port);
     }
 
-    timestamp.timestampType = PortcallTimestampType[this.timestampSelected];
+    timestamp.timestampType = this.timestampSelected as PortcallTimestampType;
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(() => {
         this.creationProgress = false;
@@ -202,12 +200,13 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
   }
-/*
-  setEventTimestampToDate(eventDate: Date) {
-    this.eventTimestampDate = eventDate;
-    this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
-  }
-*/
+
+  /*
+    setEventTimestampToDate(eventDate: Date) {
+      this.eventTimestampDate = eventDate;
+      this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
+    }
+  */
   leftPadWithZero(item: number): String {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
