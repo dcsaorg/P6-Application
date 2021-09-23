@@ -14,7 +14,7 @@ import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvid
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {DelayCode} from "../../model/portCall/delayCode";
-import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
+import {PortcallTimestampType, TimestampTypeUtil} from "../../model/portCall/portcall-timestamp-type.enum";
 import {Timestamp} from "../../model/ovs/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
@@ -148,8 +148,9 @@ export class TransportCallCreatorComponent implements OnInit {
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
-    for (let item in PortcallTimestampType) {
-      this.timestampTypes.push({label: PortcallTimestampType[item], value: item})
+
+    for (let item of TimestampTypeUtil.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
+      this.timestampTypes.push({label: item, value: item})
     }
   }
 
