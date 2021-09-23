@@ -28,6 +28,8 @@ Note: No need to response if an "Actual" is recieved
 public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
 
     let response: PortcallTimestampType = null;
+
+    if((portCallTimestamp === undefined) || (role === undefined)){return;}
     
     // If I'm a carrier
     if (role === PublisherRole.CA || role === PublisherRole.AG || role === PublisherRole.VSL  ) {
