@@ -8,11 +8,8 @@ import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
 export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
 
   transform(timestampType: PortcallTimestampType): FacilityTypeCode {
-    console.log("wow timestampType");
-    console.log(timestampType);
-    
     let ret: FacilityTypeCode = FacilityTypeCode.BRTH;
- if(
+    if (
       [PortcallTimestampType.ETD_Berth,
         PortcallTimestampType.PTD_Berth,
         PortcallTimestampType.RTD_Berth,
@@ -22,14 +19,15 @@ export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
         PortcallTimestampType.PTA_Berth,
         PortcallTimestampType.RTA_Berth
       ].includes(timestampType)
-    ) {ret = FacilityTypeCode.BRTH}
-    else if (
+    ) {
+      ret = FacilityTypeCode.BRTH
+    } else if (
       [PortcallTimestampType.ETA_PBP,
         PortcallTimestampType.PTA_PBP,
         PortcallTimestampType.RTA_PBP,
         PortcallTimestampType.ATA_PBP
       ].includes(timestampType)
-    ){
+    ) {
       ret = FacilityTypeCode.PBPL
     }
     return ret;
