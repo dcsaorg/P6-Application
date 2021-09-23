@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
-import {PortcallTimestampType, TimestampTypeUtil} from "../../model/portCall/portcall-timestamp-type.enum";
+import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {Port} from "../../model/portCall/port";
@@ -53,6 +53,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   transportCall: TransportCall;
 
   timestampTypes: SelectItem[] = [];
+  timestampType: PortcallTimestampType;
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   delayCode: DelayCode;
@@ -165,7 +166,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
-    for (let item of TimestampTypeUtil.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
+    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
       this.timestampTypes.push({label: item, value: item})
     }
   }
