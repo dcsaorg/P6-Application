@@ -11,7 +11,6 @@ import { PublisherRole } from 'src/app/model/enums/publisherRole';
 })
 export class TimestampService {
   private readonly TIMESTAMPS_URL: string;
-
   constructor(private httpClient: HttpClient, globals: Globals) {
     this.TIMESTAMPS_URL = globals.config.ovsBackendURL + "/timestamps";
   }
@@ -47,6 +46,15 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
         case PortcallTimestampType.RTD_Berth:
           response = PortcallTimestampType.PTD_Berth;
           break;
+        case PortcallTimestampType.ETS_Bunkering:
+          response = PortcallTimestampType.RTS_Bunkering;
+          break
+        case PortcallTimestampType.ETC_Bunkering:
+          response = PortcallTimestampType.RTC_Bunkering;
+          break
+        case PortcallTimestampType.ETS_Cargo_Ops:
+          response = PortcallTimestampType.RTS_Cargo_Ops;
+          break;
 
       }
     }
@@ -54,13 +62,15 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
     // If I'm a terminal
     else if(role == PublisherRole.TR){
       switch (portCallTimestamp.timestampType) {
-
         case PortcallTimestampType.ETA_Berth:
           response = PortcallTimestampType.RTA_Berth;
           break;
         case PortcallTimestampType.RTC_Cargo_Ops:
           response = PortcallTimestampType.PTC_Cargo_Ops;
           break;
+        case PortcallTimestampType.RTS_Cargo_Ops:
+          response = PortcallTimestampType.PTS_Cargo_Ops
+          break  
       }
     }
 
@@ -75,6 +85,32 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
           break;
       }
     }
-    portCallTimestamp.response = response;
+
+    // if i am a Bunkering service provider
+    else if(role === PublisherRole.BUK) {
+      switch (portCallTimestamp.timestampType){
+        case PortcallTimestampType.RTS_Bunkering:
+          response = PortcallTimestampType.PTS_Bunkering;
+          break;
+        case PortcallTimestampType.RTC_Bunkering:
+          response = PortcallTimestampType.PTC_Bunkering
+          break
+      }
+    }
+
+    // if i am a towage service provider
+    else if(role === PublisherRole.TWG) {
+      switch (portCallTimestamp.timestampType){
+        case PortcallTimestampType.RTS_Towage:
+          response = PortcallTimestampType.PTS_Towage
+          break
+      }
+    }
+
+    // if i am a lashing service provider
+    else if(role === PublisherRole.LSH) {
+      switch (portCallTimestamp.timestampType){
+      }
+    }
   }
 }
