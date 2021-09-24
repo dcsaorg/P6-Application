@@ -64,9 +64,11 @@ export class TimestampMappingService {
       let set = new Set()
 
       for ( let timestamp of timestamps) {
-        let negotiationCycle = timestamp.timestampType.substring(1)
-        timestamp.isLatestInCycle = !set.has(negotiationCycle)
-        set.add(negotiationCycle)
+        if (timestamp.timestampType) {
+          let negotiationCycle = timestamp.timestampType.substring(1)
+          timestamp.isLatestInCycle = !set.has(negotiationCycle)
+          set.add(negotiationCycle)
+        }
       }
       return timestamps;
     }))
