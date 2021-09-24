@@ -3,6 +3,7 @@ A specialized version of the facilityCode to be used in Operations events. The c
 */
 export enum FacilityTypeCode {
     PBPL = "PBPL",
-    BRTH = "BRTH"
+    BRTH = "BRTH",
+    POTE = 'POTE'
   }
   
