@@ -35,7 +35,6 @@ export class TransportCallCreatorComponent implements OnInit {
   terminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
   vesselOptions: SelectItem[] = [];
-  facilityTypeCodeOptions: SelectItem[] = [];
   facilityCodeListProviderOptions: SelectItem[] = [];
   creationProgress: boolean;
   vessels: Vessel[] = [];
@@ -74,7 +73,6 @@ export class TransportCallCreatorComponent implements OnInit {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()
     });
-    this.updateFacilityTypeCode();
     this.dateToUTC = new DateToUtcPipe();
     this.transportCallFormGroup = this.formBuilder.group({
       timestampchecking: new FormControl(null),
@@ -87,8 +85,7 @@ export class TransportCallCreatorComponent implements OnInit {
       delayCode: new FormControl(null),
       eventTimestampTime: new FormControl(null),
       eventTimestampDate: new FormControl(null),
-      defaultTimestampRemark: new FormControl(null),
-      facilityTypeCode: new FormControl(null),
+      defaultTimestampRemark: new FormControl(null)
     });
   }
 
@@ -137,12 +134,6 @@ export class TransportCallCreatorComponent implements OnInit {
     })
   }
 
-  private updateFacilityTypeCode() {
-    this.facilityTypeCodeOptions.push({label: this.translate.instant('general.facilityTypeCode.select'), value: null});
-    this.facilityTypeCodeOptions.push({label: FacilityTypeCode.PBPL.toString(), value: FacilityTypeCode.PBPL});
-    this.facilityTypeCodeOptions.push({label: FacilityTypeCode.BRTH.toString(), value: FacilityTypeCode.BRTH});
-  }
-
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
@@ -172,22 +163,18 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   shouldCreateTimestamp(): boolean {
-    let facilityTypeCode = this.transportCallFormGroup.get('facilityTypeCode');
     let timestampType = this.transportCallFormGroup.get('timestampType');
     let eventTimestampDate = this.transportCallFormGroup.get('eventTimestampDate');
     let eventTimestampTime = this.transportCallFormGroup.get('eventTimestampTime');
     if (this.timestampchecking) {
-      facilityTypeCode.setValidators([Validators.required])
       timestampType.setValidators([Validators.required])
       eventTimestampDate.setValidators([Validators.required])
       eventTimestampTime.setValidators([Validators.required])
     } else {
-      facilityTypeCode.setValidators(null)
       timestampType.setValidators(null)
       eventTimestampDate.setValidators(null)
       eventTimestampTime.setValidators(null)
     }
-    facilityTypeCode.updateValueAndValidity();
     timestampType.updateValueAndValidity();
     eventTimestampDate.updateValueAndValidity();
     eventTimestampTime.updateValueAndValidity();
@@ -197,7 +184,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
   canCreateTimestamp(): boolean {
     this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    return this.transportCallFormGroup.controls.facilityTypeCode.value && this.timestampType != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
+    return this.timestampType != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
   }
 
   createButtonText(): string {
@@ -241,7 +228,7 @@ export class TransportCallCreatorComponent implements OnInit {
     transportCall.UNLocationCode = port.unLocode;
     transportCall.carrierVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
-    transportCall.facilityTypeCode = this.transportCallFormGroup.controls.facilityTypeCode.value;
+    transportCall.facilityTypeCode = FacilityTypeCode.POTE
 
     // Timestamp
     this.timestampType = this.transportCallFormGroup.controls.timestampType.value;

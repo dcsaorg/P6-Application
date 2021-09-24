@@ -93,28 +93,6 @@
         {{ 'general.transportCall.validation.vessel.noVesselSelected' | translate }}
       </span>
     </div>
-
-    <!-- FacilityTypeCode -->
-    <div class="p-field p-col-12 p-md-4">
-      <label for="facilityTypeCodes">{{ 'general.facilityTypeCode.label' | translate }}:</label>
-      <p-dropdown appendTo="body" formControlName="facilityTypeCode" id="facilityTypeCodes"
-                  class="facilityTypeCodes__dropDown"
-                  [options]="facilityTypeCodeOptions" [filter]="true" filterBy="label,value.name">
-        <ng-template let-facilityTypeCode pTemplate="item">
-          <div *ngIf="!facilityTypeCode.value">
-            <div>Select facility type code</div>
-          </div>
-          <div *ngIf="facilityTypeCode.value">
-            <div>{{facilityTypeCode.value}}</div>
-            <div class="portListName">{{facilityTypeCode.value.name}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
-      <span *ngIf="transportCallFormGroup.get('facilityTypeCode').hasError('required')" class="p-invalid">
-        {{ 'general.timestamp.validation.facilityTypeCode.required' | translate }}
-      </span>
-    </div>
-
   </div>
 
   <!-- TIMESTAMP -->
