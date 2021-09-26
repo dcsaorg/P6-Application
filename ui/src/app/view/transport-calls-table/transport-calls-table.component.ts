@@ -5,7 +5,6 @@ import {DialogService} from "primeng/dynamicdialog";
 import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
 import {TranslateService} from "@ngx-translate/core";
 import { PortService } from 'src/app/controller/services/base/port.service';
-import { PortIdToPortPipe } from 'src/app/controller/pipes/port-id-to-port.pipe';
 import { PortFilterService } from 'src/app/controller/services/base/portfilter.service';
 import { Port } from 'src/app/model/portCall/port';
 import { Terminal } from 'src/app/model/portCall/terminal';
@@ -53,6 +52,10 @@ export class TransportCallsTableComponent implements OnInit {
 
   selectTransportCall(event){
     this.transportCallNotifier.emit(event.data);
+  }
+
+  unselectTransportCall(): void {
+    this.transportCallNotifier.emit(null);
   }
 
   refreshTransportCalls(): void {
