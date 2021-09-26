@@ -228,21 +228,26 @@
     
     <!-- <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
     <div *ngIf="!isOutGoing(timestamp)">Ingoing</div> -->
-    
-    </td>
+      </td>
       <td
-      
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 4%">
-
-        <p-button *ngIf="timestamp.remark || timestamp.delayReasonCode" class="timestampContent" (onClick)="showComment(timestamp)"
-                  icon="pi pi-comment">
-        </p-button>
-
-        <p-button *ngIf="timestamp.response != null && !isOutGoing(timestamp)" icon="pi pi-check"
-                  pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
-                  tooltipPosition="left"
-                  tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
+        <div class="p-col tableHeader">
+          <div class="timestampContent__buttons" *ngIf="timestamp.remark || timestamp.delayReasonCode">
+            <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
+            </p-button>
+          </div>
+      
+          <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
+            <p-button icon="pi pi-check" pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
+              tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
+          </div>
+      
+          <div class="timestampContent__buttons" *ngIf="timestamp.isLatestInCycle && !isOutGoing(timestamp)">
+            <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
+              tooltipStyleClass="ToolTipClass" (click)="openCreationDialog()"></p-button>
+          </div>
+        </div>
       </td>
       
     </tr>
