@@ -235,7 +235,7 @@
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
         style="width: 4%">
 
-        <p-button *ngIf="timestamp.changeComment || timestamp.delayReasonCode" class="timestampContent" (onClick)="showComment(timestamp)"
+        <p-button *ngIf="timestamp.remark || timestamp.delayReasonCode" class="timestampContent" (onClick)="showComment(timestamp)"
                   icon="pi pi-comment">
         </p-button>
 
