@@ -22,7 +22,6 @@ export interface OperationsEvent {
   portCallServiceTypeCode: PortCallServiceTypeCode;
   publisherRole: PublisherRole;
   eventLocation: string;
-  changeRemark?: string;
   remark?: string;
   delayReasonCode?: string;
   eventDeliveryStatus: string;
