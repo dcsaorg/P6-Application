@@ -2,9 +2,10 @@
          [value]="transportCalls"
          [(selection)]="selectedtransportCall"
          selectionMode="single"
-         dataKey="transportCallId"
+         dataKey="transportCallID"
+         responsiveLayout="scroll"
          (onRowSelect)="selectTransportCall($event)"
-         (onRowUnselect)="selectTransportCall($event)">
+         (onRowUnselect)="unselectTransportCall()">
   <ng-template pTemplate="caption">
     <div class="p-grid">
       <div class="p-col">{{'general.transportCall.label' | translate}}</div>
@@ -48,8 +49,8 @@
       <th style="width:15%">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-transportCall let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="transportCall" [pSelectableRowIndex]="rowIndex">
+  <ng-template pTemplate="body" let-transportCall>
+    <tr [pSelectableRow]="transportCall">
       <td>{{transportCall.vesselName}}</td>
       <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
