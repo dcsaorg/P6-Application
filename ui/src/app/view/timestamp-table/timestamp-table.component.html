@@ -242,7 +242,7 @@
               tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
           </div>
       
-          <div class="timestampContent__buttons" *ngIf="timestamp.isLatestInCycle && !isOutGoing(timestamp)">
+          <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
               tooltipStyleClass="ToolTipClass" (click)="openCreationDialog()"></p-button>
           </div>
