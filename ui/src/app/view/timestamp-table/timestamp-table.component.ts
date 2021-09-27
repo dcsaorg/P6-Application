@@ -15,7 +15,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {PortService} from "../../controller/services/base/port.service";
 import {TerminalService} from "../../controller/services/base/terminal.service";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
-import {take, timestamp} from "rxjs/operators";
+import {take} from "rxjs/operators";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
@@ -94,6 +94,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   private loadTimestamps() {
     if (this.transportCallSelected) {
       this.progressing = true;
+      this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
         this.colorizetimestampByLocation(timestamps);
         this.timestamps = timestamps;
