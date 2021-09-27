@@ -45,7 +45,7 @@ export class TransportCallsTableComponent implements OnInit {
       this.loadTransportCalls()
     });
     this.vesselService.vesselsObservable.subscribe(() => {
-      this.refreshTransportCalls()
+      this.loadTransportCalls()
     })
     this.portFilterService.portObservable.subscribe(port => {
       this.filterPort = port
