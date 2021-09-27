@@ -119,8 +119,7 @@
   <ng-template pTemplate="body" let-timestamp >
 
     <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestamp.isLatestInCycle == false}">
-      <td pTooltip="Event ID: {{timestamp.id}}
-        Publisher: {{timestamp.publisher}}
+      <td pTooltip="Publisher: {{timestamp.publisher.partyName}}
         PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
@@ -243,7 +242,7 @@
               tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
           </div>
 
-          <div class="timestampContent__buttons" *ngIf="timestamp.isLatestInCycle && !isOutGoing(timestamp)">
+          <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
               tooltipStyleClass="ToolTipClass" (click)="openCreationDialog()"></p-button>
           </div>

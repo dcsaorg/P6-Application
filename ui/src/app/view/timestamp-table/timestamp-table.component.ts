@@ -6,7 +6,6 @@ import {Terminal} from "../../model/portCall/terminal";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
-import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {PortCallTimestampTypeToEnumPipe} from "../../controller/pipes/port-call-timestamp-type-to-enum.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
@@ -102,7 +101,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         this.colorizetimestampByLocation(timestamps);
         this.timestamps = timestamps;
         this.progressing = false;
-        this.timestampService.setResponseType(timestamps[0], this.globals.config.publisherRole); // set response for latest (first) timestamp
       });
     }
   }
@@ -122,14 +120,11 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     timestampShallowClone.timestampType = timestamp.response;
     timestampShallowClone.logOfTimestamp = new Date();
     this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
-        let port = this.portIdToPortPipe.transform(timestampShallowClone.portOfCall.id, this.ports);
-        let typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestampShallowClone.timestampType as PortcallTimestampType);
-        let typeNew = this.portCallTimestampTypeToEnumPipe.transform(timestampShallowClone.timestampType as PortcallTimestampType);
         this.loadTimestamps();
         this.messageService.add({
           key: "TimestampToast",
           severity: 'success',
-          summary: 'Successfully accepted the ' + typeOrigin + " with an " + typeNew + " for port " + port.unLocode,
+          summary: 'Successfully accepted the Timestamp: ' + timestamp.timestampType + " \n for port:" + timestamp.UNLocationCode,
           detail: ''
         });
         this.timeStampAcceptNotifier.emit(timestamp);
