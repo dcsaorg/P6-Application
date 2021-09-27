@@ -26,6 +26,7 @@ export class TransportCallsTableComponent implements OnInit {
   filterPort: Port;
   filterTerminal: Terminal;
   ports: Port[] = [];
+  progressing: boolean = true;
 
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
 
@@ -59,6 +60,7 @@ export class TransportCallsTableComponent implements OnInit {
   }
 
   refreshTransportCalls(): void {
+    this.progressing = true;
     this.loadTransportCalls()
     this.transportCallNotifier.emit(null);
 
@@ -78,6 +80,7 @@ export class TransportCallsTableComponent implements OnInit {
 
   loadTransportCalls():void{
     this.transportCallService.getTransportCalls(this.filterPort?.unLocode, this.filterTerminal?.smdgCode).subscribe(transportCalls => {
+      this.progressing = false;
       this.transportCalls = transportCalls;
     })
   }
