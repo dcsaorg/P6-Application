@@ -76,6 +76,9 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.vesselService.vesselsObservable.subscribe(() => {
+      this.loadTimestamps()
+    })
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
