@@ -1842,6 +1842,9 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   border-radius: 0;
 }
 .p-datatable .p-datatable-header {
+  position: sticky;
+  top: 0px;
+  z-index: 10;
   background: #efefef;
   color: $darkNavyBlue;
   border: solid #dee2e6;
