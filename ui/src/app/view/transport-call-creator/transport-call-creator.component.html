@@ -47,7 +47,7 @@
               </div>
             </ng-template>
           </p-dropdown>
-          <span *ngIf="transportCallFormGroup.get('port').hasError('required')" class="p-invalid">
+          <span *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('port').touched" class="p-invalid">
             {{ 'general.transportCall.validation.port.empty' | translate }}
           </span>
         </div>
@@ -89,7 +89,7 @@
           </div>
         </ng-template>
       </p-dropdown>
-      <span *ngIf="transportCallFormGroup.get('vessel').hasError('required')" class="p-invalid">
+      <span *ngIf="transportCallFormGroup.get('vessel').hasError('required') && transportCallFormGroup.get('vessel').touched" class="p-invalid">
         {{ 'general.transportCall.validation.vessel.noVesselSelected' | translate }}
       </span>
     </div>
@@ -108,7 +108,7 @@
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes">
       </p-dropdown>
-      <span *ngIf="transportCallFormGroup.get('timestampType').hasError('required')" class="p-invalid">
+      <span *ngIf="transportCallFormGroup.get('timestampType').hasError('required') && transportCallFormGroup.get('timestampType').touched " class="p-invalid">
         {{ 'general.timestamp.validation.timestampType.required' | translate }}
       </span>
 
@@ -126,7 +126,7 @@
                       [panelStyleClass]="'datetime-panel'">
           </p-calendar>
           <span
-            *ngIf="transportCallFormGroup.get('eventTimestampDate').hasError('required') || transportCallFormGroup.get('eventTimestampTime').hasError('required')"
+            *ngIf="transportCallFormGroup.get('eventTimestampDate').hasError('required') && transportCallFormGroup.get('eventTimestampDate').touched || transportCallFormGroup.get('eventTimestampTime').hasError('required') && transportCallFormGroup.get('eventTimestampTime').touched"
             class="p-invalid">
             {{ 'general.timestamp.validation.eventTimestamp.required' | translate }}
           </span>
