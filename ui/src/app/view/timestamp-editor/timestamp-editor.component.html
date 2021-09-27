@@ -145,7 +145,7 @@
               icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
     <p-button (onClick)="savePortcallTimestamp(defaultTimestamp, transportCall)" class="footer_option__buttons"
-              [disabled]="!validatePortOfCallTimestamp(defaultTimestamp)" icon="pi pi-save"
+              [disabled]="validatePortOfCallTimestamp()" icon="pi pi-save"
               label="{{'general.save.editor.label' | translate}}" iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
                          styleClass="custom-spinner"

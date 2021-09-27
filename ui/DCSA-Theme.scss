@@ -4622,10 +4622,10 @@ body .p-datatable .p-datatable-tbody > tr:nth-child(odd) {
   background-color: lighten($steelGrey, 50%);
   color: $darkNavyBlue;
 }
-body .p-datatable .p-datatable-tbody > tr:nth-child(odd):focus{
+body .p-datatable .p-datatable-tbody > tr:nth-child(odd).p-highlight{
   background-color: #00e0e4;
 }
-body .p-datatable .p-datatable-tbody > tr:nth-child(even):focus{
+body .p-datatable .p-datatable-tbody > tr:nth-child(even).p-highlight{
   background-color: #00e0e4;
 }
 .p-datatable.p-datatable-hoverable-rows .p-datatable-tbody > tr:hover {

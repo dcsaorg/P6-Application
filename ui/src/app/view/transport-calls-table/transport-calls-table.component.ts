@@ -61,6 +61,10 @@ export class TransportCallsTableComponent implements OnInit {
     this.transportCallNotifier.emit(event.data);
   }
 
+  unselectTransportCall(): void {
+    this.transportCallNotifier.emit(null);
+  }
+
   refreshTransportCalls(): void {
     this.loadTransportCalls()
     this.transportCallNotifier.emit(null);

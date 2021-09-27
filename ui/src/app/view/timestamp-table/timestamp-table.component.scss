@@ -50,6 +50,11 @@ tr{
   font-size:$tableSize;
   z-index: 1;
   text-shadow: none;
+
+  &__buttons {
+    margin: 5px 10px 0px 0px;  
+    float: right;
+  }
 }
 
 .tableHeader {
