@@ -107,7 +107,7 @@
         "tooltip": "Accept timestamp and send a response as"
       },
       "decline": {
-        "tooltip": "Decine timestamp and send a new timstamp"
+        "tooltip": "Decline timestamp and send a new timestamp"
       },
       "delete": {
         "tooltip": "Delete the timestamp"
