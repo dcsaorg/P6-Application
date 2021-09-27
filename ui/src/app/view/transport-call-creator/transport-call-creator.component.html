@@ -148,7 +148,7 @@
     <div class="p-field p-col-12 p-md-5" [hidden]="!shouldCreateTimestamp()">
       <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
       <p-dropdown id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
-                  filterBy="label,value.name" [group]="false" [disabled]="!shouldCreateTimestamp()">
+                  filterBy="label,value.name" [group]="false">
         <ng-template let-delayCode pTemplate="selectedItem">
           <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
             <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
