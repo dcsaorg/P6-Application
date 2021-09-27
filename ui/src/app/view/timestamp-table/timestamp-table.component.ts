@@ -6,7 +6,6 @@ import {Terminal} from "../../model/portCall/terminal";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
-import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {PortCallTimestampTypeToEnumPipe} from "../../controller/pipes/port-call-timestamp-type-to-enum.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
@@ -15,7 +14,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {PortService} from "../../controller/services/base/port.service";
 import {TerminalService} from "../../controller/services/base/terminal.service";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
-import {take, timestamp} from "rxjs/operators";
+import {take} from "rxjs/operators";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
@@ -98,7 +97,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         this.colorizetimestampByLocation(timestamps);
         this.timestamps = timestamps;
         this.progressing = false;
-        this.timestampService.setResponseType(timestamps[0], this.globals.config.publisherRole); // set response for latest (first) timestamp
       });
     }
   }
@@ -118,14 +116,11 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     timestampShallowClone.timestampType = timestamp.response;
     timestampShallowClone.logOfTimestamp = new Date();
     this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
-        let port = this.portIdToPortPipe.transform(timestampShallowClone.portOfCall.id, this.ports);
-        let typeOrigin = this.portCallTimestampTypeToEnumPipe.transform(timestampShallowClone.timestampType as PortcallTimestampType);
-        let typeNew = this.portCallTimestampTypeToEnumPipe.transform(timestampShallowClone.timestampType as PortcallTimestampType);
         this.loadTimestamps();
         this.messageService.add({
           key: "TimestampToast",
           severity: 'success',
-          summary: 'Successfully accepted the ' + typeOrigin + " with an " + typeNew + " for port " + port.unLocode,
+          summary: 'Successfully accepted the Timestamp: ' + timestamp.timestampType + " \n for port:" + timestamp.UNLocationCode,
           detail: ''
         });
         this.timeStampAcceptNotifier.emit(timestamp);

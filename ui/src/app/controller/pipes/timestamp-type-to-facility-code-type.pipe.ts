@@ -17,7 +17,12 @@ export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
         PortcallTimestampType.ATA_Berth,
         PortcallTimestampType.ETA_Berth,
         PortcallTimestampType.PTA_Berth,
-        PortcallTimestampType.RTA_Berth
+        PortcallTimestampType.RTA_Berth,
+        PortcallTimestampType.ATS_Cargo_Ops,
+        PortcallTimestampType.ETC_Cargo_Ops,
+        PortcallTimestampType.PTC_Cargo_Ops,
+        PortcallTimestampType.ATC_Cargo_Ops,
+        PortcallTimestampType.RTC_Cargo_Ops
       ].includes(timestampType)
     ) {
       ret = FacilityTypeCode.BRTH
