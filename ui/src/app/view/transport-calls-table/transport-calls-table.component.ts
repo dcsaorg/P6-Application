@@ -40,20 +40,20 @@ export class TransportCallsTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.portService.getPorts().pipe(take(1)).subscribe(ports => {
+    this.portService.getPorts().pipe(take(1)).subscribe(async ports => {
       this.ports = ports
-      this.loadTransportCalls()
+      await this.loadTransportCalls()
     });
-    this.vesselService.vesselsObservable.subscribe(() => {
-      this.loadTransportCalls()
+    this.vesselService.vesselsObservable.subscribe(async () => {
+      await this.loadTransportCalls()
     })
-    this.portFilterService.portObservable.subscribe(port => {
+    this.portFilterService.portObservable.subscribe(async port => {
       this.filterPort = port
-      this.refreshTransportCalls()
+      await this.refreshTransportCalls()
     })
-    this.portFilterService.terminalObservable.subscribe(terminal => {
+    this.portFilterService.terminalObservable.subscribe(async terminal => {
       this.filterTerminal = terminal
-      this.refreshTransportCalls()
+      await this.refreshTransportCalls()
     })
   }
 
@@ -65,10 +65,12 @@ export class TransportCallsTableComponent implements OnInit {
     this.transportCallNotifier.emit(null);
   }
 
-  refreshTransportCalls(): void {
+  async refreshTransportCalls(): Promise<void> {
     this.progressing = true;
-    this.loadTransportCalls()
-    this.transportCallNotifier.emit(null);
+    const transportCalls = await this.loadTransportCalls();
+    if (!transportCalls.some(x => x.transportCallID === this.selectedtransportCall.transportCallID)) {
+      this.transportCallNotifier.emit(null);
+    }
   }
 
   openCreationDialog() {
@@ -76,17 +78,21 @@ export class TransportCallsTableComponent implements OnInit {
       header: this.translate.instant('general.transportCall.create'),
       width: '75%'
     });
-    transportCallEditor.onClose.subscribe(result => {
+    transportCallEditor.onClose.subscribe(async result => {
       if (result) {
-        this.refreshTransportCalls();
+        await this.refreshTransportCalls();
       }
     })
   }
 
-  loadTransportCalls(): void {
-    this.transportCallService.getTransportCalls(this.filterPort?.unLocode, this.filterTerminal?.smdgCode).subscribe(transportCalls => {
-      this.progressing = false;
-      this.transportCalls = transportCalls;
+  async loadTransportCalls(): Promise<TransportCall[]> {
+    return new Promise(resolve => {
+      this.transportCallService.getTransportCalls(this.filterPort?.unLocode, this.filterTerminal?.smdgCode).subscribe(transportCalls => {
+        this.progressing = false;
+        this.transportCalls = transportCalls;
+        resolve(transportCalls)
+      })
     })
   }
+
 }
