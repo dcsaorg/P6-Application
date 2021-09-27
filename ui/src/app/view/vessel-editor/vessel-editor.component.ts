@@ -5,8 +5,9 @@ import {Carrier} from "../../model/portCall/carrier";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {MessageService} from "primeng/api";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import { vesselOperatorCarrierCodeListProvider } from '../../model/enums/vesselOperatorCarrierCodeListProvider';
+import {vesselOperatorCarrierCodeListProvider} from '../../model/enums/vesselOperatorCarrierCodeListProvider';
 import {SelectItem} from "primeng/api";
+import {Globals} from "../../model/portCall/globals";
 
 @Component({
   selector: 'app-vessel-editor',
@@ -19,23 +20,22 @@ export class VesselEditorComponent implements OnInit {
   carriers: SelectItem[];
   selectedCarrier: Carrier;
   allowImoID: boolean;
-  
+
 
   constructor(public ref: DynamicDialogRef,
               public config: DynamicDialogConfig,
               private vesselService: VesselService,
               private messageService: MessageService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              public globals: Globals,
+  ) {
   }
 
 
-
   ngOnInit(): void {
-
-    
     this.vesselFormGroup = this.formBuilder.group({
       imoId: new FormControl(null, [
-        Validators.required , Validators.pattern('^\\d{7}$'), Validators.maxLength(7)
+        Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)
       ]),
       flag: new FormControl(null, [
         Validators.pattern('^\\w{2}?$')
@@ -51,7 +51,7 @@ export class VesselEditorComponent implements OnInit {
       ]),
     });
 
-    this.updatCarrrierOptions();
+    this.updateCarrierOptions();
     this.selectCarrier();
 
     if (this.config.data) {
@@ -61,7 +61,16 @@ export class VesselEditorComponent implements OnInit {
 
     } else {
       this.allowImoID = true;
-      this.vessel = {vesselIMONumber: null, vesselName: "", teu: null, serviceNameCode: "", vesselFlag: "", vesselOperatorCarrierCode: "", vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG, vesselCallSignNumber: ""};
+      this.vessel = {
+        vesselIMONumber: null,
+        vesselName: "",
+        teu: null,
+        serviceNameCode: "",
+        vesselFlag: "",
+        vesselOperatorCarrierCode: "",
+        vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG,
+        vesselCallSignNumber: ""
+      };
     }
 
   }
@@ -77,6 +86,7 @@ export class VesselEditorComponent implements OnInit {
           detail: ''
         });
         this.ref.close(this.vessel);
+        this.vesselService.updateVesselsObserverable()
       }, response => {
         this.messageService.add({
           key: 'vesselUpdateError',
@@ -110,18 +120,19 @@ export class VesselEditorComponent implements OnInit {
     this.ref.close(null);
   }
 
-  private updatCarrrierOptions() {
+  private updateCarrierOptions() {
     this.vesselService.getcarriers().subscribe(carriers => {
       this.carriers = [];
 
       carriers.forEach(carrier => {
-        this.carriers.push({label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode}); 
+        this.carriers.push({label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode});
       });
     });
   }
+
   selectCarrier() {
 
-  // Check that a carirrier is chosen before allowing creation 
+    // Check that a carirrier is chosen before allowing creation
 
   }
 }

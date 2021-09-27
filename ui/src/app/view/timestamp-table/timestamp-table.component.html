@@ -24,7 +24,7 @@
         <div class="tableHeader__buttons">
           <p-button (onClick)="refreshTimestamps()" class="p-button-raised p-button-rounded"
                     icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}"
-                    tooltipPosition="top" type="button"
+                    tooltipPosition="left" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
         </div>
       </div>
@@ -36,28 +36,28 @@
       <th pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}"
           style="width: 8%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.vessel.name' | translate }}
-         
+
       </th>
       <th style="width: 7%"
       pTooltip="{{ 'general.publisherRole.label' | translate }}"
       tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
     {{ 'general.publisherRole.label' | translate }}
-    
+
   </th>
       <th pTooltip="{{ 'general.table.header.timestamp.tooltip' | translate }}"
           style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.timestamp.label' | translate }}
-        
+
       </th>
       <th pTooltip="{{ 'general.table.header.logOfTimestamp.tooltip' | translate }}"
           tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.logOfTimestamp.label' | translate }}
-        
+
       </th>
       <th pTooltip="{{ 'general.table.header.eventTimestamp.tooltip' | translate }}"
           tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.eventTimestamp.label' | translate }}
-       
+
       </th>
         <!--
       <th style="width: 8%" pSortableColumn="portPrevious"
@@ -70,7 +70,7 @@
       <th pTooltip="{{ 'general.table.header.portOfCall.tooltip' | translate }}"
           style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.portOfCall.label' | translate }}
-       
+
       </th>
       <!--
       <th style="width: 7%" pSortableColumn="portNext"
@@ -90,7 +90,7 @@
           pTooltip="{{ 'general.table.header.terminalId.tooltip' | translate }}"
           tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
         {{ 'general.table.header.terminalId.label' | translate }}
-         
+
       </th>
       <th style="width: 8%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">{{ 'general.table.header.transportCallStatus.label' | translate }}</th>
@@ -117,7 +117,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-timestamp >
-    
+
     <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestamp.isLatestInCycle == false}">
       <td pTooltip="Publisher: {{timestamp.publisher.partyName}}
         PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top"
@@ -192,8 +192,8 @@
       style="width: 4%">
     </td>
                 <!--this has been removed from the below td-->
-              <!-- [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp' "--> 
-      <td *ngIf="!isOutGoing(timestamp)" style="width: 4%"  
+              <!-- [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp' "-->
+      <td *ngIf="!isOutGoing(timestamp)" style="width: 4%"
       class="ingoing" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.green' | translate }}" tooltipPosition="top"
     tooltipStyleClass="ToolTipClass">
       <!--
@@ -210,7 +210,7 @@
                   )
               }}"
                       tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>  -->
-        
+
 
       </td>
       <td
@@ -224,7 +224,7 @@
           [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}
      -->
 
-    
+
     <!-- <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
     <div *ngIf="!isOutGoing(timestamp)">Ingoing</div> -->
       </td>
@@ -236,19 +236,19 @@
             <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
             </p-button>
           </div>
-      
+
           <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-check" pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
               tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
           </div>
-      
+
           <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
               tooltipStyleClass="ToolTipClass" (click)="openCreationDialog()"></p-button>
           </div>
         </div>
       </td>
-      
+
     </tr>
   </ng-template>
 </p-table>

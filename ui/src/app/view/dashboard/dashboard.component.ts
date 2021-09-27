@@ -6,6 +6,9 @@ import {TransportCall} from "../../model/ovs/transport-call";
 import {Timestamp} from '../../model/ovs/timestamp';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
+import {take} from "rxjs/operators";
+import {PortService} from "../../controller/services/base/port.service";
+import {Globals} from "../../model/portCall/globals";
 
 
 @Component({
@@ -25,7 +28,7 @@ export class DashboardComponent {
   transportCallID: string;
   private sub: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private transportCallService: TransportCallService) {
+  constructor(private router: Router, private route: ActivatedRoute, private globals: Globals, private portService: PortService, private transportCallService: TransportCallService) {
   }
 
   ngOnInit(): void {
@@ -34,8 +37,11 @@ export class DashboardComponent {
     });
     if (this.transportCallID) {
       console.log("ID: " + this.transportCallID);
-      this.transportCallService.getTransportCalls().subscribe(transportCalls => {
-        this.transportCallSelected = transportCalls.find(x => x.transportCallID == this.transportCallID);
+      this.portService.getPorts().pipe().subscribe(ports => {
+        this.globals.ports = ports;
+        this.transportCallService.getTransportCalls().subscribe(transportCalls => {
+          this.transportCallSelected = transportCalls.find(x => x.transportCallID == this.transportCallID);
+        })
       })
     }
   }

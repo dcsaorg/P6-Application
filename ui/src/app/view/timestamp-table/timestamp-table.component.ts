@@ -75,6 +75,9 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.vesselService.vesselsObservable.subscribe(() => {
+      this.loadTimestamps()
+    })
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
@@ -93,6 +96,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   private loadTimestamps() {
     if (this.transportCallSelected) {
       this.progressing = true;
+      this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
         this.colorizetimestampByLocation(timestamps);
         this.timestamps = timestamps;
