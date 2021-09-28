@@ -207,6 +207,9 @@
         "label": "New Port Call Timestamp",
         "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
       },
+      "locationName": {
+        "label": "Location Name"
+      },
       "date": {
         "event": "Event date",
         "log": "Log date"
@@ -262,6 +265,9 @@
         "UNLocationCode": {
           "label": "UN Locode",
           "secondLabel": "Port of Call"
+        },
+        "locationName": {
+          "label": "Location Name"
         },
         "UNLocationName": {
           "label": "UN Location Name"

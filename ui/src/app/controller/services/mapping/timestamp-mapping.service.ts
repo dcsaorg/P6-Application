@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { TransportCallService } from "../ovs/transport-call.service";
-import { OperationsEventService } from "../ovs/operations-event.service";
-import { from, Observable } from "rxjs";
-import { TransportCall } from "../../../model/ovs/transport-call";
-import { Port } from "../../../model/portCall/port";
-import { concatMap, map, mergeMap, toArray } from "rxjs/operators";
-import { Globals } from "../../../model/portCall/globals";
-import { OperationsEventsToTimestampsPipe } from "../../pipes/operations-events-to-timestamps.pipe";
-import { Terminal } from "../../../model/portCall/terminal";
-import { Timestamp } from "../../../model/ovs/timestamp";
-import { TimestampService } from "../ovs/timestamps.service";
-import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
-import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import { PortcallTimestampType } from 'src/app/model/portCall/portcall-timestamp-type.enum';
+import {Injectable} from '@angular/core';
+import {TransportCallService} from "../ovs/transport-call.service";
+import {OperationsEventService} from "../ovs/operations-event.service";
+import {from, Observable} from "rxjs";
+import {TransportCall} from "../../../model/ovs/transport-call";
+import {Port} from "../../../model/portCall/port";
+import {concatMap, map, mergeMap, timestamp, toArray} from "rxjs/operators";
+import {Globals} from "../../../model/portCall/globals";
+import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
+import {Terminal} from "../../../model/portCall/terminal";
+import {Timestamp} from "../../../model/ovs/timestamp";
+import {TimestampService} from "../ovs/timestamps.service";
+import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
+import {PublisherRole} from 'src/app/model/enums/publisherRole';
+import {PortcallTimestampType} from 'src/app/model/portCall/portcall-timestamp-type.enum';
 
 
 @Injectable({
@@ -20,14 +20,16 @@ import { PortcallTimestampType } from 'src/app/model/portCall/portcall-timestamp
 })
 export class TimestampMappingService {
   constructor(private transportCallService: TransportCallService,
-    private operationsEventService: OperationsEventService,
-    private globals: Globals,
-    private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
-    private timestampToTransportEventPipe: TimestampToStandardizedtTimestampPipe,
-    private timestampService: TimestampService
+              private operationsEventService: OperationsEventService,
+              private globals: Globals,
+              private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
+              private timestampToTransportEventPipe: TimestampToStandardizedtTimestampPipe,
+              private timestampService: TimestampService
+  ) {
+  }
 
-  ) { }
-
+  private readonly locationNamePBP: string = "PBP Location Name";
+  private readonly locationNameBerth: string = "Berth Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
     return this.timestampService.addTimestamp(this.timestampToTransportEventPipe.transform(timestamp, this.globals.config))
@@ -35,10 +37,10 @@ export class TimestampMappingService {
 
   getPortCallTimestamps(): Observable<Timestamp[]> {
     return this.operationsEventService.getOperationsEvents().pipe(map(events => {
-      const timestamps = this.operationsEventsToTimestampsPipe.transform(events);
-      this.loadTransportCalls(timestamps)
-      return timestamps;
-    }
+        const timestamps = this.operationsEventsToTimestampsPipe.transform(events);
+        this.loadTransportCalls(timestamps)
+        return timestamps;
+      }
     ));
   }
 
@@ -58,23 +60,23 @@ export class TimestampMappingService {
         )
       }),
       map(events => {
-      const timestamps = this.operationsEventsToTimestampsPipe.transform(events)
-      this.mapTransportCallToTimestamps(timestamps, transportCall);
-      
-      let set = new Set()
+        const timestamps = this.operationsEventsToTimestampsPipe.transform(events)
+        this.mapTransportCallToTimestamps(timestamps, transportCall);
 
-      for ( let timestamp of timestamps) {
-        if (timestamp.timestampType) {
-          let negotiationCycle = timestamp.timestampType.substring(1)
-          timestamp.isLatestInCycle = !set.has(negotiationCycle)
-          set.add(negotiationCycle)
-          if(timestamp.isLatestInCycle){
-            this.timestampService.setResponseType(timestamp, this.globals.config.publisherRole); // set response for latest timestamp in negotiationCycle.
+        let set = new Set()
+
+        for (let timestamp of timestamps) {
+          if (timestamp.timestampType) {
+            let negotiationCycle = timestamp.timestampType.substring(1)
+            timestamp.isLatestInCycle = !set.has(negotiationCycle)
+            set.add(negotiationCycle)
+            if (timestamp.isLatestInCycle) {
+              this.timestampService.setResponseType(timestamp, this.globals.config.publisherRole); // set response for latest timestamp in negotiationCycle.
+            }
           }
         }
-      }
-      return timestamps;
-    }))
+        return timestamps;
+      }))
   }
 
   getPortByUnLocode(unlocode: string): Port {
@@ -122,6 +124,34 @@ export class TimestampMappingService {
         timestamp.carrierServiceCode = transportCall.carrierServiceCode;
         timestamp.facilitySMDGCode = transportCall.facilityCode;
       }
+    }
+  }
+
+  showLocationNameOption(timestampType: PortcallTimestampType): string {
+    switch (timestampType) {
+      case PortcallTimestampType.ETA_Berth:
+        return null;
+      case PortcallTimestampType.RTA_Berth:
+      case PortcallTimestampType.PTA_Berth:
+        return this.locationNameBerth;
+      case PortcallTimestampType.ETA_PBP:
+      case PortcallTimestampType.RTA_PBP:
+      case PortcallTimestampType.PTA_PBP:
+      case PortcallTimestampType.ATA_PBP:
+        return this.locationNamePBP;
+      case PortcallTimestampType.ATS_Pilot:
+      case PortcallTimestampType.ATA_Berth:
+      case PortcallTimestampType.ATS_Cargo_Ops:
+      case PortcallTimestampType.ETC_Cargo_Ops:
+      case PortcallTimestampType.RTC_Cargo_Ops:
+      case PortcallTimestampType.ETD_Berth:
+      case PortcallTimestampType.RTD_Berth:
+      case PortcallTimestampType.PTD_Berth:
+      case PortcallTimestampType.ATC_Cargo_Ops:
+      case PortcallTimestampType.ATD_Berth:
+        return this.locationNameBerth;
+      default:
+        return undefined;
     }
   }
 
