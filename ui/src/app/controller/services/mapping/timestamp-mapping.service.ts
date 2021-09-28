@@ -143,11 +143,13 @@ export class TimestampMappingService {
       case PortcallTimestampType.ATS_Cargo_Ops:
       case PortcallTimestampType.ETC_Cargo_Ops:
       case PortcallTimestampType.RTC_Cargo_Ops:
+      case PortcallTimestampType.PTC_Cargo_Ops:
       case PortcallTimestampType.ETD_Berth:
       case PortcallTimestampType.RTD_Berth:
       case PortcallTimestampType.PTD_Berth:
       case PortcallTimestampType.ATC_Cargo_Ops:
       case PortcallTimestampType.ATD_Berth:
+
         return this.locationNameBerth;
       default:
         return undefined;
