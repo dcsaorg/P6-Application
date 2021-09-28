@@ -37,11 +37,10 @@ export class TimestampMappingService {
 
   getPortCallTimestamps(): Observable<Timestamp[]> {
     return this.operationsEventService.getOperationsEvents().pipe(map(events => {
-        const timestamps = this.operationsEventsToTimestampsPipe.transform(events);
-        this.loadTransportCalls(timestamps)
-        return timestamps;
-      }
-    ));
+      const timestamps = this.operationsEventsToTimestampsPipe.transform(events);
+      this.loadTransportCalls(timestamps)
+      return timestamps;
+    }));
   }
 
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
@@ -130,7 +129,7 @@ export class TimestampMappingService {
   showLocationNameOption(timestampType: PortcallTimestampType): string {
     switch (timestampType) {
       case PortcallTimestampType.ETA_Berth:
-        return null;
+        return undefined;
       case PortcallTimestampType.RTA_Berth:
       case PortcallTimestampType.PTA_Berth:
         return this.locationNameBerth;
