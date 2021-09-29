@@ -141,8 +141,8 @@ export class TimestampMappingService {
           PortcallTimestampType.AT_All_Fast,
           PortcallTimestampType.Gangway_Down_and_Safe,
           PortcallTimestampType.Vessel_Readiness_for_Cargo_Ops,
-          // PortcallTimestampType.SOSP
-          // PortcallTimestampType.EOSP
+          PortcallTimestampType.SOSP,
+          PortcallTimestampType.EOSP
         ]
       case PublisherRole.TR:
         return [
