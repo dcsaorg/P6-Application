@@ -269,7 +269,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
       const locationName = this.transportCallFormGroup.controls.locationName.value;
-      if (locationName) {
+      if (this.locationNameLabel && locationName) {
         this.timestamp.eventLocation = new class implements EventLocation {
           locationName: string
         }
