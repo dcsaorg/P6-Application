@@ -167,7 +167,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
   showLocationNameOption(): boolean {
     const timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    this.locationNameLabel = this.timestampMappingService.showLocationNameOption(timestampType);
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
     return this.locationNameLabel !== undefined;
   }
 
