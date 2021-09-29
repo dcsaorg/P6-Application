@@ -126,7 +126,7 @@ export class TimestampMappingService {
     }
   }
 
-  showLocationNameOption(timestampType: PortcallTimestampType): string {
+  getLocationNameOptionLabel(timestampType: PortcallTimestampType): string {
     switch (timestampType) {
       case PortcallTimestampType.ETA_Berth:
         return undefined;
