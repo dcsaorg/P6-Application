@@ -68,7 +68,7 @@ export class TransportCallsTableComponent implements OnInit {
   async refreshTransportCalls(): Promise<void> {
     this.progressing = true;
     const transportCalls = await this.loadTransportCalls();
-    if (!transportCalls.some(x => x.transportCallID === this.selectedtransportCall.transportCallID)) {
+    if (this.selectedtransportCall && !transportCalls.some(x => x.transportCallID === this.selectedtransportCall.transportCallID)) {
       this.transportCallNotifier.emit(null);
     }
   }
