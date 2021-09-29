@@ -131,19 +131,30 @@ export class TimestampMappingService {
           PortcallTimestampType.ETA_PBP,
           PortcallTimestampType.PTA_PBP,
           PortcallTimestampType.ATA_PBP,
-          PortcallTimestampType.ATA_Berth,
           PortcallTimestampType.RTC_Cargo_Ops,
           PortcallTimestampType.ETD_Berth,
           PortcallTimestampType.PTD_Berth,
           PortcallTimestampType.ATD_Berth,
+          PortcallTimestampType.RTS_Cargo_Ops,
+          PortcallTimestampType.RTS_Bunkering,
+          PortcallTimestampType.RTC_Bunkering,
+          PortcallTimestampType.AT_All_Fast,
+          PortcallTimestampType.Gangway_Down_and_Safe,
+          PortcallTimestampType.Vessel_Readiness_for_Cargo_Ops,
+          // PortcallTimestampType.SOSP
+          // PortcallTimestampType.EOSP
         ]
       case PublisherRole.TR:
         return [
           PortcallTimestampType.RTA_Berth,
+          PortcallTimestampType.ATA_Berth,
+          PortcallTimestampType.ETS_Cargo_Ops,
           PortcallTimestampType.ATS_Cargo_Ops,
           PortcallTimestampType.ETC_Cargo_Ops,
           PortcallTimestampType.PTC_Cargo_Ops,
           PortcallTimestampType.ATC_Cargo_Ops,
+          PortcallTimestampType.PTS_Cargo_Ops,
+          PortcallTimestampType.Terminal_Ready_for_Vessel_Departure
         ]
       case PublisherRole.ATH:
         return [
@@ -152,8 +163,29 @@ export class TimestampMappingService {
         ]
       case PublisherRole.PLT:
         return [
-          PortcallTimestampType.ATS_Pilot,
+          PortcallTimestampType.ATS_Pilotage,
+          PortcallTimestampType.ATC_Pilotage,
+          PortcallTimestampType.PTS_Pilotage
         ]
+        case PublisherRole.LSH:
+          return [
+            PortcallTimestampType.ATC_Lashing,
+          ]
+          case PublisherRole.BUK:
+            return [
+              PortcallTimestampType.ATC_Bunkering,
+              PortcallTimestampType.ATS_Bunkering,
+              PortcallTimestampType.PTC_Bunkering,
+              PortcallTimestampType.PTS_Bunkering,
+              PortcallTimestampType.ETC_Bunkering,
+              PortcallTimestampType.ETS_Bunkering,
+            ]
+          case PublisherRole.TWG:
+            return [
+              PortcallTimestampType.ATC_Towage,
+              PortcallTimestampType.ATS_Towage,
+              PortcallTimestampType.PTS_Towage,
+            ]
       default:
         return [];
     }

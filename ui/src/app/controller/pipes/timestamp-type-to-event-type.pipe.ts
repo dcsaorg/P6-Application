@@ -36,7 +36,7 @@ export class TimestampTypeToEventTypePipe implements PipeTransform {
       ){ret = OperationsEventTypeCode.CMPL}
       else if (
        [PortcallTimestampType.ATS_Cargo_Ops,
-         PortcallTimestampType.ATS_Pilot
+         PortcallTimestampType.ATS_Pilotage
        ].includes(timestampType)){
         ret = OperationsEventTypeCode.STRT
       }

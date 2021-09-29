@@ -18,7 +18,7 @@ export class TimestampTypeToPortcallServiceTypeCodePipe implements PipeTransform
       ].includes(timestampType)){
       ret = PortCallServiceTypeCode.CRGO
     } else if (
-      [PortcallTimestampType.ATS_Pilot].includes(timestampType)
+      [PortcallTimestampType.ATS_Pilotage].includes(timestampType)
     ) {
       ret = PortCallServiceTypeCode.PILO
     }

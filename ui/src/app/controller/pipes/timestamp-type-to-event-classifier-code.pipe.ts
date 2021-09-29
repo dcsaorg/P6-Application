@@ -33,7 +33,7 @@ export class TimestampTypeToEventClassifierCodePipe implements PipeTransform {
       ret = EventClassifierCode.REQ
     } else if (
       [PortcallTimestampType.ATS_Cargo_Ops,
-        PortcallTimestampType.ATS_Pilot,
+        PortcallTimestampType.ATS_Pilotage,
         PortcallTimestampType.ATA_Berth,
         PortcallTimestampType.ATA_PBP,
         PortcallTimestampType.ATC_Cargo_Ops,

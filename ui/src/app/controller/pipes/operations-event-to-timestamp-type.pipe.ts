@@ -23,7 +23,7 @@ export class OperationsEventToTimestampTypePipe implements PipeTransform {
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.ATS_Cargo_Ops
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
-      return PortcallTimestampType.ATS_Pilot
+      return PortcallTimestampType.ATS_Pilotage
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.facilityTypeCode == FacilityTypeCode.BRTH) {
       return PortcallTimestampType.ETA_Berth
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.facilityTypeCode == FacilityTypeCode.BRTH) {
