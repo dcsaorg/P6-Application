@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
 import {MessageService, SelectItem} from "primeng/api";
 import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
@@ -75,7 +74,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   };
 
 
-  constructor(private portcallTimestampService: PortcallTimestampService,
+  constructor(
               private portIdToPortPipe: PortIdToPortPipe,
               private messageService: MessageService,
               private delayCodeService: DelayCodeService,

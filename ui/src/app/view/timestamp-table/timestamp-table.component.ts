@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
-import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
 import {Port} from "../../model/portCall/port";
 import {Terminal} from "../../model/portCall/terminal";
 import {ConfirmationService, MessageService} from "primeng/api";
@@ -56,7 +55,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   highestTimestampId: number;
 
-  constructor(private portcallTimestampService: PortcallTimestampService,
+  constructor(
               private delayCodeService: DelayCodeService,
               private portService: PortService,
               private terminalService: TerminalService,
