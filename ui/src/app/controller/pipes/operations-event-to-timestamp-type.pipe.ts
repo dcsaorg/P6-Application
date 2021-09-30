@@ -74,6 +74,32 @@ export class OperationsEventToTimestampTypePipe implements PipeTransform {
       return PortcallTimestampType.ETS_Bunkering
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
       return PortcallTimestampType.ETC_Bunkering
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.REQ && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.RTS_Bunkering
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.REQ && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.RTC_Bunkering
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.PTS_Bunkering
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.PTC_Bunkering
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.ATS_Bunkering
+    } /* else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.EOSP
+    } */
+    /* else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.SOSP
+    } */ 
+    else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.FAST) {
+      return PortcallTimestampType.AT_All_Fast
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.GWAY) {
+      return PortcallTimestampType.Gangway_Down_and_Safe
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.SAFE) {
+      return PortcallTimestampType.Vessel_Readiness_for_Cargo_Ops
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.DEPA && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.SAFE) {
+      return PortcallTimestampType.Terminal_Ready_for_Vessel_Departure
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.LASH) {
+      return PortcallTimestampType.ATC_Lashing
     } else {
       return null;
     }
