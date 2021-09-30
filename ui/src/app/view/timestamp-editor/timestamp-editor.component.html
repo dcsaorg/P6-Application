@@ -99,8 +99,7 @@
     <input id="locationID" [(ngModel)]="defaultTimestamp.locationId" pInputText style="width: 100%" type="text"/>
   </div>
   <div class="p-field p-col-12 p-md-7">
-  </div>
--->
+  </div> -->
   <div class="p-field p-col-12 p-md-4">
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
     <p-dropdown id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
@@ -126,6 +125,10 @@
         </div>
       </ng-template>
     </p-dropdown>
+    <div class="p-field berth-location-field" [hidden]="!showLocationNameOption()">
+      <label for="locationName">{{ locationNameLabel | translate }}:</label>
+      <input id="locationName" [(ngModel)]="locationName" pInputText style="width: 100%" type="text"/>
+    </div>
   </div>
 
   <div class="p-field p-col-12 p-md-2"></div>
@@ -137,10 +140,7 @@
     </span>
   </div>
   <!-- Location Name -->
-  <div class="p-field p-col-12 p-md-4" [hidden]="!showLocationNameOption()">
-    <label for="locationName">{{ locationNameLabel | translate }}:</label>
-    <input id="locationName" [(ngModel)]="locationName" pInputText style="width: 100%" type="text"/>
-  </div>
+  
   <div class="p-field p-col-12 p-md-6"></div>
 </div>
 
