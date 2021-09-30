@@ -191,9 +191,15 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
 
   setEventTimestampToNow() {
+    let eventTimestampDat = new Date();
+    this.eventTimestampTime = this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes());
+  }
+
+  //this functions sets both time and date!
+  /* setEventTimestampToNow() {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
-  }
+  } */
 
   /*
     setEventTimestampToDate(eventDate: Date) {
