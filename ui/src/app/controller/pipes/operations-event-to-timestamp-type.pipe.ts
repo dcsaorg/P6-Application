@@ -22,6 +22,8 @@ export class OperationsEventToTimestampTypePipe implements PipeTransform {
       return PortcallTimestampType.RTC_Cargo_Ops
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.RTS_Cargo_Ops
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
+      return PortcallTimestampType.PTS_Cargo_Ops
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
       return PortcallTimestampType.ATC_Cargo_Ops
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.CRGO) {
@@ -52,6 +54,26 @@ export class OperationsEventToTimestampTypePipe implements PipeTransform {
       return PortcallTimestampType.RTA_PBP
     } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.ARRI && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.facilityTypeCode == FacilityTypeCode.PBPL) {
       return PortcallTimestampType.ATA_PBP
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.REQ && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
+      return PortcallTimestampType.RTS_Pilotage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
+      return PortcallTimestampType.PTS_Pilotage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
+      return PortcallTimestampType.ATS_Pilotage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.PILO) {
+      return PortcallTimestampType.ATC_Pilotage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.REQ && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.TOWG) {
+      return PortcallTimestampType.RTS_Towage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.PLN && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.TOWG) {
+      return PortcallTimestampType.PTS_Towage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.TOWG) {
+      return PortcallTimestampType.ATS_Towage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.ACT && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.TOWG) {
+      return PortcallTimestampType.ATC_Towage
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.STRT && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.ETS_Bunkering
+    } else if (operationEvent.operationsEventTypeCode == OperationsEventTypeCode.CMPL && operationEvent.eventClassifierCode == EventClassifierCode.EST && operationEvent.portCallServiceTypeCode == PortCallServiceTypeCode.BUNK) {
+      return PortcallTimestampType.ETC_Bunkering
     } else {
       return null;
     }
