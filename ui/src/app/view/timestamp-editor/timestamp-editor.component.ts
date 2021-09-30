@@ -15,6 +15,7 @@ import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {Timestamp} from "../../model/ovs/timestamp";
 import {Globals} from "../../model/portCall/globals";
+import {EventLocation} from "../../model/eventLocation";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -43,6 +44,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   eventTimestampTime: string;
   timestampSelected: string;
   creationProgress: boolean = false;
+  locationNameLabel: string;
+  locationName: string;
 
   transportCall: TransportCall;
 
@@ -101,9 +104,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   }
 
+  showLocationNameOption(): boolean {
+    const timestampType = this.timestampSelected as PortcallTimestampType;
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
+    return this.locationNameLabel !== undefined;
+  }
 
   savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
-    
+
     timestamp.UNLocationCode = transportCall.UNLocationCode;
     timestamp.facilitySMDGCode = transportCall.facilityCode;
     timestamp.facilityTypeCode = transportCall.facilityTypeCode;
@@ -117,7 +125,15 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     if (this.eventTimestampDate) {
       let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
       timestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, port);
-    }    
+    }
+
+    if (this.locationNameLabel && this.locationName) {
+      timestamp.eventLocation = new class implements EventLocation {
+        locationName: string
+      }
+      timestamp.eventLocation.locationName = this.locationName;
+    }
+
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(() => {
         this.creationProgress = false;
@@ -164,7 +180,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   validatePortOfCallTimestamp(): boolean {
     return !(
-      this.timestampSelected && this.eventTimestampDate && this.eventTimestampTime 
+      this.timestampSelected && this.eventTimestampDate && this.eventTimestampTime
     );
   }
 
