@@ -113,4 +113,109 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
       }
     }
   }
+
+
+  // declaring primary timestamp
+
+  public isPrimary(portCallTimestamp: Timestamp, role: PublisherRole): boolean {
+    // If I'm a carrier
+ if (role === PublisherRole.CA || role === PublisherRole.AG || role === PublisherRole.VSL  ) {
+   switch (portCallTimestamp.timestampType) {
+
+    case PortcallTimestampType.RTA_Berth:
+    case PortcallTimestampType.ETC_Cargo_Ops:
+    case PortcallTimestampType.PTC_Cargo_Ops:
+    case PortcallTimestampType.ATS_Cargo_Ops:
+    case PortcallTimestampType.PTS_Cargo_Ops:
+    case PortcallTimestampType.PTC_Bunkering:
+    case PortcallTimestampType.PTS_Bunkering:  
+    case PortcallTimestampType.RTA_PBP:
+    case PortcallTimestampType.RTD_Berth:
+    case PortcallTimestampType.ETS_Bunkering:
+    case PortcallTimestampType.ETC_Bunkering:
+    case PortcallTimestampType.ETS_Cargo_Ops:
+    case PortcallTimestampType.ATS_Bunkering:
+    case PortcallTimestampType.ATC_Bunkering:
+    case PortcallTimestampType.ATC_Cargo_Ops:  
+    case PortcallTimestampType.ATC_Lashing:
+    case PortcallTimestampType.Terminal_Ready_for_Vessel_Departure:
+
+    return true
+       
+   }
+ }
+ 
+ // If I'm a terminal
+ else if(role == PublisherRole.TR){
+   switch (portCallTimestamp.timestampType) {
+     
+    case PortcallTimestampType.ETA_Berth:
+    case PortcallTimestampType.RTC_Cargo_Ops:
+    case PortcallTimestampType.RTS_Cargo_Ops:
+    case PortcallTimestampType.PTA_Berth:
+    case PortcallTimestampType.Vessel_Readiness_for_Cargo_Ops:
+          
+    return true
+ }
+}
+
+ // if I'm a (Experimental: Port Authorities) OR (Experimental: Port Pilot)
+ else if(role === PublisherRole.PLT || role == PublisherRole.ATH) {
+   switch (portCallTimestamp.timestampType){
+   
+    case PortcallTimestampType.ETA_PBP:
+    case PortcallTimestampType.ETD_Berth:
+    case PortcallTimestampType.PTD_Berth:
+    case PortcallTimestampType.ATD_Berth:
+    case PortcallTimestampType.ATC_Pilotage:
+    case PortcallTimestampType.SOSP:
+    case PortcallTimestampType.ATA_Berth:
+    case PortcallTimestampType.EOSP:
+    case PortcallTimestampType.Gangway_Down_and_Safe:
+    case PortcallTimestampType.AT_All_Fast:
+    case PortcallTimestampType.ATC_Towage:
+    case PortcallTimestampType.ATS_Towage:
+    case PortcallTimestampType.ATS_Pilotage:
+    case PortcallTimestampType.ATA_PBP:
+    case PortcallTimestampType.PTA_PBP:
+    case PortcallTimestampType.PTS_Towage:
+    case PortcallTimestampType.PTS_Pilotage:
+    case PortcallTimestampType.RTS_Pilotage:
+
+    return true
+   }
+ } 
+
+ // if i am a Bunkering service provider
+ else if(role === PublisherRole.BUK) {
+  switch (portCallTimestamp.timestampType){
+
+    case PortcallTimestampType.RTS_Bunkering:
+    case PortcallTimestampType.RTC_Bunkering:
+    
+    return true
+  }
+}
+
+// if i am a towage service provider
+else if(role === PublisherRole.TWG) {
+  switch (portCallTimestamp.timestampType){
+
+    case PortcallTimestampType.RTS_Towage:
+
+    return true
+  }
+}
+
+// if i am a lashing service provider
+else if(role === PublisherRole.LSH) {
+  switch (portCallTimestamp.timestampType){
+  }
+}
+ return false
+}
+
+
+
+
 }

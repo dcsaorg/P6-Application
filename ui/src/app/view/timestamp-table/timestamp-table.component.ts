@@ -89,6 +89,9 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.loadTimestamps();
   }
 
+  public isPrimary(portCallTimestamp: Timestamp): boolean {
+    return this.timestampService.isPrimary(portCallTimestamp, this.globals.config.publisherRole)
+  }
 
   private loadTimestamps() {
     if (this.transportCallSelected) {

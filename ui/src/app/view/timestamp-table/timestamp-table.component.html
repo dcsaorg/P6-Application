@@ -243,6 +243,8 @@
                   pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
                   tooltipPosition="left"
                   tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
+
+                  <div *ngIf="!isPrimary(timestamp)">FYI</div>
       </td>
       
     </tr>
