@@ -94,9 +94,7 @@
       </th>
       <th style="width: 8%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="timestampContent">{{ 'general.table.header.transportCallStatus.label' | translate }}</th>
-      <th style="width: 4%" class="timestampContent" >
-      </th>
-      <th style="width: 4%" class="timestampContent" >
+      <th style="width: 12%" class="timestampContent" >
       </th>
     </tr>
     <tr class="invisible">
@@ -215,22 +213,7 @@
       </td>
       <td
         [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
-        style="width: 8%">
-   <!--     <div
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
-        <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
-      </td>
-      <td style="width: 7%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}
-     -->
-
-
-    <!-- <div *ngIf="isOutGoing(timestamp)">Outgoing</div>
-    <div *ngIf="!isOutGoing(timestamp)">Ingoing</div> -->
-      </td>
-      <td
-        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
-        style="width: 4%">
+        style="width: 12%">
         <div class="p-col tableHeader">
           <div class="timestampContent__buttons" *ngIf="timestamp.remark || timestamp.delayReasonCode">
             <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
