@@ -16,6 +16,7 @@ import {TimestampMappingService} from "../../controller/services/mapping/timesta
 import {Timestamp} from "../../model/ovs/timestamp";
 import {Globals} from "../../model/portCall/globals";
 import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -46,6 +47,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   creationProgress: boolean = false;
   locationNameLabel: string;
   locationName: string;
+  vesselPosition: VesselPosition = new class implements VesselPosition {
+    latitude: string;
+    longitude: string;
+  }
 
   transportCall: TransportCall;
 
@@ -73,15 +78,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     transportCallID: ""
   };
 
-
-  constructor(
-              private messageService: MessageService,
+  constructor(private messageService: MessageService,
               private delayCodeService: DelayCodeService,
               private globals: Globals,
               public config: DynamicDialogConfig,
               private translate: TranslateService,
               public ref: DynamicDialogRef,
-              private timestampMappingService: TimestampMappingService) {}
+              private timestampMappingService: TimestampMappingService) {
+  }
 
   ngOnInit(): void {
     this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
@@ -102,6 +106,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
+  }
+
+  showVesselPosition(): boolean {
+    return this.globals.config.publisher.partyName !== 'Asseco Denmark';
   }
 
   showLocationNameOption(): boolean {

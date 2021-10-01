@@ -152,6 +152,27 @@
       </div>
     </div>
 
+    <!-- Vessel Position -->
+    <div class="p-field p-col-12 p-md-4" [hidden]="showVesselPosition() || !shouldCreateTimestamp() " >
+      <label for="vesselPositionLatitude">{{ "latitude" | translate }}:</label>
+      <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%" type="text"/>
+      <span
+        *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxLength') && transportCallFormGroup.get('vesselPositionLatitude').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.validation.carrierServiceCode.empty' | translate }}
+      </span>
+    </div>
+    <div class="p-field p-col-12 p-md-4" [hidden]="showVesselPosition() || !shouldCreateTimestamp()">
+      <label for="vesselPositionLongtitude">{{ "longtitude" | translate }}:</label>
+      <input id="vesselPositionLongtitude" formControlName="vesselPositionLongtitude" pInputText style="width: 100%" type="text"/>
+      <span
+        *ngIf="transportCallFormGroup.get('vesselPositionLongtitude').hasError('maxLength') && transportCallFormGroup.get('vesselPositionLongtitude').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.validation.carrierServiceCode.empty' | translate }}
+      </span>
+    </div>
+    <div class="p-field p-col-12 p-md-2"></div>
+
     <!-- Location Name -->
     <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp() || !showLocationNameOption()">
       <label for="locationName">{{ locationNameLabel | translate }}:</label>

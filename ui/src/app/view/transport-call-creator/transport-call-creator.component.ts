@@ -24,6 +24,7 @@ import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -89,6 +90,8 @@ export class TransportCallCreatorComponent implements OnInit {
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
       locationName: new FormControl(null),
+      vesselPositionLongtitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
+      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
     });
   }
 
@@ -163,6 +166,10 @@ export class TransportCallCreatorComponent implements OnInit {
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
     this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate);
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
+  }
+
+  showVesselPosition(): boolean {
+    return this.globals.config.publisher.partyName !== 'Asseco Denmark';
   }
 
   showLocationNameOption(): boolean {
@@ -271,9 +278,17 @@ export class TransportCallCreatorComponent implements OnInit {
       const locationName = this.transportCallFormGroup.controls.locationName.value;
       if (this.locationNameLabel && locationName) {
         this.timestamp.eventLocation = new class implements EventLocation {
-          locationName: string
+          locationName: string = locationName
         }
-        this.timestamp.eventLocation.locationName = locationName;
+      }
+
+      const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;
+      const longtitude = this.transportCallFormGroup.controls.vesselPositionLongtitude.value;
+      if (latitude && longtitude) {
+        this.timestamp.vesselPosition = new class implements VesselPosition {
+          latitude: string = latitude;
+          longitude: string = longtitude;
+        }
       }
 
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
