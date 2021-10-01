@@ -119,7 +119,7 @@
   <ng-template pTemplate="body" let-timestamp >
 
     <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestamp.isLatestInCycle == false}">
-      <td pTooltip="Publisher: {{timestamp.publisher.partyName}}
+      <td pTooltip="Publisher: {{timestamp.publisher?.partyName}}
         PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
