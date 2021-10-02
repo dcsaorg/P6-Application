@@ -129,6 +129,10 @@
         </div>
       </ng-template>
     </p-dropdown>
+    <div class="p-field berth-location-field" [hidden]="!showLocationNameOption()">
+      <label for="locationName">{{ locationNameLabel | translate }}:</label>
+      <input id="locationName" [(ngModel)]="locationName" pInputText style="width: 100%" type="text"/>
+    </div>
   </div>
 
   <div class="p-field p-col-12 p-md-2"></div>
