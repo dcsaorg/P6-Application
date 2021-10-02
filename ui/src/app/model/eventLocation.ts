@@ -7,5 +7,7 @@ export interface EventLocation {
     publicKey?: string;
     UNLocationCode?: string;
     address?: Address;
+    facilityCode?:string; 
+    facilityCodeListProvider?: string;
   }
   

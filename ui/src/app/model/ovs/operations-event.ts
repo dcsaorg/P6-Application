@@ -6,6 +6,7 @@ import {TransportCall} from "./transport-call";
 import { PublisherRole } from "../enums/publisherRole";
 import { Publisher } from "../publisher";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
+import { EventLocation } from "../eventLocation";
 
 export interface OperationsEvent {
   eventID?: string;
@@ -21,8 +22,9 @@ export interface OperationsEvent {
   publisher: Publisher;
   portCallServiceTypeCode: PortCallServiceTypeCode;
   publisherRole: PublisherRole;
-  eventLocation: string;
+  eventLocation?: EventLocation;
   remark?: string;
   delayReasonCode?: string;
   eventDeliveryStatus: string;
+  facilityCode: string;
 }
