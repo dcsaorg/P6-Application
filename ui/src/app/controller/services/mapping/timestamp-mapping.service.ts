@@ -4,7 +4,7 @@ import {OperationsEventService} from "../ovs/operations-event.service";
 import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
 import {Port} from "../../../model/portCall/port";
-import {concatMap, map, mergeMap, timestamp, toArray} from "rxjs/operators";
+import {concatMap, map, mergeMap, toArray} from "rxjs/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
 import {Terminal} from "../../../model/portCall/terminal";
@@ -23,7 +23,7 @@ export class TimestampMappingService {
               private operationsEventService: OperationsEventService,
               private globals: Globals,
               private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
-              private timestampToTransportEventPipe: TimestampToStandardizedtTimestampPipe,
+              private timestampToStandardizedtTimestampPipe: TimestampToStandardizedtTimestampPipe,
               private timestampService: TimestampService
   ) {
   }
@@ -32,7 +32,7 @@ export class TimestampMappingService {
   private readonly locationNameBerth: string = "Berth Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
-    return this.timestampService.addTimestamp(this.timestampToTransportEventPipe.transform(timestamp, this.globals.config))
+    return this.timestampService.addTimestamp(this.timestampToStandardizedtTimestampPipe.transform(timestamp, this.globals.config))
   }
 
   getPortCallTimestamps(): Observable<Timestamp[]> {

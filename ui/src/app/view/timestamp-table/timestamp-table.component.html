@@ -124,42 +124,42 @@
           tooltipStyleClass="ToolTipClass" style="width: 3px;"
           [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
       <td style="width: 8%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+          [ngClass]="'timestampContent'">
         <div>{{ (timestamp.vesselIMONumber | vesselIdToVessel: vessels).vesselName}}</div>
         <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
       </td>
       <td style="width: 8%"
-      [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+      [ngClass]="'timestampContent'">
     <div>{{ (timestamp.publisherRole)}}</div>
     <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
   </td>
       <td style="width: 7%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+          [ngClass]="'timestampContent'">
         {{ timestamp.timestampType }}
       </td>
       <td pTooltip ="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall: ports)[1]}}"
           style="width: 15%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+          [ngClass]="'timestampContent'">
         {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall: ports)[0]}}
       </td>
       <td pTooltip ="UTC: {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall: ports)[1]}}"
           style="width: 15%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+          [ngClass]="'timestampContent'">
         {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall: ports)[0]}}
       </td>
         <!--
       <td
-        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">
+        [ngClass]="'timestampContent'">
         <div
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
+          [ngClass]="'timestampContent'">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
       </td>
        -->
       <td
-        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
+        [ngClass]="'timestampContent'"
         style="width: 8%">
         <div
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
+          [ngClass]="'timestampContent'">{{ (timestamp.portOfCall | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{timestamp.portOfCall?.name}}</div>
       </td>
       <td style="width: 6%"
@@ -194,7 +194,7 @@
       style="width: 4%">
     </td>
                 <!--this has been removed from the below td-->
-              <!-- [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp' "-->
+              <!-- [ngClass]="'unreadTimestamp' "-->
       <td *ngIf="!isOutGoing(timestamp)" style="width: 4%"
       class="ingoing" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.green' | translate }}" tooltipPosition="top"
     tooltipStyleClass="ToolTipClass">
@@ -216,14 +216,14 @@
 
       </td>
       <td
-        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
+        [ngClass]="'timestampContent'"
         style="width: 8%">
    <!--     <div
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
+          [ngClass]="'timestampContent'">{{ (timestamp.portNext | portIdToPort: ports).unLocode}}</div>
         <div class="rowDetails">{{ (timestamp.portNext | portIdToPort: ports).name}}</div>
       </td>
       <td style="width: 7%"
-          [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  ">{{ timestamp.direction }}
+          [ngClass]="'timestampContent'">{{ timestamp.direction }}
      -->
 
 
@@ -231,7 +231,7 @@
     <div *ngIf="!isOutGoing(timestamp)">Ingoing</div> -->
       </td>
       <td
-        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
+        [ngClass]="'timestampContent'"
         style="width: 4%">
         <div class="p-col tableHeader">
           <div class="timestampContent__buttons" *ngIf="timestamp.remark || timestamp.delayReasonCode">
