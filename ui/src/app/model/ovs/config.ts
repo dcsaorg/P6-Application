@@ -9,6 +9,7 @@ export interface Config {
   identifyingCodes: identifyingCodes;
   uiSupportBackendURL: string;
   ovsBackendURL: string;
+  dateTimeFormat: string;
   cognitoUserPoolId: string;
   cognitoAppClientId: string;
 }

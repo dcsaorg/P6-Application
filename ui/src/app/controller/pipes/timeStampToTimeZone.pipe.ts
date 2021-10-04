@@ -2,6 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {Port} from "../../model/portCall/port";
 import {PortIdToPortPipe} from "./port-id-to-port.pipe";
 import { MomentDatePipe } from './moment-date-pipe';
+import { Globals } from 'src/app/model/portCall/globals';
 
 
 @Pipe({
@@ -9,26 +10,21 @@ import { MomentDatePipe } from './moment-date-pipe';
 })
 export class TimestampToTimezonePipe implements PipeTransform {
 
+  constructor(private globals: Globals) {
+  }
+
   transform(inputDate: Date, portOfCall: Port, portlist: Port[]): string[] {
-    if(portOfCall && inputDate){
-    const portId: number = portOfCall.id;
-    const timeZone = new PortIdToPortPipe().transform(portId, portlist).timezone;
-    let newTime = new MomentDatePipe('en-GB').transform(inputDate, "MM/dd/yyyy HH:mm ZZZZZ", timeZone)
-    if (newTime.includes('Z')){
-      return [newTime.slice(0,-2),"00:00"]
+    if (portOfCall && inputDate){
+      const portId: number = portOfCall.id;
+      const timeZone = new PortIdToPortPipe().transform(portId, portlist).timezone;
+      const pipe = new MomentDatePipe('en-GB');
+      let newTime = pipe.transform(inputDate, this.globals.config.dateTimeFormat, timeZone)
+      let newTimeTZ = pipe.transform(inputDate, 'ZZZZZ', timeZone);
+      if (newTimeTZ == 'Z') {
+        newTimeTZ = '00:00';
+      }
+      return [newTime, newTimeTZ]
     }
-    else if(newTime.includes(' -')){
-      let r = newTime.split(' -'); 
-      return [r[0],"-"+ r[1]]
-    }
-     else if(newTime.includes(' +')){
-       let t = newTime.split(' +')
-       return[t[0], "+"+ t[1]]
-     }
+    return ["N/A","N/A"];
   }
-  return ["N/A","N/A"]; 
-  }
-
-
-
 }
