@@ -165,9 +165,14 @@
           <div pTooltip="{{timestamp.eventLocation?.facilityCode}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass">
             {{timestamp.eventLocation?.facilityCode}}</div>
         
-        <div *ngIf="timestamp.eventLocation?.facilityCode == null && timestamp.facilitySMDGCode != null">
-          <div pTooltip="{{timestamp.facilitySMDGCode}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass">
-            {{timestamp.facilitySMDGCode}}</div>
+        <div *ngIf="timestamp.eventLocation?.facilityCode == null">
+          <div *ngIf="timestamp.facilitySMDGCode != null"
+          pTooltip="{{timestamp.facilitySMDGCode}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass">
+            {{timestamp.facilitySMDGCode}}
+          </div>
+          <div *ngIf="timestamp.facilitySMDGCode == null">
+          N/A
+          </div>
         </div>
       </td>
     <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.grey' | translate }}" tooltipPosition="top"
@@ -214,7 +219,7 @@
 
       </td>
       <td
-        [ngClass]="timestamp.outdatedMessage ?  'disabledRow' : timestamp.uiReadByUser? 'timestampContent' : 'unreadTimestamp'  "
+        [ngClass]="'timestampContent'"
         style="width: 12%">
         <div class="p-col tableHeader">
           <div class="timestampContent__buttons" *ngIf="timestamp.remark || timestamp.delayReasonCode">
