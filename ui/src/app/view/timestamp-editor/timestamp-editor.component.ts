@@ -162,7 +162,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
-    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
+    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole, this.globals.config.enableJIT11Timestamps)) {
       this.timestampTypes.push({label: item, value: item})
     }
   }
