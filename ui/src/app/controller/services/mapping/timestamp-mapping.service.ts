@@ -138,7 +138,7 @@ export class TimestampMappingService {
       case PortcallTimestampType.PTA_PBP:
       case PortcallTimestampType.ATA_PBP:
         return this.locationNamePBP;
-      case PortcallTimestampType.ATS_Pilot:
+      case PortcallTimestampType.ATS_Pilotage:
       case PortcallTimestampType.ATA_Berth:
       case PortcallTimestampType.ATS_Cargo_Ops:
       case PortcallTimestampType.ETC_Cargo_Ops:
