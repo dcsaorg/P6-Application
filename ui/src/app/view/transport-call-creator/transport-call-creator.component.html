@@ -47,7 +47,9 @@
               </div>
             </ng-template>
           </p-dropdown>
-          <span *ngIf="transportCallFormGroup.get('port').hasError('required')" class="p-invalid">
+          <span
+            *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('port').touched"
+            class="p-invalid">
             {{ 'general.transportCall.validation.port.empty' | translate }}
           </span>
         </div>
@@ -74,7 +76,7 @@
       </div>
     </div>
 
-    <!-- Vessels -->
+    <!-- Vessel -->
     <div class="p-field p-col-12 p-md-4">
       <label for="vessels">{{ 'general.vessel.label' | translate }}:</label>
       <p-dropdown appendTo="body" formControlName="vessel" id="vessels" class="vessels__dropDown"
@@ -89,7 +91,9 @@
           </div>
         </ng-template>
       </p-dropdown>
-      <span *ngIf="transportCallFormGroup.get('vessel').hasError('required')" class="p-invalid">
+      <span
+        *ngIf="transportCallFormGroup.get('vessel').hasError('required') && transportCallFormGroup.get('vessel').touched"
+        class="p-invalid">
         {{ 'general.transportCall.validation.vessel.noVesselSelected' | translate }}
       </span>
     </div>
@@ -106,9 +110,12 @@
   <div class="p-fluid p-formgrid p-grid" [hidden]="!shouldCreateTimestamp()">
     <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp()">
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
-      <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes">
+      <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes"
+                  (onChange)="showLocationNameOption()">
       </p-dropdown>
-      <span *ngIf="transportCallFormGroup.get('timestampType').hasError('required')" class="p-invalid">
+      <span
+        *ngIf="transportCallFormGroup.get('timestampType').hasError('required') && transportCallFormGroup.get('timestampType').touched "
+        class="p-invalid">
         {{ 'general.timestamp.validation.timestampType.required' | translate }}
       </span>
 
@@ -126,7 +133,7 @@
                       [panelStyleClass]="'datetime-panel'">
           </p-calendar>
           <span
-            *ngIf="transportCallFormGroup.get('eventTimestampDate').hasError('required') || transportCallFormGroup.get('eventTimestampTime').hasError('required')"
+            *ngIf="transportCallFormGroup.get('eventTimestampDate').hasError('required') && transportCallFormGroup.get('eventTimestampDate').touched || transportCallFormGroup.get('eventTimestampTime').hasError('required') && transportCallFormGroup.get('eventTimestampTime').touched"
             class="p-invalid">
             {{ 'general.timestamp.validation.eventTimestamp.required' | translate }}
           </span>
@@ -145,10 +152,25 @@
       </div>
     </div>
 
+    <!-- Location Name -->
+    <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp() || !showLocationNameOption()">
+      <label for="locationName">{{ locationNameLabel | translate }}:</label>
+      <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text"/>
+      <span
+        *ngIf="transportCallFormGroup.get('locationName').hasError('required') && transportCallFormGroup.get('locationName').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.validation.carrierServiceCode.empty' | translate }}
+      </span>
+    </div>
+    <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp() || !showLocationNameOption()">
+      <!-- Probably is a better way to next field on separate row -->
+    </div>
+
+    <!-- Delay Code -->
     <div class="p-field p-col-12 p-md-5" [hidden]="!shouldCreateTimestamp()">
       <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
       <p-dropdown id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
-                  filterBy="label,value.name" [group]="false" [disabled]="!shouldCreateTimestamp()">
+                  filterBy="label,value.name" [group]="false">
         <ng-template let-delayCode pTemplate="selectedItem">
           <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
             <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
@@ -174,7 +196,7 @@
     <div class="p-field p-col-12 p-md-7">
     </div>
 
-
+    <!-- Delay Remark -->
     <div class="p-field p-col-12 p-md-6" [hidden]="!shouldCreateTimestamp()">
       <span class="p-float-label">
         <textarea class="commentBox" id="commentbox" pInputTextarea formControlName="defaultTimestampRemark"

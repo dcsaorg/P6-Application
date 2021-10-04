@@ -35,6 +35,11 @@ export class TimestampTypeToFacilityCodeCodePipe implements PipeTransform {
         PortcallTimestampType.ATC_Bunkering,
         PortcallTimestampType.ATC_Lashing,
         PortcallTimestampType.Terminal_Ready_for_Vessel_Departure,
+        PortcallTimestampType.ATS_Cargo_Ops,
+        PortcallTimestampType.ETC_Cargo_Ops,
+        PortcallTimestampType.PTC_Cargo_Ops,
+        PortcallTimestampType.ATC_Cargo_Ops,
+        PortcallTimestampType.RTC_Cargo_Ops
 
       ].includes(timestampType)
     ) {

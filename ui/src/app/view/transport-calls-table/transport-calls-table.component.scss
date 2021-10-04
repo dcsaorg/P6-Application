@@ -3,7 +3,7 @@
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   position: -webkit-sticky;
   position: sticky;
-  top: 0px;
+  top: 47px;
 }
 .globalSearch {
   float: right;
@@ -31,10 +31,13 @@
 
   }
 
-
 }
 
-
-
-
-
+.dummyContent{
+  width: 98vw;
+  margin-top: 100px;
+  text-align: center;
+  font-size: 16pt;
+  color: $darkGrey;
+  font-family: Tahoma, sans-serif;
+}

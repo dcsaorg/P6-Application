@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, ReplaySubject} from "rxjs";
 import {map} from "rxjs/operators";
 
 import {Vessel} from "../../../model/portCall/vessel";
@@ -9,11 +9,13 @@ import {Globals} from "../../../model/portCall/globals";
 import {StaticVesselService} from "../static/static-vessel.service";
 import {VesselMappingService} from "../mapping/vessel-mapping.service";
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class VesselService {
+  private vesselsDataSource = new ReplaySubject<null>()
+  vesselsObservable = this.vesselsDataSource.asObservable()
+
   private readonly VESSEL_URL: string;
   private readonly CARRIER_URL: string;
 
@@ -31,5 +33,8 @@ export class VesselService {
   addVessel = (vessel: Vessel): Observable<Vessel> => this.httpClient.post<Vessel>(this.VESSEL_URL, vessel);
 
   getcarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIER_URL);
- 
+
+  updateVesselsObserverable() {
+    this.vesselsDataSource.next(null);
+  }
 }

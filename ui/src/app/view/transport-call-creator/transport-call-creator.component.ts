@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, RequiredValidator, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Globals} from "../../model/portCall/globals";
 import {MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
@@ -23,6 +23,7 @@ import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
+import {EventLocation} from "../../model/eventLocation";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -50,6 +51,7 @@ export class TransportCallCreatorComponent implements OnInit {
   delayCode: DelayCode;
   defaultTimestampRemark: string;
   timestampchecking: boolean;
+  locationNameLabel: string;
 
   dateToUTC: DateToUtcPipe
 
@@ -85,7 +87,8 @@ export class TransportCallCreatorComponent implements OnInit {
       delayCode: new FormControl(null),
       eventTimestampTime: new FormControl(null),
       eventTimestampDate: new FormControl(null),
-      defaultTimestampRemark: new FormControl(null)
+      defaultTimestampRemark: new FormControl(null),
+      locationName: new FormControl(null),
     });
   }
 
@@ -158,8 +161,15 @@ export class TransportCallCreatorComponent implements OnInit {
   setEventTimestampToNow() {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
-    this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate);
+    // this line automatically sets the current date as of now
+    /* this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate); */
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
+  }
+
+  showLocationNameOption(): boolean {
+    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
+    return this.locationNameLabel !== undefined;
   }
 
   shouldCreateTimestamp(): boolean {
@@ -259,6 +269,13 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+      const locationName = this.transportCallFormGroup.controls.locationName.value;
+      if (this.locationNameLabel && locationName) {
+        this.timestamp.eventLocation = new class implements EventLocation {
+          locationName: string
+        }
+        this.timestamp.eventLocation.locationName = locationName;
+      }
 
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;

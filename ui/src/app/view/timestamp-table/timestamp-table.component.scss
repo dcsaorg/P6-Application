@@ -3,7 +3,8 @@
 :host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
   position: -webkit-sticky;
   position: sticky;
-  top: 0px;
+  top: 47px;
+  z-index: 10;
 }
 
 ::ng-deep .p-datatable-header {
@@ -50,12 +51,17 @@ tr{
   font-size:$tableSize;
   z-index: 1;
   text-shadow: none;
+
+  &__buttons {
+    margin: 5px 10px 0px 0px;  
+    float: right;
+  }
 }
 
 .tableHeader {
   display: flex;
   flex-direction: row;
-  float: right;
+  float: left;
   padding: 0px 0px !important;
   max-width: 120px !important;
 
@@ -105,5 +111,5 @@ tr{
 }
 
 .obsoleteTimestamp{
-  opacity: 35%;
+  opacity: 0.35;
 }
