@@ -108,6 +108,10 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     let timestampShallowClone = Object.assign({}, timestamp);
     timestampShallowClone.timestampType = timestamp.response;
     timestampShallowClone.logOfTimestamp = new Date();
+    // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
+    // so see their own comment in a reply to them.
+    timestampShallowClone.remark = null;
+    timestampShallowClone.delayReasonCode = null;
     this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
         this.loadTimestamps();
         this.messageService.add({
