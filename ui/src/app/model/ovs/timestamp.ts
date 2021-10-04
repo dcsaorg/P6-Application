@@ -15,6 +15,9 @@ export interface Timestamp {
     publisherRole: PublisherRole;
     vesselIMONumber: string;
     UNLocationCode: string;
+        /**
+   * @deprecated
+   */
     facilitySMDGCode?: string;
     facilityTypeCode: FacilityTypeCode;
     eventClassifierCode: EventClassifierCode;
