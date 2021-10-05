@@ -153,22 +153,22 @@
     </div>
 
     <!-- Vessel Position -->
-    <div class="p-field p-col-12 p-md-4" [hidden]="showVesselPosition() || !shouldCreateTimestamp() " >
-      <label for="vesselPositionLatitude">{{ "latitude" | translate }}:</label>
+    <div class="p-field p-col-12 p-md-4" [hidden]="hideVesselPosition() || !shouldCreateTimestamp() " >
+      <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate }}:</label>
       <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%" type="text"/>
       <span
         *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxLength') && transportCallFormGroup.get('vesselPositionLatitude').touched"
         class="p-invalid">
-        {{ 'general.transportCall.validation.carrierServiceCode.empty' | translate }}
+        {{ 'general.timestamp.vesselPosition.latitude.maxLength' | translate }}
       </span>
     </div>
-    <div class="p-field p-col-12 p-md-4" [hidden]="showVesselPosition() || !shouldCreateTimestamp()">
-      <label for="vesselPositionLongtitude">{{ "longtitude" | translate }}:</label>
-      <input id="vesselPositionLongtitude" formControlName="vesselPositionLongtitude" pInputText style="width: 100%" type="text"/>
+    <div class="p-field p-col-12 p-md-4" [hidden]="hideVesselPosition() || !shouldCreateTimestamp()">
+      <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
+      <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%" type="text"/>
       <span
-        *ngIf="transportCallFormGroup.get('vesselPositionLongtitude').hasError('maxLength') && transportCallFormGroup.get('vesselPositionLongtitude').touched"
+        *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('maxLength') && transportCallFormGroup.get('vesselPositionLongitude').touched"
         class="p-invalid">
-        {{ 'general.transportCall.validation.carrierServiceCode.empty' | translate }}
+        {{ 'general.timestamp.vesselPosition.longitude.maxLength' | translate }}
       </span>
     </div>
     <div class="p-field p-col-12 p-md-2"></div>

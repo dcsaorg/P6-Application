@@ -12,4 +12,5 @@ export interface Config {
   dateTimeFormat: string;
   cognitoUserPoolId: string;
   cognitoAppClientId: string;
+  enableVesselPositions: boolean
 }

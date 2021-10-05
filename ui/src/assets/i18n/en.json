@@ -207,6 +207,17 @@
         "label": "New Port Call Timestamp",
         "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
       },
+      "vesselPosition": {
+        "label": "Vessel Position",
+        "latitude": {
+          "label": "Latitude",
+          "maxLength": "Max length is 10 characters!"
+        },
+        "longitude": {
+          "label": "Longitude",
+          "maxLength": "Max length is 11 characters!"
+        }
+      },
       "locationName": {
         "label": "Location Name"
       },

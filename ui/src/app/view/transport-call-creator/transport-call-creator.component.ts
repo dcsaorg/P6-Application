@@ -90,7 +90,7 @@ export class TransportCallCreatorComponent implements OnInit {
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
       locationName: new FormControl(null),
-      vesselPositionLongtitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
+      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
     });
   }
@@ -169,8 +169,23 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
   }
 
-  showVesselPosition(): boolean {
-    return this.globals.config.publisher.partyName !== 'Asseco Denmark';
+  hideVesselPosition(): boolean {
+    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    if (!this.globals.config.enableVesselPositions) return true;
+    switch (timestampType) {
+      case PortcallTimestampType.ETA_Berth:
+      case PortcallTimestampType.PTA_Berth:
+      case PortcallTimestampType.ETA_PBP:
+      case PortcallTimestampType.PTA_PBP:
+      // case PortcallTimestampType.EOSP:
+      case PortcallTimestampType.ATS_Pilot:
+        // case PortcallTimestampType.ATS_Towage:
+        // case PortcallTimestampType.ATC_Pilot:
+        // case PortcallTimestampType.SOSP:
+        return false;
+      default:
+        return true;
+    }
   }
 
   showLocationNameOption(): boolean {
@@ -284,7 +299,7 @@ export class TransportCallCreatorComponent implements OnInit {
       }
 
       const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;
-      const longtitude = this.transportCallFormGroup.controls.vesselPositionLongtitude.value;
+      const longtitude = this.transportCallFormGroup.controls.vesselPositionLongitude.value;
       if (latitude && longtitude) {
         this.timestamp.vesselPosition = new class implements VesselPosition {
           latitude: string = latitude;

@@ -141,18 +141,18 @@
   </div>
 
   <!-- Vessel Position -->
-  <div class="p-field p-col-12 p-md-4" [hidden]="showVesselPosition()">
-    <label for="vesselPositionLatitude">{{ "latitude" | translate }}:</label>
+  <div class="p-field p-col-12 p-md-4" [hidden]="hideVesselPosition()">
+    <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate }}:</label>
     <input id="vesselPositionLatitude" [(ngModel)]="vesselPosition.latitude" pInputText style="width: 100%" type="text"/>
   </div>
-  <div class="p-field p-col-12 p-md-4" [hidden]="showVesselPosition()">
-    <label for="vesselPositionLongtitude">{{ "longtitude" | translate }}:</label>
-    <input id="vesselPositionLongtitude" [(ngModel)]="vesselPosition.latitude" pInputText style="width: 100%" type="text"/>
+  <div class="p-field p-col-12 p-md-4" [hidden]="hideVesselPosition()">
+    <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
+    <input id="vesselPositionLongitude" [(ngModel)]="vesselPosition.longitude" pInputText style="width: 100%" type="text"/>
   </div>
   <div class="p-field p-col-12 p-md-2"></div>
 
   <!-- Location Name -->
-  
+
   <div class="p-field p-col-12 p-md-6"></div>
 </div>
 
