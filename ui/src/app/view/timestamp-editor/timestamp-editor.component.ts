@@ -156,6 +156,15 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       timestamp.eventLocation.locationName = this.locationName;
     }
 
+    const latitude = this.vesselPosition.latitude;
+    const longtitude = this.vesselPosition.longitude;
+    if (latitude && longtitude) {
+      timestamp.vesselPosition = new class implements VesselPosition {
+        latitude: string = latitude;
+        longitude: string = longtitude;
+      }
+    }
+
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(() => {
         this.creationProgress = false;
