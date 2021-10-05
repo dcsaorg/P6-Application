@@ -210,11 +210,11 @@
       "vesselPosition": {
         "label": "Vessel Position",
         "latitude": {
-          "label": "Latitude",
+          "label": "Vessel Position Latitude",
           "maxLength": "Max length is 10 characters!"
         },
         "longitude": {
-          "label": "Longitude",
+          "label": "Vessel Position Longitude",
           "maxLength": "Max length is 11 characters!"
         }
       },
