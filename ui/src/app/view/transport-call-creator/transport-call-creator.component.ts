@@ -164,7 +164,8 @@ export class TransportCallCreatorComponent implements OnInit {
   setEventTimestampToNow() {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
-    this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate);
+    // this line automatically sets the current date as of now
+    /* this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate); */
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
   }
 

@@ -1,9 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
-import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
 import {Port} from "../../model/portCall/port";
 import {Terminal} from "../../model/portCall/terminal";
-import {ConfirmationService, MessageService} from "primeng/api";
+import {MessageService} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
 import {PortCallTimestampTypeToEnumPipe} from "../../controller/pipes/port-call-timestamp-type-to-enum.pipe";
@@ -12,8 +11,6 @@ import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/times
 import {DelayCode} from "../../model/portCall/delayCode";
 import {DialogService} from "primeng/dynamicdialog";
 import {PortService} from "../../controller/services/base/port.service";
-import {TerminalService} from "../../controller/services/base/terminal.service";
-import {PaginatorService} from "../../controller/services/base/paginator.service";
 import {take} from "rxjs/operators";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
@@ -23,7 +20,6 @@ import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {TimestampService} from "../../controller/services/ovs/timestamps.service";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
 
 @Component({
@@ -55,21 +51,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   highestTimestampId: number;
 
-  constructor(private portcallTimestampService: PortcallTimestampService,
+  constructor(
               private delayCodeService: DelayCodeService,
               private portService: PortService,
-              private terminalService: TerminalService,
               private vesselService: VesselService,
-              private confirmationService: ConfirmationService,
               private dialogService: DialogService,
               private messageService: MessageService,
-              private paginatorService: PaginatorService,
-              private portCallTimestampTypeToEnumPipe: PortCallTimestampTypeToEnumPipe,
-              private portCallTimestampTypeToStringPipe: PortCallTimestampTypeToStringPipe,
-              private portIdToPortPipe: PortIdToPortPipe,
               private translate: TranslateService,
               private timestampMappingService: TimestampMappingService,
-              private timestampService: TimestampService,
               public globals: Globals
   ) {
   }
@@ -119,6 +108,10 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     let timestampShallowClone = Object.assign({}, timestamp);
     timestampShallowClone.timestampType = timestamp.response;
     timestampShallowClone.logOfTimestamp = new Date();
+    // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
+    // so see their own comment in a reply to them.
+    timestampShallowClone.remark = null;
+    timestampShallowClone.delayReasonCode = null;
     this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
         this.loadTimestamps();
         this.messageService.add({

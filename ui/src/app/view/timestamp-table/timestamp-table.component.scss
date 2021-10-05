@@ -61,7 +61,7 @@ tr{
 .tableHeader {
   display: flex;
   flex-direction: row;
-  float: right;
+  float: left;
   padding: 0px 0px !important;
   max-width: 120px !important;
 
@@ -111,5 +111,5 @@ tr{
 }
 
 .obsoleteTimestamp{
-  opacity: 35%;
+  opacity: 0.35;
 }
