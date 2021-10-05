@@ -193,6 +193,10 @@
         "transportCallStatus": {
           "label": "Delivery status",
           "tooltip": "The current delivery status of the timestamp"
+        },
+        "locationName":{
+          "label": "Location name",
+          "tooltip": "Location name"
         }
       },
       "pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"
