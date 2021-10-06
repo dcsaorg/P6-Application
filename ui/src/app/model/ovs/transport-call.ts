@@ -3,6 +3,7 @@ import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import {FacilityCodeListProvider} from "../enums/facilityCodeListProvider";
 import {Vessel} from "../portCall/vessel";
 import { Port } from "../portCall/port";
+import { EventLocation } from "../eventLocation";
 
 export interface TransportCall {
   carrierServiceCode?: string;
@@ -21,6 +22,7 @@ export interface TransportCall {
   otherFacility: string;
   sequenceColor: string;
   vessel: Vessel;
+  location: EventLocation;
   estimatedDateofArrival?: string | Date;
 
 }
