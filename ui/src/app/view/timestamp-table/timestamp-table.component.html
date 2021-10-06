@@ -16,7 +16,7 @@
         : {{transportCallSelected.transportCallID}}</div>
       <div class="p-col tableHeader">
         <div class="tableHeader__buttons">
-          <p-button class="p-button-raised p-button-rounded tableHeader__add_button" (onClick)="openCreationDialog()"
+          <p-button class="p-button-raised p-button-rounded tableHeader__add_button" (onClick)="openCreationDialog(null)"
                     icon="pi pi-plus" pTooltip="{{ 'general.table.header.create.tooltip' | translate }}"
                     tooltipPosition="left" type="button"
                     tooltipStyleClass="ToolTipClass"></p-button>
@@ -237,7 +237,7 @@
 
           <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
-              tooltipStyleClass="ToolTipClass" (click)="openCreationDialog()"></p-button>
+              tooltipStyleClass="ToolTipClass" (click)="openCreationDialog(timestamp)"></p-button>
           </div>
         </div>
       </td>

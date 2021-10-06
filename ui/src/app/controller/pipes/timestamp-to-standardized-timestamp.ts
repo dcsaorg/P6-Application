@@ -29,7 +29,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
       UNLocationCode: string;
       delayReasonCode: string;
       eventClassifierCode: EventClassifierCode;
-      eventDateTime: string | Date;
+      eventDateTime: Date;
       facilityTypeCode: FacilityTypeCode;
       operationsEventTypeCode: OperationsEventTypeCode;
       portCallServiceTypeCode: PortCallServiceTypeCode;

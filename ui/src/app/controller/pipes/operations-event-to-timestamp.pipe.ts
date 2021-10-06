@@ -31,7 +31,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       facilityTypeCode: FacilityTypeCode;
       eventClassifierCode: EventClassifierCode;
       operationsEventTypeCode: OperationsEventTypeCode;
-      eventDateTime: string | Date;
+      eventDateTime: Date;
       callSequence: number;
       changeComment: string;
       classifierCode: string;

@@ -1,11 +1,13 @@
-<h4>For Transport-Call {{ transportCall.transportCallSequenceNumber}}</h4>
+<h4>For Transport-Call {{ transportCall.transportCallSequenceNumber}}
+</h4>
+<h4 *ngIf="respondingToTimestamp != null">{{(respondingToTimestamp.eventDateTime | timestampToTimezone: respondingToTimestamp.portOfCall: ports)[0]}}</h4>
 <div class="headline">
   <p-card styleClass="card-scondary">
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
           : </label>
-        <span id="vesselName"> {{transportCall.vesselName}} </span>
+        <span id="vesselName"> {{transportCall.vesselName}}</span>
       </div>
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>

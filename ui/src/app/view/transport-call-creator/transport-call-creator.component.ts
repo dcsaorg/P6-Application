@@ -247,7 +247,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestamp = new class implements Timestamp {
       UNLocationCode: string;
       eventClassifierCode: EventClassifierCode;
-      eventDateTime: string | Date;
+      eventDateTime: Date;
       facilityTypeCode: FacilityTypeCode;
       operationsEventTypeCode: OperationsEventTypeCode;
       publisher: Publisher;
