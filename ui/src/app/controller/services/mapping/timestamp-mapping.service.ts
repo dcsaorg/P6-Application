@@ -121,7 +121,6 @@ export class TimestampMappingService {
         timestamp.UNLocationCode = transportCall.UNLocationCode;
         timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
         timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-        timestamp.facilitySMDGCode = transportCall.facilityCode;
       }
     }
   }
