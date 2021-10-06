@@ -78,6 +78,7 @@ tr{
 .gridButtons{
   display:grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: column;
 }
 
 .dialogueBtn{
@@ -86,12 +87,10 @@ grid-column: 3;
 
 .acceptBtn{
 grid-column: 1;
-grid-row: 1;
 }
 
 .declineBtn{
 grid-column: 2;
-grid-row: 1;
 }
 
 .unreadTimestamp{
