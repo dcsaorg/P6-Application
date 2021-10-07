@@ -14,6 +14,7 @@ import {PublisherRole} from 'src/app/model/enums/publisherRole';
 import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
 import {EventClassifierCode} from 'src/app/model/ovs/eventClassifierCode';
 import {OperationsEventTypeCode} from 'src/app/model/enums/operationsEventTypeCode';
+import { EventLocation } from 'src/app/model/eventLocation';
 
 @Pipe({
   name: 'transportEventToTimestamp'
@@ -38,12 +39,10 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       eventTimestamp: string | Date;
       eventTypeCode: string;
       id: string;
-      locationId: string;
       logOfTimestamp: string | Date;
       messageDirection: MessageDirection;
       messagingDetails: string;
       messagingStatus: string;
-      modifiable: boolean;
       outdatedMessage: boolean;
       portNext: Port | number;
       portOfCall: Port;
@@ -68,16 +67,19 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     timestamp.eventDateTime = operationsEvent.eventDateTime;
     timestamp.portCallServiceTypeCode = operationsEvent.portCallServiceTypeCode;
     timestamp.facilityTypeCode = operationsEvent.facilityTypeCode;
+    if (operationsEvent.eventLocation?.facilityCodeListProvider == 'SMDG') {
+      timestamp.facilitySMDGCode = operationsEvent.eventLocation?.facilityCode;
+    }
     timestamp.remark = operationsEvent.remark;
     timestamp.delayReasonCode = operationsEvent.delayReasonCode;
     timestamp.eventDeliveryStatus = operationsEvent.eventDeliveryStatus;
-
     // Extras
     timestamp.timestampType = this.getTimestampType(operationsEvent);
     timestamp.logOfTimestamp = operationsEvent.eventCreatedDateTime;
     timestamp.transportCallID = operationsEvent.transportCall.transportCallID;
+    timestamp.eventLocation = operationsEvent.eventLocation;
 
-    return timestamp;
+ return timestamp;
   }
 
 
