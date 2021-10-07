@@ -245,6 +245,7 @@ export class TransportCallCreatorComponent implements OnInit {
       portCallServiceTypeCode: PortCallServiceTypeCode;
       modeOfTransport: string;
       facilityCodeListProvider: FacilityCodeListProvider;
+      location: EventLocation;
       vessel: Vessel;
     }
 
