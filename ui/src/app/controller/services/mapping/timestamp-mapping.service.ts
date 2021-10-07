@@ -156,7 +156,7 @@ export class TimestampMappingService {
     }
   }
 
-  getPortcallTimestampTypes(publisherRole: PublisherRole, enableJIT1_1Timestamps: Boolean): string[] {
+  getPortcallTimestampTypes(publisherRole: PublisherRole, enableJIT1_1Timestamps: Boolean = false): string[] {
     if (enableJIT1_1Timestamps) {
       switch (publisherRole) {
         case PublisherRole.CA:
