@@ -20,6 +20,7 @@ import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {TimestampService} from "../../controller/services/ovs/timestamps.service";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
 
 @Component({
@@ -59,7 +60,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private messageService: MessageService,
               private translate: TranslateService,
               private timestampMappingService: TimestampMappingService,
-              public globals: Globals
+              public globals: Globals,
+              public timestampService:TimestampService 
   ) {
   }
 
