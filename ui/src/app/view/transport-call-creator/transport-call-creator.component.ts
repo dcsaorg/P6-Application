@@ -24,6 +24,7 @@ import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -89,6 +90,8 @@ export class TransportCallCreatorComponent implements OnInit {
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
       locationName: new FormControl(null),
+      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
+      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
     });
   }
 
@@ -164,6 +167,25 @@ export class TransportCallCreatorComponent implements OnInit {
     // this line automatically sets the current date as of now
     /* this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate); */
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
+  }
+
+  hideVesselPosition(): boolean {
+    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    if (!this.globals.config.enableVesselPositions) return true;
+    switch (timestampType) {
+      case PortcallTimestampType.ETA_Berth:
+      case PortcallTimestampType.PTA_Berth:
+      case PortcallTimestampType.ETA_PBP:
+      case PortcallTimestampType.PTA_PBP:
+      // case PortcallTimestampType.EOSP:
+      case PortcallTimestampType.ATS_Pilot:
+        // case PortcallTimestampType.ATS_Towage:
+        // case PortcallTimestampType.ATC_Pilot:
+        // case PortcallTimestampType.SOSP:
+        return false;
+      default:
+        return true;
+    }
   }
 
   showLocationNameOption(): boolean {
@@ -278,7 +300,18 @@ export class TransportCallCreatorComponent implements OnInit {
         facilityCodeListProvider: FacilityCodeListProvider = FacilityCodeListProvider.SMDG
       }
       if (this.locationNameLabel && locationName) {
-        eventLocation.locationName = locationName
+        this.timestamp.eventLocation = new class implements EventLocation {
+          locationName: string = locationName
+        }
+      }
+
+      const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;
+      const longtitude = this.transportCallFormGroup.controls.vesselPositionLongitude.value;
+      if (latitude && longtitude) {
+        this.timestamp.vesselPosition = new class implements VesselPosition {
+          latitude: string = latitude;
+          longitude: string = longtitude;
+        }
       }
 
       this.timestamp.eventLocation = eventLocation;

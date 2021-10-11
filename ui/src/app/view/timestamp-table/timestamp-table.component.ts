@@ -105,7 +105,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   isOutGoing(timestamp: Timestamp): boolean {
     return timestamp.publisherRole == this.globals.config.publisherRole;
-
   }
 
 
@@ -117,6 +116,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     // so see their own comment in a reply to them.
     timestampShallowClone.remark = null;
     timestampShallowClone.delayReasonCode = null;
+    timestampShallowClone.vesselPosition = null;
     this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
         this.loadTimestamps();
         this.messageService.add({
