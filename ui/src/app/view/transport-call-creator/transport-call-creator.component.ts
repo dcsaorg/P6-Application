@@ -172,19 +172,33 @@ export class TransportCallCreatorComponent implements OnInit {
   hideVesselPosition(): boolean {
     const timestampType = this.transportCallFormGroup.controls.timestampType.value;
     if (!this.globals.config.enableVesselPositions) return true;
-    switch (timestampType) {
-      case PortcallTimestampType.ETA_Berth:
-      case PortcallTimestampType.PTA_Berth:
-      case PortcallTimestampType.ETA_PBP:
-      case PortcallTimestampType.PTA_PBP:
-      // case PortcallTimestampType.EOSP:
-      case PortcallTimestampType.ATS_Pilot:
-        // case PortcallTimestampType.ATS_Towage:
-        // case PortcallTimestampType.ATC_Pilot:
-        // case PortcallTimestampType.SOSP:
-        return false;
-      default:
-        return true;
+    if (this.globals.config.enableJIT11Timestamps) {
+      switch (timestampType) {
+        case PortcallTimestampType.ETA_Berth:
+        case PortcallTimestampType.PTA_Berth:
+        case PortcallTimestampType.ETA_PBP:
+        case PortcallTimestampType.PTA_PBP:
+        case PortcallTimestampType.EOSP:
+        case PortcallTimestampType.ATS_Pilotage:
+        case PortcallTimestampType.ATS_Towage:
+        case PortcallTimestampType.ATC_Pilotage:
+        case PortcallTimestampType.SOSP:
+          return false;
+        default:
+          return true;
+      }
+    }
+    else {
+      switch (timestampType) {
+        case PortcallTimestampType.ETA_Berth:
+        case PortcallTimestampType.PTA_Berth:
+        case PortcallTimestampType.ETA_PBP:
+        case PortcallTimestampType.PTA_PBP:
+        case PortcallTimestampType.ATS_Pilotage:
+          return false;
+        default:
+          return true;
+      }
     }
   }
 
