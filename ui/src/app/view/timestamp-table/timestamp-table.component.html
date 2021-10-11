@@ -177,7 +177,7 @@
           </div>
         </div>
       </td>
-      <td style="width: 10%">{{ timestamp.eventLocation?.locationName }}</td>
+      <td [ngClass]="'timestampContent'" style="width: 10%">{{ timestamp.eventLocation?.locationName }}</td>
     <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.grey' | translate }}" tooltipPosition="top"
     tooltipStyleClass="ToolTipClass" [ngClass]="
       {
