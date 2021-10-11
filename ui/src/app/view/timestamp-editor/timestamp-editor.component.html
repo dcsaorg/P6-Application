@@ -1,6 +1,5 @@
 <h4>For Transport-Call {{ transportCall.transportCallSequenceNumber}}
 </h4>
-<h4 *ngIf="respondingToTimestamp != null">{{(respondingToTimestamp.eventDateTime | timestampToTimezone: respondingToTimestamp.portOfCall: ports)[0]}}</h4>
 <div class="headline">
   <p-card styleClass="card-scondary">
     <div class="p-fluid p-formgrid p-grid">
@@ -29,6 +28,11 @@
       </div>
       <div class="p-field p-col-12 p-md-4">
         <!-- Placeholder for additional information -->
+      </div>
+      <div class="p-field p-col-12 p-md-4" *ngIf="respondingToTimestamp != null">
+        <!-- Placeholder for additional information when rejecting timestamp -->
+        <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' | translate }}: </label>
+        <span style="font-weight: bold;" >{{ " " +(respondingToTimestamp.eventDateTime | timestampToTimezone: respondingToTimestamp.portOfCall: ports)[0]}}</span>
       </div>
     </div>
   </p-card>

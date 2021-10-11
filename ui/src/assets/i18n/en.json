@@ -135,6 +135,7 @@
         },
         "eventTimestamp": {
           "label": "Event timestamp",
+          "declinedLabel": "Declined event timestamp",
           "tooltip": "What is the estimated, requested, planned or actual timestamp of the event (local time for port)"
         },
         "logOfTimestamp": {
