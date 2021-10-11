@@ -70,7 +70,7 @@ export class TimestampMappingService {
             timestamp.isLatestInCycle = !set.has(negotiationCycle)
             set.add(negotiationCycle)
             if (timestamp.isLatestInCycle) {
-              this.timestampService.setResponseType(timestamp, this.globals.config.publisherRole); // set response for latest timestamp in negotiationCycle.
+              timestamp.response = this.timestampService.setResponseType(timestamp, this.globals.config.publisherRole); // set response for latest timestamp in negotiationCycle.
             }
           }
         }

@@ -24,7 +24,7 @@ Setting response for current publisher.
 Check the type of PortcallTimestampType recieved and set response for current publisher. 
 Note: No need to response if an "Actual" is recieved
 */
-public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
+public  setResponseType(portCallTimestamp: Timestamp, role: PublisherRole): PortcallTimestampType {
 
     let response: PortcallTimestampType = null;
 
@@ -112,6 +112,7 @@ public setResponseType(portCallTimestamp: Timestamp, role: PublisherRole) {
       switch (portCallTimestamp.timestampType){
       }
     }
+    return response;
   }
 
 
