@@ -260,7 +260,6 @@ export class TransportCallCreatorComponent implements OnInit {
 
     if (this.shouldCreateTimestamp() && createTimestamp) {
       this.timestamp.UNLocationCode = transportCall.UNLocationCode;
-      this.timestamp.facilitySMDGCode = transportCall.facilityCode;
       this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
       this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
       this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
@@ -270,13 +269,19 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+
       const locationName = this.transportCallFormGroup.controls.locationName.value;
-      if (this.locationNameLabel && locationName) {
-        this.timestamp.eventLocation = new class implements EventLocation {
-          locationName: string
-        }
-        this.timestamp.eventLocation.locationName = locationName;
+      const eventLocation = new class implements EventLocation {
+        locationName: string
+        UNLocationCode: string = transportCall.UNLocationCode
+        facilityCode: string = transportCall.facilityCode
+        facilityCodeListProvider: FacilityCodeListProvider = FacilityCodeListProvider.SMDG
       }
+      if (this.locationNameLabel && locationName) {
+        eventLocation.locationName = locationName
+      }
+
+      this.timestamp.eventLocation = eventLocation;
 
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
