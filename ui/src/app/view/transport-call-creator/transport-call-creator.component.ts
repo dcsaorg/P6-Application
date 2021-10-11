@@ -24,6 +24,7 @@ import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -89,6 +90,8 @@ export class TransportCallCreatorComponent implements OnInit {
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
       locationName: new FormControl(null),
+      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
+      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
     });
   }
 
@@ -141,7 +144,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
 
-    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
+    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole, this.globals.config.enableJIT11Timestamps)) {
       this.timestampTypes.push({label: item, value: item})
     }
   }
@@ -164,6 +167,39 @@ export class TransportCallCreatorComponent implements OnInit {
     // this line automatically sets the current date as of now
     /* this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate); */
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
+  }
+
+  hideVesselPosition(): boolean {
+    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    if (!this.globals.config.enableVesselPositions) return true;
+    if (this.globals.config.enableJIT11Timestamps) {
+      switch (timestampType) {
+        case PortcallTimestampType.ETA_Berth:
+        case PortcallTimestampType.PTA_Berth:
+        case PortcallTimestampType.ETA_PBP:
+        case PortcallTimestampType.PTA_PBP:
+        case PortcallTimestampType.EOSP:
+        case PortcallTimestampType.ATS_Pilotage:
+        case PortcallTimestampType.ATS_Towage:
+        case PortcallTimestampType.ATC_Pilotage:
+        case PortcallTimestampType.SOSP:
+          return false;
+        default:
+          return true;
+      }
+    }
+    else {
+      switch (timestampType) {
+        case PortcallTimestampType.ETA_Berth:
+        case PortcallTimestampType.PTA_Berth:
+        case PortcallTimestampType.ETA_PBP:
+        case PortcallTimestampType.PTA_PBP:
+        case PortcallTimestampType.ATS_Pilotage:
+          return false;
+        default:
+          return true;
+      }
+    }
   }
 
   showLocationNameOption(): boolean {
@@ -223,6 +259,7 @@ export class TransportCallCreatorComponent implements OnInit {
       portCallServiceTypeCode: PortCallServiceTypeCode;
       modeOfTransport: string;
       facilityCodeListProvider: FacilityCodeListProvider;
+      location: EventLocation;
       vessel: Vessel;
     }
 
@@ -259,7 +296,6 @@ export class TransportCallCreatorComponent implements OnInit {
 
     if (this.shouldCreateTimestamp() && createTimestamp) {
       this.timestamp.UNLocationCode = transportCall.UNLocationCode;
-      this.timestamp.facilitySMDGCode = transportCall.facilityCode;
       this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
       this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
       this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
@@ -269,13 +305,30 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+
       const locationName = this.transportCallFormGroup.controls.locationName.value;
+      const eventLocation = new class implements EventLocation {
+        locationName: string
+        UNLocationCode: string = transportCall.UNLocationCode
+        facilityCode: string = transportCall.facilityCode
+        facilityCodeListProvider: FacilityCodeListProvider = FacilityCodeListProvider.SMDG
+      }
       if (this.locationNameLabel && locationName) {
         this.timestamp.eventLocation = new class implements EventLocation {
-          locationName: string
+          locationName: string = locationName
         }
-        this.timestamp.eventLocation.locationName = locationName;
       }
+
+      const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;
+      const longtitude = this.transportCallFormGroup.controls.vesselPositionLongitude.value;
+      if (latitude && longtitude) {
+        this.timestamp.vesselPosition = new class implements VesselPosition {
+          latitude: string = latitude;
+          longitude: string = longtitude;
+        }
+      }
+
+      this.timestamp.eventLocation = eventLocation;
 
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;

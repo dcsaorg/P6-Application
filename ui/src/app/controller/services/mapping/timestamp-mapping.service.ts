@@ -121,7 +121,6 @@ export class TimestampMappingService {
         timestamp.UNLocationCode = transportCall.UNLocationCode;
         timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
         timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-        timestamp.facilitySMDGCode = transportCall.facilityCode;
       }
     }
   }
@@ -138,7 +137,7 @@ export class TimestampMappingService {
       case PortcallTimestampType.PTA_PBP:
       case PortcallTimestampType.ATA_PBP:
         return this.locationNamePBP;
-      case PortcallTimestampType.ATS_Pilot:
+      case PortcallTimestampType.ATS_Pilotage:
       case PortcallTimestampType.ATA_Berth:
       case PortcallTimestampType.ATS_Cargo_Ops:
       case PortcallTimestampType.ETC_Cargo_Ops:
@@ -156,43 +155,112 @@ export class TimestampMappingService {
     }
   }
 
-  getPortcallTimestampTypes(publisherRole: PublisherRole): string[] {
-    switch (publisherRole) {
-      case PublisherRole.CA:
-        return [
-          PortcallTimestampType.ETA_Berth,
-          PortcallTimestampType.PTA_Berth,
-          PortcallTimestampType.ETA_PBP,
-          PortcallTimestampType.PTA_PBP,
-          PortcallTimestampType.ATA_PBP,
-          PortcallTimestampType.ATA_Berth,
-          PortcallTimestampType.RTC_Cargo_Ops,
-          PortcallTimestampType.ETD_Berth,
-          PortcallTimestampType.PTD_Berth,
-          PortcallTimestampType.ATD_Berth,
-        ]
-      case PublisherRole.TR:
-        return [
-          PortcallTimestampType.RTA_Berth,
-          PortcallTimestampType.ATS_Cargo_Ops,
-          PortcallTimestampType.ETC_Cargo_Ops,
-          PortcallTimestampType.PTC_Cargo_Ops,
-          PortcallTimestampType.ATC_Cargo_Ops,
-        ]
-      case PublisherRole.ATH:
-        return [
-          PortcallTimestampType.RTA_PBP,
-          PortcallTimestampType.RTD_Berth,
-        ]
-      case PublisherRole.PLT:
-        return [
-          PortcallTimestampType.ATS_Pilot,
-        ]
-      default:
-        return [];
+  getPortcallTimestampTypes(publisherRole: PublisherRole, enableJIT1_1Timestamps: Boolean = false): string[] {
+    if (enableJIT1_1Timestamps) {
+      switch (publisherRole) {
+        case PublisherRole.CA:
+          return [
+            PortcallTimestampType.ETA_Berth,
+            PortcallTimestampType.PTA_Berth,
+            PortcallTimestampType.ETA_PBP,
+            PortcallTimestampType.PTA_PBP,
+            PortcallTimestampType.ATA_PBP,
+            PortcallTimestampType.RTC_Cargo_Ops,
+            PortcallTimestampType.ETD_Berth,
+            PortcallTimestampType.PTD_Berth,
+            PortcallTimestampType.ATD_Berth,
+            PortcallTimestampType.RTS_Cargo_Ops,
+            PortcallTimestampType.RTS_Bunkering,
+            PortcallTimestampType.RTC_Bunkering,
+            PortcallTimestampType.AT_All_Fast,
+            PortcallTimestampType.Gangway_Down_and_Safe,
+            PortcallTimestampType.Vessel_Readiness_for_Cargo_Ops,
+            PortcallTimestampType.SOSP,
+            PortcallTimestampType.EOSP
+          ]
+        case PublisherRole.TR:
+          return [
+            PortcallTimestampType.RTA_Berth,
+            PortcallTimestampType.ATA_Berth,
+            PortcallTimestampType.ETS_Cargo_Ops,
+            PortcallTimestampType.ATS_Cargo_Ops,
+            PortcallTimestampType.ETC_Cargo_Ops,
+            PortcallTimestampType.PTC_Cargo_Ops,
+            PortcallTimestampType.ATC_Cargo_Ops,
+            PortcallTimestampType.PTS_Cargo_Ops,
+            PortcallTimestampType.Terminal_Ready_for_Vessel_Departure
+          ]
+        case PublisherRole.ATH:
+          return [
+            PortcallTimestampType.RTA_PBP,
+            PortcallTimestampType.RTD_Berth,
+          ]
+        case PublisherRole.PLT:
+          return [
+            PortcallTimestampType.ATS_Pilotage,
+            PortcallTimestampType.ATC_Pilotage,
+            PortcallTimestampType.PTS_Pilotage
+          ]
+        case PublisherRole.LSH:
+          return [
+            PortcallTimestampType.ATC_Lashing,
+          ]
+        case PublisherRole.BUK:
+          return [
+            PortcallTimestampType.ATC_Bunkering,
+            PortcallTimestampType.ATS_Bunkering,
+            PortcallTimestampType.PTC_Bunkering,
+            PortcallTimestampType.PTS_Bunkering,
+            PortcallTimestampType.ETC_Bunkering,
+            PortcallTimestampType.ETS_Bunkering,
+          ]
+        case PublisherRole.TWG:
+          return [
+            PortcallTimestampType.ATC_Towage,
+            PortcallTimestampType.ATS_Towage,
+            PortcallTimestampType.PTS_Towage,
+          ]
+        default:
+          return [];
+      }
+    }
+    else{
+      switch (publisherRole) {
+        case PublisherRole.CA:
+          return [
+            PortcallTimestampType.ETA_Berth,
+            PortcallTimestampType.PTA_Berth,
+            PortcallTimestampType.ETA_PBP,
+            PortcallTimestampType.PTA_PBP,
+            PortcallTimestampType.ATA_PBP,
+            PortcallTimestampType.ATA_Berth,
+            PortcallTimestampType.RTC_Cargo_Ops,
+            PortcallTimestampType.ETD_Berth,
+            PortcallTimestampType.PTD_Berth,
+            PortcallTimestampType.ATD_Berth,
+          ]
+        case PublisherRole.TR:
+          return [
+            PortcallTimestampType.RTA_Berth,
+            PortcallTimestampType.ATS_Cargo_Ops,
+            PortcallTimestampType.ETC_Cargo_Ops,
+            PortcallTimestampType.PTC_Cargo_Ops,
+            PortcallTimestampType.ATC_Cargo_Ops,
+          ]
+        case PublisherRole.ATH:
+          return [
+            PortcallTimestampType.RTA_PBP,
+            PortcallTimestampType.RTD_Berth,
+          ]
+        case PublisherRole.PLT:
+          return [
+            PortcallTimestampType.ATS_Pilotage,
+          ]
+        default:
+          return [];
+      }
     }
   }
-
 
 }
 

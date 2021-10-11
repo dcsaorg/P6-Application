@@ -40,7 +40,7 @@ export class TransportCallService {
       if(smdgCode != null) {
         httpParams = httpParams.set('facility.facilitySMGDCode', smdgCode)
       }
-    } 
+    }
     return this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL, {
      params: httpParams
     }).pipe(
@@ -48,6 +48,9 @@ export class TransportCallService {
         return from(transportCalls).pipe(
           map(this.extractVesselAttributes),
           map((transportCall) => {
+            if (transportCall.UNLocationCode == null) {
+                transportCall.UNLocationCode = transportCall.location?.UNLocationCode;
+            }
             transportCall.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode)
             return transportCall;
           }),

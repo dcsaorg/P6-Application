@@ -18,6 +18,8 @@ import {Globals} from "../../model/portCall/globals";
 import {EventLocation} from "../../model/eventLocation";
 import { take } from 'rxjs/operators';
 import { PortService } from 'src/app/controller/services/base/port.service';
+import {VesselPosition} from "../../model/vesselPosition";
+
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -49,9 +51,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   locationNameLabel: string;
   locationName: string;
   ports: Port[] = [];
-
+  vesselPosition: VesselPosition = new class implements VesselPosition {
+    latitude: string;
+    longitude: string;
+  }
   transportCall: TransportCall;
-
   timestampTypes: SelectItem[] = [];
   timestampType: PortcallTimestampType;
   delayCodeOptions: SelectItem[] = [];
@@ -78,15 +82,16 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   };
   
 
-
   constructor(
+              private portIdToPortPipe: PortIdToPortPipe,
               private messageService: MessageService,
               private delayCodeService: DelayCodeService,
               private globals: Globals,
               public config: DynamicDialogConfig,
               private translate: TranslateService,
               public ref: DynamicDialogRef,
-              private timestampMappingService: TimestampMappingService) {}
+              private timestampMappingService: TimestampMappingService) {
+  }
 
   ngOnInit(): void {
     this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
@@ -109,6 +114,38 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
+  }
+
+  hideVesselPosition(): boolean {
+    if (!this.globals.config.enableVesselPositions) return true;
+    if (this.globals.config.enableJIT11Timestamps) {
+      switch (this.timestampSelected) {
+        case PortcallTimestampType.ETA_Berth:
+        case PortcallTimestampType.PTA_Berth:
+        case PortcallTimestampType.ETA_PBP:
+        case PortcallTimestampType.PTA_PBP:
+        case PortcallTimestampType.EOSP:
+        case PortcallTimestampType.ATS_Pilotage:
+        case PortcallTimestampType.ATS_Towage:
+        case PortcallTimestampType.ATC_Pilotage:
+        case PortcallTimestampType.SOSP:
+          return false;
+        default:
+          return true;
+      }
+    }
+    else {
+      switch (this.timestampSelected) {
+        case PortcallTimestampType.ETA_Berth:
+        case PortcallTimestampType.PTA_Berth:
+        case PortcallTimestampType.ETA_PBP:
+        case PortcallTimestampType.PTA_PBP:
+        case PortcallTimestampType.ATS_Pilotage:
+          return false;
+        default:
+          return true;
+      }
+    }
   }
 
   showLocationNameOption(): boolean {
@@ -141,6 +178,15 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       timestamp.eventLocation.locationName = this.locationName;
     }
 
+    const latitude = this.vesselPosition.latitude;
+    const longtitude = this.vesselPosition.longitude;
+    if (latitude && longtitude) {
+      timestamp.vesselPosition = new class implements VesselPosition {
+        latitude: string = latitude;
+        longitude: string = longtitude;
+      }
+    }
+
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(() => {
         this.creationProgress = false;
@@ -168,7 +214,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
-    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
+    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole, this.globals.config.enableJIT11Timestamps)) {
       this.timestampTypes.push({label: item, value: item})
     }
   }

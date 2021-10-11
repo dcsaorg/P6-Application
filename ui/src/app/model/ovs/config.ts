@@ -3,6 +3,7 @@ import { identifyingCodes } from "../portCall/identifyingCodes";
 import { Publisher } from "../publisher";
 
 export interface Config {
+  enableJIT11Timestamps: Boolean;
   company: string;
   publisherRole: PublisherRole;
   publisher: Publisher;
@@ -12,4 +13,5 @@ export interface Config {
   dateTimeFormat: string;
   cognitoUserPoolId: string;
   cognitoAppClientId: string;
+  enableVesselPositions: boolean
 }

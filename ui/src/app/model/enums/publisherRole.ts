@@ -4,5 +4,9 @@ export enum PublisherRole {
   VSL = "VSL",  // Vessel
   ATH = "ATH",  // Port Authority
   PLT = "PLT",  // Port Pilot
-  TR = "TR"     // Terminal
+  TR = "TR",     // Terminal
+
+  TWG = 'TWG',  // Towage Service Provider
+  BUK = 'BUK',   // Bunkering Service Provider
+  LSH = 'LSH',   // Lashing Service Provider
 }

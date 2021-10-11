@@ -224,22 +224,24 @@
       <td
         [ngClass]="'timestampContent'"
         style="width: 12%">
-        <div class="p-col tableHeader">
-          <div class="timestampContent__buttons" *ngIf="timestamp.remark || timestamp.delayReasonCode">
+        <div class="p-col tableHeader gridButtons">
+          <div class="timestampContent__buttons dialogueBtn" *ngIf="timestamp.remark || timestamp.delayReasonCode">
             <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
             </p-button>
           </div>
 
-          <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
+          <div class="timestampContent__buttons acceptBtn" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-check" pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
               tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
           </div>
-
-          <div class="timestampContent__buttons" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
+          
+          <div class="timestampContent__buttons declineBtn" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
               tooltipStyleClass="ToolTipClass" (click)="openCreationDialog(timestamp)"></p-button>
           </div>
         </div>
+    <div *ngIf="!isPrimary(timestamp)">FYI</div>
+
       </td>
 
     </tr>

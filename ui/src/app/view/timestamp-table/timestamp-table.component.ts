@@ -20,6 +20,7 @@ import {TransportCall} from "../../model/ovs/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {TimestampService} from "../../controller/services/ovs/timestamps.service";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
 
 @Component({
@@ -59,7 +60,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private messageService: MessageService,
               private translate: TranslateService,
               private timestampMappingService: TimestampMappingService,
-              public globals: Globals
+              public globals: Globals,
+              public timestampService:TimestampService 
   ) {
   }
 
@@ -81,6 +83,9 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.loadTimestamps();
   }
 
+  public isPrimary(portCallTimestamp: Timestamp): boolean {
+    return this.timestampService.isPrimary(portCallTimestamp, this.globals.config.publisherRole)
+  }
 
   private loadTimestamps() {
     if (this.transportCallSelected) {
@@ -100,7 +105,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   isOutGoing(timestamp: Timestamp): boolean {
     return timestamp.publisherRole == this.globals.config.publisherRole;
-
   }
 
 
@@ -112,6 +116,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     // so see their own comment in a reply to them.
     timestampShallowClone.remark = null;
     timestampShallowClone.delayReasonCode = null;
+    timestampShallowClone.vesselPosition = null;
     this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
         this.loadTimestamps();
         this.messageService.add({

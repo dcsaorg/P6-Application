@@ -1,7 +1,7 @@
 <div *ngIf="progressing" class="dummyContent">
   <p-progressSpinner *ngIf="progressing"></p-progressSpinner>
 </div>
-<p-table *ngIf="!progressing" 
+<p-table *ngIf="!progressing"
         styleClass="p-datatable-sm"
          [value]="transportCalls"
          [(selection)]="selectedtransportCall"
@@ -46,8 +46,6 @@
       <th style="width:10%">{{'general.transportCall.table.vesselName.label'| translate}}</th>
       <th style="width:10%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
       <th style="width:10%">{{'general.transportCall.table.UNLocationCode.secondLabel'| translate}}</th>
-      <!-- <th style="width:10%">{{'general.transportCall.table.facilityTypeCode.label'| translate}}</th> -->
-      <th style="width:10%">{{'general.table.header.terminalId.label'| translate}}</th>
       <th style="width:15%">{{'general.transportCall.table.estimatedDateofArrival.label'| translate}}</th>
       <th style="width:15%">{{'general.transportCall.table.carrierVoyageNumber.label'| translate}}</th>
       <th style="width:15%">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
@@ -58,8 +56,6 @@
       <td>{{transportCall.vesselName}}</td>
       <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
-      <!-- <td>{{transportCall.facilityTypeCode}}</td> -->
-      <td>{{transportCall.facilityCode}}</td>
       <td
       pTooltip ="UTC: {{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall: ports)[1]}}"
       >{{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall: ports)[0]}}</td>
