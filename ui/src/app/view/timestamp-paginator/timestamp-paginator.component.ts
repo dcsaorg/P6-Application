@@ -1,5 +1,4 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {PortcallTimestampService} from "../../controller/services/base/portcall-timestamp.service";
 import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {Port} from "../../model/portCall/port";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
@@ -23,8 +22,9 @@ export class TimestampPaginatorComponent implements OnInit, OnChanges {
   selectedRowSize: number;
   rowSizes: number[] = [10, 25, 50];
 
-  constructor(private portcallTimestampService: PortcallTimestampService,
-              private paginatorService: PaginatorService) {
+  constructor(
+    private paginatorService: PaginatorService
+    ) {
   }
 
   ngOnInit(): void {

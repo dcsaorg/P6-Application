@@ -5,4 +5,8 @@ export enum PortCallServiceTypeCode {
   TOWG = "TOWG",
   BUNK = "BUNK",
   WSDP = "WSDP",
+  LASH = "LASH",
+  SAFE = "SAFE",
+  FAST = "FAST",
+  GWAY = "GWAY"
 }
