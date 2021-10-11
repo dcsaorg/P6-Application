@@ -4635,3 +4635,9 @@ body .p-datatable .p-datatable-tbody > tr:nth-child(even).p-highlight{
   background: #e9ecef;
   color: $darkNavyBlue;
 }
+/*
+removing the cursor, as the splitter gutter functionality does not work!
+*/
+.p-splitter-gutter{
+  cursor: default !important;
+}

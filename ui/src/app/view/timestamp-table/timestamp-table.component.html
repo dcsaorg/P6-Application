@@ -234,12 +234,14 @@
             <p-button icon="pi pi-check" pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
               tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
           </div>
-
+          
           <div class="timestampContent__buttons declineBtn" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
               tooltipStyleClass="ToolTipClass" (click)="openCreationDialog()"></p-button>
           </div>
         </div>
+    <div *ngIf="!isPrimary(timestamp)">FYI</div>
+
       </td>
 
     </tr>
