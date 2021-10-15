@@ -39,12 +39,14 @@
     <p-dropdown id="timestampType" styleClass="dropdown" [(ngModel)]="timestampSelected" [options]="timestampTypes"
       (onChange)="showLocationNameOption()"></p-dropdown>
   
-    <div class="p-field p-col-12 p-md-2"></div>
+    <div class="p-field p-col-12 p-md-2" ></div>
 
-    <label for="terminalSelected">{{ 'general.table.header.timestamp.label' | translate }}: </label>
-    <p-dropdown id="terminalSelected" styleClass="dropdown" [(ngModel)]="terminalSelected" [options]="terminalOptions">
-    </p-dropdown>
-  </div>
+    <div [hidden]="HideTerminalOption()">
+      <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
+      <p-dropdown id="terminalSelected" styleClass="dropdown" [(ngModel)]="terminalSelected" [options]="terminalOptions">
+      </p-dropdown>
+    </div>
+    </div>
 
   <div class="p-field p-col-12 p-md-2"></div>
 

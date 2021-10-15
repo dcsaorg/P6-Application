@@ -53,25 +53,7 @@
             {{ 'general.transportCall.validation.port.empty' | translate }}
           </span>
         </div>
-        <div class="p-field p-col-12 p-md-4">
-          <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
-          <p-dropdown appendTo="body" formControlName="terminal" id="terminal" class="portOfCall__dropDown"
-                      [options]="terminalOptions" [filter]="true" filterBy="label,value.name">
-            <ng-template let-terminal pTemplate="item">
-              <div *ngIf="!terminal.value">
-                <div>Select Terminal</div>
-              </div>
-              <div *ngIf="terminal.value">
-                <div>{{terminal.value.smdgCode}}</div>
-                <div class="portListName">{{terminal.value.terminalName}}</div>
-              </div>
-            </ng-template>
-          </p-dropdown>
-          <span *ngIf="transportCallFormGroup.get('terminal').hasError('required')" class="p-invalid">
-            {{ 'general.transportCall.validation.terminal.empty' | translate }}
-          </span>
-        </div>
-        <div class="p-field p-col-12 p-md-4"></div>
+
 
       </div>
     </div>
@@ -118,8 +100,33 @@
         class="p-invalid">
         {{ 'general.timestamp.validation.timestampType.required' | translate }}
       </span>
-
     </div>
+    <!-- TERMINAL -->
+    <div class="p-field p-col-12 p-md-4" [hidden]=" HideTerminalOption() || !shouldCreateTimestamp()">
+      <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
+      <p-dropdown appendTo="body" formControlName="terminal" id="terminal" class="portOfCall__dropDown"
+                  [options]="terminalOptions" [filter]="true" filterBy="label,value.name">
+        <ng-template let-terminal pTemplate="item">
+          <div *ngIf="!terminal.value">
+            <div>Select Terminal</div>
+          </div>
+          <div *ngIf="terminal.value">
+            <div>{{terminal.value.smdgCode}}</div>
+            <div class="portListName">{{terminal.value.terminalName}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+      <span
+      *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('terminal').touched"
+      class="p-invalid">
+      {{ 'general.transportCall.validation.port.empty' | translate }} to choose a terminal! <br>
+    </span>
+      <span *ngIf="transportCallFormGroup.get('terminal').hasError('required')" class="p-invalid">
+        {{ 'general.transportCall.validation.terminal.empty' | translate }}
+      </span>
+    </div>
+
+    <div class="p-field p-col-12 p-md-4"></div>
 
     <div class="p-field p-col-12 p-md-5" [hidden]="!shouldCreateTimestamp()">
       <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
@@ -151,6 +158,8 @@
         </div>
       </div>
     </div>
+
+    <div class="p-field p-col-12 p-md-4"></div>
 
     <!-- Vessel Position -->
     <div class="p-field p-col-12 p-md-4" [hidden]="hideVesselPosition() || !shouldCreateTimestamp() " >

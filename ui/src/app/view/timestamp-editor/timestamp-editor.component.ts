@@ -152,6 +152,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     return this.locationNameLabel !== undefined;
   }
 
+  HideTerminalOption(): boolean {
+    const timestampType = this.timestampSelected as PortcallTimestampType;
+    return this.timestampMappingService.HideTerminalOptions(timestampType);
+  }
+
   savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
 
     timestamp.UNLocationCode = transportCall.UNLocationCode;
@@ -232,7 +237,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.terminalOptions = [];
     this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
     this.globals.terminals.forEach(terminal => {
-      console.log(this.defaultTimestamp.portOfCall.id);
       if (this.defaultTimestamp.portOfCall.id == terminal.port) {
         this.terminalOptions.push({label: terminal.smdgCode, value: terminal})
       }

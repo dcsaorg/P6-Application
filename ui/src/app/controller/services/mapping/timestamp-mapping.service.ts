@@ -125,6 +125,19 @@ export class TimestampMappingService {
     }
   }
 
+  HideTerminalOptions(timestampType: PortcallTimestampType): boolean {
+    console.log(timestampType);
+    switch (timestampType) {
+      case PortcallTimestampType.ETA_PBP:
+      case PortcallTimestampType.RTA_PBP:
+      case PortcallTimestampType.PTA_PBP:
+      case PortcallTimestampType.ATA_PBP:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   getLocationNameOptionLabel(timestampType: PortcallTimestampType): string {
     switch (timestampType) {
       case PortcallTimestampType.ETA_Berth:
