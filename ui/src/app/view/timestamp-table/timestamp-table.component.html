@@ -240,7 +240,7 @@
               tooltipStyleClass="ToolTipClass" (click)="openCreationDialog(timestamp)"></p-button>
           </div>
         </div>
-    <div *ngIf="!isPrimary(timestamp)">FYI</div>
+    <div *ngIf="!isPrimary(timestamp) && !isOutGoing(timestamp)">FYI</div>
 
       </td>
 
