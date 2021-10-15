@@ -33,10 +33,17 @@
 </div>
 
 <div class="p-fluid p-formgrid p-grid">
+
   <div class="p-field p-col-12 p-md-4">
     <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
-    <p-dropdown id="timestampType" styleClass="dropdown" [(ngModel)]="timestampSelected"
-                [options]="timestampTypes" (onChange)="showLocationNameOption()"></p-dropdown>
+    <p-dropdown id="timestampType" styleClass="dropdown" [(ngModel)]="timestampSelected" [options]="timestampTypes"
+      (onChange)="showLocationNameOption()"></p-dropdown>
+  
+    <div class="p-field p-col-12 p-md-2"></div>
+
+    <label for="terminalSelected">{{ 'general.table.header.timestamp.label' | translate }}: </label>
+    <p-dropdown id="terminalSelected" styleClass="dropdown" [(ngModel)]="terminalSelected" [options]="terminalOptions">
+    </p-dropdown>
   </div>
 
   <div class="p-field p-col-12 p-md-2"></div>
