@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {TransportCallService} from "../ovs/transport-call.service";
 import {OperationsEventService} from "../ovs/operations-event.service";
 import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
@@ -19,7 +18,7 @@ import {PortcallTimestampType} from 'src/app/model/portCall/portcall-timestamp-t
   providedIn: 'root'
 })
 export class TimestampMappingService {
-  constructor(private transportCallService: TransportCallService,
+  constructor(
               private operationsEventService: OperationsEventService,
               private globals: Globals,
               private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
@@ -33,14 +32,6 @@ export class TimestampMappingService {
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
     return this.timestampService.addTimestamp(this.timestampToStandardizedtTimestampPipe.transform(timestamp, this.globals.config))
-  }
-
-  getPortCallTimestamps(): Observable<Timestamp[]> {
-    return this.operationsEventService.getOperationsEvents().pipe(map(events => {
-      const timestamps = this.operationsEventsToTimestampsPipe.transform(events);
-      this.loadTransportCalls(timestamps)
-      return timestamps;
-    }));
   }
 
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
@@ -97,20 +88,6 @@ export class TimestampMappingService {
     return null;
   }
 
-
-  private loadTransportCalls(timestamps: Timestamp[]) {
-    // get TransportCallIds to be loaded
-    const transportCallIDs: string[] = Array.from([...new Set(timestamps.map(timestamp => timestamp.transportCallID))]);
-    this.callTransportCalls(transportCallIDs, timestamps)
-  }
-
-  private callTransportCalls(transportCallIDs: string[], timestamps: Timestamp[]): Observable<TransportCall[]> {
-    // load all required transportCalls
-    from(transportCallIDs).subscribe(transportCallID => {
-      this.transportCallService.getTransportCallsById(transportCallID).subscribe(transportCall => this.mapTransportCallToTimestamps(timestamps, transportCall));
-    });
-    return null;
-  }
 
   private mapTransportCallToTimestamps(timestamps: Timestamp[], transportCall: TransportCall) {
 
