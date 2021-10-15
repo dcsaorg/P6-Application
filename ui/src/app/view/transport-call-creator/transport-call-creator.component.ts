@@ -72,6 +72,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.updatePortOptions();
     this.updateVesselOptions();
     this.updateTimestampTypeOptions();
+    
     this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()
@@ -82,7 +83,7 @@ export class TransportCallCreatorComponent implements OnInit {
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
-      terminal: new FormControl({value: '', disabled: true}, [Validators.required]),
+      terminal: new FormControl({value: ''}, [Validators.required]),
       vessel: new FormControl(null, [Validators.required]),
       timestampType: new FormControl(null),
       delayCode: new FormControl(null),
@@ -208,6 +209,12 @@ export class TransportCallCreatorComponent implements OnInit {
     return this.locationNameLabel !== undefined;
   }
 
+  
+  HideTerminalOption(): boolean {
+    let timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    return this.timestampMappingService.HideTerminalOptions(timestampType);
+  }
+
   shouldCreateTimestamp(): boolean {
     let timestampType = this.transportCallFormGroup.get('timestampType');
     let eventTimestampDate = this.transportCallFormGroup.get('eventTimestampDate');
@@ -268,10 +275,8 @@ export class TransportCallCreatorComponent implements OnInit {
 
     transportCall.transportCallSequenceNumber = 1;
     transportCall.modeOfTransport = "VESSEL";
-    transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
-    transportCall.facilityCode = terminal.smdgCode;
     transportCall.UNLocationCode = port.unLocode;
     transportCall.carrierVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
@@ -305,18 +310,21 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+      this.timestamp.facilitySMDGCode = terminal.smdgCode;
 
       const locationName = this.transportCallFormGroup.controls.locationName.value;
-      const eventLocation = new class implements EventLocation {
+      let eventLocation = new class implements EventLocation {
         locationName: string
-        UNLocationCode: string = transportCall.UNLocationCode
-        facilityCode: string = transportCall.facilityCode
-        facilityCodeListProvider: FacilityCodeListProvider = FacilityCodeListProvider.SMDG
+        UNLocationCode: string = transportCall.UNLocationCode;
+
+        facilityCode: string = terminal.smdgCode;
+        facilityCodeListProvider: FacilityCodeListProvider;
+      }
+      if(eventLocation.facilityCode ){
+        eventLocation.facilityCodeListProvider = FacilityCodeListProvider.SMDG
       }
       if (this.locationNameLabel && locationName) {
-        this.timestamp.eventLocation = new class implements EventLocation {
-          locationName: string = locationName
-        }
+       eventLocation.locationName = locationName
       }
 
       const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;

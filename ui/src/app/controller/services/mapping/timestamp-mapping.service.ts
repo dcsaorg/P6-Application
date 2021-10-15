@@ -102,6 +102,21 @@ export class TimestampMappingService {
     }
   }
 
+  HideTerminalOptions(timestampType: PortcallTimestampType): boolean {
+    switch (timestampType) {
+      case PortcallTimestampType.ETA_PBP:
+      case PortcallTimestampType.RTA_PBP:
+      case PortcallTimestampType.PTA_PBP:
+      case PortcallTimestampType.ATA_PBP:
+      case PortcallTimestampType.SOSP:
+      case PortcallTimestampType.EOSP:
+      case PortcallTimestampType.ATC_Pilotage:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   getLocationNameOptionLabel(timestampType: PortcallTimestampType): string {
     switch (timestampType) {
       case PortcallTimestampType.ETA_Berth:
