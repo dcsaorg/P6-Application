@@ -17,7 +17,7 @@ import {OperationsEventTypeCode} from 'src/app/model/enums/operationsEventTypeCo
 import { EventLocation } from 'src/app/model/eventLocation';
 
 @Pipe({
-  name: 'transportEventToTimestamp'
+  name: 'operationsEventEventToTimestamp'
 })
 export class OperationsEventToTimestampPipe implements PipeTransform {
 

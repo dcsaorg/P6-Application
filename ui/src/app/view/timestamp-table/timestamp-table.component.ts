@@ -4,8 +4,6 @@ import {Port} from "../../model/portCall/port";
 import {Terminal} from "../../model/portCall/terminal";
 import {MessageService} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
-import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
-import {PortCallTimestampTypeToEnumPipe} from "../../controller/pipes/port-call-timestamp-type-to-enum.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
 import {DelayCode} from "../../model/portCall/delayCode";
@@ -30,9 +28,7 @@ import {Timestamp} from 'src/app/model/ovs/timestamp';
 
   providers: [
     DialogService,
-    PortCallTimestampTypeToEnumPipe,
     PortCallTimestampTypeToStringPipe,
-    PortIdToPortPipe,
     VesselIdToVesselPipe
   ]
 })

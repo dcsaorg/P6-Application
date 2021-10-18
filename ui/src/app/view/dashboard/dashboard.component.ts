@@ -1,12 +1,9 @@
 import {Component} from '@angular/core';
-import {CognitoUserPool} from 'amazon-cognito-identity-js';
-import {environment} from 'src/environments/environment';
 import {Port} from "../../model/portCall/port";
 import {TransportCall} from "../../model/ovs/transport-call";
 import {Timestamp} from '../../model/ovs/timestamp';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
-import {take} from "rxjs/operators";
 import {PortService} from "../../controller/services/base/port.service";
 import {Globals} from "../../model/portCall/globals";
 
@@ -36,7 +33,6 @@ export class DashboardComponent {
       this.transportCallID = params['id'];
     });
     if (this.transportCallID) {
-      console.log("ID: " + this.transportCallID);
       this.portService.getPorts().pipe().subscribe(ports => {
         this.globals.ports = ports;
         this.transportCallService.getTransportCalls().subscribe(transportCalls => {
