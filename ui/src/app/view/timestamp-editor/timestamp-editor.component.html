@@ -115,7 +115,7 @@
       <input id="locationName" [(ngModel)]="locationName" pInputText style="width: 100%" type="text"/>
     </div>
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
-    <p-dropdown id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
+    <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
                 filterBy="label,value.name" [group]="false">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
