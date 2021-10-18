@@ -7,7 +7,7 @@ import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
 import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
 
 @Pipe({
-  name: 'transportEventToTimestampType'
+  name: 'operationsEventToTimestampType'
 })
 export class OperationsEventToTimestampTypePipe implements PipeTransform {
 

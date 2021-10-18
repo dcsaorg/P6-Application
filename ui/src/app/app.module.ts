@@ -8,9 +8,6 @@ import {AppComponent} from './view/app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './view/header/header.component';
 import {PortCallTimestampTypeToStringPipe} from './controller/pipes/port-call-timestamp-type-to-string.pipe';
-import {PortCallTimestampTypeToEnumPipe} from './controller/pipes/port-call-timestamp-type-to-enum.pipe';
-import {PortIdToPortPipe} from './controller/pipes/port-id-to-port.pipe';
-import {TerminalIdToTerminalPipe} from './controller/pipes/terminal-id-to-terminal.pipe';
 import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
 import {TimestampEditorComponent} from './view/timestamp-editor/timestamp-editor.component';
 import {TimestampPaginatorComponent} from './view/timestamp-paginator/timestamp-paginator.component';
@@ -83,10 +80,7 @@ export function ConfigLoader(configService: ConfigService) {
     SignUpComponent,
     DashboardComponent,
     HeaderComponent,
-    PortCallTimestampTypeToEnumPipe,
     PortCallTimestampTypeToStringPipe,
-    PortIdToPortPipe,
-    TerminalIdToTerminalPipe,
     TimestampCommentDialogComponent,
     TimestampEditorComponent,
     TimestampPaginatorComponent,

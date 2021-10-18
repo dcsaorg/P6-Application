@@ -1,20 +1,21 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BACKEND_URL} from "../../../../environments/environment";
 import {Terminal} from "../../../model/portCall/terminal";
 import {Observable} from "rxjs";
-import {StaticTerminalsService} from "../static/static-terminals.service";
+import {Globals} from "../../../model/portCall/globals";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TerminalService {
   private readonly TERMINAL_URL: string;
+  private readonly TERMINAL_URL_BACKEND: string;
 
-  constructor(private httpClient: HttpClient, private staticTerminalService:StaticTerminalsService) {
-    this.TERMINAL_URL = BACKEND_URL + '/terminals';
+  constructor(private httpClient: HttpClient,
+              private globals: Globals) {
+    this.TERMINAL_URL_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/terminals';
   }
 
-  //getTerminals = (): Observable<Terminal[]> => this.httpClient.get<Terminal[]>(this.TERMINAL_URL);
-  getTerminals = ():Observable<Terminal[]> => this.staticTerminalService.getTerminals();
+  getTerminalsByUNLocationCode = (unLocationCode?: string): Observable<Terminal[]> => this.httpClient.get<Terminal[]>(this.TERMINAL_URL_BACKEND + "?UNLocationCode=" + unLocationCode);
+
 }

@@ -15,7 +15,6 @@ export class ExportService {
   }
 
   getExport = ():Observable<Blob> => {
-    console.log("Request Download for Timestamps as CSV");
     return this.httpClient.get(this.EXPORT_URL, {responseType: "blob"})
 }
 }
