@@ -19,7 +19,7 @@ export interface PortcallTimestamp {
   portOfCall: Port;
   portNext: Port | number;
   direction: string;
-  terminal: Terminal | number;
+  terminal: Terminal;
   locationId: string;
   changeComment?: string;
   delayCode?: DelayCode | string;

@@ -36,14 +36,14 @@
         <div class="p-field p-col-12 p-md-4">
           <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
           <p-dropdown appendTo="body" formControlName="port" id="portOfCall" class="portOfCall__dropDown"
-                      [options]="portOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.name">
+                      [options]="portOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.unLocationCode">
             <ng-template let-port pTemplate="item">
               <div *ngIf="!port.value">
                 <div>Select port</div>
               </div>
               <div *ngIf="port.value">
-                <div>{{port.value.unLocode}}</div>
-                <div class="portListName">{{port.value.name}}</div>
+                <div>{{port.value.unLocationName}}</div>
+                <div class="portListName">{{port.value.unLocationCode}}</div>
               </div>
             </ng-template>
           </p-dropdown>
@@ -105,14 +105,14 @@
     <div class="p-field p-col-12 p-md-4" [hidden]=" HideTerminalOption() || !shouldCreateTimestamp()">
       <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
       <p-dropdown appendTo="body" formControlName="terminal" id="terminal" class="portOfCall__dropDown"
-                  [options]="terminalOptions" [filter]="true" filterBy="label,value.name">
+                  [options]="terminalOptions" [filter]="true" filterBy="label,value.facilityName">
         <ng-template let-terminal pTemplate="item">
           <div *ngIf="!terminal.value">
             <div>Select Terminal</div>
           </div>
           <div *ngIf="terminal.value">
-            <div>{{terminal.value.smdgCode}}</div>
-            <div class="portListName">{{terminal.value.terminalName}}</div>
+            <div>{{terminal.value.facilitySMDGCode}}</div>
+            <div class="portListName">{{terminal.value.facilityName}}</div>
           </div>
         </ng-template>
       </p-dropdown>
