@@ -9,6 +9,7 @@ import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import {Port} from "../../model/portCall/port";
 import { EventClassifierCode } from "./eventClassifierCode";
 import { PortcallTimestampType } from "../portCall/portcall-timestamp-type.enum";
+import {NegotiationCycle} from "../portCall/negotiation-cycle";
 
 export interface Timestamp {
     publisher: Publisher;
@@ -33,7 +34,8 @@ export interface Timestamp {
     remark?: string;
     delayReasonCode?: string;
     eventDeliveryStatus?: string;
-    isLatestInCycle?: boolean
+    isLatestInCycle?: boolean;
+    negotiationCycle?: NegotiationCycle;
 
     /**
    * @deprecated

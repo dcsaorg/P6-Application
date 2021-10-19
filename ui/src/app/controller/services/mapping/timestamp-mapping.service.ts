@@ -13,6 +13,7 @@ import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-st
 import {PublisherRole} from 'src/app/model/enums/publisherRole';
 import {PortcallTimestampType} from 'src/app/model/portCall/portcall-timestamp-type.enum';
 import { PortService } from '../base/port.service';
+import {NegotiationCycleService} from "../base/negotiation-cycle.service";
 
 
 @Injectable({
@@ -23,9 +24,9 @@ export class TimestampMappingService {
               private operationsEventService: OperationsEventService,
               private globals: Globals,
               private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
-              private timestampToStandardizedtTimestampPipe: TimestampToStandardizedtTimestampPipe,
+              private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
               private timestampService: TimestampService,
-              private portService: PortService
+              private negotiationCycleService: NegotiationCycleService,
   ) {
   }
 
@@ -33,7 +34,7 @@ export class TimestampMappingService {
   private readonly locationNameBerth: string = "Berth Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
-    return this.timestampService.addTimestamp(this.timestampToStandardizedtTimestampPipe.transform(timestamp, this.globals.config))
+    return this.timestampService.addTimestamp(this.timestampToStandardizedTimestampPipe.transform(timestamp, this.globals.config))
   }
 
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
@@ -59,9 +60,10 @@ export class TimestampMappingService {
 
         for (let timestamp of timestamps) {
           if (timestamp.timestampType) {
-            let negotiationCycle = timestamp.timestampType.substring(1)
-            timestamp.isLatestInCycle = !set.has(negotiationCycle)
-            set.add(negotiationCycle)
+            let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
+            const negotiationCycleKey = negotiationCycle.cycleKey;
+            timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
+            set.add(negotiationCycleKey)
             if (timestamp.isLatestInCycle) {
               timestamp.response = this.timestampService.setResponseType(timestamp, this.globals.config.publisherRole); // set response for latest timestamp in negotiationCycle.
             }

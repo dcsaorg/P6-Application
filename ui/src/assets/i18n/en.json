@@ -202,6 +202,9 @@
       },
       "pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"
     },
+    "negotiationCycle": {
+      "select": "Select negotiation cycle"
+    },
     "terminal": {
       "label": "Terminal",
       "select": "Select terminal"

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Arrival at Berth",
+    "cycleKey": "TA-Berth"
+  },
+  {
+    "name": "Departure from Berth",
+    "cycleKey": "TD-Berth"
+  },
+  {
+    "name": "Start Cargo OPS",
+    "cycleKey": "TS-Cargo Ops"
+  },
+  {
+    "name": "Finish Cargo OPS",
+    "cycleKey": "TC-Cargo Ops"
+  },
+  {
+    "name": "Arrival at Pilot Boarding Place (PBP)",
+    "cycleKey": "TA-PBP"
+  },
+  {
+    "name": "Start Towage",
+    "cycleKey": "TS-Towage"
+  },
+  {
+    "name": "Finish Towage",
+    "cycleKey": "TC-Towage"
+  },
+  {
+    "name": "Start Pilotage",
+    "cycleKey": "TS-Pilotage"
+  },
+  {
+    "name": "Finish Pilotage",
+    "cycleKey": "TC-Pilotage"
+  },
+  {
+    "name": "Start Bunkering",
+    "cycleKey": "TS-Bunkering"
+  },
+  {
+    "name": "Finish Bunkering",
+    "cycleKey": "TC-Bunkering"
+  },
+  {
+    "name": "Misc timestamps",
+    "cycleKey": "special",
+    "timestampTypes": [
+      "SOSP",
+      "EOSP",
+      "AT-All-Fast",
+      "Gangway Down and Safe",
+      "Vessel Readiness for Cargo Operations",
+      "Terminal Ready for Vessel Departure"
+    ]
+  }
+]
