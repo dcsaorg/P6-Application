@@ -26,7 +26,7 @@ export interface Timestamp {
     vesselPosition?: VesselPosition;
     modeOfTransport?: ModeOfTransport;
     portCallServiceTypeCode?: PortCallServiceTypeCode;
-    eventDateTime: Date;
+    eventDateTime: Date | string;
     carrierServiceCode?: string;
     carrierVoyageNumber?: string;
     portCallSequence?: string;
