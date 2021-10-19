@@ -12,6 +12,7 @@ import {TimestampService} from "../ovs/timestamps.service";
 import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
 import {PublisherRole} from 'src/app/model/enums/publisherRole';
 import {PortcallTimestampType} from 'src/app/model/portCall/portcall-timestamp-type.enum';
+import { PortService } from '../base/port.service';
 
 
 @Injectable({
@@ -23,7 +24,8 @@ export class TimestampMappingService {
               private globals: Globals,
               private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
               private timestampToStandardizedtTimestampPipe: TimestampToStandardizedtTimestampPipe,
-              private timestampService: TimestampService
+              private timestampService: TimestampService,
+              private portService: PortService
   ) {
   }
 
@@ -69,33 +71,13 @@ export class TimestampMappingService {
       }))
   }
 
-  getPortByUnLocode(unlocode: string): Port {
-    for (let port of this.globals.ports) {
-      if (port.unLocode == unlocode) {
-        return port;
-      }
-    }
-    return null;
-  }
-
-  getTerminalByFacilityCode(facilityCode: string): Terminal {
-    const smdgCode = facilityCode;
-    for (let terminal of this.globals.terminals) {
-      if (terminal.smdgCode == smdgCode) {
-        return terminal
-      }
-    }
-    return null;
-  }
-
-
   private mapTransportCallToTimestamps(timestamps: Timestamp[], transportCall: TransportCall) {
 
     for (let timestamp of timestamps) {
       if (timestamp.transportCallID == transportCall.transportCallID) {
-        timestamp.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode);
         timestamp.vesselIMONumber = transportCall.vesselIMONumber;
         timestamp.UNLocationCode = transportCall.UNLocationCode;
+        timestamp.portOfCall = transportCall.portOfCall;
         timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
         timestamp.carrierServiceCode = transportCall.carrierServiceCode;
       }

@@ -4,8 +4,6 @@ import {Port} from "../../model/portCall/port";
 import {Terminal} from "../../model/portCall/terminal";
 import {MessageService} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
-import {PortIdToPortPipe} from "../../controller/pipes/port-id-to-port.pipe";
-import {PortCallTimestampTypeToEnumPipe} from "../../controller/pipes/port-call-timestamp-type-to-enum.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
 import {DelayCode} from "../../model/portCall/delayCode";
@@ -30,9 +28,7 @@ import {Timestamp} from 'src/app/model/ovs/timestamp';
 
   providers: [
     DialogService,
-    PortCallTimestampTypeToEnumPipe,
     PortCallTimestampTypeToStringPipe,
-    PortIdToPortPipe,
     VesselIdToVesselPipe
   ]
 })
@@ -61,7 +57,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private translate: TranslateService,
               private timestampMappingService: TimestampMappingService,
               public globals: Globals,
-              public timestampService:TimestampService 
+              public timestampService: TimestampService,
   ) {
   }
 
@@ -137,10 +133,11 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
 
-  showComment(timestamp: PortcallTimestamp) {
+  showComment(timestamp: Timestamp) {
+    const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestamp.delayReasonCode, null);
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
-      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: timestamp.modifiable}
+      width: '50%', data: {timestamp: timestamp, delayCode: delayCode, editMode: timestamp.modifiable}
     }).onClose.subscribe((portcallTimestamp: PortcallTimestamp) => {
     });
   }

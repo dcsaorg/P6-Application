@@ -11,7 +11,7 @@
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
         <span id="portOfCall"
-              *ngIf="defaultTimestamp.portOfCall != null">  {{$any(defaultTimestamp.portOfCall).unLocode}} </span>
+              *ngIf="defaultTimestamp.portOfCall != null">  {{$any(defaultTimestamp.portOfCall).unLocationCode}} </span>
         <!-- {{defaultTimestamp.portOfCall.unLocode}} </span> -->
       </div>
       <div class="p-field p-col-12 p-md-4">
@@ -22,12 +22,22 @@
           : </label>
         <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
       </div>
+      <!--
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="terminal">{{'general.terminal.label'| translate}}: </label>
-        <span *ngIf="defaultTimestamp.facilityCode != null" id="terminal"> {{defaultTimestamp.facilityCode}}</span>
+        <span>{{defaultTimestamp.eventLocation?.facilityCode}}</span>
+      <span *ngIf="defaultTimestamp.eventLocation?.facilityCode == null">
+        <span *ngIf="defaultTimestamp.facilitySMDGCode != null">
+          {{defaultTimestamp.facilitySMDGCode}}
+        </span>
+        <span *ngIf="defaultTimestamp.facilitySMDGCode == null">
+        N/A
+        </span>
+      </span>
       </div>
+    -->
       <div class="p-field p-col-12 p-md-4">
-        <!-- Placeholder for additional information -->
+     <!--    Placeholder for additional information -->
       </div>
       <div class="p-field p-col-12 p-md-4" *ngIf="respondingToTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
@@ -121,7 +131,7 @@
       <input id="locationName" [(ngModel)]="locationName" pInputText style="width: 100%" type="text"/>
     </div>
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
-    <p-dropdown id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
+    <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
                 filterBy="label,value.name" [group]="false">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">

@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
-import {map, mergeMap, toArray, concatMap} from "rxjs/operators";
+import {map, mergeMap, toArray, concatMap, take} from "rxjs/operators";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
 import { Port } from 'src/app/model/portCall/port';
 import { Globals } from 'src/app/model/portCall/globals';
+import { PortService } from '../base/port.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class TransportCallService {
   constructor(
     private httpClient: HttpClient,
     private globals: Globals,
+    private portSevice: PortService
   ) {
     this.TRANSPORT_CALL_URL = globals.config.uiSupportBackendURL + "/unofficial/transport-calls"
     this.OPERATIONS_EVENT_URL = globals.config.ovsBackendURL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
@@ -26,7 +28,7 @@ export class TransportCallService {
 
   private getPortByUnLocode(unlocode: string): Port {
     for (let port of this.globals.ports) {
-      if (port.unLocode == unlocode) {
+      if (port.unLocationCode == unlocode) {
         return port;
       }
     }
@@ -51,9 +53,14 @@ export class TransportCallService {
             if (transportCall.UNLocationCode == null) {
                 transportCall.UNLocationCode = transportCall.location?.UNLocationCode;
             }
-            transportCall.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode)
             return transportCall;
           }),
+          concatMap((transportCall) =>
+            this.portSevice.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(ports => {
+              transportCall.portOfCall = ports[0]; 
+              return transportCall;
+            }))
+          ),
           concatMap((transportCall) =>
             this.getLatestETABerthTimestamp(transportCall.transportCallID).pipe(map(timestamps => {
               if (timestamps.length > 0) {
@@ -79,7 +86,7 @@ export class TransportCallService {
     this.httpClient.post<TransportCall>(this.TRANSPORT_CALL_URL, transportCall)
 
 
-  private extractVesselAttributes(transportCall: TransportCall) {
+  private   extractVesselAttributes(transportCall: TransportCall) {
     if (transportCall['vessel'] === null) {
       transportCall.vesselName = null;
       transportCall.vesselIMONumber = null;

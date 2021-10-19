@@ -25,6 +25,8 @@ import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
+import { PortService } from 'src/app/controller/services/base/port.service';
+import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -64,7 +66,9 @@ export class TransportCallCreatorComponent implements OnInit {
               private delayCodeService: DelayCodeService,
               private transportCallService: TransportCallService,
               private vesselService: VesselService,
-              private timestampMappingService: TimestampMappingService) {
+              private timestampMappingService: TimestampMappingService,
+              private portService: PortService,
+              private terminalService: TerminalService){
   }
 
   ngOnInit(): void {
@@ -100,13 +104,16 @@ export class TransportCallCreatorComponent implements OnInit {
     this.ref.close(null);
   }
 
-  private updateTerminalOptions() {
-    this.terminalOptions = [];
-    this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
-    this.globals.terminals.forEach(terminal => {
-      if (this.portOfCall.id == terminal.port) {
-        this.terminalOptions.push({label: terminal.smdgCode, value: terminal})
-      }
+  private updateTerminalOptions(unLocationCode:string) {
+    this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
+      this.globals.terminals = terminals;
+      this.terminalOptions = [];
+      this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
+      terminals.forEach(terminal => {
+        if ((this.portOfCall)) {
+          this.terminalOptions.push({label: terminal.facilitySMDGCode, value: terminal})
+        }
+      });
     })
   }
 
@@ -114,15 +121,9 @@ export class TransportCallCreatorComponent implements OnInit {
     if (this.transportCallFormGroup.controls.port.value) {
       this.portOfCall = this.transportCallFormGroup.controls.port.value;
       this.transportCallFormGroup.controls.terminal.enable();
-      this.updateTerminalOptions();
+      this.updateTerminalOptions(this.portOfCall.unLocationCode);
     }
   }
-
-  // private updateFacilityCodeListProvider() {
-  //   this.facilityCodeListProviderOptions.push({label: this.translate.instant('general.carrier.CarrierCodeListProvider.select'), value: null});
-  //   this.facilityCodeListProviderOptions.push({label: FacilityCodeListProvider.BIC.toString(), value: FacilityCodeListProvider.BIC});
-  //   this.facilityCodeListProviderOptions.push({label: FacilityCodeListProvider.SMDG.toString(), value: FacilityCodeListProvider.SMDG});
-  // }
 
   private updateVesselOptions() {
     this.vesselService.getVessels().subscribe(vessels => {
@@ -135,10 +136,14 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   private updatePortOptions() {
-    this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
-    this.globals.ports.forEach(port => {
-      this.portOptions.push({label: port.unLocode, value: port});
-    })
+    this.portService.getPorts().subscribe(ports => {
+      this.globals.ports = ports;
+      this.portOptions = [];
+      this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
+      ports.forEach(port => {
+        this.portOptions.push({label: port.unLocationName, value: port});
+      });
+    });
   }
 
   updateTimestampTypeOptions() {
@@ -277,7 +282,7 @@ export class TransportCallCreatorComponent implements OnInit {
     transportCall.modeOfTransport = "VESSEL";
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
-    transportCall.UNLocationCode = port.unLocode;
+    transportCall.UNLocationCode = port.unLocationCode;
     transportCall.carrierVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
     transportCall.facilityTypeCode = FacilityTypeCode.POTE
@@ -310,14 +315,14 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
-      this.timestamp.facilitySMDGCode = terminal.smdgCode;
+      this.timestamp.facilitySMDGCode = terminal.facilitySMDGCode;
 
       const locationName = this.transportCallFormGroup.controls.locationName.value;
       let eventLocation = new class implements EventLocation {
         locationName: string
         UNLocationCode: string = transportCall.UNLocationCode;
 
-        facilityCode: string = terminal.smdgCode;
+        facilityCode: string = terminal.facilitySMDGCode;
         facilityCodeListProvider: FacilityCodeListProvider;
       }
       if(eventLocation.facilityCode ){
@@ -340,11 +345,9 @@ export class TransportCallCreatorComponent implements OnInit {
 
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
-      let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
-      this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, port);
+      this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, this.portOfCall.timezone);
 
       this.timestamp.timestampType = this.timestampType as PortcallTimestampType;
-      this.timestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
 
       this.creationProgress = true;
       this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(() => {
