@@ -6,8 +6,6 @@ import {map} from "rxjs/operators";
 import {Vessel} from "../../../model/portCall/vessel";
 import {Carrier} from "../../../model/portCall/carrier";
 import {Globals} from "../../../model/portCall/globals";
-import {StaticVesselService} from "../static/static-vessel.service";
-import {VesselMappingService} from "../mapping/vessel-mapping.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +17,7 @@ export class VesselService {
   private readonly VESSEL_URL: string;
   private readonly CARRIER_URL: string;
 
-  constructor(private httpClient: HttpClient, globals: Globals, private vesselMappingService: VesselMappingService, private staticVesselService: StaticVesselService) {
+  constructor(private httpClient: HttpClient, globals: Globals) {
     this.VESSEL_URL = globals.config.uiSupportBackendURL + '/unofficial/vessels';
     this.CARRIER_URL = globals.config.uiSupportBackendURL + '/unofficial/carriers';
   }
