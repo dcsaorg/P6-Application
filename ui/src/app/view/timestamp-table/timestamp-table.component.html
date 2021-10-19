@@ -11,9 +11,13 @@
   <ng-template pTemplate="caption">
 
     <div class="p-grid">
-      <div class="p-col"> {{'general.table.header.timestamps.label' | translate}}
-        -- {{'general.transportCall.table.transportCallID.label'| translate}}
-        : {{transportCallSelected.transportCallID}}</div>
+      <div class="p-col">{{'general.table.header.timestamps.label' | translate}}</div>
+      <div class="p-col">
+        <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="selectedNegotiationCycle" [options]="negotiationCycles"
+                    [filter]=true filterBy="label" appendTo="body" (onChange)="filterTimestamps()">
+        </p-dropdown>
+
+      </div>
       <div class="p-col tableHeader">
         <div class="tableHeader__buttons">
           <p-button class="p-button-raised p-button-rounded tableHeader__add_button" (onClick)="openCreationDialog(null)"

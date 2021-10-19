@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {Port} from "../../model/portCall/port";
 import {Terminal} from "../../model/portCall/terminal";
-import {MessageService} from "primeng/api";
+import {MessageService, SelectItem} from "primeng/api";
 import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
@@ -20,6 +20,7 @@ import {Globals} from "../../model/portCall/globals";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {TimestampService} from "../../controller/services/ovs/timestamps.service";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
+import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -36,12 +37,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
   @Input('portOfCallNotifier') portofCallNotifier: Port;
   timestamps: Timestamp[];
+  unfilteredTimestamps: Timestamp[];
   progressing: boolean = true;
   terminals: Terminal[] = [];
   ports: Port[] = [];
   delayCodes: DelayCode[] = [];
   vessels: Vessel[] = [];
   portOfCall: Port;
+  negotiationCycles: SelectItem[] = [];
+  selectedNegotiationCycle: NegotiationCycle = null;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
   @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
@@ -89,7 +93,17 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
         this.colorizetimestampByLocation(timestamps);
-        this.timestamps = timestamps;
+        this.unfilteredTimestamps = timestamps;
+        this.negotiationCycles = [];
+        if (timestamps.length > 0) {
+          this.negotiationCycles.push({label: this.translate.instant('general.negotiationCycle.select'), value: null});
+        }
+        for (let timestamp of timestamps) {
+          if (timestamp.isLatestInCycle) {
+            this.negotiationCycles.push({label: timestamp.negotiationCycle.name, value: timestamp.negotiationCycle});
+          }
+        }
+        this.filterTimestamps();
         this.progressing = false;
       });
     }
@@ -97,6 +111,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   refreshTimestamps() {
     this.loadTimestamps();
+  }
+
+  filterTimestamps() {
+    this.timestamps = this.unfilteredTimestamps.filter(ts => {
+      if (this.selectedNegotiationCycle && ts.negotiationCycle?.cycleKey != this.selectedNegotiationCycle.cycleKey) {
+        return false;
+      }
+      return true;
+    });
   }
 
   isOutGoing(timestamp: Timestamp): boolean {
