@@ -57,7 +57,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private translate: TranslateService,
               private timestampMappingService: TimestampMappingService,
               public globals: Globals,
-              public timestampService:TimestampService 
+              public timestampService: TimestampService,
   ) {
   }
 
@@ -133,10 +133,11 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
 
-  showComment(timestamp: PortcallTimestamp) {
+  showComment(timestamp: Timestamp) {
+    const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestamp.delayReasonCode, null);
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
-      width: '50%', data: {timestamp: timestamp, delayCode: this.delayCodes, editMode: timestamp.modifiable}
+      width: '50%', data: {timestamp: timestamp, delayCode: delayCode, editMode: timestamp.modifiable}
     }).onClose.subscribe((portcallTimestamp: PortcallTimestamp) => {
     });
   }

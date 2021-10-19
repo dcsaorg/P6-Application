@@ -41,23 +41,31 @@
   height: 10px;
 }
 
-.delayCodeSelected {
-  float: left;
-  clear: none;
-  font-size: 10pt;
 
-  &__smdgCode {
+.delayCodeDetails{
+
+  margin: 1px;
+
+  &____smdgCode{
+    font-size: 12px;
+    text-transform: capitalize;
     font-weight: bold;
-    font-size: 10pt;
   }
 
   &__delayType {
     color: $tealBlue;
-    font-size: 9pt;
-  }
+    text-transform: capitalize;
+    font-size: 12px;
 
-  &__delayDetails {
+  }
+  &__delayName {
     color: $darkGrey;
-    font-size: 9pt;
+    text-transform: capitalize;
+    font-size: 10px;
+  }
+  &__delaydescription {
+    color: $darkGrey;
+    text-transform: capitalize;
+    font-size: 10px;
   }
 }

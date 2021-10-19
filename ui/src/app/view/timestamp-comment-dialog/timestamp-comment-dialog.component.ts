@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {DelayCode} from "../../model/portCall/delayCode";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import { Timestamp } from 'src/app/model/ovs/timestamp';
+import {Timestamp} from 'src/app/model/ovs/timestamp';
+import {DelayCode} from "../../model/portCall/delayCode";
 
 @Component({
   selector: 'app-timestamp-comment-dialog',
@@ -13,6 +13,7 @@ export class TimestampCommentDialogComponent implements OnInit {
 
   public timestamp: Timestamp;
   delayReasonCode: string;
+  delayCode: DelayCode;
   editMode: boolean;
 
   private previousDelayCode: string;
@@ -20,11 +21,13 @@ export class TimestampCommentDialogComponent implements OnInit {
 
   constructor(public config: DynamicDialogConfig,
               public ref: DynamicDialogRef,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              ) {
   }
 
   ngOnInit(): void {
     this.timestamp = this.config.data.timestamp;
+    this.delayCode = this.config.data.delayCode;
     this.previousDelayCode = this.timestamp.delayReasonCode;
     this.previousRemark = this.timestamp.remark;
     this.delayReasonCode = this.timestamp.delayReasonCode;
