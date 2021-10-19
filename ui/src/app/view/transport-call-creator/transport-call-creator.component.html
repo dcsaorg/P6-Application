@@ -93,7 +93,7 @@
     <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp()">
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes"
-                  (onChange)="showLocationNameOption()">
+                  [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()">
       </p-dropdown>
       <span
         *ngIf="transportCallFormGroup.get('timestampType').hasError('required') && transportCallFormGroup.get('timestampType').touched "
@@ -105,7 +105,7 @@
     <div class="p-field p-col-12 p-md-4" [hidden]=" HideTerminalOption() || !shouldCreateTimestamp()">
       <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
       <p-dropdown appendTo="body" formControlName="terminal" id="terminal" class="portOfCall__dropDown"
-                  [options]="terminalOptions" [filter]="true" filterBy="label,value.facilityName">
+                  [options]="terminalOptions" appendTo="body" [filter]="true" filterBy="label,value.facilityName">
         <ng-template let-terminal pTemplate="item">
           <div *ngIf="!terminal.value">
             <div>Select Terminal</div>
