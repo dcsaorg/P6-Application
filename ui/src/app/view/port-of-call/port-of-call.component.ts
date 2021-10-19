@@ -6,7 +6,7 @@ import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
 import {TerminalService} from "../../controller/services/base/terminal.service";
 import {Terminal} from "../../model/portCall/terminal";
-import { PortFilterService } from 'src/app/controller/services/base/portfilter.service';
+import { TransportCallFilterService } from 'src/app/controller/services/base/transport-call-filter.service';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class PortOfCallComponent implements OnInit {
   constructor(private portService: PortService,
               private terminalService: TerminalService,
               private translate: TranslateService,
-              private portFilterService: PortFilterService,
+              private portFilterService: TransportCallFilterService,
               public globals: Globals) {
   }
 

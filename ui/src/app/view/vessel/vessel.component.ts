@@ -6,6 +6,7 @@ import {VesselEditorComponent} from "../vessel-editor/vessel-editor.component";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {MessageService} from "primeng/api";
+import {TransportCallFilterService} from "../../controller/services/base/transport-call-filter.service";
 
 @Component({
   selector: 'app-vessel',
@@ -25,6 +26,7 @@ export class VesselComponent implements OnInit {
   constructor(public dialogService: DialogService,
               private vesselService: VesselService,
               private messageService: MessageService,
+              private transportCallFilterService: TransportCallFilterService,
               private translate: TranslateService) {
   }
 
@@ -93,9 +95,11 @@ export class VesselComponent implements OnInit {
       this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
         this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
+        this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
       });
     } else {
       this.vesselNotifier.emit(null)
+      this.transportCallFilterService.updateVesselFilter(null);
     }
   }
 
