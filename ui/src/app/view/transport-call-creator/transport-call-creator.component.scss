@@ -65,9 +65,9 @@ input[type="checkbox"] {
     border-top-left-radius: 0;
   }
 
-  textarea{
+  #commentbox{
     height: 200px;
-    width: 560px;
+    width: 500px;
   }
 
   p-dropdown::ng-deep {
@@ -201,4 +201,11 @@ input[type="checkbox"] {
   .berth-location-field{
     margin-top:15px;
   }
+
+.terminalDiv{
+  padding: 0;
+  width: 100%;
+  margin: 0;
+  margin-top: 10px;
+}
   
