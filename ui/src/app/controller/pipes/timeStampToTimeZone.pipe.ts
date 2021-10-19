@@ -12,7 +12,7 @@ export class TimestampToTimezonePipe implements PipeTransform {
   constructor(private globals: Globals) {
   }
 
-  transform(inputDate: Date, portOfCall: Port): string[] {
+  transform(inputDate: Date | string, portOfCall: Port): string[] {
     if (portOfCall && inputDate){
       const timeZone = portOfCall.timezone;
       const pipe = new MomentDatePipe('en-GB');

@@ -14,9 +14,12 @@ import {TimestampMappingService} from "../../controller/services/mapping/timesta
 import {Timestamp} from "../../model/ovs/timestamp";
 import {Globals} from "../../model/portCall/globals";
 import {EventLocation} from "../../model/eventLocation";
+import { take } from 'rxjs/operators';
+import { PortService } from 'src/app/controller/services/base/port.service';
 import {VesselPosition} from "../../model/vesselPosition";
 import { Terminal } from 'src/app/model/portCall/terminal';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
+
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -45,18 +48,18 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   creationProgress: boolean = false;
   locationNameLabel: string;
   locationName: string;
+  ports: Port[] = [];
   vesselPosition: VesselPosition = new class implements VesselPosition {
     latitude: string;
     longitude: string;
   }
-
   transportCall: TransportCall;
-
   timestampTypes: SelectItem[] = [];
   timestampType: PortcallTimestampType;
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   delayCode: DelayCode;
+  respondingToTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
   terminalSelected: Terminal;
 
@@ -77,6 +80,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestampType: undefined,
     transportCallID: ""
   };
+  
 
   constructor(
               private messageService: MessageService,
@@ -96,6 +100,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     });
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
+    this.respondingToTimestamp = this.config.data.respondingToTimestamp;
+    this.ports = this.config.data.ports;
     this.generateDefaultTimestamp();
     this.defaultTimestamp.timestampType;
     this.updateTimestampTypeOptions();

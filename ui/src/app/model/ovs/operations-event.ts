@@ -11,7 +11,7 @@ import { EventLocation } from "../eventLocation";
 export interface OperationsEvent {
   eventID?: string;
   eventType: EventType;
-  eventDateTime: string | Date;
+  eventDateTime: Date;
   eventClassifierCode: EventClassifierCode;
   operationsEventTypeCode: OperationsEventTypeCode;
   eventCreatedDateTime: string | Date;

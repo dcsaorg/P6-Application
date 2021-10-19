@@ -142,13 +142,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
 
-  openCreationDialog() {
+  openCreationDialog(timestamp: Timestamp) {
     const timestampEditor = this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.create.label'),
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
         timestamps: this.timestamps,
+        respondingToTimestamp: timestamp,
+        ports: this.ports
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {
