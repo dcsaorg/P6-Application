@@ -35,13 +35,16 @@ export class TransportCallService {
     return null;
   }
 
-  getTransportCalls(unLocode? : string, smdgCode? : string ): Observable<TransportCall[]> {
+  getTransportCalls(unLocode? : string, smdgCode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
     let httpParams = new HttpParams()
     if(unLocode != null) {
       httpParams = httpParams.set('facility.UNLocationCode', unLocode)
       if(smdgCode != null) {
         httpParams = httpParams.set('facility.facilitySMGDCode', smdgCode)
       }
+    }
+    if (vesselIMONumber) {
+      httpParams = httpParams.set('vessel.vesselIMONumber', vesselIMONumber);
     }
     return this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL, {
      params: httpParams
@@ -57,7 +60,7 @@ export class TransportCallService {
           }),
           concatMap((transportCall) =>
             this.portSevice.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(ports => {
-              transportCall.portOfCall = ports[0]; 
+              transportCall.portOfCall = ports[0];
               return transportCall;
             }))
           ),

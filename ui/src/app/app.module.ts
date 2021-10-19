@@ -62,7 +62,7 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
 import {AuthService} from "./auth/auth.service";
-import { PortFilterService } from "./controller/services/base/portfilter.service";
+import { TransportCallFilterService } from "./controller/services/base/transport-call-filter.service";
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -150,7 +150,7 @@ export function ConfigLoader(configService: ConfigService) {
         multi: true
     },
     ConfirmationService,
-    PortFilterService,
+    TransportCallFilterService,
     MessageService,
     Globals,
     OperationsEventsToTimestampsPipe,
