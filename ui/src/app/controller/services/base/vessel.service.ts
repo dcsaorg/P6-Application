@@ -22,7 +22,7 @@ export class VesselService {
     this.CARRIER_URL = globals.config.uiSupportBackendURL + '/unofficial/carriers';
   }
 
-  getVessels = (): Observable<Vessel[]> =>  this.httpClient.get<Vessel[]>(this.VESSEL_URL); //this.vesselMappingService.getVessels();
+  getVessels = (): Observable<Vessel[]> =>  this.httpClient.get<Vessel[]>(this.VESSEL_URL + '?limit=1000'); //this.vesselMappingService.getVessels();
 
   getVessel = (vesselId: string): Observable<Vessel> => this.httpClient.get<Vessel>(this.VESSEL_URL + '/' + vesselId);
 
