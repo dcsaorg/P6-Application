@@ -59,8 +59,8 @@ export class TransportCallService {
             return transportCall;
           }),
           concatMap((transportCall) =>
-            this.portSevice.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(ports => {
-              transportCall.portOfCall = ports[0];
+            this.portSevice.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(port => {
+              transportCall.portOfCall = port;
               return transportCall;
             }))
           ),

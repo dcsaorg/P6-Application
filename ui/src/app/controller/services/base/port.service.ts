@@ -3,6 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {Port} from "../../../model/portCall/port";
 import {Globals} from "../../../model/portCall/globals";
 import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
+import {of} from 'rxjs';
+
+function cachePort(cache: Map<string, Port>, port: Port) {
+  cache.set(port.unLocationCode, port);
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +16,8 @@ import { Observable } from 'rxjs/internal/Observable';
 export class PortService {
   private readonly PORT_URL: string;
   private readonly PORT_URL_LIMIT_1000: string;
-  
+  private unlocode2PortCache = new Map<string, Port>();
+
 
   constructor(private httpClient: HttpClient,
               private globals: Globals) {
@@ -19,14 +26,30 @@ export class PortService {
     this.PORT_URL_LIMIT_1000 = globals.config.uiSupportBackendURL + '/unofficial/ports' + '?limit=1000';
   }
 
-  getPortsByUNLocationCode(unLocationCode?: string): Observable<Port[]> {
+  getPortsByUNLocationCode(unLocationCode?: string): Observable<Port> {
     let query = '';
     if (unLocationCode) {
+      const cachedPort = this.unlocode2PortCache.get(unLocationCode);
+      if (cachedPort) {
+        return of(cachedPort);
+      }
       query = "?unLocationCode=" + unLocationCode;
     }
-    return this.httpClient.get<Port[]>(this.PORT_URL + query);
+    return this.httpClient.get<Port[]>(this.PORT_URL + query).pipe(
+      map((ports) => {
+        let port = ports[0];
+        cachePort(this.unlocode2PortCache, port);
+        return port;
+      })
+    );
   }
-  getPorts = (): Observable<Port[]> => this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000);
+  getPorts = (): Observable<Port[]> => this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000)
+    .pipe(map(ports => {
+      for (let port of ports) {
+        cachePort(this.unlocode2PortCache, port);
+      }
+      return ports;
+    }));
 
 
 }
