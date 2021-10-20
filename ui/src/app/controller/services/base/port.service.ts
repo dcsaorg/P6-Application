@@ -19,7 +19,13 @@ export class PortService {
     this.PORT_URL_LIMIT_1000 = globals.config.uiSupportBackendURL + '/unofficial/ports' + '?limit=1000';
   }
 
-  getPortsByUNLocationCode = (unLocationCode?: string): Observable<Port[]> => this.httpClient.get<Port[]>(this.PORT_URL + "?unLocationCode=" + unLocationCode);
+  getPortsByUNLocationCode(unLocationCode?: string): Observable<Port[]> {
+    let query = '';
+    if (unLocationCode) {
+      query = "?unLocationCode=" + unLocationCode;
+    }
+    return this.httpClient.get<Port[]>(this.PORT_URL + query);
+  }
   getPorts = (): Observable<Port[]> => this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000);
 
 
