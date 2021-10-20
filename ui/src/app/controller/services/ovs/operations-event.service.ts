@@ -19,7 +19,7 @@ export class OperationsEventService {
     this.EVENT_DELIVERY_STATUS_URL = globals.config.uiSupportBackendURL + "/unofficial/event-delivery-status";
   }
 
-  getEventDeliveryStatus = (eventID: string): Observable<EventDelivery> => this.httpClient.get<EventDelivery>(this.EVENT_DELIVERY_STATUS_URL + "/" + eventID)
+  getEventDeliveryStatusForTransportCall = (transportCallId: string): Observable<EventDelivery[]> => this.httpClient.get<EventDelivery[]>(this.EVENT_DELIVERY_STATUS_URL + "/?transportCallID=" + transportCallId)
 
   getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
     const url = this.OPERATIONS_EVENT_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId + '&sort=eventCreatedDateTime:DESC&limit=1000' ;
