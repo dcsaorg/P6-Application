@@ -16,8 +16,8 @@ export class TimestampToTimezonePipe implements PipeTransform {
     if (portOfCall && inputDate){
       const timeZone = portOfCall.timezone;
       const pipe = new MomentDatePipe('en-GB');
-      let newTime = pipe.transform(inputDate, this.globals.config.dateTimeFormat, timeZone)
-      let newTimeTZ = pipe.transform(inputDate, 'ZZZZZ', timeZone);
+      let newTime = pipe.transform(inputDate, this.globals.config.dateTimeFormat, timeZone ?? 'Etc/UTC')
+      let newTimeTZ = timeZone ? pipe.transform(inputDate, 'ZZZZZ', timeZone) : 'N/A (TZ data missing)';
       if (newTimeTZ == 'Z') {
         newTimeTZ = '00:00';
       }
