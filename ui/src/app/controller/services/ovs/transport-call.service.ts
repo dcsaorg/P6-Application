@@ -25,16 +25,6 @@ export class TransportCallService {
     this.OPERATIONS_EVENT_URL = globals.config.ovsBackendURL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
   }
 
-
-  private getPortByUnLocode(unlocode: string): Port {
-    for (let port of this.globals.ports) {
-      if (port.unLocationCode == unlocode) {
-        return port;
-      }
-    }
-    return null;
-  }
-
   getTransportCalls(unLocode? : string, smdgCode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
     let httpParams = new HttpParams()
     if(unLocode != null) {
