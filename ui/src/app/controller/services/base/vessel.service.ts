@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, ReplaySubject} from "rxjs";
-import {map} from "rxjs/operators";
 
 import {Vessel} from "../../../model/portCall/vessel";
 import {Carrier} from "../../../model/portCall/carrier";

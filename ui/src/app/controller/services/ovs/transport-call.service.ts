@@ -2,9 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
-import {map, mergeMap, toArray, concatMap, take} from "rxjs/operators";
+import {map, mergeMap, toArray, concatMap} from "rxjs/operators";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
-import { Port } from 'src/app/model/portCall/port';
 import { Globals } from 'src/app/model/portCall/globals';
 import { PortService } from '../base/port.service';
 
@@ -79,7 +78,7 @@ export class TransportCallService {
     this.httpClient.post<TransportCall>(this.TRANSPORT_CALL_URL, transportCall)
 
 
-  private   extractVesselAttributes(transportCall: TransportCall) {
+  private extractVesselAttributes(transportCall: TransportCall) {
     if (transportCall['vessel'] === null) {
       transportCall.vesselName = null;
       transportCall.vesselIMONumber = null;
