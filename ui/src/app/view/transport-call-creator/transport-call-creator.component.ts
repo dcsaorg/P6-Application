@@ -19,7 +19,7 @@ import {Timestamp} from "../../model/ovs/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
-import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
+import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
