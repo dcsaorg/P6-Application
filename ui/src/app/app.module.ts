@@ -45,7 +45,6 @@ import {Globals} from "./model/portCall/globals";
 import {ConfigService} from "./controller/services/base/config.service";
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { OperationsEventsToTimestampsPipe } from './controller/pipes/operations-events-to-timestamps.pipe';
-import { TransportCallsToVesselsPipe } from './controller/pipes/transport-calls-to-vessels.pipe';
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
 import { OperationsEventToTimestampTypePipe } from './controller/pipes/operations-event-to-timestamp-type.pipe';
 import {PanelModule} from 'primeng/panel';
@@ -93,7 +92,6 @@ export function ConfigLoader(configService: ConfigService) {
     PortOfCallComponent,
     VesselIdToVesselPipe,
     OperationsEventsToTimestampsPipe,
-    TransportCallsToVesselsPipe,
     TransportCallsTableComponent,
     OperationsEventToTimestampTypePipe,
     TimestampTypeToEventTypePipe,
@@ -154,7 +152,6 @@ export function ConfigLoader(configService: ConfigService) {
     MessageService,
     Globals,
     OperationsEventsToTimestampsPipe,
-    TransportCallsToVesselsPipe,
     OperationsEventToTimestampPipe,
     TimestampToStandardizedtTimestampPipe,
     AuthService,
