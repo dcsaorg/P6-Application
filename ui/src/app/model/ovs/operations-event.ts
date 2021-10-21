@@ -26,5 +26,7 @@ export interface OperationsEvent {
   remark?: string;
   delayReasonCode?: string;
   eventDeliveryStatus: string;
+  timestampDefinitionID?: string;
   facilityCode: string;
+
 }

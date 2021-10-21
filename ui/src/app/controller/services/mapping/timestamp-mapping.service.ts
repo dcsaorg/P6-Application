@@ -8,10 +8,11 @@ import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to
 import {Timestamp} from "../../../model/ovs/timestamp";
 import {TimestampService} from "../ovs/timestamps.service";
 import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
-import {PublisherRole} from 'src/app/model/enums/publisherRole';
-import {PortcallTimestampType} from 'src/app/model/portCall/portcall-timestamp-type.enum';
 import {NegotiationCycleService} from "../base/negotiation-cycle.service";
-import {EventDelivery} from "../../../model/ovs/eventDelivery";
+import {TimestampInfo} from "../../../model/ovs/timestampInfo";
+import {TimestampDefinition} from "../../../model/ovs/timestamp-definition";
+import {TimestampDefinitionService} from "../base/timestamp-definition.service";
+import {OperationsEvent} from "../../../model/ovs/operations-event";
 
 
 @Injectable({
@@ -23,6 +24,7 @@ export class TimestampMappingService {
               private globals: Globals,
               private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
               private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
+              private timestampDefinitionService: TimestampDefinitionService,
               private timestampService: TimestampService,
               private negotiationCycleService: NegotiationCycleService,
   ) {
@@ -40,37 +42,40 @@ export class TimestampMappingService {
       mergeMap((events) =>
         this.operationsEventService.getEventDeliveryStatusForTransportCall(transportCall.transportCallID).pipe(
           map((deliveryStatuses) => {
-            let map = new Map<string, EventDelivery>();
+            let map = new Map<string, TimestampInfo>();
             for (let status of deliveryStatuses) {
               map.set(status.eventID, status);
             }
             for (let event of events) {
               const eventDelivery = map.get(event.eventID);
               if (eventDelivery) {
+                event.timestampDefinitionID = eventDelivery.timestampDefinition;
                 event.eventDeliveryStatus = eventDelivery.eventDeliveryStatus
               } else {
                 event.eventDeliveryStatus = 'DELIVERY_FINISHED'
+                event.timestampDefinitionID = 'BAD_TIMESTAMP'
               }
             }
             return events;
           })
-        )
+        ),
       ),
-      map(events => {
-        const timestamps = this.operationsEventsToTimestampsPipe.transform(events)
-        this.mapTransportCallToTimestamps(timestamps, transportCall);
-
+      mergeMap(events => this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
+        map(timestampDefinitions => {
+          const timestamps = this.operationsEventsToTimestampsPipe.transform(events, timestampDefinitions)
+          this.mapTransportCallToTimestamps(timestamps, transportCall);
+          return timestamps;
+        })
+      )),
+      map(timestamps => {
         let set = new Set()
 
         for (let timestamp of timestamps) {
-          if (timestamp.timestampType) {
+          if (timestamp.timestampDefinition) {
             let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
             const negotiationCycleKey = negotiationCycle.cycleKey;
             timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
             set.add(negotiationCycleKey)
-            if (timestamp.isLatestInCycle) {
-              timestamp.response = this.timestampService.setResponseType(timestamp, this.globals.config.publisherRole); // set response for latest timestamp in negotiationCycle.
-            }
           }
         }
         return timestamps;
@@ -90,158 +95,15 @@ export class TimestampMappingService {
     }
   }
 
-  HideTerminalOptions(timestampType: PortcallTimestampType): boolean {
-    switch (timestampType) {
-      case PortcallTimestampType.ETA_PBP:
-      case PortcallTimestampType.RTA_PBP:
-      case PortcallTimestampType.PTA_PBP:
-      case PortcallTimestampType.ATA_PBP:
-      case PortcallTimestampType.SOSP:
-      case PortcallTimestampType.EOSP:
-      case PortcallTimestampType.ATC_Pilotage:
-        return true;
-      default:
-        return false;
+  getLocationNameOptionLabel(timestampType: TimestampDefinition): string {
+    if (timestampType?.isBerthLocationNeeded) {
+      return this.locationNameBerth;
     }
+    if (timestampType?.isPBPLocationNeeded) {
+      return this.locationNamePBP;
+    }
+    return undefined;
   }
-
-  getLocationNameOptionLabel(timestampType: PortcallTimestampType): string {
-    switch (timestampType) {
-      case PortcallTimestampType.ETA_Berth:
-        return undefined;
-      case PortcallTimestampType.RTA_Berth:
-      case PortcallTimestampType.PTA_Berth:
-        return this.locationNameBerth;
-      case PortcallTimestampType.ETA_PBP:
-      case PortcallTimestampType.RTA_PBP:
-      case PortcallTimestampType.PTA_PBP:
-      case PortcallTimestampType.ATA_PBP:
-        return this.locationNamePBP;
-      case PortcallTimestampType.ATS_Pilotage:
-      case PortcallTimestampType.ATA_Berth:
-      case PortcallTimestampType.ATS_Cargo_Ops:
-      case PortcallTimestampType.ETC_Cargo_Ops:
-      case PortcallTimestampType.RTC_Cargo_Ops:
-      case PortcallTimestampType.PTC_Cargo_Ops:
-      case PortcallTimestampType.ETD_Berth:
-      case PortcallTimestampType.RTD_Berth:
-      case PortcallTimestampType.PTD_Berth:
-      case PortcallTimestampType.ATC_Cargo_Ops:
-      case PortcallTimestampType.ATD_Berth:
-
-        return this.locationNameBerth;
-      default:
-        return undefined;
-    }
-  }
-
-  getPortcallTimestampTypes(publisherRole: PublisherRole, enableJIT1_1Timestamps: Boolean = false): string[] {
-    if (enableJIT1_1Timestamps) {
-      switch (publisherRole) {
-        case PublisherRole.CA:
-          return [
-            PortcallTimestampType.ETA_Berth,
-            PortcallTimestampType.PTA_Berth,
-            PortcallTimestampType.ETA_PBP,
-            PortcallTimestampType.PTA_PBP,
-            PortcallTimestampType.ATA_PBP,
-            PortcallTimestampType.RTC_Cargo_Ops,
-            PortcallTimestampType.ETD_Berth,
-            PortcallTimestampType.PTD_Berth,
-            PortcallTimestampType.ATD_Berth,
-            PortcallTimestampType.RTS_Cargo_Ops,
-            PortcallTimestampType.RTS_Bunkering,
-            PortcallTimestampType.RTC_Bunkering,
-            PortcallTimestampType.AT_All_Fast,
-            PortcallTimestampType.Gangway_Down_and_Safe,
-            PortcallTimestampType.Vessel_Readiness_for_Cargo_Ops,
-            PortcallTimestampType.SOSP,
-            PortcallTimestampType.EOSP
-          ]
-        case PublisherRole.TR:
-          return [
-            PortcallTimestampType.RTA_Berth,
-            PortcallTimestampType.ATA_Berth,
-            PortcallTimestampType.ETS_Cargo_Ops,
-            PortcallTimestampType.ATS_Cargo_Ops,
-            PortcallTimestampType.ETC_Cargo_Ops,
-            PortcallTimestampType.PTC_Cargo_Ops,
-            PortcallTimestampType.ATC_Cargo_Ops,
-            PortcallTimestampType.PTS_Cargo_Ops,
-            PortcallTimestampType.Terminal_Ready_for_Vessel_Departure
-          ]
-        case PublisherRole.ATH:
-          return [
-            PortcallTimestampType.RTA_PBP,
-            PortcallTimestampType.RTD_Berth,
-          ]
-        case PublisherRole.PLT:
-          return [
-            PortcallTimestampType.ATS_Pilotage,
-            PortcallTimestampType.ATC_Pilotage,
-            PortcallTimestampType.PTS_Pilotage
-          ]
-        case PublisherRole.LSH:
-          return [
-            PortcallTimestampType.ATC_Lashing,
-          ]
-        case PublisherRole.BUK:
-          return [
-            PortcallTimestampType.ATC_Bunkering,
-            PortcallTimestampType.ATS_Bunkering,
-            PortcallTimestampType.PTC_Bunkering,
-            PortcallTimestampType.PTS_Bunkering,
-            PortcallTimestampType.ETC_Bunkering,
-            PortcallTimestampType.ETS_Bunkering,
-          ]
-        case PublisherRole.TWG:
-          return [
-            PortcallTimestampType.ATC_Towage,
-            PortcallTimestampType.ATS_Towage,
-            PortcallTimestampType.PTS_Towage,
-          ]
-        default:
-          return [];
-      }
-    }
-    else{
-      switch (publisherRole) {
-        case PublisherRole.CA:
-          return [
-            PortcallTimestampType.ETA_Berth,
-            PortcallTimestampType.PTA_Berth,
-            PortcallTimestampType.ETA_PBP,
-            PortcallTimestampType.PTA_PBP,
-            PortcallTimestampType.ATA_PBP,
-            PortcallTimestampType.ATA_Berth,
-            PortcallTimestampType.RTC_Cargo_Ops,
-            PortcallTimestampType.ETD_Berth,
-            PortcallTimestampType.PTD_Berth,
-            PortcallTimestampType.ATD_Berth,
-          ]
-        case PublisherRole.TR:
-          return [
-            PortcallTimestampType.RTA_Berth,
-            PortcallTimestampType.ATS_Cargo_Ops,
-            PortcallTimestampType.ETC_Cargo_Ops,
-            PortcallTimestampType.PTC_Cargo_Ops,
-            PortcallTimestampType.ATC_Cargo_Ops,
-          ]
-        case PublisherRole.ATH:
-          return [
-            PortcallTimestampType.RTA_PBP,
-            PortcallTimestampType.RTD_Berth,
-          ]
-        case PublisherRole.PLT:
-          return [
-            PortcallTimestampType.ATS_Pilotage,
-          ]
-        default:
-          return [];
-      }
-    }
-  }
-
 }
 
 

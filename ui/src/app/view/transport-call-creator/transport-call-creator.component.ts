@@ -14,7 +14,6 @@ import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvid
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {DelayCode} from "../../model/portCall/delayCode";
-import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {Timestamp} from "../../model/ovs/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
@@ -27,6 +26,8 @@ import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
 import { PortService } from 'src/app/controller/services/base/port.service';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
+import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
+import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -43,11 +44,12 @@ export class TransportCallCreatorComponent implements OnInit {
   creationProgress: boolean;
   vessels: Vessel[] = [];
 
-  timestampType: string;
+
   timestamp: Timestamp;
   eventTimestampDate: Date;
   eventTimestampTime: String;
-  timestampSelected: string;
+  timestampSelected: TimestampDefinition;
+  timestampDefinitions: TimestampDefinition[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
@@ -66,6 +68,7 @@ export class TransportCallCreatorComponent implements OnInit {
               private delayCodeService: DelayCodeService,
               private transportCallService: TransportCallService,
               private vesselService: VesselService,
+              private timestampDefinitionService: TimestampDefinitionService,
               private timestampMappingService: TimestampMappingService,
               private portService: PortService,
               private terminalService: TerminalService){
@@ -75,8 +78,12 @@ export class TransportCallCreatorComponent implements OnInit {
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
-    this.updateTimestampTypeOptions();
-    
+
+    this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
+      this.timestampDefinitions = timestampDefinitions;
+      this.updateTimestampTypeOptions();
+    })
+
     this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()
@@ -149,9 +156,14 @@ export class TransportCallCreatorComponent implements OnInit {
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
-
-    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole, this.globals.config.enableJIT11Timestamps)) {
-      this.timestampTypes.push({label: item, value: item})
+    for (let timestampDef of this.timestampDefinitions) {
+      if (timestampDef.publisherRole != this.globals.config.publisherRole) {
+        continue;
+      }
+      if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
+        continue
+      }
+      this.timestampTypes.push({label: timestampDef.timestampTypeName, value: timestampDef})
     }
   }
 
@@ -175,37 +187,10 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
   }
 
-  hideVesselPosition(): boolean {
-    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    if (!this.globals.config.enableVesselPositions) return true;
-    if (this.globals.config.enableJIT11Timestamps) {
-      switch (timestampType) {
-        case PortcallTimestampType.ETA_Berth:
-        case PortcallTimestampType.PTA_Berth:
-        case PortcallTimestampType.ETA_PBP:
-        case PortcallTimestampType.PTA_PBP:
-        case PortcallTimestampType.EOSP:
-        case PortcallTimestampType.ATS_Pilotage:
-        case PortcallTimestampType.ATS_Towage:
-        case PortcallTimestampType.ATC_Pilotage:
-        case PortcallTimestampType.SOSP:
-          return false;
-        default:
-          return true;
-      }
-    }
-    else {
-      switch (timestampType) {
-        case PortcallTimestampType.ETA_Berth:
-        case PortcallTimestampType.PTA_Berth:
-        case PortcallTimestampType.ETA_PBP:
-        case PortcallTimestampType.PTA_PBP:
-        case PortcallTimestampType.ATS_Pilotage:
-          return false;
-        default:
-          return true;
-      }
-    }
+  showVesselPosition(): boolean {
+    if (!this.globals.config.enableVesselPositions) return false;
+    const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
+    return selectedTimestamp?.isVesselPositionNeeded ?? false;
   }
 
   showLocationNameOption(): boolean {
@@ -214,10 +199,10 @@ export class TransportCallCreatorComponent implements OnInit {
     return this.locationNameLabel !== undefined;
   }
 
-  
-  HideTerminalOption(): boolean {
-    let timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    return this.timestampMappingService.HideTerminalOptions(timestampType);
+
+  showTerminalOption(): boolean {
+    const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
+    return selectedTimestamp?.value?.isTerminalNeeded ?? false;
   }
 
   shouldCreateTimestamp(): boolean {
@@ -241,8 +226,8 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   canCreateTimestamp(): boolean {
-    this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    return this.timestampType != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
+    this.timestampSelected = this.transportCallFormGroup.controls.timestampType.value;
+    return this.timestampSelected != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
   }
 
   createButtonText(): string {
@@ -288,7 +273,7 @@ export class TransportCallCreatorComponent implements OnInit {
     transportCall.facilityTypeCode = FacilityTypeCode.POTE
 
     // Timestamp
-    this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    this.timestampSelected = this.transportCallFormGroup.controls.timestampType.value;
     let createTimestamp = this.canCreateTimestamp();
 
     this.timestamp = new class implements Timestamp {
@@ -301,7 +286,7 @@ export class TransportCallCreatorComponent implements OnInit {
       publisherRole: PublisherRole;
       vesselIMONumber: string;
       delayReasonCode: string;
-      timestampType: PortcallTimestampType;
+      timestampDefinition: TimestampDefinition;
     }
 
     if (this.shouldCreateTimestamp() && createTimestamp) {
@@ -347,7 +332,7 @@ export class TransportCallCreatorComponent implements OnInit {
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
       this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, this.portOfCall.timezone);
 
-      this.timestamp.timestampType = this.timestampType as PortcallTimestampType;
+      this.timestamp.timestampDefinition = this.timestampSelected;
 
       this.creationProgress = true;
       this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(() => {

@@ -1,8 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {Port} from "../../model/portCall/port";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
-import {take} from "rxjs/operators";
+import {Timestamp} from "../../model/ovs/timestamp";
 
 @Component({
   selector: 'app-timestamp-paginator',
@@ -10,15 +9,15 @@ import {take} from "rxjs/operators";
   styleUrls: ['./timestamp-paginator.component.scss']
 })
 export class TimestampPaginatorComponent implements OnInit, OnChanges {
-  timestamps: PortcallTimestamp[] = [];
-  displayTimestamps: PortcallTimestamp[] = [];
+  timestamps: Timestamp[] = [];
+  displayTimestamps: Timestamp[] = [];
   first: number;
 
   @Input('vesselId') vesselId: string;
   @Input('portOfCall') portOfCall: Port;
-  @Input('portCallTimeStampAdded') portCallTimeStampAdded: PortcallTimestamp;
-  @Input('portCallTimeStampDeleted') portCallTimeStampDeleted: PortcallTimestamp;
-  @Input('portCallTimeStampResponded') portCallTimeStampResponded: PortcallTimestamp;
+  @Input('portCallTimeStampAdded') portCallTimeStampAdded: Timestamp;
+  @Input('portCallTimeStampDeleted') portCallTimeStampDeleted: Timestamp;
+  @Input('portCallTimeStampResponded') portCallTimeStampResponded: Timestamp;
   selectedRowSize: number;
   rowSizes: number[] = [10, 25, 50];
 
