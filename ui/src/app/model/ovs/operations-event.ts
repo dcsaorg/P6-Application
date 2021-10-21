@@ -1,6 +1,6 @@
 import {EventType} from "./eventType";
 import {EventClassifierCode} from "./eventClassifierCode";
-import {OperationsEventTypeCode} from "./operationsEventTypeCode";
+import {OperationsEventTypeCode} from "../enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import {TransportCall} from "./transport-call";
 import { PublisherRole } from "../enums/publisherRole";

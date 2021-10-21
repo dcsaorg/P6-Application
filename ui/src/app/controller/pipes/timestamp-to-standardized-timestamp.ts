@@ -3,7 +3,7 @@ import {TimestampTypeToEventClassifierCodePipe} from "./timestamp-type-to-event-
 import {TimestampTypeToEventTypePipe} from "./timestamp-type-to-event-type.pipe";
 import {TimestampTypeToFacilityCodeCodePipe} from "./timestamp-type-to-facility-code-type.pipe";
 import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
-import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
+import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../../model/enums/portCallServiceTypeCode";
 import {TimestampTypeToPortcallServiceTypeCodePipe} from "./timestamp-type-to-portcall-service-type-code.pipe";
 import {Config} from "../../model/ovs/config";
