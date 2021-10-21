@@ -102,7 +102,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         }
         for (let timestamp of timestamps) {
           if (timestamp.isLatestInCycle) {
-            this.negotiationCycles.push({label: timestamp.negotiationCycle.name, value: timestamp.negotiationCycle});
+            this.negotiationCycles.push({label: timestamp.negotiationCycle.cycleName, value: timestamp.negotiationCycle});
           }
         }
         this.filterTimestamps();
