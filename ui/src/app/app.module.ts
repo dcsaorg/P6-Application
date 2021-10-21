@@ -7,7 +7,6 @@ import {NgModule, APP_INITIALIZER} from '@angular/core';
 import {AppComponent} from './view/app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './view/header/header.component';
-import {PortCallTimestampTypeToStringPipe} from './controller/pipes/port-call-timestamp-type-to-string.pipe';
 import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
 import {TimestampEditorComponent} from './view/timestamp-editor/timestamp-editor.component';
 import {TimestampPaginatorComponent} from './view/timestamp-paginator/timestamp-paginator.component';
@@ -46,14 +45,9 @@ import {ConfigService} from "./controller/services/base/config.service";
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { OperationsEventsToTimestampsPipe } from './controller/pipes/operations-events-to-timestamps.pipe';
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
-import { OperationsEventToTimestampTypePipe } from './controller/pipes/operations-event-to-timestamp-type.pipe';
 import {PanelModule} from 'primeng/panel';
 import {MenuModule} from "primeng/menu";
-import { TimestampTypeToEventTypePipe } from './controller/pipes/timestamp-type-to-event-type.pipe';
-import { TimestampTypeToEventClassifierCodePipe } from './controller/pipes/timestamp-type-to-event-classifier-code.pipe';
-import { TimestampTypeToFacilityCodeCodePipe } from './controller/pipes/timestamp-type-to-facility-code-type.pipe';
 import { OperationsEventToTimestampPipe } from './controller/pipes/operations-event-to-timestamp.pipe';
-import { TimestampTypeToPortcallServiceTypeCodePipe } from './controller/pipes/timestamp-type-to-portcall-service-type-code.pipe';
 import { TransportCallCreatorComponent } from './view/transport-call-creator/transport-call-creator.component';
 import { TimestampToStandardizedtTimestampPipe } from "./controller/pipes/timestamp-to-standardized-timestamp";
 import { SignInComponent } from './auth/sign-in/sign-in.component';
@@ -79,7 +73,6 @@ export function ConfigLoader(configService: ConfigService) {
     SignUpComponent,
     DashboardComponent,
     HeaderComponent,
-    PortCallTimestampTypeToStringPipe,
     TimestampCommentDialogComponent,
     TimestampEditorComponent,
     TimestampPaginatorComponent,
@@ -93,13 +86,8 @@ export function ConfigLoader(configService: ConfigService) {
     VesselIdToVesselPipe,
     OperationsEventsToTimestampsPipe,
     TransportCallsTableComponent,
-    OperationsEventToTimestampTypePipe,
-    TimestampTypeToEventTypePipe,
-    TimestampTypeToEventClassifierCodePipe,
-    TimestampTypeToFacilityCodeCodePipe,
     OperationsEventToTimestampPipe,
     TimestampToStandardizedtTimestampPipe,
-    TimestampTypeToPortcallServiceTypeCodePipe,
     TransportCallCreatorComponent,
   ],
   imports: [

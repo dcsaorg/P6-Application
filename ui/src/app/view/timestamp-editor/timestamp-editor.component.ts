@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MessageService, SelectItem} from "primeng/api";
-import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
-import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {Port} from "../../model/portCall/port";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {DelayCode} from "../../model/portCall/delayCode";
@@ -14,11 +12,11 @@ import {TimestampMappingService} from "../../controller/services/mapping/timesta
 import {Timestamp} from "../../model/ovs/timestamp";
 import {Globals} from "../../model/portCall/globals";
 import {EventLocation} from "../../model/eventLocation";
-import { take } from 'rxjs/operators';
-import { PortService } from 'src/app/controller/services/base/port.service';
 import {VesselPosition} from "../../model/vesselPosition";
-import { Terminal } from 'src/app/model/portCall/terminal';
-import { TerminalService } from 'src/app/controller/services/base/terminal.service';
+import {Terminal} from 'src/app/model/portCall/terminal';
+import {TerminalService} from 'src/app/controller/services/base/terminal.service';
+import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
+import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
 
 
 @Component({
@@ -26,7 +24,6 @@ import { TerminalService } from 'src/app/controller/services/base/terminal.servi
   templateUrl: './timestamp-editor.component.html',
   styleUrls: ['./timestamp-editor.component.scss'],
   providers: [
-    PortCallTimestampTypeToStringPipe,
     DialogService,
     VesselIdToVesselPipe
   ]
@@ -44,7 +41,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   logOfTimestampTime: String;
   eventTimestampDate: Date;
   eventTimestampTime: string;
-  timestampSelected: string;
+  timestampSelected: TimestampDefinition;
   creationProgress: boolean = false;
   locationNameLabel: string;
   locationName: string;
@@ -54,8 +51,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     longitude: string;
   }
   transportCall: TransportCall;
+  timestampDefinitions: TimestampDefinition[] = [];
   timestampTypes: SelectItem[] = [];
-  timestampType: PortcallTimestampType;
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   delayCode: DelayCode;
@@ -77,10 +74,10 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     portNext: undefined,
     portOfCall: undefined,
     portPrevious: undefined,
-    timestampType: undefined,
+    timestampDefinition: undefined,
     transportCallID: ""
   };
-  
+
 
   constructor(
               private messageService: MessageService,
@@ -89,6 +86,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
               public config: DynamicDialogConfig,
               private translate: TranslateService,
               public ref: DynamicDialogRef,
+              private timestampDefinitionService: TimestampDefinitionService,
               private timestampMappingService: TimestampMappingService,
               private terminalService: TerminalService) {
   }
@@ -98,17 +96,18 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()
     });
+    this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
+      this.timestampDefinitions = timestampDefinitions;
+      this.updateTimestampTypeOptions();
+    })
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
     this.respondingToTimestamp = this.config.data.respondingToTimestamp;
     this.ports = this.config.data.ports;
     this.generateDefaultTimestamp();
-    this.defaultTimestamp.timestampType;
-    this.updateTimestampTypeOptions();
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
-
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.updateTimestampTypeOptions()
+      this.updateTimestampTypeOptions();
     });
 
   }
@@ -117,47 +116,18 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
 
   }
 
-  hideVesselPosition(): boolean {
-    if (!this.globals.config.enableVesselPositions) return true;
-    if (this.globals.config.enableJIT11Timestamps) {
-      switch (this.timestampSelected) {
-        case PortcallTimestampType.ETA_Berth:
-        case PortcallTimestampType.PTA_Berth:
-        case PortcallTimestampType.ETA_PBP:
-        case PortcallTimestampType.PTA_PBP:
-        case PortcallTimestampType.EOSP:
-        case PortcallTimestampType.ATS_Pilotage:
-        case PortcallTimestampType.ATS_Towage:
-        case PortcallTimestampType.ATC_Pilotage:
-        case PortcallTimestampType.SOSP:
-          return false;
-        default:
-          return true;
-      }
-    }
-    else {
-      switch (this.timestampSelected) {
-        case PortcallTimestampType.ETA_Berth:
-        case PortcallTimestampType.PTA_Berth:
-        case PortcallTimestampType.ETA_PBP:
-        case PortcallTimestampType.PTA_PBP:
-        case PortcallTimestampType.ATS_Pilotage:
-          return false;
-        default:
-          return true;
-      }
-    }
+  showVesselPosition(): boolean {
+    if (!this.globals.config.enableVesselPositions) return false;
+    return this.timestampSelected?.isVesselPositionNeeded ?? false;
   }
 
   showLocationNameOption(): boolean {
-    const timestampType = this.timestampSelected as PortcallTimestampType;
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampSelected);
     return this.locationNameLabel !== undefined;
   }
 
-  HideTerminalOption(): boolean {
-    const timestampType = this.timestampSelected as PortcallTimestampType;
-    return this.timestampMappingService.HideTerminalOptions(timestampType);
+  showTerminalOption(): boolean {
+    return this.timestampSelected?.isTerminalNeeded ?? false;
   }
 
   savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
@@ -170,7 +140,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.publisher = this.globals.config.publisher;
     timestamp.publisherRole = this.globals.config.publisherRole;
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-    timestamp.timestampType = this.timestampSelected as PortcallTimestampType;
+    timestamp.timestampDefinition = this.timestampSelected;
 
     timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
 
@@ -221,8 +191,14 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   private updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
-    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole, this.globals.config.enableJIT11Timestamps)) {
-      this.timestampTypes.push({label: item, value: item})
+    for (let timestampDef of this.timestampDefinitions) {
+      if (timestampDef.publisherRole != this.globals.config.publisherRole) {
+        continue;
+      }
+      if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
+        continue
+      }
+      this.timestampTypes.push({label: timestampDef.timestampTypeName, value: timestampDef})
     }
   }
 

@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
-import {PortcallTimestamp} from "../../../model/portCall/portcall-timestamp";
 import {BehaviorSubject, Observable, Subject} from "rxjs";
+import {Timestamp} from "../../../model/ovs/timestamp";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaginatorService {
-  private paginatedTimestamps: BehaviorSubject<PortcallTimestamp[]>
+  private paginatedTimestamps: BehaviorSubject<Timestamp[]>
   private _refreshNotifier: Subject<void> = new Subject<void>()
 
   constructor() {
-    this.paginatedTimestamps = new BehaviorSubject<PortcallTimestamp[]>([]);
+    this.paginatedTimestamps = new BehaviorSubject<Timestamp[]>([]);
   }
 
-  refreshTimestamps = (newTimeStamps: PortcallTimestamp[]): void => this.paginatedTimestamps.next(newTimeStamps);
-  observePaginatedTimestamps = (): Observable<PortcallTimestamp[]> => this.paginatedTimestamps.asObservable();
+  refreshTimestamps = (newTimeStamps: Timestamp[]): void => this.paginatedTimestamps.next(newTimeStamps);
+  observePaginatedTimestamps = (): Observable<Timestamp[]> => this.paginatedTimestamps.asObservable();
 
   refreshNotifier = (): Subject<void> => this._refreshNotifier;
 }

@@ -1,9 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {PortcallTimestamp} from "../../model/portCall/portcall-timestamp";
 import {Port} from "../../model/portCall/port";
 import {Terminal} from "../../model/portCall/terminal";
 import {MessageService, SelectItem} from "primeng/api";
-import {PortCallTimestampTypeToStringPipe} from "../../controller/pipes/port-call-timestamp-type-to-string.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
 import {DelayCode} from "../../model/portCall/delayCode";
@@ -21,6 +19,8 @@ import {TimestampMappingService} from "../../controller/services/mapping/timesta
 import {TimestampService} from "../../controller/services/ovs/timestamps.service";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
+import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
+import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -29,7 +29,6 @@ import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
 
   providers: [
     DialogService,
-    PortCallTimestampTypeToStringPipe,
     VesselIdToVesselPipe
   ]
 })
@@ -45,6 +44,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   vessels: Vessel[] = [];
   portOfCall: Port;
   negotiationCycles: SelectItem[] = [];
+  timestampDefinitionMap: Map<string, TimestampDefinition> = new Map<string, TimestampDefinition>();
   selectedNegotiationCycle: NegotiationCycle = null;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
@@ -59,6 +59,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private dialogService: DialogService,
               private messageService: MessageService,
               private translate: TranslateService,
+              private timestampDefinitionService: TimestampDefinitionService,
               private timestampMappingService: TimestampMappingService,
               public globals: Globals,
               public timestampService: TimestampService,
@@ -69,6 +70,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.vesselService.vesselsObservable.subscribe(() => {
       this.loadTimestamps()
     })
+    this.timestampDefinitionService.getTimestampDefinitionsMap().subscribe(map => this.timestampDefinitionMap = map);
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
@@ -83,8 +85,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.loadTimestamps();
   }
 
-  public isPrimary(portCallTimestamp: Timestamp): boolean {
-    return this.timestampService.isPrimary(portCallTimestamp, this.globals.config.publisherRole)
+  public isPrimary(timestamp: Timestamp): boolean {
+    return timestamp.timestampDefinition?.primaryReceiver == this.globals.config.publisherRole;
   }
 
   private loadTimestamps() {
@@ -129,7 +131,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   acceptTimestamp(timestamp: Timestamp) {
     let timestampShallowClone = Object.assign({}, timestamp);
-    timestampShallowClone.timestampType = timestamp.response;
+    timestampShallowClone.timestampDefinition = this.timestampDefinitionMap.get(timestamp.timestampDefinition.acceptTimestampDefinition);
     timestampShallowClone.logOfTimestamp = new Date();
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.
@@ -141,7 +143,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         this.messageService.add({
           key: "TimestampToast",
           severity: 'success',
-          summary: 'Successfully accepted the Timestamp: ' + timestamp.timestampType + " \n for port:" + timestamp.UNLocationCode,
+          summary: 'Successfully accepted the Timestamp: ' + timestamp.timestampDefinition.timestampTypeName + " \n for port:" + timestamp.UNLocationCode,
           detail: ''
         });
         this.timeStampAcceptNotifier.emit(timestamp);
@@ -161,7 +163,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
       width: '50%', data: {timestamp: timestamp, delayCode: delayCode, editMode: timestamp.modifiable}
-    }).onClose.subscribe((portcallTimestamp: PortcallTimestamp) => {
+    }).onClose.subscribe((ts: Timestamp) => {
     });
   }
 

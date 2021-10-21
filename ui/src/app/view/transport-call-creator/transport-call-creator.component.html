@@ -102,7 +102,7 @@
         {{ 'general.timestamp.validation.timestampType.required' | translate }}
       </span>
       <!-- TERMINAL -->
-    <div class="" [hidden]=" HideTerminalOption() || !shouldCreateTimestamp()">
+    <div class="" [hidden]="!showTerminalOption() || !shouldCreateTimestamp()">
       <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
       <p-dropdown appendTo="body" formControlName="terminal" id="terminal" class="portOfCall__dropDown"
                   [options]="terminalOptions" appendTo="body" [filter]="true" filterBy="label,value.facilityName">
@@ -126,7 +126,7 @@
       </span>
      </div>
     </div>
-    
+
 
     <div class="p-field p-col-12 p-md-2"></div>
 
@@ -162,8 +162,6 @@
       </div>
     </div>
 
-    
-    
 
     <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp()">
       <!-- Location Name -->
@@ -220,7 +218,7 @@
     <div class="p-field p-col-12 p-md-4">
       <div>
         <!-- Vessel latitude -->
-        <div class="" [hidden]="hideVesselPosition() || !shouldCreateTimestamp() " >
+        <div class="" [hidden]="!showVesselPosition() || !shouldCreateTimestamp() " >
           <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate }}:</label>
           <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%" type="text"/>
           <span
@@ -232,7 +230,7 @@
       </div>
     </div>
 
-    <div class="p-field p-col-12 p-md-4" [hidden]="hideVesselPosition() || !shouldCreateTimestamp()">
+    <div class="p-field p-col-12 p-md-4" [hidden]="!showVesselPosition() || !shouldCreateTimestamp()">
       <!--vessel longitude-->
       <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
       <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%" type="text"/>

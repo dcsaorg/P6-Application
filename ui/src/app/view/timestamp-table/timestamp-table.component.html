@@ -139,7 +139,7 @@
   </td>
       <td style="width: 7%"
           [ngClass]="'timestampContent'">
-        {{ timestamp.timestampType }}
+        {{ timestamp.timestampDefinition?.timestampTypeName || 'UNKNOWN' }}
       </td>
       <td pTooltip ="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[1]}}"
           style="width: 15%"
@@ -234,12 +234,12 @@
             </p-button>
           </div>
 
-          <div class="timestampContent__buttons acceptBtn" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
+          <div class="timestampContent__buttons acceptBtn" *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.acceptTimestampDefinition != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-check" pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.response}}"
               tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
           </div>
-          
-          <div class="timestampContent__buttons declineBtn" *ngIf="timestamp.response != null && !isOutGoing(timestamp)">
+
+          <div class="timestampContent__buttons declineBtn" *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
               tooltipStyleClass="ToolTipClass" (click)="openCreationDialog(timestamp)"></p-button>
           </div>

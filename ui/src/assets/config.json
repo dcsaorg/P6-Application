@@ -30,7 +30,7 @@
   "dateTimeFormat": "dd MMM yyyy HH:mm",
   "cognitoUserPoolId": "eu-west-1_LsLTYEjn5",
   "cognitoAppClientId": "4u49pjh38su1ccea0l4dras9if",
-  "enableJIT11Timestamps" :true,
+  "enableJIT11Timestamps": true,
   "enableVesselPositions": true
 }
 

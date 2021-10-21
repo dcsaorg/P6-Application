@@ -19,9 +19,8 @@ export class NegotiationCycleService {
   getNegotiationCycles = (): Observable<NegotiationCycle[]> => this.httpClient.get<NegotiationCycle[]>(this.NEGOTIATION_CYCLE_FILE);
 
   enrichTimestampWithNegotiationCycle(timestamp: Timestamp): NegotiationCycle {
-    const timestampType: string = timestamp.timestampType;
-    const negotiationCycleKey = timestampType.substring(1)
-    let negotiationCycle = this.negotiationCycles.find(nc => nc.cycleKey == negotiationCycleKey || nc.timestampTypes?.includes(timestampType), null);
+    const negotiationCycleKey: string = timestamp.timestampDefinition.negotiationCycle;
+    let negotiationCycle = this.negotiationCycles.find(nc => nc.cycleKey == negotiationCycleKey, null);
     if (!negotiationCycle) {
       negotiationCycle = new class implements NegotiationCycle {
         cycleKey: string = negotiationCycleKey;

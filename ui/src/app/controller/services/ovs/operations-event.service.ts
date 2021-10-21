@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {OperationsEvent} from "../../../model/ovs/operations-event";
 import {Globals} from 'src/app/model/portCall/globals';
-import { EventDelivery } from 'src/app/model/ovs/eventDelivery';
+import { TimestampInfo } from 'src/app/model/ovs/timestampInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +16,10 @@ export class OperationsEventService {
   constructor(private httpClient: HttpClient, globals: Globals) {
     this.TIMESTAMPS_URL = globals.config.ovsBackendURL + "/timestamps";
     this.OPERATIONS_EVENT_URL = globals.config.ovsBackendURL + "/events";
-    this.EVENT_DELIVERY_STATUS_URL = globals.config.uiSupportBackendURL + "/unofficial/event-delivery-status";
+    this.EVENT_DELIVERY_STATUS_URL = globals.config.uiSupportBackendURL + "/unofficial/timestamp-info";
   }
 
-  getEventDeliveryStatusForTransportCall = (transportCallId: string): Observable<EventDelivery[]> => this.httpClient.get<EventDelivery[]>(this.EVENT_DELIVERY_STATUS_URL + "/?transportCallID=" + transportCallId)
+  getEventDeliveryStatusForTransportCall = (transportCallId: string): Observable<TimestampInfo[]> => this.httpClient.get<TimestampInfo[]>(this.EVENT_DELIVERY_STATUS_URL + "/?transportCallID=" + transportCallId)
 
   getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
     const url = this.OPERATIONS_EVENT_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId + '&sort=eventCreatedDateTime:DESC&limit=1000' ;
