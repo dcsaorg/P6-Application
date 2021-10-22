@@ -138,7 +138,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.carrierServiceCode = transportCall.carrierServiceCode;
     timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber
     timestamp.publisher = this.globals.config.publisher;
-    timestamp.publisherRole = this.globals.config.publisherRole;
+    timestamp.publisherRole = null;
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     timestamp.timestampDefinition = this.timestampSelected;
 
@@ -192,7 +192,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
     for (let timestampDef of this.timestampDefinitions) {
-      if (timestampDef.publisherRole != this.globals.config.publisherRole) {
+      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherRole)) {
         continue;
       }
       if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
@@ -264,7 +264,7 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
     this.defaultTimestamp.UNLocationCode = this.transportCall.UNLocationCode;
     // Set publisher based on globals
-    this.defaultTimestamp.publisherRole = this.globals.config.publisherRole;
+    this.defaultTimestamp.publisherRole = null;
     this.defaultTimestamp.publisher = this.globals.config.publisher;
   }
 }

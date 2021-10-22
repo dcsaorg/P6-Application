@@ -86,7 +86,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   public isPrimary(timestamp: Timestamp): boolean {
-    return timestamp.timestampDefinition?.primaryReceiver == this.globals.config.publisherRole;
+    return this.globals.config.publisherRoles.includes(timestamp.timestampDefinition?.primaryReceiver);
   }
 
   private loadTimestamps() {
@@ -125,7 +125,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   isOutGoing(timestamp: Timestamp): boolean {
-    return timestamp.publisherRole == this.globals.config.publisherRole;
+    const publisherRoles = this.globals.config.publisherRoles;
+    return publisherRoles.includes(timestamp.publisherRole) &&
+      // Special-case: If we are both the sender *and* the primary receiver, then we count this as an "ingoing"
+      // timestamp.  This makes it easier to add all roles for local testing and still see the "accept/reject"
+      // buttons.
+      //
+      // If you are here because you want to double check the "secondary timestamp" flow, just remove
+      // the relevant roles from "publisherRoles" from config.json. :)
+         (!timestamp.timestampDefinition || !publisherRoles.includes(timestamp.timestampDefinition.primaryReceiver));
   }
 
 

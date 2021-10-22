@@ -5,7 +5,7 @@ import { Publisher } from "../publisher";
 export interface Config {
   enableJIT11Timestamps: Boolean;
   company: string;
-  publisherRole: PublisherRole;
+  publisherRoles: PublisherRole[];
   publisher: Publisher;
   identifyingCodes: identifyingCodes;
   uiSupportBackendURL: string;

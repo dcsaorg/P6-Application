@@ -157,7 +157,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
     for (let timestampDef of this.timestampDefinitions) {
-      if (timestampDef.publisherRole != this.globals.config.publisherRole) {
+      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherRole)) {
         continue;
       }
       if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
@@ -294,7 +294,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
       this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
       this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
-      this.timestamp.publisherRole = this.globals.config.publisherRole;
+      this.timestamp.publisherRole = null;
       this.timestamp.publisher = this.globals.config.publisher;
       this.delayCode = this.transportCallFormGroup.controls.delayCode.value;
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
