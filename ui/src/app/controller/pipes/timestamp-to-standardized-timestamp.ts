@@ -36,7 +36,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     }
 
     newTimestamp.publisher = configurations.publisher;
-    newTimestamp.publisherRole = configurations.publisherRole;
+    newTimestamp.publisherRole = portcallTimestamp.timestampDefinition.publisherRole;
     newTimestamp.vesselIMONumber = portcallTimestamp.vesselIMONumber;
     newTimestamp.UNLocationCode = portcallTimestamp.UNLocationCode;
     newTimestamp.facilitySMDGCode = portcallTimestamp.facilitySMDGCode;

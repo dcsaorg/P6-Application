@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   helpMenu: MenuItem[];
   companyName: string;
   companyRole: string;
-  companyCodeType: PublisherRole;
+  companyCodeType: string;
   companyId: string;
   displayDownloadRequest: boolean;
 
@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
     this.companyName = globals.config.publisher.partyName;
     this.companyRole = globals.config.publisher.nmftaCode;
     this.companyId = globals.config.publisher.nmftaCode;
-    this.companyCodeType = globals.config.publisherRole;
+    this.companyCodeType = globals.config.publisherRoles.length > 0 ? globals.config.publisherRoles.join(", ") : "Spectator";
   }
 
   ngOnInit(): void {
@@ -119,7 +119,7 @@ export class HeaderComponent implements OnInit {
     this.translate.use(selectedLanguage.value);
   }
 
-  
+
   onLogout(){
     this.authService.logUserOut();
   }
