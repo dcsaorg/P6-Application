@@ -268,7 +268,9 @@ export class TransportCallCreatorComponent implements OnInit {
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
     transportCall.UNLocationCode = port.unLocationCode;
-    transportCall.carrierVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
+    transportCall.importVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
+    // TODO: Create a separate field for this.
+    transportCall.exportVoyageNumber = transportCall.importVoyageNumber;
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
     transportCall.facilityTypeCode = FacilityTypeCode.POTE
 
@@ -292,7 +294,8 @@ export class TransportCallCreatorComponent implements OnInit {
     if (this.shouldCreateTimestamp() && createTimestamp) {
       this.timestamp.UNLocationCode = transportCall.UNLocationCode;
       this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-      this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
+      this.timestamp.importVoyageNumber = transportCall.importVoyageNumber;
+      this.timestamp.exportVoyageNumber = transportCall.exportVoyageNumber;
       this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
       this.timestamp.publisherRole = null;
       this.timestamp.publisher = this.globals.config.publisher;

@@ -8,6 +8,8 @@ import { EventLocation } from "../eventLocation";
 export interface TransportCall {
   carrierServiceCode?: string;
   carrierVoyageNumber?: string;
+  exportVoyageNumber?: string;
+  importVoyageNumber?: string;
   portOfCall?: Port;
   transportCallID: string;
   modeOfTransport: string;

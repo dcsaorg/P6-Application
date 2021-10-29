@@ -136,7 +136,8 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     timestamp.facilitySMDGCode = transportCall.facilityCode;
     timestamp.facilityTypeCode = transportCall.facilityTypeCode;
     timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-    timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber
+    timestamp.importVoyageNumber = transportCall.importVoyageNumber
+    timestamp.exportVoyageNumber = transportCall.exportVoyageNumber
     timestamp.publisher = this.globals.config.publisher;
     timestamp.publisherRole = null;
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);

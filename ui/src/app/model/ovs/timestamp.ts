@@ -31,7 +31,8 @@ export interface Timestamp {
     portCallServiceTypeCode?: PortCallServiceTypeCode;
     eventDateTime: Date | string;
     carrierServiceCode?: string;
-    carrierVoyageNumber?: string;
+    importVoyageNumber?: string;
+    exportVoyageNumber?: string;
     portCallSequence?: string;
     remark?: string;
     delayReasonCode?: string;

@@ -62,6 +62,7 @@ export class VesselEditorComponent implements OnInit {
     } else {
       this.allowImoID = true;
       this.vessel = {
+        id: null,
         vesselIMONumber: null,
         vesselName: "",
         teu: null,
