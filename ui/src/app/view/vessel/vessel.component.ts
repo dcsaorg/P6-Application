@@ -54,6 +54,7 @@ export class VesselComponent implements OnInit {
   editVessel() {
     if (this.selectedVessel) {
     const selectedVessel: Vessel = {
+      id: this.selectedVessel.id,
       vesselIMONumber: this.selectedVessel.vesselIMONumber,
       vesselName: this.selectedVessel.vesselName,
       teu: this.selectedVessel.teu,
@@ -71,11 +72,11 @@ export class VesselComponent implements OnInit {
       width: '50%',
       data: selectedVessel
     });
-  
+
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
         this.updateVesselOptions();
-        this.vesselService.getVessel(result.vesselIMONumber).subscribe(nextVessel => {
+        this.vesselService.getVessel(result.id).subscribe(nextVessel => {
           this.selectedVessel = nextVessel;
         });
       }
@@ -92,7 +93,7 @@ export class VesselComponent implements OnInit {
 
   selectVessel() {
     if (this.selectedVessel) {
-      this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
+      this.vesselService.getVessel(this.selectedVessel.id).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
         this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
         this.transportCallFilterService.updateVesselFilter(this.selectedVessel);

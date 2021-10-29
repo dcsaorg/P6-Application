@@ -89,7 +89,8 @@ export class TimestampMappingService {
         timestamp.vesselIMONumber = transportCall.vesselIMONumber;
         timestamp.UNLocationCode = transportCall.UNLocationCode;
         timestamp.portOfCall = transportCall.portOfCall;
-        timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
+        timestamp.importVoyageNumber = transportCall.importVoyageNumber;
+        timestamp.exportVoyageNumber = transportCall.exportVoyageNumber;
         timestamp.carrierServiceCode = transportCall.carrierServiceCode;
       }
     }

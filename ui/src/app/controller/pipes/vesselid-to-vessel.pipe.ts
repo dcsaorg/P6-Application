@@ -8,9 +8,10 @@ export class VesselIdToVesselPipe implements PipeTransform {
 
   transform(vesselId: string, vessels: Vessel[]): Vessel {
     const vesselNotFound: Vessel = {
-      vesselIMONumber: vesselId,
+      id: vesselId,
+      vesselIMONumber: '',
       vesselName: '',
-      serviceNameCode: '',  
+      serviceNameCode: '',
       vesselFlag: '',
       vesselCallSignNumber: '',
       vesselOperatorCarrierID: '',
