@@ -44,13 +44,15 @@
   }
 
   &__top_content_pane{
-    height: 25vh;
+    height: 30vh;
     width: 98vw;
+    resize: vertical;
     overflow: scroll;
   }
 
   &__bottom_content_pane{
-    height: 56vh;
+    height: 51vh;
+    resize: vertical;
     width: 98vw;
     overflow: scroll;
   }
