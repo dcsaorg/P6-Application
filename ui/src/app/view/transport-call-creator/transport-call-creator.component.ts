@@ -270,9 +270,10 @@ export class TransportCallCreatorComponent implements OnInit {
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
     transportCall.UNLocationCode = port.unLocationCode;
+    
     transportCall.importVoyageNumber = this.transportCallFormGroup.controls.importVoyageNumber.value;
-    // TODO: Create a separate field for this.
     transportCall.exportVoyageNumber = this.transportCallFormGroup.controls.exportVoyageNumber.value;
+
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
     transportCall.facilityTypeCode = FacilityTypeCode.POTE
 
