@@ -1,16 +1,16 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {OperationsEvent} from "../../model/ovs/operations-event";
+import {OperationsEvent} from "../../model/jit/operations-event";
 import {MessageDirection} from "../../model/portCall/messageDirection";
 import {Port} from "../../model/portCall/port";
 import {Terminal} from "../../model/portCall/terminal";
 import {Vessel} from "../../model/portCall/vessel";
-import {Timestamp} from 'src/app/model/ovs/timestamp';
+import {Timestamp} from 'src/app/model/jit/timestamp';
 import {Publisher} from 'src/app/model/publisher';
 import {PublisherRole} from 'src/app/model/enums/publisherRole';
 import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
-import {EventClassifierCode} from 'src/app/model/ovs/eventClassifierCode';
+import {EventClassifierCode} from 'src/app/model/jit/eventClassifierCode';
 import {OperationsEventTypeCode} from 'src/app/model/enums/operationsEventTypeCode';
-import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
+import {TimestampDefinition} from "../../model/jit/timestamp-definition";
 
 @Pipe({
   name: 'operationsEventEventToTimestamp'

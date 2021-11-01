@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
-import {TransportCall} from "../../model/ovs/transport-call";
+import {TransportCallService} from "../../controller/services/jit/transport-call.service";
+import {TransportCall} from "../../model/jit/transport-call";
 import {DialogService} from "primeng/dynamicdialog";
 import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
 import {TranslateService} from "@ngx-translate/core";

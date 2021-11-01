@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {NegotiationCycle} from "../../../model/portCall/negotiation-cycle";
-import {Timestamp} from "../../../model/ovs/timestamp";
+import {Timestamp} from "../../../model/jit/timestamp";
 import {Globals} from "../../../model/portCall/globals";
 
 @Injectable({

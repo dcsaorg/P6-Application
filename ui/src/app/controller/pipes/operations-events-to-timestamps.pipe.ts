@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {OperationsEvent} from "../../model/ovs/operations-event";
+import {OperationsEvent} from "../../model/jit/operations-event";
 import {OperationsEventToTimestampPipe} from "./operations-event-to-timestamp.pipe";
-import { Timestamp } from 'src/app/model/ovs/timestamp';
-import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
+import { Timestamp } from 'src/app/model/jit/timestamp';
+import {TimestampDefinition} from "../../model/jit/timestamp-definition";
 
 @Pipe({
   name: 'transportEventsToTimestamps'

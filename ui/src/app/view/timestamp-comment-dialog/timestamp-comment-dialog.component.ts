@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {Timestamp} from 'src/app/model/ovs/timestamp';
+import {Timestamp} from 'src/app/model/jit/timestamp';
 import {DelayCode} from "../../model/portCall/delayCode";
 
 @Component({
