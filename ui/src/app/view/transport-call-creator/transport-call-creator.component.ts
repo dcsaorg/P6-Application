@@ -92,7 +92,8 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup = this.formBuilder.group({
       timestampchecking: new FormControl(null),
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
-      voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+      exportVoyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
+      importVoyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
       terminal: new FormControl({value: ''}, [Validators.required]),
       vessel: new FormControl(null, [Validators.required]),
@@ -245,6 +246,7 @@ export class TransportCallCreatorComponent implements OnInit {
       UNLocationCode: string;
       carrierServiceCode: string;
       carrierVoyageNumber: string;
+      exportVoyageNumber: string;
       facilityCode: string;
       facilityTypeCode: FacilityTypeCode;
       otherFacility: string;
@@ -268,9 +270,9 @@ export class TransportCallCreatorComponent implements OnInit {
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
     transportCall.UNLocationCode = port.unLocationCode;
-    transportCall.importVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
+    transportCall.importVoyageNumber = this.transportCallFormGroup.controls.importVoyageNumber.value;
     // TODO: Create a separate field for this.
-    transportCall.exportVoyageNumber = transportCall.importVoyageNumber;
+    transportCall.exportVoyageNumber = this.transportCallFormGroup.controls.exportVoyageNumber.value;
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
     transportCall.facilityTypeCode = FacilityTypeCode.POTE
 
