@@ -7,14 +7,14 @@
         [(ngModel)]="portOfCall"
         [filter]="true"
         [options]="portOptions"
-        filterBy="label,value.name">
+        filterBy="label,value.unLocationCode">
         <ng-template let-port pTemplate="item">
           <div *ngIf="!port.value">
             <div>Select port</div>
           </div>
           <div *ngIf="port.value">
-            <div>{{port.value.unLocode}}</div>
-            <div class="portListName">{{port.value.name}}</div>
+            <div>{{port.value.unLocationName}}</div>
+            <div class="portListName">{{port.value.unLocationCode}}</div>
           </div>
         </ng-template>
       </p-dropdown>
@@ -24,14 +24,14 @@
                   [(ngModel)]="terminal"
                   [filter]="true"
                   [options]="terminalOptions"
-                  filterBy="label,value.name">
+                  filterBy="label,value.facilityName">
         <ng-template let-terminal pTemplate="item">
           <div *ngIf="!terminal.value">
             <div>Select Terminal</div>
           </div>
           <div *ngIf="terminal.value">
-            <div>{{terminal.value.smdgCode}}</div>
-            <div class="portListName">{{terminal.value.terminalName}}</div>
+            <div>{{terminal.value.facilitySMDGCode}}</div>
+            <div class="portListName">{{terminal.value.facilityName}}</div>
           </div>
         </ng-template>
       </p-dropdown>

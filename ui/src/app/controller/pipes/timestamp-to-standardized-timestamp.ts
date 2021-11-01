@@ -1,11 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {TimestampTypeToEventClassifierCodePipe} from "./timestamp-type-to-event-classifier-code.pipe";
-import {TimestampTypeToEventTypePipe} from "./timestamp-type-to-event-type.pipe";
-import {TimestampTypeToFacilityCodeCodePipe} from "./timestamp-type-to-facility-code-type.pipe";
 import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
-import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
+import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../../model/enums/portCallServiceTypeCode";
-import {TimestampTypeToPortcallServiceTypeCodePipe} from "./timestamp-type-to-portcall-service-type-code.pipe";
 import {Config} from "../../model/ovs/config";
 import {TransportCall} from 'src/app/model/ovs/transport-call';
 import {Publisher} from 'src/app/model/publisher';
@@ -29,7 +25,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
       UNLocationCode: string;
       delayReasonCode: string;
       eventClassifierCode: EventClassifierCode;
-      eventDateTime: string | Date;
+      eventDateTime: Date;
       facilityTypeCode: FacilityTypeCode;
       operationsEventTypeCode: OperationsEventTypeCode;
       portCallServiceTypeCode: PortCallServiceTypeCode;
@@ -40,19 +36,21 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     }
 
     newTimestamp.publisher = configurations.publisher;
-    newTimestamp.publisherRole = configurations.publisherRole;
+    newTimestamp.publisherRole = portcallTimestamp.timestampDefinition.publisherRole;
     newTimestamp.vesselIMONumber = portcallTimestamp.vesselIMONumber;
     newTimestamp.UNLocationCode = portcallTimestamp.UNLocationCode;
     newTimestamp.facilitySMDGCode = portcallTimestamp.facilitySMDGCode;
-    newTimestamp.facilityTypeCode = new TimestampTypeToFacilityCodeCodePipe().transform(portcallTimestamp.timestampType);
-    newTimestamp.eventClassifierCode = new TimestampTypeToEventClassifierCodePipe().transform(portcallTimestamp.timestampType);
-    newTimestamp.operationsEventTypeCode = new TimestampTypeToEventTypePipe().transform(portcallTimestamp.timestampType);
+    newTimestamp.facilityTypeCode = portcallTimestamp.timestampDefinition.facilityTypeCode;
+    newTimestamp.eventClassifierCode = portcallTimestamp.timestampDefinition.eventClassifierCode;
+    newTimestamp.operationsEventTypeCode = portcallTimestamp.timestampDefinition.operationsEventTypeCode;
     newTimestamp.eventLocation = portcallTimestamp.eventLocation;
     newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
     newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
-    newTimestamp.portCallServiceTypeCode = new TimestampTypeToPortcallServiceTypeCodePipe().transform(portcallTimestamp.timestampType);
+    newTimestamp.portCallServiceTypeCode = portcallTimestamp.timestampDefinition.portCallServiceTypeCode;
+    newTimestamp.portCallPhaseTypeCode = portcallTimestamp.timestampDefinition.portCallPhaseTypeCode;
     newTimestamp.eventDateTime = portcallTimestamp.eventDateTime;
-    newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber;
+    newTimestamp.exportVoyageNumber = portcallTimestamp.exportVoyageNumber;
+    newTimestamp.importVoyageNumber = portcallTimestamp.importVoyageNumber;
     newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode;
     newTimestamp.portCallSequence = portcallTimestamp.portCallSequence;
     newTimestamp.remark = portcallTimestamp.remark;

@@ -5,11 +5,12 @@ import {DialogService} from "primeng/dynamicdialog";
 import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
 import {TranslateService} from "@ngx-translate/core";
 import {PortService} from 'src/app/controller/services/base/port.service';
-import {PortFilterService} from 'src/app/controller/services/base/portfilter.service';
+import {TransportCallFilterService} from 'src/app/controller/services/base/transport-call-filter.service';
 import {Port} from 'src/app/model/portCall/port';
 import {Terminal} from 'src/app/model/portCall/terminal';
 import {take} from 'rxjs/operators';
 import {VesselService} from "../../controller/services/base/vessel.service";
+import {Vessel} from "../../model/portCall/vessel";
 
 @Component({
   selector: 'app-transport-calls-table',
@@ -26,6 +27,7 @@ export class TransportCallsTableComponent implements OnInit {
   selectedtransportCall: TransportCall;
   filterPort: Port;
   filterTerminal: Terminal;
+  filterVessel: Vessel;
   ports: Port[] = [];
   progressing: boolean = true;
 
@@ -34,7 +36,7 @@ export class TransportCallsTableComponent implements OnInit {
   constructor(private transportCallService: TransportCallService,
               private dialogService: DialogService,
               private vesselService: VesselService,
-              private portFilterService: PortFilterService,
+              private portFilterService: TransportCallFilterService,
               private portService: PortService,
               private translate: TranslateService) {
   }
@@ -54,6 +56,10 @@ export class TransportCallsTableComponent implements OnInit {
     this.portFilterService.terminalObservable.subscribe(async terminal => {
       this.filterTerminal = terminal
       await this.refreshTransportCalls()
+    })
+    this.portFilterService.vesselObservable.subscribe(async vessel => {
+      this.filterVessel = vessel;
+      await this.refreshTransportCalls();
     })
   }
 
@@ -87,7 +93,7 @@ export class TransportCallsTableComponent implements OnInit {
 
   async loadTransportCalls(): Promise<TransportCall[]> {
     return new Promise(resolve => {
-      this.transportCallService.getTransportCalls(this.filterPort?.unLocode, this.filterTerminal?.smdgCode).subscribe(transportCalls => {
+      this.transportCallService.getTransportCalls(this.filterPort?.unLocationCode, this.filterTerminal?.facilitySMDGCode, this.filterVessel?.vesselIMONumber).subscribe(transportCalls => {
         this.progressing = false;
         this.transportCalls = transportCalls;
         resolve(transportCalls)

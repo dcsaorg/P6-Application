@@ -8,7 +8,9 @@ import { ModeOfTransport } from "../enums/modeOfTransport";
 import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import {Port} from "../../model/portCall/port";
 import { EventClassifierCode } from "./eventClassifierCode";
-import { PortcallTimestampType } from "../portCall/portcall-timestamp-type.enum";
+import {NegotiationCycle} from "../portCall/negotiation-cycle";
+import {TimestampDefinition} from "./timestamp-definition";
+import {PortCallPhaseTypeCode} from "../enums/portCallPhaseTypeCode";
 
 export interface Timestamp {
     publisher: Publisher;
@@ -25,15 +27,21 @@ export interface Timestamp {
     eventLocation?: EventLocation;
     vesselPosition?: VesselPosition;
     modeOfTransport?: ModeOfTransport;
+    portCallPhaseTypeCode?: PortCallPhaseTypeCode;
     portCallServiceTypeCode?: PortCallServiceTypeCode;
-    eventDateTime: string | Date;
+    eventDateTime: Date | string;
     carrierServiceCode?: string;
-    carrierVoyageNumber?: string;
+    importVoyageNumber?: string;
+    exportVoyageNumber?: string;
     portCallSequence?: string;
     remark?: string;
     delayReasonCode?: string;
     eventDeliveryStatus?: string;
-    isLatestInCycle?: boolean
+    isLatestInCycle?: boolean;
+    negotiationCycle?: NegotiationCycle;
+    timestampDefinition?: TimestampDefinition;
+    response?: TimestampDefinition;
+    logOfTimestamp?: string | Date;
 
     /**
    * @deprecated
@@ -51,10 +59,6 @@ export interface Timestamp {
    * @deprecated
    */
    portNext?: Port | number;
-     /**
-   * @deprecated
-   */
-    timestampType?: PortcallTimestampType;
   /**
    * @deprecated
    */
@@ -91,10 +95,6 @@ export interface Timestamp {
    * @deprecated
    */
    sequenceColor?: string;
-     /**
-   * @deprecated
-   */
-   logOfTimestamp?: string | Date;
 
         /**
    * @deprecated
@@ -102,10 +102,6 @@ export interface Timestamp {
     eventTimestamp?: string | Date;
 
 
-            /**
-   * @deprecated
-   */
-     response?: PortcallTimestampType;
 
 
 

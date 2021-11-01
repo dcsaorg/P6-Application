@@ -135,6 +135,7 @@
         },
         "eventTimestamp": {
           "label": "Event timestamp",
+          "declinedLabel": "Declined event timestamp",
           "tooltip": "What is the estimated, requested, planned or actual timestamp of the event (local time for port)"
         },
         "logOfTimestamp": {
@@ -201,6 +202,9 @@
       },
       "pagination": "Page {currentPage} of {totalPages} ({totalRecords} entries)"
     },
+    "negotiationCycle": {
+      "select": "Select negotiation cycle"
+    },
     "terminal": {
       "label": "Terminal",
       "select": "Select terminal"
@@ -210,6 +214,17 @@
       "create": {
         "label": "New Port Call Timestamp",
         "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
+      },
+      "vesselPosition": {
+        "label": "Vessel Position",
+        "latitude": {
+          "label": "Vessel Position Latitude",
+          "maxLength": "Max length is 10 characters!"
+        },
+        "longitude": {
+          "label": "Vessel Position Longitude",
+          "maxLength": "Max length is 11 characters!"
+        }
       },
       "locationName": {
         "label": "Location Name"

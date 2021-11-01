@@ -1,7 +1,10 @@
 <div class="p-fluid">
   <p-panel header="{{'general.delaycode.label' | translate}}">
-   <div *ngIf="delayReasonCode" class="p-col-12 p-md-10 delayCodeDiv">
-    <span class="delayCodeSelected__smdgCode">{{delayReasonCode}}</span>
+   <div *ngIf="delayReasonCode" class="p-col-12 p-md-10 delayCodeDetails">
+    <div class="delayCodeSelected__smdgCode">{{delayReasonCode}}</div>
+     <div class="delayCodeDetails__delayType">{{delayCode?.delayType}}</div>
+     <div class="delayCodeDetails__delayName">{{delayCode?.name}}</div>
+     <div class="delayCodeDetails__delaydescription">{{delayCode?.description}}</div>
   </div>
     <div *ngIf="!delayReasonCode" class="p-col-12 p-md-10 delayCodeDiv">
       n/a

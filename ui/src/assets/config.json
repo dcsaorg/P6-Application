@@ -1,7 +1,7 @@
 {
   "id": "be5bc290-7bac-48bb-a211-f3fa5a3ab3ae",
   "company": "DCSA",
-    "publisher": {
+  "publisher": {
     "partyName": "Asseco Denmark",
     "taxReference1": "CVR-25645774",
     "taxReference2": "CVR-25645774",
@@ -22,13 +22,15 @@
         "partyCode": "MSK"
       }
     ],
-    "nmftaCode" : "CSK"
+    "nmftaCode": "CSK"
   },
-  "publisherRole": "TR",
+  "publisherRoles": ["CA", "AG", "VSL", "TR", "ATH", "PLT", "TWG", "BUK", "LSH"],
   "uiSupportBackendURL": "http://localhost:9091/v1",
   "ovsBackendURL": "http://localhost:9090/v2",
   "dateTimeFormat": "dd MMM yyyy HH:mm",
   "cognitoUserPoolId": "eu-west-1_LsLTYEjn5",
-  "cognitoAppClientId": "4u49pjh38su1ccea0l4dras9if"
+  "cognitoAppClientId": "4u49pjh38su1ccea0l4dras9if",
+  "enableJIT11Timestamps": true,
+  "enableVesselPositions": true
 }
 

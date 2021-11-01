@@ -14,16 +14,20 @@ import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvid
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {DelayCode} from "../../model/portCall/delayCode";
-import {PortcallTimestampType} from "../../model/portCall/portcall-timestamp-type.enum";
 import {Timestamp} from "../../model/ovs/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
-import {OperationsEventTypeCode} from "../../model/ovs/operationsEventTypeCode";
+import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
+import { PortService } from 'src/app/controller/services/base/port.service';
+import { TerminalService } from 'src/app/controller/services/base/terminal.service';
+import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
+import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -40,11 +44,12 @@ export class TransportCallCreatorComponent implements OnInit {
   creationProgress: boolean;
   vessels: Vessel[] = [];
 
-  timestampType: string;
+
   timestamp: Timestamp;
   eventTimestampDate: Date;
   eventTimestampTime: String;
-  timestampSelected: string;
+  timestampSelected: TimestampDefinition;
+  timestampDefinitions: TimestampDefinition[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
@@ -63,14 +68,22 @@ export class TransportCallCreatorComponent implements OnInit {
               private delayCodeService: DelayCodeService,
               private transportCallService: TransportCallService,
               private vesselService: VesselService,
-              private timestampMappingService: TimestampMappingService) {
+              private timestampDefinitionService: TimestampDefinitionService,
+              private timestampMappingService: TimestampMappingService,
+              private portService: PortService,
+              private terminalService: TerminalService){
   }
 
   ngOnInit(): void {
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
-    this.updateTimestampTypeOptions();
+
+    this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
+      this.timestampDefinitions = timestampDefinitions;
+      this.updateTimestampTypeOptions();
+    })
+
     this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()
@@ -81,7 +94,7 @@ export class TransportCallCreatorComponent implements OnInit {
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       voyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
-      terminal: new FormControl({value: '', disabled: true}, [Validators.required]),
+      terminal: new FormControl({value: ''}, [Validators.required]),
       vessel: new FormControl(null, [Validators.required]),
       timestampType: new FormControl(null),
       delayCode: new FormControl(null),
@@ -89,6 +102,8 @@ export class TransportCallCreatorComponent implements OnInit {
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
       locationName: new FormControl(null),
+      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
+      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
     });
   }
 
@@ -96,13 +111,16 @@ export class TransportCallCreatorComponent implements OnInit {
     this.ref.close(null);
   }
 
-  private updateTerminalOptions() {
-    this.terminalOptions = [];
-    this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
-    this.globals.terminals.forEach(terminal => {
-      if (this.portOfCall.id == terminal.port) {
-        this.terminalOptions.push({label: terminal.smdgCode, value: terminal})
-      }
+  private updateTerminalOptions(unLocationCode:string) {
+    this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
+      this.globals.terminals = terminals;
+      this.terminalOptions = [];
+      this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
+      terminals.forEach(terminal => {
+        if ((this.portOfCall)) {
+          this.terminalOptions.push({label: terminal.facilitySMDGCode, value: terminal})
+        }
+      });
     })
   }
 
@@ -110,15 +128,9 @@ export class TransportCallCreatorComponent implements OnInit {
     if (this.transportCallFormGroup.controls.port.value) {
       this.portOfCall = this.transportCallFormGroup.controls.port.value;
       this.transportCallFormGroup.controls.terminal.enable();
-      this.updateTerminalOptions();
+      this.updateTerminalOptions(this.portOfCall.unLocationCode);
     }
   }
-
-  // private updateFacilityCodeListProvider() {
-  //   this.facilityCodeListProviderOptions.push({label: this.translate.instant('general.carrier.CarrierCodeListProvider.select'), value: null});
-  //   this.facilityCodeListProviderOptions.push({label: FacilityCodeListProvider.BIC.toString(), value: FacilityCodeListProvider.BIC});
-  //   this.facilityCodeListProviderOptions.push({label: FacilityCodeListProvider.SMDG.toString(), value: FacilityCodeListProvider.SMDG});
-  // }
 
   private updateVesselOptions() {
     this.vesselService.getVessels().subscribe(vessels => {
@@ -131,18 +143,27 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   private updatePortOptions() {
-    this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
-    this.globals.ports.forEach(port => {
-      this.portOptions.push({label: port.unLocode, value: port});
-    })
+    this.portService.getPorts().subscribe(ports => {
+      this.globals.ports = ports;
+      this.portOptions = [];
+      this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
+      ports.forEach(port => {
+        this.portOptions.push({label: port.unLocationName, value: port});
+      });
+    });
   }
 
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
-
-    for (let item of this.timestampMappingService.getPortcallTimestampTypes(this.globals.config.publisherRole)) {
-      this.timestampTypes.push({label: item, value: item})
+    for (let timestampDef of this.timestampDefinitions) {
+      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherRole)) {
+        continue;
+      }
+      if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
+        continue
+      }
+      this.timestampTypes.push({label: timestampDef.timestampTypeName, value: timestampDef})
     }
   }
 
@@ -166,10 +187,22 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
   }
 
+  showVesselPosition(): boolean {
+    if (!this.globals.config.enableVesselPositions) return false;
+    const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
+    return selectedTimestamp?.isVesselPositionNeeded ?? false;
+  }
+
   showLocationNameOption(): boolean {
     const timestampType = this.transportCallFormGroup.controls.timestampType.value;
     this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
     return this.locationNameLabel !== undefined;
+  }
+
+
+  showTerminalOption(): boolean {
+    const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
+    return selectedTimestamp?.value?.isTerminalNeeded ?? false;
   }
 
   shouldCreateTimestamp(): boolean {
@@ -193,8 +226,8 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   canCreateTimestamp(): boolean {
-    this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    return this.timestampType != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
+    this.timestampSelected = this.transportCallFormGroup.controls.timestampType.value;
+    return this.timestampSelected != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
   }
 
   createButtonText(): string {
@@ -232,64 +265,77 @@ export class TransportCallCreatorComponent implements OnInit {
 
     transportCall.transportCallSequenceNumber = 1;
     transportCall.modeOfTransport = "VESSEL";
-    transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
-    transportCall.facilityCode = terminal.smdgCode;
-    transportCall.UNLocationCode = port.unLocode;
-    transportCall.carrierVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
+    transportCall.UNLocationCode = port.unLocationCode;
+    transportCall.importVoyageNumber = this.transportCallFormGroup.controls.voyageNumber.value;
+    // TODO: Create a separate field for this.
+    transportCall.exportVoyageNumber = transportCall.importVoyageNumber;
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
     transportCall.facilityTypeCode = FacilityTypeCode.POTE
 
     // Timestamp
-    this.timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    this.timestampSelected = this.transportCallFormGroup.controls.timestampType.value;
     let createTimestamp = this.canCreateTimestamp();
 
     this.timestamp = new class implements Timestamp {
       UNLocationCode: string;
       eventClassifierCode: EventClassifierCode;
-      eventDateTime: string | Date;
+      eventDateTime: Date | string;
       facilityTypeCode: FacilityTypeCode;
       operationsEventTypeCode: OperationsEventTypeCode;
       publisher: Publisher;
       publisherRole: PublisherRole;
       vesselIMONumber: string;
       delayReasonCode: string;
-      timestampType: PortcallTimestampType;
+      timestampDefinition: TimestampDefinition;
     }
 
     if (this.shouldCreateTimestamp() && createTimestamp) {
       this.timestamp.UNLocationCode = transportCall.UNLocationCode;
       this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-      this.timestamp.carrierVoyageNumber = transportCall.carrierVoyageNumber;
+      this.timestamp.importVoyageNumber = transportCall.importVoyageNumber;
+      this.timestamp.exportVoyageNumber = transportCall.exportVoyageNumber;
       this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
-      this.timestamp.publisherRole = this.globals.config.publisherRole;
+      this.timestamp.publisherRole = null;
       this.timestamp.publisher = this.globals.config.publisher;
       this.delayCode = this.transportCallFormGroup.controls.delayCode.value;
       this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
+      this.timestamp.facilitySMDGCode = terminal.facilitySMDGCode;
 
       const locationName = this.transportCallFormGroup.controls.locationName.value;
-      const eventLocation = new class implements EventLocation {
+      let eventLocation = new class implements EventLocation {
         locationName: string
-        UNLocationCode: string = transportCall.UNLocationCode
-        facilityCode: string = transportCall.facilityCode
-        facilityCodeListProvider: FacilityCodeListProvider = FacilityCodeListProvider.SMDG
+        UNLocationCode: string = transportCall.UNLocationCode;
+
+        facilityCode: string = terminal.facilitySMDGCode;
+        facilityCodeListProvider: FacilityCodeListProvider;
+      }
+      if(eventLocation.facilityCode ){
+        eventLocation.facilityCodeListProvider = FacilityCodeListProvider.SMDG
       }
       if (this.locationNameLabel && locationName) {
-        eventLocation.locationName = locationName
+       eventLocation.locationName = locationName
+      }
+
+      const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;
+      const longtitude = this.transportCallFormGroup.controls.vesselPositionLongitude.value;
+      if (latitude && longtitude) {
+        this.timestamp.vesselPosition = new class implements VesselPosition {
+          latitude: string = latitude;
+          longitude: string = longtitude;
+        }
       }
 
       this.timestamp.eventLocation = eventLocation;
 
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
-      let port = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
-      this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, port);
+      this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, this.portOfCall.timezone);
 
-      this.timestamp.timestampType = this.timestampType as PortcallTimestampType;
-      this.timestamp.portOfCall = this.timestampMappingService.getPortByUnLocode(transportCall.UNLocationCode);
+      this.timestamp.timestampDefinition = this.timestampSelected;
 
       this.creationProgress = true;
       this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(() => {

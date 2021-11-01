@@ -4,8 +4,8 @@ import {from, Observable} from "rxjs";
 import {TransportCall} from "../../../model/ovs/transport-call";
 import {map, mergeMap, toArray, concatMap} from "rxjs/operators";
 import {Timestamp} from 'src/app/model/ovs/timestamp';
-import { Port } from 'src/app/model/portCall/port';
 import { Globals } from 'src/app/model/portCall/globals';
+import { PortService } from '../base/port.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,28 +18,22 @@ export class TransportCallService {
   constructor(
     private httpClient: HttpClient,
     private globals: Globals,
+    private portSevice: PortService
   ) {
     this.TRANSPORT_CALL_URL = globals.config.uiSupportBackendURL + "/unofficial/transport-calls"
     this.OPERATIONS_EVENT_URL = globals.config.ovsBackendURL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
   }
 
-
-  private getPortByUnLocode(unlocode: string): Port {
-    for (let port of this.globals.ports) {
-      if (port.unLocode == unlocode) {
-        return port;
-      }
-    }
-    return null;
-  }
-
-  getTransportCalls(unLocode? : string, smdgCode? : string ): Observable<TransportCall[]> {
+  getTransportCalls(unLocode? : string, smdgCode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
     let httpParams = new HttpParams()
     if(unLocode != null) {
       httpParams = httpParams.set('facility.UNLocationCode', unLocode)
       if(smdgCode != null) {
         httpParams = httpParams.set('facility.facilitySMGDCode', smdgCode)
       }
+    }
+    if (vesselIMONumber) {
+      httpParams = httpParams.set('vessel.vesselIMONumber', vesselIMONumber);
     }
     return this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL, {
      params: httpParams
@@ -51,9 +45,14 @@ export class TransportCallService {
             if (transportCall.UNLocationCode == null) {
                 transportCall.UNLocationCode = transportCall.location?.UNLocationCode;
             }
-            transportCall.portOfCall = this.getPortByUnLocode(transportCall.UNLocationCode)
             return transportCall;
           }),
+          concatMap((transportCall) =>
+            this.portSevice.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(port => {
+              transportCall.portOfCall = port;
+              return transportCall;
+            }))
+          ),
           concatMap((transportCall) =>
             this.getLatestETABerthTimestamp(transportCall.transportCallID).pipe(map(timestamps => {
               if (timestamps.length > 0) {

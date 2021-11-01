@@ -1,6 +1,6 @@
 import {EventType} from "./eventType";
 import {EventClassifierCode} from "./eventClassifierCode";
-import {OperationsEventTypeCode} from "./operationsEventTypeCode";
+import {OperationsEventTypeCode} from "../enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import {TransportCall} from "./transport-call";
 import { PublisherRole } from "../enums/publisherRole";
@@ -11,7 +11,7 @@ import { EventLocation } from "../eventLocation";
 export interface OperationsEvent {
   eventID?: string;
   eventType: EventType;
-  eventDateTime: string | Date;
+  eventDateTime: Date;
   eventClassifierCode: EventClassifierCode;
   operationsEventTypeCode: OperationsEventTypeCode;
   eventCreatedDateTime: string | Date;
@@ -26,5 +26,7 @@ export interface OperationsEvent {
   remark?: string;
   delayReasonCode?: string;
   eventDeliveryStatus: string;
+  timestampDefinitionID?: string;
   facilityCode: string;
+
 }
