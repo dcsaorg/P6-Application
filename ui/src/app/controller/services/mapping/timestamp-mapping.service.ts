@@ -40,7 +40,7 @@ export class TimestampMappingService {
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
     return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(
       mergeMap((events) =>
-        this.operationsEventService.getEventDeliveryStatusForTransportCall(transportCall.transportCallID).pipe(
+        this.operationsEventService.getTimestampInfoForTransportCall(transportCall.transportCallID).pipe(
           map((deliveryStatuses) => {
             let map = new Map<string, TimestampInfo>();
             for (let status of deliveryStatuses) {
