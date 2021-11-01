@@ -12,15 +12,15 @@ import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/ovs/transport-call";
+import {TransportCall} from "../../model/jit/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
 import {Globals} from "../../model/portCall/globals";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {TimestampService} from "../../controller/services/ovs/timestamps.service";
-import {Timestamp} from 'src/app/model/ovs/timestamp';
+import {TimestampService} from "../../controller/services/jit/timestamps.service";
+import {Timestamp} from 'src/app/model/jit/timestamp';
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
+import {TimestampDefinition} from "../../model/jit/timestamp-definition";
 
 @Component({
   selector: 'app-timestamp-table',

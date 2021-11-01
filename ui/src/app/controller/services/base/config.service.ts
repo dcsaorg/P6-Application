@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Config} from "../../../model/ovs/config";
+import {Config} from "../../../model/jit/config";
 import {Observable} from "rxjs";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {StaticConfigService} from "../static/static-config.service";

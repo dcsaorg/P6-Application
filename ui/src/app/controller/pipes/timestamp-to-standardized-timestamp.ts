@@ -1,13 +1,13 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
+import {EventClassifierCode} from "../../model/jit/eventClassifierCode";
 import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../../model/enums/portCallServiceTypeCode";
-import {Config} from "../../model/ovs/config";
-import {TransportCall} from 'src/app/model/ovs/transport-call';
+import {Config} from "../../model/jit/config";
+import {TransportCall} from 'src/app/model/jit/transport-call';
 import {Publisher} from 'src/app/model/publisher';
 import {PublisherRole} from 'src/app/model/enums/publisherRole';
 import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
-import {Timestamp} from 'src/app/model/ovs/timestamp';
+import {Timestamp} from 'src/app/model/jit/timestamp';
 import {identifyingCodes} from 'src/app/model/portCall/identifyingCodes';
 
 

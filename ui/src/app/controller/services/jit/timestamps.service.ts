@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Timestamp} from "../../../model/ovs/timestamp";
+import {Timestamp} from "../../../model/jit/timestamp";
 import {Globals} from "../../../model/portCall/globals";
 
 @Injectable({
@@ -10,7 +10,7 @@ import {Globals} from "../../../model/portCall/globals";
 export class TimestampService {
   private readonly TIMESTAMPS_URL: string;
   constructor(private httpClient: HttpClient, globals: Globals) {
-    this.TIMESTAMPS_URL = globals.config.ovsBackendURL + "/timestamps";
+    this.TIMESTAMPS_URL = globals.config.jitBackendURL + "/timestamps";
   }
 
   addTimestamp = (timestamp: Timestamp): Observable<Timestamp> => {

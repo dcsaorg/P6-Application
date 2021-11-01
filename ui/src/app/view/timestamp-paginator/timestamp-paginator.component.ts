@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Port} from "../../model/portCall/port";
 import {PaginatorService} from "../../controller/services/base/paginator.service";
-import {Timestamp} from "../../model/ovs/timestamp";
+import {Timestamp} from "../../model/jit/timestamp";
 
 @Component({
   selector: 'app-timestamp-paginator',

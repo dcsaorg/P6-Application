@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
-import {OperationsEventService} from "../ovs/operations-event.service";
+import {OperationsEventService} from "../jit/operations-event.service";
 import {Observable} from "rxjs";
-import {TransportCall} from "../../../model/ovs/transport-call";
+import {TransportCall} from "../../../model/jit/transport-call";
 import {map, mergeMap} from "rxjs/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
-import {Timestamp} from "../../../model/ovs/timestamp";
-import {TimestampService} from "../ovs/timestamps.service";
+import {Timestamp} from "../../../model/jit/timestamp";
+import {TimestampService} from "../jit/timestamps.service";
 import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
 import {NegotiationCycleService} from "../base/negotiation-cycle.service";
-import {TimestampInfo} from "../../../model/ovs/timestampInfo";
-import {TimestampDefinition} from "../../../model/ovs/timestamp-definition";
+import {TimestampInfo} from "../../../model/jit/timestampInfo";
+import {TimestampDefinition} from "../../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../base/timestamp-definition.service";
-import {OperationsEvent} from "../../../model/ovs/operations-event";
+import {OperationsEvent} from "../../../model/jit/operations-event";
 
 
 @Injectable({

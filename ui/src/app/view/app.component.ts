@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Port} from "../model/portCall/port";
 import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../model/ovs/transport-call";
-import { Timestamp } from '../model/ovs/timestamp';
+import {TransportCall} from "../model/jit/transport-call";
+import { Timestamp } from '../model/jit/timestamp';
 
 @Component({
   selector: 'app-root',

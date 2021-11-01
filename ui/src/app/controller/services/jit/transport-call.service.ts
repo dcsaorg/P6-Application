@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {from, Observable} from "rxjs";
-import {TransportCall} from "../../../model/ovs/transport-call";
+import {TransportCall} from "../../../model/jit/transport-call";
 import {map, mergeMap, toArray, concatMap} from "rxjs/operators";
-import {Timestamp} from 'src/app/model/ovs/timestamp';
+import {Timestamp} from 'src/app/model/jit/timestamp';
 import { Globals } from 'src/app/model/portCall/globals';
 import { PortService } from '../base/port.service';
 
@@ -21,7 +21,7 @@ export class TransportCallService {
     private portSevice: PortService
   ) {
     this.TRANSPORT_CALL_URL = globals.config.uiSupportBackendURL + "/unofficial/transport-calls"
-    this.OPERATIONS_EVENT_URL = globals.config.ovsBackendURL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
+    this.OPERATIONS_EVENT_URL = globals.config.jitBackendURL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
   }
 
   getTransportCalls(unLocode? : string, smdgCode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
