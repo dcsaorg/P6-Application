@@ -303,6 +303,12 @@
         "carrierVoyageNumber": {
           "label": "Carrier Voyage Number"
         },
+        "exportVoyageNumber": {
+          "label": "Export Voyage Number"
+        },
+        "importVoyageNumber": {
+          "label": "Import Voyage Number"
+        },
         "facilityTypeCode": {
           "label": "Facility Type"
         },
@@ -332,6 +338,14 @@
         "carrierVoyageNumber": {
           "empty": "Carrier Voyage Number is required!",
           "length": "Max length for Carrier Voyage Number is 50 characters!"
+        },
+        "importVoyageNumber": {
+          "empty": "Import Voyage Number is required!",
+          "length": "Max length for Import Voyage Number is 50 characters!"
+        },
+        "exportVoyageNumber": {
+          "empty": "Export Voyage Number is required!",
+          "length": "Max length for Export Voyage Number is 50 characters!"
         },
         "sequenceNumber": {
           "empty": "Please define a call sequence number for this transport call",

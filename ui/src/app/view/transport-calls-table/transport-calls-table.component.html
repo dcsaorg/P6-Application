@@ -47,7 +47,8 @@
       <th style="width:10%">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
       <th style="width:10%">{{'general.transportCall.table.UNLocationCode.secondLabel'| translate}}</th>
       <th style="width:15%">{{'general.transportCall.table.estimatedDateofArrival.label'| translate}}</th>
-      <th style="width:15%">{{'general.transportCall.table.carrierVoyageNumber.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.importVoyageNumber.label'| translate}}</th>
+      <th style="width:15%">{{'general.transportCall.table.exportVoyageNumber.label'| translate}}</th>
       <th style="width:15%">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
     </tr>
   </ng-template>
@@ -59,7 +60,8 @@
       <td
       pTooltip ="UTC: {{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall)[1]}}"
       >{{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
-      <td>{{transportCall.carrierVoyageNumber}}</td>
+      <td>{{transportCall.importVoyageNumber}}</td>
+      <td>{{transportCall.exportVoyageNumber}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>
     </tr>
   </ng-template>

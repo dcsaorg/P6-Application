@@ -16,14 +16,26 @@
     </div>
 
     <div class="p-field p-col-12 p-md-4">
-      <label for="voyageNumber">{{ 'general.transportCall.table.carrierVoyageNumber.label' | translate }}:</label>
-      <input id="voyageNumber" formControlName="voyageNumber" pInputText style="width: 100%" type="text"/>
+      <label for="exportVoyageNumber">{{ 'general.transportCall.table.exportVoyageNumber.label' | translate }}:</label>
+      <input id="exportVoyageNumber" formControlName="exportVoyageNumber" pInputText style="width: 100%" type="text"/>
       <span
-        *ngIf="transportCallFormGroup.get('voyageNumber').hasError('required') && transportCallFormGroup.get('voyageNumber').touched"
-        class="p-invalid">{{ 'general.transportCall.validation.carrierVoyageNumber.empty' | translate }}
+        *ngIf="transportCallFormGroup.get('exportVoyageNumber').hasError('required') && transportCallFormGroup.get('exportVoyageNumber').touched"
+        class="p-invalid">{{ 'general.transportCall.validation.exportVoyageNumber.empty' | translate }}
       </span>
-      <span *ngIf="transportCallFormGroup.get('voyageNumber').hasError('maxlength')" class="p-invalid">
-        {{ 'general.transportCall.validation.carrierVoyageNumber.length' | translate }}
+      <span *ngIf="transportCallFormGroup.get('exportVoyageNumber').hasError('maxlength')" class="p-invalid">
+        {{ 'general.transportCall.validation.exportVoyageNumber.length' | translate }}
+      </span>
+    </div>
+
+    <div class="p-field p-col-12 p-md-4">
+      <label for="importVoyageNumber">{{ 'general.transportCall.table.importVoyageNumber.label' | translate }}:</label>
+      <input id="importVoyageNumber" formControlName="importVoyageNumber" pInputText style="width: 100%" type="text"/>
+      <span
+        *ngIf="transportCallFormGroup.get('importVoyageNumber').hasError('required') && transportCallFormGroup.get('importVoyageNumber').touched"
+        class="p-invalid">{{ 'general.transportCall.validation.importVoyageNumber.empty' | translate }}
+      </span>
+      <span *ngIf="transportCallFormGroup.get('importVoyageNumber').hasError('maxlength')" class="p-invalid">
+        {{ 'general.transportCall.validation.importVoyageNumber.length' | translate }}
       </span>
     </div>
 
