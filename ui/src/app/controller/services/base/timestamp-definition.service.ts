@@ -5,7 +5,7 @@ import {Observable, of} from "rxjs";
 import {DelayCode} from "../../../model/portCall/delayCode";
 import {StaticDelaycodeService} from "../static/static-delaycode.service";
 import {Globals} from "../../../model/portCall/globals";
-import {TimestampDefinition} from "../../../model/ovs/timestamp-definition";
+import {TimestampDefinition} from "../../../model/jit/timestamp-definition";
 import { map } from 'rxjs/operators';
 
 @Injectable({

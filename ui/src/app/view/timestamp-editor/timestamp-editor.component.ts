@@ -7,16 +7,16 @@ import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/ovs/transport-call";
+import {TransportCall} from "../../model/jit/transport-call";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {Timestamp} from "../../model/ovs/timestamp";
+import {Timestamp} from "../../model/jit/timestamp";
 import {Globals} from "../../model/portCall/globals";
 import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
 import {Terminal} from 'src/app/model/portCall/terminal';
 import {TerminalService} from 'src/app/controller/services/base/terminal.service';
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
+import {TimestampDefinition} from "../../model/jit/timestamp-definition";
 
 
 @Component({

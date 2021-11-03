@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from "rxjs";
-import {Timestamp} from "../../../model/ovs/timestamp";
+import {Timestamp} from "../../../model/jit/timestamp";
 
 @Injectable({
   providedIn: 'root'

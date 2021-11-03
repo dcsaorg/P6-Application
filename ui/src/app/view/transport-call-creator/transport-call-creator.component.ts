@@ -4,20 +4,20 @@ import {Globals} from "../../model/portCall/globals";
 import {MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {Port} from "../../model/portCall/port";
-import {TransportCall} from "../../model/ovs/transport-call";
+import {TransportCall} from "../../model/jit/transport-call";
 import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
 import {Terminal} from "../../model/portCall/terminal";
-import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
+import {TransportCallService} from "../../controller/services/jit/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
 import {PortCallServiceTypeCode} from 'src/app/model/enums/portCallServiceTypeCode';
 import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvider";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {DelayCode} from "../../model/portCall/delayCode";
-import {Timestamp} from "../../model/ovs/timestamp";
+import {Timestamp} from "../../model/jit/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {EventClassifierCode} from "../../model/ovs/eventClassifierCode";
+import {EventClassifierCode} from "../../model/jit/eventClassifierCode";
 import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
@@ -26,7 +26,7 @@ import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
 import { PortService } from 'src/app/controller/services/base/port.service';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
-import {TimestampDefinition} from "../../model/ovs/timestamp-definition";
+import {TimestampDefinition} from "../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
 
 @Component({
@@ -271,7 +271,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
     transportCall.UNLocationCode = port.unLocationCode;
-    
+
     transportCall.exportVoyageNumber = this.transportCallFormGroup.controls.exportVoyageNumber.value;
     transportCall.importVoyageNumber = this.transportCallFormGroup.controls.importVoyageNumber.value;
 

@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {Port} from "../../model/portCall/port";
-import {TransportCall} from "../../model/ovs/transport-call";
-import {Timestamp} from '../../model/ovs/timestamp';
+import {TransportCall} from "../../model/jit/transport-call";
+import {Timestamp} from '../../model/jit/timestamp';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TransportCallService} from "../../controller/services/ovs/transport-call.service";
+import {TransportCallService} from "../../controller/services/jit/transport-call.service";
 import {PortService} from "../../controller/services/base/port.service";
 import {Globals} from "../../model/portCall/globals";
 

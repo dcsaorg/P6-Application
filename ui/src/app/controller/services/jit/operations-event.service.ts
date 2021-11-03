@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {OperationsEvent} from "../../../model/ovs/operations-event";
+import {OperationsEvent} from "../../../model/jit/operations-event";
 import {Globals} from 'src/app/model/portCall/globals';
-import { TimestampInfo } from 'src/app/model/ovs/timestampInfo';
+import { TimestampInfo } from 'src/app/model/jit/timestampInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +12,18 @@ export class OperationsEventService {
   private readonly TIMESTAMPS_URL: string;
   private readonly OPERATIONS_EVENT_URL: string;
   private readonly EVENT_DELIVERY_STATUS_URL: string;
+  private readonly LIMIT: string = '1000';
 
   constructor(private httpClient: HttpClient, globals: Globals) {
-    this.TIMESTAMPS_URL = globals.config.ovsBackendURL + "/timestamps";
-    this.OPERATIONS_EVENT_URL = globals.config.ovsBackendURL + "/events";
+    this.TIMESTAMPS_URL = globals.config.jitBackendURL + "/timestamps";
+    this.OPERATIONS_EVENT_URL = globals.config.jitBackendURL + "/events";
     this.EVENT_DELIVERY_STATUS_URL = globals.config.uiSupportBackendURL + "/unofficial/timestamp-info";
   }
 
-  getEventDeliveryStatusForTransportCall = (transportCallId: string): Observable<TimestampInfo[]> => this.httpClient.get<TimestampInfo[]>(this.EVENT_DELIVERY_STATUS_URL + "/?transportCallID=" + transportCallId)
+  getTimestampInfoForTransportCall = (transportCallId: string): Observable<TimestampInfo[]> => this.httpClient.get<TimestampInfo[]>(this.EVENT_DELIVERY_STATUS_URL + "/?transportCallID=" + transportCallId + "&limit=" + this.LIMIT)
 
   getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
-    const url = this.OPERATIONS_EVENT_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId + '&sort=eventCreatedDateTime:DESC&limit=1000' ;
+    const url = this.OPERATIONS_EVENT_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId + '&sort=eventCreatedDateTime:DESC&limit=' + this.LIMIT;
     return this.httpClient.get<OperationsEvent[]>(url);
   }
 

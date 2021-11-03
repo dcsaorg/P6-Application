@@ -9,7 +9,7 @@ export interface Config {
   publisher: Publisher;
   identifyingCodes: identifyingCodes;
   uiSupportBackendURL: string;
-  ovsBackendURL: string;
+  jitBackendURL: string;
   dateTimeFormat: string;
   cognitoUserPoolId: string;
   cognitoAppClientId: string;
