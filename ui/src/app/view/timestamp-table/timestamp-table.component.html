@@ -142,7 +142,7 @@
         {{ timestamp.timestampDefinition?.timestampTypeName || 'UNKNOWN' }}
       </td>
       <td pTooltip ="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[1]}}"
-          style="width: 15%"
+          style="width: 15%; opacity: 0.6;"
           [ngClass]="'timestampContent'">
         {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[0]}}
       </td>
@@ -170,7 +170,7 @@
         [ngClass]="'timestampContent'">
           <div pTooltip="{{timestamp.eventLocation?.facilityCode}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass">
             {{timestamp.eventLocation?.facilityCode}}</div>
-        
+
         <div *ngIf="timestamp.eventLocation?.facilityCode == null">
           <div *ngIf="timestamp.facilitySMDGCode != null"
           pTooltip="{{timestamp.facilitySMDGCode}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass">
