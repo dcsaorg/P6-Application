@@ -30,6 +30,9 @@
     <div class="p-field p-col-12 p-md-4">
       <label for="importVoyageNumber">{{ 'general.transportCall.table.importVoyageNumber.label' | translate }}:</label>
       <input id="importVoyageNumber" formControlName="importVoyageNumber" pInputText style="width: 100%" type="text"/>
+      <span *ngIf="transportCallFormGroup.get('importVoyageNumber').hasError('maxlength')" class="p-invalid">
+        {{ 'general.transportCall.validation.importVoyageNumber.length' | translate }}
+      </span>
     </div>
 
 
