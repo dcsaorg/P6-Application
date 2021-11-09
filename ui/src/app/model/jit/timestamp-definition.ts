@@ -23,5 +23,7 @@ export interface TimestampDefinition {
   providedInStandard: string;
 
   acceptTimestampDefinition: string;
+  acceptTimestampDefinitionEntity?: TimestampDefinition;
   rejectTimestampDefinition: string;
+  rejectTimestampDefinitionEntity?: TimestampDefinition;
 }

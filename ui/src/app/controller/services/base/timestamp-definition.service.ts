@@ -1,12 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {BACKEND_URL} from "../../../../environments/environment";
 import {Observable, of} from "rxjs";
-import {DelayCode} from "../../../model/portCall/delayCode";
-import {StaticDelaycodeService} from "../static/static-delaycode.service";
 import {Globals} from "../../../model/portCall/globals";
 import {TimestampDefinition} from "../../../model/jit/timestamp-definition";
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
+
+function asMap(timestampDefinitions: TimestampDefinition[]): Map<string, TimestampDefinition> {
+  let map = new Map<string, TimestampDefinition>()
+  for (let timestampDefinition of timestampDefinitions) {
+    map.set(timestampDefinition.id, timestampDefinition);
+  }
+  return map;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -26,19 +31,32 @@ export class TimestampDefinitionService {
       let httpParams = new HttpParams();
       httpParams = httpParams.set("limit", "250");
       return this.httpClient.get<TimestampDefinition[]>(this.TIMESTAMP_DEFINITION_BACKEND, {params: httpParams})
-        .pipe(map(definitions => this.definitionCache = definitions));
+        .pipe(
+          map(definitions => {
+            let table = asMap(definitions);
+            // Set up links between "TimestampDefinition"s.
+            for (let timestampDefinition of definitions) {
+              if (timestampDefinition.acceptTimestampDefinition) {
+                timestampDefinition.acceptTimestampDefinitionEntity = table.get(timestampDefinition.acceptTimestampDefinition)
+              }
+              if (timestampDefinition.rejectTimestampDefinition) {
+                timestampDefinition.rejectTimestampDefinitionEntity = table.get(timestampDefinition.rejectTimestampDefinition)
+              }
+            }
+            return definitions;
+          }),
+          map(definitions => this.definitionCache = definitions)
+        );
     }
     return of(this.definitionCache);
   }
 
+
+
   getTimestampDefinitionsMap(): Observable<Map<string, TimestampDefinition>> {
     return this.getTimestampDefinitions().pipe(
       map(timestampDefinitions => {
-        let map = new Map<string, TimestampDefinition>()
-        for (let timestampDefinition of timestampDefinitions) {
-          map.set(timestampDefinition.id, timestampDefinition);
-        }
-        return map;
+        return asMap(timestampDefinitions);
       })
     )
   }
