@@ -139,7 +139,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   acceptTimestamp(timestamp: Timestamp) {
     let timestampShallowClone = Object.assign({}, timestamp);
-    timestampShallowClone.timestampDefinition = this.timestampDefinitionMap.get(timestamp.timestampDefinition.acceptTimestampDefinition);
+    timestampShallowClone.timestampDefinition = timestamp.timestampDefinition.acceptTimestampDefinitionEntity;
     timestampShallowClone.logOfTimestamp = new Date();
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.
