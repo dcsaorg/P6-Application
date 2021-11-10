@@ -63,15 +63,18 @@
           "rtc": "The requested time at which the vessel operator or agent would like the cargo operations to finish (last commercial lift) e.g. The vessel operator might request an earlier departure in case of cut & run."
         },
         "paragraph": {
-          "1": "Below are the explanations of the timestamps. Please fill these timestamps as detailed as possible and add every change that is communicated (e.g. by phone or e-mail) by the Terminal Operator, Port, or you as Carrier. This will give us a detailed view of how often the estimated times of arrival, cargo operations and departure change. Note that for cargo operations, not every change is absolutely necessary, just a good overview of the ETC 12 hours, 6 hours and 3 hours before the end. Services other than cargo operations do not need to be reported.",
-          "2": "We aim to receive full cycles of information for vessels over 2000 TEU. Please consult with your internal contact if you have questions about the scope or number of vessels you report. If you have any questions or see any bugs or issues, please contact us via",
+          "1": "Thank you for participating in this trial. We are looking to see how we can replace the calling and emailing about timestamps with a digital information exchange. This trial helps your port or organisation to see how this digital exchange is best done.",
+          "2": "Below are the timestamps we are currently exchanging, including their definitions. Please insert these timestamps in the user interface as soon as you receive an update on the vessel. Once inserted, these will be sent to the other participants in the trial of your port.",
           "3": "Thank you very much for your time and effort!"
         },
         "pbp": {
           "ata": "The actual time of arrival of the vessel at Pilot Boarding Place.",
           "eta": "Estimated time of arrival at pilot boarding place or zone. This is communicated by the vessel / agent to the port authority.",
-          "pta": "Planned time of arrival at pilot boarding place. When a vessel operator (or his agent)  confirmed the requested time of arrival PBP to the pilot/port authority.",
+          "pta": "Planned time of arrival at pilot boarding place. When a vessel operator (or his agent) confirmed the requested time of arrival PBP to the pilot/port authority.",
           "rta": "Time of arrival at pilot boarding place as requested by the port authority or pilot."
+        },
+        "pilotage": {
+          "ata": "The actual time of start of the pilotage of the vessel into port."
         }
       },
       "label": "Instructions"
