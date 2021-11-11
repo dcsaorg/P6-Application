@@ -236,7 +236,7 @@
 
           <div class="timestampContent__buttons acceptBtn" *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.acceptTimestampDefinition != null && !isOutGoing(timestamp)">
             <p-button icon="pi pi-check" pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.timestampDefinition?.acceptTimestampDefinitionEntity.timestampTypeName}}"
-              tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="acceptTimestamp(timestamp)"></p-button>
+              tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="openAcceptDialog(timestamp)"></p-button>
           </div>
 
           <div class="timestampContent__buttons declineBtn" *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
