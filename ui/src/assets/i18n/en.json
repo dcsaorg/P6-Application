@@ -97,6 +97,17 @@
           "summary": "Success!"
         }
       },
+      "Accepteditor": {
+        "label": "Accept Timestamp",
+        "failure": {
+          "summary": "Error!",
+          "detail": "Error while accepting timestamp: "
+        },
+        "success": {
+          "detail": "Successfully accepted timestamp",
+          "summary": "Success!"
+        }
+      },
       "label": "Save"
     },
     "table": {
@@ -139,6 +150,7 @@
         "eventTimestamp": {
           "label": "Event timestamp",
           "declinedLabel": "Declined event timestamp",
+          "acceptedLabel": "Accepted event timestamp",
           "tooltip": "What is the estimated, requested, planned or actual timestamp of the event (local time for port)"
         },
         "logOfTimestamp": {

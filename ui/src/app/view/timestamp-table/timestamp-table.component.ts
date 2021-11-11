@@ -14,6 +14,7 @@ import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pi
 import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/jit/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
+import {TimestampAcceptEditorComponent} from "../timestamp-accept-editor/timestamp-accept-editor.component";
 import {Globals} from "../../model/portCall/globals";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {TimestampService} from "../../controller/services/jit/timestamps.service";
@@ -62,7 +63,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
               private timestampDefinitionService: TimestampDefinitionService,
               private timestampMappingService: TimestampMappingService,
               public globals: Globals,
-              public timestampService: TimestampService,
+              public timestampService: TimestampService
   ) {
   }
 
@@ -191,7 +192,32 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         this.loadTimestamps()
       }
     });
+  }
 
+  openAcceptDialog(timestamp: Timestamp) {
+    let timestampShallowClone = Object.assign({}, timestamp);
+    timestampShallowClone.timestampDefinition = timestamp.timestampDefinition.acceptTimestampDefinitionEntity;
+    timestampShallowClone.logOfTimestamp = new Date();
+    // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
+    // so see their own comment in a reply to them.
+    timestampShallowClone.remark = null;
+    timestampShallowClone.delayReasonCode = null;
+    timestampShallowClone.vesselPosition = null;
+    const timestampEditor = this.dialogService.open(TimestampAcceptEditorComponent, {
+      header: this.translate.instant('general.timestamp.create.label'),
+      width: '75%',
+      data: {
+        transportCall: this.transportCallSelected,
+        timestamps: this.timestamps,
+        respondingToTimestamp: timestampShallowClone,
+        ports: this.ports
+      }
+    });
+    timestampEditor.onClose.subscribe((timestamp) => {
+      if (timestamp) {
+        this.loadTimestamps()
+      }
+    });
   }
 
   /*
