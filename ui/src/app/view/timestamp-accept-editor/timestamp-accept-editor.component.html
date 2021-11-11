@@ -33,9 +33,9 @@
       <div class="p-field p-col-12 p-md-2" *ngIf="respondingToTimestamp != null"></div>
       <div class="p-field p-col-12 p-md-4" *ngIf="respondingToTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
-        <label class="label-compressed" for="eventtimestamp">{{'general.table.header.timestamp.label' |
-          translate }}: </label>
-        <span style="font-weight: bold;">{{ " "  + respondingToTimestamp.timestampDefinition.timestampTypeName}}</span>
+        <label class="label-compressed" for="eventtimestamp">{{'general.table.header.timestamp.acceptlabel' |
+          translate }}</label>
+        <span style="font-weight: bold;">{{": " + respondingToTimestamp.timestampDefinition.timestampTypeName}}</span>
       </div>
     </div>
   </p-card>

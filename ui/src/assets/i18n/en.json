@@ -196,6 +196,7 @@
         },
         "timestamp": {
           "label": "Timestamp",
+          "acceptlabel":"Responding with timestamp type",
           "tooltip": "An estimated, requested, planned or actual timestamp of an event."
         },
         "timestamps": {
