@@ -137,36 +137,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
          (!timestamp.timestampDefinition || !publisherRoles.includes(timestamp.timestampDefinition.primaryReceiver));
   }
 
-
-  acceptTimestamp(timestamp: Timestamp) {
-    let timestampShallowClone = Object.assign({}, timestamp);
-    timestampShallowClone.timestampDefinition = timestamp.timestampDefinition.acceptTimestampDefinitionEntity;
-    timestampShallowClone.logOfTimestamp = new Date();
-    // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
-    // so see their own comment in a reply to them.
-    timestampShallowClone.remark = null;
-    timestampShallowClone.delayReasonCode = null;
-    timestampShallowClone.vesselPosition = null;
-    this.timestampMappingService.addPortCallTimestamp(timestampShallowClone).subscribe(() => {
-        this.loadTimestamps();
-        this.messageService.add({
-          key: "TimestampToast",
-          severity: 'success',
-          summary: 'Successfully accepted the Timestamp: ' + timestamp.timestampDefinition.timestampTypeName + " \n for port:" + timestamp.UNLocationCode,
-          detail: ''
-        });
-        this.timeStampAcceptNotifier.emit(timestamp);
-      },
-      error => this.messageService.add({
-        key: 'TimestampToast',
-        severity: 'error',
-        summary: 'Error while trying to accept the timestamp',
-        detail: error.message
-      })
-    );
-  }
-
-
   showComment(timestamp: Timestamp) {
     const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestamp.delayReasonCode, null);
     this.dialogService.open(TimestampCommentDialogComponent, {
