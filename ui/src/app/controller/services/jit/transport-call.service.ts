@@ -34,6 +34,8 @@ export class TransportCallService {
     }
     if (vesselIMONumber) {
       httpParams = httpParams.set('vessel.vesselIMONumber', vesselIMONumber);
+    } else {
+      httpParams = httpParams.set('vessel.vesselIMONumber:neq', 'NULL');
     }
     return this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL, {
      params: httpParams

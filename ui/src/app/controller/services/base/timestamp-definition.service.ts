@@ -29,7 +29,7 @@ export class TimestampDefinitionService {
   getTimestampDefinitions(): Observable<TimestampDefinition[]> {
     if (this.definitionCache.length == 0) {
       let httpParams = new HttpParams();
-      httpParams = httpParams.set("limit", "250");
+      httpParams = httpParams.set("canonicalTimestampDefinition", "NULL").set("limit", "250");
       return this.httpClient.get<TimestampDefinition[]>(this.TIMESTAMP_DEFINITION_BACKEND, {params: httpParams})
         .pipe(
           map(definitions => {
