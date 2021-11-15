@@ -135,30 +135,25 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
     // set terminal if specified
     timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
 
-    
-    if (this.locationNameLabel) { // If false older value is inhereted 
-      // We null here to allow value not to be set
-      // otherwise present value on label is set (Whether inhereted or new).
-      timestamp.eventLocation = null;
-      if (this.locationName) {
-        timestamp.eventLocation = new class implements EventLocation {
-          locationName: string
-        }
-        timestamp.eventLocation.locationName = this.locationName;
+    // Nulled - as not to inherent older values 
+    timestamp.eventLocation = null;
+    timestamp.vesselPosition = null; 
+
+    if (this.locationNameLabel && this.locationName) {
+      // Present value on label is set (Whether inhereted or new).
+      timestamp.eventLocation = new class implements EventLocation {
+        locationName: string
       }
+      timestamp.eventLocation.locationName = this.locationName;
     }
 
-    if (this.vesselPosition) { // If false older value is inhereted 
-      // We null here to allow value not to be set
-      // otherwise present value on label is set (Whether inhereted or new). 
-      timestamp.vesselPosition = null; 
-      const latitude = this.vesselPosition.latitude;
-      const longtitude = this.vesselPosition.longitude;
-      if (latitude && longtitude) {
-        timestamp.vesselPosition = new class implements VesselPosition {
-          latitude: string = latitude;
-          longitude: string = longtitude;
-        }
+    const latitude = this.vesselPosition.latitude;
+    const longtitude = this.vesselPosition.longitude;
+    if (this.VesselPositionLabel && latitude && longtitude) {
+      // Present value on label is set (Whether inhereted or new). 
+      timestamp.vesselPosition = new class implements VesselPosition {
+        latitude: string = latitude;
+        longitude: string = longtitude;
       }
     }
 
