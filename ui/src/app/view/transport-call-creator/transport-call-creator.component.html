@@ -230,10 +230,15 @@
           <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate }}:</label>
           <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%" type="text"/>
           <span
-            *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxLength') && transportCallFormGroup.get('vesselPositionLatitude').touched"
+            *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxlength')"
             class="p-invalid">
             {{ 'general.timestamp.vesselPosition.latitude.maxLength' | translate }}
           </span>
+          <span
+          *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('pattern')"
+          class="p-invalid">
+          {{ 'general.timestamp.vesselPosition.latitude.pattern' | translate }}
+        </span>
         </div>
       </div>
     </div>
@@ -243,10 +248,15 @@
       <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
       <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%" type="text"/>
       <span
-        *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('maxLength') && transportCallFormGroup.get('vesselPositionLongitude').touched"
+        *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('maxlength')"
         class="p-invalid">
         {{ 'general.timestamp.vesselPosition.longitude.maxLength' | translate }}
       </span>
+      <span
+      *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('pattern')"
+      class="p-invalid">
+      {{ 'general.timestamp.vesselPosition.longitude.pattern' | translate }}
+    </span>
     </div>
   </div>
 
