@@ -55,7 +55,7 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   delayCode: DelayCode;
-  respondingToTimestamp: Timestamp;
+  responseTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
   terminalSelected: Terminal;
 
@@ -78,8 +78,7 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
     });
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
-    this.respondingToTimestamp = this.config.data.respondingToTimestamp;
-    console.log(this.respondingToTimestamp);
+    this.responseTimestamp = this.config.data.respondingToTimestamp;
     this.ports = this.config.data.ports;
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
     this.setDefaultTimestampValues();
@@ -93,17 +92,17 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
 
   showVesselPosition(): boolean {
     if (!this.globals.config.enableVesselPositions) return false;
-    this.VesselPositionLabel = this.respondingToTimestamp.timestampDefinition.isVesselPositionNeeded;
+    this.VesselPositionLabel = this.responseTimestamp.timestampDefinition.isVesselPositionNeeded;
     return this.VesselPositionLabel ?? false;
   }
 
   showLocationNameOption(): boolean {
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.respondingToTimestamp.timestampDefinition);
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.responseTimestamp.timestampDefinition);
     return this.locationNameLabel !== undefined;
   }
 
   showTerminalOption(): boolean {
-    return this.respondingToTimestamp.timestampDefinition.isTerminalNeeded ?? false;
+    return this.responseTimestamp.timestampDefinition.isTerminalNeeded ?? false;
   }
 
   private updateDelayCodeOptions() {
@@ -118,7 +117,7 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
     this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
       this.terminalOptions = [];
-      this.terminalSelected = terminals.find(terminal => terminal.facilitySMDGCode == this.respondingToTimestamp.facilitySMDGCode);
+      this.terminalSelected = terminals.find(terminal => terminal.facilitySMDGCode == this.responseTimestamp.facilitySMDGCode);
       this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
       terminals.forEach(terminal => {
           this.terminalOptions.push({label: terminal.facilitySMDGCode, value: terminal})
@@ -133,11 +132,16 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
     // Set delay code if specified
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     // set terminal if specified
-    timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
-
+   
     // Nulled - as not to inherent older values 
     timestamp.eventLocation = null;
     timestamp.vesselPosition = null; 
+    timestamp.facilitySMDGCode = null; 
+
+    if(this.responseTimestamp.timestampDefinition.isTerminalNeeded){
+      // Selected terminal is set (Whether inhereted or new).
+      timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
+    }
 
     if (this.locationNameLabel && this.locationName) {
       // Present value on label is set (Whether inhereted or new).
@@ -183,9 +187,9 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
   }
 
   private setDefaultTimestampValues() {
-    this.locationName = this.respondingToTimestamp.eventLocation?.locationName;
-    this.vesselPosition.latitude = this.respondingToTimestamp.vesselPosition?.latitude;
-    this.vesselPosition.longitude = this.respondingToTimestamp.vesselPosition?.longitude;
+    this.locationName = this.responseTimestamp.eventLocation?.locationName;
+    this.vesselPosition.latitude = this.responseTimestamp.vesselPosition?.latitude;
+    this.vesselPosition.longitude = this.responseTimestamp.vesselPosition?.longitude;
   }
 
   close() {
