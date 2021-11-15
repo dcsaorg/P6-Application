@@ -66,6 +66,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     if (operationsEvent.eventLocation?.facilityCodeListProvider == 'SMDG') {
       timestamp.facilitySMDGCode = operationsEvent.eventLocation?.facilityCode;
     }
+    timestamp.vesselPosition = operationsEvent.vesselPosition;
     timestamp.remark = operationsEvent.remark;
     timestamp.delayReasonCode = operationsEvent.delayReasonCode;
     timestamp.eventDeliveryStatus = operationsEvent.eventDeliveryStatus;

@@ -7,6 +7,7 @@ import { PublisherRole } from "../enums/publisherRole";
 import { Publisher } from "../publisher";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import { EventLocation } from "../eventLocation";
+import { VesselPosition } from "../vesselPosition";
 
 export interface OperationsEvent {
   eventID?: string;
@@ -28,5 +29,6 @@ export interface OperationsEvent {
   eventDeliveryStatus: string;
   timestampDefinitionID?: string;
   facilityCode: string;
+  vesselPosition?: VesselPosition;
 
 }
