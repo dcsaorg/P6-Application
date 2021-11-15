@@ -3,7 +3,6 @@ import {MessageService, SelectItem} from "primeng/api";
 import {Port} from "../../model/portCall/port";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {DelayCode} from "../../model/portCall/delayCode";
-import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
@@ -15,9 +14,7 @@ import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
 import {Terminal} from 'src/app/model/portCall/terminal';
 import {TerminalService} from 'src/app/controller/services/base/terminal.service';
-import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
 import {TimestampDefinition} from "../../model/jit/timestamp-definition";
-import { ThrowStmt } from '@angular/compiler';
 
 
 @Component({
@@ -51,6 +48,7 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
     latitude: string;
     longitude: string;
   }
+  VesselPositionLabel:boolean;
   transportCall: TransportCall;
   timestampDefinitions: TimestampDefinition[] = [];
   timestampTypes: SelectItem[] = [];
@@ -69,7 +67,6 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
               public config: DynamicDialogConfig,
               private translate: TranslateService,
               public ref: DynamicDialogRef,
-              private timestampDefinitionService: TimestampDefinitionService,
               private timestampMappingService: TimestampMappingService,
               private terminalService: TerminalService) {
   }
@@ -82,8 +79,10 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
     this.respondingToTimestamp = this.config.data.respondingToTimestamp;
+    console.log(this.respondingToTimestamp);
     this.ports = this.config.data.ports;
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
+    this.setDefaultTimestampValues();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
     });
 
@@ -94,7 +93,8 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
 
   showVesselPosition(): boolean {
     if (!this.globals.config.enableVesselPositions) return false;
-    return this.respondingToTimestamp.timestampDefinition.isVesselPositionNeeded ?? false;
+    this.VesselPositionLabel = this.respondingToTimestamp.timestampDefinition.isVesselPositionNeeded;
+    return this.VesselPositionLabel ?? false;
   }
 
   showLocationNameOption(): boolean {
@@ -106,28 +106,59 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
     return this.respondingToTimestamp.timestampDefinition.isTerminalNeeded ?? false;
   }
 
-  savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
+  private updateDelayCodeOptions() {
+    this.delayCodeOptions = [];
+    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
+    this.delayCodes.forEach(delayCode => {
+      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+    });
+  }
+
+  private updateTerminalOptions(unLocationCode:string) {
+    this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
+      this.globals.terminals = terminals;
+      this.terminalOptions = [];
+      this.terminalSelected = terminals.find(terminal => terminal.facilitySMDGCode == this.respondingToTimestamp.facilitySMDGCode);
+      this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
+      terminals.forEach(terminal => {
+          this.terminalOptions.push({label: terminal.facilitySMDGCode, value: terminal})
+      });
+    })
+  }
+
+  
+
+  savePortcallTimestamp(timestamp: Timestamp) {
 
     // Set delay code if specified
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     // set terminal if specified
     timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
 
-    // set location if specified
-    if (this.locationNameLabel && this.locationName) {
-      timestamp.eventLocation = new class implements EventLocation {
-        locationName: string
+    
+    if (this.locationNameLabel) { // If false older value is inhereted 
+      // We null here to allow value not to be set
+      // otherwise present value on label is set (Whether inhereted or new).
+      timestamp.eventLocation = null;
+      if (this.locationName) {
+        timestamp.eventLocation = new class implements EventLocation {
+          locationName: string
+        }
+        timestamp.eventLocation.locationName = this.locationName;
       }
-      timestamp.eventLocation.locationName = this.locationName;
     }
 
-    // set vessel position if specified
-    const latitude = this.vesselPosition.latitude;
-    const longtitude = this.vesselPosition.longitude;
-    if (latitude && longtitude) {
-      timestamp.vesselPosition = new class implements VesselPosition {
-        latitude: string = latitude;
-        longitude: string = longtitude;
+    if (this.vesselPosition) { // If false older value is inhereted 
+      // We null here to allow value not to be set
+      // otherwise present value on label is set (Whether inhereted or new). 
+      timestamp.vesselPosition = null; 
+      const latitude = this.vesselPosition.latitude;
+      const longtitude = this.vesselPosition.longitude;
+      if (latitude && longtitude) {
+        timestamp.vesselPosition = new class implements VesselPosition {
+          latitude: string = latitude;
+          longitude: string = longtitude;
+        }
       }
     }
 
@@ -156,25 +187,10 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
       })
   }
 
-
-  private updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
-    });
-  }
-
-  private updateTerminalOptions(unLocationCode:string) {
-    this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
-      this.globals.terminals = terminals;
-      this.terminalOptions = [];
-      this.terminalSelected = terminals.find(terminal => terminal.facilitySMDGCode == this.respondingToTimestamp.facilitySMDGCode);
-      this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
-      terminals.forEach(terminal => {
-          this.terminalOptions.push({label: terminal.facilitySMDGCode, value: terminal})
-      });
-    })
+  private setDefaultTimestampValues() {
+    this.locationName = this.respondingToTimestamp.eventLocation?.locationName;
+    this.vesselPosition.latitude = this.respondingToTimestamp.vesselPosition?.latitude;
+    this.vesselPosition.longitude = this.respondingToTimestamp.vesselPosition?.longitude;
   }
 
   close() {
