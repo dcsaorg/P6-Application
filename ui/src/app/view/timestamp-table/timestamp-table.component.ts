@@ -172,7 +172,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     // so see their own comment in a reply to them.
     timestampShallowClone.remark = null;
     timestampShallowClone.delayReasonCode = null;
-    timestampShallowClone.vesselPosition = null;
     const timestampEditor = this.dialogService.open(TimestampAcceptEditorComponent, {
       header: this.translate.instant('general.timestamp.create.label'),
       width: '75%',
