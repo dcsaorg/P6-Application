@@ -235,11 +235,13 @@
         "label": "Vessel Position",
         "latitude": {
           "label": "Vessel Position Latitude",
-          "maxLength": "Max length is 10 characters!"
+          "maxLength": "Max length is 10 numbers!",
+          "pattern": "Latitude should only be numbers!"
         },
         "longitude": {
           "label": "Vessel Position Longitude",
-          "maxLength": "Max length is 11 characters!"
+          "maxLength": "Max length is 11 numbers!",
+          "pattern": "Longitude should only be numbers!"
         }
       },
       "locationName": {
