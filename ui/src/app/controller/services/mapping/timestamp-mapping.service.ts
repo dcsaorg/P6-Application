@@ -12,7 +12,6 @@ import {NegotiationCycleService} from "../base/negotiation-cycle.service";
 import {TimestampInfo} from "../../../model/jit/timestampInfo";
 import {TimestampDefinition} from "../../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../base/timestamp-definition.service";
-import {OperationsEvent} from "../../../model/jit/operations-event";
 
 
 @Injectable({

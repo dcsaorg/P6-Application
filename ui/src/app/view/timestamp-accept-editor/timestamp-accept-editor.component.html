@@ -131,7 +131,7 @@
     <p-button (onClick)="close()" class="footer_option__buttons" icon="pi pi-times-circle"
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-    <p-button (onClick)="savePortcallTimestamp(respondingToTimestamp, transportCall)" class="footer_option__buttons"
+    <p-button (onClick)="savePortcallTimestamp(respondingToTimestamp)" class="footer_option__buttons"
       icon="pi pi-save" label="{{'general.save.Accepteditor.label' | translate}}"
       iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
