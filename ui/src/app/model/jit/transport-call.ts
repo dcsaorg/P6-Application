@@ -27,6 +27,4 @@ export interface TransportCall {
   location: EventLocation;
   estimatedDateofArrival?: string | Date;
   actualPortDeparture?: string | Date;
-  lastestPortDeparture?: boolean;
-
 }
