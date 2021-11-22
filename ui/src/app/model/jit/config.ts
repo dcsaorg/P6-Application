@@ -14,4 +14,9 @@ export interface Config {
   cognitoUserPoolId: string;
   cognitoAppClientId: string;
   enableVesselPositions: boolean
+  authRegion: string;
+  authUserPoolId: string;
+  authUserPoolWebClientId: string;
+  authMandatorySignIn: boolean;
+
 }

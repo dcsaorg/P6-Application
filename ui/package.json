@@ -20,9 +20,10 @@
     "@angular/platform-browser": "~10.1.5",
     "@angular/platform-browser-dynamic": "~10.1.5",
     "@angular/router": "~10.1.5",
+    "@aws-amplify/ui-angular": "^1.0.34",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "amazon-cognito-identity-js": "^5.1.0",
+    "aws-amplify": "^4.3.7",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "prime": "^0.5.0",
@@ -30,7 +31,7 @@
     "primeicons": "^4.0.0",
     "primeng": "^11.2.3",
     "rxjs": "~6.6.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.1.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

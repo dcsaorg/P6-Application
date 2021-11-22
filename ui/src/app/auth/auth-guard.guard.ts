@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Auth } from 'aws-amplify';
+import { from, Observable } from 'rxjs';
+import { catchError } from 'rxjs/internal/operators/catchError';
+import { map } from 'rxjs/internal/operators/map';
+import { tap } from 'rxjs/internal/operators/tap';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -11,11 +15,13 @@ export class AuthGuard implements CanActivate {
 
   }
 
+  // TODO : CATCH ERROR HERE FROM "NO USER" - from console: Error: Uncaught (in promise): No current user (WHEN NOT LOGGED IN)
   canActivate(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let isAuth = this.authService.isLoggedIn()
-    if(!isAuth) {
-      this.router.navigate(['signin'])
-    }
-    return isAuth;
+    return from(Auth.currentSession()).pipe(
+      map((session) => {    
+        return session.isValid();
+      })
+    )
+  
   }
 }

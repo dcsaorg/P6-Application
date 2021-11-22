@@ -5,7 +5,6 @@ import {ConfigService} from "../../controller/services/base/config.service";
 import {MenuItem, MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
-import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import { AuthService } from 'src/app/auth/auth.service';
 import {ExportService} from "../../controller/services/base/export.service";
 
@@ -119,9 +118,5 @@ export class HeaderComponent implements OnInit {
     this.translate.use(selectedLanguage.value);
   }
 
-
-  onLogout(){
-    this.authService.logUserOut();
-  }
 
 }

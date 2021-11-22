@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Port} from "../../model/portCall/port";
 import {TransportCall} from "../../model/jit/transport-call";
 import {Timestamp} from '../../model/jit/timestamp';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {TransportCallService} from "../../controller/services/jit/transport-call.service";
 import {PortService} from "../../controller/services/base/port.service";
 import {Globals} from "../../model/portCall/globals";
@@ -25,7 +25,7 @@ export class DashboardComponent {
   transportCallID: string;
   private sub: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private globals: Globals, private portService: PortService, private transportCallService: TransportCallService) {
+  constructor(private route: ActivatedRoute, private globals: Globals, private portService: PortService, private transportCallService: TransportCallService) {
   }
 
   ngOnInit(): void {
