@@ -121,7 +121,7 @@
         "tooltip": "Accept timestamp and send a response as"
       },
       "decline": {
-        "tooltip": "Decline timestamp and send a new timestamp"
+        "tooltip": "Decline timestamp and send a response as"
       },
       "delete": {
         "tooltip": "Delete the timestamp"
@@ -229,6 +229,14 @@
       "label": "Timestamp",
       "create": {
         "label": "New Port Call Timestamp",
+        "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
+      },
+      "accept": {
+        "label": "Accept Port Call Timestamp",
+        "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
+      },
+      "reject": {
+        "label": "Reject Port Call Timestamp",
         "description": "Creat a new Port Call Timestamp for Transport Call {{transportCall}}"
       },
       "vesselPosition": {
