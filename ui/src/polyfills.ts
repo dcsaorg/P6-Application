@@ -68,5 +68,11 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
   };
 
 /***************************************************************************************************
+ * Internet Explorer 11 (IE11) Support.
+ */
+import 'core-js/es/typed-array';
+import 'core-js/es/object';
+
+/***************************************************************************************************
  * APPLICATION IMPORTS
  */

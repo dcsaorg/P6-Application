@@ -1,113 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthenticationDetails, CognitoUser, CognitoUserPool, CognitoUserSession } from 'amazon-cognito-identity-js';
-import { environment } from 'src/environments/environment';
-import {Globals} from "../model/portCall/globals";
+import { Auth } from 'aws-amplify';
+import { from } from 'rxjs/internal/observable/from';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  isAuth: boolean ;
-  accessToken: string;
-  sessionUserAttributes: any;
-  cognitoUser: any;
-
-  constructor(private globals: Globals,
-              private router: Router,)
-  {
-  }
-
-  isLoggedIn(): boolean {
-
-    let poolData = {
-      UserPoolId: this.globals.config.cognitoUserPoolId,
-      ClientId: this.globals.config.cognitoAppClientId
-    };
-
-    var userPool = new CognitoUserPool(poolData);
-    var cognitoUser = userPool.getCurrentUser();
-
-    if (cognitoUser != null) {
-      cognitoUser.getSession((err: any, session: CognitoUserSession) => {
-        if (err) {
-          alert(err.message || JSON.stringify(err));
-        }
-        this.isAuth = session.isValid()
+  getAccessToken(): Observable<string> {
+    return from(Auth.currentSession()).pipe(
+      catchError(error => {
+        return Observable.throw(error);
+      }),
+      map((session) => {
+        return session.getAccessToken().getJwtToken()
       })
-    }
-    return this.isAuth;
+    )
   }
 
-logUserOut(){
-  let poolData = {
-    UserPoolId: this.globals.config.cognitoUserPoolId,
-    ClientId: this.globals.config.cognitoAppClientId
-  };
-
-  let userPool = new CognitoUserPool(poolData);
-  let cognitoUser = userPool.getCurrentUser();
-  cognitoUser?.signOut();
-  this.router.navigate(["signin"])
-}
-
-  getAuthorizationToken(): string {
-
-  let poolData = {
-    UserPoolId: this.globals.config.cognitoUserPoolId,
-    ClientId: this.globals.config.cognitoAppClientId
-  };
-    var userPool = new CognitoUserPool(poolData);
-    var cognitoUser = userPool.getCurrentUser();
-
-    if (cognitoUser != null) {
-      cognitoUser.getSession((err: any, session: CognitoUserSession) => {
-        if (err) {
-          alert(err.message || JSON.stringify(err));
-        }
-        this.accessToken = session.getAccessToken().getJwtToken();
+  public isAuthenticated(): Observable<boolean> {
+    return from(Auth.currentSession()).pipe(
+      catchError(error => {
+        console.log("ERROR isAuthenticated")
+        return Observable.throw(error);
+      }),
+      map((session) => {
+        console.log("session isAuthenticated")
+        return session.isValid();
       })
-    }
-    return 'Bearer ' + this.accessToken;
+    )
   }
-
-
-  logUserIn(userName, password){
-
-    let authenticationDetails = new AuthenticationDetails({
-      Username: userName,
-      Password: password,
-    });
-   
-    let poolData = {
-      UserPoolId: this.globals.config.cognitoUserPoolId,
-      ClientId: this.globals.config.cognitoAppClientId
-    };
-  
-    let userPool = new CognitoUserPool(poolData);
-    let userData = {
-      Username: userName,
-      Pool: userPool,
-    };
-  
-  
-    this.cognitoUser = new CognitoUser(userData);
-    this.cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: (result) => {
-        this.accessToken = result.getAccessToken().getJwtToken();
-        this.router.navigate(["dashboard"])
-      },
-    
-      onFailure: (err) => {
-        alert(err.message || JSON.stringify(err));
-      },
-      newPasswordRequired: (userAttributes, requiredAttributes) => {
-        this.sessionUserAttributes = userAttributes;
-        //  \n check notes for issue 21
-        alert("Confirmation of password is not implemented");
-      },
-  });
-  }
-
 }

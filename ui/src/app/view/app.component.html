@@ -1,4 +1,8 @@
-<router-outlet></router-outlet>
+<amplify-auth-container>
+    <amplify-authenticator *ngIf="authState !== 'signedin'  && this.authLocalState"></amplify-authenticator>
 
+    <div *ngIf="authState === 'signedin' && user || !this.authLocalState" class="App">
 
-
+        <router-outlet></router-outlet>
+    </div>
+</amplify-auth-container>

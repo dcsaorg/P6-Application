@@ -31,6 +31,10 @@
   "cognitoUserPoolId": "eu-west-1_LsLTYEjn5",
   "cognitoAppClientId": "4u49pjh38su1ccea0l4dras9if",
   "enableJIT11Timestamps": true,
-  "enableVesselPositions": true
+  "enableVesselPositions": true,
+  "authRegion":"eu-west-1",
+  "authUserPoolId":"eu-west-1_NBK1wfoF6",
+  "authUserPoolWebClientId":"ebnoenk5n4fi9q4bku3r2n5ed",
+  "authMandatorySignIn":true
 }
 
