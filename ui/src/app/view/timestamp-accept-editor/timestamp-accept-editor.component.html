@@ -10,8 +10,8 @@
       </div>
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
-        <span id="portOfCall" *ngIf="respondingToTimestamp.portOfCall != null">
-          {{$any(respondingToTimestamp.portOfCall).unLocationCode}} </span>
+        <span id="portOfCall" *ngIf="responseTimestamp.portOfCall != null">
+          {{$any(responseTimestamp.portOfCall).unLocationCode}} </span>
         <!-- {{defaultTimestamp.portOfCall.unLocode}} </span> -->
       </div>
       <div class="p-field p-col-12 p-md-4">
@@ -22,20 +22,20 @@
           : </label>
         <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
       </div>
-      <div class="p-field p-col-12 p-md-4" *ngIf="respondingToTimestamp != null">
+      <div class="p-field p-col-12 p-md-4" *ngIf="responseTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.acceptedLabel' |
           translate }}: </label>
-        <span style="font-weight: bold;">{{ " " +(respondingToTimestamp.eventDateTime | timestampToTimezone:
-          respondingToTimestamp.portOfCall)[0]}}</span>
+        <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
+          responseTimestamp.portOfCall)[0]}}</span>
       </div>
       
-      <div class="p-field p-col-12 p-md-2" *ngIf="respondingToTimestamp != null"></div>
-      <div class="p-field p-col-12 p-md-4" *ngIf="respondingToTimestamp != null">
+      <div class="p-field p-col-12 p-md-2" *ngIf="responseTimestamp != null"></div>
+      <div class="p-field p-col-12 p-md-4" *ngIf="responseTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.timestamp.acceptlabel' |
           translate }}</label>
-        <span style="font-weight: bold;">{{": " + respondingToTimestamp.timestampDefinition.timestampTypeName}}</span>
+        <span style="font-weight: bold;">{{": " + responseTimestamp.timestampDefinition.timestampTypeName}}</span>
       </div>
     </div>
   </p-card>
@@ -101,7 +101,7 @@
   <div class="p-field p-col-12 p-md-2"></div>
   <div class="p-field p-col-12 p-md-5">
     <span class="p-float-label">
-      <textarea class="commentBox" id="commentbox" pInputTextarea [(ngModel)]="respondingToTimestamp.remark"></textarea>
+      <textarea class="commentBox" id="commentbox" pInputTextarea [(ngModel)]="responseTimestamp.remark"></textarea>
       <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
     </span>
   </div>
@@ -131,7 +131,7 @@
     <p-button (onClick)="close()" class="footer_option__buttons" icon="pi pi-times-circle"
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-    <p-button (onClick)="savePortcallTimestamp(respondingToTimestamp)" class="footer_option__buttons"
+    <p-button (onClick)="savePortcallTimestamp(responseTimestamp)" class="footer_option__buttons"
       icon="pi pi-save" label="{{'general.save.Accepteditor.label' | translate}}"
       iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
