@@ -134,47 +134,47 @@ export class TimestampAcceptEditorComponent implements OnInit {
     );
   }
   }
-  savePortcallTimestamp(timestamp: Timestamp) {
+  savePortcallTimestamp() {
 
     // Set delay code if specified
-    timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
+    this.responseTimestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     // set terminal if specified
    
     // Nulled - as not to inherent older values 
-    timestamp.eventLocation = null;
-    timestamp.vesselPosition = null; 
-    timestamp.facilitySMDGCode = null; 
+    this.responseTimestamp.eventLocation = null;
+    this.responseTimestamp.vesselPosition = null; 
+    this.responseTimestamp.facilitySMDGCode = null; 
 
     if(this.responseTimestamp.timestampDefinition.isTerminalNeeded){
       // Selected terminal is set (Whether inhereted or new).
-      timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
+      this.responseTimestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
     }
 
     if (this.locationNameLabel && this.locationName) {
       // Present value on label is set (Whether inhereted or new).
-      timestamp.eventLocation = new class implements EventLocation {
+      this.responseTimestamp.eventLocation = new class implements EventLocation {
         locationName: string
       }
-      timestamp.eventLocation.locationName = this.locationName;
+      this.responseTimestamp.eventLocation.locationName = this.locationName;
     }
 
     const latitude = this.vesselPosition.latitude;
     const longtitude = this.vesselPosition.longitude;
     if (this.VesselPositionLabel && latitude && longtitude) {
       // Present value on label is set (Whether inhereted or new). 
-      timestamp.vesselPosition = new class implements VesselPosition {
+      this.responseTimestamp.vesselPosition = new class implements VesselPosition {
         latitude: string = latitude;
         longitude: string = longtitude;
       }
     }
     // Only update eventDateTime of timestamp when rejecting
     if(this.timestampResponseStatus == 'Rejected' && this.eventTimestampDate && this.eventTimestampTime){
-        timestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, this.transportCall.portOfCall?.timezone);
+        this.responseTimestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, this.transportCall.portOfCall?.timezone);
       }
 
     // Post timestamp 
     this.creationProgress = true;
-    this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(() => {
+    this.timestampMappingService.addPortCallTimestamp(this.responseTimestamp).subscribe(() => {
         this.creationProgress = false;
         this.messageService.add(
           {
@@ -183,7 +183,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
             summary: this.translate.instant('general.save.editor.success.summary'),
             detail: this.translate.instant('general.save.editor.success.detail')
           })
-        this.ref.close(timestamp);
+        this.ref.close(this.responseTimestamp);
       },
       error => {
         this.messageService.add(

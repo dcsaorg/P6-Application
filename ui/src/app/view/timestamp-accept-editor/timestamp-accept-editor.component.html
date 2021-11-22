@@ -157,7 +157,7 @@
     <p-button (onClick)="close()" class="footer_option__buttons" icon="pi pi-times-circle"
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-    <p-button *ngIf="timestampResponseStatus == 'Rejected'"  (onClick)="savePortcallTimestamp(responseTimestamp)" 
+    <p-button *ngIf="timestampResponseStatus == 'Rejected'"  (onClick)="savePortcallTimestamp()" 
     [disabled]="validatePortOfCallTimestamp()"
     class="footer_option__buttons"
       icon="pi pi-save" label="{{'general.save.Rejecteditor.label' | translate}}"
@@ -166,7 +166,7 @@
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
     </p-button>
 
-    <p-button *ngIf="timestampResponseStatus == 'Accepted'"  (onClick)="savePortcallTimestamp(responseTimestamp)" 
+    <p-button *ngIf="timestampResponseStatus == 'Accepted'"  (onClick)="savePortcallTimestamp()" 
     class="footer_option__buttons"
       icon="pi pi-save" label="{{'general.save.Accepteditor.label' | translate}}"
       iconPos="left">
