@@ -173,13 +173,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     timestampShallowClone.remark = null;
     timestampShallowClone.delayReasonCode = null;
     const timestampEditor = this.dialogService.open(TimestampAcceptEditorComponent, {
-      header: this.translate.instant('general.timestamp.create.label'),
+      header: this.translate.instant('general.timestamp.accept.label'),
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
         timestamps: this.timestamps,
         respondingToTimestamp: timestampShallowClone,
-        ports: this.ports
+        ports: this.ports,
+        timestampResponseStatus: "Accepted"
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {
@@ -188,7 +189,31 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       }
     });
   }
-
+  openRejectDialog(timestamp: Timestamp) {
+    let timestampShallowClone = Object.assign({}, timestamp);
+    timestampShallowClone.timestampDefinition = timestamp.timestampDefinition.rejectTimestampDefinitionEntity;
+    timestampShallowClone.logOfTimestamp = new Date();
+    // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
+    // so see their own comment in a reply to them.
+    timestampShallowClone.remark = null;
+    timestampShallowClone.delayReasonCode = null;
+    const timestampEditor = this.dialogService.open(TimestampAcceptEditorComponent, {
+      header: this.translate.instant('general.timestamp.reject.label'),
+      width: '75%',
+      data: {
+        transportCall: this.transportCallSelected,
+        timestamps: this.timestamps,
+        respondingToTimestamp: timestampShallowClone,
+        ports: this.ports,
+        timestampResponseStatus: "Rejected"
+      }
+    });
+    timestampEditor.onClose.subscribe((timestamp) => {
+      if (timestamp) {
+        this.loadTimestamps()
+      }
+    });
+  }
   /*
     Function that will colorize
     //@ToDo Move this function to postProcessing in timestampService

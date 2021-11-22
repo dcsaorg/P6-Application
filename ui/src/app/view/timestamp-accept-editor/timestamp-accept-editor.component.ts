@@ -15,6 +15,7 @@ import {VesselPosition} from "../../model/vesselPosition";
 import {Terminal} from 'src/app/model/portCall/terminal';
 import {TerminalService} from 'src/app/controller/services/base/terminal.service';
 import {TimestampDefinition} from "../../model/jit/timestamp-definition";
+import { DateToUtcPipe } from 'src/app/controller/pipes/date-to-utc.pipe';
 
 
 @Component({
@@ -26,7 +27,7 @@ import {TimestampDefinition} from "../../model/jit/timestamp-definition";
     VesselIdToVesselPipe
   ]
 })
-export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
+export class TimestampAcceptEditorComponent implements OnInit {
   @Input('vesselId') vesselId: number;
   @Input('vesselSavedId') vesselSavedId: number;
   @Input('portOfCall') portOfCall: Port;
@@ -34,12 +35,8 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
 
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
-  timestamps: Timestamp[];
-  logOfTimestampDate: Date;
-  logOfTimestampTime: String;
   eventTimestampDate: Date;
   eventTimestampTime: string;
-  timestampSelected: TimestampDefinition;
   creationProgress: boolean = false;
   locationNameLabel: string;
   locationName: string;
@@ -58,6 +55,7 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
   responseTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
   terminalSelected: Terminal;
+  timestampResponseStatus:string;
 
 
   constructor(
@@ -76,18 +74,15 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()
     });
-    this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
     this.responseTimestamp = this.config.data.respondingToTimestamp;
+    this.timestampResponseStatus = this.config.data.timestampResponseStatus
     this.ports = this.config.data.ports;
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
     this.setDefaultTimestampValues();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
     });
 
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
   }
 
   showVesselPosition(): boolean {
@@ -124,9 +119,21 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
       });
     })
   }
-
+  setEventTimestampToNow() {
+    let eventTimestampDat = new Date();
+    this.eventTimestampTime = this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes());
+  }
   
+  private leftPadWithZero(item: number): String {
+    return (String('0').repeat(2) + item).substr((2 * -1), 2);
+  }
 
+  validatePortOfCallTimestamp(): boolean {
+    if(this.timestampResponseStatus=="Rejected"){ return !(
+      this.eventTimestampDate && this.eventTimestampTime
+    );
+  }
+  }
   savePortcallTimestamp(timestamp: Timestamp) {
 
     // Set delay code if specified
@@ -160,6 +167,10 @@ export class TimestampAcceptEditorComponent implements OnInit, OnChanges {
         longitude: string = longtitude;
       }
     }
+    // Only update eventDateTime of timestamp when rejecting
+    if(this.timestampResponseStatus == 'Rejected' && this.eventTimestampDate && this.eventTimestampTime){
+        timestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, this.transportCall.portOfCall?.timezone);
+      }
 
     // Post timestamp 
     this.creationProgress = true;

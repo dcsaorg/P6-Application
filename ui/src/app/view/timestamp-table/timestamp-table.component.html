@@ -240,8 +240,8 @@
           </div>
 
           <div class="timestampContent__buttons declineBtn" *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
-            <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}" tooltipPosition="left"
-              tooltipStyleClass="ToolTipClass" (click)="openCreationDialog(timestamp)"></p-button>
+            <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestamp.timestampDefinition?.rejectTimestampDefinitionEntity.timestampTypeName}}" tooltipPosition="left"
+              tooltipStyleClass="ToolTipClass" (click)="openRejectDialog(timestamp)"></p-button>
           </div>
         </div>
     <div *ngIf="!isPrimary(timestamp) && !isOutGoing(timestamp)">FYI</div>
