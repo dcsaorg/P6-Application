@@ -107,7 +107,18 @@
           "detail": "Successfully accepted timestamp",
           "summary": "Success!"
         }
-      },
+        },
+        "Rejecteditor": {
+          "label": "Reject Timestamp",
+          "failure": {
+            "summary": "Error!",
+            "detail": "Error while rejecting timestamp: "
+          },
+          "success": {
+            "detail": "Successfully rejected timestamp",
+            "summary": "Success!"
+          }
+        },
       "label": "Save"
     },
     "table": {

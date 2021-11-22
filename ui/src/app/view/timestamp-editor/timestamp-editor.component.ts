@@ -28,7 +28,7 @@ import {TimestampDefinition} from "../../model/jit/timestamp-definition";
     VesselIdToVesselPipe
   ]
 })
-export class TimestampEditorComponent implements OnInit, OnChanges {
+export class TimestampEditorComponent implements OnInit {
   @Input('vesselId') vesselId: number;
   @Input('vesselSavedId') vesselSavedId: number;
   @Input('portOfCall') portOfCall: Port;
@@ -37,8 +37,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
   timestamps: Timestamp[];
-  logOfTimestampDate: Date;
-  logOfTimestampTime: String;
   eventTimestampDate: Date;
   eventTimestampTime: string;
   timestampSelected: TimestampDefinition;
@@ -109,10 +107,6 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updateTimestampTypeOptions();
     });
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
 
   }
 
@@ -231,29 +225,11 @@ export class TimestampEditorComponent implements OnInit, OnChanges {
     );
   }
 
-  private setLogOfTimestampToNow() {
-    this.logOfTimestampDate = new Date();
-    this.logOfTimestampTime = this.leftPadWithZero(this.logOfTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.logOfTimestampDate.getMinutes());
-  }
-
-
   setEventTimestampToNow() {
     let eventTimestampDat = new Date();
     this.eventTimestampTime = this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes());
   }
 
-  //this functions sets both time and date!
-  /* setEventTimestampToNow() {
-    this.eventTimestampDate = new Date();
-    this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
-  } */
-
-  /*
-    setEventTimestampToDate(eventDate: Date) {
-      this.eventTimestampDate = eventDate;
-      this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
-    }
-  */
   private leftPadWithZero(item: number): String {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
