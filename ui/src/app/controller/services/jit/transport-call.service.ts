@@ -13,19 +13,17 @@ import { PortService } from '../base/port.service';
 export class TransportCallService {
   timestamps: Timestamp;
   private readonly TRANSPORT_CALL_URL: string;
-  private readonly OPERATIONS_EVENT_URL: string;
 
   constructor(
     private httpClient: HttpClient,
     private globals: Globals,
-    private portSevice: PortService
+    private portService: PortService
   ) {
     this.TRANSPORT_CALL_URL = globals.config.uiSupportBackendURL + "/unofficial/transport-calls"
-    this.OPERATIONS_EVENT_URL = globals.config.jitBackendURL + "/events?eventType=OPERATIONS&sort=eventCreatedDateTime:DESC&limit=1"
   }
 
   getTransportCalls(unLocode? : string, smdgCode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
-    let httpParams = new HttpParams()
+    let httpParams = new HttpParams().set('sort', 'latestEventCreatedDateTime:DESC')
     if(unLocode != null) {
       httpParams = httpParams.set('facility.UNLocationCode', unLocode)
       if(smdgCode != null) {
@@ -50,7 +48,7 @@ export class TransportCallService {
             return transportCall;
           }),
           concatMap((transportCall) =>
-            this.portSevice.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(port => {
+            this.portService.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(port => {
               transportCall.portOfCall = port;
               return transportCall;
             }))
