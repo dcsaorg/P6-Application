@@ -49,7 +49,8 @@
       <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.estimatedDateofArrival.label'| translate}}</th>
       <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.importVoyageNumber.label'| translate}}</th>
       <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.exportVoyageNumber.label'| translate}}</th>
-      <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
+      <th style="width:10%" class="noTransparancy">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
+      <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.latestEventCreatedDateTime.label'| translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall>
@@ -63,6 +64,9 @@
       <td>{{transportCall.importVoyageNumber}}</td>
       <td>{{transportCall.exportVoyageNumber}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>
+      <td
+        pTooltip ="UTC: {{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}"
+      >{{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
     </tr>
   </ng-template>
 </p-table>

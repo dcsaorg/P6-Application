@@ -355,6 +355,9 @@
         },
         "facilityCode": {
           "label": "Facility Code"
+        },
+        "latestEventCreatedDateTime": {
+          "label": "Latest Comm. time"
         }
       },
       "validation": {
