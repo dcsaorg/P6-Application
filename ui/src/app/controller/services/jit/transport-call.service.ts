@@ -55,37 +55,12 @@ export class TransportCallService {
               return transportCall;
             }))
           ),
-          concatMap((transportCall) =>
-            this.getLatestETABerthTimestamp(transportCall.transportCallID).pipe(map(timestamps => {
-              if (timestamps.length > 0) {
-                let timestamp = timestamps[0]
-                transportCall.estimatedDateofArrival = timestamp['eventDateTime'];
-              }
-              return transportCall;
-            }))
-          ),
-          concatMap((transportCall) =>
-            this.getLatestATDBerthTimestamp(transportCall.transportCallID).pipe(map(timestamps => {
-              if (timestamps.length > 0) {
-                let timestamp = timestamps[0]
-                transportCall.actualPortDeparture = timestamp['eventDateTime'];
-              }
-              
-              return transportCall;
-            }))
-          ),
           toArray()
         )
 
       }))
     );
   }
-
-  getLatestETABerthTimestamp = (transportCallId: string): Observable<Timestamp[]> =>
-  this.httpClient.get<Timestamp[]>(this.OPERATIONS_EVENT_URL + "&eventClassifierCode=EST&operationsEventTypeCode=ARRI&facilityTypeCode=BRTH&transportCallID=" + transportCallId).pipe(map(transportCalls => (transportCalls)));
-
-  getLatestATDBerthTimestamp = (transportCallId: string): Observable<Timestamp[]> =>
-  this.httpClient.get<Timestamp[]>(this.OPERATIONS_EVENT_URL + "&eventClassifierCode=ACT&operationsEventTypeCode=DEPA&facilityTypeCode=BRTH&transportCallID=" + transportCallId).pipe(map(transportCalls => (transportCalls)));
 
   getTransportCallsById = (transportCallId: string): Observable<TransportCall> => this.httpClient.get<TransportCall>(this.TRANSPORT_CALL_URL + "/" + transportCallId);
 

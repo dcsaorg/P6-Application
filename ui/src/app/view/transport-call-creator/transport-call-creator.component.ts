@@ -261,6 +261,9 @@ export class TransportCallCreatorComponent implements OnInit {
       facilityCodeListProvider: FacilityCodeListProvider;
       location: EventLocation;
       vessel: Vessel;
+      etaBerthDateTime: Date;
+      atdBerthDateTime: Date;
+      latestEventCreatedDateTime: Date;
     }
 
     let terminal: Terminal = this.transportCallFormGroup.controls.terminal.value

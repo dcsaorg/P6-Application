@@ -53,13 +53,13 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall>
-    <tr [pSelectableRow]="transportCall" [ngClass]="{'obsoleteTransportCall': transportCall.actualPortDeparture != undefined}">
+    <tr [pSelectableRow]="transportCall" [ngClass]="{'obsoleteTransportCall': transportCall.atdBerthDateTime != undefined}">
       <td>{{transportCall.vesselName}}</td>
       <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
       <td
-      pTooltip ="UTC: {{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall)[1]}}"
-      >{{(transportCall.estimatedDateofArrival | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
+      pTooltip ="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}"
+      >{{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
       <td>{{transportCall.importVoyageNumber}}</td>
       <td>{{transportCall.exportVoyageNumber}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>
