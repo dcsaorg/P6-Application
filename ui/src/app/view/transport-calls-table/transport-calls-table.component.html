@@ -53,7 +53,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall>
-    <tr [pSelectableRow]="transportCall">
+    <tr [pSelectableRow]="transportCall" [ngClass]="{'obsoleteTransportCall': transportCall.actualPortDeparture != undefined}">
       <td>{{transportCall.vesselName}}</td>
       <td>{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
