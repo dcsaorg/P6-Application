@@ -7,6 +7,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
 import { AuthService } from 'src/app/auth/auth.service';
 import {ExportService} from "../../controller/services/base/export.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
   companyCodeType: string;
   companyId: string;
   displayDownloadRequest: boolean;
+  authLocalState: boolean;
 
   availableLanguages: SelectItem[] = [
     {label: "English", value: "en"},
@@ -30,11 +32,9 @@ export class HeaderComponent implements OnInit {
   currentLanguage: SelectItem = this.availableLanguages[0];
 
   constructor(private dialogService: DialogService,
-              private configService: ConfigService,
               private messageService: MessageService,
               private translate: TranslateService,
               private globals: Globals,
-              private authService: AuthService,
               private exportService: ExportService,
               ) {
     this.companyName = globals.config.publisher.partyName;
@@ -68,6 +68,7 @@ export class HeaderComponent implements OnInit {
         }
       ]}
     ];
+    this.authLocalState = environment.authentication;
   }
 
   showInstructions() {

@@ -87,9 +87,10 @@ export function ConfigLoader(configService: ConfigService) {
     TransportCallCreatorComponent,
   ],
   imports: [
+    AmplifyUIAngularModule,
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    BrowserModule,
     ButtonModule,
     CalendarModule,
     CardModule,
@@ -113,7 +114,6 @@ export function ConfigLoader(configService: ConfigService) {
     ProgressSpinnerModule,
     PanelModule,
     MenuModule,
-    AmplifyUIAngularModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
