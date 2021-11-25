@@ -20,14 +20,22 @@
           : </label>
         <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
       </div>
-      <div class="p-field p-col-12 p-md-4"  *ngIf="responseTimestamp != null && timestampResponseStatus == 'Accepted'">
+      <div class="p-field p-col-12 p-md-4" *ngIf="responseTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
+        <div *ngIf="timestampResponseStatus == 'Accepted'">
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.acceptedLabel' |
           translate }}: </label>
-        <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
-          responseTimestamp.portOfCall)[0]}}</span>
+          <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
+            responseTimestamp.portOfCall)[0]}}</span>
+        </div>
+        <div *ngIf="timestampResponseStatus != 'Accepted'">
+          <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' |
+            translate }}: </label>
+          <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
+            responseTimestamp.portOfCall)[0]}}</span>
+        </div>
       </div>
-      
+
       <div class="p-field p-col-12 p-md-2" *ngIf="responseTimestamp != null"></div>
       <div class="p-field p-col-12 p-md-4" *ngIf="responseTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
