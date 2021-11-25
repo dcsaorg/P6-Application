@@ -32,7 +32,8 @@ export class ConfigService {
                 region: this.globals.config.authRegion,
                 userPoolId: this.globals.config.authUserPoolId,
                 userPoolWebClientId: this.globals.config.authUserPoolWebClientId,
-                mandatorySignIn: true
+                mandatorySignIn: true,
+                RedirectUriSignIn : this.globals.config.authRedirectUriSignIn
             }
           });
            resolve();

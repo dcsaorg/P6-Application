@@ -14,8 +14,6 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {
     this.authService.getAccessToken().subscribe(
       result => {
-
-        console.log(result);
         this.authToken = result;
       });
   }
@@ -27,7 +25,6 @@ export class AuthInterceptor implements HttpInterceptor {
       }
     });
 
-
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.
     if (this.authToken || this.skipInterceptor) {
@@ -36,8 +33,6 @@ export class AuthInterceptor implements HttpInterceptor {
         if (event instanceof HttpResponse) {
           // checking unAuthorizated access and log user out if so. 
           if (event.status === 401) {
-            //    this.authService.logUserOut();
-            //  this.router.navigateByUrl('signin');
             Auth.signOut();
           }
         }

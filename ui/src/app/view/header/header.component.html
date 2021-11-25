@@ -7,8 +7,8 @@
     <p-menu #menu [popup]="true" [model]="helpMenu"></p-menu>
     
   </div>
-  <div class="p-col-1 center-button-in-div">
-    <amplify-sign-out></amplify-sign-out>
+  <div class="p-col-1 center-button-in-div" *ngIf="this.authLocalState">
+    <amplify-sign-out ></amplify-sign-out>
 </div>
 
   <div class="p-col-1 header__menuLabel">

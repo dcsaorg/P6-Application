@@ -23,11 +23,9 @@ export class AuthService {
   public isAuthenticated(): Observable<boolean> {
     return from(Auth.currentSession()).pipe(
       catchError(error => {
-        console.log("ERROR isAuthenticated")
         return Observable.throw(error);
       }),
       map((session) => {
-        console.log("session isAuthenticated")
         return session.isValid();
       })
     )

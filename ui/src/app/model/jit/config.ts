@@ -18,5 +18,6 @@ export interface Config {
   authUserPoolId: string;
   authUserPoolWebClientId: string;
   authMandatorySignIn: boolean;
+  authRedirectUriSignIn: string;
 
 }
