@@ -160,8 +160,9 @@
         },
         "eventTimestamp": {
           "label": "Event timestamp",
-          "declinedLabel": "Declined event timestamp",
-          "acceptedLabel": "Accepted event timestamp",
+          "header": "Transport Call",
+          "declinedLabel": "Declining event timestamp",
+          "acceptedLabel": "Accepting event timestamp",
           "tooltip": "What is the estimated, requested, planned or actual timestamp of the event (local time for port)"
         },
         "logOfTimestamp": {
