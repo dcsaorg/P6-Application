@@ -12,7 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
   authToken: string = null;
 
   constructor(private authService: AuthService) {
-    this.authService.getAccessToken().subscribe(
+    this.authService.tokenObservable.subscribe(
       result => {
         this.authToken = result;
       });
