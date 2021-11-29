@@ -5,7 +5,7 @@ import { Timestamp } from '../model/jit/timestamp';
 import { Component, ChangeDetectorRef, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
 import { environment } from "src/environments/environment";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -28,7 +28,10 @@ export class AppComponent implements OnInit, OnDestroy {
   private stateChange;
 
 
-  constructor(translate: TranslateService, private ref: ChangeDetectorRef,private zone: NgZone) {
+  constructor(translate: TranslateService,
+              private ref: ChangeDetectorRef,
+              private zone: NgZone,
+              private router: Router) {
       translate.setDefaultLang('en');
       translate.use('en');
   }
@@ -40,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.user = authData as CognitoUserInterface;      
         this.zone.run(() => { 
           this.ref.detectChanges()
+          this.router.navigate(['/dashboard'])
       });
     })    
   }
