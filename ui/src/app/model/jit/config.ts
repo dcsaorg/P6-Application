@@ -11,7 +11,10 @@ export interface Config {
   uiSupportBackendURL: string;
   jitBackendURL: string;
   dateTimeFormat: string;
-  cognitoUserPoolId: string;
-  cognitoAppClientId: string;
   enableVesselPositions: boolean
+  authRegion: string;
+  authUserPoolId: string;
+  authUserPoolWebClientId: string;
+  authRedirectUriSignIn: string;
+
 }

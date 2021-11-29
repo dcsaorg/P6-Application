@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {BACKEND_URL} from "../../../../environments/environment";
 import {StaticConfigService} from "../static/static-config.service";
 import {Globals} from "../../../model/portCall/globals"
+import Amplify from 'aws-amplify';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,15 @@ export class ConfigService {
     return new Promise((resolve) => {
       this.getConfig().subscribe((config) => {
            this.globals.config = config;
+           Amplify.configure({
+            Auth: {
+                region: this.globals.config.authRegion,
+                userPoolId: this.globals.config.authUserPoolId,
+                userPoolWebClientId: this.globals.config.authUserPoolWebClientId,
+                mandatorySignIn: true,
+                RedirectUriSignIn : this.globals.config.authRedirectUriSignIn
+            }
+          });
            resolve();
        });
     });

@@ -5,13 +5,14 @@
   <div class="p-col-3 header__menuEntryDiv" >
     <button type="button" pButton pRipple icon="pi pi-bars" label="Menu" (click)="menu.toggle($event)"></button>
     <p-menu #menu [popup]="true" [model]="helpMenu"></p-menu>
+    
   </div>
-  <div class="p-col-1 center-button-in-div">
-    <button class="p-button" (click)="onLogout()">Log out</button>
-
-  </div>
+  <div class="p-col-1 center-button-in-div" *ngIf="this.authLocalState">
+    <amplify-sign-out ></amplify-sign-out>
+</div>
 
   <div class="p-col-1 header__menuLabel">
+
     <span>{{ 'general.port.call' | translate }}</span>
   </div>
   <div class="p-col-1"></div>

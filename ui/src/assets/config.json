@@ -28,9 +28,11 @@
   "uiSupportBackendURL": "http://localhost:9091/v1",
   "jitBackendURL": "http://localhost:9090/v1",
   "dateTimeFormat": "dd MMM yyyy HH:mm",
-  "cognitoUserPoolId": "eu-west-1_LsLTYEjn5",
-  "cognitoAppClientId": "4u49pjh38su1ccea0l4dras9if",
   "enableJIT11Timestamps": true,
-  "enableVesselPositions": true
+  "enableVesselPositions": true,
+  "authRegion":"eu-west-1",
+  "authUserPoolId": "eu-west-1_khrRmnDXz",
+  "authUserPoolWebClientId": "5qgd24cfb8m4sm6bkrfk55cqfr",
+  "authRedirectUriSignIn":"/dashboard"
 }
 

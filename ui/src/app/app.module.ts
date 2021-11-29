@@ -51,13 +51,11 @@ import {MenuModule} from "primeng/menu";
 import { OperationsEventToTimestampPipe } from './controller/pipes/operations-event-to-timestamp.pipe';
 import { TransportCallCreatorComponent } from './view/transport-call-creator/transport-call-creator.component';
 import { TimestampToStandardizedtTimestampPipe } from "./controller/pipes/timestamp-to-standardized-timestamp";
-import { SignInComponent } from './auth/sign-in/sign-in.component';
-import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
 import {AuthService} from "./auth/auth.service";
 import { TransportCallFilterService } from "./controller/services/base/transport-call-filter.service";
-
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -70,8 +68,6 @@ export function ConfigLoader(configService: ConfigService) {
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
-    SignUpComponent,
     DashboardComponent,
     HeaderComponent,
     TimestampCommentDialogComponent,
@@ -93,9 +89,10 @@ export function ConfigLoader(configService: ConfigService) {
     TransportCallCreatorComponent,
   ],
   imports: [
+    AmplifyUIAngularModule,
+    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    BrowserModule,
     ButtonModule,
     CalendarModule,
     CardModule,
