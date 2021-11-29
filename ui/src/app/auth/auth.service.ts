@@ -1,33 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Auth } from 'aws-amplify';
-import { from } from 'rxjs/internal/observable/from';
-import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  getAccessToken(): Observable<string> {
-    return from(Auth.currentSession()).pipe(
-      catchError(error => {
-        return Observable.throw(error);
-      }),
-      map((session) => {
-        return session.getAccessToken().getJwtToken()
-      })
-    )
+  private tokenDataSource = new ReplaySubject<string>()
+  tokenObservable = this.tokenDataSource.asObservable()
+
+  async resolveToken(): Promise<void> {
+    try {
+      const session = await Auth.currentSession();
+      this.tokenDataSource.next(session.getAccessToken().getJwtToken())
+    } catch (e) {
+    }
+    return;
   }
 
-  public isAuthenticated(): Observable<boolean> {
-    return from(Auth.currentSession()).pipe(
-      catchError(error => {
-        return Observable.throw(error);
-      }),
-      map((session) => {
-        return session.isValid();
-      })
-    )
-  }
 }
