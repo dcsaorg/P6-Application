@@ -203,7 +203,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
   showTerminalOption(): boolean {
     const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
-    return selectedTimestamp?.value?.isTerminalNeeded ?? false;
+    return selectedTimestamp?.isTerminalNeeded ?? false;
   }
 
   shouldCreateTimestamp(): boolean {
