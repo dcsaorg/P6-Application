@@ -8,14 +8,14 @@ import {Globals} from "../../../model/portCall/globals";
   providedIn: 'root'
 })
 export class TerminalService {
-  private readonly TERMINAL_URL: string;
   private readonly TERMINAL_URL_BACKEND: string;
 
   constructor(private httpClient: HttpClient,
               private globals: Globals) {
-    this.TERMINAL_URL_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/terminals';
+    this.TERMINAL_URL_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/terminals?facilitySMDGCode:neq=NULL';
   }
 
-  getTerminalsByUNLocationCode = (unLocationCode?: string): Observable<Terminal[]> => this.httpClient.get<Terminal[]>(this.TERMINAL_URL_BACKEND + "?UNLocationCode=" + unLocationCode);
+  getTerminalsByUNLocationCode = (unLocationCode?: string): Observable<Terminal[]> =>
+    this.httpClient.get<Terminal[]>(this.TERMINAL_URL_BACKEND + "&UNLocationCode=" + unLocationCode);
 
 }
