@@ -13,21 +13,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
     steps:
       - name: Checkout the source code
         uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - name: Cache node modules
+        uses: actions/cache@v1
         with:
-          java-version: 11
-      - name: Configure maven settings
-        uses: whelk-io/maven-settings-xml-action@v14
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          servers: '[{ "id": "dcsa-p6", "username": "${{ secrets.DCSA_USER }}", "password": "${{ secrets.DCSA_PACKAGES_PAT }}" }]'
-      - name: Compile and test
-        run: mvn -B package
-#      - name: Publish Test Report
-#        uses: mikepenz/action-junit-report@v1
-#        with:
-#          report_paths: '**/surefire-reports/TEST-*.xml'
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: ${{ matrix.node-version }}
+      - name: npm install and npm run build
+        run: |
+          cd ui
+          npm i
+        if: ${{ github.ref == 'refs/heads/main' }}
+          npm run build:prod
