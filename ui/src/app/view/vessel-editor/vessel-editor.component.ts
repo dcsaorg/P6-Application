@@ -4,7 +4,7 @@ import {Vessel} from "../../model/portCall/vessel";
 import {Carrier} from "../../model/portCall/carrier";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {MessageService} from "primeng/api";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {vesselOperatorCarrierCodeListProvider} from '../../model/enums/vesselOperatorCarrierCodeListProvider';
 import {SelectItem} from "primeng/api";
 import {Globals} from "../../model/portCall/globals";
@@ -16,7 +16,7 @@ import {Globals} from "../../model/portCall/globals";
 })
 export class VesselEditorComponent implements OnInit {
   vessel: Vessel;
-  vesselFormGroup: FormGroup;
+  vesselFormGroup: UntypedFormGroup;
   carriers: SelectItem[];
   selectedCarrier: Carrier;
   allowImoID: boolean;
@@ -26,7 +26,7 @@ export class VesselEditorComponent implements OnInit {
               public config: DynamicDialogConfig,
               private vesselService: VesselService,
               private messageService: MessageService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               public globals: Globals,
   ) {
   }
@@ -34,19 +34,19 @@ export class VesselEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.vesselFormGroup = this.formBuilder.group({
-      imoId: new FormControl(null, [
+      imoId: new UntypedFormControl(null, [
         Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)
       ]),
-      flag: new FormControl(null, [
+      flag: new UntypedFormControl(null, [
         Validators.pattern('^\\w{2}?$')
       ]),
-      name: new FormControl(null, [
+      name: new UntypedFormControl(null, [
         Validators.required, Validators.minLength(1), Validators.maxLength(35)
       ]),
-      callSignNumber: new FormControl(null, [
+      callSignNumber: new UntypedFormControl(null, [
         Validators.minLength(1), Validators.maxLength(10)
       ]),
-      operatorCarrierID: new FormControl(null, [
+      operatorCarrierID: new UntypedFormControl(null, [
         Validators.maxLength(36)
       ]),
     });

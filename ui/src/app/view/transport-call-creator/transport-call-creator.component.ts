@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {Globals} from "../../model/portCall/globals";
 import {MessageService, SelectItem} from "primeng/api";
 import {TranslateService} from "@ngx-translate/core";
@@ -35,7 +35,7 @@ import {TimestampDefinitionService} from "../../controller/services/base/timesta
   styleUrls: ['./transport-call-creator.component.scss']
 })
 export class TransportCallCreatorComponent implements OnInit {
-  transportCallFormGroup: FormGroup;
+  transportCallFormGroup: UntypedFormGroup;
   portOfCall: Port;
   terminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
@@ -60,7 +60,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
   dateToUTC: DateToUtcPipe
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private translate: TranslateService,
               private globals: Globals,
               public ref: DynamicDialogRef,
@@ -90,21 +90,21 @@ export class TransportCallCreatorComponent implements OnInit {
     });
     this.dateToUTC = new DateToUtcPipe();
     this.transportCallFormGroup = this.formBuilder.group({
-      timestampchecking: new FormControl(null),
-      serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
-      exportVoyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
-      importVoyageNumber: new FormControl(null, [Validators.maxLength(50)]),
-      port: new FormControl(null, [Validators.required]),
-      terminal: new FormControl({value: ''}, [Validators.required]),
-      vessel: new FormControl(null, [Validators.required]),
-      timestampType: new FormControl(null),
-      delayCode: new FormControl(null),
-      eventTimestampTime: new FormControl(null),
-      eventTimestampDate: new FormControl(null),
-      defaultTimestampRemark: new FormControl(null),
-      locationName: new FormControl(null),
-      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
-      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
+      timestampchecking: new UntypedFormControl(null),
+      serviceCode: new UntypedFormControl(null, [Validators.required, Validators.maxLength(5)]),
+      exportVoyageNumber: new UntypedFormControl(null, [Validators.required, Validators.maxLength(50)]),
+      importVoyageNumber: new UntypedFormControl(null, [Validators.maxLength(50)]),
+      port: new UntypedFormControl(null, [Validators.required]),
+      terminal: new UntypedFormControl({value: ''}, [Validators.required]),
+      vessel: new UntypedFormControl(null, [Validators.required]),
+      timestampType: new UntypedFormControl(null),
+      delayCode: new UntypedFormControl(null),
+      eventTimestampTime: new UntypedFormControl(null),
+      eventTimestampDate: new UntypedFormControl(null),
+      defaultTimestampRemark: new UntypedFormControl(null),
+      locationName: new UntypedFormControl(null),
+      vesselPositionLongitude: new UntypedFormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
+      vesselPositionLatitude: new UntypedFormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
     });
   }
 
@@ -237,7 +237,7 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   get addressForm() {
-    return this.transportCallFormGroup.get('timestampchecking') as FormGroup;
+    return this.transportCallFormGroup.get('timestampchecking') as UntypedFormGroup;
   }
 
   async saveNewTransportCall() {
