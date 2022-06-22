@@ -34,5 +34,5 @@ jobs:
         run: |
           cd ui
           npm i
-          if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
           npm run build:prod
