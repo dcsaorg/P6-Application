@@ -56,13 +56,3 @@ import 'zone.js';  // Included with Angular CLI.
 (window as any).process = {
     env: { DEBUG: undefined },
   };
-
-/***************************************************************************************************
- * Internet Explorer 11 (IE11) Support.
- */
-import 'core-js/es/typed-array';
-import 'core-js/es/object';
-
-/***************************************************************************************************
- * APPLICATION IMPORTS
- */

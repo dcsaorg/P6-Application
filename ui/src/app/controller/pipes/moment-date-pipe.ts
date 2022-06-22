@@ -12,11 +12,12 @@ import moment from 'moment-timezone'
 
 @Pipe({ name: 'momentDate' })
 export class MomentDatePipe extends DatePipe implements PipeTransform {
-  transform(
-    value: string | Date,
-    format: string = 'mediumDate',
-    timezone: string = 'Europe/Prague'
-  ): string {
+
+  transform(value: Date | string | number, format?: string, timezone?: string): string | null;
+  transform(value: null | undefined, format?: string, timezone?: string): null;
+  transform(value: Date | string | number | null | undefined, format?: string, timezone?: string): string | null {
+    if (!format) format = 'mediumDate';
+    if (!timezone) timezone = 'Europe/Prague';
     const timezoneOffset = timezone.startsWith("UTC") ? timezone : moment(value).tz(timezone).format('Z');
     return super.transform(value, format, timezoneOffset);
   }
