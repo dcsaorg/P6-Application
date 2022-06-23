@@ -47,7 +47,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
   timestamp: Timestamp;
   eventTimestampDate: Date;
-  eventTimestampTime: String;
+  eventTimestampTime: string;
   timestampSelected: TimestampDefinition;
   timestampDefinitions: TimestampDefinition[] = [];
   timestampTypes: SelectItem[] = [];
@@ -176,7 +176,7 @@ export class TransportCallCreatorComponent implements OnInit {
     });
   }
 
-  leftPadWithZero(item: number): String {
+  leftPadWithZero(item: number): string {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
 
