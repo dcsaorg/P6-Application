@@ -112,8 +112,8 @@ export class TransportCallCreatorComponent implements OnInit {
     this.ref.close(null);
   }
 
-  private updateTerminalOptions(unLocationCode:string) {
-    this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
+  private updateTerminalOptions(UNLocationCode:string) {
+    this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
       this.terminalOptions = [];
       this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
@@ -129,7 +129,7 @@ export class TransportCallCreatorComponent implements OnInit {
     if (this.transportCallFormGroup.controls.port.value) {
       this.portOfCall = this.transportCallFormGroup.controls.port.value;
       this.transportCallFormGroup.controls.terminal.enable();
-      this.updateTerminalOptions(this.portOfCall.unLocationCode);
+      this.updateTerminalOptions(this.portOfCall.UNLocationCode);
     }
   }
 
@@ -149,7 +149,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.portOptions = [];
       this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
       ports.forEach(port => {
-        this.portOptions.push({label: port.unLocationName, value: port});
+        this.portOptions.push({label: port.UNLocationName, value: port});
       });
     });
   }
@@ -273,7 +273,7 @@ export class TransportCallCreatorComponent implements OnInit {
     transportCall.modeOfTransport = "VESSEL";
 
     transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
-    transportCall.UNLocationCode = port.unLocationCode;
+    transportCall.UNLocationCode = port.UNLocationCode;
 
     transportCall.exportVoyageNumber = this.transportCallFormGroup.controls.exportVoyageNumber.value;
     transportCall.importVoyageNumber = this.transportCallFormGroup.controls.importVoyageNumber.value;

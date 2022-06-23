@@ -93,7 +93,7 @@ export class TransportCallsTableComponent implements OnInit {
 
   async loadTransportCalls(): Promise<TransportCall[]> {
     return new Promise(resolve => {
-      this.transportCallService.getTransportCalls(this.filterPort?.unLocationCode, this.filterTerminal?.facilitySMDGCode, this.filterVessel?.vesselIMONumber).subscribe(transportCalls => {
+      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterTerminal?.facilitySMDGCode, this.filterVessel?.vesselIMONumber).subscribe(transportCalls => {
         this.progressing = false;
         this.transportCalls = transportCalls;
         resolve(transportCalls)

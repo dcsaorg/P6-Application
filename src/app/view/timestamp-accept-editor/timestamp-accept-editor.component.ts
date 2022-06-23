@@ -108,8 +108,8 @@ export class TimestampAcceptEditorComponent implements OnInit {
     });
   }
 
-  private updateTerminalOptions(unLocationCode:string) {
-    this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
+  private updateTerminalOptions(UNLocationCode:string) {
+    this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
       this.terminalOptions = [];
       this.terminalSelected = terminals.find(terminal => terminal.facilitySMDGCode == this.responseTimestamp.facilitySMDGCode);
@@ -123,7 +123,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     let eventTimestampDat = new Date();
     this.eventTimestampTime = this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes());
   }
-  
+
   private leftPadWithZero(item: number): String {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
@@ -139,11 +139,11 @@ export class TimestampAcceptEditorComponent implements OnInit {
     // Set delay code if specified
     this.responseTimestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
     // set terminal if specified
-   
-    // Nulled - as not to inherent older values 
+
+    // Nulled - as not to inherent older values
     this.responseTimestamp.eventLocation = null;
-    this.responseTimestamp.vesselPosition = null; 
-    this.responseTimestamp.facilitySMDGCode = null; 
+    this.responseTimestamp.vesselPosition = null;
+    this.responseTimestamp.facilitySMDGCode = null;
 
     if(this.responseTimestamp.timestampDefinition.isTerminalNeeded){
       // Selected terminal is set (Whether inhereted or new).
@@ -161,7 +161,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     const latitude = this.vesselPosition.latitude;
     const longtitude = this.vesselPosition.longitude;
     if (this.VesselPositionLabel && latitude && longtitude) {
-      // Present value on label is set (Whether inhereted or new). 
+      // Present value on label is set (Whether inhereted or new).
       this.responseTimestamp.vesselPosition = new class implements VesselPosition {
         latitude: string = latitude;
         longitude: string = longtitude;
@@ -172,7 +172,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
         this.responseTimestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, this.transportCall.portOfCall?.timezone);
       }
 
-    // Post timestamp 
+    // Post timestamp
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(this.responseTimestamp).subscribe(() => {
         this.creationProgress = false;

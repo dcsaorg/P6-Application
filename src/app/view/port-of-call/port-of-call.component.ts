@@ -39,7 +39,7 @@ export class PortOfCallComponent implements OnInit {
   }
 
   selectPortOfCall = () => {
-    this.updateTerminalOptions(this.portOfCall?.unLocationCode); // NULL?
+    this.updateTerminalOptions(this.portOfCall?.UNLocationCode); // NULL?
     this.portOfCallNotifier.emit(this.portOfCall);
     this.portFilterService.updatePortFilter(this.portOfCall)
   };
@@ -47,9 +47,9 @@ export class PortOfCallComponent implements OnInit {
     this.portFilterService.updateTerminalFilter(this.terminal)
   }
 
-  updateTerminalOptions(unLocationCode:string) {
+  updateTerminalOptions(UNLocationCode:string) {
 
-    this.terminalService.getTerminalsByUNLocationCode(unLocationCode).subscribe(terminals => {
+    this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
       this.terminalOptions = [];
       this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
@@ -59,7 +59,7 @@ export class PortOfCallComponent implements OnInit {
         }
       });
     })
-  
+
   }
 
   updatePortOfcallOptions() {
@@ -68,7 +68,7 @@ export class PortOfCallComponent implements OnInit {
       this.portOptions = [];
       this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
       ports.forEach(port => {
-        this.portOptions.push({label: port.unLocationName, value: port});
+        this.portOptions.push({label: port.UNLocationName, value: port});
       });
     });
   }

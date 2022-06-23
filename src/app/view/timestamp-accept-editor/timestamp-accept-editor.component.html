@@ -10,7 +10,7 @@
       <div class="p-field p-col-12 p-md-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
         <span id="portOfCall" *ngIf="responseTimestamp.portOfCall != null">
-          {{$any(responseTimestamp.portOfCall).unLocationCode}} </span>
+          {{$any(responseTimestamp.portOfCall).UNLocationCode}} </span>
       </div>
       <div class="p-field p-col-12 p-md-4">
         <!-- Placeholder for additional information -->
@@ -53,7 +53,7 @@
 
     <div class="p-field p-col-12 p-md-5" *ngIf="responseTimestamp != null && timestampResponseStatus == 'Rejected'">
       <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
-  
+
     <div class="p-fluid p-formgrid p-grid" >
       <div class="p-field p-col-12 p-md-6">
         <p-calendar id="eventtimestamp" appendTo="body" [(ngModel)]="eventTimestampDate" hourFormat="24"
@@ -164,7 +164,7 @@
     <p-button (onClick)="close()" class="footer_option__buttons" icon="pi pi-times-circle"
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-    <p-button *ngIf="timestampResponseStatus == 'Rejected'"  (onClick)="savePortcallTimestamp()" 
+    <p-button *ngIf="timestampResponseStatus == 'Rejected'"  (onClick)="savePortcallTimestamp()"
     [disabled]="validatePortOfCallTimestamp()"
     class="footer_option__buttons"
       icon="pi pi-save" label="{{'general.save.Rejecteditor.label' | translate}}"
@@ -173,7 +173,7 @@
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
     </p-button>
 
-    <p-button *ngIf="timestampResponseStatus == 'Accepted'"  (onClick)="savePortcallTimestamp()" 
+    <p-button *ngIf="timestampResponseStatus == 'Accepted'"  (onClick)="savePortcallTimestamp()"
     class="footer_option__buttons"
       icon="pi pi-save" label="{{'general.save.Accepteditor.label' | translate}}"
       iconPos="left">

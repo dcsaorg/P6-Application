@@ -44,14 +44,14 @@
         <div class="p-field p-col-12 p-md-4">
           <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
           <p-dropdown appendTo="body" formControlName="port" id="portOfCall" class="portOfCall__dropDown"
-                      [options]="portOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.unLocationCode">
+                      [options]="portOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.UNLocationCode">
             <ng-template let-port pTemplate="item">
               <div *ngIf="!port.value">
                 <div>Select port</div>
               </div>
               <div *ngIf="port.value">
                 <div>{{port.value.unLocationName}}</div>
-                <div class="portListName">{{port.value.unLocationCode}}</div>
+                <div class="portListName">{{port.value.UNLocationCode}}</div>
               </div>
             </ng-template>
           </p-dropdown>

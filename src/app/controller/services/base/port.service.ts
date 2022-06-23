@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import {of} from 'rxjs';
 
 function cachePort(cache: Map<string, Port>, port: Port) {
-  cache.set(port.unLocationCode, port);
+  cache.set(port.UNLocationCode, port);
 }
 
 @Injectable({
@@ -21,19 +21,19 @@ export class PortService {
 
   constructor(private httpClient: HttpClient,
               private globals: Globals) {
-                
+
     this.PORT_URL = globals.config.uiSupportBackendURL + '/unofficial/ports' ;
     this.PORT_URL_LIMIT_1000 = globals.config.uiSupportBackendURL + '/unofficial/ports' + '?limit=1000';
   }
 
-  getPortsByUNLocationCode(unLocationCode?: string): Observable<Port> {
+  getPortsByUNLocationCode(UNLocationCode?: string): Observable<Port> {
     let query = '';
-    if (unLocationCode) {
-      const cachedPort = this.unlocode2PortCache.get(unLocationCode);
+    if (UNLocationCode) {
+      const cachedPort = this.unlocode2PortCache.get(UNLocationCode);
       if (cachedPort) {
         return of(cachedPort);
       }
-      query = "?unLocationCode=" + unLocationCode;
+      query = "?UNLocationCode=" + UNLocationCode;
     }
     return this.httpClient.get<Port[]>(this.PORT_URL + query).pipe(
       map((ports) => {
