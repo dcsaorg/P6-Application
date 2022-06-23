@@ -20,7 +20,7 @@ export class OperationsEventService {
     this.EVENT_DELIVERY_STATUS_URL = globals.config.uiSupportBackendURL + "/unofficial/timestamp-info";
   }
 
-  getTimestampInfoForTransportCall = (transportCallId: string): Observable<TimestampInfo[]> => this.httpClient.get<TimestampInfo[]>(this.EVENT_DELIVERY_STATUS_URL + "/?transportCallID=" + transportCallId + "&limit=" + this.LIMIT)
+  getTimestampInfoForTransportCall = (transportCallId: string): Observable<TimestampInfo[]> => this.httpClient.get<TimestampInfo[]>(this.EVENT_DELIVERY_STATUS_URL + "?transportCallID=" + transportCallId + "&limit=" + this.LIMIT)
 
   getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
     const url = this.OPERATIONS_EVENT_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId + '&sort=eventCreatedDateTime:DESC&limit=' + this.LIMIT;
