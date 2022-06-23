@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - master
-      - main-dev
   pull_request:
     branches:
       - master
-      - main-dev
 
 jobs:
   build:
@@ -30,5 +28,4 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm i
-        if: ${{ github.ref == 'refs/heads/main' }}
-          npm run build:prod
+          npm run build
