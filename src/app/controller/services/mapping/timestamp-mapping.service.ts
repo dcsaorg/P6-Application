@@ -1,17 +1,18 @@
-import {Injectable} from '@angular/core';
-import {OperationsEventService} from "../jit/operations-event.service";
-import {Observable} from "rxjs";
-import {TransportCall} from "../../../model/jit/transport-call";
-import {map, mergeMap} from "rxjs/operators";
-import {Globals} from "../../../model/portCall/globals";
-import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
-import {Timestamp} from "../../../model/jit/timestamp";
-import {TimestampService} from "../jit/timestamps.service";
-import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
-import {NegotiationCycleService} from "../base/negotiation-cycle.service";
-import {TimestampInfo} from "../../../model/jit/timestampInfo";
-import {TimestampDefinition} from "../../../model/jit/timestamp-definition";
-import {TimestampDefinitionService} from "../base/timestamp-definition.service";
+import { Injectable } from '@angular/core';
+import { OperationsEventService } from "../jit/operations-event.service";
+import { Observable } from "rxjs";
+import { TransportCall } from "../../../model/jit/transport-call";
+import { map, mergeMap } from "rxjs/operators";
+import { Globals } from "../../../model/portCall/globals";
+import { OperationsEventsToTimestampsPipe } from "../../pipes/operations-events-to-timestamps.pipe";
+import { Timestamp } from "../../../model/jit/timestamp";
+import { TimestampService } from "../jit/timestamps.service";
+import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
+import { NegotiationCycleService } from "../base/negotiation-cycle.service";
+import { TimestampInfo } from "../../../model/jit/timestampInfo";
+import { TimestampDefinition } from "../../../model/jit/timestamp-definition";
+import { TimestampDefinitionService } from "../base/timestamp-definition.service";
+import { debug } from 'console';
 
 
 @Injectable({
@@ -19,13 +20,13 @@ import {TimestampDefinitionService} from "../base/timestamp-definition.service";
 })
 export class TimestampMappingService {
   constructor(
-              private operationsEventService: OperationsEventService,
-              private globals: Globals,
-              private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
-              private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
-              private timestampDefinitionService: TimestampDefinitionService,
-              private timestampService: TimestampService,
-              private negotiationCycleService: NegotiationCycleService,
+    private operationsEventService: OperationsEventService,
+    private globals: Globals,
+    private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
+    private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
+    private timestampDefinitionService: TimestampDefinitionService,
+    private timestampService: TimestampService,
+    private negotiationCycleService: NegotiationCycleService,
   ) {
   }
 
@@ -37,9 +38,10 @@ export class TimestampMappingService {
   }
 
   getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
+    console.log(transportCall);
     return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(
-      mergeMap((events) =>
-        this.operationsEventService.getTimestampInfoForTransportCall(transportCall.transportCallID).pipe(
+      mergeMap((events) => {
+        return this.operationsEventService.getTimestampInfoForTransportCall(transportCall.transportCallID).pipe(
           map((deliveryStatuses) => {
             let map = new Map<string, TimestampInfo>();
             for (let status of deliveryStatuses) {
@@ -57,7 +59,8 @@ export class TimestampMappingService {
             }
             return events;
           })
-        ),
+        );
+      },
       ),
       mergeMap(events => this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
         map(timestampDefinitions => {

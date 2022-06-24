@@ -15,7 +15,7 @@ export class TerminalService {
     this.TERMINAL_URL_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/terminals?facilitySMDGCode:neq=NULL';
   }
 
-  getTerminalsByUNLocationCode = (unLocationCode?: string): Observable<Terminal[]> =>
-    this.httpClient.get<Terminal[]>(this.TERMINAL_URL_BACKEND + "&UNLocationCode=" + unLocationCode);
+  getTerminalsByUNLocationCode = (UNLocationCode?: string): Observable<Terminal[]> =>
+    this.httpClient.get<Terminal[]>(this.TERMINAL_URL_BACKEND + "&UNLocationCode=" + UNLocationCode);
 
 }
