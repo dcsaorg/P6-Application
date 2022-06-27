@@ -24,7 +24,7 @@
     ],
     "nmftaCode": "CSK"
   },
-  "publisherRoles": ["CA", "AG", "VSL", "TR", "ATH", "PLT", "TWG", "BUK", "LSH"],
+  "publisherRoles": ["CA", "AG", "VSL", "TR", "ATH", "PLT", "TWG", "BUK", "LSH", "SLU", "SVP", "MOR"],
   "uiSupportBackendURL": "http://localhost:9091/v1",
   "jitBackendURL": "http://localhost:9090/v1",
   "dateTimeFormat": "dd MMM yyyy HH:mm",

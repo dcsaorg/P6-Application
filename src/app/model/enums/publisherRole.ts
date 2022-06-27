@@ -9,4 +9,8 @@ export enum PublisherRole {
   TWG = 'TWG',  // Towage Service Provider
   BUK = 'BUK',   // Bunkering Service Provider
   LSH = 'LSH',   // Lashing Service Provider
+
+  SLU = 'SLU', // Sludge service provider
+  SVP = 'SVP', // Other service provider
+  MOR = 'MOR', // Moording service provider
 }
