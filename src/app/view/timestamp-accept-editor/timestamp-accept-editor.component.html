@@ -1,26 +1,26 @@
 <h4>{{'general.table.header.eventTimestamp.header' | translate }}</h4>
 <div class="headline">
   <p-card styleClass="card-scondary">
-    <div class="p-fluid p-formgrid p-grid">
-      <div class="p-field p-col-12 p-md-4">
+    <div class="p-fluid p-formgrid grid">
+      <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
           : </label>
         <span id="vesselName"> {{transportCall.vesselName}}</span>
       </div>
-      <div class="p-field p-col-12 p-md-4">
+      <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
         <span id="portOfCall" *ngIf="responseTimestamp.portOfCall != null">
           {{$any(responseTimestamp.portOfCall).UNLocationCode}} </span>
       </div>
-      <div class="p-field p-col-12 p-md-4">
+      <div class="p-field col-12 md:col-4">
         <!-- Placeholder for additional information -->
       </div>
-      <div class="p-field p-col-12 p-md-4">
+      <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="vesselIMO">{{'general.transportCall.table.vesselImo.label'| translate}}
           : </label>
         <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
       </div>
-      <div class="p-field p-col-12 p-md-4" *ngIf="responseTimestamp != null">
+      <div class="p-field col-12 md:col-4" *ngIf="responseTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
         <div *ngIf="timestampResponseStatus == 'Accepted'">
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.acceptedLabel' |
@@ -36,8 +36,8 @@
         </div>
       </div>
 
-      <div class="p-field p-col-12 p-md-2" *ngIf="responseTimestamp != null"></div>
-      <div class="p-field p-col-12 p-md-4" *ngIf="responseTimestamp != null">
+      <div class="p-field col-12 md:col-2" *ngIf="responseTimestamp != null"></div>
+      <div class="p-field col-12 md:col-4" *ngIf="responseTimestamp != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.timestamp.acceptlabel' |
           translate }}</label>
@@ -47,15 +47,15 @@
   </p-card>
 </div>
 
-<div class="p-fluid p-formgrid p-grid">
+<div class="p-fluid p-formgrid grid">
 
 
 
-    <div class="p-field p-col-12 p-md-5" *ngIf="responseTimestamp != null && timestampResponseStatus == 'Rejected'">
+    <div class="p-field col-12 md:col-5" *ngIf="responseTimestamp != null && timestampResponseStatus == 'Rejected'">
       <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
 
-    <div class="p-fluid p-formgrid p-grid" >
-      <div class="p-field p-col-12 p-md-6">
+    <div class="p-fluid p-formgrid grid" >
+      <div class="p-field col-12 md:col-6">
         <p-calendar id="eventtimestamp" appendTo="body" [(ngModel)]="eventTimestampDate" hourFormat="24"
                     [monthNavigator]="true" [showButtonBar]="false"
                     [showIcon]="true" [showWeek]="true"
@@ -63,7 +63,7 @@
                     styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
                     [panelStyleClass]="'datetime-panel'"></p-calendar>
       </div>
-      <div class="p-field p-col-12 p-md-6">
+      <div class="p-field col-12 md:col-6">
         <p-inputMask [(ngModel)]="eventTimestampTime" mask="99:99"
                       placeholder="{{ 'general.timestamp.time' | translate }}"
                       styleClass="datetime-time-time-field"></p-inputMask>
@@ -76,8 +76,8 @@
       </div>
     </div>
   </div>
-  <div class="p-field p-col-12 p-md-6" *ngIf=" timestampResponseStatus == 'Rejected'"></div>
-  <div class="p-field p-col-12 p-md-4">
+  <div class="p-field col-12 md:col-6" *ngIf=" timestampResponseStatus == 'Rejected'"></div>
+  <div class="p-field col-12 md:col-4">
     <div [hidden]="!showTerminalOption()">
       <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
       <p-dropdown id="terminalSelected" styleClass="dropdown" [(ngModel)]="terminalSelected" [options]="terminalOptions"
@@ -99,9 +99,9 @@
     </div>
   </div>
 
-  <div class="p-field p-col-12 p-md-6"></div>
+  <div class="p-field col-12 md:col-6"></div>
 
-  <div class="p-field p-col-12 p-md-4">
+  <div class="p-field col-12 md:col-4">
 
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
     <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode" [filter]="true"
@@ -129,38 +129,38 @@
     </p-dropdown>
   </div>
 
-  <div class="p-field p-col-12 p-md-6"></div>
+  <div class="p-field col-12 md:col-6"></div>
 
-  <div class="p-field p-col-12 p-md-2"></div>
-  <div class="p-field p-col-12 p-md-5">
+  <div class="p-field col-12 md:col-2"></div>
+  <div class="p-field col-12 md:col-5">
     <span class="p-float-label">
       <textarea class="commentBox" id="commentbox" pInputTextarea [(ngModel)]="responseTimestamp.remark"></textarea>
       <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
     </span>
   </div>
 
-  <div class="p-field p-col-12 p-md-2"></div>
+  <div class="p-field col-12 md:col-2"></div>
 
 
-  <div class="p-field p-col-12 p-md-2"></div>
+  <div class="p-field col-12 md:col-2"></div>
   <!-- Vessel Position -->
-  <div class="p-field p-col-12 p-md-4" [hidden]="!showVesselPosition()">
+  <div class="p-field col-12 md:col-4" [hidden]="!showVesselPosition()">
     <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate }}:</label>
     <input id="vesselPositionLatitude" [(ngModel)]="vesselPosition.latitude" pInputText style="width: 100%"
       type="text" />
   </div>
-  <div class="p-field p-col-12 p-md-4" [hidden]="!showVesselPosition()">
+  <div class="p-field col-12 md:col-4" [hidden]="!showVesselPosition()">
     <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
     <input id="vesselPositionLongitude" [(ngModel)]="vesselPosition.longitude" pInputText style="width: 100%"
       type="text" />
   </div>
-  <div class="p-field p-col-12 p-md-6"></div>
+  <div class="p-field col-12 md:col-6"></div>
 </div>
 
-<div class="p-grid">
-  <div class="p-col-8">
+<div class="grid">
+  <div class="col-8">
   </div>
-  <div class="p-col-4 footer_option" style="justify-content: flex-end">
+  <div class="col-4 footer_option" style="justify-content: flex-end">
     <p-button (onClick)="close()" class="footer_option__buttons" icon="pi pi-times-circle"
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>

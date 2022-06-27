@@ -10,15 +10,15 @@
          sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
   <ng-template pTemplate="caption">
 
-    <div class="p-grid">
-      <div class="p-col">{{'general.table.header.timestamps.label' | translate}}</div>
-      <div class="p-col">
+    <div class="grid">
+      <div class="col">{{'general.table.header.timestamps.label' | translate}}</div>
+      <div class="col">
         <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="selectedNegotiationCycle" [options]="negotiationCycles"
                     [filter]=true filterBy="label" appendTo="body" (onChange)="filterTimestamps()">
         </p-dropdown>
 
       </div>
-      <div class="p-col tableHeader">
+      <div class="col tableHeader">
         <div class="tableHeader__buttons">
           <p-button class="p-button-raised p-button-rounded tableHeader__add_button" (onClick)="openCreationDialog(null)"
                     icon="pi pi-plus" pTooltip="{{ 'general.table.header.create.tooltip' | translate }}"
@@ -228,7 +228,7 @@
       <td
         [ngClass]="'timestampContent'"
         style="width: 12%">
-        <div class="p-col tableHeader gridButtons">
+        <div class="col tableHeader gridButtons">
           <div class="timestampContent__buttons dialogueBtn" *ngIf="timestamp.remark || timestamp.delayReasonCode">
             <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
             </p-button>
