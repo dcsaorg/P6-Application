@@ -1,8 +1,8 @@
 <form [formGroup]="transportCallFormGroup">
   <h4>{{ 'general.transportCall.label' | translate }}</h4>
-  <div class="p-fluid p-formgrid p-grid">
+  <div class="p-fluid p-formgrid grid">
 
-    <div class="p-field p-col-12 p-md-4">
+    <div class="p-field col-12 md:col-4">
       <label for="serviceCode">{{ 'general.transportCall.table.carrierServiceCode.label' | translate }}:</label>
       <input id="serviceCode" formControlName="serviceCode" pInputText style="width: 100%" type="text"/>
       <span
@@ -15,7 +15,7 @@
       </span>
     </div>
 
-    <div class="p-field p-col-12 p-md-4">
+    <div class="p-field col-12 md:col-4">
       <label for="exportVoyageNumber">{{ 'general.transportCall.table.exportVoyageNumber.label' | translate }}:</label>
       <input id="exportVoyageNumber" formControlName="exportVoyageNumber" pInputText style="width: 100%" type="text"/>
       <span
@@ -27,7 +27,7 @@
       </span>
     </div>
 
-    <div class="p-field p-col-12 p-md-4">
+    <div class="p-field col-12 md:col-4">
       <label for="importVoyageNumber">{{ 'general.transportCall.table.importVoyageNumber.label' | translate }}:</label>
       <input id="importVoyageNumber" formControlName="importVoyageNumber" pInputText style="width: 100%" type="text"/>
       <span *ngIf="transportCallFormGroup.get('importVoyageNumber').hasError('maxlength')" class="p-invalid">
@@ -36,12 +36,12 @@
     </div>
 
 
-    <div class="p-field p-col-12 p-md-8"></div>
+    <div class="p-field col-12 md:col-8"></div>
 
     <!-- UN Location Code + Facility SMDG Code -->
-    <div class="p-field p-col-12 p-md-12">
-      <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-4">
+    <div class="p-field col-12 md:col-12">
+      <div class="p-fluid p-formgrid grid">
+        <div class="p-field col-12 md:col-4">
           <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
           <p-dropdown appendTo="body" formControlName="port" id="portOfCall" class="portOfCall__dropDown"
                       [options]="portOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.UNLocationCode">
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Vessel -->
-    <div class="p-field p-col-12 p-md-4">
+    <div class="p-field col-12 md:col-4">
       <label for="vessels">{{ 'general.vessel.label' | translate }}:</label>
       <p-dropdown appendTo="body" formControlName="vessel" id="vessels" class="vessels__dropDown"
                   [options]="vesselOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.name">
@@ -93,13 +93,13 @@
   <h4>{{ 'general.timestamp.label' | translate }}</h4>
 
   <!-- Timestamp drop down-->
-  <div class="p-field p-col-12 p-md-5">
+  <div class="p-field col-12 md:col-5">
     <label for="timestampType"> Check to create Timestamp </label>
     <input class="p-checkbox-box" type="checkbox" [(ngModel)]="timestampchecking" [ngModelOptions]="{standalone: true}">
   </div>
 
-  <div class="p-fluid p-formgrid p-grid" [hidden]="!shouldCreateTimestamp()">
-    <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp()">
+  <div class="p-fluid p-formgrid grid" [hidden]="!shouldCreateTimestamp()">
+    <div class="p-field col-12 md:col-4" [hidden]="!shouldCreateTimestamp()">
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes"
                   [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()">
@@ -136,13 +136,13 @@
     </div>
 
 
-    <div class="p-field p-col-12 p-md-2"></div>
+    <div class="p-field col-12 md:col-2"></div>
 
     <!-- create event timestamp calender-->
-    <div class="p-field p-col-12 p-md-5" [hidden]="!shouldCreateTimestamp()">
+    <div class="p-field col-12 md:col-5" [hidden]="!shouldCreateTimestamp()">
       <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
-      <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col-12 p-md-6">
+      <div class="p-fluid p-formgrid grid">
+        <div class="p-field col-12 md:col-6">
           <p-calendar id="eventtimestamp" appendTo="body" formControlName="eventTimestampDate" hourFormat="24"
                       [monthNavigator]="true" [showButtonBar]="false"
                       [showIcon]="true" [showWeek]="true"
@@ -156,7 +156,7 @@
             {{ 'general.timestamp.validation.eventTimestamp.required' | translate }}
           </span>
         </div>
-        <div class="p-field p-col-12 p-md-6">
+        <div class="p-field col-12 md:col-6">
           <p-inputMask formControlName="eventTimestampTime" mask="99:99"
                        placeholder="{{ 'general.timestamp.time' | translate }}"
                        styleClass="datetime-time-time-field"></p-inputMask>
@@ -171,7 +171,7 @@
     </div>
 
 
-    <div class="p-field p-col-12 p-md-4" [hidden]="!shouldCreateTimestamp()">
+    <div class="p-field col-12 md:col-4" [hidden]="!shouldCreateTimestamp()">
       <!-- Location Name -->
       <div class="" [hidden]="!shouldCreateTimestamp() || !showLocationNameOption()">
         <label for="locationName">{{ locationNameLabel | translate }}:</label>
@@ -212,10 +212,10 @@
       </div>
     </div>
 
-    <div class="p-field p-col-12 p-md-2"></div>
+    <div class="p-field col-12 md:col-2"></div>
 
     <!-- Delay Remark -->
-    <div class="p-field p-col-12 p-md-5" [hidden]="!shouldCreateTimestamp()">
+    <div class="p-field col-12 md:col-5" [hidden]="!shouldCreateTimestamp()">
       <span class="p-float-label">
         <textarea class="commentBox" id="commentbox" pInputTextarea formControlName="defaultTimestampRemark"
                   [readOnly]="!shouldCreateTimestamp()"></textarea>
@@ -223,7 +223,7 @@
       </span>
     </div>
 
-    <div class="p-field p-col-12 p-md-4">
+    <div class="p-field col-12 md:col-4">
       <div>
         <!-- Vessel latitude -->
         <div class="" [hidden]="!showVesselPosition() || !shouldCreateTimestamp() " >
@@ -243,7 +243,7 @@
       </div>
     </div>
 
-    <div class="p-field p-col-12 p-md-4" [hidden]="!showVesselPosition() || !shouldCreateTimestamp()">
+    <div class="p-field col-12 md:col-4" [hidden]="!showVesselPosition() || !shouldCreateTimestamp()">
       <!--vessel longitude-->
       <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
       <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%" type="text"/>
@@ -260,10 +260,10 @@
     </div>
   </div>
 
-  <div class="p-grid">
-    <div class="p-col-8">
+  <div class="grid">
+    <div class="col-8">
     </div>
-    <div class="p-col-4 footer_option" style="justify-content: flex-end">
+    <div class="col-4 footer_option" style="justify-content: flex-end">
       <p-button class="footer_option__buttons" icon="pi pi-times-circle" (onClick)="close()"
                 label="{{'general.close.label' | translate}}"
                 iconPos="left">

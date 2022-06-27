@@ -1,26 +1,26 @@
-<div class="p-grid header">
-  <div class="p-col-1">
+<div class="grid header">
+  <div class="col-1">
     <img class="header__logo" src="assets/DCSA_logo_color_on_dark_background.png">
   </div>
-  <div class="p-col-3 header__menuEntryDiv" >
+  <div class="col-3 header__menuEntryDiv" >
     <button type="button" pButton pRipple icon="pi pi-bars" label="Menu" (click)="menu.toggle($event)"></button>
     <p-menu #menu [popup]="true" [model]="helpMenu"></p-menu>
     
   </div>
-  <div class="p-col-1 center-button-in-div" *ngIf="this.authLocalState">
+  <div class="col-1 center-button-in-div" *ngIf="this.authLocalState">
     <amplify-sign-out ></amplify-sign-out>
 </div>
 
-  <div class="p-col-1 header__menuLabel">
+  <div class="col-1 header__menuLabel">
 
     <span>{{ 'general.port.call' | translate }}</span>
   </div>
-  <div class="p-col-1"></div>
-  <div class="p-col-4 header__menuLabel header__company_container">
+  <div class="col-1"></div>
+  <div class="col-4 header__menuLabel header__company_container">
     <span class="header__company">{{ 'general.company' | translate }}: {{ companyName }}</span>
     <span class="header__info_small">{{companyId}}, roles: {{companyCodeType}}</span>
   </div>
-  <div class="p-col-1 header__language">
+  <div class="col-1 header__language">
     <p-dropdown styleClass="dropdown" (onChange)="changeLanguage($event)" [(ngModel)]="currentLanguage" [filter]="true"
                 [options]="availableLanguages" [autofocus]="true">
     </p-dropdown>

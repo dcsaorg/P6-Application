@@ -1,12 +1,12 @@
 <div class="p-fluid">
   <p-panel header="{{'general.delaycode.label' | translate}}">
-   <div *ngIf="delayReasonCode" class="p-col-12 p-md-10 delayCodeDetails">
+   <div *ngIf="delayReasonCode" class="col-12 md:col-10 delayCodeDetails">
     <div class="delayCodeSelected__smdgCode">{{delayReasonCode}}</div>
      <div class="delayCodeDetails__delayType">{{delayCode?.delayType}}</div>
      <div class="delayCodeDetails__delayName">{{delayCode?.name}}</div>
      <div class="delayCodeDetails__delaydescription">{{delayCode?.description}}</div>
   </div>
-    <div *ngIf="!delayReasonCode" class="p-col-12 p-md-10 delayCodeDiv">
+    <div *ngIf="!delayReasonCode" class="col-12 md:col-10 delayCodeDiv">
       n/a
     </div>
   </p-panel>
@@ -16,7 +16,7 @@
   <p-panel header="{{'general.comment.tooltip' | translate}}">
     {{timestamp.remark}}
   </p-panel>
-  <div class="p-col-12 p-md-6 p-lg-1" style="width: 100%" align="left">
+  <div class="col-12 md:col-6 lg:col-1" style="width: 100%" align="left">
     <span class="p-buttonset">
         <button  (click)="close()" label="{{ 'general.close.label' | translate }}" pButton type="button"></button>
     </span>
