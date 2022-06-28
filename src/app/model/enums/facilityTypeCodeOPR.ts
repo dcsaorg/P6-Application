@@ -4,6 +4,6 @@ A specialized version of the facilityCode to be used in Operations events. The c
 export enum FacilityTypeCode {
     PBPL = "PBPL",
     BRTH = "BRTH",
-    POTE = 'POTE'
+    POTE = 'POTE',
+    ANCH = 'ANCH',
   }
-  
