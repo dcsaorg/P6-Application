@@ -4,9 +4,14 @@ export enum PortCallServiceTypeCode {
   CRGO = "CRGO",
   TOWG = "TOWG",
   BUNK = "BUNK",
-  WSDP = "WSDP",
   LASH = "LASH",
   SAFE = "SAFE",
   FAST = "FAST",
-  GWAY = "GWAY"
+  GWAY = "GWAY",
+  ANCO = "ANCO",
+  SLUG = "SLUG",
+  SHPW = "SHPW",
+  LCRO = "LCRO",
+  DCRO = "DCRO",
+  DCRO = "DCRO",
 }
