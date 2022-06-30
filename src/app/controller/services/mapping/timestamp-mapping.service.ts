@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { OperationsEventService } from "../jit/operations-event.service";
-import { Observable } from "rxjs";
+import { from, Observable } from "rxjs";
 import { TransportCall } from "../../../model/jit/transport-call";
-import { map, mergeMap } from "rxjs/operators";
+import { map, mergeMap, toArray } from "rxjs/operators";
 import { Globals } from "../../../model/portCall/globals";
 import { OperationsEventsToTimestampsPipe } from "../../pipes/operations-events-to-timestamps.pipe";
 import { Timestamp } from "../../../model/jit/timestamp";
 import { TimestampService } from "../jit/timestamps.service";
 import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
 import { NegotiationCycleService } from "../base/negotiation-cycle.service";
-import { TimestampInfo } from "../../../model/jit/timestampInfo";
 import { TimestampDefinition } from "../../../model/jit/timestamp-definition";
 import { TimestampDefinitionService } from "../base/timestamp-definition.service";
 
@@ -35,58 +34,41 @@ export class TimestampMappingService {
     return this.timestampService.addTimestamp(this.timestampToStandardizedTimestampPipe.transform(timestamp, this.globals.config))
   }
 
+/*
+* A function that returns a list of portCall timestamps related to the transport Call .
+*/
   getPortCallTimestampsByTransportCall(transportCall: TransportCall, portCallPart?: string): Observable<Timestamp[]> {
-
     return this.operationsEventService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
-      mergeMap((TimestampInfoTO) => {
-        let events = TimestampInfoTO.map(events => events.operationsEventTO);
-        return this.operationsEventService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
-          map((deliveryStatuses) => {
-            let map = new Map<string, TimestampInfo>();
-            for (let status of deliveryStatuses) {
-              map.set(status.operationsEventTO.eventID, status);
-            }
-            for (let event of events) {
-              const eventDelivery = map.get(event.eventID);
-              if (eventDelivery) {
-                event.timestampDefinitionID = eventDelivery.timestampDefinitionTO.id;
-                event.eventDeliveryStatus = eventDelivery.eventDeliveryStatus
-              } else {
-                event.eventDeliveryStatus = 'DELIVERY_FINISHED'
-                event.timestampDefinitionID = 'BAD_TIMESTAMP'
+      mergeMap(timestampInfos =>
+        this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
+          map(timestampDefinitionsMap => {
+            const operationEvents = timestampInfos.map(timestampInfo => timestampInfo.operationsEventTO);
+            return this.operationsEventsToTimestampsPipe.transform(operationEvents, timestampDefinitionsMap);
+          }),
+          map(timestamps => {
+            this.mapTransportCallToTimestamps(timestamps, transportCall);
+            let set = new Set()
+            for (let timestamp of timestamps) {
+              if (timestamp.timestampDefinition) {
+                let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
+                const negotiationCycleKey = negotiationCycle.cycleKey;
+                timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
+                set.add(negotiationCycleKey)
               }
             }
-            return events;
+            return timestamps;
           })
-        );
-      },
-      ),
-      mergeMap(events => this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
-        map(timestampDefinitions => {
-          const timestamps = this.operationsEventsToTimestampsPipe.transform(events, timestampDefinitions)
-          this.mapTransportCallToTimestamps(timestamps, transportCall);
-          return timestamps;
-        })
-      )),
-      map(timestamps => {
-        let set = new Set()
-
-        for (let timestamp of timestamps) {
-          if (timestamp.timestampDefinition) {
-            let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
-            const negotiationCycleKey = negotiationCycle.cycleKey;
-            timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
-            set.add(negotiationCycleKey)
-          }
-        }
-        return timestamps;
-      }))
+        ))
+      )
+   
   }
+
 
   private mapTransportCallToTimestamps(timestamps: Timestamp[], transportCall: TransportCall) {
 
     for (let timestamp of timestamps) {
       if (timestamp.transportCallReference == transportCall.transportCallReference) {
+        timestamp.transportCallID = transportCall.transportCallID;
         timestamp.vesselIMONumber = transportCall.vesselIMONumber;
         timestamp.UNLocationCode = transportCall.UNLocationCode;
         timestamp.portOfCall = transportCall.portOfCall;

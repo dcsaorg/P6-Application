@@ -23,14 +23,10 @@ export interface TransportCall {
   facilityCode: string;
   otherFacility: string;
   sequenceColor: string;
-  vessel: Vessel;
+  vessel?: Vessel;
   location: EventLocation;
   etaBerthDateTime?: Date;
   atdBerthDateTime?: Date;
   latestEventCreatedDateTime?: Date;
-
-  /**
- * @deprecated
- */
-  transportCallID?: string;
+  transportCallID: string;
 }
