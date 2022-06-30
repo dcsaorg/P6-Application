@@ -107,18 +107,18 @@
           "detail": "Successfully accepted timestamp",
           "summary": "Success!"
         }
+      },
+      "Rejecteditor": {
+        "label": "Reject Timestamp",
+        "failure": {
+          "summary": "Error!",
+          "detail": "Error while rejecting timestamp: "
         },
-        "Rejecteditor": {
-          "label": "Reject Timestamp",
-          "failure": {
-            "summary": "Error!",
-            "detail": "Error while rejecting timestamp: "
-          },
-          "success": {
-            "detail": "Successfully rejected timestamp",
-            "summary": "Success!"
-          }
-        },
+        "success": {
+          "detail": "Successfully rejected timestamp",
+          "summary": "Success!"
+        }
+      },
       "label": "Save"
     },
     "table": {
@@ -208,7 +208,7 @@
         },
         "timestamp": {
           "label": "Timestamp",
-          "acceptlabel":"Responding with timestamp type",
+          "acceptlabel": "Responding with timestamp type",
           "tooltip": "An estimated, requested, planned or actual timestamp of an event."
         },
         "timestamps": {
@@ -223,7 +223,7 @@
           "label": "Delivery status",
           "tooltip": "The current delivery status of the timestamp"
         },
-        "locationName":{
+        "locationName": {
           "label": "Location name",
           "tooltip": "Location name"
         }
@@ -232,6 +232,9 @@
     },
     "negotiationCycle": {
       "select": "Select negotiation cycle"
+    },
+    "portCallParts": {
+      "select": "Select port of call Part"
     },
     "terminal": {
       "label": "Terminal",

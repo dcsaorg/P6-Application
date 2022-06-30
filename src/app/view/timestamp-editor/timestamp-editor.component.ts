@@ -73,7 +73,8 @@ export class TimestampEditorComponent implements OnInit {
     portOfCall: undefined,
     portPrevious: undefined,
     timestampDefinition: undefined,
-    transportCallID: ""
+    transportCallID: "",
+    transportCallReference:""
   };
 
 

@@ -1,259 +1,219 @@
 <div *ngIf="progressing || !transportCallSelected" class="dummyContent">
-  <p-progressSpinner *ngIf="progressing"></p-progressSpinner>
-  <div *ngIf="!progressing && !transportCallSelected">
-    {{"general.table.placeHolder.label" | translate}}
-  </div>
+    <p-progressSpinner *ngIf="progressing"></p-progressSpinner>
+    <div *ngIf="!progressing && !transportCallSelected">
+        {{"general.table.placeHolder.label" | translate}}
+    </div>
 </div>
 <p-table *ngIf="!progressing && transportCallSelected" #dt [filterDelay]="0" [lazy]="false" [sortOrder]="1"
-         [value]="timestamps"
-         [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']"
-         sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
-  <ng-template pTemplate="caption">
+    [value]="timestamps"
+    [globalFilterFields]="['timestampType','classifierCode','eventTypeCode','portOfCall','portPrevious', 'portNext']"
+    sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
+    <ng-template pTemplate="caption">
 
-    <div class="grid">
-      <div class="col">{{'general.table.header.timestamps.label' | translate}}</div>
-      <div class="col">
-        <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="selectedNegotiationCycle" [options]="negotiationCycles"
-                    [filter]=true filterBy="label" appendTo="body" (onChange)="filterTimestamps()">
-        </p-dropdown>
-
-      </div>
-      <div class="col tableHeader">
-        <div class="tableHeader__buttons">
-          <p-button class="p-button-raised p-button-rounded tableHeader__add_button" (onClick)="openCreationDialog(null)"
-                    icon="pi pi-plus" pTooltip="{{ 'general.table.header.create.tooltip' | translate }}"
-                    tooltipPosition="left" type="button"
-                    tooltipStyleClass="ToolTipClass"></p-button>
+        <div class="grid">
+            <div class="col">{{'general.table.header.timestamps.label' | translate}}</div>
+            <div class="col">
+                <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="selectedNegotiationCycle"
+                    [options]="negotiationCycles" [filter]=true filterBy="label" appendTo="body"
+                    (onChange)="filterTimestamps()">
+                </p-dropdown>
+                <p-dropdown id="portCallPart" styleClass="dropdown" [(ngModel)]="selectedPortCallPart"
+                    [options]="portCallParts" [filter]=true filterBy="label" appendTo="body"
+                    (onChange)="filterTimestampsByPortOfCallPart()">
+                </p-dropdown>
+            </div>
+            <div class="col tableHeader">
+                <div class="tableHeader__buttons">
+                    <p-button class="p-button-raised p-button-rounded tableHeader__add_button"
+                        (onClick)="openCreationDialog(null)" icon="pi pi-plus"
+                        pTooltip="{{ 'general.table.header.create.tooltip' | translate }}" tooltipPosition="left"
+                        type="button" tooltipStyleClass="ToolTipClass"></p-button>
+                </div>
+                <div class="tableHeader__buttons">
+                    <p-button (onClick)="refreshTimestamps()" class="p-button-raised p-button-rounded"
+                        icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}"
+                        tooltipPosition="left" type="button" tooltipStyleClass="ToolTipClass"></p-button>
+                </div>
+            </div>
         </div>
-        <div class="tableHeader__buttons">
-          <p-button (onClick)="refreshTimestamps()" class="p-button-raised p-button-rounded"
-                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}"
-                    tooltipPosition="left" type="button"
-                    tooltipStyleClass="ToolTipClass"></p-button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width:3px"></th>
-      <th pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}"
-          style="width: 8%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.vessel.name' | translate }}
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:3px"></th>
+            <th pTooltip="{{ 'general.table.header.vessel.tooltip' | translate }}" style="width: 8%"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+                {{ 'general.table.header.vessel.name' | translate }}
 
-      </th>
-      <th style="width: 7%"
-      pTooltip="{{ 'general.publisherRole.label' | translate }}"
-      tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-    {{ 'general.publisherRole.label' | translate }}
+            </th>
+            <th style="width: 7%" pTooltip="{{ 'general.publisherRole.label' | translate }}" tooltipPosition="top"
+                tooltipStyleClass="ToolTipClass" class="timestampContent">
+                {{ 'general.publisherRole.label' | translate }}
 
-  </th>
-      <th pTooltip="{{ 'general.table.header.timestamp.tooltip' | translate }}"
-          style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.timestamp.label' | translate }}
+            </th>
+            <th pTooltip="{{ 'general.table.header.timestamp.tooltip' | translate }}" style="width: 7%"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+                {{ 'general.table.header.timestamp.label' | translate }}
 
-      </th>
-      <th pTooltip="{{ 'general.table.header.logOfTimestamp.tooltip' | translate }}"
-          tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.logOfTimestamp.label' | translate }}
+            </th>
+            <th pTooltip="{{ 'general.table.header.logOfTimestamp.tooltip' | translate }}" tooltipPosition="top"
+                style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
+                {{ 'general.table.header.logOfTimestamp.label' | translate }}
 
-      </th>
-      <th pTooltip="{{ 'general.table.header.eventTimestamp.tooltip' | translate }}"
-          tooltipPosition="top" style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.eventTimestamp.label' | translate }}
+            </th>
+            <th pTooltip="{{ 'general.table.header.eventTimestamp.tooltip' | translate }}" tooltipPosition="top"
+                style="width: 15%" tooltipStyleClass="ToolTipClass" class="timestampContent">
+                {{ 'general.table.header.eventTimestamp.label' | translate }}
 
-      </th>
-        <!--
-      <th style="width: 8%" pSortableColumn="portPrevious"
-          pTooltip="{{ 'general.table.header.previousPort.tooltip' | translate }}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.previousPort.label' | translate }}
-        <p-sortIcon field="portPrevious"></p-sortIcon>
-      </th>
-    -->
-      <th pTooltip="{{ 'general.table.header.portOfCall.tooltip' | translate }}"
-          style="width: 7%" tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.portOfCall.label' | translate }}
+            </th>
+            <th pTooltip="{{ 'general.table.header.portOfCall.tooltip' | translate }}" style="width: 7%"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+                {{ 'general.table.header.portOfCall.label' | translate }}
 
-      </th>
-      <!--
-      <th style="width: 7%" pSortableColumn="portNext"
-          pTooltip="{{ 'general.table.header.nextPort.tooltip' | translate }}"
-          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.nextPort.label' | translate }}
-        <p-sortIcon field="portNext"></p-sortIcon>
-      </th>
-      <th style="width: 6%" pSortableColumn="direction"
-          pTooltip="{{ 'general.table.header.direction.tooltip' | translate }}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.direction.label' | translate }}
-        <p-sortIcon field="direction"></p-sortIcon>
-      </th>
-      -->
-      <th style="width: 7%"
-          pTooltip="{{ 'general.table.header.terminalId.tooltip' | translate }}"
-          tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
-        {{ 'general.table.header.terminalId.label' | translate }}
+            </th>
 
-      </th>
-      <th style="width: 10%" pTooltip="{{ 'general.table.header.locationName.tooltip' | translate }}"
-      tooltipPosition="top" tooltipStyleClass="ToolTipClass">{{ 'general.table.header.locationName.label' | translate }}</th>
-      <th style="width: 8%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" class="timestampContent">{{ 'general.table.header.transportCallStatus.label' | translate }}</th>
-      <th style="width: 12%" class="timestampContent" >
-      </th>
-    </tr>
-    <tr class="invisible">
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+            <th style="width: 7%" pTooltip="{{ 'general.table.header.terminalId.tooltip' | translate }}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">
+                {{ 'general.table.header.terminalId.label' | translate }}
 
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-timestamp >
+            </th>
+            <th style="width: 10%" pTooltip="{{ 'general.table.header.locationName.tooltip' | translate }}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass">{{ 'general.table.header.locationName.label' |
+                translate
+                }}</th>
+            <th style="width: 8%" pTooltip="{{ 'general.table.header.transportCallStatus.tooltip' | translate }}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" class="timestampContent">{{
+                'general.table.header.transportCallStatus.label' | translate }}</th>
+            <th style="width: 12%" class="timestampContent">
+            </th>
+        </tr>
+        <tr class="invisible">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
 
-    <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestamp.isLatestInCycle == false}">
-      <td pTooltip="Publisher: {{timestamp.publisher?.partyName}}
-        PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top"
-          tooltipStyleClass="ToolTipClass" style="width: 3px;"
-          [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
-      <td style="width: 8%"
-          [ngClass]="'timestampContent'">
-        <div>{{ (timestamp.vesselIMONumber | vesselIdToVessel: vessels).vesselName}}</div>
-        <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
-      </td>
-      <td style="width: 8%"
-      [ngClass]="'timestampContent'">
-    <div>{{ (timestamp.publisherRole)}}</div>
-    <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
-  </td>
-      <td style="width: 7%"
-          [ngClass]="'timestampContent'">
-        {{ timestamp.timestampDefinition?.timestampTypeName || 'UNKNOWN' }}
-      </td>
-      <td pTooltip ="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[1]}}"
-          style="width: 15%; opacity: 0.6;"
-          [ngClass]="'timestampContent'">
-        {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[0]}}
-      </td>
-      <td pTooltip ="UTC: {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall)[1]}}"
-          style="width: 15%"
-          [ngClass]="'timestampContent'">
-        {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall)[0]}}
-      </td>
-        <!--
-      <td
-        [ngClass]="'timestampContent'">
-        <div
-          [ngClass]="'timestampContent'">{{ (timestamp.portPrevious | portIdToPort: ports).unLocode}}</div>
-        <div class="rowDetails">{{ (timestamp.portPrevious | portIdToPort: ports).name}}</div>
-      </td>
-       -->
-      <td
-        [ngClass]="'timestampContent'"
-        style="width: 8%">
-        <div
-          [ngClass]="'timestampContent'"> {{timestamp.portOfCall?.UNLocationCode}}</div>
-        <div class="rowDetails">{{timestamp.portOfCall?.unLocationName}}</div>
-      </td>
-      <td style="width: 6%"
-        [ngClass]="'timestampContent'">
-          <div pTooltip="{{timestamp.eventLocation?.facilityCode}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass">
-            {{timestamp.eventLocation?.facilityCode}}</div>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-timestamp>
 
-        <div *ngIf="timestamp.eventLocation?.facilityCode == null">
-          <div *ngIf="timestamp.facilitySMDGCode != null"
-          pTooltip="{{timestamp.facilitySMDGCode}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass">
-            {{timestamp.facilitySMDGCode}}
-          </div>
-          <div *ngIf="timestamp.facilitySMDGCode == null">
-          N/A
-          </div>
-        </div>
-      </td>
-      <td [ngClass]="'timestampContent'" style="width: 10%">{{ timestamp.eventLocation?.locationName }}</td>
-    <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.grey' | translate }}" tooltipPosition="top"
-    tooltipStyleClass="ToolTipClass" [ngClass]="
-      {
-      'outgoingDelivered': timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'
-      }"
-      style="width: 4%">
-    </td>
-    <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.red' | translate }}" tooltipPosition="top"
-    tooltipStyleClass="ToolTipClass" [ngClass]="
-      {
-      'outgoingAttempted': timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'
-      }"
-      style="width: 4%">
-    </td>
-    <td  *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.yellow' | translate }}" tooltipPosition="top"
-    tooltipStyleClass="ToolTipClass" [ngClass]="
-      {
-      'outgoingPending': timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'
-      }"
-      style="width: 4%">
-    </td>
-                <!--this has been removed from the below td-->
-              <!-- [ngClass]="'unreadTimestamp' "-->
-      <td *ngIf="!isOutGoing(timestamp)" style="width: 4%"
-      class="ingoing" pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.green' | translate }}" tooltipPosition="top"
-    tooltipStyleClass="ToolTipClass">
-      <!--
-                <span *ngIf="timestamp.messageDirection != null" class="pi {{ timestamp.messageDirection == null ?
-                  '' :
-                  (timestamp.messageDirection == 'inbound' ?
-                        'pi-arrow-left' : 'pi-arrow-right'
-                  )
-              }}"
-                      pTooltip="{{ timestamp.messageDirection == null ?
-                  '' :
-                  (timestamp.messageDirection == 'inbound' ?
-                        ( 'general.direction.inbound' | translate ) : ( 'general.direction.outbound' | translate )
-                  )
-              }}"
-                      tooltipPosition="top" tooltipStyleClass="ToolTipClass">&nbsp;</span>  -->
+        <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestamp.isLatestInCycle == false}">
+            <td pTooltip="Publisher: {{timestamp.publisher?.partyName}}
+          PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass"
+                style="width: 3px;" [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
+            <td style="width: 8%" [ngClass]="'timestampContent'">
+                <div>{{ (timestamp.vesselIMONumber | vesselIdToVessel: vessels).vesselName}}</div>
+                <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
+            </td>
+            <td style="width: 8%" [ngClass]="'timestampContent'">
+                <div>{{ (timestamp.publisherRole)}}</div>
+                <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
+            </td>
+            <td style="width: 7%" [ngClass]="'timestampContent'">
+                {{ timestamp.timestampDefinition?.timestampTypeName || 'UNKNOWN' }}
+            </td>
+            <td pTooltip="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[1]}}"
+                style="width: 15%; opacity: 0.6;" [ngClass]="'timestampContent'">
+                {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[0]}}
+            </td>
+            <td pTooltip="UTC: {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall)[1]}}"
+                style="width: 15%" [ngClass]="'timestampContent'">
+                {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall)[0]}}
+            </td>
+            <td [ngClass]="'timestampContent'" style="width: 8%">
+                <div [ngClass]="'timestampContent'"> {{timestamp.portOfCall?.UNLocationCode}}</div>
+                <div class="rowDetails">{{timestamp.portOfCall?.unLocationName}}</div>
+            </td>
+            <td style="width: 6%" [ngClass]="'timestampContent'">
+                <div pTooltip="{{timestamp.eventLocation?.facilityCode}}" tooltipPosition="top"
+                    tooltipStyleClass="ToolTipClass">
+                    {{timestamp.eventLocation?.facilityCode}}</div>
 
+                <div *ngIf="timestamp.eventLocation?.facilityCode == null">
+                    <div *ngIf="timestamp.facilitySMDGCode != null" pTooltip="{{timestamp.facilitySMDGCode}}"
+                        tooltipPosition="top" tooltipStyleClass="ToolTipClass">
+                        {{timestamp.facilitySMDGCode}}
+                    </div>
+                    <div *ngIf="timestamp.facilitySMDGCode == null">
+                        N/A
+                    </div>
+                </div>
+            </td>
+            <td [ngClass]="'timestampContent'" style="width: 10%">{{ timestamp.eventLocation?.locationName }}</td>
+            <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'"
+                pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.grey' | translate }}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" [ngClass]="
+        {
+        'outgoingDelivered': timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'
+        }" style="width: 4%">
+            </td>
+            <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'"
+                pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.red' | translate }}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" [ngClass]="
+        {
+        'outgoingAttempted': timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'
+        }" style="width: 4%">
+            </td>
+            <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'"
+                pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.yellow' | translate }}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" [ngClass]="
+        {
+        'outgoingPending': timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'
+        }" style="width: 4%">
+            </td>
+            <td *ngIf="!isOutGoing(timestamp)" style="width: 4%" class="ingoing"
+                pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.green' | translate }}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass">
+            </td>
+            <td [ngClass]="'timestampContent'" style="width: 12%">
+                <div class="col tableHeader gridButtons">
+                    <div class="timestampContent__buttons dialogueBtn"
+                        *ngIf="timestamp.remark || timestamp.delayReasonCode">
+                        <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
+                        </p-button>
+                    </div>
 
-      </td>
-      <td
-        [ngClass]="'timestampContent'"
-        style="width: 12%">
-        <div class="col tableHeader gridButtons">
-          <div class="timestampContent__buttons dialogueBtn" *ngIf="timestamp.remark || timestamp.delayReasonCode">
-            <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
-            </p-button>
-          </div>
+                    <div class="timestampContent__buttons acceptBtn"
+                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.acceptTimestampDefinition != null && !isOutGoing(timestamp)">
+                        <p-button icon="pi pi-check"
+                            pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.timestampDefinition?.acceptTimestampDefinitionEntity.timestampTypeName}}"
+                            tooltipPosition="left" tooltipStyleClass="ToolTipClass"
+                            (click)="openAcceptDialog(timestamp)"></p-button>
+                    </div>
 
-          <div class="timestampContent__buttons acceptBtn" *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.acceptTimestampDefinition != null && !isOutGoing(timestamp)">
-            <p-button icon="pi pi-check" pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.timestampDefinition?.acceptTimestampDefinitionEntity.timestampTypeName}}"
-              tooltipPosition="left" tooltipStyleClass="ToolTipClass" (click)="openAcceptDialog(timestamp)"></p-button>
-          </div>
+                    <div class="timestampContent__buttons declineBtn"
+                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
+                        <p-button icon="pi pi-times"
+                            pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestamp.timestampDefinition?.rejectTimestampDefinitionEntity.timestampTypeName}}"
+                            tooltipPosition="left" tooltipStyleClass="ToolTipClass"
+                            (click)="openRejectDialog(timestamp)"></p-button>
+                    </div>
+                </div>
+                <div *ngIf="!isPrimary(timestamp) && !isOutGoing(timestamp)">FYI</div>
 
-          <div class="timestampContent__buttons declineBtn" *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
-            <p-button icon="pi pi-times" pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestamp.timestampDefinition?.rejectTimestampDefinitionEntity.timestampTypeName}}" tooltipPosition="left"
-              tooltipStyleClass="ToolTipClass" (click)="openRejectDialog(timestamp)"></p-button>
-          </div>
-        </div>
-    <div *ngIf="!isPrimary(timestamp) && !isOutGoing(timestamp)">FYI</div>
+            </td>
 
-      </td>
-
-    </tr>
-  </ng-template>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td [attr.colspan]=100>
+                <h4 style="text-align: center ">No results found</h4>
+            </td>
+        </tr>
+    </ng-template>
 </p-table>
 
-<p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle"
-                 appendTo="body"></p-confirmDialog>
+<p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle" appendTo="body">
+</p-confirmDialog>
 
 <p-toast key="TimestampToast" position="bottom-right"></p-toast>
 <p-toast key="TimestampAddSuccess" position="bottom-right"></p-toast>
