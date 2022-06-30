@@ -243,6 +243,7 @@ export class TransportCallCreatorComponent implements OnInit {
   async saveNewTransportCall() {
     this.creationProgress = true;
     let transportCall: TransportCall = new class implements TransportCall {
+      transportCallReference: string;
       UNLocationCode: string;
       carrierServiceCode: string;
       carrierVoyageNumber: string;
@@ -299,6 +300,7 @@ export class TransportCallCreatorComponent implements OnInit {
       publisherRole: PublisherRole;
       vesselIMONumber: string;
       delayReasonCode: string;
+      transportCallReference: string;
       timestampDefinition: TimestampDefinition;
     }
 

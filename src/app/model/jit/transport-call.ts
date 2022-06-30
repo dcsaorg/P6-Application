@@ -1,7 +1,7 @@
-import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
+import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
-import {FacilityCodeListProvider} from "../enums/facilityCodeListProvider";
-import {Vessel} from "../portCall/vessel";
+import { FacilityCodeListProvider } from "../enums/facilityCodeListProvider";
+import { Vessel } from "../portCall/vessel";
 import { Port } from "../portCall/port";
 import { EventLocation } from "../eventLocation";
 
@@ -11,7 +11,7 @@ export interface TransportCall {
   exportVoyageNumber?: string;
   importVoyageNumber?: string;
   portOfCall?: Port;
-  transportCallID: string;
+  transportCallReference: string;
   modeOfTransport: string;
   vesselIMONumber: string;
   vesselName: string;
@@ -28,4 +28,9 @@ export interface TransportCall {
   etaBerthDateTime?: Date;
   atdBerthDateTime?: Date;
   latestEventCreatedDateTime?: Date;
+
+  /**
+ * @deprecated
+ */
+  transportCallID?: string;
 }

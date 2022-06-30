@@ -32,6 +32,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
       transportCallID: string;
       transportCall: TransportCall;
       identifyingCodes?: identifyingCodes;
+      transportCallReference: string;
 
     }
 

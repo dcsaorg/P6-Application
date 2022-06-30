@@ -1,27 +1,27 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Port} from "../../model/portCall/port";
-import {Terminal} from "../../model/portCall/terminal";
-import {MessageService, SelectItem} from "primeng/api";
-import {DelayCodeService} from "../../controller/services/base/delay-code.service";
-import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
-import {DelayCode} from "../../model/portCall/delayCode";
-import {DialogService} from "primeng/dynamicdialog";
-import {PortService} from "../../controller/services/base/port.service";
-import {take} from "rxjs/operators";
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {Vessel} from "../../model/portCall/vessel";
-import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
-import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/jit/transport-call";
-import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
-import {TimestampAcceptEditorComponent} from "../timestamp-accept-editor/timestamp-accept-editor.component";
-import {Globals} from "../../model/portCall/globals";
-import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {TimestampService} from "../../controller/services/jit/timestamps.service";
-import {Timestamp} from 'src/app/model/jit/timestamp';
-import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
-import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import {TimestampDefinition} from "../../model/jit/timestamp-definition";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Port } from "../../model/portCall/port";
+import { Terminal } from "../../model/portCall/terminal";
+import { MessageService, SelectItem } from "primeng/api";
+import { DelayCodeService } from "../../controller/services/base/delay-code.service";
+import { TimestampCommentDialogComponent } from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
+import { DelayCode } from "../../model/portCall/delayCode";
+import { DialogService } from "primeng/dynamicdialog";
+import { PortService } from "../../controller/services/base/port.service";
+import { take } from "rxjs/operators";
+import { VesselService } from "../../controller/services/base/vessel.service";
+import { Vessel } from "../../model/portCall/vessel";
+import { VesselIdToVesselPipe } from "../../controller/pipes/vesselid-to-vessel.pipe";
+import { TranslateService } from "@ngx-translate/core";
+import { TransportCall } from "../../model/jit/transport-call";
+import { TimestampEditorComponent } from "../timestamp-editor/timestamp-editor.component";
+import { TimestampAcceptEditorComponent } from "../timestamp-accept-editor/timestamp-accept-editor.component";
+import { Globals } from "../../model/portCall/globals";
+import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
+import { TimestampService } from "../../controller/services/jit/timestamps.service";
+import { Timestamp } from 'src/app/model/jit/timestamp';
+import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
+import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
+import { TimestampDefinition } from "../../model/jit/timestamp-definition";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -45,25 +45,24 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   vessels: Vessel[] = [];
   portOfCall: Port;
   negotiationCycles: SelectItem[] = [];
+  portCallParts: SelectItem[] = [];
+  selectedPortCallPart: string = null;
   timestampDefinitionMap: Map<string, TimestampDefinition> = new Map<string, TimestampDefinition>();
   selectedNegotiationCycle: NegotiationCycle = null;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
   @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
-  highestTimestampId: number;
-
   constructor(
-              private delayCodeService: DelayCodeService,
-              private portService: PortService,
-              private vesselService: VesselService,
-              private dialogService: DialogService,
-              private messageService: MessageService,
-              private translate: TranslateService,
-              private timestampDefinitionService: TimestampDefinitionService,
-              private timestampMappingService: TimestampMappingService,
-              public globals: Globals,
-              public timestampService: TimestampService
+    private delayCodeService: DelayCodeService,
+    private portService: PortService,
+    private vesselService: VesselService,
+    private dialogService: DialogService,
+    private translate: TranslateService,
+    private timestampDefinitionService: TimestampDefinitionService,
+    private timestampMappingService: TimestampMappingService,
+    public globals: Globals,
+    public timestampService: TimestampService
   ) {
   }
 
@@ -71,39 +70,66 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.vesselService.vesselsObservable.subscribe(() => {
       this.loadTimestamps()
     })
-    this.timestampDefinitionService.getTimestampDefinitionsMap().subscribe(map => this.timestampDefinitionMap = map);
+    this.timestampDefinitionService.getTimestampDefinitionsMap().subscribe(map => {
+      this.timestampDefinitionMap = map
+
+    });
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
     this.progressing = false;
     //this.$timestamps = this.paginatorService.observePaginatedTimestamps();
-
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.terminals = this.globals.terminals;
-    this.loadTimestamps();
+    this.loadTimestamps(true); // populate PortCallParts at start
   }
 
   public isPrimary(timestamp: Timestamp): boolean {
     return this.globals.config.publisherRoles.includes(timestamp.timestampDefinition?.primaryReceiver);
   }
 
-  private loadTimestamps() {
+  filterTimestampsByPortOfCallPart() {
+    this.loadTimestamps(false, this.selectedPortCallPart);
+    this.filterTimestamps();
+  }
+
+  private populatePortCallParts() {
+    this.selectedPortCallPart = null;
+    let uniqueParts = new Set(this.timestamps.map(timestamp => timestamp.timestampDefinition?.portCallPart).filter((value) => {
+      return value !== undefined;
+    }));
+
+    this.portCallParts.push({ label: this.translate.instant('general.portCallParts.select'), value: null });
+
+    uniqueParts.forEach(portCallPart => {
+      this.portCallParts.push({ label: portCallPart, value: portCallPart })
+    })
+
+
+  }
+
+  private loadTimestamps(populatePortCallParts?: boolean, portOfCallPart?: string) {
+
     if (this.transportCallSelected) {
       this.progressing = true;
       this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
-      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected).subscribe(timestamps => {
+      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected, portOfCallPart).subscribe(timestamps => {
         this.colorizetimestampByLocation(timestamps);
         this.unfilteredTimestamps = timestamps;
-        this.negotiationCycles = [];
-        if (timestamps.length > 0) {
-          this.negotiationCycles.push({label: this.translate.instant('general.negotiationCycle.select'), value: null});
-        }
-        for (let timestamp of timestamps) {
-          if (timestamp.isLatestInCycle) {
-            this.negotiationCycles.push({label: timestamp.negotiationCycle.cycleName, value: timestamp.negotiationCycle});
+        this.timestamps = timestamps;
+        if (populatePortCallParts) {
+          this.portCallParts = [];
+          this.negotiationCycles = [];
+          if (timestamps.length > 0) {
+            this.populatePortCallParts();
+            this.negotiationCycles.push({ label: this.translate.instant('general.negotiationCycle.select'), value: null });
+            for (let timestamp of timestamps) {
+              if (timestamp.isLatestInCycle) {
+                this.negotiationCycles.push({ label: timestamp.negotiationCycle.cycleName, value: timestamp.negotiationCycle });
+              }
+            }
           }
         }
         this.filterTimestamps();
@@ -113,7 +139,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   refreshTimestamps() {
-    this.loadTimestamps();
+    this.loadTimestamps(true);
   }
 
   filterTimestamps() {
@@ -134,14 +160,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       //
       // If you are here because you want to double check the "secondary timestamp" flow, just remove
       // the relevant roles from "publisherRoles" from config.json. :)
-         (!timestamp.timestampDefinition || !publisherRoles.includes(timestamp.timestampDefinition.primaryReceiver));
+      (!timestamp.timestampDefinition || !publisherRoles.includes(timestamp.timestampDefinition.primaryReceiver));
   }
 
   showComment(timestamp: Timestamp) {
     const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestamp.delayReasonCode, null);
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
-      width: '50%', data: {timestamp: timestamp, delayCode: delayCode, editMode: timestamp.modifiable}
+      width: '50%', data: { timestamp: timestamp, delayCode: delayCode, editMode: timestamp.modifiable }
     }).onClose.subscribe((ts: Timestamp) => {
     });
   }

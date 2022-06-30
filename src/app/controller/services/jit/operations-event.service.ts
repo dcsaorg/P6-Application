@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {OperationsEvent} from "../../../model/jit/operations-event";
-import {Globals} from 'src/app/model/portCall/globals';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { OperationsEvent } from "../../../model/jit/operations-event";
+import { Globals } from 'src/app/model/portCall/globals';
 import { TimestampInfo } from 'src/app/model/jit/timestampInfo';
 
 @Injectable({
@@ -20,8 +20,20 @@ export class OperationsEventService {
     this.EVENT_DELIVERY_STATUS_URL = globals.config.uiSupportBackendURL + "/unofficial/timestamp-info";
   }
 
-  getTimestampInfoForTransportCall = (transportCallId: string): Observable<TimestampInfo[]> => this.httpClient.get<TimestampInfo[]>(this.EVENT_DELIVERY_STATUS_URL + "?transportCallID=" + transportCallId + "&limit=" + this.LIMIT)
+  getTimestampInfoForTransportCall = (transportCallId: string, portCallPart?: string): Observable<TimestampInfo[]> => {
+    let httpParams = new HttpParams();
+    httpParams = httpParams.set('limit', this.LIMIT);
 
+    if (portCallPart) {
+      httpParams = httpParams.set('portCallPart', portCallPart);
+    }
+    if (transportCallId) {
+      httpParams = httpParams.set('transportCallID', transportCallId);
+    }
+    return this.httpClient.get<TimestampInfo[]>(this.EVENT_DELIVERY_STATUS_URL, {
+      params: httpParams
+    })
+  }
   getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
     const url = this.OPERATIONS_EVENT_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId + '&sort=eventCreatedDateTime:DESC&limit=' + this.LIMIT;
     return this.httpClient.get<OperationsEvent[]>(url);
@@ -29,5 +41,5 @@ export class OperationsEventService {
 
   addOperationsEvent = (operationsEvent: OperationsEvent): Observable<OperationsEvent> => {
     return this.httpClient.post<OperationsEvent>(this.TIMESTAMPS_URL, operationsEvent);
-}
+  }
 }
