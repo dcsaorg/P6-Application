@@ -64,7 +64,6 @@ export class TransportCallsTableComponent implements OnInit {
   }
 
   selectTransportCall(event) {
-    console.log(this.selectedtransportCall);
     this.transportCallNotifier.emit(event.data);
   }
 
