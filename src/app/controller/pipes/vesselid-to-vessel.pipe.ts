@@ -1,5 +1,5 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {Vessel} from "../../model/portCall/vessel";
+import { Pipe, PipeTransform } from '@angular/core';
+import { Vessel } from "../../model/portCall/vessel";
 
 @Pipe({
   name: 'vesselIdToVessel'
@@ -16,7 +16,11 @@ export class VesselIdToVesselPipe implements PipeTransform {
       vesselCallSignNumber: '',
       vesselOperatorCarrierID: '',
       vesselOperatorCarrierCode: '',
-       vesselOperatorCarrierCodeListProvider: null
+      vesselOperatorCarrierCodeListProvider: null,
+      type: '',
+      length: null,
+      width: null
+
     }
     const vesselFound = vessels.find(vessel => vessel.vesselIMONumber == vesselId)
     return vesselFound ? vesselFound : vesselNotFound;

@@ -70,7 +70,10 @@ export class VesselEditorComponent implements OnInit {
         vesselFlag: "",
         vesselOperatorCarrierCode: "",
         vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG,
-        vesselCallSignNumber: ""
+        vesselCallSignNumber: "",
+        type: "",
+        width: null,
+        length: null
       };
     }
 
