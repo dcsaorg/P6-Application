@@ -9,6 +9,9 @@ export interface Vessel {
   vesselOperatorCarrierCode: string,
   vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider,
   dimensionUnit?: string;
+  type: string;
+  width: number;
+  length: number;
 
     /**
    * @deprecated
