@@ -67,7 +67,7 @@ export class TransportCallService {
 
 
   private extractVesselAttributes(transportCall: TransportCall) {
-    if (transportCall['vessel'] === null) {
+    if (transportCall['vessel'] === undefined) {
       transportCall.vesselName = null;
       transportCall.vesselIMONumber = null;
     } else {

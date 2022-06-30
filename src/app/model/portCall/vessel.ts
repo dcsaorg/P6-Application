@@ -8,6 +8,9 @@ export interface Vessel {
   vesselCallSignNumber: string;       // (10)
   vesselOperatorCarrierCode: string,
   vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider,
+  type: string;
+  width: number;
+  length: number;
 
     /**
    * @deprecated

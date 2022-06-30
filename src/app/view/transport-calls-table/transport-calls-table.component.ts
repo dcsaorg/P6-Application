@@ -1,16 +1,16 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {TransportCallService} from "../../controller/services/jit/transport-call.service";
-import {TransportCall} from "../../model/jit/transport-call";
-import {DialogService} from "primeng/dynamicdialog";
-import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
-import {TranslateService} from "@ngx-translate/core";
-import {PortService} from 'src/app/controller/services/base/port.service';
-import {TransportCallFilterService} from 'src/app/controller/services/base/transport-call-filter.service';
-import {Port} from 'src/app/model/portCall/port';
-import {Terminal} from 'src/app/model/portCall/terminal';
-import {take} from 'rxjs/operators';
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {Vessel} from "../../model/portCall/vessel";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { TransportCallService } from "../../controller/services/jit/transport-call.service";
+import { TransportCall } from "../../model/jit/transport-call";
+import { DialogService } from "primeng/dynamicdialog";
+import { TransportCallCreatorComponent } from "../transport-call-creator/transport-call-creator.component";
+import { TranslateService } from "@ngx-translate/core";
+import { PortService } from 'src/app/controller/services/base/port.service';
+import { TransportCallFilterService } from 'src/app/controller/services/base/transport-call-filter.service';
+import { Port } from 'src/app/model/portCall/port';
+import { Terminal } from 'src/app/model/portCall/terminal';
+import { take } from 'rxjs/operators';
+import { VesselService } from "../../controller/services/base/vessel.service";
+import { Vessel } from "../../model/portCall/vessel";
 
 @Component({
   selector: 'app-transport-calls-table',
@@ -34,11 +34,11 @@ export class TransportCallsTableComponent implements OnInit {
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
 
   constructor(private transportCallService: TransportCallService,
-              private dialogService: DialogService,
-              private vesselService: VesselService,
-              private portFilterService: TransportCallFilterService,
-              private portService: PortService,
-              private translate: TranslateService) {
+    private dialogService: DialogService,
+    private vesselService: VesselService,
+    private portFilterService: TransportCallFilterService,
+    private portService: PortService,
+    private translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -64,6 +64,7 @@ export class TransportCallsTableComponent implements OnInit {
   }
 
   selectTransportCall(event) {
+    console.log(this.selectedtransportCall);
     this.transportCallNotifier.emit(event.data);
   }
 
@@ -100,5 +101,4 @@ export class TransportCallsTableComponent implements OnInit {
       })
     })
   }
-
 }
