@@ -36,6 +36,7 @@ import {DialogModule} from "primeng/dialog";
 import {SplitterModule} from 'primeng/splitter';
 import {DateToUtcPipe} from './controller/pipes/date-to-utc.pipe';
 import {TimestampToTimezonePipe} from './controller/pipes/timeStampToTimeZone.pipe';
+import {VesselTooltipPipe} from './controller/pipes/vessel-tooltip.pipe';
 import {PortOfCallComponent} from './view/port-of-call/port-of-call.component';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {VesselIdToVesselPipe} from './controller/pipes/vesselid-to-vessel.pipe';
@@ -80,6 +81,7 @@ export function ConfigLoader(configService: ConfigService) {
     InstructionsComponent,
     DateToUtcPipe,
     TimestampToTimezonePipe,
+    VesselTooltipPipe,
     PortOfCallComponent,
     VesselIdToVesselPipe,
     OperationsEventsToTimestampsPipe,

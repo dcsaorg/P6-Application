@@ -12,8 +12,6 @@ import { NegotiationCycleService } from "../base/negotiation-cycle.service";
 import { TimestampInfo } from "../../../model/jit/timestampInfo";
 import { TimestampDefinition } from "../../../model/jit/timestamp-definition";
 import { TimestampDefinitionService } from "../base/timestamp-definition.service";
-import { debug } from 'console';
-
 
 @Injectable({
   providedIn: 'root'
@@ -37,20 +35,21 @@ export class TimestampMappingService {
     return this.timestampService.addTimestamp(this.timestampToStandardizedTimestampPipe.transform(timestamp, this.globals.config))
   }
 
-  getPortCallTimestampsByTransportCall(transportCall: TransportCall): Observable<Timestamp[]> {
-    console.log(transportCall);
-    return this.operationsEventService.getOperationsEventsByTransportCall(transportCall.transportCallID).pipe(
-      mergeMap((events) => {
-        return this.operationsEventService.getTimestampInfoForTransportCall(transportCall.transportCallID).pipe(
+  getPortCallTimestampsByTransportCall(transportCall: TransportCall, portCallPart?: string): Observable<Timestamp[]> {
+
+    return this.operationsEventService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
+      mergeMap((TimestampInfoTO) => {
+        let events = TimestampInfoTO.map(events => events.operationsEventTO);
+        return this.operationsEventService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
           map((deliveryStatuses) => {
             let map = new Map<string, TimestampInfo>();
             for (let status of deliveryStatuses) {
-              map.set(status.eventID, status);
+              map.set(status.operationsEventTO.eventID, status);
             }
             for (let event of events) {
               const eventDelivery = map.get(event.eventID);
               if (eventDelivery) {
-                event.timestampDefinitionID = eventDelivery.timestampDefinition;
+                event.timestampDefinitionID = eventDelivery.timestampDefinitionTO.id;
                 event.eventDeliveryStatus = eventDelivery.eventDeliveryStatus
               } else {
                 event.eventDeliveryStatus = 'DELIVERY_FINISHED'
@@ -87,7 +86,7 @@ export class TimestampMappingService {
   private mapTransportCallToTimestamps(timestamps: Timestamp[], transportCall: TransportCall) {
 
     for (let timestamp of timestamps) {
-      if (timestamp.transportCallID == transportCall.transportCallID) {
+      if (timestamp.transportCallReference == transportCall.transportCallReference) {
         timestamp.vesselIMONumber = transportCall.vesselIMONumber;
         timestamp.UNLocationCode = transportCall.UNLocationCode;
         timestamp.portOfCall = transportCall.portOfCall;

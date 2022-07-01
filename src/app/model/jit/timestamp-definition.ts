@@ -14,6 +14,7 @@ export interface TimestampDefinition {
   operationsEventTypeCode: OperationsEventTypeCode;
   portCallPhaseTypeCode: PortCallPhaseTypeCode;
   portCallServiceTypeCode: PortCallServiceTypeCode;
+  portCallPart?: string;
   facilityTypeCode: FacilityTypeCode;
   isBerthLocationNeeded: boolean;
   isPBPLocationNeeded: boolean;

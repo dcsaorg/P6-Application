@@ -55,18 +55,14 @@
   </ng-template>
   <ng-template pTemplate="body" let-transportCall>
     <tr [pSelectableRow]="transportCall" [ngClass]="{'obsoleteTransportCall': transportCall.atdBerthDateTime != undefined}">
-      <td>{{transportCall.vesselName}}</td>
-      <td>{{transportCall.vesselIMONumber}}</td>
+      <td pTooltip ="{{  transportCall.vessel | vesselTooltip }}">{{transportCall.vesselName}}</td>
+      <td pTooltip ="{{  transportCall.vessel | vesselTooltip }}">{{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
-      <td
-      pTooltip ="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}"
-      >{{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
+      <td pTooltip ="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">{{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
       <td>{{transportCall.importVoyageNumber}}</td>
       <td>{{transportCall.exportVoyageNumber}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>
-      <td
-        pTooltip ="UTC: {{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}"
-      >{{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
+      <td pTooltip ="UTC: {{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">{{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
     </tr>
   </ng-template>
 </p-table>

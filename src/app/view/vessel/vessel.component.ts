@@ -63,7 +63,10 @@ export class VesselComponent implements OnInit {
       vesselOperatorCarrierID: this.selectedVessel.vesselOperatorCarrierID,
       vesselCallSignNumber: this.selectedVessel.vesselCallSignNumber,
       vesselOperatorCarrierCode: this.selectedVessel.vesselOperatorCarrierCode,
-      vesselOperatorCarrierCodeListProvider: this.selectedVessel.vesselOperatorCarrierCodeListProvider
+      vesselOperatorCarrierCodeListProvider: this.selectedVessel.vesselOperatorCarrierCodeListProvider,
+      type: this.selectedVessel.type,
+      width: this.selectedVessel.width,
+      length: this.selectedVessel.length
     };
 
 

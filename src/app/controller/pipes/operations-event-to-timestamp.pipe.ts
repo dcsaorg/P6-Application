@@ -1,16 +1,16 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {OperationsEvent} from "../../model/jit/operations-event";
-import {MessageDirection} from "../../model/portCall/messageDirection";
-import {Port} from "../../model/portCall/port";
-import {Terminal} from "../../model/portCall/terminal";
-import {Vessel} from "../../model/portCall/vessel";
-import {Timestamp} from 'src/app/model/jit/timestamp';
-import {Publisher} from 'src/app/model/publisher';
-import {PublisherRole} from 'src/app/model/enums/publisherRole';
-import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
-import {EventClassifierCode} from 'src/app/model/jit/eventClassifierCode';
-import {OperationsEventTypeCode} from 'src/app/model/enums/operationsEventTypeCode';
-import {TimestampDefinition} from "../../model/jit/timestamp-definition";
+import { Pipe, PipeTransform } from '@angular/core';
+import { OperationsEvent } from "../../model/jit/operations-event";
+import { MessageDirection } from "../../model/portCall/messageDirection";
+import { Port } from "../../model/portCall/port";
+import { Terminal } from "../../model/portCall/terminal";
+import { Vessel } from "../../model/portCall/vessel";
+import { Timestamp } from 'src/app/model/jit/timestamp';
+import { Publisher } from 'src/app/model/publisher';
+import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
+import { EventClassifierCode } from 'src/app/model/jit/eventClassifierCode';
+import { OperationsEventTypeCode } from 'src/app/model/enums/operationsEventTypeCode';
+import { TimestampDefinition } from "../../model/jit/timestamp-definition";
 
 @Pipe({
   name: 'operationsEventEventToTimestamp'
@@ -50,6 +50,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       transportCallID: string;
       uiReadByUser: boolean;
       vessel: number | Vessel;
+      transportCallReference: string;
     }
 
     timestamp.publisher = operationsEvent.publisher;
@@ -70,10 +71,11 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     timestamp.remark = operationsEvent.remark;
     timestamp.delayReasonCode = operationsEvent.delayReasonCode;
     timestamp.eventDeliveryStatus = operationsEvent.eventDeliveryStatus;
-    // Extras
+    // Extras   
     timestamp.timestampDefinition = timestampDefinitions?.get(operationsEvent.timestampDefinitionID)
     timestamp.logOfTimestamp = operationsEvent.eventCreatedDateTime;
     timestamp.transportCallID = operationsEvent.transportCall.transportCallID;
+    timestamp.transportCallReference = operationsEvent?.transportCall?.transportCallReference;
     timestamp.eventLocation = operationsEvent.eventLocation;
 
     return timestamp;
