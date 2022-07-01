@@ -13,5 +13,4 @@ export enum PortCallServiceTypeCode {
   SHPW = "SHPW",
   LCRO = "LCRO",
   DCRO = "DCRO",
-  DCRO = "DCRO",
 }
