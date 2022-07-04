@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { OperationsEventService } from "../jit/operations-event.service";
-import { from, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { TransportCall } from "../../../model/jit/transport-call";
-import { map, mergeMap, toArray } from "rxjs/operators";
+import { map, mergeMap } from "rxjs/operators";
 import { Globals } from "../../../model/portCall/globals";
 import { OperationsEventsToTimestampsPipe } from "../../pipes/operations-events-to-timestamps.pipe";
 import { Timestamp } from "../../../model/jit/timestamp";
