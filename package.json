@@ -41,7 +41,7 @@
     "@types/node": "18.0.0",
     "codelyzer": "6.0.2",
     "protractor": "7.0.0",
-    "ts-node": "10.8.1",
+    "ts-node": "10.8.2",
     "tslint": "6.1.0",
     "typescript": "4.4.3"
   }
