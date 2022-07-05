@@ -14,7 +14,7 @@ import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
 import {Terminal} from 'src/app/model/portCall/terminal';
 import {TerminalService} from 'src/app/controller/services/base/terminal.service';
-import {TimestampDefinition} from "../../model/jit/timestamp-definition";
+import {timestampDefinitionTO} from "../../model/jit/timestamp-definition";
 import { DateToUtcPipe } from 'src/app/controller/pipes/date-to-utc.pipe';
 
 
@@ -47,7 +47,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
   VesselPositionLabel:boolean;
   transportCall: TransportCall;
-  timestampDefinitions: TimestampDefinition[] = [];
+  timestampDefinitions: timestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
@@ -87,17 +87,17 @@ export class TimestampAcceptEditorComponent implements OnInit {
 
   showVesselPosition(): boolean {
     if (!this.globals.config.enableVesselPositions) return false;
-    this.VesselPositionLabel = this.responseTimestamp.timestampDefinition.isVesselPositionNeeded;
+    this.VesselPositionLabel = this.responseTimestamp.timestampDefinitionTO.isVesselPositionNeeded;
     return this.VesselPositionLabel ?? false;
   }
 
   showLocationNameOption(): boolean {
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.responseTimestamp.timestampDefinition);
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.responseTimestamp.timestampDefinitionTO);
     return this.locationNameLabel !== undefined;
   }
 
   showTerminalOption(): boolean {
-    return this.responseTimestamp.timestampDefinition.isTerminalNeeded ?? false;
+    return this.responseTimestamp.timestampDefinitionTO.isTerminalNeeded ?? false;
   }
 
   private updateDelayCodeOptions() {
@@ -145,7 +145,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     this.responseTimestamp.vesselPosition = null;
     this.responseTimestamp.facilitySMDGCode = null;
 
-    if(this.responseTimestamp.timestampDefinition.isTerminalNeeded){
+    if(this.responseTimestamp.timestampDefinitionTO.isTerminalNeeded){
       // Selected terminal is set (Whether inhereted or new).
       this.responseTimestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
     }

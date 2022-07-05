@@ -16,7 +16,7 @@ import {VesselPosition} from "../../model/vesselPosition";
 import {Terminal} from 'src/app/model/portCall/terminal';
 import {TerminalService} from 'src/app/controller/services/base/terminal.service';
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import {TimestampDefinition} from "../../model/jit/timestamp-definition";
+import {timestampDefinitionTO} from "../../model/jit/timestamp-definition";
 
 
 @Component({
@@ -39,7 +39,7 @@ export class TimestampEditorComponent implements OnInit {
   timestamps: Timestamp[];
   eventTimestampDate: Date;
   eventTimestampTime: string;
-  timestampSelected: TimestampDefinition;
+  timestampSelected: timestampDefinitionTO;
   creationProgress: boolean = false;
   locationNameLabel: string;
   locationName: string;
@@ -49,7 +49,7 @@ export class TimestampEditorComponent implements OnInit {
     longitude: string;
   }
   transportCall: TransportCall;
-  timestampDefinitions: TimestampDefinition[] = [];
+  timestampDefinitions: timestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
@@ -72,9 +72,10 @@ export class TimestampEditorComponent implements OnInit {
     portNext: undefined,
     portOfCall: undefined,
     portPrevious: undefined,
-    timestampDefinition: undefined,
+    timestampDefinitionTO: undefined,
     transportCallID: "",
-    transportCallReference:""
+    transportCallReference:"",
+    carrierVoyageNumber:""
   };
 
 
@@ -136,7 +137,7 @@ export class TimestampEditorComponent implements OnInit {
     timestamp.publisher = this.globals.config.publisher;
     timestamp.publisherRole = null;
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-    timestamp.timestampDefinition = this.timestampSelected;
+    timestamp.timestampDefinitionTO = this.timestampSelected;
 
     timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
 

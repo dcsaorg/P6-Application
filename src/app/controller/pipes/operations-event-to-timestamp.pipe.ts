@@ -10,14 +10,14 @@ import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
 import { EventClassifierCode } from 'src/app/model/jit/eventClassifierCode';
 import { OperationsEventTypeCode } from 'src/app/model/enums/operationsEventTypeCode';
-import { TimestampDefinition } from "../../model/jit/timestamp-definition";
+import { timestampDefinitionTO } from "../../model/jit/timestamp-definition";
 
 @Pipe({
   name: 'operationsEventEventToTimestamp'
 })
 export class OperationsEventToTimestampPipe implements PipeTransform {
 
-  transform(operationsEvent: OperationsEvent, timestampDefinitions: Map<string, TimestampDefinition>): Timestamp {
+  transform(operationsEvent: OperationsEvent, timestampDefinitions: Map<string, timestampDefinitionTO>): Timestamp {
     let timestamp: Timestamp;
     timestamp = new class implements Timestamp {
       publisher: Publisher;
@@ -43,14 +43,15 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       portNext: Port | number;
       portOfCall: Port;
       portPrevious: Port | number;
-      response: TimestampDefinition;
+      response: timestampDefinitionTO;
       sequenceColor: string;
       terminal: Terminal | number;
-      timestampDefinition: TimestampDefinition;
+      timestampDefinitionTO: timestampDefinitionTO;
       transportCallID: string;
       uiReadByUser: boolean;
       vessel: number | Vessel;
       transportCallReference: string;
+      carrierVoyageNumber: string;
     }
 
     timestamp.publisher = operationsEvent.publisher;
@@ -63,6 +64,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     timestamp.operationsEventTypeCode = operationsEvent.operationsEventTypeCode;
     timestamp.eventDateTime = operationsEvent.eventDateTime;
     timestamp.portCallServiceTypeCode = operationsEvent.portCallServiceTypeCode;
+    timestamp.portCallPhaseTypeCode = operationsEvent.portCallPhaseTypeCode;
     timestamp.facilityTypeCode = operationsEvent.facilityTypeCode;
     if (operationsEvent.eventLocation?.facilityCodeListProvider == 'SMDG') {
       timestamp.facilitySMDGCode = operationsEvent.eventLocation?.facilityCode;
@@ -72,7 +74,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     timestamp.delayReasonCode = operationsEvent.delayReasonCode;
     timestamp.eventDeliveryStatus = operationsEvent.eventDeliveryStatus;
     // Extras   
-    timestamp.timestampDefinition = timestampDefinitions?.get(operationsEvent.timestampDefinitionID)
+    timestamp.timestampDefinitionTO = timestampDefinitions?.get(operationsEvent.timestampDefinitionID)
     timestamp.logOfTimestamp = operationsEvent.eventCreatedDateTime;
     timestamp.transportCallID = operationsEvent.transportCall.transportCallID;
     timestamp.transportCallReference = operationsEvent?.transportCall?.transportCallReference;

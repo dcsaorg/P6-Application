@@ -9,7 +9,7 @@ import { Timestamp } from "../../../model/jit/timestamp";
 import { TimestampService } from "../jit/timestamps.service";
 import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
 import { NegotiationCycleService } from "../base/negotiation-cycle.service";
-import { TimestampDefinition } from "../../../model/jit/timestamp-definition";
+import { timestampDefinitionTO } from "../../../model/jit/timestamp-definition";
 import { TimestampDefinitionService } from "../base/timestamp-definition.service";
 
 @Injectable({
@@ -42,14 +42,17 @@ export class TimestampMappingService {
       mergeMap(timestampInfos =>
         this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
           map(timestampDefinitionsMap => {
-            const operationEvents = timestampInfos.map(timestampInfo => timestampInfo.operationsEventTO);
+
+            const operationEvents = timestampInfos.map(timestampInfo =>{ 
+              timestampInfo.operationsEventTO.timestampDefinitionID = timestampInfo.timestampDefinitionTO.id;
+              return timestampInfo.operationsEventTO});
             return this.operationsEventsToTimestampsPipe.transform(operationEvents, timestampDefinitionsMap);
           }),
           map(timestamps => {
             this.mapTransportCallToTimestamps(timestamps, transportCall);
             let set = new Set()
             for (let timestamp of timestamps) {
-              if (timestamp.timestampDefinition) {
+              if (timestamp.timestampDefinitionTO) {
                 let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
                 const negotiationCycleKey = negotiationCycle.cycleKey;
                 timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
@@ -79,7 +82,7 @@ export class TimestampMappingService {
     }
   }
 
-  getLocationNameOptionLabel(timestampType: TimestampDefinition): string {
+  getLocationNameOptionLabel(timestampType: timestampDefinitionTO): string {
     if (timestampType?.isBerthLocationNeeded) {
       return this.locationNameBerth;
     }
