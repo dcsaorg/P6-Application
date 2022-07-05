@@ -5,7 +5,7 @@ import {PortCallPhaseTypeCode} from "../enums/portCallPhaseTypeCode";
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import {FacilityTypeCode} from "../enums/facilityTypeCodeOPR";
 
-export interface TimestampDefinition {
+export interface timestampDefinitionTO {
   id: string;
   timestampTypeName: string;
   publisherRole: PublisherRole;
@@ -24,7 +24,7 @@ export interface TimestampDefinition {
   providedInStandard: string;
 
   acceptTimestampDefinition: string;
-  acceptTimestampDefinitionEntity?: TimestampDefinition;
+  acceptTimestampDefinitionEntity?: timestampDefinitionTO;
   rejectTimestampDefinition: string;
-  rejectTimestampDefinitionEntity?: TimestampDefinition;
+  rejectTimestampDefinitionEntity?: timestampDefinitionTO;
 }

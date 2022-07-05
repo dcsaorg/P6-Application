@@ -9,37 +9,62 @@ import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import { Port } from "../../model/portCall/port";
 import { EventClassifierCode } from "./eventClassifierCode";
 import { NegotiationCycle } from "../portCall/negotiation-cycle";
-import { TimestampDefinition } from "./timestamp-definition";
+import { timestampDefinitionTO } from "./timestamp-definition";
 import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
+import { Vessel } from "../portCall/vessel";
 
 export interface Timestamp {
   transportCallReference: string;
   publisher: Publisher;
   publisherRole: PublisherRole;
-  vesselIMONumber: string;
   UNLocationCode: string;
   facilityTypeCode: FacilityTypeCode;
   eventClassifierCode: EventClassifierCode;
   operationsEventTypeCode: OperationsEventTypeCode;
   eventLocation?: EventLocation;
   vesselPosition?: VesselPosition;
-  modeOfTransport?: ModeOfTransport;
   portCallPhaseTypeCode?: PortCallPhaseTypeCode;
   portCallServiceTypeCode?: PortCallServiceTypeCode;
   eventDateTime: Date | string;
   carrierServiceCode?: string;
-  importVoyageNumber?: string;
-  exportVoyageNumber?: string;
   portCallSequence?: string;
   remark?: string;
   delayReasonCode?: string;
   eventDeliveryStatus?: string;
   isLatestInCycle?: boolean;
   negotiationCycle?: NegotiationCycle;
-  timestampDefinition?: TimestampDefinition;
-  response?: TimestampDefinition;
+  timestampDefinitionTO?: timestampDefinitionTO;
+  response?: timestampDefinitionTO;
   logOfTimestamp?: string | Date;
-  
+  carrierExportVoyageNumber?: string;
+  carrierImportVoyageNumber?: string;
+  vessel?:  number | Vessel;
+  portVisitReference?: string;
+  milesToDestinationPort?: number;
+  transportCallSequenceNumber?: number;
+
+  /**
+* @deprecated
+*/
+  modeOfTransport?: ModeOfTransport;
+  /**
+  * @deprecated
+  */
+  carrierVoyageNumber: string;
+
+  /**
+* @deprecated
+*/
+  importVoyageNumber?: string;
+  /**
+* @deprecated
+*/
+  exportVoyageNumber?: string;
+
+  /**
+* @deprecated
+*/
+  vesselIMONumber: string;
   /**
 * @deprecated
 */

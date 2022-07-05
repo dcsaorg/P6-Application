@@ -118,7 +118,7 @@
                 <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
             </td>
             <td style="width: 7%" [ngClass]="'timestampContent'">
-                {{ timestamp.timestampDefinition?.timestampTypeName || 'UNKNOWN' }}
+                {{ timestamp.timestampDefinitionTO?.timestampTypeName || 'UNKNOWN' }}
             </td>
             <td pTooltip="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[1]}}"
                 style="width: 15%; opacity: 0.6;" [ngClass]="'timestampContent'">
@@ -182,17 +182,17 @@
                     </div>
 
                     <div class="timestampContent__buttons acceptBtn"
-                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.acceptTimestampDefinition != null && !isOutGoing(timestamp)">
+                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinitionTO?.acceptTimestampDefinition != null && !isOutGoing(timestamp)">
                         <p-button icon="pi pi-check"
-                            pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.timestampDefinition?.acceptTimestampDefinitionEntity.timestampTypeName}}"
+                            pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.timestampDefinitionTO?.acceptTimestampDefinitionEntity.timestampTypeName}}"
                             tooltipPosition="left" tooltipStyleClass="ToolTipClass"
                             (click)="openAcceptDialog(timestamp)"></p-button>
                     </div>
 
                     <div class="timestampContent__buttons declineBtn"
-                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinition?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
+                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinitionTO?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
                         <p-button icon="pi pi-times"
-                            pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestamp.timestampDefinition?.rejectTimestampDefinitionEntity.timestampTypeName}}"
+                            pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestamp.timestampDefinitionTO?.rejectTimestampDefinitionEntity.timestampTypeName}}"
                             tooltipPosition="left" tooltipStyleClass="ToolTipClass"
                             (click)="openRejectDialog(timestamp)"></p-button>
                     </div>
