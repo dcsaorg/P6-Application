@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Globals } from 'src/app/model/portCall/globals';
 import { Vessel } from "../../model/portCall/vessel";
 
 
@@ -8,15 +7,20 @@ import { Vessel } from "../../model/portCall/vessel";
 })
 export class VesselTooltipPipe implements PipeTransform {
 
-  transform(vessel: Vessel): string {
+  transform(vessel: Vessel, milesRemainingToDestination: number): string {
+
+    let tooltip = "";
     if (vessel) {
-      var tooltip = "";
       if (vessel.type) tooltip += `Type: ${vessel.type}\n`;
       if (vessel.width) tooltip += `Width: ${vessel.width}\n`;
       if (vessel.length) tooltip += `Length: ${vessel.length}\n`;
       if (vessel.vesselCallSignNumber) tooltip += `Call sign: ${vessel.vesselCallSignNumber}\n`;
-      return tooltip
+      if (milesRemainingToDestination) tooltip += `milesRemainingToDestination: ${milesRemainingToDestination}\n`;
+      if (vessel.vesselDraft) tooltip += `Draft: ${vessel.length}\n`;
     }
-    return "N/A";
+    if (tooltip === "") {
+      tooltip = "N/A";
+    }
+    return tooltip;
   }
 }
