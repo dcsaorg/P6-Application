@@ -21,7 +21,7 @@ import { TimestampService } from "../../controller/services/jit/timestamps.servi
 import { Timestamp } from 'src/app/model/jit/timestamp';
 import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
-import { TimestampDefinition } from "../../model/jit/timestamp-definition";
+import { timestampDefinitionTO } from "../../model/jit/timestamp-definition";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -47,7 +47,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   negotiationCycles: SelectItem[] = [];
   portCallParts: SelectItem[] = [];
   selectedPortCallPart: string = null;
-  timestampDefinitionMap: Map<string, TimestampDefinition> = new Map<string, TimestampDefinition>();
+  timestampDefinitionMap: Map<string, timestampDefinitionTO> = new Map<string, timestampDefinitionTO>();
   selectedNegotiationCycle: NegotiationCycle = null;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
@@ -87,7 +87,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   public isPrimary(timestamp: Timestamp): boolean {
-    return this.globals.config.publisherRoles.includes(timestamp.timestampDefinition?.primaryReceiver);
+    return this.globals.config.publisherRoles.includes(timestamp.timestampDefinitionTO?.primaryReceiver);
   }
 
   filterTimestampsByPortOfCallPart() {
@@ -97,7 +97,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   private populatePortCallParts() {
     this.selectedPortCallPart = null;
-    let uniqueParts = new Set(this.timestamps.map(timestamp => timestamp.timestampDefinition?.portCallPart).filter((value) => {
+    let uniqueParts = new Set(this.timestamps.map(timestamp => timestamp.timestampDefinitionTO?.portCallPart).filter((value) => {
       return value !== undefined;
     }));
 
@@ -160,7 +160,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       //
       // If you are here because you want to double check the "secondary timestamp" flow, just remove
       // the relevant roles from "publisherRoles" from config.json. :)
-      (!timestamp.timestampDefinition || !publisherRoles.includes(timestamp.timestampDefinition.primaryReceiver));
+      (!timestamp.timestampDefinitionTO || !publisherRoles.includes(timestamp.timestampDefinitionTO.primaryReceiver));
   }
 
   showComment(timestamp: Timestamp) {
@@ -192,7 +192,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   openAcceptDialog(timestamp: Timestamp) {
     let timestampShallowClone = Object.assign({}, timestamp);
-    timestampShallowClone.timestampDefinition = timestamp.timestampDefinition.acceptTimestampDefinitionEntity;
+    timestampShallowClone.timestampDefinitionTO = timestamp.timestampDefinitionTO.acceptTimestampDefinitionEntity;
     timestampShallowClone.logOfTimestamp = new Date();
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.
@@ -217,7 +217,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
   openRejectDialog(timestamp: Timestamp) {
     let timestampShallowClone = Object.assign({}, timestamp);
-    timestampShallowClone.timestampDefinition = timestamp.timestampDefinition.rejectTimestampDefinitionEntity;
+    timestampShallowClone.timestampDefinitionTO = timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity;
     timestampShallowClone.logOfTimestamp = new Date();
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.

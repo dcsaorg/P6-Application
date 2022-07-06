@@ -33,27 +33,34 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
       transportCall: TransportCall;
       identifyingCodes?: identifyingCodes;
       transportCallReference: string;
+      carrierVoyageNumber: string;
 
     }
 
     newTimestamp.publisher = configurations.publisher;
-    newTimestamp.publisherRole = portcallTimestamp.timestampDefinition.publisherRole;
+    newTimestamp.publisherRole = portcallTimestamp.timestampDefinitionTO.publisherRole;
     newTimestamp.vesselIMONumber = portcallTimestamp.vesselIMONumber;
-    newTimestamp.UNLocationCode = portcallTimestamp.UNLocationCode;
-    newTimestamp.facilitySMDGCode = portcallTimestamp.facilitySMDGCode;
-    newTimestamp.facilityTypeCode = portcallTimestamp.timestampDefinition.facilityTypeCode;
-    newTimestamp.eventClassifierCode = portcallTimestamp.timestampDefinition.eventClassifierCode;
-    newTimestamp.operationsEventTypeCode = portcallTimestamp.timestampDefinition.operationsEventTypeCode;
-    newTimestamp.eventLocation = portcallTimestamp.eventLocation;
-    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
-    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
-    newTimestamp.portCallServiceTypeCode = portcallTimestamp.timestampDefinition.portCallServiceTypeCode;
-    newTimestamp.portCallPhaseTypeCode = portcallTimestamp.timestampDefinition.portCallPhaseTypeCode;
-    newTimestamp.eventDateTime = portcallTimestamp.eventDateTime;
+    newTimestamp.vessel = portcallTimestamp.vessel;
+    newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode;
     newTimestamp.exportVoyageNumber = portcallTimestamp.exportVoyageNumber;
     newTimestamp.importVoyageNumber = portcallTimestamp.importVoyageNumber;
-    newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode;
+    newTimestamp.portVisitReference = portcallTimestamp.portVisitReference;
+    newTimestamp.carrierExportVoyageNumber = portcallTimestamp.carrierExportVoyageNumber;
+    newTimestamp.carrierImportVoyageNumber = portcallTimestamp.carrierImportVoyageNumber;
+    newTimestamp.transportCallSequenceNumber = portcallTimestamp.transportCallSequenceNumber
+    newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
+    newTimestamp.UNLocationCode = portcallTimestamp.UNLocationCode;
+    newTimestamp.facilitySMDGCode = portcallTimestamp.facilitySMDGCode;
+    newTimestamp.facilityTypeCode = portcallTimestamp.timestampDefinitionTO.facilityTypeCode;
+    newTimestamp.eventLocation = portcallTimestamp.eventLocation;
+    newTimestamp.eventClassifierCode = portcallTimestamp.timestampDefinitionTO.eventClassifierCode;
+    newTimestamp.operationsEventTypeCode = portcallTimestamp.timestampDefinitionTO.operationsEventTypeCode;
+    newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
+    newTimestamp.portCallServiceTypeCode = portcallTimestamp.timestampDefinitionTO.portCallServiceTypeCode;
+    newTimestamp.portCallPhaseTypeCode = portcallTimestamp.timestampDefinitionTO.portCallPhaseTypeCode;
+    newTimestamp.eventDateTime = portcallTimestamp.eventDateTime;
     newTimestamp.portCallSequence = portcallTimestamp.portCallSequence;
+    newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber;
     newTimestamp.remark = portcallTimestamp.remark;
     newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
 

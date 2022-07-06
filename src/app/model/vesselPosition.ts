@@ -1,5 +1,5 @@
-export interface VesselPosition { 
-    latitude: string;
-    longitude: string;
-  }
-  
+export interface VesselPosition {
+  locationName?: string;
+  latitude: string;
+  longitude: string;
+}
