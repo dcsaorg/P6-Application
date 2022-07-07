@@ -29,4 +29,5 @@ export interface TransportCall {
   atdBerthDateTime?: Date;
   latestEventCreatedDateTime?: Date;
   transportCallID: string;
+  milesRemainingToDestination?: number;
 }

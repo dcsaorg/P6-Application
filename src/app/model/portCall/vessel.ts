@@ -11,6 +11,9 @@ export interface Vessel {
   type?: string;
   width?: number;
   length?: number;
+
+  vesselDraft?: number;
+
   vesselIMONumber: string;            // number; (7)
   
   /**
