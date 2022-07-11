@@ -9,7 +9,7 @@ import { Timestamp } from "../../../model/jit/timestamp";
 import { TimestampService } from "../jit/timestamps.service";
 import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
 import { NegotiationCycleService } from "../base/negotiation-cycle.service";
-import { timestampDefinitionTO } from "../../../model/jit/timestamp-definition";
+import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
 import { TimestampDefinitionService } from "../base/timestamp-definition.service";
 
 @Injectable({
@@ -82,7 +82,7 @@ export class TimestampMappingService {
     }
   }
 
-  getLocationNameOptionLabel(timestampType: timestampDefinitionTO): string {
+  getLocationNameOptionLabel(timestampType: TimestampDefinitionTO): string {
     if (timestampType?.isBerthLocationNeeded) {
       return this.locationNameBerth;
     }

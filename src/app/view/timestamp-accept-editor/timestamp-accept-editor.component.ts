@@ -14,7 +14,7 @@ import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
 import {Terminal} from 'src/app/model/portCall/terminal';
 import {TerminalService} from 'src/app/controller/services/base/terminal.service';
-import {timestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
 import { DateToUtcPipe } from 'src/app/controller/pipes/date-to-utc.pipe';
 
 
@@ -47,7 +47,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
   VesselPositionLabel:boolean;
   transportCall: TransportCall;
-  timestampDefinitions: timestampDefinitionTO[] = [];
+  timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];

@@ -10,14 +10,14 @@ import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
 import { EventClassifierCode } from 'src/app/model/jit/eventClassifierCode';
 import { OperationsEventTypeCode } from 'src/app/model/enums/operationsEventTypeCode';
-import { timestampDefinitionTO } from "../../model/jit/timestamp-definition";
+import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 
 @Pipe({
   name: 'operationsEventEventToTimestamp'
 })
 export class OperationsEventToTimestampPipe implements PipeTransform {
 
-  transform(operationsEvent: OperationsEvent, timestampDefinitions: Map<string, timestampDefinitionTO>): Timestamp {
+  transform(operationsEvent: OperationsEvent, timestampDefinitions: Map<string, TimestampDefinitionTO>): Timestamp {
     let timestamp: Timestamp;
     timestamp = new class implements Timestamp {
       publisher: Publisher;
@@ -43,10 +43,10 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       portNext: Port | number;
       portOfCall: Port;
       portPrevious: Port | number;
-      response: timestampDefinitionTO;
+      response: TimestampDefinitionTO;
       sequenceColor: string;
       terminal: Terminal | number;
-      timestampDefinitionTO: timestampDefinitionTO;
+      timestampDefinitionTO: TimestampDefinitionTO;
       transportCallID: string;
       uiReadByUser: boolean;
       vessel: number | Vessel;
