@@ -1,15 +1,14 @@
 import { OperationsEventTypeCode } from '../enums/operationsEventTypeCode';
 import { PublisherRole } from '../enums/publisherRole';
-import {EventClassifierCode} from "./eventClassifierCode";
-import {PortCallPhaseTypeCode} from "../enums/portCallPhaseTypeCode";
-import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
-import {FacilityTypeCode} from "../enums/facilityTypeCodeOPR";
+import { EventClassifierCode } from "./eventClassifierCode";
+import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
+import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
+import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
+import { PublisherPattern } from './publisher-pattern';
 
 export interface TimestampDefinitionTO {
   id: string;
   timestampTypeName: string;
-  publisherRole: PublisherRole;
-  primaryReceiver: PublisherRole;
   eventClassifierCode: EventClassifierCode;
   operationsEventTypeCode: OperationsEventTypeCode;
   portCallPhaseTypeCode: PortCallPhaseTypeCode;
@@ -22,9 +21,23 @@ export interface TimestampDefinitionTO {
   isVesselPositionNeeded: boolean;
   negotiationCycle: string;
   providedInStandard: string;
-
+  publisherPattern: Array<PublisherPattern>;
   acceptTimestampDefinition: string;
   acceptTimestampDefinitionEntity?: TimestampDefinitionTO;
   rejectTimestampDefinition: string;
   rejectTimestampDefinitionEntity?: TimestampDefinitionTO;
+
+
+  /**
+* @deprecated
+
+detected through publisherPattern field & then set by mapping 
+*/
+  publisherRole: PublisherRole;
+  /**
+* @deprecated
+detected through publisherPattern field & then set by mapping
+*/
+  primaryReceiver: PublisherRole;
+
 }

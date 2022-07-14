@@ -1,22 +1,22 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {MessageService, SelectItem} from "primeng/api";
-import {Port} from "../../model/portCall/port";
-import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {DelayCode} from "../../model/portCall/delayCode";
-import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
-import {DelayCodeService} from "../../controller/services/base/delay-code.service";
-import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
-import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/jit/transport-call";
-import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {Timestamp} from "../../model/jit/timestamp";
-import {Globals} from "../../model/portCall/globals";
-import {EventLocation} from "../../model/eventLocation";
-import {VesselPosition} from "../../model/vesselPosition";
-import {Terminal} from 'src/app/model/portCall/terminal';
-import {TerminalService} from 'src/app/controller/services/base/terminal.service';
-import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MessageService, SelectItem } from "primeng/api";
+import { Port } from "../../model/portCall/port";
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
+import { DelayCode } from "../../model/portCall/delayCode";
+import { DateToUtcPipe } from "../../controller/pipes/date-to-utc.pipe";
+import { DelayCodeService } from "../../controller/services/base/delay-code.service";
+import { VesselIdToVesselPipe } from "../../controller/pipes/vesselid-to-vessel.pipe";
+import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
+import { TransportCall } from "../../model/jit/transport-call";
+import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
+import { Timestamp } from "../../model/jit/timestamp";
+import { Globals } from "../../model/portCall/globals";
+import { EventLocation } from "../../model/eventLocation";
+import { VesselPosition } from "../../model/vesselPosition";
+import { Terminal } from 'src/app/model/portCall/terminal';
+import { TerminalService } from 'src/app/controller/services/base/terminal.service';
+import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
+import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 
 
 @Component({
@@ -39,7 +39,7 @@ export class TimestampEditorComponent implements OnInit {
   timestamps: Timestamp[];
   eventTimestampDate: Date;
   eventTimestampTime: string;
-  timestampSelected: TimestampDefinitionTO;
+  timestampTypeSelected: TimestampDefinitionTO;
   creationProgress: boolean = false;
   locationNameLabel: string;
   locationName: string;
@@ -73,22 +73,22 @@ export class TimestampEditorComponent implements OnInit {
     portOfCall: undefined,
     portPrevious: undefined,
     timestampDefinitionTO: undefined,
-    transportCallID: "",
-    transportCallReference:"",
-    carrierVoyageNumber:""
+    transportCallID: undefined,
+    transportCallReference: undefined,
+    carrierVoyageNumber: undefined
   };
 
 
   constructor(
-              private messageService: MessageService,
-              private delayCodeService: DelayCodeService,
-              private globals: Globals,
-              public config: DynamicDialogConfig,
-              private translate: TranslateService,
-              public ref: DynamicDialogRef,
-              private timestampDefinitionService: TimestampDefinitionService,
-              private timestampMappingService: TimestampMappingService,
-              private terminalService: TerminalService) {
+    private messageService: MessageService,
+    private delayCodeService: DelayCodeService,
+    private globals: Globals,
+    public config: DynamicDialogConfig,
+    private translate: TranslateService,
+    public ref: DynamicDialogRef,
+    private timestampDefinitionService: TimestampDefinitionService,
+    private timestampMappingService: TimestampMappingService,
+    private terminalService: TerminalService) {
   }
 
   ngOnInit(): void {
@@ -114,31 +114,22 @@ export class TimestampEditorComponent implements OnInit {
 
   showVesselPosition(): boolean {
     if (!this.globals.config.enableVesselPositions) return false;
-    return this.timestampSelected?.isVesselPositionNeeded ?? false;
+    return this.timestampTypeSelected?.isVesselPositionNeeded ?? false;
   }
 
   showLocationNameOption(): boolean {
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampSelected);
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected);
     return this.locationNameLabel !== undefined;
   }
 
   showTerminalOption(): boolean {
-    return this.timestampSelected?.isTerminalNeeded ?? false;
+    return this.timestampTypeSelected?.isTerminalNeeded ?? false;
   }
 
-  savePortcallTimestamp(timestamp: Timestamp, transportCall: TransportCall) {
+  savePortcallTimestamp(timestamp: Timestamp) {
 
-    timestamp.UNLocationCode = transportCall.UNLocationCode;
-    timestamp.facilitySMDGCode = transportCall.facilityCode;
-    timestamp.facilityTypeCode = transportCall.facilityTypeCode;
-    timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-    timestamp.importVoyageNumber = transportCall.importVoyageNumber
-    timestamp.exportVoyageNumber = transportCall.exportVoyageNumber
-    timestamp.publisher = this.globals.config.publisher;
-    timestamp.publisherRole = null;
+    timestamp.timestampDefinitionTO = this.timestampTypeSelected;
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-    timestamp.timestampDefinitionTO = this.timestampSelected;
-
     timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
 
     if (this.eventTimestampDate) {
@@ -150,6 +141,10 @@ export class TimestampEditorComponent implements OnInit {
         locationName: string
       }
       timestamp.eventLocation.locationName = this.locationName;
+      if(this.terminalSelected?.facilitySMDGCode){
+          timestamp.eventLocation.facilityCodeListProvider = "SMDG";
+          timestamp.eventLocation.facilityCode = this.terminalSelected?.facilitySMDGCode;
+      }
     }
 
     const latitude = this.vesselPosition.latitude;
@@ -160,19 +155,23 @@ export class TimestampEditorComponent implements OnInit {
         longitude: string = longtitude;
       }
     }
+    
+    // For now we just take set the first value of the publisher pattern as PR assuming that exists in the global
+    timestamp.publisherRole = this.globals.config.publisherRoles.find(pb => pb === timestamp.timestampDefinitionTO.publisherPattern[0].publisherRole)
+
 
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe(() => {
-        this.creationProgress = false;
-        this.messageService.add(
-          {
-            key: 'TimestampAddSuccess',
-            severity: 'success',
-            summary: this.translate.instant('general.save.editor.success.summary'),
-            detail: this.translate.instant('general.save.editor.success.detail')
-          })
-        this.ref.close(timestamp);
-      },
+      this.creationProgress = false;
+      this.messageService.add(
+        {
+          key: 'TimestampAddSuccess',
+          severity: 'success',
+          summary: this.translate.instant('general.save.editor.success.summary'),
+          detail: this.translate.instant('general.save.editor.success.detail')
+        })
+      this.ref.close(timestamp);
+    },
       error => {
         this.messageService.add(
           {
@@ -187,33 +186,33 @@ export class TimestampEditorComponent implements OnInit {
 
   private updateTimestampTypeOptions() {
     this.timestampTypes = [];
-    this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
+    this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
     for (let timestampDef of this.timestampDefinitions) {
-      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherRole)) {
+      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherPattern[0].publisherRole)) { // For now we just take first value of the publisher pattern
         continue;
       }
       if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
         continue
       }
-      this.timestampTypes.push({label: timestampDef.timestampTypeName, value: timestampDef})
+      this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef })
     }
   }
 
   private updateDelayCodeOptions() {
     this.delayCodeOptions = [];
-    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
+    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
     this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
     });
   }
 
-  private updateTerminalOptions(UNLocationCode:string) {
+  private updateTerminalOptions(UNLocationCode: string) {
     this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
       this.terminalOptions = [];
-      this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
+      this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
       terminals.forEach(terminal => {
-          this.terminalOptions.push({label: terminal.facilitySMDGCode, value: terminal})
+        this.terminalOptions.push({ label: terminal.facilitySMDGCode, value: terminal })
       });
     })
   }
@@ -223,7 +222,7 @@ export class TimestampEditorComponent implements OnInit {
 
   validatePortOfCallTimestamp(): boolean {
     return !(
-      this.timestampSelected && this.eventTimestampDate && this.eventTimestampTime
+      this.timestampTypeSelected && this.eventTimestampDate && this.eventTimestampTime
     );
   }
 
@@ -236,14 +235,22 @@ export class TimestampEditorComponent implements OnInit {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
 
+  /*
+  Generating default timestamp based on configs & selected transport call. 
+  */
   private async generateDefaultTimestamp() {
     this.defaultTimestamp.logOfTimestamp = new Date();
     this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
     this.defaultTimestamp.portOfCall = this.transportCall.portOfCall;
     this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
     this.defaultTimestamp.UNLocationCode = this.transportCall.UNLocationCode;
+    this.defaultTimestamp.carrierServiceCode = this.transportCall.carrierServiceCode;
+    this.defaultTimestamp.importVoyageNumber = this.transportCall.importVoyageNumber;
+    this.defaultTimestamp.exportVoyageNumber = this.transportCall.exportVoyageNumber;
+    this.defaultTimestamp.carrierVoyageNumber = this.transportCall.carrierVoyageNumber;
+
     // Set publisher based on globals
-    this.defaultTimestamp.publisherRole = null;
     this.defaultTimestamp.publisher = this.globals.config.publisher;
+    this.defaultTimestamp.transportCallSequenceNumber = this.transportCall.transportCallSequenceNumber;
   }
 }

@@ -50,7 +50,7 @@
 
   <div class="p-field col-12 md:col-4">
     <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
-    <p-dropdown id="timestampType" styleClass="dropdown" [(ngModel)]="timestampSelected" [options]="timestampTypes"
+    <p-dropdown id="timestampType" styleClass="dropdown" [(ngModel)]="timestampTypeSelected" [options]="timestampTypes"
                 [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()"></p-dropdown>
 
     <div class="p-field col-12 md:col-2" ></div>
@@ -196,7 +196,7 @@
     <p-button (onClick)="close()" class="footer_option__buttons"
               icon="pi pi-times-circle" label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp, transportCall)" class="footer_option__buttons"
+    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
               [disabled]="validatePortOfCallTimestamp()" icon="pi pi-save"
               label="{{'general.save.editor.label' | translate}}" iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"

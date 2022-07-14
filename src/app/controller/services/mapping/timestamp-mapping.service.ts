@@ -31,21 +31,23 @@ export class TimestampMappingService {
   private readonly locationNameBerth: string = "Berth Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
+    this.ensureVoyageNumbers(timestamp);
     return this.timestampService.addTimestamp(this.timestampToStandardizedTimestampPipe.transform(timestamp, this.globals.config))
   }
 
-/*
-* A function that returns a list of portCall timestamps related to the transport Call .
-*/
+  /*
+  * A function that returns a list of portCall timestamps related to the transport Call .
+  */
   getPortCallTimestampsByTransportCall(transportCall: TransportCall, portCallPart?: string): Observable<Timestamp[]> {
     return this.operationsEventService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
       mergeMap(timestampInfos =>
         this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
           map(timestampDefinitionsMap => {
-
-            const operationEvents = timestampInfos.map(timestampInfo =>{ 
+            const operationEvents = timestampInfos.map(timestampInfo => {
               timestampInfo.operationsEventTO.timestampDefinitionID = timestampInfo.timestampDefinitionTO.id;
-              return timestampInfo.operationsEventTO});
+              timestampInfo.operationsEventTO.eventDeliveryStatus = timestampInfo.eventDeliveryStatus;
+              return timestampInfo.operationsEventTO
+            });
             return this.operationsEventsToTimestampsPipe.transform(operationEvents, timestampDefinitionsMap);
           }),
           map(timestamps => {
@@ -53,6 +55,7 @@ export class TimestampMappingService {
             let set = new Set()
             for (let timestamp of timestamps) {
               if (timestamp.timestampDefinitionTO) {
+                this.AlignPublisherRoleAndPrimaryReciever(timestamp);        
                 let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
                 const negotiationCycleKey = negotiationCycle.cycleKey;
                 timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
@@ -62,8 +65,8 @@ export class TimestampMappingService {
             return timestamps;
           })
         ))
-      )
-   
+    )
+
   }
 
 
@@ -78,9 +81,46 @@ export class TimestampMappingService {
         timestamp.importVoyageNumber = transportCall.importVoyageNumber;
         timestamp.exportVoyageNumber = transportCall.exportVoyageNumber;
         timestamp.carrierServiceCode = transportCall.carrierServiceCode;
+        timestamp.transportCallSequenceNumber = transportCall.transportCallSequenceNumber;
       }
     }
   }
+
+  // Align voyageNumber (JIT 1.1) -- assuming at least one voyage number exists. 
+  ensureVoyageNumbers(timestamp: Timestamp) {
+
+    if (timestamp.carrierVoyageNumber === undefined || timestamp.carrierVoyageNumber === null) {
+
+      if (timestamp.importVoyageNumber) { timestamp.carrierVoyageNumber = timestamp.importVoyageNumber }
+      // we overwrite with exportVoyageNumber if exist
+      if (timestamp.exportVoyageNumber) { timestamp.carrierVoyageNumber = timestamp.exportVoyageNumber }
+    }
+    timestamp.importVoyageNumber = !timestamp.importVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.importVoyageNumber;
+    timestamp.exportVoyageNumber = !timestamp.exportVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.exportVoyageNumber;
+  }
+
+  /*
+      To detect the publisher role (PR) for the timestampDefinitionsTO 
+       We check the PR of the event against the timestampDefinitionsTO's -> publisher pattern.  
+       If found we set that as the timestampDefinitionsTO's PR and primary reciever. 
+       If not we should raise a warning as this is unexpected behavior -- for now print console.warn()
+  */
+  private AlignPublisherRoleAndPrimaryReciever(timestamp: Timestamp) {
+    let patterns = timestamp.timestampDefinitionTO.publisherPattern;
+    for (let i = 0; i < patterns.length; i++) {
+      if (timestamp.publisherRole === patterns[i].publisherRole) {
+        timestamp.timestampDefinitionTO.publisherRole = patterns[i].publisherRole;
+        timestamp.timestampDefinitionTO.primaryReceiver = patterns[i].primaryReceiver;
+      }
+    };
+    if (timestamp.timestampDefinitionTO.publisherRole === null || timestamp.timestampDefinitionTO.publisherRole === undefined
+      || timestamp.timestampDefinitionTO.publisherRole  !== timestamp.publisherRole) {
+        timestamp.timestampDefinitionTO.publisherRole  
+      console.warn("DCSA ERROR: Timestamp's publisherRole does not conform "
+        + "to timestamp definition publisher pattern")
+    }
+  }
+
 
   getLocationNameOptionLabel(timestampType: TimestampDefinitionTO): string {
     if (timestampType?.isBerthLocationNeeded) {
