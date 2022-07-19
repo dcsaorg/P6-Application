@@ -25,7 +25,7 @@ export class VesselService {
 
   getVessel = (vesselId: string): Observable<Vessel> => this.httpClient.get<Vessel>(this.VESSEL_URL + '/' + vesselId);
 
-  updateVessel = (vessel: Vessel): Observable<Object> => this.httpClient.put(this.VESSEL_URL + '/' + vessel.id, vessel);
+  updateVessel = (vessel: Vessel): Observable<Object> => this.httpClient.put(this.VESSEL_URL + '/' + vessel.vesselIMONumber, vessel);
 
   addVessel = (vessel: Vessel): Observable<Vessel> => this.httpClient.post<Vessel>(this.VESSEL_URL, vessel);
 
