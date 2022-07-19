@@ -2,11 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {Globals} from "../../../model/portCall/globals";
-import {timestampDefinitionTO} from "../../../model/jit/timestamp-definition";
+import {TimestampDefinitionTO} from "../../../model/jit/timestamp-definition";
 import {map} from 'rxjs/operators';
 
-function asMap(timestampDefinitions: timestampDefinitionTO[]): Map<string, timestampDefinitionTO> {
-  let map = new Map<string, timestampDefinitionTO>()
+function asMap(timestampDefinitions: TimestampDefinitionTO[]): Map<string, TimestampDefinitionTO> {
+  let map = new Map<string, TimestampDefinitionTO>()
   for (let timestampDefinitionTO of timestampDefinitions) {
     map.set(timestampDefinitionTO.id, timestampDefinitionTO);
   }
@@ -19,18 +19,18 @@ function asMap(timestampDefinitions: timestampDefinitionTO[]): Map<string, times
 export class TimestampDefinitionService {
   private readonly TIMESTAMP_DEFINITION_BACKEND: string;
   // the timestamps are not likely to change during a work session.
-  private definitionCache: timestampDefinitionTO[] = [];
+  private definitionCache: TimestampDefinitionTO[] = [];
 
   constructor(private httpClient: HttpClient,
               private globals: Globals) {
     this.TIMESTAMP_DEFINITION_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/timestamp-definitions';
   }
 
-  getTimestampDefinitions(): Observable<timestampDefinitionTO[]> {
+  getTimestampDefinitions(): Observable<TimestampDefinitionTO[]> {
     if (this.definitionCache.length == 0) {
       let httpParams = new HttpParams();
       httpParams = httpParams.set("canonicalTimestampDefinition", "NULL").set("limit", "250");
-      return this.httpClient.get<timestampDefinitionTO[]>(this.TIMESTAMP_DEFINITION_BACKEND, {params: httpParams})
+      return this.httpClient.get<TimestampDefinitionTO[]>(this.TIMESTAMP_DEFINITION_BACKEND, {params: httpParams})
         .pipe(
           map(definitions => {
             let table = asMap(definitions);
@@ -53,7 +53,7 @@ export class TimestampDefinitionService {
 
 
 
-  getTimestampDefinitionsMap(): Observable<Map<string, timestampDefinitionTO>> {
+  getTimestampDefinitionsMap(): Observable<Map<string, TimestampDefinitionTO>> {
     return this.getTimestampDefinitions().pipe(
       map(timestampDefinitions => {
         return asMap(timestampDefinitions);

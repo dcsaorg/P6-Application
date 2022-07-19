@@ -9,7 +9,7 @@ import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import { Port } from "../../model/portCall/port";
 import { EventClassifierCode } from "./eventClassifierCode";
 import { NegotiationCycle } from "../portCall/negotiation-cycle";
-import { timestampDefinitionTO } from "./timestamp-definition";
+import { TimestampDefinitionTO } from "./timestamp-definition";
 import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
 import { Vessel } from "../portCall/vessel";
 
@@ -33,8 +33,8 @@ export interface Timestamp {
   eventDeliveryStatus?: string;
   isLatestInCycle?: boolean;
   negotiationCycle?: NegotiationCycle;
-  timestampDefinitionTO?: timestampDefinitionTO;
-  response?: timestampDefinitionTO;
+  timestampDefinitionTO?: TimestampDefinitionTO;
+  response?: TimestampDefinitionTO;
   logOfTimestamp?: string | Date;
   carrierExportVoyageNumber?: string;
   carrierImportVoyageNumber?: string;

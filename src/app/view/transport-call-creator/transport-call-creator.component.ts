@@ -26,7 +26,7 @@ import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
 import { PortService } from 'src/app/controller/services/base/port.service';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
-import {timestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
 
 @Component({
@@ -48,8 +48,8 @@ export class TransportCallCreatorComponent implements OnInit {
   timestamp: Timestamp;
   eventTimestampDate: Date;
   eventTimestampTime: string;
-  timestampSelected: timestampDefinitionTO;
-  timestampDefinitions: timestampDefinitionTO[] = [];
+  timestampSelected: TimestampDefinitionTO;
+  timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
@@ -301,7 +301,7 @@ export class TransportCallCreatorComponent implements OnInit {
       vesselIMONumber: string;
       delayReasonCode: string;
       transportCallReference: string;
-      timestampDefinitionTO: timestampDefinitionTO;
+      timestampDefinitionTO: TimestampDefinitionTO;
       carrierVoyageNumber: string;
     }
 

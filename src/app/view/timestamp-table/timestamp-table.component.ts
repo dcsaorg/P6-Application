@@ -21,7 +21,7 @@ import { TimestampService } from "../../controller/services/jit/timestamps.servi
 import { Timestamp } from 'src/app/model/jit/timestamp';
 import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
-import { timestampDefinitionTO } from "../../model/jit/timestamp-definition";
+import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -47,7 +47,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   negotiationCycles: SelectItem[] = [];
   portCallParts: SelectItem[] = [];
   selectedPortCallPart: string = null;
-  timestampDefinitionMap: Map<string, timestampDefinitionTO> = new Map<string, timestampDefinitionTO>();
+  timestampDefinitionMap: Map<string, TimestampDefinitionTO> = new Map<string, TimestampDefinitionTO>();
   selectedNegotiationCycle: NegotiationCycle = null;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()

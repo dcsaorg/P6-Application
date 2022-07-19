@@ -38,7 +38,7 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     }
 
     newTimestamp.publisher = configurations.publisher;
-    newTimestamp.publisherRole = portcallTimestamp.timestampDefinitionTO.publisherRole;
+    newTimestamp.publisherRole = portcallTimestamp.publisherRole;
     newTimestamp.vesselIMONumber = portcallTimestamp.vesselIMONumber;
     newTimestamp.vessel = portcallTimestamp.vessel;
     newTimestamp.carrierServiceCode = portcallTimestamp.carrierServiceCode;
@@ -51,18 +51,19 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.vesselPosition = portcallTimestamp.vesselPosition;
     newTimestamp.UNLocationCode = portcallTimestamp.UNLocationCode;
     newTimestamp.facilitySMDGCode = portcallTimestamp.facilitySMDGCode;
-    newTimestamp.facilityTypeCode = portcallTimestamp.timestampDefinitionTO.facilityTypeCode;
     newTimestamp.eventLocation = portcallTimestamp.eventLocation;
-    newTimestamp.eventClassifierCode = portcallTimestamp.timestampDefinitionTO.eventClassifierCode;
-    newTimestamp.operationsEventTypeCode = portcallTimestamp.timestampDefinitionTO.operationsEventTypeCode;
     newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
-    newTimestamp.portCallServiceTypeCode = portcallTimestamp.timestampDefinitionTO.portCallServiceTypeCode;
-    newTimestamp.portCallPhaseTypeCode = portcallTimestamp.timestampDefinitionTO.portCallPhaseTypeCode;
     newTimestamp.eventDateTime = portcallTimestamp.eventDateTime;
     newTimestamp.portCallSequence = portcallTimestamp.portCallSequence;
     newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber;
     newTimestamp.remark = portcallTimestamp.remark;
     newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
+    // values dependent on timestampDefinitionTO
+    newTimestamp.facilityTypeCode = portcallTimestamp.timestampDefinitionTO.facilityTypeCode;
+    newTimestamp.eventClassifierCode = portcallTimestamp.timestampDefinitionTO.eventClassifierCode;
+    newTimestamp.operationsEventTypeCode = portcallTimestamp.timestampDefinitionTO.operationsEventTypeCode;
+    newTimestamp.portCallServiceTypeCode = portcallTimestamp.timestampDefinitionTO.portCallServiceTypeCode;
+    newTimestamp.portCallPhaseTypeCode = portcallTimestamp.timestampDefinitionTO.portCallPhaseTypeCode;
 
     return newTimestamp;
   }
