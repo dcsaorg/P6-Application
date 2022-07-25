@@ -7,16 +7,14 @@ import { Vessel } from "../../model/portCall/vessel";
 })
 export class VesselTooltipPipe implements PipeTransform {
 
-  transform(vessel: Vessel, milesRemainingToDestination: number): string {
-
+  transform(vessel: Vessel): string {
     let tooltip = "";
     if (vessel) {
       if (vessel.type) tooltip += `Type: ${vessel.type}\n`;
       if (vessel.width) tooltip += `Width: ${vessel.width}\n`;
       if (vessel.length) tooltip += `Length: ${vessel.length}\n`;
       if (vessel.vesselCallSignNumber) tooltip += `Call sign: ${vessel.vesselCallSignNumber}\n`;
-      if (milesRemainingToDestination) tooltip += `milesRemainingToDestination: ${milesRemainingToDestination}\n`;
-      if (vessel.vesselDraft) tooltip += `Draft: ${vessel.length}\n`;
+      if (vessel.vesselDraft) tooltip += `Draft: ${vessel.vesselDraft} ${vessel.dimensionUnit} \n `; // only show both draft & unit if draft is given
     }
     if (tooltip === "") {
       tooltip = "N/A";
