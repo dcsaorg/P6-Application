@@ -8,6 +8,7 @@ export const environment = {
 };
 
 export const BACKEND_URL = window.location.origin + "/api";
+export const CONFIG_FILE = "assets/devconfig.json";
 
 /*
  * For easier debugging in development mode, you can import the following file

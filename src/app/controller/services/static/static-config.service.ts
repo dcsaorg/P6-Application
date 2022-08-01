@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpBackend} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Config} from "../../../model/jit/config";
+import {CONFIG_FILE} from "../../../../environments/environment";
 
 
 @Injectable({
@@ -12,7 +13,7 @@ export class StaticConfigService {
   private httpClient: HttpClient;
 
   constructor(private handler: HttpBackend) {
-    this.CONFIG_FILE = "assets/config.json"
+    this.CONFIG_FILE = CONFIG_FILE;
     // manually instantiate this to avoid a circular dependencies between ConfigService
     // and AuthService/AuthInterceptor.
     this.httpClient = new HttpClient(handler);
