@@ -4641,3 +4641,7 @@ removing the cursor, as the splitter gutter functionality does not work!
 .p-splitter-gutter{
   cursor: default !important;
 }
+
+.p-datatable-responsive-scroll > .p-datatable-wrapper {
+	overflow-x: visible !important;
+}
