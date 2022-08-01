@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {Vessel} from "../../model/portCall/vessel";
-import {Carrier} from "../../model/portCall/carrier";
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {MessageService} from "primeng/api";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {vesselOperatorCarrierCodeListProvider} from '../../model/enums/vesselOperatorCarrierCodeListProvider';
-import {SelectItem} from "primeng/api";
-import {Globals} from "../../model/portCall/globals";
+import { Component, OnInit } from '@angular/core';
+import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
+import { Vessel } from "../../model/portCall/vessel";
+import { Carrier } from "../../model/portCall/carrier";
+import { VesselService } from "../../controller/services/base/vessel.service";
+import { MessageService } from "primeng/api";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { vesselOperatorCarrierCodeListProvider } from '../../model/enums/vesselOperatorCarrierCodeListProvider';
+import { SelectItem } from "primeng/api";
+import { Globals } from "../../model/portCall/globals";
 
 @Component({
   selector: 'app-vessel-editor',
@@ -23,11 +23,11 @@ export class VesselEditorComponent implements OnInit {
 
 
   constructor(public ref: DynamicDialogRef,
-              public config: DynamicDialogConfig,
-              private vesselService: VesselService,
-              private messageService: MessageService,
-              private formBuilder: FormBuilder,
-              public globals: Globals,
+    public config: DynamicDialogConfig,
+    private vesselService: VesselService,
+    private messageService: MessageService,
+    private formBuilder: FormBuilder,
+    public globals: Globals,
   ) {
   }
 
@@ -52,7 +52,6 @@ export class VesselEditorComponent implements OnInit {
     });
 
     this.updateCarrierOptions();
-    this.selectCarrier();
 
     if (this.config.data) {
       this.allowImoID = false;
@@ -62,25 +61,16 @@ export class VesselEditorComponent implements OnInit {
     } else {
       this.allowImoID = true;
       this.vessel = {
-        id: null,
         vesselIMONumber: null,
-        vesselName: "",
-        teu: null,
-        serviceNameCode: "",
-        vesselFlag: "",
-        vesselOperatorCarrierCode: "",
-        vesselOperatorCarrierCodeListProvider: vesselOperatorCarrierCodeListProvider.SMDG,
-        vesselCallSignNumber: "",
-        type: "",
-        width: null,
-        length: null
+        vesselName: null,
+        vesselFlag: null,
+        vesselOperatorCarrierCode: null,
       };
     }
-
   }
 
   saveVessel() {
-    this.selectCarrier();
+    this.enforceCarrierCodeListProviderTypeSMDG(this.vessel);
     if (this.config.data) {
       this.vesselService.updateVessel(this.vessel).subscribe(() => {
         this.messageService.add({
@@ -127,16 +117,18 @@ export class VesselEditorComponent implements OnInit {
   private updateCarrierOptions() {
     this.vesselService.getcarriers().subscribe(carriers => {
       this.carriers = [];
-
       carriers.forEach(carrier => {
-        this.carriers.push({label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode});
+        this.carriers.push({ label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode });
       });
     });
   }
 
-  selectCarrier() {
-
-    // Check that a carirrier is chosen before allowing creation
-
+  /* UI only supports this type (as of this comment - 18/07/22)
+  Only enforced if a carrier is chosen 
+  */
+  enforceCarrierCodeListProviderTypeSMDG(vessel: Vessel) {
+    if (vessel.vesselOperatorCarrierCode) {
+      vessel.vesselOperatorCarrierCodeListProvider = vesselOperatorCarrierCodeListProvider.SMDG
+    }
   }
 }

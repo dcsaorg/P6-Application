@@ -158,7 +158,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
     for (let timestampDef of this.timestampDefinitions) {
-      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherRole)) {
+      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherPattern[0].publisherRole)) { // For now we just take first value of the publisher pattern
         continue;
       }
       if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {

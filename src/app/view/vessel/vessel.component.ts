@@ -79,7 +79,7 @@ export class VesselComponent implements OnInit {
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
         this.updateVesselOptions();
-        this.vesselService.getVessel(result.id).subscribe(nextVessel => {
+        this.vesselService.getVessel(result.vesselIMONumber).subscribe(nextVessel => {
           this.selectedVessel = nextVessel;
         });
       }
@@ -96,7 +96,7 @@ export class VesselComponent implements OnInit {
 
   selectVessel() {
     if (this.selectedVessel) {
-      this.vesselService.getVessel(this.selectedVessel.id).subscribe(nextVessel => {
+      this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
         this.selectedVessel = nextVessel;
         this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
         this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
