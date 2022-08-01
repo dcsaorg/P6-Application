@@ -1,2 +1,18 @@
 {
+     "/uisupport": {
+    "target": "http://localhost:9091/",
+    "secure": false,
+    "pathRewrite": {
+      "^/uisupport": "/v1"
+    },
+    "logLevel": "debug"
+  },
+  "/jit": {
+    "target": "http://localhost:9090/",
+    "secure": false,
+    "pathRewrite": {
+      "^/jit": "/v1"
+    },
+    "logLevel": "debug"
+  }
 }
