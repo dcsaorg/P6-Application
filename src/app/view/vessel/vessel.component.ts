@@ -86,7 +86,7 @@ export class VesselComponent implements OnInit {
   }
   else{
     this.messageService.add({
-      key: 'vesselNotSelectedWarning',
+      key: 'GenericErrorToast',
       severity: 'warn',
       summary: 'You need to choose a vessel'
     });
