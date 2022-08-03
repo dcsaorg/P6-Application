@@ -1,5 +1,5 @@
 <form [formGroup]="transportCallFormGroup">
-  <h4>{{ 'general.transportCall.label' | translate }}</h4>
+  <h4>{{ 'general.portCall.label' | translate }}</h4>
   <div class="p-fluid p-formgrid grid">
 
     <div class="p-field col-12 md:col-4">
@@ -268,7 +268,7 @@
                 label="{{'general.close.label' | translate}}"
                 iconPos="left">
       </p-button>
-      <p-button label="{{ createButtonText() |translate }}" iconPos="left" class="footer_option__buttons"
+      <p-button label="{{ createButtonText() | translate }}" iconPos="left" class="footer_option__buttons"
                 icon="pi pi-save" (onClick)="saveNewTransportCall()" [disabled]="transportCallFormGroup.invalid">
 
         <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
