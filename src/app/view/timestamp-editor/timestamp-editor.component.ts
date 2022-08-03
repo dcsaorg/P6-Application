@@ -130,7 +130,12 @@ export class TimestampEditorComponent implements OnInit {
 
     timestamp.timestampDefinitionTO = this.timestampTypeSelected;
     timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-    timestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
+    timestamp.facilitySMDGCode = null;
+
+    if(timestamp.timestampDefinitionTO.isTerminalNeeded){
+      // Selected terminal is set if terminal option is shown 
+      timestamp.facilitySMDGCode = this.terminalSelected?.facilitySMDGCode;
+    }
 
     if (this.eventTimestampDate) {
       timestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, this.transportCall.portOfCall?.timezone);
@@ -214,8 +219,14 @@ export class TimestampEditorComponent implements OnInit {
       terminals.forEach(terminal => {
         this.terminalOptions.push({ label: terminal.facilitySMDGCode, value: terminal })
       });
+      this.defaultTerminalValue();
     })
   }
+  
+  defaultTerminalValue() {
+    this.terminalSelected = this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null;
+  }
+
   close() {
     this.ref.close(null);
   }
