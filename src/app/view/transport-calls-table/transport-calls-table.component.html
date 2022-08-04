@@ -1,15 +1,9 @@
 <div *ngIf="progressing" class="dummyContent">
   <p-progressSpinner *ngIf="progressing"></p-progressSpinner>
 </div>
-<p-table *ngIf="!progressing"
-        styleClass="p-datatable-sm"
-         [value]="transportCalls"
-         [(selection)]="selectedtransportCall"
-         selectionMode="single"
-         dataKey="transportCallID"
-         responsiveLayout="scroll"
-         (onRowSelect)="selectTransportCall($event)"
-         (onRowUnselect)="unselectTransportCall()">
+<p-table *ngIf="!progressing" styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall"
+  selectionMode="single" dataKey="transportCallID" responsiveLayout="scroll" (onRowSelect)="selectTransportCall($event)"
+  (onRowUnselect)="unselectTransportCall()">
   <ng-template pTemplate="caption">
     <div class="grid">
       <div class="col">{{'general.transportCall.label' | translate}}</div>
@@ -19,24 +13,15 @@
       <div class="col tableHeader">
         <div class="tableHeader__buttons">
           <p-button (onClick)="openCreationDialog()" class="p-button-raised p-button-rounded tableHeader__add_button"
-                    icon="pi pi-plus" pTooltip="{{ 'general.transportCall.table.create.label' | translate }}"
-                    tooltipPosition="left" type="button"
-                    tooltipStyleClass="ToolTipClass"></p-button>
+            icon="pi pi-plus" pTooltip="{{ 'general.transportCall.table.create.label' | translate }}"
+            tooltipPosition="left" type="button" tooltipStyleClass="ToolTipClass"></p-button>
         </div>
         <div class="tableHeader__buttons">
-          <p-button (onClick)="refreshTransportCalls()" class="p-button-raised p-button-rounded"
-                    icon="pi pi-refresh" pTooltip="{{ 'general.table.header.refresh' | translate }}"
-                    tooltipPosition="left" type="button"
-                    tooltipStyleClass="ToolTipClass"></p-button>
+          <p-button (onClick)="refreshTransportCalls()" class="p-button-raised p-button-rounded" icon="pi pi-refresh"
+            pTooltip="{{ 'general.table.header.refresh' | translate }}" tooltipPosition="left" type="button"
+            tooltipStyleClass="ToolTipClass"></p-button>
 
         </div>
-        <!--         <div class="p-input-icon-left globalSearch">
-             <i class="pi pi-search"></i>
-             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                    placeholder="{{ 'general.table.header.search.label' | translate }}" class="column-filter"
-                    pTooltip="{{ 'general.table.header.search.tooltip' | translate }}">
-           </div>
-         -->
 
       </div>
     </div>
@@ -58,11 +43,13 @@
       <td pTooltip="{{  transportCall.vessel | vesselTooltip}}">  {{transportCall.vesselName}}</td>
       <td pTooltip="{{  transportCall.vessel | vesselTooltip }}"> {{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
-      <td pTooltip ="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">{{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
+      <td pTooltip="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">
+        {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
       <td>{{transportCall.importVoyageNumber}}</td>
       <td>{{transportCall.exportVoyageNumber}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>
-      <td pTooltip ="UTC: {{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">{{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
+      <td pTooltip="UTC: {{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">
+        {{(transportCall.latestEventCreatedDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
     </tr>
   </ng-template>
 </p-table>
