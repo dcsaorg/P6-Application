@@ -232,8 +232,8 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   createButtonText(): string {
-    if (this.shouldCreateTimestamp()) return 'general.portCall.createWithTimestamp';
-    return 'general.portCall.create';
+    if (this.shouldCreateTimestamp()) return 'general.portVisit.createWithTimestamp';
+    return 'general.portVisit.create';
   }
 
   get addressForm() {

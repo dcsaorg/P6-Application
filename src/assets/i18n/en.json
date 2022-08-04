@@ -499,19 +499,19 @@
       "label": "Event Classifier Code",
       "select": "select event classifier code"
     },
-    "portCall": {
-      "add": "Add a new Port Call",
-      "create": "Create Port Call",
-      "createWithTimestamp": "Create Port Call + Timestamp",
-      "label": "Port Calls",
+    "portVisit": {
+      "add": "Add a new Port Visit",
+      "create": "Create Port Visit",
+      "createWithTimestamp": "Create Port Visit + Timestamp",
+      "label": "Port Visits",
       "table": {
         "create": {
-          "label": "Create a Port Call",
-          "tooltip": "Create a new Port Call "
+          "label": "Create a Port Visit",
+          "tooltip": "Create a new Port Visit "
         },
         "placeHolder": {
-          "label": "Please select a Transport Call from the list above!",
-          "tooltip": "Please select a Transport Call from the table above, to show its coresponding Port Call Timestamps!"
+          "label": "Please select a Port Visit from the list above!",
+          "tooltip": "Please select a Port Visit from the table above, to show its coresponding Port Visit Timestamps!"
         }
       }
     }

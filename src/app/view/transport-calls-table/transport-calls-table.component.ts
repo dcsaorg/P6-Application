@@ -81,7 +81,7 @@ export class TransportCallsTableComponent implements OnInit {
 
   openCreationDialog() {
     const transportCallEditor = this.dialogService.open(TransportCallCreatorComponent, {
-      header: this.translate.instant('general.portCall.create'),
+      header: this.translate.instant('general.portVisit.create'),
       width: '75%'
     });
     transportCallEditor.onClose.subscribe(async result => {
