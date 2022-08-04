@@ -498,6 +498,22 @@
     "eventClassifierCode": {
       "label": "Event Classifier Code",
       "select": "select event classifier code"
+    },
+    "portVisit": {
+      "add": "Add a new Port Visit",
+      "create": "Create Port Visit",
+      "createWithTimestamp": "Create Port Visit + Timestamp",
+      "label": "Port Visits",
+      "table": {
+        "create": {
+          "label": "Create a Port Visit",
+          "tooltip": "Create a new Port Visit "
+        },
+        "placeHolder": {
+          "label": "Please select a Port Visit from the list above!",
+          "tooltip": "Please select a Port Visit from the table above, to show its coresponding Port Visit Timestamps!"
+        }
+      }
     }
   }
 }

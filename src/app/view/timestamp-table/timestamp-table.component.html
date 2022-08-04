@@ -1,7 +1,7 @@
 <div *ngIf="progressing || !transportCallSelected" class="dummyContent">
     <p-progressSpinner *ngIf="progressing"></p-progressSpinner>
     <div *ngIf="!progressing && !transportCallSelected">
-        {{"general.table.placeHolder.label" | translate}}
+        {{"general.portVisit.table.placeHolder.label" | translate}}
     </div>
 </div>
 <p-table *ngIf="!progressing && transportCallSelected" #dt [filterDelay]="0" [lazy]="false" [sortOrder]="1"
