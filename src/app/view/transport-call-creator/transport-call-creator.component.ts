@@ -105,6 +105,8 @@ export class TransportCallCreatorComponent implements OnInit {
       locationName: new FormControl(null),
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
+      milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]{0,1})?$')]),
+
     });
   }
 
@@ -204,6 +206,11 @@ export class TransportCallCreatorComponent implements OnInit {
   showTerminalOption(): boolean {
     const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
     return selectedTimestamp?.isTerminalNeeded ?? false;
+  }
+
+  showmilesToDestinationPortOption(): boolean {
+    const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
+    return selectedTimestamp?.isMilesToDestinationRelevant ?? false;
   }
 
   shouldCreateTimestamp(): boolean {
@@ -342,6 +349,11 @@ export class TransportCallCreatorComponent implements OnInit {
           longitude: string = longtitude;
         }
       }
+      
+    const milesToDestinationPort = this.transportCallFormGroup.controls.milesToDestinationPort.value;
+    if (this.showmilesToDestinationPortOption() && milesToDestinationPort) {
+      this.timestamp.milesToDestinationPort = Number(milesToDestinationPort);
+    }
 
       this.timestamp.eventLocation = eventLocation;
 
