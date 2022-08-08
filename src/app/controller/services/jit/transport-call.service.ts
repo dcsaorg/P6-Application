@@ -23,7 +23,7 @@ export class TransportCallService {
   }
 
   getTransportCalls(unLocode? : string, smdgCode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
-    let httpParams = new HttpParams().set('sort', 'latestEventCreatedDateTime:DESC')
+    let httpParams = new HttpParams();
     if(unLocode != null) {
       httpParams = httpParams.set('facility.UNLocationCode', unLocode)
       if(smdgCode != null) {
@@ -32,9 +32,7 @@ export class TransportCallService {
     }
     if (vesselIMONumber) {
       httpParams = httpParams.set('vessel.vesselIMONumber', vesselIMONumber);
-    } else {
-      httpParams = httpParams.set('vessel.vesselIMONumber:neq', 'NULL');
-    }
+    } 
     return this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL, {
      params: httpParams
     }).pipe(
