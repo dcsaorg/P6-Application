@@ -267,6 +267,11 @@
           "pattern": "Longitude should only be numbers!"
         }
       },
+      "milesToDestinationPort": {
+        "name": "milesToDestinationPort",
+        "label": "Miles remaining to destination", 
+        "pattern": "should should only be numbers!"
+      },
       "locationName": {
         "label": "Location Name"
       },

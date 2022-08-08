@@ -259,6 +259,15 @@
     </span>
     </div>
   </div>
+    <!-- Miles remaning -->
+    <div class="p-field col-12 md:col-4" [hidden]="!showmilesToDestinationPortOption() || !shouldCreateTimestamp()">
+      <label for="milesToDestinationPort">{{ "general.timestamp.milesToDestinationPort.label" | translate }}:</label>
+      <input id="milesToDestinationPort" formControlName="milesToDestinationPort" pInputText style="width: 100%"
+        type="text" />
+      <span *ngIf="transportCallFormGroup.get('milesToDestinationPort').hasError('pattern')" class="p-invalid">
+        {{ 'general.timestamp.milesToDestinationPort.pattern' | translate }}
+      </span>
+    </div>
 
   <div class="grid">
     <div class="col-8">

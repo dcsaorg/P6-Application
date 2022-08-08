@@ -73,7 +73,7 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     timestamp.remark = operationsEvent.remark;
     timestamp.delayReasonCode = operationsEvent.delayReasonCode;
     timestamp.eventDeliveryStatus = operationsEvent.eventDeliveryStatus;
-    // Extras   
+    timestamp.milesToDestinationPort = operationsEvent.milesToDestinationPort;
     timestamp.timestampDefinitionTO = timestampDefinitions?.get(operationsEvent.timestampDefinitionID)
     timestamp.logOfTimestamp = operationsEvent.eventCreatedDateTime;
     timestamp.transportCallID = operationsEvent.transportCall.transportCallID;

@@ -17,6 +17,7 @@ import { Terminal } from 'src/app/model/portCall/terminal';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class TimestampEditorComponent implements OnInit {
 
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
+  timestampFormGroup: FormGroup;
   timestamps: Timestamp[];
   eventTimestampDate: Date;
   eventTimestampTime: string;
@@ -44,10 +46,6 @@ export class TimestampEditorComponent implements OnInit {
   locationNameLabel: string;
   locationName: string;
   ports: Port[] = [];
-  vesselPosition: VesselPosition = new class implements VesselPosition {
-    latitude: string;
-    longitude: string;
-  }
   transportCall: TransportCall;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
@@ -57,6 +55,7 @@ export class TimestampEditorComponent implements OnInit {
   respondingToTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
   terminalSelected: Terminal;
+  milesToDestinationPort: string;
 
   defaultTimestamp: Timestamp = {
     publisher: undefined,
@@ -80,6 +79,7 @@ export class TimestampEditorComponent implements OnInit {
 
 
   constructor(
+    private formBuilder: FormBuilder,
     private messageService: MessageService,
     private delayCodeService: DelayCodeService,
     private globals: Globals,
@@ -105,11 +105,17 @@ export class TimestampEditorComponent implements OnInit {
     this.respondingToTimestamp = this.config.data.respondingToTimestamp;
     this.ports = this.config.data.ports;
     this.generateDefaultTimestamp();
-    this.updateTerminalOptions(this.transportCall.UNLocationCode);
+    this.updateTerminalOptions(this.transportCall.portOfCall.UNLocationCode);
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updateTimestampTypeOptions();
     });
+    this.timestampFormGroup = this.formBuilder.group({
+      
+      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
+      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
+      milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]{0,1})?$')]),
 
+    });
   }
 
   showVesselPosition(): boolean {
@@ -124,6 +130,10 @@ export class TimestampEditorComponent implements OnInit {
 
   showTerminalOption(): boolean {
     return this.timestampTypeSelected?.isTerminalNeeded ?? false;
+  }
+
+  showmilesToDestinationPortOption(): boolean {
+    return this.timestampTypeSelected?.isMilesToDestinationRelevant ?? false;;
   }
 
   savePortcallTimestamp(timestamp: Timestamp) {
@@ -146,21 +156,26 @@ export class TimestampEditorComponent implements OnInit {
         locationName: string
       }
       timestamp.eventLocation.locationName = this.locationName;
-      if(this.terminalSelected?.facilitySMDGCode){
-          timestamp.eventLocation.facilityCodeListProvider = "SMDG";
-          timestamp.eventLocation.facilityCode = this.terminalSelected?.facilitySMDGCode;
+      if (this.terminalSelected?.facilitySMDGCode) {
+        timestamp.eventLocation.facilityCodeListProvider = "SMDG";
+        timestamp.eventLocation.facilityCode = this.terminalSelected?.facilitySMDGCode;
       }
     }
 
-    const latitude = this.vesselPosition.latitude;
-    const longtitude = this.vesselPosition.longitude;
-    if (latitude && longtitude) {
+    const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;
+    const longtitude = this.timestampFormGroup.controls.vesselPositionLongitude.value;
+    if (this.showVesselPosition() && latitude && longtitude) {
       timestamp.vesselPosition = new class implements VesselPosition {
         latitude: string = latitude;
         longitude: string = longtitude;
       }
     }
     
+    const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
+    if (this.showmilesToDestinationPortOption() && milesToDestinationPort) {
+      timestamp.milesToDestinationPort = Number(milesToDestinationPort);
+    }
+
     // For now we just take set the first value of the publisher pattern as PR assuming that exists in the global
     timestamp.publisherRole = this.globals.config.publisherRoles.find(pb => pb === timestamp.timestampDefinitionTO.publisherPattern[0].publisherRole)
 
