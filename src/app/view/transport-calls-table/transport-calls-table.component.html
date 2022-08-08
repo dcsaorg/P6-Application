@@ -39,12 +39,9 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall>
-    <tr [pSelectableRow]="transportCall"
-      [ngClass]="{'obsoleteTransportCall': transportCall.atdBerthDateTime != undefined}">
-      <td pTooltip="{{  transportCall.vessel | vesselTooltip: transportCall.milesRemainingToDestination }}">
-        {{transportCall.vesselName}}</td>
-      <td pTooltip="{{  transportCall.vessel | vesselTooltip: transportCall.milesRemainingToDestination }}">
-        {{transportCall.vesselIMONumber}}</td>
+    <tr [pSelectableRow]="transportCall" [ngClass]="{'obsoleteTransportCall': transportCall.atdBerthDateTime != undefined}">
+      <td pTooltip="{{  transportCall.vessel | vesselTooltip}}">  {{transportCall.vesselName}}</td>
+      <td pTooltip="{{  transportCall.vessel | vesselTooltip }}"> {{transportCall.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
       <td pTooltip="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">
         {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>

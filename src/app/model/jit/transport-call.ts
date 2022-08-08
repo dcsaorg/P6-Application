@@ -8,8 +8,9 @@ import { EventLocation } from "../eventLocation";
 export interface TransportCall {
   carrierServiceCode?: string;
   carrierVoyageNumber?: string;
-  exportVoyageNumber?: string;
-  importVoyageNumber?: string;
+  portVisitReference?: string; 
+  carrierExportVoyageNumber?: string;
+  carrierImportVoyageNumber?: string;  
   portOfCall?: Port;
   transportCallReference: string;
   modeOfTransport: string;
@@ -29,5 +30,14 @@ export interface TransportCall {
   atdBerthDateTime?: Date;
   latestEventCreatedDateTime?: Date;
   transportCallID: string;
-  milesRemainingToDestination?: number;
+    /**
+* @deprecated
+Although deprecated, the UI JIT 1.1 combo - newer fields are convereted to this 
+*/
+  exportVoyageNumber?: string;
+    /**
+* @deprecated
+Although deprecated, the UI uses JIT 1.1 combo  - newer fields are convereted to this 
+*/
+  importVoyageNumber?: string;
 }
