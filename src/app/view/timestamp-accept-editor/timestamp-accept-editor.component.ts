@@ -81,7 +81,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     this.timestampFormGroup = this.formBuilder.group({
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
-      milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]{0,1})?$')]),
+      milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
       remark: new FormControl(null), 
       delayCode: new FormControl({value: ''}) ,
       terminal: new FormControl({value: ''}),
