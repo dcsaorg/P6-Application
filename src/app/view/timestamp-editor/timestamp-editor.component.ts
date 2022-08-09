@@ -17,7 +17,8 @@ import { Terminal } from 'src/app/model/portCall/terminal';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 
 
 @Component({
@@ -39,22 +40,19 @@ export class TimestampEditorComponent implements OnInit {
 
   timestampFormGroup: FormGroup;
   timestamps: Timestamp[];
-  eventTimestampDate: Date;
-  eventTimestampTime: string;
-  timestampTypeSelected: TimestampDefinitionTO;
+  eventTimestampDate: AbstractControl;
+  eventTimestampTime: AbstractControl;
+  timestampTypeSelected: AbstractControl;
   creationProgress: boolean = false;
   locationNameLabel: string;
-  locationName: string;
   ports: Port[] = [];
   transportCall: TransportCall;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
-  delayCode: DelayCode;
   respondingToTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
-  terminalSelected: Terminal;
   milesToDestinationPort: string;
 
   defaultTimestamp: Timestamp = {
@@ -110,56 +108,66 @@ export class TimestampEditorComponent implements OnInit {
       this.updateTimestampTypeOptions();
     });
     this.timestampFormGroup = this.formBuilder.group({
-      
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]{0,1})?$')]),
-
+      locationName: new FormControl(null), 
+      remark: new FormControl(null), 
+      delayCode: new FormControl({value: ''}) ,
+      terminal: new FormControl({value: ''}),
+      timestampType: new FormControl({value: ''}),
+      eventTimestampDate: new FormControl(null),
+      eventTimestampTime: new FormControl(null),
     });
+    this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
+    this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampTime;
+    this.timestampTypeSelected = this.timestampFormGroup.controls.timestampType;
   }
 
   showVesselPosition(): boolean {
     if (!this.globals.config.enableVesselPositions) return false;
-    return this.timestampTypeSelected?.isVesselPositionNeeded ?? false;
+    return this.timestampTypeSelected?.value.isVesselPositionNeeded ?? false;
   }
 
   showLocationNameOption(): boolean {
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected);
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected?.value);
     return this.locationNameLabel !== undefined;
   }
 
   showTerminalOption(): boolean {
-    return this.timestampTypeSelected?.isTerminalNeeded ?? false;
+    return this.timestampTypeSelected?.value.isTerminalNeeded ?? false;
   }
 
   showmilesToDestinationPortOption(): boolean {
-    return this.timestampTypeSelected?.isMilesToDestinationRelevant ?? false;;
+    return this.timestampTypeSelected?.value.isMilesToDestinationRelevant ?? false;;
   }
 
   savePortcallTimestamp(timestamp: Timestamp) {
 
-    timestamp.timestampDefinitionTO = this.timestampTypeSelected;
-    timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
+    timestamp.timestampDefinitionTO = this.timestampTypeSelected.value;
+    const delayCode = this.timestampFormGroup.controls.delayCode.value;
+    timestamp.delayReasonCode = (delayCode ? delayCode.smdgCode : null);
     timestamp.facilitySMDGCode = null;
 
-    if(timestamp.timestampDefinitionTO.isTerminalNeeded){
-      // Selected terminal is set if terminal option is shown 
-      timestamp.facilitySMDGCode = this.terminalSelected?.facilitySMDGCode;
-    }
-
     if (this.eventTimestampDate) {
-      timestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, this.transportCall.portOfCall?.timezone);
+      timestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
     }
 
-    if (this.locationNameLabel && this.locationName) {
+    const terminalSelected = this.timestampFormGroup.controls.terminal.value;
+    if (timestamp.timestampDefinitionTO.isTerminalNeeded) {
+      // Selected terminal is set (Whether inhereted or new).
+      timestamp.facilitySMDGCode = (terminalSelected?.facilitySMDGCode ? terminalSelected?.facilitySMDGCode : null);
+    }
+    
+    const locationName = this.timestampFormGroup.controls.locationName.value;
+    if (this.locationNameLabel && locationName) {
+      // Present value on label is set (Whether inhereted or new).
       timestamp.eventLocation = new class implements EventLocation {
         locationName: string
       }
-      timestamp.eventLocation.locationName = this.locationName;
-      if (this.terminalSelected?.facilitySMDGCode) {
-        timestamp.eventLocation.facilityCodeListProvider = "SMDG";
-        timestamp.eventLocation.facilityCode = this.terminalSelected?.facilitySMDGCode;
-      }
+      timestamp.eventLocation.locationName = locationName;
+      timestamp.eventLocation.facilityCode = (terminalSelected?.facilitySMDGCode ? terminalSelected?.facilitySMDGCode : null);
+      timestamp.eventLocation.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
     }
 
     const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;
@@ -175,6 +183,8 @@ export class TimestampEditorComponent implements OnInit {
     if (this.showmilesToDestinationPortOption() && milesToDestinationPort) {
       timestamp.milesToDestinationPort = Number(milesToDestinationPort);
     }
+
+    timestamp.remark = this.timestampFormGroup.controls.remark.value; 
 
     // For now we just take set the first value of the publisher pattern as PR assuming that exists in the global
     timestamp.publisherRole = this.globals.config.publisherRoles.find(pb => pb === timestamp.timestampDefinitionTO.publisherPattern[0].publisherRole)
@@ -239,7 +249,8 @@ export class TimestampEditorComponent implements OnInit {
   }
   
   defaultTerminalValue() {
-    this.terminalSelected = this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null;
+  this.timestampFormGroup.controls.terminal.setValue(
+    this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
   }
 
   close() {
@@ -254,7 +265,8 @@ export class TimestampEditorComponent implements OnInit {
 
   setEventTimestampToNow() {
     let eventTimestampDat = new Date();
-    this.eventTimestampTime = this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes());
+    this.eventTimestampTime.setValue(
+      this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes()));
   }
 
   private leftPadWithZero(item: number): String {
