@@ -208,7 +208,7 @@ export class TransportCallCreatorComponent implements OnInit {
     return selectedTimestamp?.isTerminalNeeded ?? false;
   }
 
-  showmilesToDestinationPortOption(): boolean {
+  showMilesToDestinationPortOption(): boolean {
     const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
     return selectedTimestamp?.isMilesToDestinationRelevant ?? false;
   }

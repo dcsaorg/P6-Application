@@ -180,7 +180,7 @@ export class TimestampEditorComponent implements OnInit {
     }
     
     const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
-    if (this.showmilesToDestinationPortOption() && milesToDestinationPort) {
+    if (this.showMilesToDestinationPortOption() && milesToDestinationPort) {
       timestamp.milesToDestinationPort = Number(milesToDestinationPort);
     }
 
