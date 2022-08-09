@@ -19,7 +19,7 @@ import { TimestampDefinitionService } from "../../controller/services/base/times
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
-
+import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -111,13 +111,13 @@ export class TimestampEditorComponent implements OnInit {
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]{0,1})?$')]),
-      locationName: new FormControl(null), 
       remark: new FormControl(null), 
       delayCode: new FormControl({value: ''}) ,
       terminal: new FormControl({value: ''}),
       timestampType: new FormControl({value: ''}),
       eventTimestampDate: new FormControl(null),
       eventTimestampTime: new FormControl(null),
+      locationName: new FormControl(null),
     });
     this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
     this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampTime;
@@ -130,7 +130,14 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   showLocationNameOption(): boolean {
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected?.value);
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected.value);
+    if(this.timestampTypeSelected?.value.eventLocationRequirement == EventLocationRequirement.REQUIRED){
+      this.timestampFormGroup.controls.locationName.addValidators([Validators.required]);
+    }
+    else{
+      this.timestampFormGroup.controls.locationName.setValidators(null);
+    }
+    this.timestampFormGroup.controls.locationName.updateValueAndValidity(); 
     return this.locationNameLabel !== undefined;
   }
 
@@ -167,7 +174,7 @@ export class TimestampEditorComponent implements OnInit {
       }
       timestamp.eventLocation.locationName = locationName;
       timestamp.eventLocation.facilityCode = (terminalSelected?.facilitySMDGCode ? terminalSelected?.facilitySMDGCode : null);
-      timestamp.eventLocation.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
+      timestamp.eventLocation.facilityCodeListProvider = "SMDG";
     }
 
     const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;

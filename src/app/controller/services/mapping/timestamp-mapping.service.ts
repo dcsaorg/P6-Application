@@ -11,6 +11,8 @@ import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-
 import { NegotiationCycleService } from "../base/negotiation-cycle.service";
 import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
 import { TimestampDefinitionService } from "../base/timestamp-definition.service";
+import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
+import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,7 @@ export class TimestampMappingService {
 
   private readonly locationNamePBP: string = "PBP Location Name";
   private readonly locationNameBerth: string = "Berth Location Name";
+  private readonly locationNameAnchorage: string = "Anchorage Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
     this.ensureVoyageNumbers(timestamp);
@@ -126,12 +129,18 @@ export class TimestampMappingService {
 
 
   getLocationNameOptionLabel(timestampType: TimestampDefinitionTO): string {
-    if (timestampType?.isBerthLocationNeeded) {
+    if (timestampType.eventLocationRequirement == EventLocationRequirement.OPTIONAL || 
+      timestampType.eventLocationRequirement == EventLocationRequirement.REQUIRED) {    
+    if (timestampType?.facilityTypeCode == FacilityTypeCode.BRTH) {
       return this.locationNameBerth;
     }
-    if (timestampType?.isPBPLocationNeeded) {
+    if (timestampType?.facilityTypeCode == FacilityTypeCode.PBPL) {
       return this.locationNamePBP;
+    }  
+    if (timestampType?.facilityTypeCode == FacilityTypeCode.ANCH) {
+      return this.locationNameAnchorage;
     }
+  }
     return undefined;
   }
 }

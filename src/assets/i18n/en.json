@@ -332,7 +332,8 @@
           "secondLabel": "Port of Call"
         },
         "locationName": {
-          "label": "Location Name"
+          "label": "Location Name",
+          "required": "Location is required for timestamp type: "
         },
         "UNLocationName": {
           "label": "UN Location Name"

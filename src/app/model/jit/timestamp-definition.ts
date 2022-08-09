@@ -5,6 +5,7 @@ import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
 import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import { PublisherPattern } from './publisher-pattern';
+import { EventLocationRequirement } from '../enums/eventLocationRequirement';
 
 export interface TimestampDefinitionTO {
   id: string;
@@ -27,6 +28,7 @@ export interface TimestampDefinitionTO {
   acceptTimestampDefinitionEntity?: TimestampDefinitionTO;
   rejectTimestampDefinition: string;
   rejectTimestampDefinitionEntity?: TimestampDefinitionTO;
+  eventLocationRequirement: EventLocationRequirement;
 
 
   /**
