@@ -28,6 +28,7 @@ import { PortService } from 'src/app/controller/services/base/port.service';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
+import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -185,8 +186,6 @@ export class TransportCallCreatorComponent implements OnInit {
   setEventTimestampToNow() {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
-    // this line automatically sets the current date as of now
-    /* this.transportCallFormGroup.controls.eventTimestampDate.setValue(this.eventTimestampDate); */
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
   }
 
@@ -196,9 +195,21 @@ export class TransportCallCreatorComponent implements OnInit {
     return selectedTimestamp?.isVesselPositionNeeded ?? false;
   }
 
-  showLocationNameOption(): boolean {
+  showLocationNameOption(show:boolean = true): boolean {
+    if(show){
     const timestampType = this.transportCallFormGroup.controls.timestampType.value;
     this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
+    if(timestampType?.eventLocationRequirement == EventLocationRequirement.REQUIRED){
+      this.transportCallFormGroup.controls.locationName.addValidators([Validators.required]);
+    }
+    else{
+      this.transportCallFormGroup.controls.locationName.setValidators(null);
+    }
+  }
+  else{
+    this.transportCallFormGroup.controls.locationName.setValidators(null);
+  }
+    this.transportCallFormGroup.controls.locationName.updateValueAndValidity(); 
     return this.locationNameLabel !== undefined;
   }
 
@@ -217,18 +228,24 @@ export class TransportCallCreatorComponent implements OnInit {
     let timestampType = this.transportCallFormGroup.get('timestampType');
     let eventTimestampDate = this.transportCallFormGroup.get('eventTimestampDate');
     let eventTimestampTime = this.transportCallFormGroup.get('eventTimestampTime');
+    let terminalcontrol = this.transportCallFormGroup.get('terminal');
     if (this.timestampchecking) {
       timestampType.setValidators([Validators.required])
       eventTimestampDate.setValidators([Validators.required])
       eventTimestampTime.setValidators([Validators.required])
+      terminalcontrol.setValidators([Validators.required])
     } else {
       timestampType.setValidators(null)
       eventTimestampDate.setValidators(null)
       eventTimestampTime.setValidators(null)
+      terminalcontrol.setValidators(null)
+      this.showLocationNameOption(false)
     }
     timestampType.updateValueAndValidity();
     eventTimestampDate.updateValueAndValidity();
     eventTimestampTime.updateValueAndValidity();
+    terminalcontrol.updateValueAndValidity();
+
 
     return this.timestampchecking;
   }

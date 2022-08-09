@@ -89,8 +89,14 @@
     </div>
     <div class="p-field berth-location-field" [hidden]="!showLocationNameOption()">
       <label for="locationName">{{ locationNameLabel | translate }}:</label>
-      <input id="locationName" formControlName="locationName" pInputText
-        style="width: 100%" type="text" />
+
+      <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text"/>
+      <span
+        *ngIf="timestampFormGroup.get('locationName').hasError('required') && timestampFormGroup.get('locationName').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.table.locationName.required' | translate }} 
+        {{ this.responseTimestamp?.timestampDefinitionTO?.timestampTypeName }} 
+      </span>
     </div>
     <!-- Miles remaning -->
     <div class="p-field berth-location-field" [hidden]="!showMilesToDestinationPortOption()">
@@ -181,13 +187,14 @@
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
     <p-button *ngIf="timestampResponseStatus == 'Rejected'" (onClick)="savePortcallTimestamp()"
-      [disabled]="validatePortOfCallTimestamp()" class="footer_option__buttons" icon="pi pi-save"
+      [disabled]="validatePortOfCallTimestamp()  || timestampFormGroup.invalid" class="footer_option__buttons" icon="pi pi-save"
       label="{{'general.save.Rejecteditor.label' | translate}}" iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
     </p-button>
 
     <p-button *ngIf="timestampResponseStatus == 'Accepted'" (onClick)="savePortcallTimestamp()"
+    [disabled]="timestampFormGroup.invalid"
       class="footer_option__buttons" icon="pi pi-save" label="{{'general.save.Accepteditor.label' | translate}}"
       iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"

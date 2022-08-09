@@ -12,12 +12,11 @@ import { Timestamp } from "../../model/jit/timestamp";
 import { Globals } from "../../model/portCall/globals";
 import { EventLocation } from "../../model/eventLocation";
 import { VesselPosition } from "../../model/vesselPosition";
-import { Terminal } from 'src/app/model/portCall/terminal';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 import { DateToUtcPipe } from 'src/app/controller/pipes/date-to-utc.pipe';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
 
 @Component({
   selector: 'app-timestamp-accept-editor',
@@ -83,12 +82,12 @@ export class TimestampAcceptEditorComponent implements OnInit {
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]{0,1})?$')]),
-      locationName: new FormControl(null), 
       remark: new FormControl(null), 
       delayCode: new FormControl({value: ''}) ,
       terminal: new FormControl({value: ''}),
       eventTimestampDate: new FormControl(null),
       eventTimestampTime: new FormControl(null),
+      locationName: new FormControl(null)
     });
     this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
     this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampDate;
@@ -103,6 +102,13 @@ export class TimestampAcceptEditorComponent implements OnInit {
 
   showLocationNameOption(): boolean {
     this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.responseTimestamp.timestampDefinitionTO);
+    if(this.responseTimestamp.timestampDefinitionTO?.eventLocationRequirement == EventLocationRequirement.REQUIRED){
+      this.timestampFormGroup.controls.locationName.addValidators([Validators.required]);
+    }
+    else{
+      this.timestampFormGroup.controls.locationName.setValidators(null);
+    }
+    this.timestampFormGroup.controls.locationName.updateValueAndValidity(); 
     return this.locationNameLabel !== undefined;
   }
 
@@ -168,7 +174,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
       // Selected terminal is set (Whether inhereted or new).
       this.responseTimestamp.facilitySMDGCode = (terminalSelected?.facilitySMDGCode ? terminalSelected?.facilitySMDGCode : null);
     }
-    
+
     const locationName = this.timestampFormGroup.controls.locationName.value;
     if (this.locationNameLabel && locationName) {
       // Present value on label is set (Whether inhereted or new).

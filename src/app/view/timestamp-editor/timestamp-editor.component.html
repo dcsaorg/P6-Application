@@ -87,7 +87,13 @@
   <div class="p-field col-12 md:col-4">
     <div class="p-field berth-location-field" [hidden]="!showLocationNameOption()">
       <label for="locationName">{{ locationNameLabel | translate }}:</label>
-      <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text" />
+      <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text"/>
+      <span
+        *ngIf="timestampFormGroup.get('locationName').hasError('required') && timestampFormGroup.get('locationName').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.table.locationName.required' | translate }} 
+        {{ this.timestampTypeSelected?.value.timestampTypeName }} 
+      </span>
     </div>
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
     <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
@@ -168,7 +174,7 @@
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
     <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
-      [disabled]="validatePortOfCallTimestamp()" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}"
+      [disabled]="validatePortOfCallTimestamp() || timestampFormGroup.invalid" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}"
       iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
