@@ -110,7 +110,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     return this.responseTimestamp.timestampDefinitionTO.isTerminalNeeded ?? false;
   }
 
-  showmilesToDestinationPortOption(): boolean {
+  showMilesToDestinationPortOption(): boolean {
     return this.responseTimestamp.timestampDefinitionTO.isMilesToDestinationRelevant ?? false;
   }
 
