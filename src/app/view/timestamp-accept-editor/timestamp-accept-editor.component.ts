@@ -16,7 +16,7 @@ import { Terminal } from 'src/app/model/portCall/terminal';
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 import { DateToUtcPipe } from 'src/app/controller/pipes/date-to-utc.pipe';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -37,11 +37,10 @@ export class TimestampAcceptEditorComponent implements OnInit {
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
   timestampFormGroup: FormGroup;
-  eventTimestampDate: Date;
-  eventTimestampTime: string;
+  eventTimestampDate: AbstractControl;
+  eventTimestampTime: AbstractControl;
   creationProgress: boolean = false;
   locationNameLabel: string;
-  locationName: string;
   milesToDestinationPort: string;
   ports: Port[] = [];
 
@@ -51,10 +50,8 @@ export class TimestampAcceptEditorComponent implements OnInit {
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
-  delayCode: DelayCode;
   responseTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
-  terminalSelected: Terminal;
   timestampResponseStatus: string;
 
 
@@ -86,7 +83,15 @@ export class TimestampAcceptEditorComponent implements OnInit {
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]{0,1})?$')]),
+      locationName: new FormControl(null), 
+      remark: new FormControl(null), 
+      delayCode: new FormControl({value: ''}) ,
+      terminal: new FormControl({value: ''}),
+      eventTimestampDate: new FormControl(null),
+      eventTimestampTime: new FormControl(null),
     });
+    this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
+    this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampDate;
     this.setDefaultTimestampValues();
   }
 
@@ -121,7 +126,8 @@ export class TimestampAcceptEditorComponent implements OnInit {
     this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
       this.terminalOptions = [];
-      this.terminalSelected = terminals.find(terminal => terminal.facilitySMDGCode == this.responseTimestamp.facilitySMDGCode);
+      const defaultTerminal  = terminals.find(terminal => terminal.facilitySMDGCode == this.responseTimestamp.facilitySMDGCode);
+      this.timestampFormGroup.controls.terminal.setValue(defaultTerminal);
       this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
       terminals.forEach(terminal => {
         this.terminalOptions.push({ label: terminal.facilitySMDGCode, value: terminal })
@@ -130,7 +136,8 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
   setEventTimestampToNow() {
     let eventTimestampDat = new Date();
-    this.eventTimestampTime = this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes());
+    this.eventTimestampTime.setValue(
+      this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes()));
   }
 
   private leftPadWithZero(item: number): String {
@@ -147,25 +154,28 @@ export class TimestampAcceptEditorComponent implements OnInit {
   savePortcallTimestamp() {
 
     // Set delay code if specified
-    this.responseTimestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-    // set terminal if specified
-
+    const delayCode = this.timestampFormGroup.controls.delayCode.value;
+    this.responseTimestamp.delayReasonCode = (delayCode ? delayCode.smdgCode : null);
+    
     // Nulled - as not to inherent older values
     this.responseTimestamp.eventLocation = null;
     this.responseTimestamp.vesselPosition = null;
     this.responseTimestamp.facilitySMDGCode = null;
-
+    this.responseTimestamp.remark = this.timestampFormGroup.controls.remark.value; 
+    
+    const terminalSelected = this.timestampFormGroup.controls.terminal.value;
     if (this.responseTimestamp.timestampDefinitionTO.isTerminalNeeded) {
       // Selected terminal is set (Whether inhereted or new).
-      this.responseTimestamp.facilitySMDGCode = (this.terminalSelected?.facilitySMDGCode ? this.terminalSelected?.facilitySMDGCode : null);
+      this.responseTimestamp.facilitySMDGCode = (terminalSelected?.facilitySMDGCode ? terminalSelected?.facilitySMDGCode : null);
     }
-
-    if (this.locationNameLabel && this.locationName) {
+    
+    const locationName = this.timestampFormGroup.controls.locationName.value;
+    if (this.locationNameLabel && locationName) {
       // Present value on label is set (Whether inhereted or new).
       this.responseTimestamp.eventLocation = new class implements EventLocation {
         locationName: string
       }
-      this.responseTimestamp.eventLocation.locationName = this.locationName;
+      this.responseTimestamp.eventLocation.locationName = locationName;
     }
 
     const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;
@@ -185,7 +195,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     
     // Only update eventDateTime of timestamp when rejecting
     if (this.timestampResponseStatus == 'Rejected' && this.eventTimestampDate && this.eventTimestampTime) {
-      this.responseTimestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate, this.eventTimestampTime, this.transportCall.portOfCall?.timezone);
+      this.responseTimestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
     }
 
     // Post timestamp
@@ -214,7 +224,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
 
   private setDefaultTimestampValues() {
-    this.locationName = this.responseTimestamp.eventLocation?.locationName;
+    this.timestampFormGroup.controls.locationName.setValue(this.responseTimestamp.eventLocation?.locationName);
     this.timestampFormGroup.controls.vesselPositionLatitude.setValue(this.responseTimestamp.vesselPosition?.latitude);
     this.timestampFormGroup.controls.vesselPositionLongitude.setValue(this.responseTimestamp.vesselPosition?.longitude);
     this.timestampFormGroup.controls.milesToDestinationPort.setValue(this.responseTimestamp?.milesToDestinationPort);

@@ -54,14 +54,14 @@
 
     <div class="p-fluid p-formgrid grid">
       <div class="p-field col-12 md:col-6">
-        <p-calendar id="eventtimestamp" appendTo="body" [(ngModel)]="eventTimestampDate"
-          [ngModelOptions]="{standalone: true}" hourFormat="24" [monthNavigator]="true" [showButtonBar]="false"
+        <p-calendar id="eventtimestamp" appendTo="body" formControlName="eventTimestampDate"
+          hourFormat="24" [monthNavigator]="true" [showButtonBar]="false"
           [showIcon]="true" [showWeek]="true" [yearNavigator]="true" yearRange="2010:2030"
           styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
           [panelStyleClass]="'datetime-panel'"></p-calendar>
       </div>
       <div class="p-field col-12 md:col-6">
-        <p-inputMask [(ngModel)]="eventTimestampTime" [ngModelOptions]="{standalone: true}" mask="99:99"
+        <p-inputMask formControlName="eventTimestampTime" mask="99:99"
           placeholder="{{ 'general.timestamp.time' | translate }}" styleClass="datetime-time-time-field"></p-inputMask>
         <button pTooltip="{{ 'general.currentTime.tooltip' | translate }}" tooltipPosition="top"
           tooltipStyleClass="ToolTipClass" class="minus-rounded-borders" type="button" pButton pRipple
@@ -73,8 +73,8 @@
   <div class="p-field col-12 md:col-4">
     <div [hidden]="!showTerminalOption()">
       <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
-      <p-dropdown id="terminalSelected" styleClass="dropdown" [(ngModel)]="terminalSelected"
-        [ngModelOptions]="{standalone: true}" [options]="terminalOptions" [filter]=true
+      <p-dropdown id="terminalSelected" styleClass="dropdown" formControlName="terminal"
+       [options]="terminalOptions" [filter]=true
         filterBy="label,value.facilityName" appendTo="body">
         <ng-template let-terminal pTemplate="item">
           <div *ngIf="!terminal.value">
@@ -89,7 +89,7 @@
     </div>
     <div class="p-field berth-location-field" [hidden]="!showLocationNameOption()">
       <label for="locationName">{{ locationNameLabel | translate }}:</label>
-      <input id="locationName" [(ngModel)]="locationName" [ngModelOptions]="{standalone: true}" pInputText
+      <input id="locationName" formControlName="locationName" pInputText
         style="width: 100%" type="text" />
     </div>
     <!-- Miles remaning -->
@@ -108,8 +108,8 @@
   <div class="p-field col-12 md:col-4">
 
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
-    <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" [(ngModel)]="delayCode"
-      [ngModelOptions]="{standalone: true}" [filter]="true" filterBy="label,value.name" [group]="false">
+    <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" formControlName="delayCode"
+     [filter]="true" filterBy="label,value.name" [group]="false">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
           <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
@@ -138,8 +138,7 @@
   <div class="p-field col-12 md:col-2"></div>
   <div class="p-field col-12 md:col-5">
     <span class="p-float-label">
-      <textarea class="commentBox" id="commentbox" pInputTextarea [(ngModel)]="responseTimestamp.remark"
-        [ngModelOptions]="{standalone: true}"></textarea>
+      <textarea class="commentBox" id="commentbox" pInputTextarea formControlName="remark"></textarea>
       <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
     </span>
   </div>
