@@ -351,7 +351,7 @@ export class TransportCallCreatorComponent implements OnInit {
       }
       
     const milesToDestinationPort = this.transportCallFormGroup.controls.milesToDestinationPort.value;
-    if (this.showmilesToDestinationPortOption() && milesToDestinationPort) {
+    if (this.showMilesToDestinationPortOption() && milesToDestinationPort) {
       this.timestamp.milesToDestinationPort = Number(milesToDestinationPort);
     }
 

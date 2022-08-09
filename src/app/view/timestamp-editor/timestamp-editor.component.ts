@@ -138,7 +138,7 @@ export class TimestampEditorComponent implements OnInit {
     return this.timestampTypeSelected?.value.isTerminalNeeded ?? false;
   }
 
-  showmilesToDestinationPortOption(): boolean {
+  showMilesToDestinationPortOption(): boolean {
     return this.timestampTypeSelected?.value.isMilesToDestinationRelevant ?? false;;
   }
 
