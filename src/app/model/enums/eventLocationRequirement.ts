@@ -1,8 +1,5 @@
-
 export enum EventLocationRequirement {
-    EXLUDED = "EXLUDED",
+    EXCLUDED = "EXCLUDED",
     OPTIONAL  = "OPTIONAL",
     REQUIRED = "REQUIRED"
-
 }
-  
