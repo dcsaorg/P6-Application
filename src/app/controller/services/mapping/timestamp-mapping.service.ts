@@ -58,7 +58,7 @@ export class TimestampMappingService {
             let set = new Set()
             for (let timestamp of timestamps) {
               if (timestamp.timestampDefinitionTO) {
-                this.AlignPublisherRoleAndPrimaryReciever(timestamp);
+                this.alignPublisherRoleAndPrimaryReceiver(timestamp);
                 let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
                 const negotiationCycleKey = negotiationCycle.cycleKey;
                 timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
@@ -87,7 +87,7 @@ export class TimestampMappingService {
         timestamp.carrierServiceCode = transportCall.carrierServiceCode;
         timestamp.transportCallSequenceNumber = transportCall.transportCallSequenceNumber;
         if (!transportCall.exportVoyageNumber && transportCall.carrierExportVoyageNumber) {
-          // Recieve & convert to JIT 1.1 voyage numbers
+          // Receive & convert to JIT 1.1 voyage numbers
           timestamp.exportVoyageNumber = transportCall.carrierExportVoyageNumber;
           timestamp.importVoyageNumber = transportCall.carrierImportVoyageNumber;
         }
@@ -99,29 +99,29 @@ export class TimestampMappingService {
   ensureVoyageNumbers(timestamp: Timestamp) {
     if (timestamp.carrierVoyageNumber === undefined || timestamp.carrierVoyageNumber === null) {
       if (timestamp.importVoyageNumber) { timestamp.carrierVoyageNumber = timestamp.importVoyageNumber }
-      if (timestamp.exportVoyageNumber) { timestamp.carrierVoyageNumber = timestamp.exportVoyageNumber }       // we overwrite with exportVoyageNumber if exist 
+      if (timestamp.exportVoyageNumber) { timestamp.carrierVoyageNumber = timestamp.exportVoyageNumber }       // we overwrite with exportVoyageNumber if exist
     }
     timestamp.importVoyageNumber = !timestamp.importVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.importVoyageNumber;
     timestamp.exportVoyageNumber = !timestamp.exportVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.exportVoyageNumber;
   }
 
   /*
-      To detect the publisher role (PR) for the timestampDefinitionsTO 
-       We check the PR of the event against the timestampDefinitionsTO's -> publisher pattern.  
-       If found we set that as the timestampDefinitionsTO's PR and primary reciever. 
+      To detect the publisher role (PR) for the timestampDefinitionsTO
+       We check the PR of the event against the timestampDefinitionsTO's -> publisher pattern.
+       If found we set that as the timestampDefinitionsTO's PR and primary reciever.
        If not we should raise a warning as this is unexpected behavior -- for now print console.warn()
   */
-  private AlignPublisherRoleAndPrimaryReciever(timestamp: Timestamp) {
+  private alignPublisherRoleAndPrimaryReceiver(timestamp: Timestamp) {
     let patterns = timestamp.timestampDefinitionTO.publisherPattern;
-    for (let i = 0; i < patterns.length; i++) {
-      if (timestamp.publisherRole === patterns[i].publisherRole) {
-        timestamp.timestampDefinitionTO.publisherRole = patterns[i].publisherRole;
-        timestamp.timestampDefinitionTO.primaryReceiver = patterns[i].primaryReceiver;
+    for (const element of patterns) {
+      if (timestamp.publisherRole === element.publisherRole) {
+        timestamp.timestampDefinitionTO.publisherRole = element.publisherRole;
+        timestamp.timestampDefinitionTO.primaryReceiver = element.primaryReceiver;
+        break;
       }
-    };
+    }
     if (timestamp.timestampDefinitionTO.publisherRole === null || timestamp.timestampDefinitionTO.publisherRole === undefined
       || timestamp.timestampDefinitionTO.publisherRole !== timestamp.publisherRole) {
-      timestamp.timestampDefinitionTO.publisherRole
       console.warn("DCSA ERROR: Timestamp's publisherRole does not conform "
         + "to timestamp definition publisher pattern")
     }
@@ -129,14 +129,14 @@ export class TimestampMappingService {
 
 
   getLocationNameOptionLabel(timestampType: TimestampDefinitionTO): string {
-    if (timestampType.eventLocationRequirement == EventLocationRequirement.OPTIONAL || 
-      timestampType.eventLocationRequirement == EventLocationRequirement.REQUIRED) {    
+    if (timestampType.eventLocationRequirement == EventLocationRequirement.OPTIONAL ||
+      timestampType.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
     if (timestampType?.facilityTypeCode == FacilityTypeCode.BRTH) {
       return this.locationNameBerth;
     }
     if (timestampType?.facilityTypeCode == FacilityTypeCode.PBPL) {
       return this.locationNamePBP;
-    }  
+    }
     if (timestampType?.facilityTypeCode == FacilityTypeCode.ANCH) {
       return this.locationNameAnchorage;
     }

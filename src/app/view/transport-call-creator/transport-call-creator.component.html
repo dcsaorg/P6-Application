@@ -95,7 +95,7 @@
   <!-- Timestamp drop down-->
   <div class="p-field col-12 md:col-5">
     <label for="timestampType"> Check to create Timestamp </label>
-    <input class="p-checkbox-box" type="checkbox" [(ngModel)]="timestampchecking" [ngModelOptions]="{standalone: true}">
+    <input class="p-checkbox-box" type="checkbox" [(ngModel)]="timestampChecking" [ngModelOptions]="{standalone: true}">
   </div>
 
   <div class="p-fluid p-formgrid grid" [hidden]="!shouldCreateTimestamp()">
@@ -179,8 +179,8 @@
         <span
           *ngIf="transportCallFormGroup.get('locationName').hasError('required') && transportCallFormGroup.get('locationName').touched"
           class="p-invalid">
-          {{ 'general.transportCall.table.locationName.required' | translate }} 
-          {{ transportCallFormGroup.get('timestampType')?.value.timestampTypeName }} 
+          {{ 'general.transportCall.table.locationName.required' | translate }}
+          {{ transportCallFormGroup.get('timestampType')?.value.timestampTypeName }}
         </span>
       </div>
 
