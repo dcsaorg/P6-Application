@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { OperationsEvent } from "../../model/jit/operations-event";
-import { MessageDirection } from "../../model/portCall/messageDirection";
 import { Port } from "../../model/portCall/port";
 import { Terminal } from "../../model/portCall/terminal";
 import { Vessel } from "../../model/portCall/vessel";
@@ -28,15 +27,10 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       eventClassifierCode: EventClassifierCode;
       operationsEventTypeCode: OperationsEventTypeCode;
       eventDateTime: Date;
-      callSequence: number;
-      changeComment: string;
-      classifierCode: string;
       direction: string;
       eventTimestamp: string | Date;
-      eventTypeCode: string;
       id: string;
       logOfTimestamp: string | Date;
-      messageDirection: MessageDirection;
       messagingDetails: string;
       messagingStatus: string;
       outdatedMessage: boolean;
