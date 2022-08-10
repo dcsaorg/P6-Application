@@ -111,7 +111,7 @@ export class TimestampEditorComponent implements OnInit {
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
-      remark: new FormControl(null), 
+      remark: new FormControl(null),
       delayCode: new FormControl({value: ''}) ,
       terminal: new FormControl({value: ''}),
       timestampType: new FormControl({value: ''}),
@@ -131,13 +131,12 @@ export class TimestampEditorComponent implements OnInit {
 
   showLocationNameOption(): boolean {
     this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected.value);
-    if(this.timestampTypeSelected?.value.eventLocationRequirement == EventLocationRequirement.REQUIRED){
-      this.timestampFormGroup.controls.locationName.addValidators([Validators.required]);
-    }
-    else{
+    if (this.timestampTypeSelected?.value.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
+      this.timestampFormGroup.controls.locationName.setValidators([Validators.required]);
+    } else {
       this.timestampFormGroup.controls.locationName.setValidators(null);
     }
-    this.timestampFormGroup.controls.locationName.updateValueAndValidity(); 
+    this.timestampFormGroup.controls.locationName.updateValueAndValidity();
     return this.locationNameLabel !== undefined;
   }
 
@@ -165,7 +164,7 @@ export class TimestampEditorComponent implements OnInit {
       // Selected terminal is set (Whether inhereted or new).
       timestamp.facilitySMDGCode = (terminalSelected?.facilitySMDGCode ? terminalSelected?.facilitySMDGCode : null);
     }
-    
+
     const locationName = this.timestampFormGroup.controls.locationName.value;
     if (this.locationNameLabel && locationName) {
       // Present value on label is set (Whether inhereted or new).
@@ -185,13 +184,13 @@ export class TimestampEditorComponent implements OnInit {
         longitude: string = longtitude;
       }
     }
-    
+
     const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
     if (this.showMilesToDestinationPortOption() && milesToDestinationPort) {
       timestamp.milesToDestinationPort = Number(milesToDestinationPort);
     }
 
-    timestamp.remark = this.timestampFormGroup.controls.remark.value; 
+    timestamp.remark = this.timestampFormGroup.controls.remark.value;
 
     // For now we just take set the first value of the publisher pattern as PR assuming that exists in the global
     timestamp.publisherRole = this.globals.config.publisherRoles.find(pb => pb === timestamp.timestampDefinitionTO.publisherPattern[0].publisherRole)
@@ -254,7 +253,7 @@ export class TimestampEditorComponent implements OnInit {
       this.defaultTerminalValue();
     })
   }
-  
+
   defaultTerminalValue() {
   this.timestampFormGroup.controls.terminal.setValue(
     this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
@@ -281,7 +280,7 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   /*
-  Generating default timestamp based on configs & selected transport call. 
+  Generating default timestamp based on configs & selected transport call.
   */
   private async generateDefaultTimestamp() {
     this.defaultTimestamp.logOfTimestamp = new Date();

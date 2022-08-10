@@ -56,7 +56,7 @@ export class TransportCallCreatorComponent implements OnInit {
   delayCodes: DelayCode[];
   delayCode: DelayCode;
   defaultTimestampRemark: string;
-  timestampchecking: boolean;
+  timestampChecking: boolean;
   locationNameLabel: string;
 
   dateToUTC: DateToUtcPipe
@@ -91,7 +91,7 @@ export class TransportCallCreatorComponent implements OnInit {
     });
     this.dateToUTC = new DateToUtcPipe();
     this.transportCallFormGroup = this.formBuilder.group({
-      timestampchecking: new FormControl(null),
+      timestampChecking: new FormControl(null),
       serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
       exportVoyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       importVoyageNumber: new FormControl(null, [Validators.maxLength(50)]),
@@ -196,20 +196,16 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   showLocationNameOption(show:boolean = true): boolean {
-    if(show){
-    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
-    if(timestampType?.eventLocationRequirement == EventLocationRequirement.REQUIRED){
-      this.transportCallFormGroup.controls.locationName.addValidators([Validators.required]);
+    let validators = null;
+    if (show) {
+      const timestampType = this.transportCallFormGroup.controls.timestampType.value;
+      this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(timestampType);
+      if (timestampType?.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
+        validators = [Validators.required];
+      }
     }
-    else{
-      this.transportCallFormGroup.controls.locationName.setValidators(null);
-    }
-  }
-  else{
-    this.transportCallFormGroup.controls.locationName.setValidators(null);
-  }
-    this.transportCallFormGroup.controls.locationName.updateValueAndValidity(); 
+    this.transportCallFormGroup.controls.locationName.setValidators(validators);
+    this.transportCallFormGroup.controls.locationName.updateValueAndValidity();
     return this.locationNameLabel !== undefined;
   }
 
@@ -228,26 +224,26 @@ export class TransportCallCreatorComponent implements OnInit {
     let timestampType = this.transportCallFormGroup.get('timestampType');
     let eventTimestampDate = this.transportCallFormGroup.get('eventTimestampDate');
     let eventTimestampTime = this.transportCallFormGroup.get('eventTimestampTime');
-    let terminalcontrol = this.transportCallFormGroup.get('terminal');
-    if (this.timestampchecking) {
+    let terminalControl = this.transportCallFormGroup.get('terminal');
+    if (this.timestampChecking) {
       timestampType.setValidators([Validators.required])
       eventTimestampDate.setValidators([Validators.required])
       eventTimestampTime.setValidators([Validators.required])
-      terminalcontrol.setValidators([Validators.required])
+      terminalControl.setValidators([Validators.required])
     } else {
       timestampType.setValidators(null)
       eventTimestampDate.setValidators(null)
       eventTimestampTime.setValidators(null)
-      terminalcontrol.setValidators(null)
+      terminalControl.setValidators(null)
       this.showLocationNameOption(false)
     }
     timestampType.updateValueAndValidity();
     eventTimestampDate.updateValueAndValidity();
     eventTimestampTime.updateValueAndValidity();
-    terminalcontrol.updateValueAndValidity();
+    terminalControl.updateValueAndValidity();
 
 
-    return this.timestampchecking;
+    return this.timestampChecking;
   }
 
   canCreateTimestamp(): boolean {
@@ -261,7 +257,7 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   get addressForm() {
-    return this.transportCallFormGroup.get('timestampchecking') as FormGroup;
+    return this.transportCallFormGroup.get('timestampChecking') as FormGroup;
   }
 
   async saveNewTransportCall() {
@@ -359,14 +355,14 @@ export class TransportCallCreatorComponent implements OnInit {
       }
 
       const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;
-      const longtitude = this.transportCallFormGroup.controls.vesselPositionLongitude.value;
-      if (latitude && longtitude) {
+      const longitude = this.transportCallFormGroup.controls.vesselPositionLongitude.value;
+      if (latitude && longitude) {
         this.timestamp.vesselPosition = new class implements VesselPosition {
           latitude: string = latitude;
-          longitude: string = longtitude;
+          longitude: string = longitude;
         }
       }
-      
+
     const milesToDestinationPort = this.transportCallFormGroup.controls.milesToDestinationPort.value;
     if (this.showMilesToDestinationPortOption() && milesToDestinationPort) {
       this.timestamp.milesToDestinationPort = Number(milesToDestinationPort);
