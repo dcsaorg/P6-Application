@@ -20,12 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   authState: AuthState;
   authLocalState: boolean;
   vesselId: number;
-  vesselSavedId: number;
   portOfCall: Port;
-  transportCallSelected: TransportCall;
-  portCallTimeStampAdded: Timestamp;
-  portCallTimeStampDeleted: Timestamp;
-  portCallTimeStampResponded: Timestamp;
   private stateChange;
 
 

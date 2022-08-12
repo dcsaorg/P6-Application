@@ -18,7 +18,6 @@ export class VesselEditorComponent implements OnInit {
   vessel: Vessel;
   vesselFormGroup: FormGroup;
   carriers: SelectItem[];
-  selectedCarrier: Carrier;
   allowImoID: boolean;
 
 
@@ -124,7 +123,7 @@ export class VesselEditorComponent implements OnInit {
   }
 
   /* UI only supports this type (as of this comment - 18/07/22)
-  Only enforced if a carrier is chosen 
+  Only enforced if a carrier is chosen
   */
   enforceCarrierCodeListProviderTypeSMDG(vessel: Vessel) {
     if (vessel.vesselOperatorCarrierCode) {

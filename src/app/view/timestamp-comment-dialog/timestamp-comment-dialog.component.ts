@@ -41,11 +41,6 @@ export class TimestampCommentDialogComponent implements OnInit {
   save() {
     this.ref.close(this.timestamp);
   }
-  cancelEdit() {
-    this.timestamp.delayReasonCode = this.previousDelayCode;
-    this.timestamp.remark = this.previousRemark;
-    this.ref.close(null);
-  }
   close() {
     this.ref.close(null);
   }

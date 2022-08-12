@@ -34,12 +34,4 @@ export class OperationsEventService {
       params: httpParams
     })
   }
-  getOperationsEventsByTransportCall = (transportCallId: string): Observable<OperationsEvent[]> => {
-    const url = this.OPERATIONS_EVENT_URL + "?eventType=OPERATIONS" + "&transportCallID=" + transportCallId + '&sort=eventCreatedDateTime:DESC&limit=' + this.LIMIT;
-    return this.httpClient.get<OperationsEvent[]>(url);
-  }
-
-  addOperationsEvent = (operationsEvent: OperationsEvent): Observable<OperationsEvent> => {
-    return this.httpClient.post<OperationsEvent>(this.TIMESTAMPS_URL, operationsEvent);
-  }
 }
