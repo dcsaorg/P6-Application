@@ -46,10 +46,6 @@ export class DashboardComponent {
   vesselChangedHandler = ($vesselId: string) => this.vesselId = parseInt($vesselId);
   vesselSavedHandler = ($vesselSavedId: string) => this.vesselSavedId = parseInt($vesselSavedId);
 
-  timeStampAddedHandler = ($portCallTimeStampAdded: Timestamp) => this.portCallTimeStampAdded = $portCallTimeStampAdded;
-
-  timestampDeletedHandler = ($portCallTimestampDeleted: Timestamp) => this.portCallTimeStampDeleted = $portCallTimestampDeleted;
-
   timestampRespondedHandler = ($portCallTimestampResponded: Timestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;

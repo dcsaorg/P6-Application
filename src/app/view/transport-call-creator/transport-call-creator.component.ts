@@ -41,7 +41,6 @@ export class TransportCallCreatorComponent implements OnInit {
   terminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
   vesselOptions: SelectItem[] = [];
-  facilityCodeListProviderOptions: SelectItem[] = [];
   creationProgress: boolean;
   vessels: Vessel[] = [];
 
@@ -55,7 +54,6 @@ export class TransportCallCreatorComponent implements OnInit {
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   delayCode: DelayCode;
-  defaultTimestampRemark: string;
   timestampChecking: boolean;
   locationNameLabel: string;
 
@@ -254,10 +252,6 @@ export class TransportCallCreatorComponent implements OnInit {
   createButtonText(): string {
     if (this.shouldCreateTimestamp()) return 'general.portVisit.createWithTimestamp';
     return 'general.portVisit.create';
-  }
-
-  get addressForm() {
-    return this.transportCallFormGroup.get('timestampChecking') as FormGroup;
   }
 
   async saveNewTransportCall() {

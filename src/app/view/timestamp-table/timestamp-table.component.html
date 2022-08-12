@@ -4,7 +4,7 @@
         {{"general.portVisit.table.placeHolder.label" | translate}}
     </div>
 </div>
-<p-table *ngIf="!progressing && transportCallSelected" #dt [filterDelay]="0" [lazy]="false" [sortOrder]="1"
+<p-table *ngIf="!progressing && transportCallSelected" [filterDelay]="0" [lazy]="false" [sortOrder]="1"
     [value]="timestamps"
     sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
     <ng-template pTemplate="caption">

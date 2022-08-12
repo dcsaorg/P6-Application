@@ -45,8 +45,6 @@ export class TimestampAcceptEditorComponent implements OnInit {
 
   VesselPositionLabel: boolean;
   transportCall: TransportCall;
-  timestampDefinitions: TimestampDefinitionTO[] = [];
-  timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   responseTimestamp: Timestamp;

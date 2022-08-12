@@ -62,7 +62,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     private timestampDefinitionService: TimestampDefinitionService,
     private timestampMappingService: TimestampMappingService,
     public globals: Globals,
-    public timestampService: TimestampService
   ) {
   }
 
