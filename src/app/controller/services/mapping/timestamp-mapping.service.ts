@@ -129,8 +129,8 @@ export class TimestampMappingService {
 
 
   getLocationNameOptionLabel(timestampType: TimestampDefinitionTO): string {
-    if (timestampType.eventLocationRequirement == EventLocationRequirement.OPTIONAL ||
-      timestampType.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
+    if (timestampType?.eventLocationRequirement == EventLocationRequirement.OPTIONAL ||
+      timestampType?.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
     if (timestampType?.facilityTypeCode == FacilityTypeCode.BRTH) {
       return this.locationNameBerth;
     }
