@@ -57,6 +57,7 @@ import { AuthInterceptor } from "./auth/auth-interceptor";
 import {AuthService} from "./auth/auth.service";
 import { TransportCallFilterService } from "./controller/services/base/transport-call-filter.service";
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import {DelayCodeSelectorComponent} from "./view/timestamp-editor/delay-code-component/delay-code-selector.component";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -72,6 +73,7 @@ export function ConfigLoader(configService: ConfigService) {
     DashboardComponent,
     HeaderComponent,
     TimestampCommentDialogComponent,
+    DelayCodeSelectorComponent,
     TimestampEditorComponent,
     TimestampAcceptEditorComponent,
     TimestampPaginatorComponent,

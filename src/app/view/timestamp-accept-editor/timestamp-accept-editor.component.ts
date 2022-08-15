@@ -1,22 +1,19 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { MessageService, SelectItem } from "primeng/api";
-import { Port } from "../../model/portCall/port";
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
-import { DelayCode } from "../../model/portCall/delayCode";
-import { DelayCodeService } from "../../controller/services/base/delay-code.service";
-import { VesselIdToVesselPipe } from "../../controller/pipes/vesselid-to-vessel.pipe";
-import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
-import { TransportCall } from "../../model/jit/transport-call";
-import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
-import { Timestamp } from "../../model/jit/timestamp";
-import { Globals } from "../../model/portCall/globals";
-import { EventLocation } from "../../model/eventLocation";
-import { VesselPosition } from "../../model/vesselPosition";
-import { TerminalService } from 'src/app/controller/services/base/terminal.service';
-import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
-import { DateToUtcPipe } from 'src/app/controller/pipes/date-to-utc.pipe';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MessageService, SelectItem} from "primeng/api";
+import {Port} from "../../model/portCall/port";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
+import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {TransportCall} from "../../model/jit/transport-call";
+import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {Timestamp} from "../../model/jit/timestamp";
+import {Globals} from "../../model/portCall/globals";
+import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
+import {TerminalService} from 'src/app/controller/services/base/terminal.service';
+import {DateToUtcPipe} from 'src/app/controller/pipes/date-to-utc.pipe';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 
 @Component({
   selector: 'app-timestamp-accept-editor',
@@ -41,12 +38,11 @@ export class TimestampAcceptEditorComponent implements OnInit {
   creationProgress: boolean = false;
   locationNameLabel: string;
   milesToDestinationPort: string;
+  delayCode: string|null = null;
   ports: Port[] = [];
 
   VesselPositionLabel: boolean;
   transportCall: TransportCall;
-  delayCodeOptions: SelectItem[] = [];
-  delayCodes: DelayCode[];
   responseTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
   timestampResponseStatus: string;
@@ -55,7 +51,6 @@ export class TimestampAcceptEditorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private delayCodeService: DelayCodeService,
     private globals: Globals,
     public config: DynamicDialogConfig,
     private translate: TranslateService,
@@ -65,10 +60,6 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
-      this.delayCodes = delayCodes;
-      this.updateDelayCodeOptions()
-    });
     this.transportCall = this.config.data.transportCall;
     this.responseTimestamp = this.config.data.respondingToTimestamp;
     this.timestampResponseStatus = this.config.data.timestampResponseStatus
@@ -81,7 +72,6 @@ export class TimestampAcceptEditorComponent implements OnInit {
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
       remark: new FormControl(null),
-      delayCode: new FormControl({value: ''}) ,
       terminal: new FormControl({value: ''}),
       eventTimestampDate: new FormControl(null),
       eventTimestampTime: new FormControl(null),
@@ -117,14 +107,6 @@ export class TimestampAcceptEditorComponent implements OnInit {
     return this.responseTimestamp.timestampDefinitionTO.isMilesToDestinationRelevant ?? false;
   }
 
-  private updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
-    });
-  }
-
   private updateTerminalOptions(UNLocationCode: string) {
     this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
@@ -157,8 +139,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
   savePortcallTimestamp() {
 
     // Set delay code if specified
-    const delayCode = this.timestampFormGroup.controls.delayCode.value;
-    this.responseTimestamp.delayReasonCode = (delayCode ? delayCode.smdgCode : null);
+    this.responseTimestamp.delayReasonCode = this.delayCode;
 
     // Nulled - as not to inherent older values
     this.responseTimestamp.eventLocation = null;
@@ -237,4 +218,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     this.ref.close(null);
   }
 
+  delayCodeSelected(delayCode: string) {
+    this.delayCode = delayCode;
+  }
 }

@@ -13,9 +13,7 @@ import {PortCallServiceTypeCode} from 'src/app/model/enums/portCallServiceTypeCo
 import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvider";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
-import {DelayCode} from "../../model/portCall/delayCode";
 import {Timestamp} from "../../model/jit/timestamp";
-import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {EventClassifierCode} from "../../model/jit/eventClassifierCode";
 import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
@@ -51,9 +49,7 @@ export class TransportCallCreatorComponent implements OnInit {
   timestampSelected: TimestampDefinitionTO;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
-  delayCodeOptions: SelectItem[] = [];
-  delayCodes: DelayCode[];
-  delayCode: DelayCode;
+  delayCode: string;
   timestampChecking: boolean;
   locationNameLabel: string;
 
@@ -64,7 +60,6 @@ export class TransportCallCreatorComponent implements OnInit {
               private globals: Globals,
               public ref: DynamicDialogRef,
               private messageService: MessageService,
-              private delayCodeService: DelayCodeService,
               private transportCallService: TransportCallService,
               private vesselService: VesselService,
               private timestampDefinitionService: TimestampDefinitionService,
@@ -82,11 +77,6 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestampDefinitions = timestampDefinitions;
       this.updateTimestampTypeOptions();
     })
-
-    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
-      this.delayCodes = delayCodes;
-      this.updateDelayCodeOptions()
-    });
     this.dateToUTC = new DateToUtcPipe();
     this.transportCallFormGroup = this.formBuilder.group({
       timestampChecking: new FormControl(null),
@@ -97,7 +87,6 @@ export class TransportCallCreatorComponent implements OnInit {
       terminal: new FormControl({value: ''}, [Validators.required]),
       vessel: new FormControl(null, [Validators.required]),
       timestampType: new FormControl(null),
-      delayCode: new FormControl(null),
       eventTimestampTime: new FormControl(null),
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
@@ -167,14 +156,6 @@ export class TransportCallCreatorComponent implements OnInit {
       }
       this.timestampTypes.push({label: timestampDef.timestampTypeName, value: timestampDef})
     }
-  }
-
-  updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
-    });
   }
 
   leftPadWithZero(item: number): string {
@@ -327,8 +308,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
       this.timestamp.publisherRole = null;
       this.timestamp.publisher = this.globals.config.publisher;
-      this.delayCode = this.transportCallFormGroup.controls.delayCode.value;
-      this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
+      this.timestamp.delayReasonCode = this.delayCode;
       this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
       this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
       this.timestamp.facilitySMDGCode = terminal.facilitySMDGCode;
@@ -420,4 +400,8 @@ export class TransportCallCreatorComponent implements OnInit {
       })
   }
 
+  delayCodeSelected(delayCode: string) {
+    this.delayCode = delayCode;
+    console.log("Received delay code", this.delayCode)
+  }
 }

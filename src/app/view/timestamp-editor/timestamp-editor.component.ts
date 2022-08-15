@@ -1,25 +1,21 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { MessageService, SelectItem } from "primeng/api";
-import { Port } from "../../model/portCall/port";
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
-import { DelayCode } from "../../model/portCall/delayCode";
-import { DateToUtcPipe } from "../../controller/pipes/date-to-utc.pipe";
-import { DelayCodeService } from "../../controller/services/base/delay-code.service";
-import { VesselIdToVesselPipe } from "../../controller/pipes/vesselid-to-vessel.pipe";
-import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
-import { TransportCall } from "../../model/jit/transport-call";
-import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
-import { Timestamp } from "../../model/jit/timestamp";
-import { Globals } from "../../model/portCall/globals";
-import { EventLocation } from "../../model/eventLocation";
-import { VesselPosition } from "../../model/vesselPosition";
-import { Terminal } from 'src/app/model/portCall/terminal';
-import { TerminalService } from 'src/app/controller/services/base/terminal.service';
-import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
-import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
-import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MessageService, SelectItem} from "primeng/api";
+import {Port} from "../../model/portCall/port";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
+import {VesselIdToVesselPipe} from "../../controller/pipes/vesselid-to-vessel.pipe";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {TransportCall} from "../../model/jit/transport-call";
+import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {Timestamp} from "../../model/jit/timestamp";
+import {Globals} from "../../model/portCall/globals";
+import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
+import {TerminalService} from 'src/app/controller/services/base/terminal.service';
+import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
+import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -49,8 +45,7 @@ export class TimestampEditorComponent implements OnInit {
   transportCall: TransportCall;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
-  delayCodeOptions: SelectItem[] = [];
-  delayCodes: DelayCode[];
+  delayCode: string|null;
   respondingToTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
   milesToDestinationPort: string;
@@ -79,7 +74,6 @@ export class TimestampEditorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
-    private delayCodeService: DelayCodeService,
     private globals: Globals,
     public config: DynamicDialogConfig,
     private translate: TranslateService,
@@ -90,10 +84,6 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
-      this.delayCodes = delayCodes;
-      this.updateDelayCodeOptions()
-    });
     this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
       this.timestampDefinitions = timestampDefinitions;
       this.updateTimestampTypeOptions();
@@ -112,7 +102,6 @@ export class TimestampEditorComponent implements OnInit {
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
       remark: new FormControl(null),
-      delayCode: new FormControl({value: ''}) ,
       terminal: new FormControl({value: ''}),
       timestampType: new FormControl({value: ''}),
       eventTimestampDate: new FormControl(null),
@@ -151,8 +140,7 @@ export class TimestampEditorComponent implements OnInit {
   savePortcallTimestamp(timestamp: Timestamp) {
 
     timestamp.timestampDefinitionTO = this.timestampTypeSelected.value;
-    const delayCode = this.timestampFormGroup.controls.delayCode.value;
-    timestamp.delayReasonCode = (delayCode ? delayCode.smdgCode : null);
+    timestamp.delayReasonCode = this.delayCode;
     timestamp.facilitySMDGCode = null;
 
     if (this.eventTimestampDate) {
@@ -234,14 +222,6 @@ export class TimestampEditorComponent implements OnInit {
     }
   }
 
-  private updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
-    });
-  }
-
   private updateTerminalOptions(UNLocationCode: string) {
     this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
@@ -296,5 +276,9 @@ export class TimestampEditorComponent implements OnInit {
     // Set publisher based on globals
     this.defaultTimestamp.publisher = this.globals.config.publisher;
     this.defaultTimestamp.transportCallSequenceNumber = this.transportCall.transportCallSequenceNumber;
+  }
+
+  delayCodeSelected(delayCode: string) {
+    this.delayCode = delayCode;
   }
 }

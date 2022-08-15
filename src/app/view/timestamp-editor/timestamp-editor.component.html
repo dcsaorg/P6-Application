@@ -91,34 +91,11 @@
       <span
         *ngIf="timestampFormGroup.get('locationName').hasError('required') && timestampFormGroup.get('locationName').touched"
         class="p-invalid">
-        {{ 'general.transportCall.table.locationName.required' | translate }} 
-        {{ this.timestampTypeSelected?.value.timestampTypeName }} 
+        {{ 'general.transportCall.table.locationName.required' | translate }}
+        {{ this.timestampTypeSelected?.value.timestampTypeName }}
       </span>
     </div>
-    <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
-    <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
-      filterBy="label,value.name" [group]="false">
-      <ng-template let-delayCode pTemplate="selectedItem">
-        <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
-          <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
-          <div class="delayCodeSelected__delayType">&nbsp;&middot;&nbsp;{{delayCode.value.delayType}}
-          </div>
-          <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
-          <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
-        </div>
-        <div *ngIf="!delayCode.value">
-          <div>{{delayCode.label}}</div>
-        </div>
-      </ng-template>
-      <ng-template let-delayCode pTemplate="item">
-        <div class="delayCodeDetails" *ngIf="delayCode.value">
-          <div class="delayCodeDetails__smdgCode">{{delayCode.value.smdgCode}}</div>
-          <div class="delayCodeDetails__delayType">{{delayCode.value.delayType}}</div>
-          <div class="delayCodeDetails__delayName">{{delayCode.value.name}}</div>
-          <div class="delayCodeDetails__delaydescription">{{delayCode.value.description}}</div>
-        </div>
-      </ng-template>
-    </p-dropdown>
+    <app-delay-code-selector (onSelectedDelayCode)="delayCodeSelected($event)"></app-delay-code-selector>
   </div>
 
   <div class="p-field col-12 md:col-2"></div>
