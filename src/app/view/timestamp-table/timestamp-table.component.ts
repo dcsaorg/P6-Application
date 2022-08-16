@@ -249,7 +249,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     let portaproaches = new Map();
     // extract processIDs
     timestamps.forEach(function (timestamp) {
-      portaproaches.set(timestamp.locationType + timestamp.facilityTypeCode, null);
+      portaproaches.set(timestamp.facilityTypeCode, null);
     });
     let i = 0
     // assign color to portApproaches
@@ -262,7 +262,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }
     //assign color to timestamp
     timestamps.forEach(function (timestamp) {
-      timestamp.sequenceColor = portaproaches.get(timestamp.locationType + timestamp.facilityTypeCode);
+      timestamp.sequenceColor = portaproaches.get(timestamp.facilityTypeCode);
     });
 
   }

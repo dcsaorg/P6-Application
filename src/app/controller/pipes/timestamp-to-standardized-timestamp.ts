@@ -54,7 +54,6 @@ export class TimestampToStandardizedtTimestampPipe implements PipeTransform {
     newTimestamp.eventLocation = portcallTimestamp.eventLocation;
     newTimestamp.modeOfTransport = portcallTimestamp.modeOfTransport;
     newTimestamp.eventDateTime = portcallTimestamp.eventDateTime;
-    newTimestamp.portCallSequence = portcallTimestamp.portCallSequence;
     newTimestamp.carrierVoyageNumber = portcallTimestamp.carrierVoyageNumber;
     newTimestamp.remark = portcallTimestamp.remark;
     newTimestamp.delayReasonCode = portcallTimestamp.delayReasonCode;
