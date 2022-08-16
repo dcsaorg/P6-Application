@@ -1,6 +1,6 @@
 import { OperationsEventTypeCode } from '../enums/operationsEventTypeCode';
 import { PublisherRole } from '../enums/publisherRole';
-import { EventClassifierCode } from "./eventClassifierCode";
+import { EventClassifierCode } from "./event-classifier-code";
 import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
 import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
@@ -34,7 +34,7 @@ export interface TimestampDefinitionTO {
   /**
 * @deprecated
 
-detected through publisherPattern field & then set by mapping 
+detected through publisherPattern field & then set by mapping
 */
   publisherRole: PublisherRole;
   /**

@@ -7,7 +7,7 @@ import { Timestamp } from 'src/app/model/jit/timestamp';
 import { Publisher } from 'src/app/model/publisher';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
-import { EventClassifierCode } from 'src/app/model/jit/eventClassifierCode';
+import { EventClassifierCode } from 'src/app/model/jit/event-classifier-code';
 import { OperationsEventTypeCode } from 'src/app/model/enums/operationsEventTypeCode';
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 

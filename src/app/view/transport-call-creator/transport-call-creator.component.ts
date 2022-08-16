@@ -17,7 +17,7 @@ import {DelayCode} from "../../model/portCall/delayCode";
 import {Timestamp} from "../../model/jit/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {EventClassifierCode} from "../../model/jit/eventClassifierCode";
+import {EventClassifierCode} from "../../model/jit/event-classifier-code";
 import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";

@@ -1,4 +1,4 @@
-import {EventClassifierCode} from "./eventClassifierCode";
+import {EventClassifierCode} from "./event-classifier-code";
 import {OperationsEventTypeCode} from "../enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
 import {TransportCall} from "./transport-call";

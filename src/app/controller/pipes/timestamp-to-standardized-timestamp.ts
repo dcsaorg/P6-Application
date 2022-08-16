@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {EventClassifierCode} from "../../model/jit/eventClassifierCode";
+import {EventClassifierCode} from "../../model/jit/event-classifier-code";
 import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../../model/enums/portCallServiceTypeCode";
 import {Config} from "../../model/jit/config";
