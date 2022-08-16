@@ -27,14 +27,12 @@ export interface Timestamp {
   portCallServiceTypeCode?: PortCallServiceTypeCode;
   eventDateTime: Date | string;
   carrierServiceCode?: string;
-  portCallSequence?: string;
   remark?: string;
   delayReasonCode?: string;
   eventDeliveryStatus?: string;
   isLatestInCycle?: boolean;
   negotiationCycle?: NegotiationCycle;
   timestampDefinitionTO?: TimestampDefinitionTO;
-  response?: TimestampDefinitionTO;
   logOfTimestamp?: string | Date;
   carrierExportVoyageNumber?: string;
   carrierImportVoyageNumber?: string;
@@ -75,25 +73,9 @@ export interface Timestamp {
  */
   facilityCode?: string;
   /**
-   * @deprecated
-   */
-  portPrevious?: Port | number;
-  /**
 * @deprecated
 */
   portOfCall?: Port;
-  /**
-* @deprecated
-*/
-  portNext?: Port | number;
-  /**
-   * @deprecated
-   */
-  locationType?: Port | number;
-  /**
-   * @deprecated
-   */
-  modifable?: Port | number;
   /**
  * @deprecated
  */
@@ -102,22 +84,6 @@ export interface Timestamp {
 * @deprecated
 */
   transportCallID?: string;
-  /**
- * @deprecated
- */
-  messagingStatus?: string;
-  /**
- * @deprecated
- */
-  messagingDetails?: string;
-  /**
- * @deprecated
- */
-  outdatedMessage?: boolean;
-  /**
-* @deprecated
-*/
-  uiReadByUser?: boolean;
   /**
 * @deprecated
 */

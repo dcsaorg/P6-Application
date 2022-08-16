@@ -31,18 +31,12 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
       eventTimestamp: string | Date;
       id: string;
       logOfTimestamp: string | Date;
-      messagingDetails: string;
-      messagingStatus: string;
-      outdatedMessage: boolean;
-      portNext: Port | number;
       portOfCall: Port;
-      portPrevious: Port | number;
       response: TimestampDefinitionTO;
       sequenceColor: string;
       terminal: Terminal | number;
       timestampDefinitionTO: TimestampDefinitionTO;
       transportCallID: string;
-      uiReadByUser: boolean;
       vessel: number | Vessel;
       transportCallReference: string;
       carrierVoyageNumber: string;
@@ -51,7 +45,6 @@ export class OperationsEventToTimestampPipe implements PipeTransform {
     timestamp.publisher = operationsEvent.publisher;
     timestamp.publisherRole = operationsEvent.publisherRole;
 
-    timestamp.uiReadByUser = true;
     timestamp.publisher = operationsEvent.publisher;
     timestamp.publisherRole = operationsEvent.publisherRole;
     timestamp.eventClassifierCode = operationsEvent.eventClassifierCode;
