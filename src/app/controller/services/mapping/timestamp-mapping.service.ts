@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OperationsEventService } from "../jit/operations-event.service";
+import { TimestampInfoService } from "../jit/timestamp-info.service";
 import { Observable } from "rxjs";
 import { TransportCall } from "../../../model/jit/transport-call";
 import { map, mergeMap } from "rxjs/operators";
@@ -19,7 +19,7 @@ import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
 })
 export class TimestampMappingService {
   constructor(
-    private operationsEventService: OperationsEventService,
+    private timestampInfoService: TimestampInfoService,
     private globals: Globals,
     private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
     private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
@@ -42,7 +42,7 @@ export class TimestampMappingService {
   * A function that returns a list of portCall timestamps related to the transport Call .
   */
   getPortCallTimestampsByTransportCall(transportCall: TransportCall, portCallPart?: string): Observable<Timestamp[]> {
-    return this.operationsEventService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
+    return this.timestampInfoService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
       mergeMap(timestampInfos =>
         this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
           map(timestampDefinitionsMap => {
