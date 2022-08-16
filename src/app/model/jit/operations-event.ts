@@ -1,4 +1,3 @@
-import {EventType} from "./eventType";
 import {EventClassifierCode} from "./eventClassifierCode";
 import {OperationsEventTypeCode} from "../enums/operationsEventTypeCode";
 import {PortCallServiceTypeCode} from "../enums/portCallServiceTypeCode";
@@ -13,7 +12,6 @@ import { DraftUnit } from "../enums/draftUnit";
 
 export interface OperationsEvent {
   eventID?: string;
-  eventType: EventType;
   eventDateTime: Date;
   eventClassifierCode: EventClassifierCode;
   operationsEventTypeCode: OperationsEventTypeCode;
@@ -33,8 +31,8 @@ export interface OperationsEvent {
   facilityCode: string;
   vesselPosition?: VesselPosition;
   portCallPhaseTypeCode?: PortCallPhaseTypeCode;
-  milesToDestinationPort: number; 
-  vesselDraft: number; 
-  vesselDraftUnit: DraftUnit; 
+  milesToDestinationPort: number;
+  vesselDraft: number;
+  vesselDraftUnit: DraftUnit;
 
 }
