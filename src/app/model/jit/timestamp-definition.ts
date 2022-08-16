@@ -6,6 +6,7 @@ import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
 import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import { PublisherPattern } from './publisher-pattern';
 import { EventLocationRequirement } from '../enums/eventLocationRequirement';
+import {NegotiationCycle} from "../portCall/negotiation-cycle";
 
 export interface TimestampDefinitionTO {
   id: string;
@@ -21,7 +22,6 @@ export interface TimestampDefinitionTO {
   isTerminalNeeded: boolean;
   isVesselPositionNeeded: boolean;
   isMilesToDestinationRelevant: boolean;
-  negotiationCycle: string;
   providedInStandard: string;
   publisherPattern: Array<PublisherPattern>;
   acceptTimestampDefinition: string;
@@ -29,7 +29,7 @@ export interface TimestampDefinitionTO {
   rejectTimestampDefinition: string;
   rejectTimestampDefinitionEntity?: TimestampDefinitionTO;
   eventLocationRequirement: EventLocationRequirement;
-
+  negotiationCycle: NegotiationCycle;
 
   /**
 * @deprecated
