@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
-import { TimestampInfoService } from "../jit/timestamp-info.service";
-import { Observable } from "rxjs";
-import { TransportCall } from "../../../model/jit/transport-call";
-import { map, mergeMap } from "rxjs/operators";
-import { Globals } from "../../../model/portCall/globals";
-import { OperationsEventsToTimestampsPipe } from "../../pipes/operations-events-to-timestamps.pipe";
-import { Timestamp } from "../../../model/jit/timestamp";
-import { TimestampService } from "../jit/timestamps.service";
-import { TimestampToStandardizedtTimestampPipe } from '../../pipes/timestamp-to-standardized-timestamp';
-import { NegotiationCycleService } from "../base/negotiation-cycle.service";
-import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
-import { TimestampDefinitionService } from "../base/timestamp-definition.service";
-import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
-import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
+import {Injectable} from '@angular/core';
+import {TimestampInfoService} from "../jit/timestamp-info.service";
+import {Observable} from "rxjs";
+import {TransportCall} from "../../../model/jit/transport-call";
+import {map, mergeMap} from "rxjs/operators";
+import {Globals} from "../../../model/portCall/globals";
+import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
+import {Timestamp} from "../../../model/jit/timestamp";
+import {TimestampService} from "../jit/timestamps.service";
+import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
+import {TimestampDefinitionTO} from "../../../model/jit/timestamp-definition";
+import {TimestampDefinitionService} from "../base/timestamp-definition.service";
+import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
+import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,6 @@ export class TimestampMappingService {
     private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
     private timestampDefinitionService: TimestampDefinitionService,
     private timestampService: TimestampService,
-    private negotiationCycleService: NegotiationCycleService,
   ) {
   }
 
@@ -59,8 +57,9 @@ export class TimestampMappingService {
             for (let timestamp of timestamps) {
               if (timestamp.timestampDefinitionTO) {
                 this.alignPublisherRoleAndPrimaryReceiver(timestamp);
-                let negotiationCycle = this.negotiationCycleService.enrichTimestampWithNegotiationCycle(timestamp);
-                const negotiationCycleKey = negotiationCycle.cycleKey;
+                const negotiationCycle = timestamp.timestampDefinitionTO.negotiationCycle;
+                const negotiationCycleKey = negotiationCycle.cycleKey
+                timestamp.negotiationCycle = negotiationCycle
                 timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
                 set.add(negotiationCycleKey)
               }
@@ -71,7 +70,6 @@ export class TimestampMappingService {
     )
 
   }
-
 
   private mapTransportCallToTimestamps(timestamps: Timestamp[], transportCall: TransportCall) {
 
