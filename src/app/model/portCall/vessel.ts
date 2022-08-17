@@ -25,9 +25,4 @@ export interface Vessel {
    */
   teu?: number;                        // Transient
 
-  /**
-   * @deprecated
-   */
-  serviceNameCode?: string;            // Transient
-
 }

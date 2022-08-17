@@ -12,6 +12,7 @@ import {TimestampDefinitionTO} from "../../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../base/timestamp-definition.service";
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
+import {TimestampInfo} from "../../../model/jit/timestamp-info";
 
 @Injectable({
   providedIn: 'root'
@@ -39,59 +40,27 @@ export class TimestampMappingService {
   /*
   * A function that returns a list of portCall timestamps related to the transport Call .
   */
-  getPortCallTimestampsByTransportCall(transportCall: TransportCall, portCallPart?: string): Observable<Timestamp[]> {
+  getPortCallTimestampsByTransportCall(transportCall: TransportCall, portCallPart?: string): Observable<TimestampInfo[]> {
     return this.timestampInfoService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
       mergeMap(timestampInfos =>
         this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
           map(timestampDefinitionsMap => {
-            const operationEvents = timestampInfos.map(timestampInfo => {
-              timestampInfo.operationsEventTO.timestampDefinitionID = timestampInfo.timestampDefinitionTO.id;
-              timestampInfo.operationsEventTO.eventDeliveryStatus = timestampInfo.eventDeliveryStatus;
-              return timestampInfo.operationsEventTO
-            });
-            return this.operationsEventsToTimestampsPipe.transform(operationEvents, timestampDefinitionsMap);
-          }),
-          map(timestamps => {
-            this.mapTransportCallToTimestamps(timestamps, transportCall);
             let set = new Set()
-            for (let timestamp of timestamps) {
-              if (timestamp.timestampDefinitionTO) {
-                this.alignPublisherRoleAndPrimaryReceiver(timestamp);
-                const negotiationCycle = timestamp.timestampDefinitionTO.negotiationCycle;
-                const negotiationCycleKey = negotiationCycle.cycleKey
-                timestamp.negotiationCycle = negotiationCycle
-                timestamp.isLatestInCycle = !set.has(negotiationCycleKey)
-                set.add(negotiationCycleKey)
-              }
-            }
-            return timestamps;
+            return timestampInfos.map(timestampInfo => {
+              // Replace the TD with the one from our service.  We have enriched the latter with "acceptDefinitionEntity"
+              // and "rejectDefinitionEntity".
+              timestampInfo.timestampDefinitionTO = timestampDefinitionsMap.get(timestampInfo.timestampDefinitionTO.id)
+              timestampInfo.operationsEventTO.eventDeliveryStatus = timestampInfo.eventDeliveryStatus;
+              const negotiationCycleKey = timestampInfo.timestampDefinitionTO.negotiationCycle.cycleKey;
+              timestampInfo.isLatestInCycle = !set.has(negotiationCycleKey)
+              set.add(negotiationCycleKey)
+              return timestampInfo;
+            });
           })
         ))
     )
-
   }
 
-  private mapTransportCallToTimestamps(timestamps: Timestamp[], transportCall: TransportCall) {
-
-    for (let timestamp of timestamps) {
-      if (timestamp.transportCallReference == transportCall.transportCallReference) {
-        timestamp.transportCallID = transportCall.transportCallID;
-        timestamp.vesselIMONumber = transportCall.vesselIMONumber;
-        timestamp.UNLocationCode = transportCall.UNLocationCode;
-        timestamp.portOfCall = transportCall.portOfCall;
-        timestamp.importVoyageNumber = transportCall.importVoyageNumber;
-        timestamp.exportVoyageNumber = transportCall.exportVoyageNumber;
-        timestamp.carrierVoyageNumber = timestamp.carrierVoyageNumber;
-        timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-        timestamp.transportCallSequenceNumber = transportCall.transportCallSequenceNumber;
-        if (!transportCall.exportVoyageNumber && transportCall.carrierExportVoyageNumber) {
-          // Receive & convert to JIT 1.1 voyage numbers
-          timestamp.exportVoyageNumber = transportCall.carrierExportVoyageNumber;
-          timestamp.importVoyageNumber = transportCall.carrierImportVoyageNumber;
-        }
-      }
-    }
-  }
 
   // Align voyageNumbers (JIT 1.x) before posting timestamp
   ensureVoyageNumbers(timestamp: Timestamp) {
@@ -101,28 +70,6 @@ export class TimestampMappingService {
     }
     timestamp.importVoyageNumber = !timestamp.importVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.importVoyageNumber;
     timestamp.exportVoyageNumber = !timestamp.exportVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.exportVoyageNumber;
-  }
-
-  /*
-      To detect the publisher role (PR) for the timestampDefinitionsTO
-       We check the PR of the event against the timestampDefinitionsTO's -> publisher pattern.
-       If found we set that as the timestampDefinitionsTO's PR and primary reciever.
-       If not we should raise a warning as this is unexpected behavior -- for now print console.warn()
-  */
-  private alignPublisherRoleAndPrimaryReceiver(timestamp: Timestamp) {
-    let patterns = timestamp.timestampDefinitionTO.publisherPattern;
-    for (const element of patterns) {
-      if (timestamp.publisherRole === element.publisherRole) {
-        timestamp.timestampDefinitionTO.publisherRole = element.publisherRole;
-        timestamp.timestampDefinitionTO.primaryReceiver = element.primaryReceiver;
-        break;
-      }
-    }
-    if (timestamp.timestampDefinitionTO.publisherRole === null || timestamp.timestampDefinitionTO.publisherRole === undefined
-      || timestamp.timestampDefinitionTO.publisherRole !== timestamp.publisherRole) {
-      console.warn("DCSA ERROR: Timestamp's publisherRole does not conform "
-        + "to timestamp definition publisher pattern")
-    }
   }
 
 

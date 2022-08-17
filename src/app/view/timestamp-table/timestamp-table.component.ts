@@ -22,6 +22,8 @@ import { Timestamp } from 'src/app/model/jit/timestamp';
 import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
+import {TimestampInfo} from "../../model/jit/timestamp-info";
+import {PublisherRole} from "../../model/enums/publisherRole";
 
 @Component({
   selector: 'app-timestamp-table',
@@ -36,8 +38,8 @@ import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 export class TimestampTableComponent implements OnInit, OnChanges {
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
   @Input('portOfCallNotifier') portofCallNotifier: Port;
-  timestamps: Timestamp[];
-  unfilteredTimestamps: Timestamp[];
+  timestampInfos: TimestampInfo[];
+  unfilteredTimestampInfos: TimestampInfo[];
   progressing: boolean = true;
   terminals: Terminal[] = [];
   ports: Port[] = [];
@@ -85,8 +87,11 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.loadTimestamps(true); // populate PortCallParts at start
   }
 
-  public isPrimary(timestamp: Timestamp): boolean {
-    return this.globals.config.publisherRoles.includes(timestamp.timestampDefinitionTO?.primaryReceiver);
+  public isPrimaryReceiver(timestampInfo: TimestampInfo): boolean {
+    return this.hasOverlap(
+      this.globals.config.publisherRoles,
+      timestampInfo.timestampDefinitionTO.publisherPattern.map(x => x.primaryReceiver)
+    )
   }
 
   filterTimestampsByPortOfCallPart() {
@@ -96,7 +101,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   private populatePortCallParts() {
     this.selectedPortCallPart = null;
-    let uniqueParts = new Set(this.timestamps.map(timestamp => timestamp.timestampDefinitionTO?.portCallPart).filter((value) => {
+    let uniqueParts = new Set(this.timestampInfos.map(timestamp => timestamp.timestampDefinitionTO?.portCallPart).filter((value) => {
       return value !== undefined;
     }));
 
@@ -114,19 +119,22 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     if (this.transportCallSelected) {
       this.progressing = true;
       this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
-      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected, portOfCallPart).subscribe(timestamps => {
-        this.colorizetimestampByLocation(timestamps);
-        this.unfilteredTimestamps = timestamps;
-        this.timestamps = timestamps;
+      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected, portOfCallPart).subscribe(timestampInfos => {
+        this.colorizetimestampByLocation(timestampInfos);
+        this.unfilteredTimestampInfos = timestampInfos;
+        this.timestampInfos = timestampInfos;
         if (populatePortCallParts) {
           this.portCallParts = [];
           this.negotiationCycles = [];
-          if (timestamps.length > 0) {
+          if (timestampInfos.length > 0) {
             this.populatePortCallParts();
             this.negotiationCycles.push({ label: this.translate.instant('general.negotiationCycle.select'), value: null });
-            for (let timestamp of timestamps) {
-              if (timestamp.isLatestInCycle) {
-                this.negotiationCycles.push({ label: timestamp.negotiationCycle.cycleName, value: timestamp.negotiationCycle });
+            for (let timestampInfo of timestampInfos) {
+              if (timestampInfo.isLatestInCycle) {
+                this.negotiationCycles.push({
+                  label: timestampInfo.timestampDefinitionTO.negotiationCycle.cycleName,
+                  value: timestampInfo.timestampDefinitionTO.negotiationCycle,
+                });
               }
             }
           }
@@ -142,24 +150,30 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   filterTimestamps() {
-    this.timestamps = this.unfilteredTimestamps.filter(ts => {
-      if (this.selectedNegotiationCycle && ts.negotiationCycle?.cycleKey != this.selectedNegotiationCycle.cycleKey) {
+    this.timestampInfos = this.unfilteredTimestampInfos.filter(ts => {
+      if (this.selectedNegotiationCycle && ts.timestampDefinitionTO.negotiationCycle?.cycleKey != this.selectedNegotiationCycle.cycleKey) {
         return false;
       }
       return true;
     });
   }
 
-  isOutGoing(timestamp: Timestamp): boolean {
+  private hasOverlap(a: PublisherRole[], b: PublisherRole[]): boolean {
+    return !!a.find((val1) => {
+      return b.find((val2) => val1 === val2);
+    });
+  }
+
+  isOutGoing(timestampInfo: TimestampInfo): boolean {
     const publisherRoles = this.globals.config.publisherRoles;
-    return publisherRoles.includes(timestamp.publisherRole) &&
+    return this.hasOverlap(publisherRoles, timestampInfo.timestampDefinitionTO.publisherPattern.map(x => x.publisherRole)) &&
       // Special-case: If we are both the sender *and* the primary receiver, then we count this as an "ingoing"
       // timestamp.  This makes it easier to add all roles for local testing and still see the "accept/reject"
       // buttons.
       //
       // If you are here because you want to double check the "secondary timestamp" flow, just remove
       // the relevant roles from "publisherRoles" from config.json. :)
-      (!timestamp.timestampDefinitionTO || !publisherRoles.includes(timestamp.timestampDefinitionTO.primaryReceiver));
+      !this.isPrimaryReceiver(timestampInfo);
   }
 
   showComment(timestamp: Timestamp) {
@@ -177,7 +191,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
-        timestamps: this.timestamps,
+        timestamps: this.timestampInfos,
         respondingToTimestamp: timestamp,
         ports: this.ports
       }
@@ -202,7 +216,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
-        timestamps: this.timestamps,
+        timestamps: this.timestampInfos,
         respondingToTimestamp: timestampShallowClone,
         ports: this.ports,
         timestampResponseStatus: "Accepted"
@@ -227,7 +241,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
-        timestamps: this.timestamps,
+        timestamps: this.timestampInfos,
         respondingToTimestamp: timestampShallowClone,
         ports: this.ports,
         timestampResponseStatus: "Rejected"
@@ -243,13 +257,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     Function that will colorize
     //@ToDo Move this function to postProcessing in timestampService
    */
-  private colorizetimestampByLocation(timestamps: Timestamp[]) {
+  private colorizetimestampByLocation(timestampInfos: TimestampInfo[]) {
     let colourPalette: string[] = new Array("#30a584", "#f5634a", "#d00fc2", "#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
 
     let portaproaches = new Map();
     // extract processIDs
-    timestamps.forEach(function (timestamp) {
-      portaproaches.set(timestamp.facilityTypeCode, null);
+    timestampInfos.forEach(function (timestampInfo) {
+      portaproaches.set(timestampInfo.operationsEventTO.facilityTypeCode, null);
     });
     let i = 0
     // assign color to portApproaches
@@ -261,8 +275,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       }
     }
     //assign color to timestamp
-    timestamps.forEach(function (timestamp) {
-      timestamp.sequenceColor = portaproaches.get(timestamp.facilityTypeCode);
+    timestampInfos.forEach(function (timestampInfo) {
+      timestampInfo.sequenceColor = portaproaches.get(timestampInfo.operationsEventTO.facilityTypeCode);
     });
 
   }
