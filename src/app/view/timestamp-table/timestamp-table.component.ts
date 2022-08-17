@@ -16,7 +16,6 @@ import { TimestampEditorComponent } from "../timestamp-editor/timestamp-editor.c
 import { TimestampAcceptEditorComponent } from "../timestamp-accept-editor/timestamp-accept-editor.component";
 import { Globals } from "../../model/portCall/globals";
 import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
-import { TimestampService } from "../../controller/services/jit/timestamps.service";
 import { Timestamp } from 'src/app/model/jit/timestamp';
 import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
@@ -67,17 +66,16 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.vesselService.vesselsObservable.subscribe(() => {
+      // Triggered on vessel renames (etc.). Reload the timestamps (as each row show the vessel name)
       this.loadTimestamps()
     })
     this.timestampDefinitionService.getTimestampDefinitionsMap().subscribe(map => {
       this.timestampDefinitionMap = map
-
     });
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
-    this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
     this.progressing = false;
-    //this.$timestamps = this.paginatorService.observePaginatedTimestamps();
+    this.loadTimestamps()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -116,7 +114,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
     if (this.transportCallSelected) {
       this.progressing = true;
-      this.vesselService.getVessels().pipe().subscribe(vessels => this.vessels = vessels);
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected, portOfCallPart).subscribe(timestampInfos => {
         this.colorizetimestampByLocation(timestampInfos);
         this.unfilteredTimestampInfos = timestampInfos;
