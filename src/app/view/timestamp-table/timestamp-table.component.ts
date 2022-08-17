@@ -18,7 +18,6 @@ import { Globals } from "../../model/portCall/globals";
 import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
 import { Timestamp } from 'src/app/model/jit/timestamp';
 import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
-import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 import {TimestampInfo} from "../../model/jit/timestamp-info";
 import {PublisherRole} from "../../model/enums/publisherRole";
@@ -46,7 +45,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   negotiationCycles: SelectItem[] = [];
   portCallParts: SelectItem[] = [];
   selectedPortCallPart: string = null;
-  timestampDefinitionMap: Map<string, TimestampDefinitionTO> = new Map<string, TimestampDefinitionTO>();
   selectedNegotiationCycle: NegotiationCycle = null;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
@@ -58,7 +56,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     private vesselService: VesselService,
     private dialogService: DialogService,
     private translate: TranslateService,
-    private timestampDefinitionService: TimestampDefinitionService,
     private timestampMappingService: TimestampMappingService,
     public globals: Globals,
   ) {
@@ -69,9 +66,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       // Triggered on vessel renames (etc.). Reload the timestamps (as each row show the vessel name)
       this.loadTimestamps()
     })
-    this.timestampDefinitionService.getTimestampDefinitionsMap().subscribe(map => {
-      this.timestampDefinitionMap = map
-    });
     this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.progressing = false;
