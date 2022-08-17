@@ -5,7 +5,7 @@
     </div>
 </div>
 <p-table *ngIf="!progressing && transportCallSelected" [filterDelay]="0" [lazy]="false" [sortOrder]="1"
-    [value]="timestamps"
+    [value]="timestampInfos"
     sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
     <ng-template pTemplate="caption">
 
@@ -102,101 +102,95 @@
 
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-timestamp>
+    <ng-template pTemplate="body" let-timestampInfo>
 
-        <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestamp.isLatestInCycle == false}">
-            <td pTooltip="Publisher: {{timestamp.publisher?.partyName}}
-          PublisherRole: {{timestamp.publisherRole}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass"
-                style="width: 3px;" [ngStyle]="{'background-color': timestamp.sequenceColor}"></td>
+        <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestampInfo.isLatestInCycle == false}">
+            <td pTooltip="Publisher: {{timestampInfo.publisher?.partyName}}
+          PublisherRole: {{timestampInfo.publisherRole}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass"
+                style="width: 3px;" [ngStyle]="{'background-color': timestampInfo.sequenceColor}"></td>
             <td style="width: 8%" [ngClass]="'timestampContent'">
-                <div>{{ (timestamp.vesselIMONumber | vesselIdToVessel: vessels).vesselName}}</div>
-                <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
+                <div>{{ timestampInfo.operationsEventTO.transportCall.vessel.vesselName }}</div>
             </td>
             <td style="width: 8%" [ngClass]="'timestampContent'">
-                <div>{{ (timestamp.publisherRole)}}</div>
-                <div class="rowDetails">{{ (timestamp.vessel | vesselIdToVessel: vessels).serviceNameCode}}</div>
+                <div>{{ (timestampInfo.operationsEventTO.publisherRole)}}</div>
             </td>
             <td style="width: 7%" [ngClass]="'timestampContent'">
-                {{ timestamp.timestampDefinitionTO?.timestampTypeName || 'UNKNOWN' }}
+                {{ timestampInfo.timestampDefinitionTO?.timestampTypeName || 'UNKNOWN' }}
             </td>
-            <td pTooltip="UTC: {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[1]}}"
+            <td pTooltip="UTC: {{(timestampInfo.operationsEventTO.eventCreatedDateTime | timestampToTimezone: transportCallSelected.portOfCall)[1]}}"
                 style="width: 15%; opacity: 0.6;" [ngClass]="'timestampContent'">
-                {{(timestamp.logOfTimestamp | timestampToTimezone: timestamp.portOfCall)[0]}}
+                {{(timestampInfo.operationsEventTO.eventCreatedDateTime | timestampToTimezone: transportCallSelected.portOfCall)[0]}}
             </td>
-            <td pTooltip="UTC: {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall)[1]}}"
+            <td pTooltip="UTC: {{(timestampInfo.operationsEventTO.eventDateTime | timestampToTimezone: transportCallSelected.portOfCall)[1]}}"
                 style="width: 15%" [ngClass]="'timestampContent'">
-                {{(timestamp.eventDateTime | timestampToTimezone: timestamp.portOfCall)[0]}}
+                {{(timestampInfo.operationsEventTO.eventDateTime | timestampToTimezone: transportCallSelected.portOfCall)[0]}}
             </td>
             <td [ngClass]="'timestampContent'" style="width: 8%">
-                <div [ngClass]="'timestampContent'"> {{timestamp.portOfCall?.UNLocationCode}}</div>
-                <div class="rowDetails">{{timestamp.portOfCall?.unLocationName}}</div>
+                <div [ngClass]="'timestampContent'"> {{transportCallSelected.portOfCall?.UNLocationCode}}</div>
+                <div class="rowDetails">{{transportCallSelected.portOfCall?.UNLocationCode}}</div>
             </td>
             <td style="width: 6%" [ngClass]="'timestampContent'">
-                <div pTooltip="{{timestamp.eventLocation?.facilityCode}}" tooltipPosition="top"
-                    tooltipStyleClass="ToolTipClass">
-                    {{timestamp.eventLocation?.facilityCode}}</div>
+                <div pTooltip="{{timestampInfo.operationsEventTO.eventLocation.facilityCode}}" tooltipPosition="top"
+                     tooltipStyleClass="ToolTipClass">
+                    {{timestampInfo.operationsEventTO.eventLocation?.facilityCode}}</div>
 
-                <div *ngIf="timestamp.eventLocation?.facilityCode == null">
-                    <div *ngIf="timestamp.facilitySMDGCode != null" pTooltip="{{timestamp.facilitySMDGCode}}"
-                        tooltipPosition="top" tooltipStyleClass="ToolTipClass">
-                        {{timestamp.facilitySMDGCode}}
-                    </div>
-                    <div *ngIf="timestamp.facilitySMDGCode == null">
+                <div *ngIf="timestampInfo.operationsEventTO.eventLocation.facilityCode == null">
+                    <div *ngIf="timestampInfo.facilitySMDGCode == null">
                         N/A
                     </div>
                 </div>
             </td>
-            <td [ngClass]="'timestampContent'" style="width: 10%">{{ timestamp.eventLocation?.locationName }}</td>
-            <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'"
+            <td [ngClass]="'timestampContent'" style="width: 10%">{{ timestampInfo.operationsEventTO.eventLocation.locationName }}</td>
+            <td *ngIf="isOutGoing(timestampInfo) && timestampInfo.eventDeliveryStatus === 'DELIVERY_FINISHED'"
                 pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.grey' | translate }}"
                 tooltipPosition="top" tooltipStyleClass="ToolTipClass" [ngClass]="
         {
-        'outgoingDelivered': timestamp.eventDeliveryStatus === 'DELIVERY_FINISHED'
+        'outgoingDelivered': timestampInfo.eventDeliveryStatus === 'DELIVERY_FINISHED'
         }" style="width: 4%">
             </td>
-            <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'"
+            <td *ngIf="isOutGoing(timestampInfo) && timestampInfo.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'"
                 pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.red' | translate }}"
                 tooltipPosition="top" tooltipStyleClass="ToolTipClass" [ngClass]="
         {
-        'outgoingAttempted': timestamp.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'
+        'outgoingAttempted': timestampInfo.eventDeliveryStatus === 'ATTEMPTED_DELIVERY'
         }" style="width: 4%">
             </td>
-            <td *ngIf="isOutGoing(timestamp) && timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'"
+            <td *ngIf="isOutGoing(timestampInfo) && timestampInfo.eventDeliveryStatus === 'PENDING_DELIVERY'"
                 pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.yellow' | translate }}"
                 tooltipPosition="top" tooltipStyleClass="ToolTipClass" [ngClass]="
         {
-        'outgoingPending': timestamp.eventDeliveryStatus === 'PENDING_DELIVERY'
+        'outgoingPending': timestampInfo.eventDeliveryStatus === 'PENDING_DELIVERY'
         }" style="width: 4%">
             </td>
-            <td *ngIf="!isOutGoing(timestamp)" style="width: 4%" class="ingoing"
+            <td *ngIf="!isOutGoing(timestampInfo)" style="width: 4%" class="ingoing"
                 pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.green' | translate }}"
                 tooltipPosition="top" tooltipStyleClass="ToolTipClass">
             </td>
             <td [ngClass]="'timestampContent'" style="width: 12%">
                 <div class="col tableHeader gridButtons">
                     <div class="timestampContent__buttons dialogueBtn"
-                        *ngIf="timestamp.remark || timestamp.delayReasonCode">
-                        <p-button (onClick)="showComment(timestamp)" icon="pi pi-comment">
+                        *ngIf="timestampInfo.remark || timestampInfo.delayReasonCode">
+                        <p-button (onClick)="showComment(timestampInfo)" icon="pi pi-comment">
                         </p-button>
                     </div>
 
                     <div class="timestampContent__buttons acceptBtn"
-                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinitionTO?.acceptTimestampDefinition != null && !isOutGoing(timestamp)">
+                        *ngIf="timestampInfo.isLatestInCycle && isPrimaryReceiver(timestampInfo) && timestampInfo.timestampDefinitionTO?.acceptTimestampDefinition != null && !isOutGoing(timestampInfo)">
                         <p-button icon="pi pi-check"
-                            pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestamp.timestampDefinitionTO?.acceptTimestampDefinitionEntity.timestampTypeName}}"
+                            pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestampInfo.timestampDefinitionTO?.acceptTimestampDefinitionEntity.timestampTypeName}}"
                             tooltipPosition="left" tooltipStyleClass="ToolTipClass"
-                            (click)="openAcceptDialog(timestamp)"></p-button>
+                            (click)="openAcceptDialog(timestampInfo)"></p-button>
                     </div>
 
                     <div class="timestampContent__buttons declineBtn"
-                        *ngIf="timestamp.isLatestInCycle && isPrimary(timestamp) && timestamp.timestampDefinitionTO?.rejectTimestampDefinition != null && !isOutGoing(timestamp)">
+                        *ngIf="timestampInfo.isLatestInCycle && isPrimaryReceiver(timestampInfo) && timestampInfo.timestampDefinitionTO?.rejectTimestampDefinition != null && !isOutGoing(timestampInfo)">
                         <p-button icon="pi pi-times"
-                            pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestamp.timestampDefinitionTO?.rejectTimestampDefinitionEntity.timestampTypeName}}"
+                            pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestampInfo.timestampDefinitionTO?.rejectTimestampDefinitionEntity.timestampTypeName}}"
                             tooltipPosition="left" tooltipStyleClass="ToolTipClass"
-                            (click)="openRejectDialog(timestamp)"></p-button>
+                            (click)="openRejectDialog(timestampInfo)"></p-button>
                     </div>
                 </div>
-                <div *ngIf="!isPrimary(timestamp) && !isOutGoing(timestamp)">FYI</div>
+                <div *ngIf="!isPrimaryReceiver(timestampInfo) && !isOutGoing(timestampInfo)">FYI</div>
 
             </td>
 

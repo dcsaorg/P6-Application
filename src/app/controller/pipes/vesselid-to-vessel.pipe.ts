@@ -11,7 +11,6 @@ export class VesselIdToVesselPipe implements PipeTransform {
       id: vesselId,
       vesselIMONumber: '',
       vesselName: '',
-      serviceNameCode: '',
       vesselFlag: '',
       vesselCallSignNumber: '',
       vesselOperatorCarrierID: '',
