@@ -10,7 +10,6 @@ import { PortService } from "../../controller/services/base/port.service";
 import { take } from "rxjs/operators";
 import { VesselService } from "../../controller/services/base/vessel.service";
 import { Vessel } from "../../model/portCall/vessel";
-import { VesselIdToVesselPipe } from "../../controller/pipes/vesselid-to-vessel.pipe";
 import { TranslateService } from "@ngx-translate/core";
 import { TransportCall } from "../../model/jit/transport-call";
 import { TimestampEditorComponent } from "../timestamp-editor/timestamp-editor.component";
@@ -32,7 +31,6 @@ import {PublisherRole} from "../../model/enums/publisherRole";
 
   providers: [
     DialogService,
-    VesselIdToVesselPipe
   ]
 })
 export class TimestampTableComponent implements OnInit, OnChanges {

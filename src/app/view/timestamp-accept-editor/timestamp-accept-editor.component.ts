@@ -4,7 +4,6 @@ import { Port } from "../../model/portCall/port";
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { DelayCode } from "../../model/portCall/delayCode";
 import { DelayCodeService } from "../../controller/services/base/delay-code.service";
-import { VesselIdToVesselPipe } from "../../controller/pipes/vesselid-to-vessel.pipe";
 import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
 import { TransportCall } from "../../model/jit/transport-call";
 import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
@@ -24,7 +23,6 @@ import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequi
   styleUrls: ['./timestamp-accept-editor.component.scss'],
   providers: [
     DialogService,
-    VesselIdToVesselPipe
   ]
 })
 export class TimestampAcceptEditorComponent implements OnInit {
