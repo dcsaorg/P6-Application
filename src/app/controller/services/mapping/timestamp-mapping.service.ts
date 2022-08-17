@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {TransportCall} from "../../../model/jit/transport-call";
 import {map, mergeMap} from "rxjs/operators";
 import {Globals} from "../../../model/portCall/globals";
-import {OperationsEventsToTimestampsPipe} from "../../pipes/operations-events-to-timestamps.pipe";
 import {Timestamp} from "../../../model/jit/timestamp";
 import {TimestampService} from "../jit/timestamps.service";
 import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
@@ -21,7 +20,6 @@ export class TimestampMappingService {
   constructor(
     private timestampInfoService: TimestampInfoService,
     private globals: Globals,
-    private operationsEventsToTimestampsPipe: OperationsEventsToTimestampsPipe,
     private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
     private timestampDefinitionService: TimestampDefinitionService,
     private timestampService: TimestampService,

@@ -14,7 +14,6 @@ export class TimestampCommentDialogComponent implements OnInit {
   public timestamp: Timestamp;
   delayReasonCode: string;
   delayCode: DelayCode;
-  editMode: boolean;
 
   private previousDelayCode: string;
   private previousRemark: string;
@@ -31,7 +30,6 @@ export class TimestampCommentDialogComponent implements OnInit {
     this.previousDelayCode = this.timestamp.delayReasonCode;
     this.previousRemark = this.timestamp.remark;
     this.delayReasonCode = this.timestamp.delayReasonCode;
-    this.editMode = this.config.data.editMode;
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
 
