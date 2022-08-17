@@ -65,10 +65,8 @@ export class TimestampEditorComponent implements OnInit {
     eventClassifierCode: undefined,
     operationsEventTypeCode: undefined,
     eventDateTime: undefined,
-    modifiable: false,
     portOfCall: undefined,
     timestampDefinitionTO: undefined,
-    transportCallID: undefined,
     transportCallReference: undefined,
     carrierVoyageNumber: undefined
   };
@@ -282,7 +280,6 @@ export class TimestampEditorComponent implements OnInit {
   */
   private async generateDefaultTimestamp() {
     this.defaultTimestamp.logOfTimestamp = new Date();
-    this.defaultTimestamp.transportCallID = this.transportCall.transportCallID;
     this.defaultTimestamp.portOfCall = this.transportCall.portOfCall;
     this.defaultTimestamp.vesselIMONumber = this.transportCall.vesselIMONumber;
     this.defaultTimestamp.UNLocationCode = this.transportCall.UNLocationCode;

@@ -73,29 +73,7 @@ export interface Timestamp {
  */
   facilityCode?: string;
   /**
-* @deprecated
-*/
+  * Unofficial
+  */
   portOfCall?: Port;
-  /**
- * @deprecated
- */
-  modifiable?: boolean;
-  /**
-* @deprecated
-*/
-  transportCallID?: string;
-  /**
-* @deprecated
-*/
-  sequenceColor?: string;
-
-  /**
-* @deprecated
-*/
-  eventTimestamp?: string | Date;
-
-
-
-
-
 }

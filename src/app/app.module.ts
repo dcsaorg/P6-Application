@@ -45,11 +45,9 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {Globals} from "./model/portCall/globals";
 import {ConfigService} from "./controller/services/base/config.service";
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { OperationsEventsToTimestampsPipe } from './controller/pipes/operations-events-to-timestamps.pipe';
 import { TransportCallsTableComponent } from './view/transport-calls-table/transport-calls-table.component';
 import {PanelModule} from 'primeng/panel';
 import {MenuModule} from "primeng/menu";
-import { OperationsEventToTimestampPipe } from './controller/pipes/operations-event-to-timestamp.pipe';
 import { TransportCallCreatorComponent } from './view/transport-call-creator/transport-call-creator.component';
 import { TimestampToStandardizedtTimestampPipe } from "./controller/pipes/timestamp-to-standardized-timestamp";
 import { DashboardComponent } from './view/dashboard/dashboard.component';
@@ -84,9 +82,7 @@ export function ConfigLoader(configService: ConfigService) {
     VesselTooltipPipe,
     PortOfCallComponent,
     VesselIdToVesselPipe,
-    OperationsEventsToTimestampsPipe,
     TransportCallsTableComponent,
-    OperationsEventToTimestampPipe,
     TimestampToStandardizedtTimestampPipe,
     TransportCallCreatorComponent,
   ],
@@ -140,8 +136,6 @@ export function ConfigLoader(configService: ConfigService) {
     TransportCallFilterService,
     MessageService,
     Globals,
-    OperationsEventsToTimestampsPipe,
-    OperationsEventToTimestampPipe,
     TimestampToStandardizedtTimestampPipe,
     AuthService,
     {

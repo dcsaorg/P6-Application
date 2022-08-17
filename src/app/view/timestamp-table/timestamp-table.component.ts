@@ -180,7 +180,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestamp.delayReasonCode, null);
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
-      width: '50%', data: { timestamp: timestamp, delayCode: delayCode, editMode: timestamp.modifiable }
+      width: '50%', data: { timestamp: timestamp, delayCode: delayCode }
     }).onClose.subscribe((ts: Timestamp) => {
     });
   }
