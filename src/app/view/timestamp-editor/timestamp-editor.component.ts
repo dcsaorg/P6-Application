@@ -43,7 +43,6 @@ export class TimestampEditorComponent implements OnInit {
   timestampTypeSelected: AbstractControl;
   creationProgress: boolean = false;
   locationNameLabel: string;
-  ports: Port[] = [];
   transportCall: TransportCall;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
@@ -95,7 +94,6 @@ export class TimestampEditorComponent implements OnInit {
     this.timestamps = this.config.data.timestamps;
     this.transportCall = this.config.data.transportCall;
     this.respondingToTimestamp = this.config.data.respondingToTimestamp;
-    this.ports = this.config.data.ports;
     this.generateDefaultTimestamp();
     this.updateTerminalOptions(this.transportCall.portOfCall.UNLocationCode);
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

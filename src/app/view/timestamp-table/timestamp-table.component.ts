@@ -5,7 +5,6 @@ import {DelayCodeService} from "../../controller/services/base/delay-code.servic
 import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
 import {DelayCode} from "../../model/portCall/delayCode";
 import {DialogService} from "primeng/dynamicdialog";
-import {PortService} from "../../controller/services/base/port.service";
 import {take} from "rxjs/operators";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
@@ -41,7 +40,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   progressing: boolean = true;
   filterTerminals: any[] = [];
   filterTerminal: Terminal|null = null;
-  ports: Port[] = [];
   delayCodes: DelayCode[] = [];
   vessels: Vessel[] = [];
   portOfCall: Port;
@@ -55,7 +53,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   constructor(
     private delayCodeService: DelayCodeService,
-    private portService: PortService,
     private vesselService: VesselService,
     private dialogService: DialogService,
     private translate: TranslateService,
@@ -70,7 +67,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       // Triggered on vessel renames (etc.). Reload the timestamps (as each row show the vessel name)
       this.loadTimestamps()
     })
-    this.portService.getPorts().pipe(take(1)).subscribe(ports => this.ports = ports);
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.progressing = false;
     this.loadTimestamps()
@@ -206,7 +202,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         transportCall: this.transportCallSelected,
         timestamps: this.timestampInfos,
         respondingToTimestamp: timestamp,
-        ports: this.ports
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {
@@ -231,7 +226,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         transportCall: this.transportCallSelected,
         timestamps: this.timestampInfos,
         respondingToTimestamp: timestampShallowClone,
-        ports: this.ports,
         timestampResponseStatus: "Accepted"
       }
     });
@@ -256,7 +250,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         transportCall: this.transportCallSelected,
         timestamps: this.timestampInfos,
         respondingToTimestamp: timestampShallowClone,
-        ports: this.ports,
         timestampResponseStatus: "Rejected"
       }
     });
