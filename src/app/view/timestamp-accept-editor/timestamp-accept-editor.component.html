@@ -5,12 +5,12 @@
       <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
           : </label>
-        <span id="vesselName"> {{transportCall.vesselName}}</span>
+        <span id="vesselName"> {{ transportCall.vessel?.vesselName ?? "(Name not known)" }}</span>
       </div>
       <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
-        <span id="portOfCall" *ngIf="responseTimestamp.portOfCall != null">
-          {{$any(responseTimestamp.portOfCall).UNLocationCode}} </span>
+        <span id="portOfCall" *ngIf="transportCall.portOfCall != null">
+          {{ transportCall.portOfCall.UNLocationCode }} </span>
       </div>
       <div class="p-field col-12 md:col-4">
         <!-- Placeholder for additional information -->
@@ -26,13 +26,13 @@
           <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.acceptedLabel' |
             translate }}: </label>
           <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
-            responseTimestamp.portOfCall)[0]}}</span>
+            transportCall.portOfCall)[0]}}</span>
         </div>
         <div *ngIf="timestampResponseStatus != 'Accepted'">
           <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' |
             translate }}: </label>
           <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
-            responseTimestamp.portOfCall)[0]}}</span>
+            transportCall.portOfCall)[0]}}</span>
         </div>
       </div>
 
@@ -41,7 +41,7 @@
         <!-- Placeholder for additional information when rejecting timestamp -->
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.timestamp.acceptlabel' |
           translate }}</label>
-        <span style="font-weight: bold;">{{": " + responseTimestamp.timestampDefinitionTO.timestampTypeName}}</span>
+        <span style="font-weight: bold;">{{": " + responseTimestampDefinitionTO.timestampTypeName}}</span>
       </div>
     </div>
   </p-card>
@@ -95,7 +95,7 @@
         *ngIf="timestampFormGroup.get('locationName').hasError('required') && timestampFormGroup.get('locationName').touched"
         class="p-invalid">
         {{ 'general.transportCall.table.locationName.required' | translate }}
-        {{ this.responseTimestamp?.timestampDefinitionTO?.timestampTypeName }}
+        {{ responseTimestampDefinitionTO?.timestampTypeName }}
       </span>
     </div>
     <!-- Miles remaning -->

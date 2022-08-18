@@ -26,11 +26,6 @@ import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequi
   ]
 })
 export class TimestampAcceptEditorComponent implements OnInit {
-  @Input('vesselId') vesselId: number;
-  @Input('vesselSavedId') vesselSavedId: number;
-  @Input('portOfCall') portOfCall: Port;
-  @Input('TransportCallSelected') transportCallSelected: TransportCall;
-
   @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
 
   timestampFormGroup: FormGroup;
@@ -47,6 +42,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
   responseTimestamp: Timestamp;
   terminalOptions: SelectItem[] = [];
   timestampResponseStatus: string;
+  responseTimestampDefinitionTO: TimestampDefinitionTO;
 
 
   constructor(
@@ -69,6 +65,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     this.transportCall = this.config.data.transportCall;
     this.responseTimestamp = this.config.data.respondingToTimestamp;
     this.timestampResponseStatus = this.config.data.timestampResponseStatus
+    this.responseTimestampDefinitionTO = this.config.data.responseTimestampTO
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
     });
