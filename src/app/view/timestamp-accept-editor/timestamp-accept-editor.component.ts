@@ -178,11 +178,11 @@ export class TimestampAcceptEditorComponent implements OnInit {
     }
 
     const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;
-    const longtitude = this.timestampFormGroup.controls.vesselPositionLongitude.value;
-    if (latitude && longtitude) {
+    const longitude = this.timestampFormGroup.controls.vesselPositionLongitude.value;
+    if (latitude && longitude) {
       this.responseTimestamp.vesselPosition = new class implements VesselPosition {
         latitude: string = latitude;
-        longitude: string = longtitude;
+        longitude: string = longitude;
       }
     }
 
@@ -199,18 +199,19 @@ export class TimestampAcceptEditorComponent implements OnInit {
 
     // Post timestamp
     this.creationProgress = true;
-    this.timestampMappingService.addPortCallTimestamp(this.responseTimestamp).subscribe(() => {
-      this.creationProgress = false;
-      this.messageService.add(
-        {
-          key: 'TimestampAddSuccess',
-          severity: 'success',
-          summary: this.translate.instant('general.save.editor.success.summary'),
-          detail: this.translate.instant('general.save.editor.success.detail')
-        })
-      this.ref.close(this.responseTimestamp);
-    },
-      error => {
+    this.timestampMappingService.addPortCallTimestamp(this.responseTimestamp).subscribe({
+      next: () => {
+        this.creationProgress = false;
+        this.messageService.add(
+          {
+            key: 'TimestampAddSuccess',
+            severity: 'success',
+            summary: this.translate.instant('general.save.editor.success.summary'),
+            detail: this.translate.instant('general.save.editor.success.detail')
+          })
+        this.ref.close(this.responseTimestamp);
+      },
+      error: error => {
         this.messageService.add(
           {
             key: 'TimestampAddError',
@@ -219,7 +220,8 @@ export class TimestampAcceptEditorComponent implements OnInit {
             detail: this.translate.instant('general.save.editor.failure.detail') + error.message
           })
         this.creationProgress = false;
-      })
+      }
+    })
   }
 
   private setDefaultTimestampValues() {
