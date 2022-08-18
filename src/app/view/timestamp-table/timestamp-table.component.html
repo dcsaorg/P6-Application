@@ -12,6 +12,26 @@
         <div class="grid">
             <div class="col">{{'general.table.header.timestamps.label' | translate}}</div>
             <div class="col">
+              <p-dropdown  [disabled]="this.filterTerminals.length < 2"
+                           class="dropdown"
+                           (onChange)="terminalSelected()"
+                           [(ngModel)]="filterTerminal"
+                           [filter]="true"
+                           [options]="filterTerminals"
+                           filterBy="label,value.facilityName"
+                           appendTo="body">
+                <ng-template let-terminal pTemplate="item">
+                  <div *ngIf="!terminal.value">
+                    <div>Select Terminal</div>
+                  </div>
+                  <div *ngIf="terminal.value">
+                    <div>{{terminal.value.facilitySMDGCode}}</div>
+                    <div class="portListName">{{terminal.value.facilityName}}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            <div class="col">
                 <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="selectedNegotiationCycle"
                     [options]="negotiationCycles" [filter]=true filterBy="label" appendTo="body"
                     (onChange)="filterTimestamps()">

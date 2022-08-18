@@ -12,6 +12,7 @@ import {TimestampDefinitionService} from "../base/timestamp-definition.service";
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
 import {TimestampInfo} from "../../../model/jit/timestamp-info";
+import {Terminal} from "../../../model/portCall/terminal";
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +39,8 @@ export class TimestampMappingService {
   /*
   * A function that returns a list of portCall timestamps related to the transport Call .
   */
-  getPortCallTimestampsByTransportCall(transportCall: TransportCall, portCallPart?: string): Observable<TimestampInfo[]> {
-    return this.timestampInfoService.getTimestampInfoForTransportCall(transportCall?.transportCallID, portCallPart).pipe(
+  getPortCallTimestampsByTransportCall(transportCall: TransportCall, terminal: Terminal|null, portCallPart?: string): Observable<TimestampInfo[]> {
+    return this.timestampInfoService.getTimestampInfoForTransportCall(transportCall?.transportCallID, terminal?.facilitySMDGCode, portCallPart).pipe(
       mergeMap(timestampInfos =>
         this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
           map(timestampDefinitionsMap => {

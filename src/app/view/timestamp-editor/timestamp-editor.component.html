@@ -1,7 +1,7 @@
 <h4>For Transport-Call {{ transportCall.transportCallSequenceNumber}}
 </h4>
 <div class="headline">
-  <p-card styleClass="card-scondary">
+  <p-card styleClass="card-secondary">
     <div class="p-fluid p-formgrid grid">
       <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
@@ -91,8 +91,8 @@
       <span
         *ngIf="timestampFormGroup.get('locationName').hasError('required') && timestampFormGroup.get('locationName').touched"
         class="p-invalid">
-        {{ 'general.transportCall.table.locationName.required' | translate }} 
-        {{ this.timestampTypeSelected?.value.timestampTypeName }} 
+        {{ 'general.transportCall.table.locationName.required' | translate }}
+        {{ this.timestampTypeSelected?.value.timestampTypeName }}
       </span>
     </div>
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
