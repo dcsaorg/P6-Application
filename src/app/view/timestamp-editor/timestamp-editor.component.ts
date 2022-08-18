@@ -166,11 +166,11 @@ export class TimestampEditorComponent implements OnInit {
     }
 
     const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;
-    const longtitude = this.timestampFormGroup.controls.vesselPositionLongitude.value;
-    if (this.showVesselPosition() && latitude && longtitude) {
+    const longitude = this.timestampFormGroup.controls.vesselPositionLongitude.value;
+    if (this.showVesselPosition() && latitude && longitude) {
       timestamp.vesselPosition = new class implements VesselPosition {
         latitude: string = latitude;
-        longitude: string = longtitude;
+        longitude: string = longitude;
       }
     }
 
