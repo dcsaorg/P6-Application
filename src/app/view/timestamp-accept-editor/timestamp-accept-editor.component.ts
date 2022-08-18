@@ -16,6 +16,8 @@ import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 import { DateToUtcPipe } from 'src/app/controller/pipes/date-to-utc.pipe';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
+import {TimestampInfo} from "../../model/jit/timestamp-info";
+import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvider";
 
 @Component({
   selector: 'app-timestamp-accept-editor',
@@ -39,7 +41,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
   transportCall: TransportCall;
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
-  responseTimestamp: Timestamp;
+  respondingToTimestampInfo: TimestampInfo;
   terminalOptions: SelectItem[] = [];
   timestampResponseStatus: string;
   responseTimestampDefinitionTO: TimestampDefinitionTO;
@@ -63,7 +65,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
       this.updateDelayCodeOptions()
     });
     this.transportCall = this.config.data.transportCall;
-    this.responseTimestamp = this.config.data.respondingToTimestamp;
+    this.respondingToTimestampInfo = this.config.data.respondingToTimestamp;
     this.timestampResponseStatus = this.config.data.timestampResponseStatus
     this.responseTimestampDefinitionTO = this.config.data.responseTimestampTO
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
@@ -87,13 +89,13 @@ export class TimestampAcceptEditorComponent implements OnInit {
 
   showVesselPosition(): boolean {
     if (!this.globals.config.enableVesselPositions) return false;
-    this.VesselPositionLabel = this.responseTimestamp.timestampDefinitionTO.isVesselPositionNeeded;
+    this.VesselPositionLabel = this.responseTimestampDefinitionTO.isVesselPositionNeeded;
     return this.VesselPositionLabel ?? false;
   }
 
   showLocationNameOption(): boolean {
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.responseTimestamp.timestampDefinitionTO);
-    if (this.responseTimestamp.timestampDefinitionTO?.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.responseTimestampDefinitionTO);
+    if (this.responseTimestampDefinitionTO?.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
       this.timestampFormGroup.controls.locationName.setValidators([Validators.required]);
     } else{
       this.timestampFormGroup.controls.locationName.setValidators(null);
@@ -103,11 +105,11 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
 
   showTerminalOption(): boolean {
-    return this.responseTimestamp.timestampDefinitionTO.isTerminalNeeded ?? false;
+    return this.responseTimestampDefinitionTO.isTerminalNeeded ?? false;
   }
 
   showMilesToDestinationPortOption(): boolean {
-    return this.responseTimestamp.timestampDefinitionTO.isMilesToDestinationRelevant ?? false;
+    return this.responseTimestampDefinitionTO.isMilesToDestinationRelevant ?? false;
   }
 
   private updateDelayCodeOptions() {
@@ -122,7 +124,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.globals.terminals = terminals;
       this.terminalOptions = [];
-      const defaultTerminal  = terminals.find(terminal => terminal.facilitySMDGCode == this.responseTimestamp.facilitySMDGCode);
+      const defaultTerminal = terminals.find(terminal => terminal.facilitySMDGCode == this.respondingToTimestampInfo.operationsEventTO.eventLocation.facilityCode);
       this.timestampFormGroup.controls.terminal.setValue(defaultTerminal);
       this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
       terminals.forEach(terminal => {
@@ -149,54 +151,50 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
   savePortcallTimestamp() {
 
-    // Set delay code if specified
-    const delayCode = this.timestampFormGroup.controls.delayCode.value;
-    this.responseTimestamp.delayReasonCode = (delayCode ? delayCode.smdgCode : null);
-
-    // Nulled - as not to inherent older values
-    this.responseTimestamp.eventLocation = null;
-    this.responseTimestamp.vesselPosition = null;
-    this.responseTimestamp.facilitySMDGCode = null;
-    this.responseTimestamp.remark = this.timestampFormGroup.controls.remark.value;
-
     const terminalSelected = this.timestampFormGroup.controls.terminal.value;
-    if (this.responseTimestamp.timestampDefinitionTO.isTerminalNeeded) {
-      // Selected terminal is set (Whether inhereted or new).
-      this.responseTimestamp.facilitySMDGCode = (terminalSelected?.facilitySMDGCode ? terminalSelected?.facilitySMDGCode : null);
-    }
-
     const locationName = this.timestampFormGroup.controls.locationName.value;
-    if (this.locationNameLabel && locationName) {
-      // Present value on label is set (Whether inhereted or new).
-      this.responseTimestamp.eventLocation = new class implements EventLocation {
-        locationName: string
-      }
-      this.responseTimestamp.eventLocation.locationName = locationName;
+
+    const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
+    let vesselPosition : VesselPosition = null;
+    let eventDateTime : Date|string = this.respondingToTimestampInfo.operationsEventTO.eventDateTime;
+    // Only update eventDateTime of timestamp when rejecting
+    if (this.timestampResponseStatus == 'Rejected' && this.eventTimestampDate.value && this.eventTimestampTime.value) {
+      eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
     }
 
     const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;
     const longitude = this.timestampFormGroup.controls.vesselPositionLongitude.value;
     if (latitude && longitude) {
-      this.responseTimestamp.vesselPosition = new class implements VesselPosition {
-        latitude: string = latitude;
-        longitude: string = longitude;
+      vesselPosition = {
+        latitude: latitude,
+        longitude: longitude,
       }
     }
 
-    const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
-    if (milesToDestinationPort) {
-      // Present value on label is set (Whether inhereted or new).
-      this.responseTimestamp.milesToDestinationPort = Number(milesToDestinationPort);
-    }
+    let newTimestamp : Timestamp = this.timestampMappingService.createTimestampStub(
+      this.transportCall,
+      this.responseTimestampDefinitionTO,
+      this.respondingToTimestampInfo?.operationsEventTO,
+    )
 
-    // Only update eventDateTime of timestamp when rejecting
-    if (this.timestampResponseStatus == 'Rejected' && this.eventTimestampDate.value && this.eventTimestampTime.value) {
-      this.responseTimestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
+    // TODO: Let the user choose the role
+    newTimestamp.publisherRole = this.timestampMappingService.overlappingPublisherRoles(this.responseTimestampDefinitionTO)[0]
+    newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
+    newTimestamp.eventLocation.facilityCode = terminalSelected.facilitySMDGCode
+    newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
+    newTimestamp.delayReasonCode = this.timestampFormGroup.controls.delayCode.value?.smdgCode
+    newTimestamp.milesToDestinationPort = milesToDestinationPort ? Number(milesToDestinationPort) : null
+    newTimestamp.remark = this.timestampFormGroup.controls.remark.value
+    newTimestamp.eventDateTime = eventDateTime
+    newTimestamp.vesselPosition = vesselPosition;
+
+    if (this.locationNameLabel && locationName) {
+      newTimestamp.eventLocation.locationName = locationName
     }
 
     // Post timestamp
     this.creationProgress = true;
-    this.timestampMappingService.addPortCallTimestamp(this.responseTimestamp).subscribe({
+    this.timestampMappingService.addPortCallTimestamp(newTimestamp).subscribe({
       next: () => {
         this.creationProgress = false;
         this.messageService.add(
@@ -206,7 +204,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
             summary: this.translate.instant('general.save.editor.success.summary'),
             detail: this.translate.instant('general.save.editor.success.detail')
           })
-        this.ref.close(this.responseTimestamp);
+        this.ref.close(newTimestamp);
       },
       error: error => {
         this.messageService.add(
@@ -222,10 +220,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
 
   private setDefaultTimestampValues() {
-    this.timestampFormGroup.controls.locationName.setValue(this.responseTimestamp.eventLocation?.locationName);
-    this.timestampFormGroup.controls.vesselPositionLatitude.setValue(this.responseTimestamp.vesselPosition?.latitude);
-    this.timestampFormGroup.controls.vesselPositionLongitude.setValue(this.responseTimestamp.vesselPosition?.longitude);
-    this.timestampFormGroup.controls.milesToDestinationPort.setValue(this.responseTimestamp?.milesToDestinationPort);
+    this.timestampFormGroup.controls.locationName.setValue(this.respondingToTimestampInfo.operationsEventTO.eventLocation.locationName);
   }
 
   close() {
