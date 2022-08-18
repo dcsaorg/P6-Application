@@ -39,7 +39,6 @@ export class TimestampAcceptEditorComponent implements OnInit {
   creationProgress: boolean = false;
   locationNameLabel: string;
   milesToDestinationPort: string;
-  ports: Port[] = [];
 
   VesselPositionLabel: boolean;
   transportCall: TransportCall;
@@ -70,7 +69,6 @@ export class TimestampAcceptEditorComponent implements OnInit {
     this.transportCall = this.config.data.transportCall;
     this.responseTimestamp = this.config.data.respondingToTimestamp;
     this.timestampResponseStatus = this.config.data.timestampResponseStatus
-    this.ports = this.config.data.ports;
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
     });
