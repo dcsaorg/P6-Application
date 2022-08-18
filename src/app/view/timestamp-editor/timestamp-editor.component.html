@@ -22,11 +22,11 @@
         <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
       </div>
 
-      <div class="p-field col-12 md:col-4" *ngIf="respondingToTimestamp != null">
+      <div class="p-field col-12 md:col-4" *ngIf="respondingToTimestampInfo != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' |
           translate }}: </label>
-        <span style="font-weight: bold;">{{ " " +(respondingToTimestamp.eventDateTime | timestampToTimezone:
+        <span style="font-weight: bold;">{{ " " +(respondingToTimestampInfo.operationsEventTO.eventDateTime | timestampToTimezone:
           transportCall.portOfCall)[0]}}</span>
       </div>
     </div>
@@ -172,9 +172,9 @@
     <p-button (onClick)="close()" class="footer_option__buttons" icon="pi pi-times-circle"
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
-    <p-button (onClick)="savePortcallTimestamp(defaultTimestamp)" class="footer_option__buttons"
-      [disabled]="validatePortOfCallTimestamp() || timestampFormGroup.invalid" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}"
-      iconPos="left">
+    <p-button (onClick)="saveTimestamp()" class="footer_option__buttons"
+              [disabled]="validatePortOfCallTimestamp() || timestampFormGroup.invalid" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}"
+              iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
     </p-button>

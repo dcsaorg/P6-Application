@@ -149,7 +149,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
       );
     }
   }
-  savePortcallTimestamp() {
+  saveTimestamp() {
 
     const terminalSelected = this.timestampFormGroup.controls.terminal.value;
     const locationName = this.timestampFormGroup.controls.locationName.value;
