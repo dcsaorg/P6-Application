@@ -63,8 +63,4 @@ export interface Timestamp {
 */
   facilitySMDGCode?: string;
 
-  /**
-  * Unofficial
-  */
-  portOfCall?: Port;
 }

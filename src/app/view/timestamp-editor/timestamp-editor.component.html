@@ -10,9 +10,8 @@
       </div>
       <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
-        <span id="portOfCall" *ngIf="defaultTimestamp.portOfCall != null">
-          {{$any(defaultTimestamp.portOfCall).UNLocationCode}} </span>
-        <!-- {{defaultTimestamp.portOfCall.unLocode}} </span> -->
+        <span id="portOfCall" *ngIf="transportCall.portOfCall != null">
+          {{transportCall.portOfCall.UNLocationCode}} </span>
       </div>
       <div class="p-field col-12 md:col-4">
         <!-- Placeholder for additional information -->
@@ -28,7 +27,7 @@
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' |
           translate }}: </label>
         <span style="font-weight: bold;">{{ " " +(respondingToTimestamp.eventDateTime | timestampToTimezone:
-          respondingToTimestamp.portOfCall)[0]}}</span>
+          transportCall.portOfCall)[0]}}</span>
       </div>
     </div>
   </p-card>
