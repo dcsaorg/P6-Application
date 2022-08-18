@@ -20,24 +20,24 @@
           : </label>
         <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
       </div>
-      <div class="p-field col-12 md:col-4" *ngIf="responseTimestamp != null">
+      <div class="p-field col-12 md:col-4" *ngIf="respondingToTimestampInfo != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
         <div *ngIf="timestampResponseStatus == 'Accepted'">
           <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.acceptedLabel' |
             translate }}: </label>
-          <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
+          <span style="font-weight: bold;">{{ " " +(respondingToTimestampInfo.operationsEventTO.eventDateTime | timestampToTimezone:
             transportCall.portOfCall)[0]}}</span>
         </div>
         <div *ngIf="timestampResponseStatus != 'Accepted'">
           <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' |
             translate }}: </label>
-          <span style="font-weight: bold;">{{ " " +(responseTimestamp.eventDateTime | timestampToTimezone:
+          <span style="font-weight: bold;">{{ " " +(respondingToTimestampInfo.operationsEventTO.eventDateTime | timestampToTimezone:
             transportCall.portOfCall)[0]}}</span>
         </div>
       </div>
 
-      <div class="p-field col-12 md:col-2" *ngIf="responseTimestamp != null"></div>
-      <div class="p-field col-12 md:col-4" *ngIf="responseTimestamp != null">
+      <div class="p-field col-12 md:col-2" *ngIf="respondingToTimestampInfo != null"></div>
+      <div class="p-field col-12 md:col-4" *ngIf="respondingToTimestampInfo != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
         <label class="label-compressed" for="eventtimestamp">{{'general.table.header.timestamp.acceptlabel' |
           translate }}</label>
@@ -49,7 +49,7 @@
 
 <div class="p-fluid p-formgrid grid" [formGroup]="timestampFormGroup">
 
-  <div class="p-field col-12 md:col-5" *ngIf="responseTimestamp != null && timestampResponseStatus == 'Rejected'">
+  <div class="p-field col-12 md:col-5" *ngIf="respondingToTimestampInfo != null && timestampResponseStatus == 'Rejected'">
     <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
 
     <div class="p-fluid p-formgrid grid">

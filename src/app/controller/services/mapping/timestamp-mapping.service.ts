@@ -13,6 +13,9 @@ import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequire
 import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
 import {TimestampInfo} from "../../../model/jit/timestamp-info";
 import {Terminal} from "../../../model/portCall/terminal";
+import {PublisherRole} from "../../../model/enums/publisherRole";
+import {OperationsEvent} from "../../../model/jit/operations-event";
+import {FacilityCodeListProvider} from "../../../model/enums/facilityCodeListProvider";
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +35,69 @@ export class TimestampMappingService {
   private readonly locationNameAnchorage: string = "Anchorage Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
-    this.ensureVoyageNumbers(timestamp);
-    return this.timestampService.addTimestamp(this.timestampToStandardizedTimestampPipe.transform(timestamp, this.globals.config))
+    return this.timestampService.addTimestamp(timestamp)
+  }
+
+  overlappingPublisherRoles(timestampDefinition: TimestampDefinitionTO): PublisherRole[] {
+    const userRoles = this.globals.config.publisherRoles
+    const rolesForTimestamp = timestampDefinition.publisherPattern.map(p => p.publisherRole)
+    return userRoles.filter((val1) => {
+      return rolesForTimestamp.find((val2) => val1 === val2);
+    }).sort((a, b) => {
+      // Sort generally by name, but prefer CA over AG (the roles are presented in order CA, AG, VSL)
+      if (a == b) {
+        return 0;
+      }
+      if (a == PublisherRole.CA && b == PublisherRole.AG) {
+        return -1
+      }
+      if (b == PublisherRole.AG && a == PublisherRole.CA) {
+        return 1
+      }
+      return a < b ? -1 : 1;
+    });
+  }
+
+  createTimestampStub(transportCall: TransportCall, timestampDefinition: TimestampDefinitionTO, operationsEvent?: OperationsEvent): Timestamp {
+    const facilityCode = timestampDefinition.isTerminalNeeded ? operationsEvent?.eventLocation.facilityCode : null
+    return {
+      publisher: this.globals.config.publisher,
+      // we do not pass on the same location by default.
+      eventLocation: {
+        UNLocationCode: transportCall.location.UNLocationCode,
+        facilityCode: facilityCode,
+        facilityCodeListProvider: facilityCode ? FacilityCodeListProvider.SMDG : null
+      },
+      UNLocationCode: transportCall.location.UNLocationCode,
+      facilitySMDGCode: facilityCode,
+      carrierServiceCode: transportCall.carrierServiceCode,
+      carrierVoyageNumber: transportCall.carrierVoyageNumber ?? transportCall.carrierExportVoyageNumber,
+      carrierExportVoyageNumber: transportCall.carrierExportVoyageNumber,
+      carrierImportVoyageNumber: transportCall.carrierImportVoyageNumber,
+      vesselIMONumber: transportCall.vesselIMONumber,
+      // The vessel from TC does not use the same layout as vessel in the timestamp (e.g., vesselName vs. name).
+      // For now, we just omit vessel.
+      vessel: null,
+
+      // Echo from the OE in case the port visit and the OE uses a different number.  It is not 100% reliable
+      // if the timestamp ends up being for a different terminal, but we can also solve so much with a guess.
+      transportCallSequenceNumber: operationsEvent ? operationsEvent.transportCall.transportCallSequenceNumber : transportCall.transportCallSequenceNumber,
+
+      // Timestamp discriminators
+      eventClassifierCode: timestampDefinition.eventClassifierCode,
+      operationsEventTypeCode: timestampDefinition.operationsEventTypeCode,
+      facilityTypeCode: timestampDefinition.facilityTypeCode,
+      portCallPhaseTypeCode: timestampDefinition.portCallPhaseTypeCode,
+      portCallServiceTypeCode: timestampDefinition.portCallServiceTypeCode,
+
+      // To be filled by the caller
+      publisherRole: null,
+      delayReasonCode: null,
+      milesToDestinationPort: null,
+      remark: null,
+      eventDateTime: null,
+    }
+
   }
 
   /*
@@ -65,18 +129,6 @@ export class TimestampMappingService {
         ))
     )
   }
-
-
-  // Align voyageNumbers (JIT 1.x) before posting timestamp
-  ensureVoyageNumbers(timestamp: Timestamp) {
-    if (timestamp.carrierVoyageNumber === undefined || timestamp.carrierVoyageNumber === null) {
-      if (timestamp.importVoyageNumber) { timestamp.carrierVoyageNumber = timestamp.importVoyageNumber }
-      if (timestamp.exportVoyageNumber) { timestamp.carrierVoyageNumber = timestamp.exportVoyageNumber }       // we overwrite with exportVoyageNumber if exist
-    }
-    timestamp.importVoyageNumber = !timestamp.importVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.importVoyageNumber;
-    timestamp.exportVoyageNumber = !timestamp.exportVoyageNumber ? timestamp.carrierVoyageNumber : timestamp.exportVoyageNumber;
-  }
-
 
   getLocationNameOptionLabel(timestampType: TimestampDefinitionTO): string {
     if (timestampType?.eventLocationRequirement == EventLocationRequirement.OPTIONAL ||
