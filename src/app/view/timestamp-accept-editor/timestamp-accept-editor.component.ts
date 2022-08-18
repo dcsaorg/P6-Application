@@ -84,7 +84,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
       locationName: new FormControl(null)
     });
     this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
-    this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampDate;
+    this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampTime;
     this.setDefaultTimestampValues();
   }
 
@@ -135,8 +135,8 @@ export class TimestampAcceptEditorComponent implements OnInit {
   }
   setEventTimestampToNow() {
     let eventTimestampDat = new Date();
-    this.eventTimestampTime.setValue(
-      this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes()));
+    let formattedTime = this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes());
+    this.eventTimestampTime.setValue(formattedTime);
   }
 
   private leftPadWithZero(item: number): String {
@@ -193,7 +193,7 @@ export class TimestampAcceptEditorComponent implements OnInit {
     }
 
     // Only update eventDateTime of timestamp when rejecting
-    if (this.timestampResponseStatus == 'Rejected' && this.eventTimestampDate && this.eventTimestampTime) {
+    if (this.timestampResponseStatus == 'Rejected' && this.eventTimestampDate.value && this.eventTimestampTime.value) {
       this.responseTimestamp.eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
     }
 
