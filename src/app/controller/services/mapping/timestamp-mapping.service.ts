@@ -81,16 +81,16 @@ export class TimestampMappingService {
   getLocationNameOptionLabel(timestampType: TimestampDefinitionTO): string {
     if (timestampType?.eventLocationRequirement == EventLocationRequirement.OPTIONAL ||
       timestampType?.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
-    if (timestampType?.facilityTypeCode == FacilityTypeCode.BRTH) {
-      return this.locationNameBerth;
+      if (timestampType?.facilityTypeCode == FacilityTypeCode.BRTH) {
+        return this.locationNameBerth;
+      }
+      if (timestampType?.facilityTypeCode == FacilityTypeCode.PBPL) {
+        return this.locationNamePBP;
+      }
+      if (timestampType?.facilityTypeCode == FacilityTypeCode.ANCH) {
+        return this.locationNameAnchorage;
+      }
     }
-    if (timestampType?.facilityTypeCode == FacilityTypeCode.PBPL) {
-      return this.locationNamePBP;
-    }
-    if (timestampType?.facilityTypeCode == FacilityTypeCode.ANCH) {
-      return this.locationNameAnchorage;
-    }
-  }
     return undefined;
   }
 }
