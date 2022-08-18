@@ -14,7 +14,6 @@ import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
 import { Vessel } from "../portCall/vessel";
 
 export interface Timestamp {
-  transportCallReference: string;
   publisher: Publisher;
   publisherRole: PublisherRole;
   UNLocationCode: string;
@@ -29,14 +28,10 @@ export interface Timestamp {
   carrierServiceCode?: string;
   remark?: string;
   delayReasonCode?: string;
-  eventDeliveryStatus?: string;
-  isLatestInCycle?: boolean;
-  negotiationCycle?: NegotiationCycle;
   timestampDefinitionTO?: TimestampDefinitionTO;
-  logOfTimestamp?: string | Date;
   carrierExportVoyageNumber?: string;
   carrierImportVoyageNumber?: string;
-  vessel?:  number | Vessel;
+  vessel?:  Vessel;
   portVisitReference?: string;
   milesToDestinationPort?: number;
   transportCallSequenceNumber?: number;
@@ -68,10 +63,6 @@ export interface Timestamp {
 */
   facilitySMDGCode?: string;
 
-  /**
- * @deprecated
- */
-  facilityCode?: string;
   /**
   * Unofficial
   */

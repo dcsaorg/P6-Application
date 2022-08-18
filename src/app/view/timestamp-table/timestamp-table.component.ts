@@ -214,7 +214,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   openAcceptDialog(timestamp: Timestamp) {
     let timestampShallowClone = Object.assign({}, timestamp);
     timestampShallowClone.timestampDefinitionTO = timestamp.timestampDefinitionTO.acceptTimestampDefinitionEntity;
-    timestampShallowClone.logOfTimestamp = new Date();
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.
     timestampShallowClone.remark = null;
@@ -225,6 +224,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       data: {
         transportCall: this.transportCallSelected,
         timestamps: this.timestampInfos,
+        responseTimestampTO: timestamp.timestampDefinitionTO.acceptTimestampDefinitionEntity,
         respondingToTimestamp: timestampShallowClone,
         timestampResponseStatus: "Accepted"
       }
@@ -238,7 +238,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   openRejectDialog(timestamp: Timestamp) {
     let timestampShallowClone = Object.assign({}, timestamp);
     timestampShallowClone.timestampDefinitionTO = timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity;
-    timestampShallowClone.logOfTimestamp = new Date();
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.
     timestampShallowClone.remark = null;
@@ -249,6 +248,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       data: {
         transportCall: this.transportCallSelected,
         timestamps: this.timestampInfos,
+        responseTimestampTO: timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity,
         respondingToTimestamp: timestampShallowClone,
         timestampResponseStatus: "Rejected"
       }

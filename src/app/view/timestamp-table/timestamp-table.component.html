@@ -125,8 +125,8 @@
     <ng-template pTemplate="body" let-timestampInfo>
 
         <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestampInfo.isLatestInCycle == false}">
-            <td pTooltip="Publisher: {{timestampInfo.publisher?.partyName}}
-          PublisherRole: {{timestampInfo.publisherRole}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass"
+            <td pTooltip="Publisher: {{timestampInfo.operationsEventTO.publisher?.partyName}}
+          PublisherRole: {{timestampInfo.operationsEventTO.publisherRole}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass"
                 style="width: 3px;" [ngStyle]="{'background-color': timestampInfo.sequenceColor}"></td>
             <td style="width: 8%" [ngClass]="'timestampContent'">
                 <div>{{ timestampInfo.operationsEventTO.transportCall.vessel.vesselName }}</div>
@@ -189,7 +189,7 @@
             <td [ngClass]="'timestampContent'" style="width: 12%">
                 <div class="col tableHeader gridButtons">
                     <div class="timestampContent__buttons dialogueBtn"
-                        *ngIf="timestampInfo.remark || timestampInfo.delayReasonCode">
+                        *ngIf="timestampInfo.operationsEventTO.remark || timestampInfo.operationsEventTO.delayReasonCode">
                         <p-button (onClick)="showComment(timestampInfo)" icon="pi pi-comment">
                         </p-button>
                     </div>
@@ -224,9 +224,6 @@
         </tr>
     </ng-template>
 </p-table>
-
-<p-confirmDialog key="deletetimestamp" header="Confirmation" icon="pi pi-exclamation-triangle" appendTo="body">
-</p-confirmDialog>
 
 <p-toast key="TimestampToast" position="bottom-right"></p-toast>
 <p-toast key="TimestampAddSuccess" position="bottom-right"></p-toast>
