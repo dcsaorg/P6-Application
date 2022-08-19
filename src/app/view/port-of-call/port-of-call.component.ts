@@ -16,14 +16,11 @@ import { TransportCallFilterService } from 'src/app/controller/services/base/tra
 })
 export class PortOfCallComponent implements OnInit {
   portOfCall: Port;
-  terminal: Terminal;
-  terminalOptions: SelectItem[] = [];
   portOptions: SelectItem[] = [];
 
   @Output() portOfCallNotifier: EventEmitter<Port> = new EventEmitter<Port>()
 
   constructor(private portService: PortService,
-              private terminalService: TerminalService,
               private translate: TranslateService,
               private portFilterService: TransportCallFilterService,
               public globals: Globals) {
@@ -31,7 +28,6 @@ export class PortOfCallComponent implements OnInit {
 
   ngOnInit(): void {
     this.updatePortOfcallOptions();
-    //this.updateTerminalOptions();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.updatePortOfcallOptions();
@@ -39,28 +35,9 @@ export class PortOfCallComponent implements OnInit {
   }
 
   selectPortOfCall = () => {
-    this.updateTerminalOptions(this.portOfCall?.UNLocationCode); // NULL?
     this.portOfCallNotifier.emit(this.portOfCall);
     this.portFilterService.updatePortFilter(this.portOfCall)
   };
-  selectTerminal = () => {
-    this.portFilterService.updateTerminalFilter(this.terminal)
-  }
-
-  updateTerminalOptions(UNLocationCode:string) {
-
-    this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
-      this.globals.terminals = terminals;
-      this.terminalOptions = [];
-      this.terminalOptions.push({label: this.translate.instant('general.terminal.select'), value: null});
-      terminals.forEach(terminal => {
-        if ((this.portOfCall)  ) {
-          this.terminalOptions.push({label: terminal.facilitySMDGCode, value: terminal})
-        }
-      });
-    })
-
-  }
 
   updatePortOfcallOptions() {
     this.portService.getPorts().subscribe(ports => {

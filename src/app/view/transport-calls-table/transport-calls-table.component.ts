@@ -26,7 +26,6 @@ export class TransportCallsTableComponent implements OnInit {
   transportCalls: TransportCall[] = []
   selectedtransportCall: TransportCall;
   filterPort: Port;
-  filterTerminal: Terminal;
   filterVessel: Vessel;
   ports: Port[] = [];
   progressing: boolean = true;
@@ -51,10 +50,6 @@ export class TransportCallsTableComponent implements OnInit {
     })
     this.portFilterService.portObservable.subscribe(async port => {
       this.filterPort = port
-      await this.refreshTransportCalls()
-    })
-    this.portFilterService.terminalObservable.subscribe(async terminal => {
-      this.filterTerminal = terminal
       await this.refreshTransportCalls()
     })
     this.portFilterService.vesselObservable.subscribe(async vessel => {
@@ -93,7 +88,7 @@ export class TransportCallsTableComponent implements OnInit {
 
   async loadTransportCalls(): Promise<TransportCall[]> {
     return new Promise(resolve => {
-      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterTerminal?.facilitySMDGCode, this.filterVessel?.vesselIMONumber).subscribe(transportCalls => {
+      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterVessel?.vesselIMONumber).subscribe(transportCalls => {
         this.progressing = false;
         this.transportCalls = transportCalls;
         resolve(transportCalls)

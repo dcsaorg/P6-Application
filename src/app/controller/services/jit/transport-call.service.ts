@@ -22,18 +22,13 @@ export class TransportCallService {
     this.TRANSPORT_CALL_URL = globals.config.uiSupportBackendURL + "/unofficial/transport-calls"
   }
 
-  getTransportCalls(unLocode? : string, smdgCode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
-    let httpParams = new HttpParams().set('sort', 'latestEventCreatedDateTime:DESC')
+  getTransportCalls(unLocode? : string, vesselIMONumber? : string): Observable<TransportCall[]> {
+    let httpParams = new HttpParams()
     if(unLocode != null) {
-      httpParams = httpParams.set('facility.UNLocationCode', unLocode)
-      if(smdgCode != null) {
-        httpParams = httpParams.set('facility.facilitySMGDCode', smdgCode)
-      }
+      httpParams = httpParams.set('UNLocationCode', unLocode)
     }
     if (vesselIMONumber) {
-      httpParams = httpParams.set('vessel.vesselIMONumber', vesselIMONumber);
-    } else {
-      httpParams = httpParams.set('vessel.vesselIMONumber:neq', 'NULL');
+      httpParams = httpParams.set('vesselIMONumber', vesselIMONumber);
     }
     return this.httpClient.get<TransportCall[]>(this.TRANSPORT_CALL_URL, {
      params: httpParams
