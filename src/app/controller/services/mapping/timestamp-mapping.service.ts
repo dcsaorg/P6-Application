@@ -74,7 +74,7 @@ export class TimestampMappingService {
       carrierVoyageNumber: transportCall.carrierVoyageNumber ?? transportCall.carrierExportVoyageNumber,
       carrierExportVoyageNumber: transportCall.carrierExportVoyageNumber,
       carrierImportVoyageNumber: transportCall.carrierImportVoyageNumber,
-      vesselIMONumber: transportCall.vesselIMONumber,
+      vesselIMONumber: transportCall.vessel.vesselIMONumber,
       // The vessel from TC does not use the same layout as vessel in the timestamp (e.g., vesselName vs. name).
       // For now, we just omit vessel.
       vessel: null,

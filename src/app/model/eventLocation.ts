@@ -1,13 +1,11 @@
-import { Address } from "../model/address";
+import { Address } from "./address";
 
 export interface EventLocation {
-    locationName?: string; 
+    locationName?: string;
     latitude?: string;
     longitude?: string;
-    publicKey?: string;
     UNLocationCode?: string;
     address?: Address;
-    facilityCode?:string; 
+    facilityCode?:string;
     facilityCodeListProvider?: string;
   }
-  

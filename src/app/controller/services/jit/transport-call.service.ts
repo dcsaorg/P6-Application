@@ -40,7 +40,6 @@ export class TransportCallService {
     }).pipe(
       mergeMap((transportCalls => {
         return from(transportCalls).pipe(
-           map(this.extractVesselAttributes),
           map((transportCall) => {
             if (transportCall.UNLocationCode == null) {
                 transportCall.UNLocationCode = transportCall.location?.UNLocationCode;
@@ -63,15 +62,4 @@ export class TransportCallService {
   addTransportCall = (transportCall: TransportCall): Observable<TransportCall> =>
     this.httpClient.post<TransportCall>(this.TRANSPORT_CALL_URL, transportCall)
 
-
-  private extractVesselAttributes(transportCall: TransportCall) {
-    if (transportCall['vessel'] === undefined || transportCall['vessel'] === null) {
-      transportCall.vesselName = null;
-      transportCall.vesselIMONumber = null;
-    } else {
-      transportCall.vesselName = transportCall['vessel']['vesselName'];
-      transportCall.vesselIMONumber = transportCall['vessel']['vesselIMONumber'];
-    }
-    return transportCall
-  }
 }
