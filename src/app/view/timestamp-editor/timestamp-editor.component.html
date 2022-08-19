@@ -6,7 +6,7 @@
       <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
           : </label>
-        <span id="vesselName"> {{transportCall.vesselName}}</span>
+        <span id="vesselName"> {{transportCall.vessel.vesselName ?? "(Name not known)"}}</span>
       </div>
       <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
@@ -19,7 +19,7 @@
       <div class="p-field col-12 md:col-4">
         <label class="label-compressed" for="vesselIMO">{{'general.transportCall.table.vesselImo.label'| translate}}
           : </label>
-        <span id="vesselIMO"> {{transportCall.vesselIMONumber}}</span>
+        <span id="vesselIMO"> {{transportCall.vessel.vesselIMONumber}}</span>
       </div>
 
       <div class="p-field col-12 md:col-4" *ngIf="respondingToTimestampInfo != null">

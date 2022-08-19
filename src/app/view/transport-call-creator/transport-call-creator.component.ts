@@ -17,18 +17,14 @@ import {DelayCode} from "../../model/portCall/delayCode";
 import {Timestamp} from "../../model/jit/timestamp";
 import {DelayCodeService} from "../../controller/services/base/delay-code.service";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {EventClassifierCode} from "../../model/jit/event-classifier-code";
-import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
-import {Publisher} from "../../model/publisher";
-import {PublisherRole} from "../../model/enums/publisherRole";
 import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
 import {EventLocation} from "../../model/eventLocation";
 import {VesselPosition} from "../../model/vesselPosition";
-import { PortService } from 'src/app/controller/services/base/port.service';
-import { TerminalService } from 'src/app/controller/services/base/terminal.service';
+import {PortService} from 'src/app/controller/services/base/port.service';
+import {TerminalService} from 'src/app/controller/services/base/terminal.service';
 import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
+import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -45,15 +41,12 @@ export class TransportCallCreatorComponent implements OnInit {
   vessels: Vessel[] = [];
 
 
-  timestamp: Timestamp;
   eventTimestampDate: Date;
   eventTimestampTime: string;
-  timestampSelected: TimestampDefinitionTO;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
-  delayCode: DelayCode;
   timestampChecking: boolean;
   locationNameLabel: string;
 
@@ -245,8 +238,8 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   canCreateTimestamp(): boolean {
-    this.timestampSelected = this.transportCallFormGroup.controls.timestampType.value;
-    return this.timestampSelected != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
+    const timestampSelected = this.transportCallFormGroup.controls.timestampType.value;
+    return timestampSelected != null && this.transportCallFormGroup.controls.eventTimestampDate.value && this.transportCallFormGroup.controls.eventTimestampTime.value;
   }
 
   createButtonText(): string {
@@ -281,8 +274,8 @@ export class TransportCallCreatorComponent implements OnInit {
       latestEventCreatedDateTime: Date;
     }
 
-    let terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
-    let port: Port = this.transportCallFormGroup.controls.port.value
+    const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
+    const port: Port = this.transportCallFormGroup.controls.port.value
 
     transportCall.transportCallSequenceNumber = 1;
     transportCall.modeOfTransport = "VESSEL";
@@ -293,85 +286,69 @@ export class TransportCallCreatorComponent implements OnInit {
     transportCall.exportVoyageNumber = this.transportCallFormGroup.controls.exportVoyageNumber.value;
     transportCall.importVoyageNumber = this.transportCallFormGroup.controls.importVoyageNumber.value;
 
-    if(!transportCall.importVoyageNumber){
+    if (!transportCall.importVoyageNumber){
       transportCall.importVoyageNumber = transportCall.exportVoyageNumber
     }
+    transportCall.carrierVoyageNumber = transportCall.exportVoyageNumber
 
     transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
     transportCall.facilityTypeCode = FacilityTypeCode.POTE
-
-    // Timestamp
-    this.timestampSelected = this.transportCallFormGroup.controls.timestampType.value;
-    let createTimestamp = this.canCreateTimestamp();
-
-    this.timestamp = new class implements Timestamp {
-      UNLocationCode: string;
-      eventClassifierCode: EventClassifierCode;
-      eventDateTime: Date | string;
-      facilityTypeCode: FacilityTypeCode;
-      operationsEventTypeCode: OperationsEventTypeCode;
-      publisher: Publisher;
-      publisherRole: PublisherRole;
-      vesselIMONumber: string;
-      delayReasonCode: string;
-      transportCallReference: string;
-      timestampDefinitionTO: TimestampDefinitionTO;
-      carrierVoyageNumber: string;
+    transportCall.location = {
+      UNLocationCode: port.UNLocationCode,
+      facilityCode: null,
+      facilityCodeListProvider: null
     }
 
-    if (this.shouldCreateTimestamp() && createTimestamp) {
-      this.timestamp.UNLocationCode = transportCall.UNLocationCode;
-      this.timestamp.carrierServiceCode = transportCall.carrierServiceCode;
-      this.timestamp.importVoyageNumber = transportCall.importVoyageNumber;
-      this.timestamp.exportVoyageNumber = transportCall.exportVoyageNumber;
-      this.timestamp.facilityTypeCode = transportCall.facilityTypeCode;
-      this.timestamp.publisherRole = null;
-      this.timestamp.publisher = this.globals.config.publisher;
-      this.delayCode = this.transportCallFormGroup.controls.delayCode.value;
-      this.timestamp.delayReasonCode = (this.delayCode ? this.delayCode.smdgCode : null);
-      this.timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
-      this.timestamp.vesselIMONumber = transportCall.vessel.vesselIMONumber;
-      this.timestamp.facilitySMDGCode = terminal.facilitySMDGCode;
+    if (terminal) {
+      transportCall.facilityCode = terminal.facilitySMDGCode
+      transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG
+      transportCall.location.facilityCode = terminal.facilitySMDGCode
+      transportCall.location.facilityCodeListProvider = FacilityCodeListProvider.SMDG
+    }
 
-      const locationName = this.transportCallFormGroup.controls.locationName.value;
-      let eventLocation = new class implements EventLocation {
-        locationName: string
-        UNLocationCode: string = transportCall.UNLocationCode;
+    if (this.shouldCreateTimestamp() && this.canCreateTimestamp()) {
+      const timestampDefinition : TimestampDefinitionTO = this.transportCallFormGroup.controls.timestampType.value;
+      let timestamp : Timestamp = this.timestampMappingService.createTimestampStub(
+        transportCall,
+        timestampDefinition,
+        null,
+      )
 
-        facilityCode: string = terminal.facilitySMDGCode;
-        facilityCodeListProvider: FacilityCodeListProvider;
+      let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
+      let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
+      // TODO: Let the user choose the role
+      timestamp.publisherRole = this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)[0]
+      timestamp.publisher = this.globals.config.publisher;
+      timestamp.delayReasonCode = this.transportCallFormGroup.controls.delayCode.value?.smdgCode
+      timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
+      timestamp.eventDateTime = this.dateToUTC.transform(date, time, this.portOfCall.timezone);
+
+      const milesToDestinationPort = this.transportCallFormGroup.controls.milesToDestinationPort.value;
+      if (this.showMilesToDestinationPortOption() && milesToDestinationPort) {
+        timestamp.milesToDestinationPort = Number(milesToDestinationPort);
       }
-      if(eventLocation.facilityCode ){
-        eventLocation.facilityCodeListProvider = FacilityCodeListProvider.SMDG
+
+      if (this.locationNameLabel && this.transportCallFormGroup.controls.locationName.value) {
+        timestamp.eventLocation.locationName = this.transportCallFormGroup.controls.locationName.value;
       }
-      if (this.locationNameLabel && locationName) {
-       eventLocation.locationName = locationName
+
+      if (terminal) {
+        timestamp.facilitySMDGCode = terminal.facilitySMDGCode
+        timestamp.eventLocation.facilityCode = terminal.facilitySMDGCode
+        timestamp.eventLocation.facilityCodeListProvider = FacilityCodeListProvider.SMDG
       }
 
       const latitude = this.transportCallFormGroup.controls.vesselPositionLatitude.value;
       const longitude = this.transportCallFormGroup.controls.vesselPositionLongitude.value;
       if (latitude && longitude) {
-        this.timestamp.vesselPosition = new class implements VesselPosition {
+        timestamp.vesselPosition = new class implements VesselPosition {
           latitude: string = latitude;
           longitude: string = longitude;
         }
       }
 
-    const milesToDestinationPort = this.transportCallFormGroup.controls.milesToDestinationPort.value;
-    if (this.showMilesToDestinationPortOption() && milesToDestinationPort) {
-      this.timestamp.milesToDestinationPort = Number(milesToDestinationPort);
-    }
-
-      this.timestamp.eventLocation = eventLocation;
-
-      let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
-      let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
-      this.timestamp.eventDateTime = this.dateToUTC.transform(date, time, this.portOfCall.timezone);
-
-      this.timestamp.timestampDefinitionTO = this.timestampSelected;
-
       this.creationProgress = true;
-      this.timestampMappingService.addPortCallTimestamp(this.timestamp).subscribe(() => {
+      this.timestampMappingService.addPortCallTimestamp(timestamp).subscribe({ next: () => {
           this.creationProgress = false;
           this.messageService.add(
             {
@@ -381,9 +358,9 @@ export class TransportCallCreatorComponent implements OnInit {
               detail: this.translate.instant('general.save.editor.success.detail')
             })
 
-          this.ref.close(this.timestamp);
+          this.ref.close(timestamp);
         },
-        error => {
+        error: error => {
           this.messageService.add(
             {
               key: 'TimestampAddError',
@@ -392,11 +369,11 @@ export class TransportCallCreatorComponent implements OnInit {
               detail: this.translate.instant('general.save.editor.failure.detail') + error.message
             })
           this.creationProgress = false;
-        })
+        }})
       return;
     }
 
-    this.transportCallService.addTransportCall(transportCall).subscribe(transportCall => {
+    this.transportCallService.addTransportCall(transportCall).subscribe({ next: transportCall => {
         this.creationProgress = false;
 
         this.messageService.add(
@@ -408,7 +385,7 @@ export class TransportCallCreatorComponent implements OnInit {
           });
         this.ref.close(transportCall);
       },
-      error => {
+      error: error => {
         this.creationProgress = false;
         this.messageService.add(
           {
@@ -417,7 +394,7 @@ export class TransportCallCreatorComponent implements OnInit {
             summary: this.translate.instant('general.transportCall.validation.error.summary'),
             detail: this.translate.instant('general.transportCall.validation.error.detail') + error.message
           });
-      })
+      }})
   }
 
 }
