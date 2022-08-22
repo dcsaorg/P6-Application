@@ -180,8 +180,8 @@ export class TimestampAcceptEditorComponent implements OnInit {
     // TODO: Let the user choose the role
     newTimestamp.publisherRole = this.timestampMappingService.overlappingPublisherRoles(this.responseTimestampDefinitionTO)[0]
     newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
-    newTimestamp.eventLocation.facilityCode = terminalSelected.facilitySMDGCode
-    newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
+    newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode
+    newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
     newTimestamp.delayReasonCode = this.timestampFormGroup.controls.delayCode.value?.smdgCode
     newTimestamp.milesToDestinationPort = milesToDestinationPort ? Number(milesToDestinationPort) : null
     newTimestamp.remark = this.timestampFormGroup.controls.remark.value

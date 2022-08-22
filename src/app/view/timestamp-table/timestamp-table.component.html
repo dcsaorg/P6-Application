@@ -155,9 +155,7 @@
                     {{timestampInfo.operationsEventTO.eventLocation?.facilityCode}}</div>
 
                 <div *ngIf="timestampInfo.operationsEventTO.eventLocation.facilityCode == null">
-                    <div *ngIf="timestampInfo.facilitySMDGCode == null">
-                        N/A
-                    </div>
+                  N/A
                 </div>
             </td>
             <td [ngClass]="'timestampContent'" style="width: 10%">{{ timestampInfo.operationsEventTO.eventLocation.locationName }}</td>
