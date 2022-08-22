@@ -7,10 +7,11 @@ import { TranslateService } from "@ngx-translate/core";
 import { PortService } from 'src/app/controller/services/base/port.service';
 import { TransportCallFilterService } from 'src/app/controller/services/base/transport-call-filter.service';
 import { Port } from 'src/app/model/portCall/port';
-import { Terminal } from 'src/app/model/portCall/terminal';
 import { take } from 'rxjs/operators';
 import { VesselService } from "../../controller/services/base/vessel.service";
 import { Vessel } from "../../model/portCall/vessel";
+import { MessageService } from "primeng/api";
+import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 
 @Component({
   selector: 'app-transport-calls-table',
@@ -33,6 +34,7 @@ export class TransportCallsTableComponent implements OnInit {
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
 
   constructor(private transportCallService: TransportCallService,
+    private messageService: MessageService,
     private dialogService: DialogService,
     private vesselService: VesselService,
     private portFilterService: TransportCallFilterService,
@@ -88,11 +90,25 @@ export class TransportCallsTableComponent implements OnInit {
 
   async loadTransportCalls(): Promise<TransportCall[]> {
     return new Promise(resolve => {
-      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterVessel?.vesselIMONumber).subscribe(transportCalls => {
-        this.progressing = false;
-        this.transportCalls = transportCalls;
-        resolve(transportCalls)
+      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterVessel?.vesselIMONumber).subscribe({
+        next: (transportCalls) => {
+          this.progressing = false;
+          this.transportCalls = transportCalls;
+          resolve(transportCalls);
+        },
+        error: errorResponse => {
+          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+          this.messageService.add(
+            {
+              key: 'GenericErrorToast',
+              severity: 'error',
+              summary: 'Transport calls not found',
+              detail: errorMessage
+            })
+          this.progressing = false;
+        }
       })
     })
   }
+  
 }

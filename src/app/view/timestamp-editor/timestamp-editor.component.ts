@@ -1,23 +1,25 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MessageService, SelectItem} from "primeng/api";
-import {Port} from "../../model/portCall/port";
-import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {DelayCode} from "../../model/portCall/delayCode";
-import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
-import {DelayCodeService} from "../../controller/services/base/delay-code.service";
-import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/jit/transport-call";
-import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {Timestamp} from "../../model/jit/timestamp";
-import {Globals} from "../../model/portCall/globals";
-import {VesselPosition} from "../../model/vesselPosition";
-import {TerminalService} from 'src/app/controller/services/base/terminal.service';
-import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {FacilityCodeListProvider} from 'src/app/model/enums/facilityCodeListProvider';
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 import {TimestampInfo} from "../../model/jit/timestamp-info";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { MessageService, SelectItem } from "primeng/api";
+import { Port } from "../../model/portCall/port";
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
+import { DelayCode } from "../../model/portCall/delayCode";
+import { DateToUtcPipe } from "../../controller/pipes/date-to-utc.pipe";
+import { DelayCodeService } from "../../controller/services/base/delay-code.service";
+import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
+import { TransportCall } from "../../model/jit/transport-call";
+import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
+import { Timestamp } from "../../model/jit/timestamp";
+import { Globals } from "../../model/portCall/globals";
+import { VesselPosition } from "../../model/vesselPosition";
+import { TerminalService } from 'src/app/controller/services/base/terminal.service';
+import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
+import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -122,13 +124,13 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   saveTimestamp() {
-    const timestampDefinition : TimestampDefinitionTO = this.timestampTypeSelected.value
+    const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value
     const terminalSelected = this.timestampFormGroup.controls.terminal.value;
     const locationName = this.timestampFormGroup.controls.locationName.value;
 
     const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
-    let vesselPosition : VesselPosition = null;
-    let eventDateTime : Date|string = this.respondingToTimestampInfo?.operationsEventTO?.eventDateTime;
+    let vesselPosition: VesselPosition = null;
+    let eventDateTime: Date | string = this.respondingToTimestampInfo?.operationsEventTO?.eventDateTime;
     // Only update eventDateTime of timestamp when rejecting
     if (this.eventTimestampDate) {
       eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
@@ -143,7 +145,7 @@ export class TimestampEditorComponent implements OnInit {
       }
     }
 
-    let newTimestamp : Timestamp = this.timestampMappingService.createTimestampStub(
+    let newTimestamp: Timestamp = this.timestampMappingService.createTimestampStub(
       this.transportCall,
       timestampDefinition,
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
@@ -165,27 +167,30 @@ export class TimestampEditorComponent implements OnInit {
     }
 
     this.creationProgress = true;
-    this.timestampMappingService.addPortCallTimestamp(newTimestamp).subscribe(() => {
-      this.creationProgress = false;
-      this.messageService.add(
-        {
-          key: 'TimestampAddSuccess',
-          severity: 'success',
-          summary: this.translate.instant('general.save.editor.success.summary'),
-          detail: this.translate.instant('general.save.editor.success.detail')
-        })
-      this.ref.close(newTimestamp);
-    },
-      error => {
+    this.timestampMappingService.addPortCallTimestamp(newTimestamp).subscribe({
+      next: () => {
+        this.creationProgress = false;
         this.messageService.add(
           {
-            key: 'TimestampAddError',
+            key: 'GenericSuccessToast',
+            severity: 'success',
+            summary: this.translate.instant('general.save.editor.success.summary'),
+            detail: this.translate.instant('general.save.editor.success.detail')
+          })
+        this.ref.close(newTimestamp);
+      },
+      error: errorResponse => {
+        let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+        this.messageService.add(
+          {
+            key: 'GenericErrorToast',
             severity: 'error',
-            summary: this.translate.instant('general.save.editor.failure.summary'),
-            detail: this.translate.instant('general.save.editor.failure.detail') + error.message
+            summary: this.translate.instant('general.save.editor.failure.detail'),
+            detail: errorMessage
           })
         this.creationProgress = false;
-      })
+      }
+    })
   }
 
   private updateTimestampTypeOptions() {

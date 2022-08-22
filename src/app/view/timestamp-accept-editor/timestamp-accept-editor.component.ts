@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MessageService, SelectItem } from "primeng/api";
-import { Port } from "../../model/portCall/port";
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { DelayCode } from "../../model/portCall/delayCode";
 import { DelayCodeService } from "../../controller/services/base/delay-code.service";
@@ -9,7 +8,6 @@ import { TransportCall } from "../../model/jit/transport-call";
 import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
 import { Timestamp } from "../../model/jit/timestamp";
 import { Globals } from "../../model/portCall/globals";
-import { EventLocation } from "../../model/eventLocation";
 import { VesselPosition } from "../../model/vesselPosition";
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
@@ -18,6 +16,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
 import {TimestampInfo} from "../../model/jit/timestamp-info";
 import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvider";
+import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
+
 
 @Component({
   selector: 'app-timestamp-accept-editor',
@@ -199,20 +199,21 @@ export class TimestampAcceptEditorComponent implements OnInit {
         this.creationProgress = false;
         this.messageService.add(
           {
-            key: 'TimestampAddSuccess',
+            key: 'GenericSuccessToast',
             severity: 'success',
             summary: this.translate.instant('general.save.editor.success.summary'),
             detail: this.translate.instant('general.save.editor.success.detail')
           })
         this.ref.close(newTimestamp);
       },
-      error: error => {
+      error: errorResponse => {
+        let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse); 
         this.messageService.add(
           {
-            key: 'TimestampAddError',
+            key: 'GenericErrorToast',
             severity: 'error',
-            summary: this.translate.instant('general.save.editor.failure.summary'),
-            detail: this.translate.instant('general.save.editor.failure.detail') + error.message
+            summary: this.translate.instant('general.save.editor.failure.detail'),
+            detail:  errorMessage
           })
         this.creationProgress = false;
       }

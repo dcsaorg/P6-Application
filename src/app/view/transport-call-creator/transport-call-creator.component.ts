@@ -25,6 +25,7 @@ import {TerminalService} from 'src/app/controller/services/base/terminal.service
 import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
+import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -352,7 +353,7 @@ export class TransportCallCreatorComponent implements OnInit {
           this.creationProgress = false;
           this.messageService.add(
             {
-              key: 'TimestampAddSuccess',
+              key: 'GenericSuccessToast',
               severity: 'success',
               summary: this.translate.instant('general.save.editor.success.summary'),
               detail: this.translate.instant('general.save.editor.success.detail')
@@ -360,13 +361,14 @@ export class TransportCallCreatorComponent implements OnInit {
 
           this.ref.close(timestamp);
         },
-        error: error => {
+        error: errorResponse => {
+          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse); 
           this.messageService.add(
             {
-              key: 'TimestampAddError',
+              key: 'GenericErrorToast',
               severity: 'error',
-              summary: this.translate.instant('general.save.editor.failure.summary'),
-              detail: this.translate.instant('general.save.editor.failure.detail') + error.message
+              summary: this.translate.instant('general.save.editor.failure.detail'),
+              detail:  errorMessage
             })
           this.creationProgress = false;
         }})
@@ -375,24 +377,24 @@ export class TransportCallCreatorComponent implements OnInit {
 
     this.transportCallService.addTransportCall(transportCall).subscribe({ next: transportCall => {
         this.creationProgress = false;
-
         this.messageService.add(
           {
-            key: 'TransportcallAddSuccess',
+            key: 'GenericSuccessToast',
             severity: 'success',
             summary: this.translate.instant('general.transportCall.validation.success.summary'),
             detail: this.translate.instant('general.transportCall.validation.success.detail')
           });
         this.ref.close(transportCall);
       },
-      error: error => {
+error: errorResponse => {
         this.creationProgress = false;
+        let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse); 
         this.messageService.add(
           {
-            key: 'TransportcallAddError',
+            key: 'GenericErrorToast',
             severity: 'error',
-            summary: this.translate.instant('general.transportCall.validation.error.summary'),
-            detail: this.translate.instant('general.transportCall.validation.error.detail') + error.message
+            summary: this.translate.instant('general.transportCall.validation.error.detail') ,
+            detail:  errorMessage
           });
       }})
   }

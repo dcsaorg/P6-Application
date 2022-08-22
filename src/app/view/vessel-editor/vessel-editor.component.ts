@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { vesselOperatorCarrierCodeListProvider } from '../../model/enums/vesselOperatorCarrierCodeListProvider';
 import { SelectItem } from "primeng/api";
 import { Globals } from "../../model/portCall/globals";
+import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 
 @Component({
   selector: 'app-vessel-editor',
@@ -71,41 +72,47 @@ export class VesselEditorComponent implements OnInit {
   saveVessel() {
     this.enforceCarrierCodeListProviderTypeSMDG(this.vessel);
     if (this.config.data) {
-      this.vesselService.updateVessel(this.vessel).subscribe(() => {
-        this.messageService.add({
-          key: 'vesselUpdateSuccess',
-          severity: 'success',
-          summary: 'Successfully updated vessel',
-          detail: ''
-        });
-        this.ref.close(this.vessel);
-        this.vesselService.updateVesselsObserverable()
-      }, response => {
-        this.messageService.add({
-          key: 'vesselUpdateError',
-          severity: 'error',
-          summary: 'Error while updating vessel',
-          detail: response.error.message
-        });
+      this.vesselService.updateVessel(this.vessel).subscribe({
+        next: () => {
+          this.messageService.add({
+            key: 'GenericSuccessToast',
+            severity: 'success',
+            summary: 'Successfully updated vessel',
+            detail: ''
+          });
+          this.ref.close(this.vessel);
+          this.vesselService.updateVesselsObserverable()
+        },
+        error: errorResponse => {
+          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+          this.messageService.add({
+            key: 'GenericErrorToast',
+            severity: 'error',
+            summary: 'Error while updating vessel',
+            detail: errorMessage
+          });
+        }
       });
     } else {
-      this.vesselService.addVessel(this.vessel).subscribe((newVessel: Vessel) => {
-        this.messageService.add({
-          key: 'vesselAddSuccess',
-          severity: 'success',
-          summary: 'Successfully added vessel',
-          detail: ''
-        });
-        this.ref.close(newVessel);
-      }, response => {
-        this.messageService.add({
-          key: 'vesselAddError',
-          severity: 'error',
-          summary: 'Error while adding vessel',
-          detail: response.error.message + ': ' + response.error.errors
-        });
+      this.vesselService.addVessel(this.vessel).subscribe({
+        next: (newVessel: Vessel) => {
+          this.messageService.add({
+            key: 'GenericSuccessToast',
+            severity: 'success',
+            summary: 'Successfully added vessel',
+            detail: ''
+          });
+          this.ref.close(newVessel);
+        }, error: errorResponse => {
+          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+          this.messageService.add({
+            key: 'GenericErrorToast',
+            severity: 'error',
+            summary: 'Error while adding vessel',
+            detail: errorMessage
+          });
+        }
       });
-
     }
   }
 

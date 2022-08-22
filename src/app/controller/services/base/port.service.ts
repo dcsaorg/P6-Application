@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Port} from "../../../model/portCall/port";
-import {Globals} from "../../../model/portCall/globals";
+import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Port } from "../../../model/portCall/port";
+import { Globals } from "../../../model/portCall/globals";
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
 
 function cachePort(cache: Map<string, Port>, port: Port) {
   cache.set(port.UNLocationCode, port);
@@ -20,13 +20,13 @@ export class PortService {
 
 
   constructor(private httpClient: HttpClient,
-              private globals: Globals) {
+    private globals: Globals) {
 
-    this.PORT_URL = globals.config.uiSupportBackendURL + '/unofficial/ports' ;
+    this.PORT_URL = globals.config.uiSupportBackendURL + '/unofficial/ports';
     this.PORT_URL_LIMIT_1000 = globals.config.uiSupportBackendURL + '/unofficial/ports' + '?limit=1000';
   }
 
-  getPortsByUNLocationCode(UNLocationCode?: string): Observable<Port> {
+  getPortByUNLocationCode(UNLocationCode: string): Observable<Port> {
     let query = '';
     if (UNLocationCode) {
       const cachedPort = this.unlocode2PortCache.get(UNLocationCode);
@@ -34,6 +34,8 @@ export class PortService {
         return of(cachedPort);
       }
       query = "?UNLocationCode=" + UNLocationCode;
+    } else { 
+      throw new Error('UNLocationCode is not defined');
     }
     return this.httpClient.get<Port[]>(this.PORT_URL + query).pipe(
       map((ports) => {
@@ -43,6 +45,7 @@ export class PortService {
       })
     );
   }
+
   getPorts = (): Observable<Port[]> => this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000)
     .pipe(map(ports => {
       for (let port of ports) {
@@ -50,6 +53,5 @@ export class PortService {
       }
       return ports;
     }));
-
 
 }
