@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {Timestamp} from 'src/app/model/jit/timestamp';
 import {DelayCode} from "../../model/portCall/delayCode";
+import {TimestampInfo} from "../../model/jit/timestamp-info";
 
 @Component({
   selector: 'app-timestamp-comment-dialog',
@@ -11,12 +11,9 @@ import {DelayCode} from "../../model/portCall/delayCode";
 })
 export class TimestampCommentDialogComponent implements OnInit {
 
-  public timestamp: Timestamp;
   delayReasonCode: string;
   delayCode: DelayCode;
-
-  private previousDelayCode: string;
-  private previousRemark: string;
+  remark: string;
 
   constructor(public config: DynamicDialogConfig,
               public ref: DynamicDialogRef,
@@ -25,20 +22,16 @@ export class TimestampCommentDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.timestamp = this.config.data.timestamp;
+    const timestampInfo = this.config.data.timestampInfo;
     this.delayCode = this.config.data.delayCode;
-    this.previousDelayCode = this.timestamp.delayReasonCode;
-    this.previousRemark = this.timestamp.remark;
-    this.delayReasonCode = this.timestamp.delayReasonCode;
+    this.remark = timestampInfo.operationsEventTO.remark;
+    this.delayReasonCode = timestampInfo.operationsEventTO.delayReasonCode;
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
 
     });
   }
 
-  save() {
-    this.ref.close(this.timestamp);
-  }
   close() {
     this.ref.close(null);
   }

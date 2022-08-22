@@ -185,12 +185,12 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       !this.isPrimaryReceiver(timestampInfo);
   }
 
-  showComment(timestamp: Timestamp) {
-    const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestamp.delayReasonCode, null);
+  showComment(timestampInfo: TimestampInfo) {
+    const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestampInfo.operationsEventTO.delayReasonCode, null);
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
-      width: '50%', data: { timestamp: timestamp, delayCode: delayCode }
-    }).onClose.subscribe((ts: Timestamp) => {
+      width: '50%', data: { timestampInfo: timestampInfo, delayCode: delayCode }
+    }).onClose.subscribe((_) => {
     });
   }
 
