@@ -124,7 +124,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-timestampInfo>
 
-        <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestampInfo.isLatestInCycle == false}">
+        <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestampInfo.isLatestInCycle == false || this.isOmitted(timestampInfo), 'omitted': this.isOmitted(timestampInfo)}">
             <td pTooltip="Publisher: {{timestampInfo.operationsEventTO.publisher?.partyName}}
           PublisherRole: {{timestampInfo.operationsEventTO.publisherRole}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass"
                 style="width: 3px;" [ngStyle]="{'background-color': timestampInfo.sequenceColor}"></td>
@@ -193,7 +193,7 @@
                     </div>
 
                     <div class="timestampContent__buttons acceptBtn"
-                        *ngIf="timestampInfo.isLatestInCycle && isPrimaryReceiver(timestampInfo) && timestampInfo.timestampDefinitionTO?.acceptTimestampDefinition != null && !isOutGoing(timestampInfo)">
+                        *ngIf="timestampInfo.isLatestInCycle && !isOmitted(timestampInfo) && isPrimaryReceiver(timestampInfo) && timestampInfo.timestampDefinitionTO?.acceptTimestampDefinition != null && !isOutGoing(timestampInfo)">
                         <p-button icon="pi pi-check"
                             pTooltip="{{ 'general.table.accept.tooltip' | translate }} {{timestampInfo.timestampDefinitionTO?.acceptTimestampDefinitionEntity.timestampTypeName}}"
                             tooltipPosition="left" tooltipStyleClass="ToolTipClass"
@@ -201,7 +201,7 @@
                     </div>
 
                     <div class="timestampContent__buttons declineBtn"
-                        *ngIf="timestampInfo.isLatestInCycle && isPrimaryReceiver(timestampInfo) && timestampInfo.timestampDefinitionTO?.rejectTimestampDefinition != null && !isOutGoing(timestampInfo)">
+                        *ngIf="timestampInfo.isLatestInCycle && !isOmitted(timestampInfo) && isPrimaryReceiver(timestampInfo) && timestampInfo.timestampDefinitionTO?.rejectTimestampDefinition != null && !isOutGoing(timestampInfo)">
                         <p-button icon="pi pi-times"
                             pTooltip="{{ 'general.table.decline.tooltip' | translate }}  {{timestampInfo.timestampDefinitionTO?.rejectTimestampDefinitionEntity.timestampTypeName}}"
                             tooltipPosition="left" tooltipStyleClass="ToolTipClass"

@@ -39,7 +39,9 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall>
-    <tr [pSelectableRow]="transportCall" [ngClass]="{'obsoleteTransportCall': transportCall.atdBerthDateTime != undefined}">
+    <tr [pSelectableRow]="transportCall"
+        [ngClass]="{'obsoleteTransportCall': transportCall.atdBerthDateTime != undefined || isOmitted(transportCall), 'omitted': isOmitted(transportCall)}"
+    >
       <td pTooltip="{{  transportCall.vessel | vesselTooltip}}">  {{transportCall.vessel.vesselName}}</td>
       <td pTooltip="{{  transportCall.vessel | vesselTooltip }}"> {{transportCall.vessel.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>

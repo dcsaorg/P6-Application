@@ -272,6 +272,7 @@ export class TransportCallCreatorComponent implements OnInit {
       vessel: Vessel;
       etaBerthDateTime: Date;
       atdBerthDateTime: Date;
+      omitCreatedDateTime = null;
       latestEventCreatedDateTime: Date;
     }
 

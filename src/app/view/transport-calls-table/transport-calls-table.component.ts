@@ -68,6 +68,13 @@ export class TransportCallsTableComponent implements OnInit {
     this.transportCallNotifier.emit(null);
   }
 
+  isOmitted(transportCall: TransportCall): boolean {
+    if (!transportCall.omitCreatedDateTime) {
+      return false;
+    }
+    return transportCall.omitCreatedDateTime >= transportCall.latestEventCreatedDateTime;
+  }
+
   async refreshTransportCalls(): Promise<void> {
     this.progressing = true;
     const transportCalls = await this.loadTransportCalls();
