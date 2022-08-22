@@ -167,6 +167,18 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
 
+  isOmitted(a: TimestampInfo): boolean {
+    if (!this.transportCallSelected.omitCreatedDateTime) {
+      return false;
+    }
+    if (a.operationsEventTO.eventCreatedDateTime < this.transportCallSelected.omitCreatedDateTime) {
+      return true;
+    }
+    // Avoid a strikethrough of the OMIT itself ot make it more prominent.
+    return a.operationsEventTO.eventCreatedDateTime == this.transportCallSelected.omitCreatedDateTime
+      && a.operationsEventTO.operationsEventTypeCode != 'OMIT';
+  }
+
   private hasOverlap(a: PublisherRole[], b: PublisherRole[]): boolean {
     return !!a.find((val1) => {
       return b.find((val2) => val1 === val2);

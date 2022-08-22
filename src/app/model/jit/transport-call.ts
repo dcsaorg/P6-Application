@@ -26,6 +26,7 @@ export interface TransportCall {
   location: EventLocation;
   etaBerthDateTime?: Date;
   atdBerthDateTime?: Date;
+  omitCreatedDateTime: Date;
   latestEventCreatedDateTime?: Date;
   transportCallID: string;
     /**
