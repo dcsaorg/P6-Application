@@ -42,14 +42,13 @@ export class TransportCallService {
             return transportCall;
           }),
           concatMap((transportCall) =>
-            this.portService.getPortsByUNLocationCode(transportCall.UNLocationCode).pipe(map(port => {
+            this.portService.getPortByUNLocationCode(transportCall.UNLocationCode).pipe(map(port => {
               transportCall.portOfCall = port;
               return transportCall;
             }))
           ),
           toArray()
         )
-
       }))
     );
   }

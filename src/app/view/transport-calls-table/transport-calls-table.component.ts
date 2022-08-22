@@ -90,13 +90,14 @@ export class TransportCallsTableComponent implements OnInit {
 
   async loadTransportCalls(): Promise<TransportCall[]> {
     return new Promise(resolve => {
-      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterVessel?.vesselIMONumber).subscribe(transportCalls => {
-        this.progressing = false;
-        this.transportCalls = transportCalls;
-        resolve(transportCalls);
-      },        
-      (errorResponse) => {
-        let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse); 
+      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterVessel?.vesselIMONumber).subscribe({
+        next: (transportCalls) => {
+          this.progressing = false;
+          this.transportCalls = transportCalls;
+          resolve(transportCalls);
+        },
+        error: errorResponse => {
+          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
           this.messageService.add(
             {
               key: 'GenericErrorToast',
@@ -105,7 +106,9 @@ export class TransportCallsTableComponent implements OnInit {
               detail: errorMessage
             })
           this.progressing = false;
-        })
+        }
+      })
     })
   }
+  
 }
