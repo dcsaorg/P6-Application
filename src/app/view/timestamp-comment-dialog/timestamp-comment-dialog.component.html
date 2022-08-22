@@ -14,11 +14,11 @@
   <div class="separator"></div>
 
   <p-panel header="{{'general.comment.tooltip' | translate}}">
-    {{timestamp.remark}}
+    {{remark}}
   </p-panel>
   <div class="col-12 md:col-6 lg:col-1" style="width: 100%" align="left">
     <span class="p-buttonset">
-        <button  (click)="close()" label="{{ 'general.close.label' | translate }}" pButton type="button"></button>
+        <button (click)="close()" label="{{ 'general.close.label' | translate }}" pButton type="button"></button>
     </span>
   </div>
 </div>
