@@ -11,7 +11,6 @@ import {Vessel} from "../../model/portCall/vessel";
 import {TranslateService} from "@ngx-translate/core";
 import {TransportCall} from "../../model/jit/transport-call";
 import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
-import {TimestampAcceptEditorComponent} from "../timestamp-accept-editor/timestamp-accept-editor.component";
 import {Globals} from "../../model/portCall/globals";
 import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
 import {Timestamp} from 'src/app/model/jit/timestamp';
@@ -20,6 +19,7 @@ import {TimestampInfo} from "../../model/jit/timestamp-info";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {Terminal} from "../../model/portCall/terminal";
 import {TerminalService} from "../../controller/services/base/terminal.service";
+import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 
 const NO_FILTER = null;
 
@@ -206,14 +206,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
 
-  openCreationDialog(timestamp: Timestamp) {
+  openCreationDialog() {
     const timestampEditor = this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.create.label'),
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
-        timestamps: this.timestampInfos,
-        respondingToTimestamp: timestamp,
+        timestampResponseStatus: TimestampResponseStatus.CREATE
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {
@@ -230,15 +229,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     // so see their own comment in a reply to them.
     timestampShallowClone.remark = null;
     timestampShallowClone.delayReasonCode = null;
-    const timestampEditor = this.dialogService.open(TimestampAcceptEditorComponent, {
+    const timestampEditor = this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.accept.label'),
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
-        timestamps: this.timestampInfos,
-        responseTimestampTO: timestamp.timestampDefinitionTO.acceptTimestampDefinitionEntity,
+        responseTimestampDefinitionTO: timestamp.timestampDefinitionTO.acceptTimestampDefinitionEntity,
         respondingToTimestamp: timestampShallowClone,
-        timestampResponseStatus: "Accepted"
+        timestampResponseStatus: TimestampResponseStatus.ACCEPTED
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {
@@ -247,6 +245,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       }
     });
   }
+
   openRejectDialog(timestamp: Timestamp) {
     let timestampShallowClone = Object.assign({}, timestamp);
     timestampShallowClone.timestampDefinitionTO = timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity;
@@ -254,15 +253,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     // so see their own comment in a reply to them.
     timestampShallowClone.remark = null;
     timestampShallowClone.delayReasonCode = null;
-    const timestampEditor = this.dialogService.open(TimestampAcceptEditorComponent, {
+    const timestampEditor = this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.reject.label'),
       width: '75%',
       data: {
         transportCall: this.transportCallSelected,
-        timestamps: this.timestampInfos,
-        responseTimestampTO: timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity,
+        responseTimestampDefinitionTO: timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity,
         respondingToTimestamp: timestampShallowClone,
-        timestampResponseStatus: "Rejected"
+        timestampResponseStatus: TimestampResponseStatus.REJECTED
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {
@@ -271,6 +269,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       }
     });
   }
+
   /*
     Function that will colorize
     //@ToDo Move this function to postProcessing in timestampService

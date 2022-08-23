@@ -3,31 +3,48 @@
 <div class="headline">
   <p-card styleClass="card-secondary">
     <div class="p-fluid p-formgrid grid">
-      <div class="p-field col-12 md:col-4">
+      <div class="md:col-4">
         <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
           : </label>
         <span id="vesselName"> {{transportCall.vessel.vesselName ?? "(Name not known)"}}</span>
       </div>
-      <div class="p-field col-12 md:col-4">
+      <div class="md:col-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
         <span id="portOfCall" *ngIf="transportCall.portOfCall != null">
           {{transportCall.portOfCall.UNLocationCode}} </span>
       </div>
-      <div class="p-field col-12 md:col-4">
+      <div class="md:col-4">
         <!-- Placeholder for additional information -->
       </div>
-      <div class="p-field col-12 md:col-4">
+      <div class="md:col-4">
         <label class="label-compressed" for="vesselIMO">{{'general.transportCall.table.vesselImo.label'| translate}}
           : </label>
         <span id="vesselIMO"> {{transportCall.vessel.vesselIMONumber}}</span>
       </div>
-
-      <div class="p-field col-12 md:col-4" *ngIf="respondingToTimestampInfo != null">
+      <div class="md:col-4" *ngIf="respondingToTimestampInfo != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
-        <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' |
-          translate }}: </label>
-        <span style="font-weight: bold;">{{ " " +(respondingToTimestampInfo.operationsEventTO.eventDateTime | timestampToTimezone:
-          transportCall.portOfCall)[0]}}</span>
+        <div *ngIf="parseTimestampResponseStatus() == 'ACCEPTED'">
+          <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.acceptedLabel' |
+            translate }}: </label>
+          <span style="font-weight: bold;">{{ " " +(respondingToTimestampInfo.operationsEventTO.eventDateTime |
+            timestampToTimezone:
+            transportCall.portOfCall)[0]}}</span>
+        </div>
+        <div *ngIf="parseTimestampResponseStatus() == 'REJECTED'">
+          <label class="label-compressed" for="eventtimestamp">{{'general.table.header.eventTimestamp.declinedLabel' |
+            translate }}: </label>
+          <span style="font-weight: bold;">{{ " " +(respondingToTimestampInfo.operationsEventTO.eventDateTime |
+            timestampToTimezone:
+            transportCall.portOfCall)[0]}}</span>
+        </div>
+      </div>
+
+      <div class="md:col-2" *ngIf="respondingToTimestampInfo != null"></div>
+      <div class="md:col-4" *ngIf="respondingToTimestampInfo != null">
+        <!-- Placeholder for additional information when rejecting timestamp -->
+        <label class="label-compressed" for="eventtimestamp">{{'general.table.header.timestamp.acceptlabel' |
+          translate }}</label>
+        <span style="font-weight: bold;">{{": " + responseTimestampDefinitionTO.timestampTypeName}}</span>
       </div>
     </div>
   </p-card>
@@ -35,45 +52,41 @@
 
 <div [formGroup]="timestampFormGroup" class="p-fluid p-formgrid grid">
 
-  <div class="p-field col-12 md:col-4">
-    <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
-    <p-dropdown id="timestampType" styleClass="dropdown" formControlName="timestampType" [options]="timestampTypes"
-      [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()"></p-dropdown>
-
-    <div class="p-field col-12 md:col-2"></div>
-
-    <div [hidden]="!showTerminalOption()">
-      <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
-      <p-dropdown id="terminalSelected" styleClass="dropdown" formControlName="terminal" [options]="terminalOptions"
-        [filter]=true filterBy="label,value.facilityName" appendTo="body">
-        <ng-template let-terminal pTemplate="item">
-          <div *ngIf="!terminal.value">
-            <div>Select Terminal</div>
-          </div>
-          <div *ngIf="terminal.value">
-            <div>{{terminal.value.facilitySMDGCode}}</div>
-            <div class="portListName">{{terminal.value.facilityName}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
+  <div class="md:col-6" *ngIf="parseTimestampResponseStatus() == 'CREATE'">
+    <div>
+      <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
+      <p-dropdown id="timestampType" styleClass="dropdown" formControlName="timestampType" [options]="timestampTypes"
+        [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()"></p-dropdown>
     </div>
   </div>
 
-  <div class="p-field col-12 md:col-2"></div>
+  <div class="md:col-6" [hidden]="!showTerminalOption()">
+    <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
+    <p-dropdown id="terminalSelected" styleClass="dropdown" formControlName="terminal" [options]="terminalOptions"
+      [filter]=true filterBy="label,value.facilityName" appendTo="body">
+      <ng-template let-terminal pTemplate="item">
+        <div *ngIf="!terminal.value">
+          <div>Select Terminal</div>
+        </div>
+        <div *ngIf="terminal.value">
+          <div>{{terminal.value.facilitySMDGCode}}</div>
+          <div class="portListName">{{terminal.value.facilityName}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
 
-
-  <div class="p-field col-12 md:col-5">
+  <div class="md:col-6" *ngIf="parseTimestampResponseStatus() != 'ACCEPTED'">
     <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
-
     <div class="p-fluid p-formgrid grid">
-      <div class="p-field col-12 md:col-6">
+      <div class="md:col-6">
         <p-calendar id="eventtimestamp" appendTo="body" formControlName="eventTimestampDate" hourFormat="24"
           [monthNavigator]="true" [showButtonBar]="false" [showIcon]="true" [showWeek]="true" [yearNavigator]="true"
           yearRange="2010:2030" styleClass="date-time-date-field"
           placeholder="{{ 'general.timestamp.date.event' | translate }}" [panelStyleClass]="'datetime-panel'">
         </p-calendar>
       </div>
-      <div class="p-field col-12 md:col-6">
+      <div class="md:col-6">
         <p-inputMask formControlName="eventTimestampTime" mask="99:99"
           placeholder="{{ 'general.timestamp.time' | translate }}" styleClass="datetime-time-time-field"></p-inputMask>
         <button pTooltip="{{ 'general.currentTime.tooltip' | translate }}" tooltipPosition="top"
@@ -83,10 +96,11 @@
     </div>
   </div>
 
-  <div class="p-field col-12 md:col-4">
-    <div class="p-field berth-location-field" [hidden]="!showLocationNameOption()">
+  <!-- location name -->
+  <div class="md:col-6" [hidden]="!showLocationNameOption()">
+    <div class="p-field berth-location-field">
       <label for="locationName">{{ locationNameLabel | translate }}:</label>
-      <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text"/>
+      <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text" />
       <span
         *ngIf="timestampFormGroup.get('locationName').hasError('required') && timestampFormGroup.get('locationName').touched"
         class="p-invalid">
@@ -94,6 +108,10 @@
         {{ this.timestampTypeSelected?.value.timestampTypeName }}
       </span>
     </div>
+  </div>
+
+  <!-- Delay Code dropdown -->
+  <div class="md:col-6">
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
     <p-dropdown appendTo="body" id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
       filterBy="label,value.name" [group]="false">
@@ -120,17 +138,16 @@
     </p-dropdown>
   </div>
 
-  <div class="p-field col-12 md:col-2"></div>
-
-  <div class="p-field col-12 md:col-5">
+  <!-- Remarks box -->
+  <div class="md:col-6">
     <span class="p-float-label">
-      <textarea class="commentBox" id="commentbox" pInputTextarea formControlName="remark"></textarea>
+      <textarea id="commentbox" pInputTextarea formControlName="remark"></textarea>
       <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
     </span>
   </div>
 
   <!-- Vessel Position -->
-  <div class="p-field col-12 md:col-4" [hidden]="!showVesselPosition()">
+  <div class="md:col-6" [hidden]="!showVesselPosition()">
     <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate }}:</label>
     <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%"
       type="text" />
@@ -141,7 +158,7 @@
       {{ 'general.timestamp.vesselPosition.latitude.pattern' | translate }}
     </span>
   </div>
-  <div class="p-field col-12 md:col-4" [hidden]="!showVesselPosition()">
+  <div class="md:col-6" [hidden]="!showVesselPosition()">
     <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
     <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%"
       type="text" />
@@ -154,7 +171,7 @@
   </div>
 
   <!-- Miles remaning -->
-  <div class="p-field col-12 md:col-4" [hidden]="!showMilesToDestinationPortOption()">
+  <div class="md:col-6" [hidden]="!showMilesToDestinationPortOption()">
     <label for="milesToDestinationPort">{{ "general.timestamp.milesToDestinationPort.label" | translate }}:</label>
     <input id="milesToDestinationPort" formControlName="milesToDestinationPort" pInputText style="width: 100%"
       type="text" />
@@ -162,7 +179,6 @@
       {{ 'general.timestamp.milesToDestinationPort.pattern' | translate }}
     </span>
   </div>
-  <div class="p-field col-12 md:col-6"></div>
 </div>
 
 <div class="grid">
@@ -173,11 +189,9 @@
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
     <p-button (onClick)="saveTimestamp()" class="footer_option__buttons"
-              [disabled]="validatePortOfCallTimestamp() || timestampFormGroup.invalid" icon="pi pi-save" label="{{'general.save.editor.label' | translate}}"
-              iconPos="left">
+    [disabled]=" timestampFormGroup.invalid" icon="pi pi-save" label="{{createButtonText()| translate}}" iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
     </p-button>
-
   </div>
 </div>
