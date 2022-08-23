@@ -279,7 +279,7 @@
                 iconPos="left">
       </p-button>
       <p-button label="{{ createButtonText() | translate }}" iconPos="left" class="footer_option__buttons"
-                icon="pi pi-save" (onClick)="saveNewTransportCall()" [disabled]="transportCallFormGroup.invalid">
+                icon="pi pi-save" appDebounceClick (debounceClick)="saveNewTransportCall()" [debounceTime]="200" [disabled]="transportCallFormGroup.invalid">
 
         <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
                            styleClass="custom-spinner" strokeWidth="3" animationDuration=".9s"></p-progressSpinner>

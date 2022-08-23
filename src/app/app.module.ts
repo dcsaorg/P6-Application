@@ -53,6 +53,7 @@ import { AuthInterceptor } from "./auth/auth-interceptor";
 import {AuthService} from "./auth/auth.service";
 import { TransportCallFilterService } from "./controller/services/base/transport-call-filter.service";
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import { DebounceClickDirective } from "./controller/services/util/debounce-click.directive";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -81,6 +82,7 @@ export function ConfigLoader(configService: ConfigService) {
     TransportCallsTableComponent,
     TimestampToStandardizedtTimestampPipe,
     TransportCallCreatorComponent,
+    DebounceClickDirective
   ],
   imports: [
     AmplifyUIAngularModule,
