@@ -1,6 +1,6 @@
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 import {TimestampInfo} from "../../model/jit/timestamp-info";
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService, SelectItem } from "primeng/api";
 import { Port } from "../../model/portCall/port";
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
@@ -16,10 +16,10 @@ import { VesselPosition } from "../../model/vesselPosition";
 import { TerminalService } from 'src/app/controller/services/base/terminal.service';
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
 import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
-import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
+import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -49,9 +49,11 @@ export class TimestampEditorComponent implements OnInit {
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
-  respondingToTimestampInfo: TimestampInfo;
   terminalOptions: SelectItem[] = [];
   milesToDestinationPort: string;
+  timestampResponseStatus: TimestampResponseStatus;
+  responseTimestampDefinitionTO: TimestampDefinitionTO;
+  respondingToTimestampInfo: TimestampInfo;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -71,17 +73,12 @@ export class TimestampEditorComponent implements OnInit {
       this.delayCodes = delayCodes;
       this.updateDelayCodeOptions()
     });
-    this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
-      this.timestampDefinitions = timestampDefinitions;
-      this.updateTimestampTypeOptions();
-    })
-    this.timestamps = this.config.data.timestamps;
+
     this.transportCall = this.config.data.transportCall;
-    this.respondingToTimestampInfo = this.config.data.respondingToTimestampInfo;
-    this.updateTerminalOptions(this.transportCall.portOfCall.UNLocationCode);
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.updateTimestampTypeOptions();
-    });
+    this.timestampResponseStatus = this.config.data.timestampResponseStatus;
+    this.responseTimestampDefinitionTO = this.config.data.responseTimestampDefinitionTO;
+    this.respondingToTimestampInfo = this.config.data.respondingToTimestamp;
+
     this.timestampFormGroup = this.formBuilder.group({
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
@@ -89,24 +86,68 @@ export class TimestampEditorComponent implements OnInit {
       remark: new FormControl(null),
       delayCode: new FormControl({value: ''}) ,
       terminal: new FormControl({value: ''}),
-      timestampType: new FormControl({value: ''}),
-      eventTimestampDate: new FormControl(null),
-      eventTimestampTime: new FormControl(null),
+      timestampType: new FormControl(null,[Validators.required]),
+      eventTimestampDate: new FormControl(null,[Validators.required]),
+      eventTimestampTime: new FormControl(null,[Validators.required]),
       locationName: new FormControl(null),
     });
+    this.timestampTypeSelected = this.timestampFormGroup.controls.timestampType;
     this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
     this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampTime;
-    this.timestampTypeSelected = this.timestampFormGroup.controls.timestampType;
+    this.determineTimestampResponseStatus();
+    this.updateTerminalOptions(this.transportCall.UNLocationCode);    
+  }
+
+  determineTimestampResponseStatus(){
+    if( this.timestampResponseStatus === TimestampResponseStatus.CREATE){
+      this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
+        this.timestampDefinitions = timestampDefinitions;
+        this.updateTimestampTypeOptions();
+      })  
+      this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        this.updateTimestampTypeOptions();
+      });
+     } else if (this.timestampResponseStatus === TimestampResponseStatus.REJECTED){
+      this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
+      this.timestampTypeSelected.setValidators(null);
+      this.timestampTypeSelected.updateValueAndValidity();
+      this.setDefaultTimestampValues();
+    } else if (this.timestampResponseStatus === TimestampResponseStatus.ACCEPTED){
+      this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
+      this.timestampTypeSelected.setValidators(null);
+      this.timestampTypeSelected.updateValueAndValidity();
+      this.eventTimestampDate.setValidators(null);
+      this.eventTimestampDate.updateValueAndValidity();
+      this.eventTimestampTime.setValidators(null);
+      this.eventTimestampTime.updateValueAndValidity();
+      this.setDefaultTimestampValues();
+    }
+  }
+
+  parseTimestampResponseStatus() {
+    switch (this.timestampResponseStatus) {
+      case TimestampResponseStatus.CREATE: return "CREATE";
+      case TimestampResponseStatus.ACCEPTED: return "ACCEPTED";
+      case TimestampResponseStatus.REJECTED: return "REJECTED";
+    }
+  }
+
+  createButtonText(): string {
+    switch (this.timestampResponseStatus) {
+      case TimestampResponseStatus.CREATE: return 'general.save.editor.label';
+      case TimestampResponseStatus.ACCEPTED: return 'general.save.Accepteditor.label';
+      case TimestampResponseStatus.REJECTED: return 'general.save.Rejecteditor.label';
+    }
   }
 
   showVesselPosition(): boolean {
     if (!this.globals.config.enableVesselPositions) return false;
-    return this.timestampTypeSelected?.value.isVesselPositionNeeded ?? false;
+    return this.timestampTypeSelected?.value?.isVesselPositionNeeded ?? false;
   }
 
   showLocationNameOption(): boolean {
     this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected.value);
-    if (this.timestampTypeSelected?.value.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
+    if (this.timestampTypeSelected?.value?.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
       this.timestampFormGroup.controls.locationName.setValidators([Validators.required]);
     } else {
       this.timestampFormGroup.controls.locationName.setValidators(null);
@@ -116,11 +157,11 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   showTerminalOption(): boolean {
-    return this.timestampTypeSelected?.value.isTerminalNeeded ?? false;
+    return this.timestampTypeSelected?.value?.isTerminalNeeded ?? false;
   }
 
   showMilesToDestinationPortOption(): boolean {
-    return this.timestampTypeSelected?.value.isMilesToDestinationRelevant ?? false;;
+    return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;;
   }
 
   saveTimestamp() {
@@ -130,9 +171,10 @@ export class TimestampEditorComponent implements OnInit {
 
     const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
     let vesselPosition: VesselPosition = null;
-    let eventDateTime: Date | string = this.respondingToTimestampInfo?.operationsEventTO?.eventDateTime;
-    // Only update eventDateTime of timestamp when rejecting
-    if (this.eventTimestampDate) {
+    let eventDateTime: Date | string = this.respondingToTimestampInfo?.operationsEventTO.eventDateTime;
+
+    // Only update eventDateTime of timestamp when creating & rejecting
+    if (this.timestampResponseStatus == TimestampResponseStatus.CREATE || this.timestampResponseStatus == TimestampResponseStatus.REJECTED) {
       eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
     }
 
@@ -236,18 +278,15 @@ export class TimestampEditorComponent implements OnInit {
     this.ref.close(null);
   }
 
-  validatePortOfCallTimestamp(): boolean {
-    return !(
-      this.timestampTypeSelected && this.eventTimestampDate && this.eventTimestampTime
-    );
-  }
-
   setEventTimestampToNow() {
     let eventTimestampDat = new Date();
     this.eventTimestampTime.setValue(
       this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes()));
   }
 
+  private setDefaultTimestampValues() {
+    this.timestampFormGroup.controls.locationName.setValue(this.respondingToTimestampInfo.operationsEventTO.eventLocation.locationName);
+  }
   private leftPadWithZero(item: number): String {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }

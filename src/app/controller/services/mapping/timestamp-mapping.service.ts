@@ -6,7 +6,6 @@ import {map, mergeMap} from "rxjs/operators";
 import {Globals} from "../../../model/portCall/globals";
 import {Timestamp} from "../../../model/jit/timestamp";
 import {TimestampService} from "../jit/timestamps.service";
-import {TimestampToStandardizedtTimestampPipe} from '../../pipes/timestamp-to-standardized-timestamp';
 import {TimestampDefinitionTO} from "../../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../base/timestamp-definition.service";
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
@@ -24,7 +23,6 @@ export class TimestampMappingService {
   constructor(
     private timestampInfoService: TimestampInfoService,
     private globals: Globals,
-    private timestampToStandardizedTimestampPipe: TimestampToStandardizedtTimestampPipe,
     private timestampDefinitionService: TimestampDefinitionService,
     private timestampService: TimestampService,
   ) {
