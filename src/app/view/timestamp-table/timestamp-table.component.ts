@@ -236,7 +236,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         transportCall: this.transportCallSelected,
         responseTimestampDefinitionTO: timestamp.timestampDefinitionTO.acceptTimestampDefinitionEntity,
         respondingToTimestamp: timestampShallowClone,
-        timestampResponseStatus: TimestampResponseStatus.ACCEPTED
+        timestampResponseStatus: TimestampResponseStatus.ACCEPT
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {
@@ -260,7 +260,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         transportCall: this.transportCallSelected,
         responseTimestampDefinitionTO: timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity,
         respondingToTimestamp: timestampShallowClone,
-        timestampResponseStatus: TimestampResponseStatus.REJECTED
+        timestampResponseStatus: TimestampResponseStatus.REJECT
       }
     });
     timestampEditor.onClose.subscribe((timestamp) => {

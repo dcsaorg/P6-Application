@@ -1,20 +1,20 @@
-import {Injectable} from '@angular/core';
-import {TimestampInfoService} from "../jit/timestamp-info.service";
-import {Observable} from "rxjs";
-import {TransportCall} from "../../../model/jit/transport-call";
-import {map, mergeMap} from "rxjs/operators";
-import {Globals} from "../../../model/portCall/globals";
-import {Timestamp} from "../../../model/jit/timestamp";
-import {TimestampService} from "../jit/timestamps.service";
-import {TimestampDefinitionTO} from "../../../model/jit/timestamp-definition";
-import {TimestampDefinitionService} from "../base/timestamp-definition.service";
-import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
-import {FacilityTypeCode} from 'src/app/model/enums/facilityTypeCodeOPR';
-import {TimestampInfo} from "../../../model/jit/timestamp-info";
-import {Terminal} from "../../../model/portCall/terminal";
-import {PublisherRole} from "../../../model/enums/publisherRole";
-import {OperationsEvent} from "../../../model/jit/operations-event";
-import {FacilityCodeListProvider} from "../../../model/enums/facilityCodeListProvider";
+import { Injectable } from '@angular/core';
+import { TimestampInfoService } from "../jit/timestamp-info.service";
+import { Observable } from "rxjs";
+import { TransportCall } from "../../../model/jit/transport-call";
+import { map, mergeMap } from "rxjs/operators";
+import { Globals } from "../../../model/portCall/globals";
+import { Timestamp } from "../../../model/jit/timestamp";
+import { TimestampService } from "../jit/timestamps.service";
+import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
+import { TimestampDefinitionService } from "../base/timestamp-definition.service";
+import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
+import { FacilityTypeCode } from 'src/app/model/enums/facilityTypeCodeOPR';
+import { TimestampInfo } from "../../../model/jit/timestamp-info";
+import { Terminal } from "../../../model/portCall/terminal";
+import { PublisherRole } from "../../../model/enums/publisherRole";
+import { OperationsEvent } from "../../../model/jit/operations-event";
+import { FacilityCodeListProvider } from "../../../model/enums/facilityCodeListProvider";
 
 @Injectable({
   providedIn: 'root'
@@ -37,27 +37,27 @@ export class TimestampMappingService {
   }
 
   overlappingPublisherRoles(timestampDefinition: TimestampDefinitionTO): PublisherRole[] {
-    if(timestampDefinition){
-    const userRoles = this.globals.config.publisherRoles
-    const rolesForTimestamp = timestampDefinition.publisherPattern.map(p => p.publisherRole)
-    return userRoles.filter((val1) => {
-      return rolesForTimestamp.find((val2) => val1 === val2);
-    }).sort((a, b) => {
-      // Sort generally by name, but prefer CA over AG (the roles are presented in order CA, AG, VSL)
-      if (a == b) {
-        return 0;
-      }
-      if (a == PublisherRole.CA && b == PublisherRole.AG) {
-        return -1
-      }
-      if (b == PublisherRole.AG && a == PublisherRole.CA) {
-        return 1
-      }
-      return a < b ? -1 : 1;
-    });
+    if (timestampDefinition) {
+      const userRoles = this.globals.config.publisherRoles
+      const rolesForTimestamp = timestampDefinition.publisherPattern.map(p => p.publisherRole)
+      return userRoles.filter((val1) => {
+        return rolesForTimestamp.find((val2) => val1 === val2);
+      }).sort((a, b) => {
+        // Sort generally by name, but prefer CA over AG (the roles are presented in order CA, AG, VSL)
+        if (a == b) {
+          return 0;
+        }
+        if (a == PublisherRole.CA && b == PublisherRole.AG) {
+          return -1
+        }
+        if (b == PublisherRole.AG && a == PublisherRole.CA) {
+          return 1
+        }
+        return a < b ? -1 : 1;
+      });
+    }
+    return [];
   }
-  return [];
-}
 
   createTimestampStub(transportCall: TransportCall, timestampDefinition: TimestampDefinitionTO, operationsEvent?: OperationsEvent): Timestamp {
     const facilityCode = timestampDefinition.isTerminalNeeded ? operationsEvent?.eventLocation.facilityCode : null
@@ -104,7 +104,7 @@ export class TimestampMappingService {
   /*
   * A function that returns a list of portCall timestamps related to the transport Call .
   */
-  getPortCallTimestampsByTransportCall(transportCall: TransportCall, terminal: Terminal|null, portCallPart?: string): Observable<TimestampInfo[]> {
+  getPortCallTimestampsByTransportCall(transportCall: TransportCall, terminal: Terminal | null, portCallPart?: string): Observable<TimestampInfo[]> {
     return this.timestampInfoService.getTimestampInfoForTransportCall(transportCall?.transportCallID, terminal?.facilitySMDGCode, portCallPart).pipe(
       mergeMap(timestampInfos =>
         this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(

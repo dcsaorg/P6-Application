@@ -338,8 +338,7 @@ export class TransportCallCreatorComponent implements OnInit {
       const publisherRoleSelected = this.transportCallFormGroup.controls.publisherRole.value;
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
-      // TODO: Let the user choose the role
-      timestamp.publisherRole = !!publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0]; 
+      timestamp.publisherRole = publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0]; 
       timestamp.publisher = this.globals.config.publisher;
       timestamp.delayReasonCode = this.transportCallFormGroup.controls.delayCode.value?.smdgCode
       timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;

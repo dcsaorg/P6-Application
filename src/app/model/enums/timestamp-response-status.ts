@@ -1,5 +1,5 @@
 export enum TimestampResponseStatus {
-    ACCEPTED = "ACCEPTED",
-    REJECTED  = "REJECTED",
-    CREATE = "CREATE"
+  ACCEPT = "ACCEPT",
+  REJECT = "REJECT",
+  CREATE = "CREATE",
 }
