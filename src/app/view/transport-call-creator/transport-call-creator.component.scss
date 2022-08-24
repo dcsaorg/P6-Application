@@ -113,12 +113,7 @@ input[type="checkbox"] {
   .headline{
     margin-bottom: 30px;
   }
-  
-  .commentBox{
-    height: 200px;
-    width: 560px;
-  }
-  
+
   .footer_option{
     display: flex;
   
@@ -196,12 +191,4 @@ input[type="checkbox"] {
     &__delayDetails{
       color:$darkGrey
     }
-  }
-  
-  .berth-location-field{
-    margin-top:15px;
-  }
-  
-  .delay-code-input{
-    margin-top: 15px;
   }
