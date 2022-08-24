@@ -21,7 +21,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -58,6 +57,7 @@ export class TimestampEditorComponent implements OnInit {
   timestampResponseStatus: TimestampResponseStatus;
   responseTimestampDefinitionTO: TimestampDefinitionTO;
   respondingToTimestampInfo: TimestampInfo;
+  TimestampResponseStatus = TimestampResponseStatus;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -113,12 +113,12 @@ export class TimestampEditorComponent implements OnInit {
       this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
         this.updateTimestampTypeOptions();
       });
-    } else if (this.timestampResponseStatus === TimestampResponseStatus.REJECTED) {
+    } else if (this.timestampResponseStatus === TimestampResponseStatus.REJECT) {
       this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
       this.timestampTypeSelected.setValidators(null);
       this.timestampTypeSelected.updateValueAndValidity();
       this.setDefaultTimestampValues();
-    } else if (this.timestampResponseStatus === TimestampResponseStatus.ACCEPTED) {
+    } else if (this.timestampResponseStatus === TimestampResponseStatus.ACCEPT) {
       this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
       this.timestampTypeSelected.setValidators(null);
       this.timestampTypeSelected.updateValueAndValidity();
@@ -130,19 +130,12 @@ export class TimestampEditorComponent implements OnInit {
     }
   }
 
-  parseTimestampResponseStatus() {
-    switch (this.timestampResponseStatus) {
-      case TimestampResponseStatus.CREATE: return "CREATE";
-      case TimestampResponseStatus.ACCEPTED: return "ACCEPTED";
-      case TimestampResponseStatus.REJECTED: return "REJECTED";
-    }
-  }
 
   createButtonText(): string {
     switch (this.timestampResponseStatus) {
       case TimestampResponseStatus.CREATE: return 'general.save.editor.label';
-      case TimestampResponseStatus.ACCEPTED: return 'general.save.Accepteditor.label';
-      case TimestampResponseStatus.REJECTED: return 'general.save.Rejecteditor.label';
+      case TimestampResponseStatus.ACCEPT: return 'general.save.Accepteditor.label';
+      case TimestampResponseStatus.REJECT: return 'general.save.Rejecteditor.label';
     }
   }
 
@@ -190,7 +183,7 @@ export class TimestampEditorComponent implements OnInit {
     let eventDateTime: Date | string = this.respondingToTimestampInfo?.operationsEventTO.eventDateTime;
 
     // Only update eventDateTime of timestamp when creating & rejecting
-    if (this.timestampResponseStatus == TimestampResponseStatus.CREATE || this.timestampResponseStatus == TimestampResponseStatus.REJECTED) {
+    if (this.timestampResponseStatus == TimestampResponseStatus.CREATE || this.timestampResponseStatus == TimestampResponseStatus.REJECT) {
       eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
     }
 
@@ -209,7 +202,7 @@ export class TimestampEditorComponent implements OnInit {
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
     )
 
-    newTimestamp.publisherRole = !!publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0]; 
+    newTimestamp.publisherRole = publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0]; 
     newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
