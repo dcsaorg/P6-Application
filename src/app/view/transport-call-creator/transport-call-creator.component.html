@@ -2,9 +2,9 @@
   <h4>{{ 'general.portVisit.label' | translate }}</h4>
   <div class="p-fluid p-formgrid grid">
 
-    <div class="p-field col-12 md:col-4">
+    <div class="md:col-4">
       <label for="serviceCode">{{ 'general.transportCall.table.carrierServiceCode.label' | translate }}:</label>
-      <input id="serviceCode" formControlName="serviceCode" pInputText style="width: 100%" type="text"/>
+      <input id="serviceCode" formControlName="serviceCode" pInputText style="width: 100%" type="text" />
       <span
         *ngIf="transportCallFormGroup.get('serviceCode').hasError('required') && transportCallFormGroup.get('serviceCode').touched"
         class="p-invalid">
@@ -15,9 +15,9 @@
       </span>
     </div>
 
-    <div class="p-field col-12 md:col-4">
+    <div class="md:col-4">
       <label for="exportVoyageNumber">{{ 'general.transportCall.table.exportVoyageNumber.label' | translate }}:</label>
-      <input id="exportVoyageNumber" formControlName="exportVoyageNumber" pInputText style="width: 100%" type="text"/>
+      <input id="exportVoyageNumber" formControlName="exportVoyageNumber" pInputText style="width: 100%" type="text" />
       <span
         *ngIf="transportCallFormGroup.get('exportVoyageNumber').hasError('required') && transportCallFormGroup.get('exportVoyageNumber').touched"
         class="p-invalid">{{ 'general.transportCall.validation.exportVoyageNumber.empty' | translate }}
@@ -27,59 +27,34 @@
       </span>
     </div>
 
-    <div class="p-field col-12 md:col-4">
+    <div class="md:col-4">
       <label for="importVoyageNumber">{{ 'general.transportCall.table.importVoyageNumber.label' | translate }}:</label>
-      <input id="importVoyageNumber" formControlName="importVoyageNumber" pInputText style="width: 100%" type="text"/>
+      <input id="importVoyageNumber" formControlName="importVoyageNumber" pInputText style="width: 100%" type="text" />
       <span *ngIf="transportCallFormGroup.get('importVoyageNumber').hasError('maxlength')" class="p-invalid">
         {{ 'general.transportCall.validation.importVoyageNumber.length' | translate }}
       </span>
     </div>
 
+    <div class="p-field col-12 md:col-12"></div>
 
-    <div class="p-field col-12 md:col-8"></div>
-
-    <!-- UN Location Code + Facility SMDG Code -->
-    <div class="p-field col-12 md:col-12">
-      <div class="p-fluid p-formgrid grid">
-        <div class="p-field col-12 md:col-4">
-          <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
-          <p-dropdown appendTo="body" formControlName="port" id="portOfCall" class="portOfCall__dropDown"
-                      [options]="portOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.UNLocationCode">
-            <ng-template let-port pTemplate="item">
-              <div *ngIf="!port.value">
-                <div>Select port</div>
-              </div>
-              <div *ngIf="port.value">
-                <div>{{port.value.unLocationName}}</div>
-                <div class="portListName">{{port.value.UNLocationCode}}</div>
-              </div>
-            </ng-template>
-          </p-dropdown>
-          <span
-            *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('port').touched"
-            class="p-invalid">
-            {{ 'general.transportCall.validation.port.empty' | translate }}
-          </span>
-        </div>
-
-
-      </div>
+    <!-- portOfCall -->
+    <div class="p-field col-12 md:col-6">
+      <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
+      <p-dropdown appendTo="body" formControlName="port" id="portOfCall" [options]="portOptions" [filter]="true"
+        (onChange)="portSelected()" filterBy="label,value.UNLocationCode">
+      </p-dropdown>
+      <span
+        *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('port').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.validation.port.empty' | translate }}
+      </span>
     </div>
 
     <!-- Vessel -->
-    <div class="p-field col-12 md:col-4">
+    <div class="md:col-6">
       <label for="vessels">{{ 'general.vessel.label' | translate }}:</label>
-      <p-dropdown appendTo="body" formControlName="vessel" id="vessels" class="vessels__dropDown"
-                  [options]="vesselOptions" [filter]="true" (onChange)="portSelected()" filterBy="label,value.name">
-        <ng-template let-vessel pTemplate="item">
-          <div *ngIf="!vessel.value">
-            <div>Select vessel</div>
-          </div>
-          <div *ngIf="vessel.value">
-            <div>{{vessel.value.vesselName}}</div>
-            <div class="portListName">{{vessel.value.name}}</div>
-          </div>
-        </ng-template>
+      <p-dropdown appendTo="body" formControlName="vessel" id="vessels" [options]="vesselOptions" [filter]="true"
+        filterBy="label,value.name">>
       </p-dropdown>
       <span
         *ngIf="transportCallFormGroup.get('vessel').hasError('required') && transportCallFormGroup.get('vessel').touched"
@@ -90,6 +65,7 @@
   </div>
 
   <!-- TIMESTAMP -->
+  <div class="p-field col-12 md:col-12"></div>
   <h4>{{ 'general.timestamp.label' | translate }}</h4>
 
   <!-- Timestamp drop down-->
@@ -99,21 +75,50 @@
   </div>
 
   <div class="p-fluid p-formgrid grid" [hidden]="!shouldCreateTimestamp()">
-    <div class="p-field col-12 md:col-4" [hidden]="!shouldCreateTimestamp()">
+    <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes"
-                  [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()">
+        [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()">
       </p-dropdown>
       <span
         *ngIf="transportCallFormGroup.get('timestampType').hasError('required') && transportCallFormGroup.get('timestampType').touched "
         class="p-invalid">
         {{ 'general.timestamp.validation.timestampType.required' | translate }}
       </span>
-      <!-- TERMINAL -->
-    <div class="" [hidden]="!showTerminalOption() || !shouldCreateTimestamp()">
+    </div>
+
+    <!-- create event timestamp calender-->
+    <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
+      <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
+      <div class="p-fluid p-formgrid grid">
+        <div class="p-field col-12 md:col-6">
+          <p-calendar id="eventtimestamp" appendTo="body" formControlName="eventTimestampDate" hourFormat="24"
+            [monthNavigator]="true" [showButtonBar]="false" [showIcon]="true" [showWeek]="true" [yearNavigator]="true"
+            yearRange="2010:2030" styleClass="date-time-date-field"
+            placeholder="{{ 'general.timestamp.date.event' | translate }}" [panelStyleClass]="'datetime-panel'">
+          </p-calendar>
+          <span
+            *ngIf="transportCallFormGroup.get('eventTimestampDate').hasError('required') && transportCallFormGroup.get('eventTimestampDate').touched || transportCallFormGroup.get('eventTimestampTime').hasError('required') && transportCallFormGroup.get('eventTimestampTime').touched"
+            class="p-invalid">
+            {{ 'general.timestamp.validation.eventTimestamp.required' | translate }}
+          </span>
+        </div>
+        <div class="p-field col-12 md:col-6">
+          <p-inputMask formControlName="eventTimestampTime" mask="99:99"
+            placeholder="{{ 'general.timestamp.time' | translate }}" styleClass="datetime-time-time-field">
+          </p-inputMask>
+          <button pTooltip="{{ 'general.currentTime.tooltip' | translate }}" tooltipPosition="top"
+            tooltipStyleClass="ToolTipClass" class="minus-rounded-borders" type="button" pButton pRipple
+            icon="pi pi-clock" styleClass="p-button-success" (click)="setEventTimestampToNow()"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="md:col-6" [hidden]="!showTerminalOption() || !shouldCreateTimestamp()">
       <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
-      <p-dropdown appendTo="body" formControlName="terminal" id="terminal" class="portOfCall__dropDown"
-                  [options]="terminalOptions" appendTo="body" [filter]="true" filterBy="label,value.facilityName">
+      <p-dropdown appendTo="body" formControlName="terminal" id="terminal" [options]="terminalOptions" appendTo="body"
+        [filter]="true" filterBy="label,value.facilityName">
         <ng-template let-terminal pTemplate="item">
           <div *ngIf="!terminal.value">
             <div>Select Terminal</div>
@@ -125,143 +130,95 @@
         </ng-template>
       </p-dropdown>
       <span
-      *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('terminal').touched"
-      class="p-invalid">
-      {{ 'general.transportCall.validation.port.empty' | translate }} to choose a terminal! <br>
-    </span>
+        *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('terminal').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.validation.port.empty' | translate }} to choose a terminal! <br>
+      </span>
       <span *ngIf="transportCallFormGroup.get('terminal').hasError('required')" class="p-invalid">
         {{ 'general.transportCall.validation.terminal.empty' | translate }}
       </span>
-     </div>
     </div>
 
 
-    <div class="p-field col-12 md:col-2"></div>
-
-    <!-- create event timestamp calender-->
-    <div class="p-field col-12 md:col-5" [hidden]="!shouldCreateTimestamp()">
-      <label for="eventtimestamp">{{ 'general.table.header.eventTimestamp.label' | translate }}: </label>
-      <div class="p-fluid p-formgrid grid">
-        <div class="p-field col-12 md:col-6">
-          <p-calendar id="eventtimestamp" appendTo="body" formControlName="eventTimestampDate" hourFormat="24"
-                      [monthNavigator]="true" [showButtonBar]="false"
-                      [showIcon]="true" [showWeek]="true"
-                      [yearNavigator]="true" yearRange="2010:2030"
-                      styleClass="date-time-date-field" placeholder="{{ 'general.timestamp.date.event' | translate }}"
-                      [panelStyleClass]="'datetime-panel'">
-          </p-calendar>
-          <span
-            *ngIf="transportCallFormGroup.get('eventTimestampDate').hasError('required') && transportCallFormGroup.get('eventTimestampDate').touched || transportCallFormGroup.get('eventTimestampTime').hasError('required') && transportCallFormGroup.get('eventTimestampTime').touched"
-            class="p-invalid">
-            {{ 'general.timestamp.validation.eventTimestamp.required' | translate }}
-          </span>
-        </div>
-        <div class="p-field col-12 md:col-6">
-          <p-inputMask formControlName="eventTimestampTime" mask="99:99"
-                       placeholder="{{ 'general.timestamp.time' | translate }}"
-                       styleClass="datetime-time-time-field"></p-inputMask>
-          <button pTooltip="{{ 'general.currentTime.tooltip' | translate }}"
-                  tooltipPosition="top"
-                  tooltipStyleClass="ToolTipClass"
-                  class="minus-rounded-borders" type="button" pButton pRipple icon="pi pi-clock"
-                  styleClass="p-button-success"
-                  (click)="setEventTimestampToNow()"></button>
-        </div>
-      </div>
+    <!-- Location Name -->
+    <div class="md:col-6" [hidden]="!shouldCreateTimestamp() || !showLocationNameOption()">
+      <label for="locationName">{{ locationNameLabel | translate }}:</label>
+      <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text" />
+      <span
+        *ngIf="transportCallFormGroup.get('locationName').hasError('required') && transportCallFormGroup.get('locationName').touched"
+        class="p-invalid">
+        {{ 'general.transportCall.table.locationName.required' | translate }}
+        {{ transportCallFormGroup.get('timestampType')?.value.timestampTypeName }}
+      </span>
     </div>
 
-
-    <div class="p-field col-12 md:col-4" [hidden]="!shouldCreateTimestamp()">
-      <!-- Location Name -->
-      <div class="" [hidden]="!shouldCreateTimestamp() || !showLocationNameOption()">
-        <label for="locationName">{{ locationNameLabel | translate }}:</label>
-        <input id="locationName" formControlName="locationName" pInputText style="width: 100%" type="text"/>
-        <span
-          *ngIf="transportCallFormGroup.get('locationName').hasError('required') && transportCallFormGroup.get('locationName').touched"
-          class="p-invalid">
-          {{ 'general.transportCall.table.locationName.required' | translate }}
-          {{ transportCallFormGroup.get('timestampType')?.value.timestampTypeName }}
-        </span>
-      </div>
-
-      <!-- Delay Code -->
-      <div class="delay-code-input">
-        <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
-        <p-dropdown id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
-                    filterBy="label,value.name" [group]="false">
-          <ng-template let-delayCode pTemplate="selectedItem">
-            <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
-              <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
-              <div class="delayCodeSelected__delayType">&nbsp;&middot;&nbsp;{{delayCode.value.delayType}}
-              </div>
-              <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
-              <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
+    <!-- Delay Code -->
+    <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
+      <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
+      <p-dropdown id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
+        filterBy="label,value.name" [group]="false">
+        <ng-template let-delayCode pTemplate="selectedItem">
+          <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
+            <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
+            <div class="delayCodeSelected__delayType">&nbsp;&middot;&nbsp;{{delayCode.value.delayType}}
             </div>
-            <div *ngIf="!delayCode.value">
-              <div>{{delayCode.label}}</div>
-            </div>
-          </ng-template>
-          <ng-template let-delayCode pTemplate="item">
-            <div class="delayCodeDetails" *ngIf="delayCode.value">
-              <div class="delayCodeDetails__smdgCode">{{delayCode.value.smdgCode}}</div>
-              <div class="delayCodeDetails__delayType">{{delayCode.value.delayType}}</div>
-              <div class="delayCodeDetails__delayName">{{delayCode.value.name}}</div>
-              <div class="delayCodeDetails__delaydescription">{{delayCode.value.description}}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
+            <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
+            <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
+          </div>
+          <div *ngIf="!delayCode.value">
+            <div>{{delayCode.label}}</div>
+          </div>
+        </ng-template>
+        <ng-template let-delayCode pTemplate="item">
+          <div class="delayCodeDetails" *ngIf="delayCode.value">
+            <div class="delayCodeDetails__smdgCode">{{delayCode.value.smdgCode}}</div>
+            <div class="delayCodeDetails__delayType">{{delayCode.value.delayType}}</div>
+            <div class="delayCodeDetails__delayName">{{delayCode.value.name}}</div>
+            <div class="delayCodeDetails__delaydescription">{{delayCode.value.description}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
 
-    <div class="p-field col-12 md:col-2"></div>
 
     <!-- Delay Remark -->
-    <div class="p-field col-12 md:col-5" [hidden]="!shouldCreateTimestamp()">
+    <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <span class="p-float-label">
-        <textarea class="commentBox" id="commentbox" pInputTextarea formControlName="defaultTimestampRemark"
-                  [readOnly]="!shouldCreateTimestamp()"></textarea>
+        <textarea id="commentbox"mpInputTextarea formControlName="defaultTimestampRemark"
+          [readOnly]="!shouldCreateTimestamp()"></textarea>
         <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
       </span>
     </div>
 
-    <div class="p-field col-12 md:col-4">
-      <div>
-        <!-- Vessel latitude -->
-        <div class="" [hidden]="!showVesselPosition() || !shouldCreateTimestamp() " >
-          <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate }}:</label>
-          <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%" type="text"/>
-          <span
-            *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxlength')"
-            class="p-invalid">
-            {{ 'general.timestamp.vesselPosition.latitude.maxLength' | translate }}
-          </span>
-          <span
-          *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('pattern')"
-          class="p-invalid">
-          {{ 'general.timestamp.vesselPosition.latitude.pattern' | translate }}
-        </span>
-        </div>
-      </div>
+    <!-- Vessel latitude -->
+    <div class="md:col-6" [hidden]="!showVesselPosition() || !shouldCreateTimestamp() ">
+      <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate
+        }}:</label>
+      <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%"
+        type="text" />
+      <span *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxlength')" class="p-invalid">
+        {{ 'general.timestamp.vesselPosition.latitude.maxLength' | translate }}
+      </span>
+      <span *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('pattern')" class="p-invalid">
+        {{ 'general.timestamp.vesselPosition.latitude.pattern' | translate }}
+      </span>
     </div>
 
-    <div class="p-field col-12 md:col-4" [hidden]="!showVesselPosition() || !shouldCreateTimestamp()">
-      <!--vessel longitude-->
+    <!--vessel longitude-->
+    <div class="md:col-6" [hidden]="!showVesselPosition() || !shouldCreateTimestamp()">
       <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
-      <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%" type="text"/>
-      <span
-        *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('maxlength')"
-        class="p-invalid">
+      <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%"
+        type="text" />
+      <span *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('maxlength')" class="p-invalid">
         {{ 'general.timestamp.vesselPosition.longitude.maxLength' | translate }}
       </span>
-      <span
-      *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('pattern')"
-      class="p-invalid">
-      {{ 'general.timestamp.vesselPosition.longitude.pattern' | translate }}
-    </span>
+      <span *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('pattern')" class="p-invalid">
+        {{ 'general.timestamp.vesselPosition.longitude.pattern' | translate }}
+      </span>
     </div>
-  </div>
+
     <!-- Miles remaning -->
-    <div class="p-field col-12 md:col-4" [hidden]="!showMilesToDestinationPortOption() || !shouldCreateTimestamp()">
+    <div class="md:col-6" [hidden]="!showMilesToDestinationPortOption() || !shouldCreateTimestamp()">
       <label for="milesToDestinationPort">{{ "general.timestamp.milesToDestinationPort.label" | translate }}:</label>
       <input id="milesToDestinationPort" formControlName="milesToDestinationPort" pInputText style="width: 100%"
         type="text" />
@@ -269,20 +226,21 @@
         {{ 'general.timestamp.milesToDestinationPort.pattern' | translate }}
       </span>
     </div>
+  </div>
 
   <div class="grid">
     <div class="col-8">
     </div>
     <div class="col-4 footer_option" style="justify-content: flex-end">
       <p-button class="footer_option__buttons" icon="pi pi-times-circle" (onClick)="close()"
-                label="{{'general.close.label' | translate}}"
-                iconPos="left">
+        label="{{'general.close.label' | translate}}" iconPos="left">
       </p-button>
       <p-button label="{{ createButtonText() | translate }}" iconPos="left" class="footer_option__buttons"
-                icon="pi pi-save" appDebounceClick (debounceClick)="saveNewTransportCall()" [debounceTime]="200" [disabled]="transportCallFormGroup.invalid">
+        icon="pi pi-save" appDebounceClick (debounceClick)="saveNewTransportCall()" [debounceTime]="200"
+        [disabled]="transportCallFormGroup.invalid">
 
         <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
-                           styleClass="custom-spinner" strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
+          styleClass="custom-spinner" strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
       </p-button>
 
     </div>
