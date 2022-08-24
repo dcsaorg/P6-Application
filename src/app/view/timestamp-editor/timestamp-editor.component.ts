@@ -1,5 +1,5 @@
-import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
-import {TimestampInfo} from "../../model/jit/timestamp-info";
+import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
+import { TimestampInfo } from "../../model/jit/timestamp-info";
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessageService, SelectItem } from "primeng/api";
 import { Port } from "../../model/portCall/port";
@@ -20,6 +20,8 @@ import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
+import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -50,6 +52,8 @@ export class TimestampEditorComponent implements OnInit {
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
   terminalOptions: SelectItem[] = [];
+  publisherRoleOptions: SelectItem[] = [];
+  publisherRoles: PublisherRole[] = [];
   milesToDestinationPort: string;
   timestampResponseStatus: TimestampResponseStatus;
   responseTimestampDefinitionTO: TimestampDefinitionTO;
@@ -84,35 +88,37 @@ export class TimestampEditorComponent implements OnInit {
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
       remark: new FormControl(null),
-      delayCode: new FormControl({value: ''}) ,
-      terminal: new FormControl({value: ''}),
-      timestampType: new FormControl(null,[Validators.required]),
-      eventTimestampDate: new FormControl(null,[Validators.required]),
-      eventTimestampTime: new FormControl(null,[Validators.required]),
+      delayCode: new FormControl({ value: '' }),
+      terminal: new FormControl({ value: '' }),
+      timestampType: new FormControl(null, [Validators.required]),
+      eventTimestampDate: new FormControl(null, [Validators.required]),
+      eventTimestampTime: new FormControl(null, [Validators.required]),
       locationName: new FormControl(null),
+      publisherRole: new FormControl(null),
     });
     this.timestampTypeSelected = this.timestampFormGroup.controls.timestampType;
     this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
     this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampTime;
     this.determineTimestampResponseStatus();
-    this.updateTerminalOptions(this.transportCall.UNLocationCode);    
+    this.updateTerminalOptions(this.transportCall.UNLocationCode);
+    this.updatePublisherRoleOptions();
   }
 
-  determineTimestampResponseStatus(){
-    if( this.timestampResponseStatus === TimestampResponseStatus.CREATE){
+  determineTimestampResponseStatus() {
+    if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
       this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
         this.timestampDefinitions = timestampDefinitions;
         this.updateTimestampTypeOptions();
-      })  
+      })
       this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
         this.updateTimestampTypeOptions();
       });
-     } else if (this.timestampResponseStatus === TimestampResponseStatus.REJECTED){
+    } else if (this.timestampResponseStatus === TimestampResponseStatus.REJECTED) {
       this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
       this.timestampTypeSelected.setValidators(null);
       this.timestampTypeSelected.updateValueAndValidity();
       this.setDefaultTimestampValues();
-    } else if (this.timestampResponseStatus === TimestampResponseStatus.ACCEPTED){
+    } else if (this.timestampResponseStatus === TimestampResponseStatus.ACCEPTED) {
       this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
       this.timestampTypeSelected.setValidators(null);
       this.timestampTypeSelected.updateValueAndValidity();
@@ -164,11 +170,21 @@ export class TimestampEditorComponent implements OnInit {
     return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;;
   }
 
+  showPublisherRoleOption(): boolean {  
+    if (this.publisherRoles.length > 1) {
+      this.timestampFormGroup.controls.publisherRole.setValidators([Validators.required]);
+    } else {
+      this.timestampFormGroup.controls.publisherRole.setValidators(null);
+    }
+    this.timestampFormGroup.controls.publisherRole.updateValueAndValidity();
+    return this.publisherRoles.length > 1;
+  }
+
   saveTimestamp() {
-    const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value
+    const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value;
+    const publisherRoleSelected = this.timestampFormGroup.controls.publisherRole.value;
     const terminalSelected = this.timestampFormGroup.controls.terminal.value;
     const locationName = this.timestampFormGroup.controls.locationName.value;
-
     const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
     let vesselPosition: VesselPosition = null;
     let eventDateTime: Date | string = this.respondingToTimestampInfo?.operationsEventTO.eventDateTime;
@@ -193,8 +209,7 @@ export class TimestampEditorComponent implements OnInit {
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
     )
 
-    // TODO: Let the user choose the role
-    newTimestamp.publisherRole = this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)[0]
+    newTimestamp.publisherRole = !!publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0]; 
     newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
@@ -239,7 +254,7 @@ export class TimestampEditorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
     for (let timestampDef of this.timestampDefinitions) {
-      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherPattern[0].publisherRole)) { // For now we just take first value of the publisher pattern
+      if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) {
         continue;
       }
       if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
@@ -247,14 +262,6 @@ export class TimestampEditorComponent implements OnInit {
       }
       this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef })
     }
-  }
-
-  private updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
-    });
   }
 
   private updateTerminalOptions(UNLocationCode: string) {
@@ -269,9 +276,26 @@ export class TimestampEditorComponent implements OnInit {
     })
   }
 
+  private updateDelayCodeOptions() {
+    this.delayCodeOptions = [];
+    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
+    this.delayCodes.forEach(delayCode => {
+      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
+    });
+  }
+
+  updatePublisherRoleOptions() {
+    this.publisherRoles = this.timestampMappingService.overlappingPublisherRoles(this?.timestampTypeSelected?.value);
+    this.publisherRoleOptions = [];
+    this.publisherRoleOptions.push({ label: this.translate.instant('general.publisherRole.select'), value: null });
+    this.publisherRoles.forEach(pr => {
+      this.publisherRoleOptions.push({ label: pr, value: pr })
+    })
+  }
+
   defaultTerminalValue() {
-  this.timestampFormGroup.controls.terminal.setValue(
-    this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
+    this.timestampFormGroup.controls.terminal.setValue(
+      this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
   }
 
   close() {

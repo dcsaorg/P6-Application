@@ -56,24 +56,14 @@
     <div>
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" styleClass="dropdown" formControlName="timestampType" [options]="timestampTypes"
-        [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()"></p-dropdown>
+        [filter]=true filterBy="label" appendTo="body" (onChange)="updatePublisherRoleOptions()"></p-dropdown>
     </div>
   </div>
 
-  <div class="md:col-6" [hidden]="!showTerminalOption()">
-    <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
-    <p-dropdown id="terminalSelected" styleClass="dropdown" formControlName="terminal" [options]="terminalOptions"
-      [filter]=true filterBy="label,value.facilityName" appendTo="body">
-      <ng-template let-terminal pTemplate="item">
-        <div *ngIf="!terminal.value">
-          <div>Select Terminal</div>
-        </div>
-        <div *ngIf="terminal.value">
-          <div>{{terminal.value.facilitySMDGCode}}</div>
-          <div class="portListName">{{terminal.value.facilityName}}</div>
-        </div>
-      </ng-template>
-    </p-dropdown>
+  <div class="md:col-6" [hidden]="!showPublisherRoleOption()">
+      <label for="timestampType">{{ 'general.publisherRole.label' | translate }}: </label>
+      <p-dropdown id="publisherRole" styleClass="dropdown" formControlName="publisherRole" 
+      [options]="publisherRoleOptions" appendTo="body"></p-dropdown>
   </div>
 
   <div class="md:col-6" *ngIf="parseTimestampResponseStatus() != 'ACCEPTED'">
@@ -94,6 +84,22 @@
           icon="pi pi-clock" styleClass="p-button-success" (click)="setEventTimestampToNow()"></button>
       </div>
     </div>
+  </div>
+  
+  <div class="md:col-6" [hidden]="!showTerminalOption()">
+    <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
+    <p-dropdown id="terminalSelected" styleClass="dropdown" formControlName="terminal" [options]="terminalOptions"
+      [filter]=true filterBy="label,value.facilityName" appendTo="body">
+      <ng-template let-terminal pTemplate="item">
+        <div *ngIf="!terminal.value">
+          <div>Select Terminal</div>
+        </div>
+        <div *ngIf="terminal.value">
+          <div>{{terminal.value.facilitySMDGCode}}</div>
+          <div class="portListName">{{terminal.value.facilityName}}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
   </div>
 
   <!-- location name -->
