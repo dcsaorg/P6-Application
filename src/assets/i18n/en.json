@@ -280,7 +280,7 @@
         "event": "Event date",
         "log": "Log date"
       },
-      "select": "Select timestamp",
+      "select": "Select a timestamp",
       "time": "Time",
       "validation": {
         "timestampType": {
@@ -306,7 +306,8 @@
     },
     "publisherRole": {
       "tooltip": "Publisher role",
-      "label": "Publisher role"
+      "label": "Publisher role",
+      "select": "Select a publisher Role"
     },
     "transportCall": {
       "add": "Add a new Transport Call",

@@ -26,6 +26,7 @@ import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
 import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
+import { PublisherRole } from 'src/app/model/enums/publisherRole';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -48,6 +49,8 @@ export class TransportCallCreatorComponent implements OnInit {
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
   delayCodes: DelayCode[];
+  publisherRoleOptions: SelectItem[] = [];
+  publisherRoles: PublisherRole[] = [];
   timestampChecking: boolean;
   locationNameLabel: string;
 
@@ -99,7 +102,7 @@ export class TransportCallCreatorComponent implements OnInit {
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
-
+      publisherRole: new FormControl(null),
     });
   }
 
@@ -151,24 +154,34 @@ export class TransportCallCreatorComponent implements OnInit {
 
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
-    this.timestampTypes.push({label: this.translate.instant('general.timestamp.select'), value: null});
+    this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
     for (let timestampDef of this.timestampDefinitions) {
-      if (!this.globals.config.publisherRoles.includes(timestampDef.publisherPattern[0].publisherRole)) { // For now we just take first value of the publisher pattern
+      if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) { 
         continue;
       }
       if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
         continue
       }
-      this.timestampTypes.push({label: timestampDef.timestampTypeName, value: timestampDef})
+      this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef })
     }
   }
 
   updateDelayCodeOptions() {
     this.delayCodeOptions = [];
-    this.delayCodeOptions.push({label: this.translate.instant('general.comment.select'), value: null});
+    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
     this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({label: delayCode.smdgCode, value: delayCode})
+      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
     });
+  }
+
+  updatePublisherRoleOptions() {
+    const timestampSelected = this.transportCallFormGroup.controls.timestampType?.value;
+    this.publisherRoles = this.timestampMappingService.overlappingPublisherRoles(timestampSelected);
+    this.publisherRoleOptions = [];
+    this.publisherRoleOptions.push({ label: this.translate.instant('general.publisherRole.select'), value: null });
+    this.publisherRoles.forEach(pr => {
+      this.publisherRoleOptions.push({ label: pr, value: pr })
+    })
   }
 
   leftPadWithZero(item: number): string {
@@ -179,6 +192,16 @@ export class TransportCallCreatorComponent implements OnInit {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
+  }
+
+  showPublisherRoleOption(): boolean {  
+    if (this.publisherRoles.length > 1) {
+      this.transportCallFormGroup.controls.publisherRole.setValidators([Validators.required]);
+    } else {
+      this.transportCallFormGroup.controls.publisherRole.setValidators(null);
+    }
+    this.transportCallFormGroup.controls.publisherRole.updateValueAndValidity();
+    return this.publisherRoles.length > 1;
   }
 
   showVesselPosition(): boolean {
@@ -312,10 +335,11 @@ export class TransportCallCreatorComponent implements OnInit {
         null,
       )
 
+      const publisherRoleSelected = this.transportCallFormGroup.controls.publisherRole.value;
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
       // TODO: Let the user choose the role
-      timestamp.publisherRole = this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)[0]
+      timestamp.publisherRole = !!publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0]; 
       timestamp.publisher = this.globals.config.publisher;
       timestamp.delayReasonCode = this.transportCallFormGroup.controls.delayCode.value?.smdgCode
       timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;

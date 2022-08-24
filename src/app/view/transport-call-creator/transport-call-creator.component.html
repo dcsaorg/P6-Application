@@ -78,13 +78,20 @@
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes"
-        [filter]=true filterBy="label" appendTo="body" (onChange)="showLocationNameOption()">
+        [filter]=true filterBy="label" appendTo="body" (onChange)="updatePublisherRoleOptions()">
       </p-dropdown>
       <span
         *ngIf="transportCallFormGroup.get('timestampType').hasError('required') && transportCallFormGroup.get('timestampType').touched "
         class="p-invalid">
         {{ 'general.timestamp.validation.timestampType.required' | translate }}
       </span>
+    </div>
+
+    <!-- publisherRole dropdown-->
+    <div class="md:col-6" [hidden]="!showPublisherRoleOption() || !shouldCreateTimestamp()">
+      <label for="timestampType">{{ 'general.publisherRole.label' | translate }}: </label>
+      <p-dropdown id="publisherRole" styleClass="dropdown" formControlName="publisherRole"
+        [options]="publisherRoleOptions" appendTo="body"></p-dropdown>
     </div>
 
     <!-- create event timestamp calender-->
@@ -184,7 +191,7 @@
     <!-- Delay Remark -->
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <span class="p-float-label">
-        <textarea id="commentbox"mpInputTextarea formControlName="defaultTimestampRemark"
+        <textarea pInputTextarea id="commentbox" formControlName="defaultTimestampRemark"
           [readOnly]="!shouldCreateTimestamp()"></textarea>
         <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
       </span>

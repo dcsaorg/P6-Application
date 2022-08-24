@@ -37,6 +37,7 @@ export class TimestampMappingService {
   }
 
   overlappingPublisherRoles(timestampDefinition: TimestampDefinitionTO): PublisherRole[] {
+    if(timestampDefinition){
     const userRoles = this.globals.config.publisherRoles
     const rolesForTimestamp = timestampDefinition.publisherPattern.map(p => p.publisherRole)
     return userRoles.filter((val1) => {
@@ -55,6 +56,8 @@ export class TimestampMappingService {
       return a < b ? -1 : 1;
     });
   }
+  return [];
+}
 
   createTimestampStub(transportCall: TransportCall, timestampDefinition: TimestampDefinitionTO, operationsEvent?: OperationsEvent): Timestamp {
     const facilityCode = timestampDefinition.isTerminalNeeded ? operationsEvent?.eventLocation.facilityCode : null
