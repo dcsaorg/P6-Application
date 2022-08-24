@@ -57,7 +57,6 @@ export class VesselComponent implements OnInit {
       id: this.selectedVessel.id,
       vesselIMONumber: this.selectedVessel.vesselIMONumber,
       vesselName: this.selectedVessel.vesselName,
-      teu: this.selectedVessel.teu,
       vesselFlag: this.selectedVessel.vesselFlag,
       vesselOperatorCarrierID: this.selectedVessel.vesselOperatorCarrierID,
       vesselCallSignNumber: this.selectedVessel.vesselCallSignNumber,

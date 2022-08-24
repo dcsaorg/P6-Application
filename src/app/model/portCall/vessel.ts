@@ -20,9 +20,5 @@ export interface Vessel {
  * @deprecated
  */
   vesselOperatorCarrierID?: string;    // UUID
-  /**
-   * @deprecated
-   */
-  teu?: number;                        // Transient
 
 }
