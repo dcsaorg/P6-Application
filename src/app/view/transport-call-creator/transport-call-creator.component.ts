@@ -88,7 +88,7 @@ export class TransportCallCreatorComponent implements OnInit {
       exportVoyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       importVoyageNumber: new FormControl(null, [Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
-      terminal: new FormControl({value: ''}, [Validators.required]),
+      terminal: new FormControl(null),
       vessel: new FormControl(null, [Validators.required]),
       timestampType: new FormControl(null),
       delayCode: new FormControl(null),
@@ -216,23 +216,19 @@ export class TransportCallCreatorComponent implements OnInit {
     let timestampType = this.transportCallFormGroup.get('timestampType');
     let eventTimestampDate = this.transportCallFormGroup.get('eventTimestampDate');
     let eventTimestampTime = this.transportCallFormGroup.get('eventTimestampTime');
-    let terminalControl = this.transportCallFormGroup.get('terminal');
     if (this.timestampChecking) {
       timestampType.setValidators([Validators.required])
       eventTimestampDate.setValidators([Validators.required])
       eventTimestampTime.setValidators([Validators.required])
-      terminalControl.setValidators([Validators.required])
     } else {
       timestampType.setValidators(null)
       eventTimestampDate.setValidators(null)
       eventTimestampTime.setValidators(null)
-      terminalControl.setValidators(null)
       this.showLocationNameOption(false)
     }
     timestampType.updateValueAndValidity();
     eventTimestampDate.updateValueAndValidity();
     eventTimestampTime.updateValueAndValidity();
-    terminalControl.updateValueAndValidity();
 
 
     return this.timestampChecking;
@@ -276,7 +272,7 @@ export class TransportCallCreatorComponent implements OnInit {
       latestEventCreatedDateTime: Date;
     }
 
-    const terminal: Terminal = this.transportCallFormGroup.controls.terminal.value
+    const terminal: Terminal = this.transportCallFormGroup.controls.terminal?.value;
     const port: Port = this.transportCallFormGroup.controls.port.value
 
     transportCall.transportCallSequenceNumber = 1;
@@ -301,7 +297,7 @@ export class TransportCallCreatorComponent implements OnInit {
       facilityCodeListProvider: null
     }
 
-    if (terminal) {
+    if (terminal && this.timestampChecking) {
       transportCall.facilityCode = terminal.facilitySMDGCode
       transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG
       transportCall.location.facilityCode = terminal.facilitySMDGCode
