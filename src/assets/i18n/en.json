@@ -380,8 +380,7 @@
           "empty": "Please select a port for this transport call"
         },
         "terminal": {
-          "empty": "Please select a terminal for this port call",
-          "emptyTS": "Please select a terminal for this timestamp"
+          "empty": "Please select a terminal for this timestamp"
         },
         "carrierServiceCode": {
           "empty": "Carrier Service Code is required!",
