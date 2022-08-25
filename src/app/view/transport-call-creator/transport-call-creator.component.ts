@@ -229,9 +229,21 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   showVesselPosition(): boolean {
-    if (!this.globals.config.enableVesselPositions) return false;
-    const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
-    return selectedTimestamp?.isVesselPositionNeeded ?? false;
+    const vesselPositionRequirement = this.transportCallFormGroup.controls.timestampType.value.vesselPositionRequirement;
+    return vesselPositionRequirement !== undefined && vesselPositionRequirement !== EventLocationRequirement.EXCLUDED;
+  }
+
+  updateVesselPositionRequirement() {
+    let validators = null;
+    const timestampTypeSelected = this.transportCallFormGroup.controls.timestampType.value;
+    if (timestampTypeSelected?.vesselPositionRequirement === EventLocationRequirement.REQUIRED
+      && this.timestampChecking) {
+      validators = [Validators.required];
+    }
+    this.transportCallFormGroup.controls.vesselPositionLatitude.setValidators(validators);
+    this.transportCallFormGroup.controls.vesselPositionLongitude.setValidators(validators);
+    this.transportCallFormGroup.controls.vesselPositionLatitude.updateValueAndValidity();
+    this.transportCallFormGroup.controls.vesselPositionLongitude.updateValueAndValidity();
   }
 
   showLocationNameOption(show: boolean = true): boolean {

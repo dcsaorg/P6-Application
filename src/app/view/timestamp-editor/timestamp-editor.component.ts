@@ -21,9 +21,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {Vessel} from "../../model/portCall/vessel";
-import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
+import { ShowTimestampAsJsonDialogComponent } from "../show-json-dialog/show-timestamp-as-json-dialog.component";
+import { VesselService } from "../../controller/services/base/vessel.service";
+import { Vessel } from "../../model/portCall/vessel";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -73,7 +73,7 @@ export class TimestampEditorComponent implements OnInit {
     private terminalService: TerminalService,
     private vesselService: VesselService,
     private dialogService: DialogService,
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
@@ -150,9 +150,22 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   showVesselPosition(): boolean {
-    if (!this.globals.config.enableVesselPositions) return false;
-    return this.timestampTypeSelected?.value?.isVesselPositionNeeded ?? false;
+    const vesselPositionRequirement = this.timestampTypeSelected?.value?.vesselPositionRequirement;
+    return vesselPositionRequirement !== undefined && vesselPositionRequirement !== EventLocationRequirement.EXCLUDED;
   }
+
+  updateVesselPositionRequirement() {
+    let validators = null;
+    const timestampTypeSelected = this.timestampTypeSelected?.value;
+    if (timestampTypeSelected?.vesselPositionRequirement === EventLocationRequirement.REQUIRED) {
+      validators = [Validators.required];
+    }
+    this.timestampFormGroup.controls.vesselPositionLatitude.setValidators(validators);
+    this.timestampFormGroup.controls.vesselPositionLongitude.setValidators(validators);
+    this.timestampFormGroup.controls.vesselPositionLatitude.updateValueAndValidity();
+    this.timestampFormGroup.controls.vesselPositionLongitude.updateValueAndValidity();
+  }
+
 
   showLocationNameOption(): boolean {
     this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected.value);

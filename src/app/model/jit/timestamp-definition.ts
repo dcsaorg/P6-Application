@@ -20,7 +20,7 @@ export interface TimestampDefinitionTO {
   isBerthLocationNeeded: boolean;
   isPBPLocationNeeded: boolean;
   isTerminalNeeded: boolean;
-  isVesselPositionNeeded: boolean;
+  vesselPositionRequirement: EventLocationRequirement;
   isMilesToDestinationRelevant: boolean;
   providedInStandard: string;
   publisherPattern: Array<PublisherPattern>;
