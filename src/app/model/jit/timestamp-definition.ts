@@ -30,17 +30,4 @@ export interface TimestampDefinitionTO {
   rejectTimestampDefinitionEntity?: TimestampDefinitionTO;
   eventLocationRequirement: EventLocationRequirement;
   negotiationCycle: NegotiationCycle;
-
-  /**
-* @deprecated
-
-detected through publisherPattern field & then set by mapping
-*/
-  publisherRole: PublisherRole;
-  /**
-* @deprecated
-detected through publisherPattern field & then set by mapping
-*/
-  primaryReceiver: PublisherRole;
-
 }
