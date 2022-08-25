@@ -188,7 +188,7 @@ export class TimestampEditorComponent implements OnInit {
     let eventDateTime: Date | string = this.respondingToTimestampInfo?.operationsEventTO.eventDateTime;
 
     // Only update eventDateTime of timestamp when creating & rejecting
-    if (this.timestampResponseStatus == TimestampResponseStatus.CREATE || this.timestampResponseStatus == TimestampResponseStatus.REJECT) {
+    if (this.timestampResponseStatus === TimestampResponseStatus.CREATE || this.timestampResponseStatus === TimestampResponseStatus.REJECT) {
       eventDateTime = new DateToUtcPipe().transform(this.eventTimestampDate.value, this.eventTimestampTime.value, this.transportCall.portOfCall?.timezone);
     }
 
@@ -292,7 +292,7 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   defaultTerminalValue() {
-    if(this.timestampResponseStatus == TimestampResponseStatus.CREATE){
+    if(this.timestampResponseStatus === TimestampResponseStatus.CREATE){
     this.timestampFormGroup.controls.terminal.setValue(
       this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
     }else{
