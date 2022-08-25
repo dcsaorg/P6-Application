@@ -61,8 +61,8 @@
   </div>
 
   <div class="md:col-6" [hidden]="!showPublisherRoleOption()">
-      <label for="timestampType">{{ 'general.publisherRole.label' | translate }}: </label>
-      <p-dropdown id="publisherRole" styleClass="dropdown" formControlName="publisherRole" 
+    <label for="timestampType">{{ 'general.publisherRole.label' | translate }}: </label>
+    <p-dropdown id="publisherRole" styleClass="dropdown" formControlName="publisherRole"
       [options]="publisherRoleOptions" appendTo="body"></p-dropdown>
   </div>
 
@@ -85,7 +85,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="md:col-6" [hidden]="!showTerminalOption()">
     <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
     <p-dropdown id="terminalSelected" styleClass="dropdown" formControlName="terminal" [options]="terminalOptions"
@@ -100,6 +100,10 @@
         </div>
       </ng-template>
     </p-dropdown>
+    <span *ngIf="timestampFormGroup.get('terminal').hasError('required') 
+    && timestampFormGroup.get('terminal').touched" class="p-invalid">
+      {{ 'general.transportCall.validation.terminal.emptyTS' | translate }}
+    </span>
   </div>
 
   <!-- location name -->

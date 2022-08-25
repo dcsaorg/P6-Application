@@ -226,7 +226,13 @@ export class TransportCallCreatorComponent implements OnInit {
 
 
   showTerminalOption(): boolean {
+    let validator = null; 
     const selectedTimestamp = this.transportCallFormGroup.controls.timestampType.value;
+    if(selectedTimestamp?.isTerminalNeeded){
+      validator = [Validators.required];  
+    }
+    this.transportCallFormGroup.controls.terminal.setValidators(validator);
+    this.transportCallFormGroup.controls.terminal.updateValueAndValidity();
     return selectedTimestamp?.isTerminalNeeded ?? false;
   }
 

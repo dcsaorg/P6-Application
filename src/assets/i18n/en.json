@@ -280,7 +280,7 @@
         "event": "Event date",
         "log": "Log date"
       },
-      "select": "Select a timestamp",
+      "select": "Select timestamp",
       "time": "Time",
       "validation": {
         "timestampType": {
@@ -306,8 +306,7 @@
     },
     "publisherRole": {
       "tooltip": "Publisher role",
-      "label": "Publisher role",
-      "select": "Select a publisher Role"
+      "label": "Publisher role"
     },
     "transportCall": {
       "add": "Add a new Transport Call",
@@ -381,7 +380,8 @@
           "empty": "Please select a port for this transport call"
         },
         "terminal": {
-          "empty": "Please select a terminal for this transport call"
+          "empty": "Please select a terminal for this port call",
+          "emptyTS": "Please select a terminal for this timestamp"
         },
         "carrierServiceCode": {
           "empty": "Carrier Service Code is required!",
