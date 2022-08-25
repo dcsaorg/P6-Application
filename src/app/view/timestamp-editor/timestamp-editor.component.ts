@@ -130,7 +130,6 @@ export class TimestampEditorComponent implements OnInit {
     }
   }
 
-
   createButtonText(): string {
     switch (this.timestampResponseStatus) {
       case TimestampResponseStatus.CREATE: return 'general.save.editor.label';
@@ -156,11 +155,17 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   showTerminalOption(): boolean {
-    return this.timestampTypeSelected?.value?.isTerminalNeeded ?? false;
+    let validator = null; 
+    if(this.timestampTypeSelected?.value?.isTerminalNeeded){
+      validator = [Validators.required];  
+    }
+    this.timestampFormGroup.controls.terminal.setValidators(validator);
+    this.timestampFormGroup.controls.terminal.updateValueAndValidity();
+    return this.timestampTypeSelected?.value?.isTerminalNeeded;
   }
 
   showMilesToDestinationPortOption(): boolean {
-    return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;;
+    return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;
   }
 
   showPublisherRoleOption(): boolean {  
@@ -287,8 +292,13 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   defaultTerminalValue() {
+    if(this.timestampResponseStatus == TimestampResponseStatus.CREATE){
     this.timestampFormGroup.controls.terminal.setValue(
       this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
+    }else{
+      this.timestampFormGroup.controls.terminal.setValue(
+        this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.respondingToTimestampInfo.operationsEventTO?.eventLocation?.facilityCode)?.value ?? null);
+    }
   }
 
   close() {
