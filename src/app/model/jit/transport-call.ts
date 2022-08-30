@@ -18,20 +18,19 @@ export interface TransportCall {
   transportCallSequenceNumber: number;
   facilityTypeCode: FacilityTypeCode;
   facilityCodeListProvider: FacilityCodeListProvider;
-  portCallServiceTypeCode: PortCallServiceTypeCode;
   facilityCode: string;
   otherFacility: string;
-  sequenceColor: string;
+  sequenceColor?: string;
   vessel?: Vessel;
   location: EventLocation;
   etaBerthDateTime?: Date;
   atdBerthDateTime?: Date;
-  omitCreatedDateTime: Date;
+  omitCreatedDateTime?: Date;
   latestEventCreatedDateTime?: Date;
-  transportCallID: string;
+  transportCallID: string | null;
     /**
 * @deprecated
-Although deprecated, the UI JIT 1.1 combo - newer fields are convereted to this
+Although deprecated, the UI JIT 1.1 combo - newer fields are converted to this
 */
   exportVoyageNumber?: string;
     /**

@@ -15,6 +15,7 @@ import { Terminal } from "../../../model/portCall/terminal";
 import { PublisherRole } from "../../../model/enums/publisherRole";
 import { OperationsEvent } from "../../../model/jit/operations-event";
 import { FacilityCodeListProvider } from "../../../model/enums/facilityCodeListProvider";
+import {TimestampVessel, Vessel} from "../../../model/portCall/vessel";
 
 @Injectable({
   providedIn: 'root'
@@ -59,8 +60,18 @@ export class TimestampMappingService {
     return [];
   }
 
-  createTimestampStub(transportCall: TransportCall, timestampDefinition: TimestampDefinitionTO, operationsEvent?: OperationsEvent): Timestamp {
+  createTimestampStub(transportCall: TransportCall, timestampDefinition: TimestampDefinitionTO, fullVesselDetails?: Vessel, operationsEvent?: OperationsEvent): Timestamp {
     const facilityCode = timestampDefinition.isTerminalNeeded ? operationsEvent?.eventLocation.facilityCode : null
+    const vessel: TimestampVessel = {
+      vesselIMONumber: transportCall.vessel.vesselIMONumber,
+      name: transportCall.vessel.vesselName,
+      callSign: transportCall.vessel.vesselCallSignNumber,
+      lengthOverall: fullVesselDetails.length,
+      width: fullVesselDetails.width,
+      draft: null,
+      dimensionUnit: fullVesselDetails.dimensionUnit,
+      type: fullVesselDetails.type,
+    }
     return {
       publisher: this.globals.config.publisher,
       // we do not pass on the same location by default.
@@ -76,9 +87,7 @@ export class TimestampMappingService {
       carrierExportVoyageNumber: transportCall.carrierExportVoyageNumber,
       carrierImportVoyageNumber: transportCall.carrierImportVoyageNumber,
       vesselIMONumber: transportCall.vessel.vesselIMONumber,
-      // The vessel from TC does not use the same layout as vessel in the timestamp (e.g., vesselName vs. name).
-      // For now, we just omit vessel.
-      vessel: null,
+      vessel: vessel,
 
       // Echo from the OE in case the port visit and the OE uses a different number.  It is not 100% reliable
       // if the timestamp ends up being for a different terminal, but we can also solve so much with a guess.
