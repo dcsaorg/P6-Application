@@ -275,55 +275,34 @@ export class TransportCallCreatorComponent implements OnInit {
 
   async saveNewTransportCall() {
     this.creationProgress = true;
-    let transportCall: TransportCall = new class implements TransportCall {
-      transportCallReference: string;
-      UNLocationCode: string;
-      carrierServiceCode: string;
-      carrierVoyageNumber: string;
-      exportVoyageNumber: string;
-      importVoyageNumber: string;
-      facilityCode: string;
-      facilityTypeCode: FacilityTypeCode;
-      otherFacility: string;
-      sequenceColor: string;
-      transportCallID: string;
-      transportCallSequenceNumber: number;
-      vesselIMONumber: string;
-      vesselName: string;
-      portCallServiceTypeCode: PortCallServiceTypeCode;
-      modeOfTransport: string;
-      facilityCodeListProvider: FacilityCodeListProvider;
-      location: EventLocation;
-      vessel: Vessel;
-      etaBerthDateTime: Date;
-      atdBerthDateTime: Date;
-      omitCreatedDateTime = null;
-      latestEventCreatedDateTime: Date;
-    }
 
     const terminal: Terminal = this.transportCallFormGroup.controls.terminal?.value;
     const port: Port = this.transportCallFormGroup.controls.port.value
-
-    transportCall.transportCallSequenceNumber = 1;
-    transportCall.modeOfTransport = "VESSEL";
-
-    transportCall.vessel = this.transportCallFormGroup.controls.vessel.value;
-    transportCall.UNLocationCode = port.UNLocationCode;
-
-    transportCall.exportVoyageNumber = this.transportCallFormGroup.controls.exportVoyageNumber.value;
-    transportCall.importVoyageNumber = this.transportCallFormGroup.controls.importVoyageNumber.value;
-
-    if (!transportCall.importVoyageNumber){
-      transportCall.importVoyageNumber = transportCall.exportVoyageNumber
-    }
-    transportCall.carrierVoyageNumber = transportCall.exportVoyageNumber
-
-    transportCall.carrierServiceCode = this.transportCallFormGroup.controls.serviceCode.value;
-    transportCall.facilityTypeCode = FacilityTypeCode.POTE
-    transportCall.location = {
+    const vessel: Vessel = this.transportCallFormGroup.controls.vessel.value;
+    const carrierServiceCode: string = this.transportCallFormGroup.controls.serviceCode.value;
+    const exportVoyageNumber: string = this.transportCallFormGroup.controls.exportVoyageNumber.value;
+    const importVoyageNumber: string = this.transportCallFormGroup.controls.importVoyageNumber.value;
+    const location: EventLocation = {
       UNLocationCode: port.UNLocationCode,
       facilityCode: null,
       facilityCodeListProvider: null
+    }
+    let transportCall: TransportCall = new class implements TransportCall {
+      transportCallReference = null;
+      UNLocationCode = port.UNLocationCode;
+      carrierServiceCode = carrierServiceCode;
+      carrierVoyageNumber = exportVoyageNumber;
+      exportVoyageNumber = exportVoyageNumber;
+      importVoyageNumber = importVoyageNumber ? importVoyageNumber : importVoyageNumber;
+      facilityCode = null;
+      facilityTypeCode = FacilityTypeCode.POTE;
+      otherFacility = null;
+      transportCallID = null;
+      transportCallSequenceNumber = 1;
+      modeOfTransport = "VESSEL";
+      facilityCodeListProvider = null;
+      location = location;
+      vessel = vessel;
     }
 
     if (terminal && this.timestampChecking) {

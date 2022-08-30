@@ -21,6 +21,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import {VesselService} from "../../controller/services/base/vessel.service";
+import {Vessel} from "../../model/portCall/vessel";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -31,8 +33,6 @@ import { PublisherRole } from 'src/app/model/enums/publisherRole';
   ]
 })
 export class TimestampEditorComponent implements OnInit {
-  @Input('vesselId') vesselId: number;
-  @Input('vesselSavedId') vesselSavedId: number;
   @Input('portOfCall') portOfCall: Port;
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
 
@@ -53,11 +53,11 @@ export class TimestampEditorComponent implements OnInit {
   terminalOptions: SelectItem[] = [];
   publisherRoleOptions: SelectItem[] = [];
   publisherRoles: PublisherRole[] = [];
-  milesToDestinationPort: string;
   timestampResponseStatus: TimestampResponseStatus;
   responseTimestampDefinitionTO: TimestampDefinitionTO;
   respondingToTimestampInfo: TimestampInfo;
   TimestampResponseStatus = TimestampResponseStatus;
+  fullVesselDetails: Vessel;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,7 +69,9 @@ export class TimestampEditorComponent implements OnInit {
     public ref: DynamicDialogRef,
     private timestampDefinitionService: TimestampDefinitionService,
     private timestampMappingService: TimestampMappingService,
-    private terminalService: TerminalService) {
+    private terminalService: TerminalService,
+    private vesselService: VesselService,
+    ) {
   }
 
   ngOnInit(): void {
@@ -82,6 +84,9 @@ export class TimestampEditorComponent implements OnInit {
     this.timestampResponseStatus = this.config.data.timestampResponseStatus;
     this.responseTimestampDefinitionTO = this.config.data.responseTimestampDefinitionTO;
     this.respondingToTimestampInfo = this.config.data.respondingToTimestamp;
+
+    this.vesselService.getVessel(this.transportCall.vessel.vesselIMONumber)
+      .subscribe(vessel => this.fullVesselDetails = vessel)
 
     this.timestampFormGroup = this.formBuilder.group({
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
@@ -204,6 +209,7 @@ export class TimestampEditorComponent implements OnInit {
     let newTimestamp: Timestamp = this.timestampMappingService.createTimestampStub(
       this.transportCall,
       timestampDefinition,
+      this.fullVesselDetails,
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
     )
 

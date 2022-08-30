@@ -8,7 +8,7 @@ import { FacilityTypeCode } from "../enums/facilityTypeCodeOPR";
 import { EventLocation } from "../eventLocation";
 import { VesselPosition } from "../vesselPosition";
 import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
-import { DraftUnit } from "../enums/draftUnit";
+import { DimensionUnit } from "../enums/dimensionUnit";
 
 export interface OperationsEvent {
   eventID?: string;
@@ -32,6 +32,6 @@ export interface OperationsEvent {
   portCallPhaseTypeCode?: PortCallPhaseTypeCode;
   milesToDestinationPort: number;
   vesselDraft: number;
-  vesselDraftUnit: DraftUnit;
+  vesselDraftUnit: DimensionUnit;
 
 }

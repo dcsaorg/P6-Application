@@ -11,7 +11,7 @@ import { EventClassifierCode } from "./event-classifier-code";
 import { NegotiationCycle } from "../portCall/negotiation-cycle";
 import { TimestampDefinitionTO } from "./timestamp-definition";
 import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
-import { Vessel } from "../portCall/vessel";
+import {TimestampVessel, Vessel} from "../portCall/vessel";
 
 export interface Timestamp {
   publisher: Publisher;
@@ -31,7 +31,7 @@ export interface Timestamp {
   timestampDefinitionTO?: TimestampDefinitionTO;
   carrierExportVoyageNumber?: string;
   carrierImportVoyageNumber?: string;
-  vessel?:  Vessel;
+  vessel?: TimestampVessel | null;
   portVisitReference?: string;
   milesToDestinationPort?: number;
   transportCallSequenceNumber?: number;
