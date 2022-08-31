@@ -293,7 +293,7 @@ export class TransportCallCreatorComponent implements OnInit {
       carrierServiceCode = carrierServiceCode;
       carrierVoyageNumber = exportVoyageNumber;
       exportVoyageNumber = exportVoyageNumber;
-      importVoyageNumber = importVoyageNumber ? importVoyageNumber : importVoyageNumber;
+      importVoyageNumber = importVoyageNumber ? importVoyageNumber : exportVoyageNumber;
       facilityCode = null;
       facilityTypeCode = FacilityTypeCode.POTE;
       otherFacility = null;
