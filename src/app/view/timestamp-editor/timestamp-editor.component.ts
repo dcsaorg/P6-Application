@@ -21,8 +21,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {Vessel} from "../../model/portCall/vessel";
+import { VesselService } from "../../controller/services/base/vessel.service";
+import { Vessel } from "../../model/portCall/vessel";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -71,7 +71,7 @@ export class TimestampEditorComponent implements OnInit {
     private timestampMappingService: TimestampMappingService,
     private terminalService: TerminalService,
     private vesselService: VesselService,
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
@@ -100,6 +100,7 @@ export class TimestampEditorComponent implements OnInit {
       eventTimestampTime: new FormControl(null, [Validators.required]),
       locationName: new FormControl(null),
       publisherRole: new FormControl(null),
+      vesselDraft: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
     });
     this.timestampTypeSelected = this.timestampFormGroup.controls.timestampType;
     this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
@@ -160,9 +161,9 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   showTerminalOption(): boolean {
-    let validator = null; 
-    if(this.timestampTypeSelected?.value?.isTerminalNeeded){
-      validator = [Validators.required];  
+    let validator = null;
+    if (this.timestampTypeSelected?.value?.isTerminalNeeded) {
+      validator = [Validators.required];
     }
     this.timestampFormGroup.controls.terminal.setValidators(validator);
     this.timestampFormGroup.controls.terminal.updateValueAndValidity();
@@ -173,7 +174,7 @@ export class TimestampEditorComponent implements OnInit {
     return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;
   }
 
-  showPublisherRoleOption(): boolean {  
+  showPublisherRoleOption(): boolean {
     if (this.publisherRoles.length > 1) {
       this.timestampFormGroup.controls.publisherRole.setValidators([Validators.required]);
     } else {
@@ -213,7 +214,7 @@ export class TimestampEditorComponent implements OnInit {
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
     )
 
-    newTimestamp.publisherRole = publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0]; 
+    newTimestamp.publisherRole = publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0];
     newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
@@ -222,6 +223,10 @@ export class TimestampEditorComponent implements OnInit {
     newTimestamp.remark = this.timestampFormGroup.controls.remark.value
     newTimestamp.eventDateTime = eventDateTime
     newTimestamp.vesselPosition = vesselPosition;
+
+    if (this.fullVesselDetails?.dimensionUnit) {
+      newTimestamp.vessel.draft = this.timestampFormGroup.controls.vesselDraft.value;
+    }
 
     if (this.locationNameLabel && locationName) {
       newTimestamp.eventLocation.locationName = locationName
@@ -298,10 +303,10 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   defaultTerminalValue() {
-    if(this.timestampResponseStatus === TimestampResponseStatus.CREATE){
-    this.timestampFormGroup.controls.terminal.setValue(
-      this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
-    }else{
+    if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
+      this.timestampFormGroup.controls.terminal.setValue(
+        this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
+    } else {
       this.timestampFormGroup.controls.terminal.setValue(
         this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.respondingToTimestampInfo.operationsEventTO?.eventLocation?.facilityCode)?.value ?? null);
     }
@@ -322,6 +327,16 @@ export class TimestampEditorComponent implements OnInit {
   }
   private leftPadWithZero(item: number): String {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
+  }
+
+  isDimensionUnit() {
+    if (this?.fullVesselDetails?.dimensionUnit) {
+      this.timestampFormGroup.controls.vesselDraft.enable();
+    } else {
+      this.timestampFormGroup.controls.vesselDraft.disable();
+    }
+    this.timestampFormGroup.controls.vesselDraft.updateValueAndValidity();
+    return this?.fullVesselDetails?.dimensionUnit ??  null; 
   }
 
 }

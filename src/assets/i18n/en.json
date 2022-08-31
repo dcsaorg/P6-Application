@@ -273,6 +273,12 @@
         "label": "Miles remaining to destination",
         "pattern": "should should only be numbers!"
       },
+      "vesselDraft": {
+        "name": "vesselDraft",
+        "label": "vessel Draft",
+        "pattern": "should should only be numbers!",
+        "missingUnit": "Define a Dimension unit for the vessel to use this field"
+      },
       "locationName": {
         "label": "Location Name"
       },
