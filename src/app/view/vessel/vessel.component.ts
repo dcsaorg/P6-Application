@@ -79,6 +79,8 @@ export class VesselComponent implements OnInit {
         this.updateVesselOptions();
         this.vesselService.getVessel(result.vesselIMONumber).subscribe(nextVessel => {
           this.selectedVessel = nextVessel;
+          this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
+          this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
         });
       }
     })
@@ -94,11 +96,8 @@ export class VesselComponent implements OnInit {
 
   selectVessel() {
     if (this.selectedVessel) {
-      this.vesselService.getVessel(this.selectedVessel.vesselIMONumber).subscribe(nextVessel => {
-        this.selectedVessel = nextVessel;
-        this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
-        this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
-      });
+      this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
+      this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
     } else {
       this.vesselNotifier.emit(null)
       this.transportCallFilterService.updateVesselFilter(null);
