@@ -16,7 +16,7 @@ export class TimestampInfoService {
     this.TIMESTAMP_INFO_URL = globals.config.uiSupportBackendURL + "/unofficial/timestamp-info";
   }
 
-  getTimestampInfoForTransportCall = (portVisitID: string, facilitySMDGCode: string|null, portCallPart?: string): Observable<TimestampInfo[]> => {
+  getTimestampInfoForTransportCall = (portVisitID: string, facilitySMDGCode: string|null, negotiationCycleKey?: string, portCallPart?: string): Observable<TimestampInfo[]> => {
     let httpParams = new HttpParams();
     httpParams = httpParams.set('limit', this.LIMIT);
 
@@ -28,6 +28,9 @@ export class TimestampInfoService {
     }
     if (facilitySMDGCode) {
       httpParams = httpParams.set('facilitySMDGCode', facilitySMDGCode);
+    }
+    if (negotiationCycleKey) {
+      httpParams = httpParams.set('negotiationCycle', negotiationCycleKey);
     }
     return this.httpClient.get<TimestampInfo[]>(this.TIMESTAMP_INFO_URL, {
       params: httpParams
