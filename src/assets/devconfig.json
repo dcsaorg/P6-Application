@@ -22,7 +22,7 @@
     "authRegion":"eu-west-1",
     "authUserPoolId": "eu-west-1_khrRmnDXz",
     "authUserPoolWebClientId": "5qgd24cfb8m4sm6bkrfk55cqfr",
-    "authRedirectUriSignIn":"/dashboard"
-  }
-  
-  
+    "authRedirectUriSignIn":"/dashboard",
+    "enableShowTimestampsAsJSON": true
+}
+

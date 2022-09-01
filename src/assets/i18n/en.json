@@ -15,6 +15,9 @@
     "close": {
       "label": "Close"
     },
+    "showAsJson": {
+      "label": "Show JSON payload"
+    },
     "schedule": {
       "header": "Delay Code and Comment to port call event",
       "select": "Select delay code (optional)",

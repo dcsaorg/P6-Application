@@ -53,6 +53,7 @@ import {AuthService} from "./auth/auth.service";
 import { TransportCallFilterService } from "./controller/services/base/transport-call-filter.service";
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import { DebounceClickDirective } from "./controller/services/util/debounce-click.directive";
+import {ShowTimestampAsJsonDialogComponent} from "./view/show-json-dialog/show-timestamp-as-json-dialog.component";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -71,6 +72,7 @@ export function ConfigLoader(configService: ConfigService) {
     TimestampEditorComponent,
     TimestampPaginatorComponent,
     TimestampTableComponent,
+    ShowTimestampAsJsonDialogComponent,
     VesselComponent,
     VesselEditorComponent,
     InstructionsComponent,
