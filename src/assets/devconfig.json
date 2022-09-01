@@ -2,27 +2,16 @@
     "id": "be5bc290-7bac-48bb-a211-f3fa5a3ab3ae",
     "company": "DCSA",
     "publisher": {
-      "partyName": "Asseco Denmark",
-      "taxReference1": "CVR-25645774",
-      "taxReference2": "CVR-25645774",
-      "publicKey": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFzaW",
-      "address": {
-        "name": "Henrik",
-        "street": "Kronprincessegade",
-        "streetNumber": "54",
-        "floor": "5. sal",
-        "postCode": "1306",
-        "city": "København",
-        "stateRegion": "N/A",
-        "country": "Denmark"
-      },
+      "partyName": "Test publisher",
+      "taxReference1": null,
+      "taxReference2": null,
+      "address": null,
       "identifyingCodes": [
         {
           "DCSAResponsibleAgencyCode": "SMDG",
           "partyCode": "MSK"
         }
-      ],
-      "nmftaCode": "CSK"
+      ]
     },
     "publisherRoles": ["CA", "AG", "VSL", "TR", "ATH", "PLT", "TWG", "BUK", "LSH", "SLU", "SVP", "MOR"],
     "uiSupportBackendURL": "/uisupport",
@@ -33,7 +22,7 @@
     "authRegion":"eu-west-1",
     "authUserPoolId": "eu-west-1_khrRmnDXz",
     "authUserPoolWebClientId": "5qgd24cfb8m4sm6bkrfk55cqfr",
-    "authRedirectUriSignIn":"/dashboard"
-  }
-  
-  
+    "authRedirectUriSignIn":"/dashboard",
+    "enableShowTimestampsAsJSON": true
+}
+

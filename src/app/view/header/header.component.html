@@ -18,7 +18,7 @@
   <div class="col-1"></div>
   <div class="col-4 header__menuLabel header__company_container">
     <span class="header__company">{{ 'general.company' | translate }}: {{ companyName }}</span>
-    <span class="header__info_small">{{companyId}}, roles: {{companyCodeType}}</span>
+    <span class="header__info_small">Roles: {{companyCodeType}}</span>
   </div>
   <div class="col-1 header__language">
     <p-dropdown styleClass="dropdown" (onChange)="changeLanguage($event)" [(ngModel)]="currentLanguage" [filter]="true"

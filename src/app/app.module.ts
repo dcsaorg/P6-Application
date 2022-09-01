@@ -13,6 +13,7 @@ import {TimestampPaginatorComponent} from './view/timestamp-paginator/timestamp-
 import {TimestampTableComponent} from './view/timestamp-table/timestamp-table.component';
 import {VesselComponent} from './view/vessel/vessel.component';
 import {VesselEditorComponent} from './view/vessel-editor/vessel-editor.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 //primeNG
 import {ButtonModule} from 'primeng/button';
@@ -47,13 +48,14 @@ import { TransportCallsTableComponent } from './view/transport-calls-table/trans
 import {PanelModule} from 'primeng/panel';
 import {MenuModule} from "primeng/menu";
 import { TransportCallCreatorComponent } from './view/transport-call-creator/transport-call-creator.component';
-import { TimestampToStandardizedtTimestampPipe } from "./controller/pipes/timestamp-to-standardized-timestamp";
 import { DashboardComponent } from './view/dashboard/dashboard.component';
 import { AuthInterceptor } from "./auth/auth-interceptor";
 import {AuthService} from "./auth/auth.service";
 import { TransportCallFilterService } from "./controller/services/base/transport-call-filter.service";
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import { DebounceClickDirective } from "./controller/services/util/debounce-click.directive";
+import {ShowTimestampAsJsonDialogComponent} from "./view/show-json-dialog/show-timestamp-as-json-dialog.component";
+import {MatTabsModule} from "@angular/material/tabs";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -72,6 +74,7 @@ export function ConfigLoader(configService: ConfigService) {
     TimestampEditorComponent,
     TimestampPaginatorComponent,
     TimestampTableComponent,
+    ShowTimestampAsJsonDialogComponent,
     VesselComponent,
     VesselEditorComponent,
     InstructionsComponent,
@@ -80,7 +83,6 @@ export function ConfigLoader(configService: ConfigService) {
     VesselTooltipPipe,
     PortOfCallComponent,
     TransportCallsTableComponent,
-    TimestampToStandardizedtTimestampPipe,
     TransportCallCreatorComponent,
     DebounceClickDirective
   ],
@@ -102,6 +104,7 @@ export function ConfigLoader(configService: ConfigService) {
     InputMaskModule,
     InputTextModule,
     InputTextareaModule,
+    MatExpansionModule,
     PaginatorModule,
     ReactiveFormsModule,
     TableModule,
@@ -121,6 +124,7 @@ export function ConfigLoader(configService: ConfigService) {
       }
     }),
     MenuModule,
+    MatTabsModule,
   ],
   providers: [
     ConfigService,
@@ -134,7 +138,6 @@ export function ConfigLoader(configService: ConfigService) {
     TransportCallFilterService,
     MessageService,
     Globals,
-    TimestampToStandardizedtTimestampPipe,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,
