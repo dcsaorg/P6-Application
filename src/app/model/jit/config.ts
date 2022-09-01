@@ -1,5 +1,5 @@
 import { PublisherRole } from "../enums/publisherRole";
-import { identifyingCodes } from "../portCall/identifyingCodes";
+import { IdentifyingCode } from "../portCall/identifyingCode";
 import { Publisher } from "../publisher";
 
 export interface Config {
@@ -7,7 +7,7 @@ export interface Config {
   company: string;
   publisherRoles: PublisherRole[];
   publisher: Publisher;
-  identifyingCodes: identifyingCodes;
+  identifyingCodes: IdentifyingCode[];
   uiSupportBackendURL: string;
   jitBackendURL: string;
   dateTimeFormat: string;
