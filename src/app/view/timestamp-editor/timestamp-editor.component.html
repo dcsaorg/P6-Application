@@ -198,7 +198,7 @@
     <span *ngIf="timestampFormGroup.get('vesselDraft').hasError('pattern')" class="p-invalid">
       {{ 'general.timestamp.vesselDraft.pattern' | translate }}
     </span>
-    <span [hidden]="isDimensionUnit()" class="p-warning">
+    <span [hidden]="hasDimensionUnit()" class="p-warning">
       {{ 'general.timestamp.vesselDraft.missingUnit' | translate }}
     </span>
   </div>

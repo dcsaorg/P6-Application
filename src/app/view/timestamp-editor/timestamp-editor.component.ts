@@ -86,7 +86,10 @@ export class TimestampEditorComponent implements OnInit {
     this.respondingToTimestampInfo = this.config.data.respondingToTimestamp;
 
     this.vesselService.getVessel(this.transportCall.vessel.vesselIMONumber)
-      .subscribe(vessel => this.fullVesselDetails = vessel)
+      .subscribe(vessel => {
+        this.fullVesselDetails = vessel
+        this.updateVesselDraftOption();
+      })
 
     this.timestampFormGroup = this.formBuilder.group({
       vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
@@ -329,14 +332,17 @@ export class TimestampEditorComponent implements OnInit {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
 
-  isDimensionUnit() {
+  hasDimensionUnit() {
+    return this?.fullVesselDetails?.dimensionUnit ?? null;
+  }
+
+  updateVesselDraftOption() {
     if (this?.fullVesselDetails?.dimensionUnit) {
       this.timestampFormGroup.controls.vesselDraft.enable();
     } else {
       this.timestampFormGroup.controls.vesselDraft.disable();
     }
     this.timestampFormGroup.controls.vesselDraft.updateValueAndValidity();
-    return this?.fullVesselDetails?.dimensionUnit ??  null; 
   }
 
 }

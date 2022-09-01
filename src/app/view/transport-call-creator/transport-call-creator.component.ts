@@ -104,7 +104,7 @@ export class TransportCallCreatorComponent implements OnInit {
       vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
       publisherRole: new FormControl(null),
-      vesselDraft: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
+      vesselDraft: new FormControl({value: null, disabled: true}, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
     });
   }
 
@@ -136,18 +136,24 @@ export class TransportCallCreatorComponent implements OnInit {
   vesselSelected() {
     if (this.transportCallFormGroup.controls.vessel.value) {
       this.vesselService.getVessel(this.transportCallFormGroup.controls.vessel.value.vesselIMONumber)
-      .subscribe(vessel => this.fullVesselDetails = vessel)
+        .subscribe(vessel => {
+          this.fullVesselDetails = vessel;
+          this.updateVesselDraftOption();
+        })
     }
   }
 
-  isDimensionUnit() {
+  hasDimensionUnit() {
+    return this?.fullVesselDetails?.dimensionUnit ?? null;
+  }
+
+  updateVesselDraftOption() {
     if (this?.fullVesselDetails?.dimensionUnit) {
       this.transportCallFormGroup.controls.vesselDraft.enable();
     } else {
       this.transportCallFormGroup.controls.vesselDraft.disable();
     }
     this.transportCallFormGroup.controls.vesselDraft.updateValueAndValidity();
-    return this?.fullVesselDetails?.dimensionUnit ??  null; 
   }
 
   private updateVesselOptions() {
