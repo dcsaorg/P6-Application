@@ -14,7 +14,7 @@
             <div class="col">
               <p-dropdown  [disabled]="this.filterTerminals.length < 2"
                            class="dropdown"
-                           (onChange)="terminalSelected()"
+                           (onChange)="filterSelected()"
                            [(ngModel)]="filterTerminal"
                            [filter]="true"
                            [options]="filterTerminals"
@@ -32,9 +32,9 @@
               </p-dropdown>
             </div>
             <div class="col">
-                <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="selectedNegotiationCycle"
-                    [options]="negotiationCycles" [filter]=true filterBy="label" appendTo="body"
-                    (onChange)="filterTimestamps()">
+                <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="filterNegotiationCycle"
+                    [options]="filterNegotiationCycles" [filter]=true filterBy="label" appendTo="body"
+                    (onChange)="filterSelected()">
                 </p-dropdown>
                 <p-dropdown id="portCallPart" styleClass="dropdown" [(ngModel)]="selectedPortCallPart"
                     [options]="portCallParts" [filter]=true filterBy="label" appendTo="body"

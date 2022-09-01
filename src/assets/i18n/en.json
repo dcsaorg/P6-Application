@@ -310,7 +310,7 @@
     "publisherRole": {
       "tooltip": "Publisher role",
       "label": "Publisher role",
-      "select": "Select Publisher Role"
+      "select": "Select publisher role"
     },
     "transportCall": {
       "add": "Add a new Transport Call",
