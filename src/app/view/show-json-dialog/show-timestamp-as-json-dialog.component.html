@@ -1,60 +1,88 @@
-<h4>As JSON</h4>
-<div class="headline">
-  <div>
-    This is the JSON the Web UI will generate for this timestamp. Note that the UI does <em>not</em> support multiple
-    publishers. Please review some of our suggested publishers for this timestamp (if we have any) for how
-    publishers <em>might</em> identify when sending this timestamp.
-  </div>
-  <p-card styleClass="card-secondary">
-    <pre>{{payload | json}}</pre>
-  </p-card>
-  <div>
-    The UI is <strong>not</strong> an authoritative source for what is correct.  It can merely generate examples
-    and it may contain bugs. Implementations may differ in whether they explicitly state a null field or what
-    fields they fill out when multiple fields are defined for the same purpose.
-  </div>
+<h4>Developer details</h4>
+<hr>
+<h5>Full generated JSON</h5>
+<p>
+  This is the JSON the Web UI will generate for this timestamp. Note that the UI does <em>not</em> support multiple
+  publishers. Please review some of our suggested publishers for this timestamp (if we have any) for how
+  publishers <em>might</em> identify when sending this timestamp.
+</p>
+<p-card styleClass="card-secondary">
+  <pre>{{payload | json}}</pre>
+</p-card>
+<div>
+  The UI is <strong>not</strong> an authoritative source for what is correct.  It can merely generate examples
+  and it may contain bugs. Implementations may differ in whether they explicitly state a null field or what
+  fields they fill out when multiple fields are defined for the same purpose.
 </div>
+<hr>
+<h5>Additional details</h5>
+<mat-tab-group>
+  <mat-tab label="Fields by category">
+    <h5>JSON fields by category</h5>
+    <p>
+      The groupings shown above are informative and only here to assist you with breaking down the JSON
+      into smaller (and hopefully) logical parts.
+    </p>
+    <p-table [filterDelay]="0"
+             [lazy]="false"
+             [value]="timestampGroups"
+             styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Group</th>
+          <th>Description</th>
+          <th>Relevant JSON fields</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-timestampGroup>
+        <tr>
+          <td>{{timestampGroup.title}}</td>
+          <td>{{timestampGroup.description}}</td>
+          <td><pre>{{timestampGroup.payload | json}}</pre></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </mat-tab>
+  <mat-tab label="Example Publishers ({{matchingPublishers.length}})">
+    <h5>Example Publishers</h5>
+    <p *ngIf="matchingPublishers.length > 0">
+      All example publishers are estimations of how that publisher <em>could</em> present itself via the DCSA
+      JIT standard and focuses on a few select attributes (to make them smaller and easier to understand).
+      Real world publisher objects may have more or a different choice of fields. The important part is that you
+      can clearly identify the publisher from that object.
+    </p>
+    <p-table [filterDelay]="0"
+             [lazy]="false"
+             [value]="matchingPublishers"
+             styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Example publisher</th>
+          <th>Related PublisherRole</th>
+          <th>Example JSON (Publisher + Publisher Role only)</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-matchingPublisher>
+        <tr>
+          <td>{{matchingPublisher.title}}</td>
+          <td>{{matchingPublisher.json.publisherRole}}</td>
+          <td><pre>{{matchingPublisher.json | json}}</pre></td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p *ngIf="matchingPublishers.length < 1">
+      Unfortunately, we do not have example publishers defined that appear to be applicable to this timestamp.
+      Please contact adoptionsupport@dcsa.org if you would like an example of this publisher.
+    </p>
+    <p>
+      DCSA recommends using UN/ECE UN Location Codes and SMDG codes from the Terminal Code List (TCL) or/and
+      the Liner Code List (LCL) to identify yourself using the <strong>identifyingCodes</strong> when such a code
+      is available.
+    </p>
+  </mat-tab>
+</mat-tab-group>
 
-<div class="p-fluid">
-  <p-table [filterDelay]="0"
-           [lazy]="false"
-           [value]="matchingPublishers"
-           *ngIf="matchingPublishers.length > 0"
-           sortField="logOfTimestamp"
-           [sortOrder]="-1"
-           styleClass="p-datatable-sm">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Example publisher</th>
-        <th>Related PublisherRole</th>
-        <th>Example JSON (Publisher + Publisher Role only)</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-matchingPublisher>
-      <tr>
-        <td>{{matchingPublisher.title}}</td>
-        <td>{{matchingPublisher.json.publisherRole}}</td>
-        <td><pre>{{matchingPublisher.json | json}}</pre></td>
-      </tr>
-    </ng-template>
-  </p-table>
-  <div *ngIf="matchingPublishers.length > 0">
-    All example publishers are estimations of how that publisher <em>could</em> present itself via the DCSA
-    JIT standard and focuses on a few select attributes (to make them smaller and easier to understand).
-    Real world publisher objects may have more or a different choice of fields. The important part is that you
-    can clearly identify the publisher from that object.
-  </div>
-  <div *ngIf="matchingPublishers.length < 1">
-    Unfortunately, we do not have example publishers defined that appear to be applicable to this timestamp.
-    Please contact adoptionsupport@dcsa.org if you would like an example of this publisher.
-  </div>
-  <div>
-    DCSA recommends using UN/ECE UN Location Codes and SMDG codes from the Terminal Code List (TCL) or/and
-    the Liner Code List (LCL) to identify yourself using the <strong>identifyingCodes</strong> when such a code
-    is available.
-  </div>
-</div>
-
+<br>
 <div class="grid">
   <div class="col-8">
   </div>

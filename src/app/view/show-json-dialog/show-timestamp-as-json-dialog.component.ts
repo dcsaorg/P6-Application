@@ -6,15 +6,34 @@ import {Timestamp} from "../../model/jit/timestamp";
 import {Publisher} from "../../model/publisher";
 import {PublisherRole} from "../../model/enums/publisherRole";
 import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import {EventClassifierCode} from "../../model/jit/event-classifier-code";
+import {OperationsEventTypeCode} from "../../model/enums/operationsEventTypeCode";
+import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
+import {PortCallPhaseTypeCode} from "../../model/enums/portCallPhaseTypeCode";
+import {PortCallServiceTypeCode} from "../../model/enums/portCallServiceTypeCode";
 
-export interface JsonPublisher {
+export interface TimestampPublisherInfo {
   publisher: Publisher;
   publisherRole: PublisherRole;
 }
 
-export interface PublisherExampleData {
+export interface TimestampClassifierInfo {
+  eventClassifierCode: EventClassifierCode;
+  operationsEventTypeCode: OperationsEventTypeCode;
+  facilityTypeCode: FacilityTypeCode;
+  portCallPhaseTypeCode: PortCallPhaseTypeCode;
+  portCallServiceTypeCode: PortCallServiceTypeCode;
+}
+
+interface PublisherExampleData {
   title: string;
-  json: JsonPublisher;
+  json: TimestampPublisherInfo;
+}
+
+interface JSONGroup {
+  title: string;
+  description: string;
+  payload: object;
 }
 
 @Component({
@@ -29,6 +48,7 @@ export class ShowTimestampAsJsonDialogComponent implements OnInit {
   payload: Timestamp;
   timestampDefinition: TimestampDefinitionTO;
   matchingPublishers: PublisherExampleData[] = []
+  timestampGroups: JSONGroup[] = [];
 
   constructor(
     private globals: Globals,
@@ -43,6 +63,36 @@ export class ShowTimestampAsJsonDialogComponent implements OnInit {
     this.timestampDefinition = this.config.data.timestampDefinition;
     this.matchingPublishers = this.loadExamplePublishers()
       .filter(er => this.timestampDefinition?.publisherPattern?.some(pp => pp.publisherRole == er.json.publisherRole));
+    this.timestampGroups = [
+      {
+        title: "Publisher",
+        description: "Who sent this timestamp?  (Please see Example publishers for better examples)",
+        payload: this.asPublisherInfo(this.payload)
+      },
+      {
+        title: "Timestamp classification",
+        description: "Which fields are used to determine which business timestamp is this? (e.g., ETA-Berth vs. ESOP)",
+        payload: this.asClassifierInfo(this.payload)
+      }
+    ]
+  }
+
+
+  private asPublisherInfo(timestamp: Timestamp): TimestampPublisherInfo {
+    return {
+      publisher: timestamp.publisher,
+      publisherRole: timestamp.publisherRole,
+    }
+  }
+
+  private asClassifierInfo(timestamp: Timestamp): TimestampClassifierInfo {
+    return {
+      eventClassifierCode: timestamp.eventClassifierCode,
+      operationsEventTypeCode: timestamp.operationsEventTypeCode,
+      facilityTypeCode: timestamp.facilityTypeCode,
+      portCallPhaseTypeCode: timestamp.portCallPhaseTypeCode,
+      portCallServiceTypeCode: timestamp.portCallServiceTypeCode,
+    }
   }
 
   close() {
