@@ -9,7 +9,6 @@ import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
 import {Terminal} from "../../model/portCall/terminal";
 import {TransportCallService} from "../../controller/services/jit/transport-call.service";
 import {DynamicDialogRef} from "primeng/dynamicdialog";
-import {PortCallServiceTypeCode} from 'src/app/model/enums/portCallServiceTypeCode';
 import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvider";
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
