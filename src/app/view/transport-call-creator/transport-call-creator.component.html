@@ -54,7 +54,7 @@
     <div class="md:col-6">
       <label for="vessels">{{ 'general.vessel.label' | translate }}:</label>
       <p-dropdown appendTo="body" formControlName="vessel" id="vessels" [options]="vesselOptions" [filter]="true"
-        filterBy="label,value.name">>
+        filterBy="label,value.name" (onChange)="vesselSelected()" >
       </p-dropdown>
       <span
         *ngIf="transportCallFormGroup.get('vessel').hasError('required') && transportCallFormGroup.get('vessel').touched"
@@ -233,6 +233,20 @@
         {{ 'general.timestamp.milesToDestinationPort.pattern' | translate }}
       </span>
     </div>
+
+      <!-- Vessel draft -->
+  <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
+    <label for="vesselDraft">{{ "general.timestamp.vesselDraft.label" | translate }}:</label>
+    <input id="vesselDraft" formControlName="vesselDraft" pInputText style="width: 100%"
+      type="text" />
+    <span *ngIf="transportCallFormGroup.get('vesselDraft').hasError('pattern')" class="p-invalid">
+      {{ 'general.timestamp.vesselDraft.pattern' | translate }}
+    </span>
+    <span [hidden]="hasDimensionUnit()" class="p-warning">
+      {{ 'general.timestamp.vesselDraft.missingUnit' | translate }}
+    </span>
+  </div>
+
   </div>
 
   <div class="grid">
