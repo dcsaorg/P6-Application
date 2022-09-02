@@ -100,7 +100,7 @@
         </div>
       </ng-template>
     </p-dropdown>
-    <span *ngIf="timestampFormGroup.get('terminal').hasError('required') 
+    <span *ngIf="timestampFormGroup.get('terminal').hasError('required')
     && timestampFormGroup.get('terminal').touched" class="p-invalid">
       {{ 'general.transportCall.validation.terminal.empty' | translate }}
     </span>
@@ -211,8 +211,11 @@
     <p-button (onClick)="close()" class="footer_option__buttons" icon="pi pi-times-circle"
       label="{{'general.close.label' | translate}}" iconPos="left">
     </p-button>
+    <p-button *ngIf="globals.config.enableShowTimestampsAsJSON === true" (onClick)="showJSON()" class="footer_option__buttons" icon="pi pi-times-circle"
+              [disabled]="timestampFormGroup.invalid" label="{{'general.showAsJson.label' | translate}}" iconPos="left">
+    </p-button>
     <p-button class="footer_option__buttons" appDebounceClick (debounceClick)="saveTimestamp()" [debounceTime]="200"
-      [disabled]=" timestampFormGroup.invalid" icon="pi pi-save" label="{{createButtonText()| translate}}"
+      [disabled]="timestampFormGroup.invalid" icon="pi pi-save" label="{{createButtonText()| translate}}"
       iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>

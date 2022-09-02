@@ -21,8 +21,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import { VesselService } from "../../controller/services/base/vessel.service";
-import { Vessel } from "../../model/portCall/vessel";
+import {VesselService} from "../../controller/services/base/vessel.service";
+import {Vessel} from "../../model/portCall/vessel";
+import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -63,7 +64,7 @@ export class TimestampEditorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private messageService: MessageService,
     private delayCodeService: DelayCodeService,
-    private globals: Globals,
+    public globals: Globals,
     public config: DynamicDialogConfig,
     private translate: TranslateService,
     public ref: DynamicDialogRef,
@@ -71,7 +72,8 @@ export class TimestampEditorComponent implements OnInit {
     private timestampMappingService: TimestampMappingService,
     private terminalService: TerminalService,
     private vesselService: VesselService,
-  ) {
+    private dialogService: DialogService,
+    ) {
   }
 
   ngOnInit(): void {
@@ -187,7 +189,50 @@ export class TimestampEditorComponent implements OnInit {
     return this.publisherRoles.length > 1;
   }
 
+
+  showJSON() {
+    const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value;
+    let newTimestamp = this.generateTimestamp();
+    this.dialogService.open(ShowTimestampAsJsonDialogComponent, {
+      header: 'JSON Example',
+      width: '75%',
+      data: {
+        payload: newTimestamp,
+        timestampDefinition: timestampDefinition,
+      }
+    });
+  }
+
   saveTimestamp() {
+    let newTimestamp = this.generateTimestamp();
+    this.creationProgress = true;
+    this.timestampMappingService.addPortCallTimestamp(newTimestamp).subscribe({
+      next: () => {
+        this.creationProgress = false;
+        this.messageService.add(
+          {
+            key: 'GenericSuccessToast',
+            severity: 'success',
+            summary: this.translate.instant('general.save.editor.success.summary'),
+            detail: this.translate.instant('general.save.editor.success.detail')
+          })
+        this.ref.close(newTimestamp);
+      },
+      error: errorResponse => {
+        let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+        this.messageService.add(
+          {
+            key: 'GenericErrorToast',
+            severity: 'error',
+            summary: this.translate.instant('general.save.editor.failure.detail'),
+            detail: errorMessage
+          })
+        this.creationProgress = false;
+      }
+    })
+  }
+
+  private generateTimestamp(): Timestamp {
     const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value;
     const publisherRoleSelected = this.timestampFormGroup.controls.publisherRole.value;
     const terminalSelected = this.timestampFormGroup.controls.terminal.value;
@@ -235,31 +280,7 @@ export class TimestampEditorComponent implements OnInit {
       newTimestamp.eventLocation.locationName = locationName
     }
 
-    this.creationProgress = true;
-    this.timestampMappingService.addPortCallTimestamp(newTimestamp).subscribe({
-      next: () => {
-        this.creationProgress = false;
-        this.messageService.add(
-          {
-            key: 'GenericSuccessToast',
-            severity: 'success',
-            summary: this.translate.instant('general.save.editor.success.summary'),
-            detail: this.translate.instant('general.save.editor.success.detail')
-          })
-        this.ref.close(newTimestamp);
-      },
-      error: errorResponse => {
-        let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
-        this.messageService.add(
-          {
-            key: 'GenericErrorToast',
-            severity: 'error',
-            summary: this.translate.instant('general.save.editor.failure.detail'),
-            detail: errorMessage
-          })
-        this.creationProgress = false;
-      }
-    })
+    return newTimestamp;
   }
 
   private updateTimestampTypeOptions() {

@@ -19,9 +19,7 @@ export class HeaderComponent implements OnInit {
 
   helpMenu: MenuItem[];
   companyName: string;
-  companyRole: string;
   companyCodeType: string;
-  companyId: string;
   displayDownloadRequest: boolean;
   authLocalState: boolean;
 
@@ -38,8 +36,6 @@ export class HeaderComponent implements OnInit {
               private exportService: ExportService,
               ) {
     this.companyName = globals.config.publisher.partyName;
-    this.companyRole = globals.config.publisher.nmftaCode;
-    this.companyId = globals.config.publisher.nmftaCode;
     this.companyCodeType = globals.config.publisherRoles.length > 0 ? globals.config.publisherRoles.join(", ") : "Spectator";
   }
 
