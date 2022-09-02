@@ -45,11 +45,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: npm install and npm run build
-        run: |
-          npm i
-          npm run build
-
       - name: Build & tag Docker image
         run:
           docker build . --tag ghcr.io/dcsaorg/dcsa-p6-ui:${{ env.DOCKER_TAG_NAME }}
