@@ -9,7 +9,8 @@
     "identifyingCodes": [
       {
         "DCSAResponsibleAgencyCode": "SMDG",
-        "partyCode": "MSK"
+        "partyCode": "MSK",
+        "codeListName": "LCL"
       }
     ]
   },
