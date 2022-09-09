@@ -3,7 +3,6 @@ import { IdentifyingCode } from "../portCall/identifyingCode";
 import { Publisher } from "../publisher";
 
 export interface Config {
-  enableJIT11Timestamps: Boolean;
   company: string;
   publisherRoles: PublisherRole[];
   publisher: Publisher;

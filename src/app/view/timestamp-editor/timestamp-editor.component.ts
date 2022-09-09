@@ -316,9 +316,6 @@ export class TimestampEditorComponent implements OnInit {
       if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) {
         continue;
       }
-      if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
-        continue
-      }
       this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef })
     }
   }
