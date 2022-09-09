@@ -6,6 +6,7 @@
         (onChange)="selectPortOfCall()"
         [(ngModel)]="portOfCall"
         [filter]="true"
+        [showClear]=true
         [options]="portOptions"
         filterBy="label,value.UNLocationCode">
         <ng-template let-port pTemplate="item">

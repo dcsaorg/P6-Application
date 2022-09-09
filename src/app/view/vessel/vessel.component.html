@@ -6,7 +6,11 @@
       <div class="vessel__content__first">
         <div class="vessel__select_modify">
           <div class="dropDownDiv">
-            <p-dropdown (onChange)="selectVessel()" [(ngModel)]="selectedVessel" [filter]="true" [options]="vessels"></p-dropdown>
+            <p-dropdown (onChange)="selectVessel()"
+                        [(ngModel)]="selectedVessel"
+                        [filter]="true"
+                        [showClear]=true
+                        [options]="vessels"></p-dropdown>
           </div>
 
           <div class="vessel__select_modify__buttons">
