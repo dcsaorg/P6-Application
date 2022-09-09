@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable, of } from "rxjs";
 import { Globals } from "../../../model/portCall/globals";
 import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
@@ -12,6 +12,18 @@ function asMap(timestampDefinitions: TimestampDefinitionTO[]): Map<string, Times
     map.set(timestampDefinitionTO.id, timestampDefinitionTO);
   }
   return map;
+}
+
+function negotiationCycleComparator(a: NegotiationCycle, b: NegotiationCycle): number {
+  const ao = a.displayOrder ?? 999
+  const bo = b.displayOrder ?? 999
+  if (ao > bo) {
+    return 1
+  }
+  if (ao == bo) {
+    return 0
+  }
+  return -1
 }
 
 @Injectable({
@@ -30,9 +42,7 @@ export class TimestampDefinitionService {
 
   getTimestampDefinitions(): Observable<TimestampDefinitionTO[]> {
     if (this.definitionCache.length == 0) {
-      let httpParams = new HttpParams();
-      httpParams = httpParams.set("canonicalTimestampDefinition", "NULL").set("limit", "250");
-      return this.httpClient.get<TimestampDefinitionTO[]>(this.TIMESTAMP_DEFINITION_BACKEND, { params: httpParams })
+      return this.httpClient.get<TimestampDefinitionTO[]>(this.TIMESTAMP_DEFINITION_BACKEND)
         .pipe(
           map(definitions => {
             let table = asMap(definitions);
@@ -66,9 +76,10 @@ export class TimestampDefinitionService {
               uniqueNegotiationCycles.push(timestampDefinitionTO.negotiationCycle)
             }
           })
-          return uniqueNegotiationCycles;
+          uniqueNegotiationCycles.sort(negotiationCycleComparator)
+          this.negotiationCyclesCache = uniqueNegotiationCycles;
+          return uniqueNegotiationCycles
         }),
-        map(uniqueNegotiationCycles => this.negotiationCyclesCache = uniqueNegotiationCycles)
       )
     }
     return of(this.negotiationCyclesCache);
