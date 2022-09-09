@@ -30,6 +30,7 @@ export interface TimestampDefinitionTO {
   rejectTimestampDefinitionEntity?: TimestampDefinitionTO;
   eventLocationRequirement: EventLocationRequirement;
   negotiationCycle: NegotiationCycle;
+  implicitVariantOf: string;
 
   /**
 * @deprecated
