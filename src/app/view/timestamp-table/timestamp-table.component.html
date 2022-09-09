@@ -34,10 +34,12 @@
             <div class="col">
                 <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="filterNegotiationCycle"
                     [options]="filterNegotiationCycles" [filter]=true filterBy="label" appendTo="body"
+                    [showClear]=true
                     (onChange)="filterSelected()">
                 </p-dropdown>
                 <p-dropdown id="portCallPart" styleClass="dropdown" [(ngModel)]="selectedPortCallPart"
                     [options]="portCallParts" [filter]=true filterBy="label" appendTo="body"
+                    [showClear]=true
                     (onChange)="filterTimestampsByPortOfCallPart()">
                 </p-dropdown>
             </div>
