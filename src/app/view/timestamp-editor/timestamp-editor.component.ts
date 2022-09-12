@@ -21,9 +21,10 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
-import { ShowTimestampAsJsonDialogComponent } from "../show-json-dialog/show-timestamp-as-json-dialog.component";
-import { VesselService } from "../../controller/services/base/vessel.service";
-import { Vessel } from "../../model/portCall/vessel";
+import {VesselService} from "../../controller/services/base/vessel.service";
+import {Vessel} from "../../model/portCall/vessel";
+import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
+import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -54,6 +55,8 @@ export class TimestampEditorComponent implements OnInit {
   terminalOptions: SelectItem[] = [];
   publisherRoleOptions: SelectItem[] = [];
   publisherRoles: PublisherRole[] = [];
+  negotiationCycles: SelectItem<NegotiationCycle>[] = [];
+  selectedNegotiationCycle: NegotiationCycle = null;
   timestampResponseStatus: TimestampResponseStatus;
   responseTimestampDefinitionTO: TimestampDefinitionTO;
   respondingToTimestampInfo: TimestampInfo;
@@ -117,6 +120,15 @@ export class TimestampEditorComponent implements OnInit {
 
   determineTimestampResponseStatus() {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
+      this.timestampDefinitionService.getNegotiationCycles().subscribe(cycles => {
+        this.negotiationCycles = [{
+          label: this.translate.instant('general.negotiationCycle.select'),
+          value: null
+        }]
+        for (let cycle of cycles) {
+          this.negotiationCycles.push({ label: cycle.cycleName, value: cycle })
+        }
+      });
       this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
         this.timestampDefinitions = timestampDefinitions;
         this.updateTimestampTypeOptions();
@@ -245,6 +257,13 @@ export class TimestampEditorComponent implements OnInit {
     })
   }
 
+  onSelectedNegotiationCycle(event) {
+    this.selectedNegotiationCycle = event.value;
+    this.timestampTypeSelected.setValue(null);
+    this.timestampTypeSelected.updateValueAndValidity();
+    this.updateTimestampTypeOptions()
+  }
+
   private generateTimestamp(): Timestamp {
     const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value;
     const publisherRoleSelected = this.timestampFormGroup.controls.publisherRole.value;
@@ -300,6 +319,9 @@ export class TimestampEditorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
     for (let timestampDef of this.timestampDefinitions) {
+      if (this.selectedNegotiationCycle && timestampDef.negotiationCycle.cycleKey != this.selectedNegotiationCycle.cycleKey) {
+        continue;
+      }
       if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) {
         continue;
       }

@@ -76,6 +76,14 @@
 
   <div class="p-fluid p-formgrid grid" [hidden]="!shouldCreateTimestamp()">
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
+      <label for="negotiationCycle">{{ 'general.table.header.negotiationCycle.label' | translate }}: </label>
+      <p-dropdown id="negotiationCycle" styleClass="dropdown" formControlName="negotiationCycle"
+                  [options]="negotiationCycles"
+                  [filter]=true filterBy="label" appendTo="body"
+                  (onChange)="onSelectedNegotiationCycle($event)">
+
+      </p-dropdown>
+
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes"
         [filter]=true filterBy="label" appendTo="body" (onChange)="updatePublisherRoleOptions(); updateVesselPositionRequirement()">

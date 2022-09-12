@@ -54,6 +54,15 @@
 
   <div class="md:col-6" *ngIf="timestampResponseStatus === TimestampResponseStatus.CREATE">
     <div>
+      <label for="negotiationCycle">{{ 'general.table.header.negotiationCycle.label' | translate }}: </label>
+      <p-dropdown id="negotiationCycle" styleClass="dropdown" formControlName="negotiationCycle"
+                  [options]="negotiationCycles"
+                  [filter]=true filterBy="label" appendTo="body"
+                  (onChange)="onSelectedNegotiationCycle($event)">
+
+      </p-dropdown>
+    </div>
+    <div>
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" styleClass="dropdown" formControlName="timestampType" [options]="timestampTypes"
         [filter]=true filterBy="label" appendTo="body" (onChange)="updatePublisherRoleOptions(); updateVesselPositionRequirement()"></p-dropdown>

@@ -184,6 +184,9 @@
             "grey": "Timestamp has been delivered"
           }
         },
+        "negotiationCycle": {
+          "label": "Filter timestamp by terminal call event (e.g., service/arrival at berth)"
+        },
         "nextPort": {
           "label": "Next port",
           "tooltip": "What is the next port in the rotation?"

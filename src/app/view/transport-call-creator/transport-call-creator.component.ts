@@ -26,6 +26,7 @@ import { TimestampDefinitionService } from "../../controller/services/base/times
 import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
 
 @Component({
   selector: 'app-add-transport-call',
@@ -54,6 +55,9 @@ export class TransportCallCreatorComponent implements OnInit {
   timestampChecking: boolean;
   locationNameLabel: string;
 
+  negotiationCycles: SelectItem<NegotiationCycle>[] = [];
+  selectedNegotiationCycle: NegotiationCycle = null;
+
   dateToUTC: DateToUtcPipe
 
   constructor(private formBuilder: FormBuilder,
@@ -74,6 +78,16 @@ export class TransportCallCreatorComponent implements OnInit {
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
+
+    this.timestampDefinitionService.getNegotiationCycles().subscribe(cycles => {
+      this.negotiationCycles = [{
+        label: this.translate.instant('general.negotiationCycle.select'),
+        value: null
+      }]
+      for (let cycle of cycles) {
+        this.negotiationCycles.push({ label: cycle.cycleName, value: cycle })
+      }
+    });
 
     this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
       this.timestampDefinitions = timestampDefinitions;
@@ -155,6 +169,13 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup.controls.vesselDraft.updateValueAndValidity();
   }
 
+  onSelectedNegotiationCycle(event) {
+    this.selectedNegotiationCycle = event.value;
+    this.transportCallFormGroup.controls.timestampType.setValue(null);
+    this.transportCallFormGroup.controls.timestampType.updateValueAndValidity();
+    this.updateTimestampTypeOptions()
+  }
+
   private updateVesselOptions() {
     this.vesselService.getVessels().subscribe(vessels => {
       this.vessels = [];
@@ -180,6 +201,9 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
     for (let timestampDef of this.timestampDefinitions) {
+      if (this.selectedNegotiationCycle && timestampDef.negotiationCycle.cycleKey != this.selectedNegotiationCycle.cycleKey) {
+        continue;
+      }
       if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) {
         continue;
       }
