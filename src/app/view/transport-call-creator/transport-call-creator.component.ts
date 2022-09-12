@@ -254,7 +254,7 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   showVesselPosition(): boolean {
-    const vesselPositionRequirement = this.transportCallFormGroup.controls.timestampType.value.vesselPositionRequirement;
+    const vesselPositionRequirement = this.transportCallFormGroup.controls.timestampType.value?.vesselPositionRequirement;
     return vesselPositionRequirement !== undefined && vesselPositionRequirement !== EventLocationRequirement.EXCLUDED;
   }
 

@@ -153,6 +153,9 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.progressing = true;
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected, this.filterTerminal, this.filterNegotiationCycle?.cycleKey).subscribe(timestampInfos => {
         this.colorizetimestampByLocation(timestampInfos);
+        timestampInfos.forEach(timestampInfo => {
+          timestampInfo.operationsEventTO.transportCall.vessel = this.transportCallSelected.vessel;
+        });
         this.unfilteredTimestampInfos = timestampInfos;
         this.timestampInfos = timestampInfos;
         if (populateFilters) {

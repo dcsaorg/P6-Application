@@ -6,6 +6,7 @@ import { map, mergeMap, toArray, concatMap } from "rxjs/operators";
 import { Timestamp } from 'src/app/model/jit/timestamp';
 import { Globals } from 'src/app/model/portCall/globals';
 import { PortService } from '../base/port.service';
+import { VesselService } from '../base/vessel.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class TransportCallService {
   constructor(
     private httpClient: HttpClient,
     private globals: Globals,
-    private portService: PortService
+    private portService: PortService,
+    private vesselService: VesselService
   ) {
     this.TRANSPORT_CALL_URL = globals.config.uiSupportBackendURL + "/unofficial/transport-calls"
   }
@@ -44,6 +46,12 @@ export class TransportCallService {
           concatMap((transportCall) =>
             this.portService.getPortByUNLocationCode(transportCall.UNLocationCode).pipe(map(port => {
               transportCall.portOfCall = port;
+              return transportCall;
+            }))
+          ),
+          concatMap((transportCall) =>
+            this.vesselService.getVessel(transportCall.vessel.vesselIMONumber).pipe(map(vessel => {
+              transportCall.vessel = vessel;
               return transportCall;
             }))
           ),
