@@ -59,7 +59,9 @@ export class VesselEditorComponent implements OnInit {
       this.allowImoID = false;
       this.vessel = this.config.data;
       this.vesselFormGroup.patchValue(this.vessel);
-      this.vesselFormGroup.removeControl("imoId");
+      if (this.vessel.dimensionUnit) { // we disable if dimensionUnit is set once. 
+        this.vesselFormGroup.controls.dimensionUnit.disable();
+      }
     } else {
       this.allowImoID = true;
       this.vessel
@@ -77,7 +79,7 @@ export class VesselEditorComponent implements OnInit {
       dimensionUnit: this.vesselFormGroup.controls.dimensionUnit.value,
       type: this.vesselFormGroup.controls.type.value
     };
-    if(this.vessel.dimensionUnit){      
+    if (this.vessel.dimensionUnit) {
       this.vessel.width = this.vesselFormGroup.controls.width.value;
       this.vessel.length = this.vesselFormGroup.controls.length.value;
     }
