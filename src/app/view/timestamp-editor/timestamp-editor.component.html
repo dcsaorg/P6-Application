@@ -66,7 +66,7 @@
     <div>
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" styleClass="dropdown" formControlName="timestampType" [options]="timestampTypes"
-        [filter]=true filterBy="label" appendTo="body" (onChange)="updatePublisherRoleOptions()"></p-dropdown>
+        [filter]=true filterBy="label" appendTo="body" (onChange)="updatePublisherRoleOptions(); updateVesselPositionRequirement()"></p-dropdown>
     </div>
   </div>
 

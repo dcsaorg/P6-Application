@@ -18,7 +18,6 @@
   "uiSupportBackendURL": "http://localhost:9091/v1",
   "jitBackendURL": "http://localhost:9090/v1",
   "dateTimeFormat": "dd MMM yyyy HH:mm",
-  "enableVesselPositions": true,
   "authRegion":"eu-west-1",
   "authUserPoolId": "eu-west-1_khrRmnDXz",
   "authUserPoolWebClientId": "5qgd24cfb8m4sm6bkrfk55cqfr",

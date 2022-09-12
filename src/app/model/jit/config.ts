@@ -10,7 +10,6 @@ export interface Config {
   uiSupportBackendURL: string;
   jitBackendURL: string;
   dateTimeFormat: string;
-  enableVesselPositions: boolean
   authRegion: string;
   authUserPoolId: string;
   authUserPoolWebClientId: string;

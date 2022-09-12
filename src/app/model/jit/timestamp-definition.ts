@@ -19,7 +19,7 @@ export interface TimestampDefinitionTO {
   isBerthLocationNeeded: boolean;
   isPBPLocationNeeded: boolean;
   isTerminalNeeded: boolean;
-  isVesselPositionNeeded: boolean;
+  vesselPositionRequirement: EventLocationRequirement;
   isMilesToDestinationRelevant: boolean;
   providedInStandard: string;
   publisherPattern: Array<PublisherPattern>;
@@ -30,5 +30,4 @@ export interface TimestampDefinitionTO {
   eventLocationRequirement: EventLocationRequirement;
   negotiationCycle: NegotiationCycle;
   implicitVariantOf: string;
-
 }
