@@ -201,14 +201,15 @@ export class TransportCallCreatorComponent implements OnInit {
     this.timestampTypes = [];
     this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
     for (let timestampDef of this.timestampDefinitions) {
+      if (timestampDef.implicitVariantOf) {
+        // Ignore the implicit versions that have an explicit version.
+        continue;
+      }
       if (this.selectedNegotiationCycle && timestampDef.negotiationCycle.cycleKey != this.selectedNegotiationCycle.cycleKey) {
         continue;
       }
       if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) {
         continue;
-      }
-      if (!this.globals.config.enableJIT11Timestamps && timestampDef.providedInStandard == 'jit1_1') {
-        continue
       }
       this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef })
     }

@@ -1,5 +1,4 @@
 import { OperationsEventTypeCode } from '../enums/operationsEventTypeCode';
-import { PublisherRole } from '../enums/publisherRole';
 import { EventClassifierCode } from "./event-classifier-code";
 import { PortCallPhaseTypeCode } from "../enums/portCallPhaseTypeCode";
 import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
@@ -30,4 +29,5 @@ export interface TimestampDefinitionTO {
   rejectTimestampDefinitionEntity?: TimestampDefinitionTO;
   eventLocationRequirement: EventLocationRequirement;
   negotiationCycle: NegotiationCycle;
+  implicitVariantOf: string;
 }

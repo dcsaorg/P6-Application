@@ -79,6 +79,7 @@
       <label for="negotiationCycle">{{ 'general.table.header.negotiationCycle.label' | translate }}: </label>
       <p-dropdown id="negotiationCycle" styleClass="dropdown" formControlName="negotiationCycle"
                   [options]="negotiationCycles"
+                  [showClear]=true
                   [filter]=true filterBy="label" appendTo="body"
                   (onChange)="onSelectedNegotiationCycle($event)">
 
@@ -170,8 +171,14 @@
     <!-- Delay Code -->
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
-      <p-dropdown id="delayCode" [options]="delayCodeOptions" formControlName="delayCode" [filter]="true"
-        filterBy="label,value.name" [group]="false">
+      <p-dropdown id="delayCode"
+                  [options]="delayCodeOptions"
+                  formControlName="delayCode"
+                  [filter]="true"
+                  [showClear]=true
+                  filterBy="label,value.name"
+                  appendTo="body"
+                  [group]="false">
         <ng-template let-delayCode pTemplate="selectedItem">
           <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
             <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
