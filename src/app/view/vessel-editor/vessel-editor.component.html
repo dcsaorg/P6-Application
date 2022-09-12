@@ -1,70 +1,129 @@
 <form [formGroup]="vesselFormGroup">
   <div class="p-fluid">
     <div class="p-field grid">
-      <label for="imo" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.number' | translate }}</label>
-      <label *ngIf="!allowImoID" for="imo" class="col-12 md:col-10"> {{ vessel.vesselIMONumber }}</label>
-      <div class="col-12 md:col-10"  *ngIf="allowImoID">
-        <input id="imo" type="text" formControlName="imoId" pInputText [(ngModel)]=vessel.vesselIMONumber maxlength="70">
-        <span *ngIf="vesselFormGroup.get('imoId').hasError('required') && vesselFormGroup.get('imoId').touched" class="p-invalid">
+      <label for="vesselIMONumber" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.number' | translate
+        }}</label>
+      <label *ngIf="!allowImoID" for="vesselIMONumber" class="col-12 md:col-10"> {{ vessel.vesselIMONumber }}</label>
+      <div class="col-12 md:col-10" *ngIf="allowImoID">
+        <input id="vesselIMONumber" type="text" formControlName="vesselIMONumber" pInputText maxlength="70">
+        <span
+          *ngIf="vesselFormGroup.get('vesselIMONumber').hasError('required') && vesselFormGroup.get('vesselIMONumber').touched"
+          class="p-invalid">
           {{ 'general.vessel.validation.number.empty' | translate }}
         </span>
-        <span *ngIf="vesselFormGroup.get('imoId').hasError('pattern')" class="p-invalid">
+        <span *ngIf="vesselFormGroup.get('vesselIMONumber').hasError('pattern')" class="p-invalid">
           {{ 'general.vessel.validation.number.length.min' | translate }}
         </span>
-        <span *ngIf="vesselFormGroup.get('imoId').hasError('maxlength')" class="p-invalid">
+        <span *ngIf="vesselFormGroup.get('vesselIMONumber').hasError('maxlength')" class="p-invalid">
           {{ 'general.vessel.validation.number.length.max' | translate }}
         </span>
       </div>
     </div>
+
     <div class="p-field grid">
-      <label for="name" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.name' | translate }}</label>
+      <label for="vesselName" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.name' | translate }}</label>
       <div class="col-12 md:col-10">
-        <input id="name" type="text" formControlName="name" pInputText [(ngModel)]=vessel.vesselName maxlength="100">
-        <span *ngIf="vesselFormGroup.get('name').hasError('maxlength')" class="p-invalid">{{ 'general.vessel.validation.name.length.max' | translate }}</span>
-        <span *ngIf="vesselFormGroup.get('name').hasError('minlength')" class="p-invalid">{{ 'general.vessel.validation.name.length.min' | translate }}</span>
-        <span *ngIf="vesselFormGroup.get('name').hasError('required') && vesselFormGroup.get('name').touched" class="p-invalid">
+        <input id="vesselName" type="text" formControlName="vesselName" pInputText maxlength="100">
+        <span *ngIf="vesselFormGroup.get('vesselName').hasError('maxlength')" class="p-invalid">{{
+          'general.vessel.validation.name.length.max' | translate }}</span>
+        <span *ngIf="vesselFormGroup.get('vesselName').hasError('minlength')" class="p-invalid">{{
+          'general.vessel.validation.name.length.min' | translate }}</span>
+        <span
+          *ngIf="vesselFormGroup.get('vesselName').hasError('required') && vesselFormGroup.get('vesselName').touched"
+          class="p-invalid">
           {{ 'general.vessel.validation.name.empty' | translate }}
         </span>
       </div>
     </div>
+
     <div class="p-field grid">
-      <label for="flag" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.flag' | translate }}</label>
+      <label for="vesselFlag" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.flag' | translate }}</label>
       <div class="col-12 md:col-10">
-        <input id="flag" type="text" formControlName="flag" pInputText [(ngModel)]=vessel.vesselFlag>
-        <span *ngIf="vesselFormGroup.get('flag').hasError('pattern')" class="p-invalid">
+        <input id="vesselFlag" type="text" formControlName="vesselFlag" pInputText>
+        <span *ngIf="vesselFormGroup.get('vesselFlag').hasError('pattern')" class="p-invalid">
           {{ 'general.vessel.validation.flag.length' | translate }}
         </span>
       </div>
     </div>
+
     <div class="p-field grid">
-      <label for="callSignNumber" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.callSignNumber' | translate }}</label>
+      <label for="vesselCallSignNumber" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.callSignNumber' |
+        translate }}</label>
       <div class="col-12 md:col-10">
-<!--        <input id="imo" type="text" formControlName="imoId" pInputText [(ngModel)]=vessel.vesselIMONumber maxlength="70">-->
-        <input id="callSignNumber" type="text" formControlName="callSignNumber" pInputText [(ngModel)]=vessel.vesselCallSignNumber>
-        <span *ngIf="vesselFormGroup.get('callSignNumber').hasError('required') && vesselFormGroup.get('callSignNumber').touched" class="p-invalid">
+        <input id="vesselCallSignNumber" type="text" formControlName="vesselCallSignNumber" pInputText>
+        <span
+          *ngIf="vesselFormGroup.get('vesselCallSignNumber').hasError('required') && vesselFormGroup.get('vesselCallSignNumber').touched"
+          class="p-invalid">
           {{ 'general.vessel.validation.callSignNumber.empty' | translate }}
         </span>
-        <span *ngIf="vesselFormGroup.get('callSignNumber').hasError('maxlength')" class="p-invalid">
+        <span *ngIf="vesselFormGroup.get('vesselCallSignNumber').hasError('maxlength')" class="p-invalid">
           {{ 'general.vessel.validation.callSignNumber.length.max' | translate }}
         </span>
       </div>
     </div>
+
     <div class="p-field grid">
-      <label for="vesselOperatorCarrierCode" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.vesselOperatorCarrierCode' | translate }}</label>
+      <label for="length" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.length.name' | translate
+        }}</label>
       <div class="col-12 md:col-10">
-      <p-dropdown appendTo="body" [(ngModel)]="vessel.vesselOperatorCarrierCode" [filter]="true" [required] = "true" [options]="carriers"  [ngModelOptions]="{standalone: true}"
-      placeholder="{{ 'general.carrier.select' | translate }}"></p-dropdown>
+        <input id="length" type="text" formControlName="length" pInputText>
+        <span *ngIf="vesselFormGroup.get('length').hasError('pattern')" class="p-invalid">
+          {{ 'general.vessel.length.pattern' | translate }}
+        </span>
+        <span [hidden]="hasDimensionUnit()" class="p-warning">
+          {{ 'general.vessel.length.missingUnit' | translate }}
+        </span>
       </div>
     </div>
-  
+
+    <div class="p-field grid">
+      <label for="width" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.width.name' | translate }}</label>
+      <div class="col-12 md:col-10">
+        <input id="width" type="text" formControlName="width" pInputText>
+        <span *ngIf="vesselFormGroup.get('width').hasError('pattern')" class="p-invalid">
+          {{ 'general.vessel.width.pattern' | translate }}
+        </span>
+        <span [hidden]="hasDimensionUnit()" class="p-warning">
+          {{ 'general.vessel.width.missingUnit' | translate }}
+        </span>
+      </div>
+    </div>
+
+    <div class="p-field grid">
+      <label for="vesselOperatorCarrierCode" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{
+        'general.vessel.vesselOperatorCarrierCode' | translate }}</label>
+      <div class="col-12 md:col-10">
+        <p-dropdown appendTo="body" [filter]="true" [options]="carriers" formControlName="vesselOperatorCarrierCode"
+          placeholder="{{ 'general.carrier.select' | translate }}"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="p-field grid">
+      <label for="vesselType" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.vesselType.name' | translate
+        }}</label>
+      <div class="col-12 md:col-10">
+        <p-dropdown appendTo="body" [filter]="true" formControlName="type" [options]="vesselTypes"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="p-field grid">
+      <label for="dimensionUnit" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.dimensionUnit.name' |
+        translate }}</label>
+      <div class="col-12 md:col-10">
+        <p-dropdown appendTo="body" [filter]="true" formControlName="dimensionUnit" [options]="dimensionUnits"
+          (onChange)="toggleDimensionFields()">
+        </p-dropdown>
+      </div>
+    </div>
+
     <div class="p-field grid">
       <label class="col-12 p-mb-2 md:col-2 p-mb-md-0"></label>
       <div class="col-12 md:col-10">
         <span class="p-buttonset">
-            <button (click)="saveVessel()" icon="pi pi-check" label="{{ 'general.save.label' | translate }}" pButton type="button"
-                    [disabled]="vesselFormGroup.invalid"></button>
-            <button (click)="cancel()" class="p-button-warning" icon="pi pi-times" label="{{ 'general.cancel.label' | translate }}" pButton
-                    type="button"></button>
+          <button (click)="saveVessel()" icon="pi pi-check" label="{{ 'general.save.label' | translate }}" pButton
+            type="button" [disabled]="vesselFormGroup.invalid"></button>
+          <button (click)="cancel()" class="p-button-warning" icon="pi pi-times"
+            label="{{ 'general.cancel.label' | translate }}" pButton type="button"></button>
         </span>
       </div>
     </div>

@@ -449,6 +449,24 @@
       "vesselOperatorCarrierCode": "Operator Carrier Code",
       "size": "Vessel size (TEU)",
       "flag": "Vessel Flag",
+      "vesselType": {
+        "name": "vessel type",
+        "select": "Select a vessel type"
+      },
+      "dimensionUnit": {
+        "name": "Dimension unit",
+        "select": "Select a dimension unit"
+      },
+      "length": {
+        "name": "Length",   
+        "pattern": "Only numbers, with at most one decimal",
+        "missingUnit": "Define a Dimension unit for the vessel to use this field"
+      },
+      "width": {
+        "name": "Width",
+        "pattern": "Only numbers, with at most one decimal",
+        "missingUnit": "Define a Dimension unit for the vessel to use this field"
+      },
       "validation": {
         "flag": {
           "length": "The vessel flag should be either 0 or 2 characters long"
@@ -460,7 +478,7 @@
             "min": "The vessel name should be at least 1 character long"
           }
         },
-        "number": {
+        "number": { 
           "empty": "The IMO is required",
           "length": {
             "max": "Maximum length is 7",
@@ -492,7 +510,7 @@
       "name": "Carrier name",
       "label": "Carrier",
       "number": "",
-      "select": "All carriers",
+      "select": "Select a carrier",
       "serviceName": "Service name",
       "add": {
         "header": "Create a new carrier",

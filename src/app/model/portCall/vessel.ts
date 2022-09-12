@@ -1,28 +1,19 @@
 import { vesselOperatorCarrierCodeListProvider } from "../enums/vesselOperatorCarrierCodeListProvider";
-import {DimensionUnit} from "../enums/dimensionUnit";
-import {VesselType} from "../enums/vesselType";
+import { DimensionUnit } from "../enums/dimensionUnit";
+import { VesselType } from "../enums/vesselType";
 
 export interface Vessel {
-  id?: string;                         // id
-  vesselName?: string;                 // name: string; (35)
-  vesselFlag?: string;                 // (2)
-  vesselCallSignNumber?: string;       // (10)
+  vesselIMONumber: string;
+  vesselName?: string;
+  vesselFlag?: string;
+  vesselCallSignNumber?: string;
   vesselOperatorCarrierCode?: string,
   vesselOperatorCarrierCodeListProvider?: vesselOperatorCarrierCodeListProvider,
   dimensionUnit?: DimensionUnit | null;
   type?: VesselType | null;
   width?: number;
   length?: number;
-
   vesselDraft?: number;
-
-  vesselIMONumber: string;            // number; (7)
-
-  /**
- * @deprecated
- */
-  vesselOperatorCarrierID?: string;    // UUID
-
 }
 
 export interface TimestampVessel {
