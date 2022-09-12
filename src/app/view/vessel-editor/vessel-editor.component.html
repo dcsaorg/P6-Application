@@ -113,6 +113,9 @@
         <p-dropdown appendTo="body" [filter]="true" formControlName="dimensionUnit" [options]="dimensionUnits"
           (onChange)="toggleDimensionFields()">
         </p-dropdown>
+        <span *ngIf="hasDimensionUnit()" class="p-warning">
+          {{ 'general.vessel.dimensionUnit.setOnce' | translate }}
+        </span>
       </div>
     </div>
 

@@ -455,10 +455,11 @@
       },
       "dimensionUnit": {
         "name": "Dimension unit",
-        "select": "Select a dimension unit"
+        "select": "Select a dimension unit",
+        "setOnce": "Once set, dimension unit cannot be edited"
       },
       "length": {
-        "name": "Length",   
+        "name": "Length overall",   
         "pattern": "Only numbers, with at most one decimal",
         "missingUnit": "Define a Dimension unit for the vessel to use this field"
       },
