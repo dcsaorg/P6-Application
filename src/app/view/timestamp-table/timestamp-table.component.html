@@ -5,41 +5,33 @@
     </div>
 </div>
 <p-table *ngIf="!progressing && transportCallSelected" [filterDelay]="0" [lazy]="false" [sortOrder]="1"
-    [value]="timestampInfos"
-    sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
+    [value]="timestampInfos" sortField="logOfTimestamp" [sortOrder]="-1" styleClass="p-datatable-sm">
     <ng-template pTemplate="caption">
 
         <div class="grid">
             <div class="col">{{'general.table.header.timestamps.label' | translate}}</div>
             <div class="col">
-              <p-dropdown  [disabled]="this.filterTerminals.length < 2"
-                           class="dropdown"
-                           (onChange)="filterSelected()"
-                           [(ngModel)]="filterTerminal"
-                           [filter]="true"
-                           [options]="filterTerminals"
-                           filterBy="label,value.facilityName"
-                           appendTo="body">
-                <ng-template let-terminal pTemplate="item">
-                  <div *ngIf="!terminal.value">
-                    <div>Select Terminal</div>
-                  </div>
-                  <div *ngIf="terminal.value">
-                    <div>{{terminal.value.facilitySMDGCode}}</div>
-                    <div class="portListName">{{terminal.value.facilityName}}</div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
+                <p-dropdown [disabled]="this.filterTerminals.length < 2" class="dropdown" (onChange)="filterSelected()"
+                    [(ngModel)]="filterTerminal" [filter]="true" [options]="filterTerminals"
+                    filterBy="label,value.facilityName" appendTo="body">
+                    <ng-template let-terminal pTemplate="item">
+                        <div *ngIf="!terminal.value">
+                            <div>Select Terminal</div>
+                        </div>
+                        <div *ngIf="terminal.value">
+                            <div>{{terminal.value.facilitySMDGCode}}</div>
+                            <div class="portListName">{{terminal.value.facilityName}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
             </div>
             <div class="col">
                 <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="filterNegotiationCycle"
-                    [options]="filterNegotiationCycles" [filter]=true filterBy="label" appendTo="body"
-                    [showClear]=true
+                    [options]="filterNegotiationCycles" [filter]=true filterBy="label" appendTo="body" [showClear]=true
                     (onChange)="filterSelected()">
                 </p-dropdown>
                 <p-dropdown id="portCallPart" styleClass="dropdown" [(ngModel)]="selectedPortCallPart"
-                    [options]="portCallParts" [filter]=true filterBy="label" appendTo="body"
-                    [showClear]=true
+                    [options]="portCallParts" [filter]=true filterBy="label" appendTo="body" [showClear]=true
                     (onChange)="filterTimestampsByPortOfCallPart()">
                 </p-dropdown>
             </div>
@@ -126,11 +118,14 @@
     </ng-template>
     <ng-template pTemplate="body" let-timestampInfo>
 
-        <tr class="unreadTimestamp" [ngClass]="{'obsoleteTimestamp': timestampInfo.isLatestInCycle == false || this.isOmitted(timestampInfo), 'omitted': this.isOmitted(timestampInfo)}">
-            <td pTooltip="Publisher: {{timestampInfo.operationsEventTO.publisher?.partyName}}
-          PublisherRole: {{timestampInfo.operationsEventTO.publisherRole}}" tooltipPosition="top" tooltipStyleClass="ToolTipClass"
-                style="width: 3px;" [ngStyle]="{'background-color': timestampInfo.sequenceColor}"></td>
-            <td style="width: 8%" [ngClass]="'timestampContent'">
+        <tr class="unreadTimestamp"
+            [ngClass]="{'obsoleteTimestamp': timestampInfo.isLatestInCycle == false || this.isOmitted(timestampInfo), 'omitted': this.isOmitted(timestampInfo)}">
+            <td pTooltip="Publisher: {{timestampInfo.operationsEventTO.publisher?.partyName}} PublisherRole: {{timestampInfo.operationsEventTO.publisherRole}}"
+                tooltipPosition="top" tooltipStyleClass="ToolTipClass" style="width: 3px;"
+                [ngStyle]="{'background-color': timestampInfo.sequenceColor}"></td>
+            <td pTooltip="{{  timestampInfo.operationsEventTO.transportCall.vessel | vesselTooltip: timestampInfo.operationsEventTO.milesToDestinationPort 
+                : timestampInfo.operationsEventTO.vesselDraft : timestampInfo.operationsEventTO.vesselDraftUnit }}"
+                style="width: 8%" [ngClass]="'timestampContent'">
                 <div>{{ timestampInfo.operationsEventTO.transportCall.vessel.vesselName }}</div>
             </td>
             <td style="width: 8%" [ngClass]="'timestampContent'">
@@ -141,11 +136,13 @@
             </td>
             <td pTooltip="UTC: {{(timestampInfo.operationsEventTO.eventCreatedDateTime | timestampToTimezone: transportCallSelected.portOfCall)[1]}}"
                 style="width: 15%; opacity: 0.6;" [ngClass]="'timestampContent'">
-                {{(timestampInfo.operationsEventTO.eventCreatedDateTime | timestampToTimezone: transportCallSelected.portOfCall)[0]}}
+                {{(timestampInfo.operationsEventTO.eventCreatedDateTime | timestampToTimezone:
+                transportCallSelected.portOfCall)[0]}}
             </td>
             <td pTooltip="UTC: {{(timestampInfo.operationsEventTO.eventDateTime | timestampToTimezone: transportCallSelected.portOfCall)[1]}}"
                 style="width: 15%" [ngClass]="'timestampContent'">
-                {{(timestampInfo.operationsEventTO.eventDateTime | timestampToTimezone: transportCallSelected.portOfCall)[0]}}
+                {{(timestampInfo.operationsEventTO.eventDateTime | timestampToTimezone:
+                transportCallSelected.portOfCall)[0]}}
             </td>
             <td [ngClass]="'timestampContent'" style="width: 8%">
                 <div [ngClass]="'timestampContent'"> {{transportCallSelected.portOfCall?.UNLocationCode}}</div>
@@ -153,14 +150,15 @@
             </td>
             <td style="width: 6%" [ngClass]="'timestampContent'">
                 <div pTooltip="{{timestampInfo.operationsEventTO.eventLocation.facilityCode}}" tooltipPosition="top"
-                     tooltipStyleClass="ToolTipClass">
+                    tooltipStyleClass="ToolTipClass">
                     {{timestampInfo.operationsEventTO.eventLocation?.facilityCode}}</div>
 
                 <div *ngIf="timestampInfo.operationsEventTO.eventLocation.facilityCode == null">
-                  N/A
+                    N/A
                 </div>
             </td>
-            <td [ngClass]="'timestampContent'" style="width: 10%">{{ timestampInfo.operationsEventTO.eventLocation.locationName }}</td>
+            <td [ngClass]="'timestampContent'" style="width: 10%">{{
+                timestampInfo.operationsEventTO.eventLocation.locationName }}</td>
             <td *ngIf="isOutGoing(timestampInfo) && timestampInfo.eventDeliveryStatus === 'DELIVERY_FINISHED'"
                 pTooltip="{{ 'general.table.header.eventDeliveryStatus.tooltip.grey' | translate }}"
                 tooltipPosition="top" tooltipStyleClass="ToolTipClass" [ngClass]="
