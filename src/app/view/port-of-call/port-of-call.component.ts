@@ -1,12 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Port} from "../../model/portCall/port";
-import {SelectItem} from "primeng/api";
 import {PortService} from "../../controller/services/base/port.service";
-import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
 import {Globals} from "../../model/portCall/globals";
-import {TerminalService} from "../../controller/services/base/terminal.service";
-import {Terminal} from "../../model/portCall/terminal";
 import { TransportCallFilterService } from 'src/app/controller/services/base/transport-call-filter.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -16,38 +13,22 @@ import { TransportCallFilterService } from 'src/app/controller/services/base/tra
 })
 export class PortOfCallComponent implements OnInit {
   portOfCall: Port;
-  portOptions: SelectItem[] = [];
+  portOfCalls$: Observable<Port[]>;
 
   @Output() portOfCallNotifier: EventEmitter<Port> = new EventEmitter<Port>()
 
   constructor(private portService: PortService,
-              private translate: TranslateService,
               private portFilterService: TransportCallFilterService,
               public globals: Globals) {
   }
 
   ngOnInit(): void {
-    this.updatePortOfcallOptions();
-
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.updatePortOfcallOptions();
-    });
+    this.portOfCalls$ = this.portService.getPorts(); 
   }
 
   selectPortOfCall = () => {
     this.portOfCallNotifier.emit(this.portOfCall);
     this.portFilterService.updatePortFilter(this.portOfCall)
   };
-
-  updatePortOfcallOptions() {
-    this.portService.getPorts().subscribe(ports => {
-      this.globals.ports = ports;
-      this.portOptions = [];
-      this.portOptions.push({label: this.translate.instant('general.port.select'), value: null});
-      ports.forEach(port => {
-        this.portOptions.push({label: port.UNLocationName, value: port});
-      });
-    });
-  }
 
 }
