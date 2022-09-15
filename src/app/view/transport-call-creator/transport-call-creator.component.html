@@ -155,7 +155,6 @@
       </span>
     </div>
 
-
     <!-- Location Name -->
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp() || !showLocationNameOption()">
       <label for="locationName">{{ locationNameLabel | translate }}:</label>
@@ -172,31 +171,28 @@
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
       <p-dropdown id="delayCode"
-                  [options]="delayCodeOptions"
+                  [options]="delayCodes | async"
                   formControlName="delayCode"
                   [filter]="true"
                   [showClear]=true
-                  filterBy="label,value.name"
                   appendTo="body"
-                  [group]="false">
+                  [group]="false"
+                  placeholder="{{ 'general.comment.select' | translate }}">
         <ng-template let-delayCode pTemplate="selectedItem">
-          <div *ngIf="delayCode.value" class="delayCodeSelectedWrapper">
-            <div class="delayCodeSelected__smdgCode">{{delayCode.value.smdgCode}}</div>
-            <div class="delayCodeSelected__delayType">&nbsp;&middot;&nbsp;{{delayCode.value.delayType}}
+          <div *ngIf="delayCode" class="delayCodeSelectedWrapper">
+            <div class="delayCodeSelected__smdgCode">{{delayCode.smdgCode}}</div>
+            <div class="delayCodeSelected__delayType">&nbsp;&middot;&nbsp;{{delayCode.delayType}}
             </div>
-            <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.name}}</div>
-            <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.value.description}}</div>
-          </div>
-          <div *ngIf="!delayCode.value">
-            <div>{{delayCode.label}}</div>
+            <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.name}}</div>
+            <div class="delayCodeSelected__delayDetails">&nbsp;&middot;&nbsp;{{delayCode.description}}</div>
           </div>
         </ng-template>
         <ng-template let-delayCode pTemplate="item">
-          <div class="delayCodeDetails" *ngIf="delayCode.value">
-            <div class="delayCodeDetails__smdgCode">{{delayCode.value.smdgCode}}</div>
-            <div class="delayCodeDetails__delayType">{{delayCode.value.delayType}}</div>
-            <div class="delayCodeDetails__delayName">{{delayCode.value.name}}</div>
-            <div class="delayCodeDetails__delaydescription">{{delayCode.value.description}}</div>
+          <div class="delayCodeDetails" *ngIf="delayCode">
+            <div class="delayCodeDetails__smdgCode">{{delayCode.smdgCode}}</div>
+            <div class="delayCodeDetails__delayType">{{delayCode.delayType}}</div>
+            <div class="delayCodeDetails__delayName">{{delayCode.name}}</div>
+            <div class="delayCodeDetails__delaydescription">{{delayCode.description}}</div>
           </div>
         </ng-template>
       </p-dropdown>

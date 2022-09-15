@@ -25,6 +25,7 @@ import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
 import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -50,8 +51,6 @@ export class TimestampEditorComponent implements OnInit {
   transportCall: TransportCall;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
-  delayCodeOptions: SelectItem[] = [];
-  delayCodes: DelayCode[];
   terminalOptions: SelectItem[] = [];
   publisherRoleOptions: SelectItem[] = [];
   publisherRoles: PublisherRole[] = [];
@@ -62,6 +61,7 @@ export class TimestampEditorComponent implements OnInit {
   respondingToTimestampInfo: TimestampInfo;
   TimestampResponseStatus = TimestampResponseStatus;
   fullVesselDetails: Vessel;
+  delayCodes: Observable<DelayCode[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,10 +80,7 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
-      this.delayCodes = delayCodes;
-      this.updateDelayCodeOptions()
-    });
+    this.delayCodes = this.delayCodeService.getDelayCodes();
 
     this.transportCall = this.config.data.transportCall;
     this.timestampResponseStatus = this.config.data.timestampResponseStatus;
@@ -343,14 +340,6 @@ export class TimestampEditorComponent implements OnInit {
       });
       this.defaultTerminalValue();
     })
-  }
-
-  private updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
-    });
   }
 
   updatePublisherRoleOptions() {
