@@ -52,7 +52,7 @@ export class TransportCallCreatorComponent implements OnInit {
   publisherRoles: PublisherRole[] = [];
   timestampChecking: boolean;
   locationNameLabel: string;
-  delayCodes: Observable<DelayCode[]>
+  delayCodes$: Observable<DelayCode[]>
 
   negotiationCycles: SelectItem<NegotiationCycle>[] = [];
   selectedNegotiationCycle: NegotiationCycle = null;
@@ -77,7 +77,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
-    this.delayCodes = this.delayCodeService.getDelayCodes();
+    this.delayCodes$ = this.delayCodeService.getDelayCodes();
     this.timestampDefinitionService.getNegotiationCycles().subscribe(cycles => {
       this.negotiationCycles = [{
         label: this.translate.instant('general.negotiationCycle.select'),
