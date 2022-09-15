@@ -134,7 +134,7 @@
   <div class="md:col-6">
     <label for="delayCode">{{"general.delaycode.label" | translate}}</label>
     <p-dropdown appendTo="body" id="delayCode"
-                [options]="delayCodes | async"
+                [options]="delayCodes$ | async"
                 formControlName="delayCode"
                 [filter]="true"
                 [showClear]=true

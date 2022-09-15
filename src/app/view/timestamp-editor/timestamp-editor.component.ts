@@ -61,7 +61,7 @@ export class TimestampEditorComponent implements OnInit {
   respondingToTimestampInfo: TimestampInfo;
   TimestampResponseStatus = TimestampResponseStatus;
   fullVesselDetails: Vessel;
-  delayCodes: Observable<DelayCode[]>;
+  delayCodes$: Observable<DelayCode[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -80,7 +80,7 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.delayCodes = this.delayCodeService.getDelayCodes();
+    this.delayCodes$ = this.delayCodeService.getDelayCodes();
 
     this.transportCall = this.config.data.transportCall;
     this.timestampResponseStatus = this.config.data.timestampResponseStatus;
