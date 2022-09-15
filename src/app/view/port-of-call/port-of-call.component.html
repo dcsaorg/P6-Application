@@ -7,15 +7,14 @@
         [(ngModel)]="portOfCall"
         [filter]="true"
         [showClear]=true
-        [options]="portOptions"
-        filterBy="label,value.UNLocationCode">
+        optionLabel="UNLocationCode"
+        [options]="portOfCalls$ | async"
+        filterBy="name,UNLocationCode"
+        placeholder="{{ 'general.port.select' | translate }}">
         <ng-template let-port pTemplate="item">
-          <div *ngIf="!port.value">
-            <div>Select port</div>
-          </div>
-          <div *ngIf="port.value">
-            <div>{{port.value.UNLocationCode}}</div>
-            <div class="portListName">{{port.value.UNLocationName}}</div>
+          <div *ngIf="port">
+            <div>{{port.UNLocationCode}}</div>
+            <div class="portListName">{{port.UNLocationName}}</div>
           </div>
         </ng-template>
       </p-dropdown>
