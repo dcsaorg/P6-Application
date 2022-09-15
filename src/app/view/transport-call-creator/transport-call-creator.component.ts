@@ -27,6 +27,7 @@ import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequi
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -42,18 +43,16 @@ export class TransportCallCreatorComponent implements OnInit {
   creationProgress: boolean;
   vessels: Vessel[] = [];
   fullVesselDetails: Vessel;
-
-
   eventTimestampDate: Date;
   eventTimestampTime: string;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   delayCodeOptions: SelectItem[] = [];
-  delayCodes: DelayCode[];
   publisherRoleOptions: SelectItem[] = [];
   publisherRoles: PublisherRole[] = [];
   timestampChecking: boolean;
   locationNameLabel: string;
+  delayCodes: Observable<DelayCode[]>
 
   negotiationCycles: SelectItem<NegotiationCycle>[] = [];
   selectedNegotiationCycle: NegotiationCycle = null;
@@ -78,7 +77,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.creationProgress = false;
     this.updatePortOptions();
     this.updateVesselOptions();
-
+    this.delayCodes = this.delayCodeService.getDelayCodes();
     this.timestampDefinitionService.getNegotiationCycles().subscribe(cycles => {
       this.negotiationCycles = [{
         label: this.translate.instant('general.negotiationCycle.select'),
@@ -94,10 +93,7 @@ export class TransportCallCreatorComponent implements OnInit {
       this.updateTimestampTypeOptions();
     })
 
-    this.delayCodeService.getDelayCodes().subscribe(delayCodes => {
-      this.delayCodes = delayCodes;
-      this.updateDelayCodeOptions()
-    });
+
     this.dateToUTC = new DateToUtcPipe();
     this.transportCallFormGroup = this.formBuilder.group({
       timestampChecking: new FormControl(null),
@@ -213,14 +209,6 @@ export class TransportCallCreatorComponent implements OnInit {
       }
       this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef })
     }
-  }
-
-  updateDelayCodeOptions() {
-    this.delayCodeOptions = [];
-    this.delayCodeOptions.push({ label: this.translate.instant('general.comment.select'), value: null });
-    this.delayCodes.forEach(delayCode => {
-      this.delayCodeOptions.push({ label: delayCode.smdgCode, value: delayCode })
-    });
   }
 
   updatePublisherRoleOptions() {

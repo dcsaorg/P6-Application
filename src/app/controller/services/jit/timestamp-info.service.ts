@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { OperationsEvent } from "../../../model/jit/operations-event";
 import { Globals } from 'src/app/model/portCall/globals';
 import { TimestampInfo } from 'src/app/model/jit/timestamp-info';
 
