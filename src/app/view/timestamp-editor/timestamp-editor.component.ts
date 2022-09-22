@@ -25,7 +25,7 @@ import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
 import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
-import { Observable } from 'rxjs';
+import { Observable, pipe, take } from 'rxjs';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -126,7 +126,7 @@ export class TimestampEditorComponent implements OnInit {
           this.negotiationCycles.push({ label: cycle.cycleName, value: cycle })
         }
       });
-      this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
+      this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
         this.timestampDefinitions = timestampDefinitions;
         this.updateTimestampTypeOptions();
       })
