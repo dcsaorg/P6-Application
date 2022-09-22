@@ -7,13 +7,13 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class ExportService {
-  private readonly EXPORT_URL: string;
+  private readonly EXPORT_URL_EXCEL: string;
 
   constructor(private httpClient: HttpClient, globals: Globals) {
-    this.EXPORT_URL = globals.config.uiSupportBackendURL + '/unofficial/export-timestamps/';
+    this.EXPORT_URL_EXCEL = globals.config.uiSupportBackendURL + '/unofficial/export-timestamps/excel';
   }
 
-  getExport = ():Observable<Blob> => {
-    return this.httpClient.get(this.EXPORT_URL, {responseType: "blob"})
+  getExportAsExcel = ():Observable<Blob> => {
+    return this.httpClient.get(this.EXPORT_URL_EXCEL , {responseType: "blob"})
 }
 }
