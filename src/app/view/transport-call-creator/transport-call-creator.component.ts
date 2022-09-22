@@ -53,7 +53,7 @@ export class TransportCallCreatorComponent implements OnInit {
   timestampChecking: boolean;
   locationNameLabel: string;
   delayCodes$: Observable<DelayCode[]>
-  negotiationCycles: SelectItem<NegotiationCycle>[] = [];
+  negotiationCycles$: Observable<NegotiationCycle[]>;
   selectedNegotiationCycle: NegotiationCycle = null;
   dateToUTC: DateToUtcPipe
 
@@ -76,22 +76,11 @@ export class TransportCallCreatorComponent implements OnInit {
     this.portOfCalls$ = this.portService.getPorts(); 
     this.updateVesselOptions();
     this.delayCodes$ = this.delayCodeService.getDelayCodes();
-    this.timestampDefinitionService.getNegotiationCycles().subscribe(cycles => {
-      this.negotiationCycles = [{
-        label: this.translate.instant('general.negotiationCycle.select'),
-        value: null
-      }]
-      for (let cycle of cycles) {
-        this.negotiationCycles.push({ label: cycle.cycleName, value: cycle })
-      }
-    });
-
+    this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles(); 
     this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
       this.timestampDefinitions = timestampDefinitions;
       this.updateTimestampTypeOptions();
     })
-
-
     this.dateToUTC = new DateToUtcPipe();
     this.transportCallFormGroup = this.formBuilder.group({
       timestampChecking: new FormControl(null),

@@ -56,10 +56,12 @@
     <div>
       <label for="negotiationCycle">{{ 'general.table.header.negotiationCycle.label' | translate }}: </label>
       <p-dropdown id="negotiationCycle" styleClass="dropdown" formControlName="negotiationCycle"
-                  [options]="negotiationCycles"
+                  [options]="negotiationCycles$ | async"
                   [showClear]=true
-                  [filter]=true filterBy="label" appendTo="body"
-                  (onChange)="onSelectedNegotiationCycle($event)">
+                  optionLabel="cycleName"
+                  [filter]=true filterBy="cycleName" appendTo="body"
+                  (onChange)="onSelectedNegotiationCycle($event)"
+                  placeholder="{{ 'general.negotiationCycle.select' | translate }}">
 
       </p-dropdown>
     </div>

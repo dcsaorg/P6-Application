@@ -92,11 +92,12 @@
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <label for="negotiationCycle">{{ 'general.table.header.negotiationCycle.label' | translate }}: </label>
       <p-dropdown id="negotiationCycle" styleClass="dropdown" formControlName="negotiationCycle"
-                  [options]="negotiationCycles"
-                  [showClear]=true
-                  [filter]=true filterBy="label" appendTo="body"
-                  (onChange)="onSelectedNegotiationCycle($event)">
-
+      [options]="negotiationCycles$ | async"
+      [showClear]=true
+      optionLabel="cycleName"
+      [filter]=true filterBy="cycleName" appendTo="body"
+      (onChange)="onSelectedNegotiationCycle($event)"
+      placeholder="{{ 'general.negotiationCycle.select' | translate }}">
       </p-dropdown>
 
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>

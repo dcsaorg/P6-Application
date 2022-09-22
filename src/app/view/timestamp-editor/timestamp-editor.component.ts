@@ -54,7 +54,7 @@ export class TimestampEditorComponent implements OnInit {
   terminalOptions: SelectItem[] = [];
   publisherRoleOptions: SelectItem[] = [];
   publisherRoles: PublisherRole[] = [];
-  negotiationCycles: SelectItem<NegotiationCycle>[] = [];
+  negotiationCycles$: Observable<NegotiationCycle[]>;
   selectedNegotiationCycle: NegotiationCycle = null;
   timestampResponseStatus: TimestampResponseStatus;
   responseTimestampDefinitionTO: TimestampDefinitionTO;
@@ -117,15 +117,7 @@ export class TimestampEditorComponent implements OnInit {
 
   determineTimestampResponseStatus() {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
-      this.timestampDefinitionService.getNegotiationCycles().subscribe(cycles => {
-        this.negotiationCycles = [{
-          label: this.translate.instant('general.negotiationCycle.select'),
-          value: null
-        }]
-        for (let cycle of cycles) {
-          this.negotiationCycles.push({ label: cycle.cycleName, value: cycle })
-        }
-      });
+      this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles(); 
       this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
         this.timestampDefinitions = timestampDefinitions;
         this.updateTimestampTypeOptions();
