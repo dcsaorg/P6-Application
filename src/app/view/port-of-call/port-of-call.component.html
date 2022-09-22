@@ -9,7 +9,7 @@
         [showClear]=true
         optionLabel="UNLocationCode"
         [options]="portOfCalls$ | async"
-        filterBy="name,UNLocationCode"
+        filterBy="UNLocationName,UNLocationCode"
         placeholder="{{ 'general.port.select' | translate }}">
         <ng-template let-port pTemplate="item">
           <div *ngIf="port">

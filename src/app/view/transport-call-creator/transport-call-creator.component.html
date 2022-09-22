@@ -39,9 +39,23 @@
 
     <!-- portOfCall -->
     <div class="p-field col-12 md:col-6">
+
       <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
-      <p-dropdown appendTo="body" formControlName="port" id="portOfCall" [options]="portOptions" [filter]="true"
-        (onChange)="portSelected()" filterBy="label,value.UNLocationCode">
+      <p-dropdown   appendTo="body" 
+        (onChange)="portSelected()"
+        formControlName="port" id="portOfCall"
+        [filter]="true"
+        [showClear]=true
+        optionLabel="UNLocationCode"
+        [options]="portOfCalls$ | async"
+        filterBy="UNLocationName,UNLocationCode"
+        placeholder="{{ 'general.port.select' | translate }}">
+        <ng-template let-port pTemplate="item">
+          <div *ngIf="port">
+            <div>{{port.UNLocationCode}}</div>
+            <div class="portListName">{{port.UNLocationName}}</div>
+          </div>
+        </ng-template>
       </p-dropdown>
       <span
         *ngIf="transportCallFormGroup.get('port').hasError('required') && transportCallFormGroup.get('port').touched"

@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Port } from "../../../model/portCall/port";
 import { Globals } from "../../../model/portCall/globals";
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 function cachePort(cache: Map<string, Port>, port: Port) {
@@ -17,6 +17,8 @@ export class PortService {
   private readonly PORT_URL: string;
   private readonly PORT_URL_LIMIT_1000: string;
   private unlocode2PortCache = new Map<string, Port>();
+  private ports$: Observable<Port[]>;
+
 
 
   constructor(private httpClient: HttpClient,
@@ -34,7 +36,7 @@ export class PortService {
         return of(cachedPort);
       }
       query = "?UNLocationCode=" + UNLocationCode;
-    } else { 
+    } else {
       throw new Error('UNLocationCode is not defined');
     }
     return this.httpClient.get<Port[]>(this.PORT_URL + query).pipe(
@@ -46,12 +48,17 @@ export class PortService {
     );
   }
 
-  getPorts = (): Observable<Port[]> => this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000)
-    .pipe(map(ports => {
-      for (let port of ports) {
-        cachePort(this.unlocode2PortCache, port);
-      }
-      return ports;
-    }));
-
+  getPorts(): Observable<Port[]> {
+    if (!this.ports$) {
+      this.ports$ = this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000).pipe(map(ports => {
+        for (let port of ports) {
+          cachePort(this.unlocode2PortCache, port);
+        } 
+        return ports;
+      }),
+        shareReplay(1)
+      ) as Observable<Port[]>;
+    }
+    return this.ports$;
+  }
 }

@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TransportCallService} from "../../controller/services/jit/transport-call.service";
 import {PortService} from "../../controller/services/base/port.service";
 import {Globals} from "../../model/portCall/globals";
+import { take } from 'rxjs';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class DashboardComponent {
       this.transportCallID = params['id'];
     });
     if (this.transportCallID) {
-      this.portService.getPorts().pipe().subscribe(ports => {
+      this.portService.getPorts().pipe(take(1)).subscribe(ports => {
         this.globals.ports = ports;
         this.transportCallService.getTransportCalls().subscribe(transportCalls => {
           this.transportCallSelected = transportCalls.find(x => x.transportCallID == this.transportCallID);
