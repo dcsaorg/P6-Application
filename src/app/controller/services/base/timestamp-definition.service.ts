@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, of, ReplaySubject } from "rxjs";
+import { Observable, of } from "rxjs";
 import { Globals } from "../../../model/portCall/globals";
 import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
-import { map, shareReplay, take } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { NegotiationCycle } from 'src/app/model/portCall/negotiation-cycle';
 
 function asMap(timestampDefinitions: TimestampDefinitionTO[]): Map<string, TimestampDefinitionTO> {
@@ -32,8 +32,9 @@ function negotiationCycleComparator(a: NegotiationCycle, b: NegotiationCycle): n
 export class TimestampDefinitionService {
   private readonly TIMESTAMP_DEFINITION_BACKEND: string;
   // the timestamps are not likely to change during a work session.
-  private negotiationCyclesCache: NegotiationCycle[] = [];
+  private negotiationCyclesCache$: Observable<NegotiationCycle[]>;
   private definitionCache$: Observable<TimestampDefinitionTO[]>;
+  private definitionMapCache$: Observable<Map<string, TimestampDefinitionTO>>;
 
   constructor(private httpClient: HttpClient,
     private globals: Globals) {
@@ -64,8 +65,8 @@ export class TimestampDefinitionService {
   }
 
   getNegotiationCycles(): Observable<NegotiationCycle[]> {
-    if (this.negotiationCyclesCache.length == 0) {
-      return this.getTimestampDefinitions().pipe(
+    if (!this.negotiationCyclesCache$) {
+      this.negotiationCyclesCache$ = this.getTimestampDefinitions().pipe(
         map(timestampDefinitions => {
           let uniqueNegotiationCycles: NegotiationCycle[] = [];
           timestampDefinitions.forEach(timestampDefinitionTO => {
@@ -76,20 +77,23 @@ export class TimestampDefinitionService {
             }
           })
           uniqueNegotiationCycles.sort(negotiationCycleComparator)
-          this.negotiationCyclesCache = uniqueNegotiationCycles;
           return uniqueNegotiationCycles
         }),
-      )
+        shareReplay(1)
+      ) as Observable<NegotiationCycle[]> 
     }
-    return of(this.negotiationCyclesCache);
+    return this.negotiationCyclesCache$;
   }
 
   getTimestampDefinitionsMap(): Observable<Map<string, TimestampDefinitionTO>> {
-    return this.getTimestampDefinitions().pipe(
-      take(1),
-      map(timestampDefinitions => {
-        return asMap(timestampDefinitions);
-      })
-    )
+    if (!this.definitionMapCache$) {
+      this.definitionMapCache$ = this.getTimestampDefinitions().pipe(
+        map(timestampDefinitions => {
+          return asMap(timestampDefinitions);
+        }),
+        shareReplay(1)
+      ) as Observable<Map<string, TimestampDefinitionTO>>;
+    }
+    return this.definitionMapCache$;
   }
 }

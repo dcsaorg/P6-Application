@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Port } from "../../../model/portCall/port";
 import { Globals } from "../../../model/portCall/globals";
 import { Observable } from 'rxjs/internal/Observable';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 function cachePort(cache: Map<string, Port>, port: Port) {
@@ -50,12 +50,12 @@ export class PortService {
 
   getPorts(): Observable<Port[]> {
     if (!this.ports$) {
-      this.ports$ = this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000).pipe(map(ports => {
-        for (let port of ports) {
-          cachePort(this.unlocode2PortCache, port);
-        } 
-        return ports;
-      }),
+      this.ports$ = this.httpClient.get<Port[]>(this.PORT_URL_LIMIT_1000).pipe(
+        tap(ports => {
+          for (let port of ports) {
+            cachePort(this.unlocode2PortCache, port);
+          }
+        }),
         shareReplay(1)
       ) as Observable<Port[]>;
     }
