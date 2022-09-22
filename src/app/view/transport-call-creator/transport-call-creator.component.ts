@@ -27,7 +27,7 @@ import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequi
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
-import { Observable } from 'rxjs';
+import { Observable, pipe, take } from 'rxjs';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -88,7 +88,7 @@ export class TransportCallCreatorComponent implements OnInit {
       }
     });
 
-    this.timestampDefinitionService.getTimestampDefinitions().subscribe(timestampDefinitions => {
+    this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
       this.timestampDefinitions = timestampDefinitions;
       this.updateTimestampTypeOptions();
     })
