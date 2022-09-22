@@ -15,7 +15,7 @@ import { Terminal } from "../../../model/portCall/terminal";
 import { PublisherRole } from "../../../model/enums/publisherRole";
 import { OperationsEvent } from "../../../model/jit/operations-event";
 import { FacilityCodeListProvider } from "../../../model/enums/facilityCodeListProvider";
-import {TimestampVessel, Vessel} from "../../../model/portCall/vessel";
+import { TimestampVessel, Vessel } from "../../../model/portCall/vessel";
 
 @Injectable({
   providedIn: 'root'
@@ -118,11 +118,21 @@ export class TimestampMappingService {
       mergeMap(timestampInfos =>
         this.timestampDefinitionService.getTimestampDefinitionsMap().pipe(
           map(timestampDefinitionsMap => {
+            let cycleTracker = new Map<string, Set<string>>();
             return timestampInfos.map(timestampInfo => {
               // Replace the TD with the one from our service.  We have enriched the latter with "acceptDefinitionEntity"
               // and "rejectDefinitionEntity".
               timestampInfo.timestampDefinitionTO = timestampDefinitionsMap.get(timestampInfo.timestampDefinitionTO.id)
               timestampInfo.operationsEventTO.eventDeliveryStatus = timestampInfo.eventDeliveryStatus;
+              const facilityCode = timestampInfo.operationsEventTO.eventLocation.facilityCode ?? 'NULL';
+              const negotiationCycleKey = timestampInfo.timestampDefinitionTO.negotiationCycle.cycleKey;
+              let set = cycleTracker.get(facilityCode)
+              if (!set) {
+                set = new Set<string>();
+                cycleTracker.set(facilityCode, set)
+              }
+              timestampInfo.isLatestInCycle = !set.has(negotiationCycleKey)
+              set.add(negotiationCycleKey)
               return timestampInfo;
             });
           })
