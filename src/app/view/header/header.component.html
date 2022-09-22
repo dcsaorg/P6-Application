@@ -2,14 +2,14 @@
   <div class="col-1">
     <img class="header__logo" src="assets/DCSA_logo_color_on_dark_background.png">
   </div>
-  <div class="col-3 header__menuEntryDiv" >
+  <div class="col-3 header__menuEntryDiv">
     <button type="button" pButton pRipple icon="pi pi-bars" label="Menu" (click)="menu.toggle($event)"></button>
     <p-menu #menu [popup]="true" [model]="helpMenu"></p-menu>
-    
+
   </div>
   <div class="col-1 center-button-in-div" *ngIf="this.authLocalState">
-    <amplify-sign-out ></amplify-sign-out>
-</div>
+    <amplify-sign-out></amplify-sign-out>
+  </div>
 
   <div class="col-1 header__menuLabel">
 
@@ -22,19 +22,27 @@
   </div>
   <div class="col-1 header__language">
     <p-dropdown styleClass="dropdown" (onChange)="changeLanguage($event)" [(ngModel)]="currentLanguage" [filter]="true"
-                [options]="availableLanguages" [autofocus]="true">
+      [options]="availableLanguages" [autofocus]="true">
     </p-dropdown>
   </div>
 </div>
 
 
-<p-dialog [modal]="true" header="{{ 'general.download.timestamps.header' | translate }} {{companyName}}" [(visible)]="displayDownloadRequest"
-          [style]="{width: '50vw'}" [baseZIndex]="10000">
+<p-dialog [modal]="true" header="{{ 'general.download.timestamps.header' | translate }} {{companyName}}"
+  [(visible)]="displayDownloadRequest" [style]="{width: '50vw'}" [baseZIndex]="10000">
   <p>{{ 'general.download.timestamps.tooltip' | translate }}</p>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-download" (click)="downloadTimeStamps()" label="{{ 'general.download.label' | translate }}" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-times" (click)="displayDownloadRequest=false" label="{{ 'general.cancel.label' | translate }}"></p-button>
+    <p-button icon="pi pi-download" appDebounceClick (debounceClick)="downloadTimestamps()" [debounceTime]="300"
+     label="{{ 'general.download.label' | translate }}"
+      styleClass="p-button-text"></p-button>
+    <button class="p-button-warning" icon="pi pi-times" (click)="displayDownloadRequest=false" 
+      label="{{ 'general.cancel.label' | translate }}" pButton ></button>
   </ng-template>
+    <div  *ngIf="downloadProgressing" class="dummyContent" 
+    style="padding-top: 10%;display: block; text-align: center;">
+      <p-progressSpinner style="display: block;"></p-progressSpinner>
+      <p style="font-weight: bold;">Download in progress</p>
+  </div>
 </p-dialog>
 <p-toast key="DownloadRequestError" position="bottom-right"></p-toast>
 <p-toast key="DownloadRequestSuccess" position="bottom-right"></p-toast>
