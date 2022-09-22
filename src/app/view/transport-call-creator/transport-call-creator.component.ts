@@ -38,7 +38,7 @@ export class TransportCallCreatorComponent implements OnInit {
   transportCallFormGroup: FormGroup;
   portOfCall: Port;
   terminalOptions: SelectItem[] = [];
-  portOptions: SelectItem[] = [];
+  portOfCalls$: Observable<Port[]>;
   vesselOptions: SelectItem[] = [];
   creationProgress: boolean;
   vessels: Vessel[] = [];
@@ -53,10 +53,8 @@ export class TransportCallCreatorComponent implements OnInit {
   timestampChecking: boolean;
   locationNameLabel: string;
   delayCodes$: Observable<DelayCode[]>
-
   negotiationCycles: SelectItem<NegotiationCycle>[] = [];
   selectedNegotiationCycle: NegotiationCycle = null;
-
   dateToUTC: DateToUtcPipe
 
   constructor(private formBuilder: FormBuilder,
@@ -75,7 +73,7 @@ export class TransportCallCreatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.creationProgress = false;
-    this.updatePortOptions();
+    this.portOfCalls$ = this.portService.getPorts(); 
     this.updateVesselOptions();
     this.delayCodes$ = this.delayCodeService.getDelayCodes();
     this.timestampDefinitionService.getNegotiationCycles().subscribe(cycles => {
@@ -178,17 +176,6 @@ export class TransportCallCreatorComponent implements OnInit {
       this.vesselOptions.push({ label: this.translate.instant('general.vessel.select'), value: null });
       vessels.forEach(vessel => {
         this.vesselOptions.push({ label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel });
-      });
-    });
-  }
-
-  private updatePortOptions() {
-    this.portService.getPorts().subscribe(ports => {
-      this.globals.ports = ports;
-      this.portOptions = [];
-      this.portOptions.push({ label: this.translate.instant('general.port.select'), value: null });
-      ports.forEach(port => {
-        this.portOptions.push({ label: port.UNLocationName, value: port });
       });
     });
   }
