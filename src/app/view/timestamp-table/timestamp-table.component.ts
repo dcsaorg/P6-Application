@@ -21,6 +21,7 @@ import { Terminal } from "../../model/portCall/terminal";
 import { TerminalService } from "../../controller/services/base/terminal.service";
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { TimestampDefinitionService } from 'src/app/controller/services/base/timestamp-definition.service';
+import { Observable } from 'rxjs';
 
 const NO_FILTER = null;
 
@@ -39,13 +40,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   timestampInfos: TimestampInfo[];
   unfilteredTimestampInfos: TimestampInfo[];
   progressing: boolean = true;
-  filterTerminals: any[] = [];
+  terminals$: Observable<Terminal[]>;
+  negotiationCycles$: Observable<NegotiationCycle[]>;
   filterTerminal: Terminal | null = null;
   delayCodes: DelayCode[] = [];
   vessels: Vessel[] = [];
   portOfCall: Port;
   portCallParts: SelectItem[] = [];
-  filterNegotiationCycles: SelectItem[];
   selectedPortCallPart: string = null;
   filterNegotiationCycle: NegotiationCycle = null;
 
@@ -75,45 +76,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
-    this.populateTerminalFilter();
-    this.populatenegotiationCyclesFilter();
     this.loadTimestamps(true);
-  }
-
-  private populateTerminalFilter() {
-    this.filterTerminals = []
-    this.filterTerminal = NO_FILTER;
     if (this.transportCallSelected) {
-      this.terminalService.getTerminalsByUNLocationCode(this.transportCallSelected.UNLocationCode)
-        .subscribe(terminals => {
-          const PORT_LEVEL_FILTER: Terminal = {
-            facilityName: this.translate.instant('general.terminal.portLevelFilter'),
-            facilityBICCode: "NULL",
-            facilitySMDGCode: "NULL",
-            UNLocationCode: "N/A",
-          };
-
-          this.filterTerminals = [
-            { label: this.translate.instant('general.terminal.select'), value: NO_FILTER },
-            { label: PORT_LEVEL_FILTER.facilityName, value: PORT_LEVEL_FILTER }
-          ]
-          for (let terminal of terminals) {
-            this.filterTerminals.push({ label: terminal.facilitySMDGCode, value: terminal })
-          }
-        })
-    }
-  }
-
-  private populatenegotiationCyclesFilter() {
-    this.filterNegotiationCycles = []
-    this.filterNegotiationCycle = NO_FILTER;
-    this.timestampDefinitionService.getNegotiationCycles().subscribe(negotiationCycles => {
-      this.filterNegotiationCycles.push({ label: this.translate.instant('general.negotiationCycle.select'), value: NO_FILTER });
-      for (let negotiationCycle of negotiationCycles) {
-        this.filterNegotiationCycles.push({ label: negotiationCycle.cycleName, value: negotiationCycle })
+      this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
+      this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(this.transportCallSelected.UNLocationCode);
       }
-    })
   }
+
 
   public isPrimaryReceiver(timestampInfo: TimestampInfo): boolean {
     return this.hasOverlap(
@@ -301,7 +270,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
 
   }
-
 
   filterSelected() {
     this.refreshTimestamps()

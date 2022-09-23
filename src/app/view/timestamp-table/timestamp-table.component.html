@@ -11,24 +11,31 @@
         <div class="grid">
             <div class="col">{{'general.table.header.timestamps.label' | translate}}</div>
             <div class="col">
-                <p-dropdown [disabled]="this.filterTerminals.length < 2" class="dropdown" (onChange)="filterSelected()"
-                    [(ngModel)]="filterTerminal" [filter]="true" [options]="filterTerminals"
-                    filterBy="label,value.facilityName" appendTo="body">
+                <p-dropdown class="dropdown" (onChange)="filterSelected()"
+                    optionLabel="facilitySMDGCode" [(ngModel)]="filterTerminal" [filter]="true" [options]="terminals$ | async"
+                    filterBy="facilitySMDGCode,facilityName" appendTo="body"
+                    placeholder="{{ 'general.terminal.select' | translate}}"
+                    [showClear]=true>
                     <ng-template let-terminal pTemplate="item">
-                        <div *ngIf="!terminal.value">
-                            <div>Select Terminal</div>
+                        <div *ngIf="!terminal">
+                            <div>NULL</div>
+                            <div class="portListName">{{ 'general.terminal.portLevelFilter' | translate}}</div>
                         </div>
-                        <div *ngIf="terminal.value">
-                            <div>{{terminal.value.facilitySMDGCode}}</div>
-                            <div class="portListName">{{terminal.value.facilityName}}</div>
+                        <div *ngIf="terminal">
+                            <div>{{terminal.facilitySMDGCode}}</div>
+                            <div class="portListName">{{terminal.facilityName}}</div>
                         </div>
                     </ng-template>
                 </p-dropdown>
-            </div>
+                </div>
             <div class="col">
                 <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="filterNegotiationCycle"
-                    [options]="filterNegotiationCycles" [filter]=true filterBy="label" appendTo="body" [showClear]=true
-                    (onChange)="filterSelected()">
+                [options]="negotiationCycles$ | async"
+                [showClear]=true
+                optionLabel="cycleName"
+                [filter]=true filterBy="cycleName" appendTo="body"
+                (onChange)="filterSelected()"
+                placeholder="{{ 'general.negotiationCycle.select' | translate }}">
                 </p-dropdown>
                 <p-dropdown id="portCallPart" styleClass="dropdown" [(ngModel)]="selectedPortCallPart"
                     [options]="portCallParts" [filter]=true filterBy="label" appendTo="body" [showClear]=true
