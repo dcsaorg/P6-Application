@@ -31,11 +31,8 @@ export class DashboardComponent {
       this.transportCallID = params['id'];
     });
     if (this.transportCallID) {
-      this.portService.getPorts().pipe(take(1)).subscribe(ports => {
-        this.transportCallService.getTransportCalls().subscribe(transportCalls => {
-          let transportCallSelect = transportCalls.find(x => x.transportCallID == this.transportCallID);
-          this.transportCallSelectHandler(transportCallSelect);
-        })
+      this.transportCallService.getTransportCalls().subscribe(transportCalls => {
+        this.transportCallSelected = transportCalls.find(x => x.transportCallID === this.transportCallID);
       })
     }
   }
