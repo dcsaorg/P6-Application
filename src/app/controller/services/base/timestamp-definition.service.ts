@@ -5,6 +5,7 @@ import { Globals } from "../../../model/portCall/globals";
 import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
 import { map, shareReplay } from 'rxjs/operators';
 import { NegotiationCycle } from 'src/app/model/portCall/negotiation-cycle';
+import {PortCallPart} from "../../../model/portCall/port-call-part";
 
 function asMap(timestampDefinitions: TimestampDefinitionTO[]): Map<string, TimestampDefinitionTO> {
   let map = new Map<string, TimestampDefinitionTO>()
@@ -33,11 +34,12 @@ export class TimestampDefinitionService {
   private readonly TIMESTAMP_DEFINITION_BACKEND: string;
   // the timestamps are not likely to change during a work session.
   private negotiationCyclesCache$: Observable<NegotiationCycle[]>;
+  private portCallPartCache$: Observable<PortCallPart[]>;
   private definitionCache$: Observable<TimestampDefinitionTO[]>;
   private definitionMapCache$: Observable<Map<string, TimestampDefinitionTO>>;
 
   constructor(private httpClient: HttpClient,
-    private globals: Globals) {
+              private globals: Globals) {
     this.TIMESTAMP_DEFINITION_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/timestamp-definitions';
   }
 
@@ -80,9 +82,31 @@ export class TimestampDefinitionService {
           return uniqueNegotiationCycles
         }),
         shareReplay(1)
-      ) as Observable<NegotiationCycle[]> 
+      ) as Observable<NegotiationCycle[]>
     }
     return this.negotiationCyclesCache$;
+  }
+
+  getPortCallParts(): Observable<PortCallPart[]> {
+    if (!this.portCallPartCache$) {
+      this.portCallPartCache$ = this.getTimestampDefinitions().pipe(
+        map(timestampDefinitions => {
+          const uniquePortCallParts = new Set<string>();
+          for (const timestampDefinition of timestampDefinitions) {
+            uniquePortCallParts.add(timestampDefinition.portCallPart);
+          }
+          const portCallParts = Array.from(uniquePortCallParts.values());
+          portCallParts.sort();
+          return portCallParts.map(n => {
+            return {
+              name: n
+            };
+          });
+        }),
+        shareReplay(1)
+      );
+    }
+    return this.portCallPartCache$;
   }
 
   getTimestampDefinitionsMap(): Observable<Map<string, TimestampDefinitionTO>> {

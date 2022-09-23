@@ -29,17 +29,27 @@
                 </p-dropdown>
                 </div>
             <div class="col">
-                <p-dropdown id="negotiationCycle" styleClass="dropdown" [(ngModel)]="filterNegotiationCycle"
-                [options]="negotiationCycles$ | async"
-                [showClear]=true
-                optionLabel="cycleName"
-                [filter]=true filterBy="cycleName" appendTo="body"
-                (onChange)="filterSelected()"
-                placeholder="{{ 'general.negotiationCycle.select' | translate }}">
+                <p-dropdown id="negotiationCycle"
+                            styleClass="dropdown"
+                            [(ngModel)]="filterNegotiationCycle"
+                            [options]="negotiationCycles$ | async"
+                            [showClear]=true
+                            optionLabel="cycleName"
+                            [filter]=true filterBy="cycleName" appendTo="body"
+                            (onChange)="filterSelected()"
+                            placeholder="{{ 'general.negotiationCycle.select' | translate }}">
                 </p-dropdown>
-                <p-dropdown id="portCallPart" styleClass="dropdown" [(ngModel)]="selectedPortCallPart"
-                    [options]="portCallParts" [filter]=true filterBy="label" appendTo="body" [showClear]=true
-                    (onChange)="filterTimestampsByPortOfCallPart()">
+                <p-dropdown id="portCallPart"
+                            styleClass="dropdown"
+                            [(ngModel)]="selectedPortCallPart"
+                            [options]="portCallParts$ | async"
+                            [filter]=true
+                            filterBy="name"
+                            appendTo="body"
+                            optionLabel="name"
+                            [showClear]=true
+                            (onChange)="filterTimestampsByPortOfCallPart()"
+                            placeholder="{{ 'general.portCallParts.select' | translate }}">
                 </p-dropdown>
             </div>
             <div class="col tableHeader">
@@ -130,7 +140,7 @@
             <td pTooltip="Publisher: {{timestampInfo.operationsEventTO.publisher?.partyName}} PublisherRole: {{timestampInfo.operationsEventTO.publisherRole}}"
                 tooltipPosition="top" tooltipStyleClass="ToolTipClass" style="width: 3px;"
                 [ngStyle]="{'background-color': timestampInfo.sequenceColor}"></td>
-            <td pTooltip="{{  timestampInfo.operationsEventTO.transportCall.vessel | vesselTooltip: timestampInfo.operationsEventTO.milesToDestinationPort 
+            <td pTooltip="{{  timestampInfo.operationsEventTO.transportCall.vessel | vesselTooltip: timestampInfo.operationsEventTO.milesToDestinationPort
                 : timestampInfo.operationsEventTO.vesselDraft : timestampInfo.operationsEventTO.vesselDraftUnit }}"
                 style="width: 8%" [ngClass]="'timestampContent'">
                 <div>{{ timestampInfo.operationsEventTO.transportCall.vessel.vesselName }}</div>

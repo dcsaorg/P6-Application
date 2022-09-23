@@ -21,6 +21,7 @@ import { TerminalService } from "../../controller/services/base/terminal.service
 import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
 import { TimestampDefinitionService } from 'src/app/controller/services/base/timestamp-definition.service';
 import { Observable } from 'rxjs';
+import {PortCallPart} from "../../model/portCall/port-call-part";
 
 const NO_FILTER = null;
 
@@ -44,8 +45,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   filterTerminal: Terminal | null = null;
   delayCodes: DelayCode[] = [];
   portOfCall: Port;
-  portCallParts: SelectItem[] = [];
-  selectedPortCallPart: string = null;
+  portCallParts$: Observable<PortCallPart[]>;
+  selectedPortCallPart: PortCallPart = null;
   filterNegotiationCycle: NegotiationCycle = null;
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
@@ -69,16 +70,17 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       this.loadTimestamps()
     })
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
+    this.portCallParts$ = this.timestampDefinitionService.getPortCallParts();
     this.progressing = false;
     this.loadTimestamps()
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
-    this.loadTimestamps(true);
+    this.loadTimestamps();
     if (this.transportCallSelected) {
       this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
       this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(this.transportCallSelected.UNLocationCode);
-      }
+    }
   }
 
 
@@ -91,31 +93,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   filterTimestampsByPortOfCallPart() {
     this.timestampInfos = this.unfilteredTimestampInfos.filter(ts => {
-      if (this.selectedPortCallPart && ts.timestampDefinitionTO.portCallPart != this.selectedPortCallPart) {
+      if (this.selectedPortCallPart && ts.timestampDefinitionTO.portCallPart !== this.selectedPortCallPart.name) {
         return false;
       }
       return true;
     });
   }
 
-
-  private populatePortCallParts() {
-    this.selectedPortCallPart = null;
-    let uniqueParts = new Set(this.timestampInfos.map(timestamp => timestamp.timestampDefinitionTO?.portCallPart).filter((value) => {
-      return value !== undefined;
-    }));
-
-    this.portCallParts.push({ label: this.translate.instant('general.portCallParts.select'), value: null });
-
-    uniqueParts.forEach(portCallPart => {
-      this.portCallParts.push({ label: portCallPart, value: portCallPart })
-    })
-
-
-  }
-
-  private loadTimestamps(populateFilters?: boolean) {
-
+  private loadTimestamps() {
     if (this.transportCallSelected) {
       this.progressing = true;
       this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected, this.filterTerminal, this.filterNegotiationCycle?.cycleKey).subscribe(timestampInfos => {
@@ -125,17 +110,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         });
         this.unfilteredTimestampInfos = timestampInfos;
         this.timestampInfos = timestampInfos;
-        if (populateFilters) {
-          this.portCallParts = [];
-          this.populatePortCallParts();
-        }
         this.progressing = false;
       });
     }
   }
 
   refreshTimestamps() {
-    this.loadTimestamps(true);
+    this.loadTimestamps();
   }
 
   isOmitted(a: TimestampInfo): boolean {
