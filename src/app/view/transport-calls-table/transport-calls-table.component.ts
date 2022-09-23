@@ -26,7 +26,6 @@ export class TransportCallsTableComponent implements OnInit {
   selectedtransportCall: TransportCall;
   filterPort: Port;
   filterVessel: Vessel;
-  ports: Port[] = [];
   progressing: boolean = true;
 
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
@@ -42,7 +41,6 @@ export class TransportCallsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.portService.getPorts().pipe(take(1)).subscribe(async ports => {
-      this.ports = ports
       await this.loadTransportCalls()
     });
     this.vesselService.vesselsObservable.subscribe(async () => {

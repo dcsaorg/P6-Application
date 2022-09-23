@@ -7,7 +7,6 @@ import { DelayCode } from "../../model/portCall/delayCode";
 import { DialogService } from "primeng/dynamicdialog";
 import { take } from "rxjs/operators";
 import { VesselService } from "../../controller/services/base/vessel.service";
-import { Vessel } from "../../model/portCall/vessel";
 import { TranslateService } from "@ngx-translate/core";
 import { TransportCall } from "../../model/jit/transport-call";
 import { TimestampEditorComponent } from "../timestamp-editor/timestamp-editor.component";
@@ -44,7 +43,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   negotiationCycles$: Observable<NegotiationCycle[]>;
   filterTerminal: Terminal | null = null;
   delayCodes: DelayCode[] = [];
-  vessels: Vessel[] = [];
   portOfCall: Port;
   portCallParts: SelectItem[] = [];
   selectedPortCallPart: string = null;
