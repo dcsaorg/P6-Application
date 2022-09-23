@@ -324,7 +324,6 @@ export class TimestampEditorComponent implements OnInit {
 
   private updateTerminalOptions(UNLocationCode: string) {
     this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
-      this.globals.terminals = terminals;
       this.terminalOptions = [];
       this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
       terminals.forEach(terminal => {

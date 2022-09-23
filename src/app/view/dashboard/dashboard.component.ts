@@ -5,7 +5,6 @@ import {Timestamp} from '../../model/jit/timestamp';
 import {ActivatedRoute} from '@angular/router';
 import {TransportCallService} from "../../controller/services/jit/transport-call.service";
 import {PortService} from "../../controller/services/base/port.service";
-import {Globals} from "../../model/portCall/globals";
 import { take } from 'rxjs';
 
 
@@ -26,7 +25,7 @@ export class DashboardComponent {
   transportCallID: string;
   private sub: any;
 
-  constructor(private route: ActivatedRoute, private globals: Globals, private portService: PortService, private transportCallService: TransportCallService) {
+  constructor(private route: ActivatedRoute, private portService: PortService, private transportCallService: TransportCallService) {
   }
 
   ngOnInit(): void {
@@ -35,9 +34,9 @@ export class DashboardComponent {
     });
     if (this.transportCallID) {
       this.portService.getPorts().pipe(take(1)).subscribe(ports => {
-        this.globals.ports = ports;
         this.transportCallService.getTransportCalls().subscribe(transportCalls => {
-          this.transportCallSelected = transportCalls.find(x => x.transportCallID == this.transportCallID);
+          let transportCallSelect = transportCalls.find(x => x.transportCallID == this.transportCallID);
+          this.transportCallSelectHandler(transportCallSelect);
         })
       })
     }

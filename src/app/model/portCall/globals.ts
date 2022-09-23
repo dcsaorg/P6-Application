@@ -5,8 +5,5 @@ import {Config} from "../jit/config";
 
 @Injectable()
 export class Globals {
-  ports: Port[];
-  terminals: Terminal[];
   config: Config;
-
 }
