@@ -445,7 +445,7 @@
       "select": "All vessels",
       "serviceName": "Service name",
       "operatorCarrierID": "Operator Carrier ID",
-      "callSignNumber": "Call Sign Number",
+      "callSignNumber": "Call Sign",
       "vesselOperatorCarrierCode": "Operator Carrier Code",
       "size": "Vessel size (TEU)",
       "flag": "Vessel Flag",
