@@ -6,6 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { Globals } from "../../model/portCall/globals";
 import { ExportService } from "../../controller/services/base/export.service";
 import { environment } from "src/environments/environment";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -81,7 +82,7 @@ export class HeaderComponent implements OnInit {
 
   downloadTimestamps() {
     this.downloadProgressing = true;
-    this.exportService.getExportAsExcel().subscribe({
+    this.exportService.getExportAsExcel().pipe(take(1)).subscribe({
       next: (data) => {
         this.downloadingTimestamps(data);
         this.messageService.add({
