@@ -1,26 +1,25 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Port } from "../../model/portCall/port";
-import { SelectItem } from "primeng/api";
-import { DelayCodeService } from "../../controller/services/base/delay-code.service";
-import { TimestampCommentDialogComponent } from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
-import { DelayCode } from "../../model/portCall/delayCode";
-import { DialogService } from "primeng/dynamicdialog";
-import { take } from "rxjs/operators";
-import { VesselService } from "../../controller/services/base/vessel.service";
-import { TranslateService } from "@ngx-translate/core";
-import { TransportCall } from "../../model/jit/transport-call";
-import { TimestampEditorComponent } from "../timestamp-editor/timestamp-editor.component";
-import { Globals } from "../../model/portCall/globals";
-import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
-import { Timestamp } from 'src/app/model/jit/timestamp';
-import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
-import { TimestampInfo } from "../../model/jit/timestamp-info";
-import { PublisherRole } from "../../model/enums/publisherRole";
-import { Terminal } from "../../model/portCall/terminal";
-import { TerminalService } from "../../controller/services/base/terminal.service";
-import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
-import { TimestampDefinitionService } from 'src/app/controller/services/base/timestamp-definition.service';
-import { Observable } from 'rxjs';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Port} from "../../model/portCall/port";
+import {DelayCodeService} from "../../controller/services/base/delay-code.service";
+import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
+import {DelayCode} from "../../model/portCall/delayCode";
+import {DialogService} from "primeng/dynamicdialog";
+import {filter, mergeMap, shareReplay, take, tap, toArray} from "rxjs/operators";
+import {VesselService} from "../../controller/services/base/vessel.service";
+import {TranslateService} from "@ngx-translate/core";
+import {TransportCall} from "../../model/jit/transport-call";
+import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
+import {Globals} from "../../model/portCall/globals";
+import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {Timestamp} from 'src/app/model/jit/timestamp';
+import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
+import {TimestampInfo} from "../../model/jit/timestamp-info";
+import {PublisherRole} from "../../model/enums/publisherRole";
+import {Terminal} from "../../model/portCall/terminal";
+import {TerminalService} from "../../controller/services/base/terminal.service";
+import {TimestampResponseStatus} from 'src/app/model/enums/timestamp-response-status';
+import {TimestampDefinitionService} from 'src/app/controller/services/base/timestamp-definition.service';
+import {BehaviorSubject, combineLatest, from, Observable} from 'rxjs';
 import {PortCallPart} from "../../model/portCall/port-call-part";
 
 @Component({
@@ -34,17 +33,16 @@ import {PortCallPart} from "../../model/portCall/port-call-part";
 })
 export class TimestampTableComponent implements OnInit, OnChanges {
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
-  timestampInfos: TimestampInfo[];
-  unfilteredTimestampInfos: TimestampInfo[];
-  progressing: boolean = true;
+  timestampInfos$: Observable<TimestampInfo[]>;
   terminals$: Observable<Terminal[]>;
   negotiationCycles$: Observable<NegotiationCycle[]>;
-  filterTerminal: Terminal | null = null;
+  filterTerminal$ = new BehaviorSubject<Terminal | null>(null);
   delayCodes: DelayCode[] = [];
   portOfCall: Port;
   portCallParts$: Observable<PortCallPart[]>;
   selectedPortCallPart: PortCallPart = null;
-  filterNegotiationCycle: NegotiationCycle = null;
+  filterPortCallPart$ = new BehaviorSubject<PortCallPart | null>(null);
+  filterNegotiationCycle$ = new BehaviorSubject<NegotiationCycle | null>(null);
 
   @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
   @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
@@ -68,7 +66,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     })
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.portCallParts$ = this.timestampDefinitionService.getPortCallParts();
-    this.progressing = false;
     this.loadTimestamps()
   }
 
@@ -88,27 +85,34 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     )
   }
 
-  filterTimestampsByPortOfCallPart() {
-    this.timestampInfos = this.unfilteredTimestampInfos.filter(ts => {
-      if (this.selectedPortCallPart && ts.timestampDefinitionTO.portCallPart !== this.selectedPortCallPart.name) {
-        return false;
-      }
-      return true;
-    });
-  }
-
   private loadTimestamps() {
     if (this.transportCallSelected) {
-      this.progressing = true;
-      this.timestampMappingService.getPortCallTimestampsByTransportCall(this.transportCallSelected, this.filterTerminal, this.filterNegotiationCycle?.cycleKey).subscribe(timestampInfos => {
-        this.colorizetimestampByLocation(timestampInfos);
-        timestampInfos.forEach(timestampInfo => {
-          timestampInfo.operationsEventTO.transportCall.vessel = this.transportCallSelected.vessel;
-        });
-        this.unfilteredTimestampInfos = timestampInfos;
-        this.timestampInfos = timestampInfos;
-        this.progressing = false;
-      });
+      this.timestampInfos$ = combineLatest([
+          this.filterTerminal$,
+          this.filterNegotiationCycle$,
+          this.filterPortCallPart$,
+      ]).pipe(
+        mergeMap(([filterTerminal, filterNegotiationCycle, portCallPart]) => {
+          return this.timestampMappingService.getPortCallTimestampsByTransportCall(
+            this.transportCallSelected,
+            filterTerminal,
+            filterNegotiationCycle?.cycleKey,
+          ).pipe(
+            // Port Call Part is a bit annoying because we have to flatten, filter and then recreate the list
+            mergeMap(timestampInfos => from(timestampInfos)),
+            filter(timestampInfo => !portCallPart || portCallPart.name === timestampInfo.timestampDefinitionTO.portCallPart),
+            toArray(),
+          );
+        }),
+        tap(timestampInfos => this.colorizetimestampByLocation(timestampInfos)),
+        tap(timestampInfos => {
+          timestampInfos.forEach(timestampInfo => {
+            timestampInfo.operationsEventTO.transportCall.vessel = this.transportCallSelected.vessel;
+          });
+        }),
+        tap(timestampInfos => this.colorizetimestampByLocation(timestampInfos)),
+        shareReplay(1),
+      );
     }
   }
 
@@ -247,8 +251,16 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   }
 
-  filterSelected() {
-    this.refreshTimestamps()
+  filterNegotiationCycleChange(event: any): void {
+    this.filterNegotiationCycle$.next(event.value as NegotiationCycle);
+  }
+
+  filterTerminalChange(event: any): void {
+    this.filterTerminal$.next(event.value as Terminal);
+  }
+
+  filterPortCallPartChange(event: any): void {
+    this.filterPortCallPart$.next(event.value as PortCallPart);
   }
 }
 
