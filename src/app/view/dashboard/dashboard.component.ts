@@ -29,12 +29,10 @@ export class DashboardComponent {
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.transportCallID = params['id'];
-    });
-    if (this.transportCallID) {
-      this.transportCallService.getTransportCalls().subscribe(transportCalls => {
+      this.transportCallService.getTransportCalls().pipe(take(1)).subscribe(transportCalls => {
         this.transportCallSelected = transportCalls.find(x => x.transportCallID === this.transportCallID);
-      })
-    }
+      });
+    });
   }
 
 
