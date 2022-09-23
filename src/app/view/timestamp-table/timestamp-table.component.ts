@@ -23,8 +23,6 @@ import { TimestampDefinitionService } from 'src/app/controller/services/base/tim
 import { Observable } from 'rxjs';
 import {PortCallPart} from "../../model/portCall/port-call-part";
 
-const NO_FILTER = null;
-
 @Component({
   selector: 'app-timestamp-table',
   templateUrl: './timestamp-table.component.html',
