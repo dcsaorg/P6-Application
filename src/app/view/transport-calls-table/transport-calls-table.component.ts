@@ -17,11 +17,9 @@ import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
   selector: 'app-transport-calls-table',
   templateUrl: './transport-calls-table.component.html',
   styleUrls: ['./transport-calls-table.component.scss'],
-
   providers: [
     DialogService]
 })
-
 
 export class TransportCallsTableComponent implements OnInit {
   transportCalls: TransportCall[] = []
