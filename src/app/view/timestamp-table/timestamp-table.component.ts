@@ -114,7 +114,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
 
   }
 
-  private loadTimestamps(populateFilters?: boolean, portOfCallPart?: string) {
+  private loadTimestamps(populateFilters?: boolean) {
 
     if (this.transportCallSelected) {
       this.progressing = true;
