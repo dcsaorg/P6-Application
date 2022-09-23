@@ -110,8 +110,13 @@
       <label for="dimensionUnit" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.dimensionUnit.name' |
         translate }}</label>
       <div class="col-12 md:col-10">
-        <p-dropdown appendTo="body" [filter]="true" formControlName="dimensionUnit" [options]="dimensionUnits"
-          (onChange)="toggleDimensionFields()">
+        <p-dropdown appendTo="body"
+                    [filter]="true"
+                    [showClear]="true"
+                    id="dimensionUnit"
+                    formControlName="dimensionUnit"
+                    [options]="dimensionUnits"
+                    (onChange)="toggleDimensionFields()">
         </p-dropdown>
         <span *ngIf="hasDimensionUnit()" class="p-warning">
           {{ 'general.vessel.dimensionUnit.setOnce' | translate }}
