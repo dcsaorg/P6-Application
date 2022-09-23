@@ -30,14 +30,6 @@
             <div class="main__bottom_content_pane">
               <app-timestamp-table (timeStampAcceptNotifier)="timestampRespondedHandler($event)"
                 [TransportCallSelected]="transportCallSelected"></app-timestamp-table>
-              <div class="stickyFooterDiv">
-                <!-- <app-timestamp-paginator [portCallTimeStampAdded]="portCallTimeStampAdded"
-                                           [portCallTimeStampDeleted]="portCallTimeStampDeleted"
-                                           [portCallTimeStampResponded]="portCallTimeStampResponded"
-                                           [portOfCall]="portOfCall"
-                                           [vesselId]="vesselId">
-                  </app-timestamp-paginator> -->
-              </div>
             </div>
           </p-card>
         </ng-template>

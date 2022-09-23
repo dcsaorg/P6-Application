@@ -9,7 +9,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {HeaderComponent} from './view/header/header.component';
 import {TimestampCommentDialogComponent} from './view/timestamp-comment-dialog/timestamp-comment-dialog.component';
 import {TimestampEditorComponent} from './view/timestamp-editor/timestamp-editor.component';
-import {TimestampPaginatorComponent} from './view/timestamp-paginator/timestamp-paginator.component';
 import {TimestampTableComponent} from './view/timestamp-table/timestamp-table.component';
 import {VesselComponent} from './view/vessel/vessel.component';
 import {VesselEditorComponent} from './view/vessel-editor/vessel-editor.component';
@@ -72,7 +71,6 @@ export function ConfigLoader(configService: ConfigService) {
     HeaderComponent,
     TimestampCommentDialogComponent,
     TimestampEditorComponent,
-    TimestampPaginatorComponent,
     TimestampTableComponent,
     ShowTimestampAsJsonDialogComponent,
     VesselComponent,

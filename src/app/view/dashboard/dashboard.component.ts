@@ -18,8 +18,6 @@ export class DashboardComponent {
   vesselSavedId: number;
   portOfCall: Port;
   transportCallSelected: TransportCall;
-  portCallTimeStampAdded: Timestamp;
-  portCallTimeStampDeleted: Timestamp;
   portCallTimeStampResponded: Timestamp;
 
   transportCallID: string;
