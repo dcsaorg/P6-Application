@@ -148,15 +148,21 @@
     <!-- TERMINAL -->
     <div class="md:col-6" [hidden]="!showTerminalOption() || !shouldCreateTimestamp()">
       <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
-      <p-dropdown appendTo="body" formControlName="terminal" id="terminal" [options]="terminalOptions" appendTo="body"
-        [filter]="true" filterBy="label,value.facilityName">
+
+      
+      <p-dropdown appendTo="body" formControlName="terminal" id="terminal" [options]="terminals$ | async" appendTo="body"
+        optionLabel="facilitySMDGCode"
+        [showClear]=true
+        [filter]="true" 
+        filterBy="facilitySMDGCode,facilityName"
+        placeholder="{{ 'general.terminal.select' | translate }}">
         <ng-template let-terminal pTemplate="item">
-          <div *ngIf="!terminal.value">
+          <div *ngIf="!terminal">
             <div>Select Terminal</div>
           </div>
-          <div *ngIf="terminal.value">
-            <div>{{terminal.value.facilitySMDGCode}}</div>
-            <div class="portListName">{{terminal.value.facilityName}}</div>
+          <div *ngIf="terminal">
+            <div>{{terminal.facilitySMDGCode}}</div>
+            <div class="portListName">{{terminal.facilityName}}</div>
           </div>
         </ng-template>
       </p-dropdown>

@@ -37,7 +37,7 @@ import { Observable, pipe, take } from 'rxjs';
 export class TransportCallCreatorComponent implements OnInit {
   transportCallFormGroup: FormGroup;
   portOfCall: Port;
-  terminalOptions: SelectItem[] = [];
+  terminals$: Observable<Terminal[]>;
   portOfCalls$: Observable<Port[]>;
   vesselOptions: SelectItem[] = [];
   creationProgress: boolean;
@@ -109,15 +109,7 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   private updateTerminalOptions(UNLocationCode: string) {
-    this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
-      this.terminalOptions = [];
-      this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
-      terminals.forEach(terminal => {
-        if ((this.portOfCall)) {
-          this.terminalOptions.push({ label: terminal.facilitySMDGCode, value: terminal })
-        }
-      });
-    })
+    this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(UNLocationCode);
   }
 
   portSelected() {
