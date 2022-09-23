@@ -34,7 +34,6 @@ import {PortCallPart} from "../../model/portCall/port-call-part";
 })
 export class TimestampTableComponent implements OnInit, OnChanges {
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
-  @Input('portOfCallNotifier') portofCallNotifier: Port;
   timestampInfos: TimestampInfo[];
   unfilteredTimestampInfos: TimestampInfo[];
   progressing: boolean = true;
