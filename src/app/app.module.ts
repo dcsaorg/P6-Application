@@ -55,6 +55,7 @@ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import { DebounceClickDirective } from "./controller/services/util/debounce-click.directive";
 import {ShowTimestampAsJsonDialogComponent} from "./view/show-json-dialog/show-timestamp-as-json-dialog.component";
 import {MatTabsModule} from "@angular/material/tabs";
+import {RippleModule} from 'primeng/ripple';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -123,6 +124,7 @@ export function ConfigLoader(configService: ConfigService) {
     }),
     MenuModule,
     MatTabsModule,
+    RippleModule,
   ],
   providers: [
     ConfigService,
