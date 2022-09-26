@@ -117,7 +117,7 @@ export class TimestampEditorComponent implements OnInit {
 
   determineTimestampResponseStatus() {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
-      this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles(); 
+      this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
       this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
         this.timestampDefinitions = timestampDefinitions;
         this.updateTimestampTypeOptions();
@@ -335,11 +335,9 @@ export class TimestampEditorComponent implements OnInit {
 
   updatePublisherRoleOptions() {
     this.publisherRoles = this.timestampMappingService.overlappingPublisherRoles(this?.timestampTypeSelected?.value);
-    this.publisherRoleOptions = [];
-    this.publisherRoleOptions.push({ label: this.translate.instant('general.publisherRole.select'), value: null });
-    this.publisherRoles.forEach(pr => {
-      this.publisherRoleOptions.push({ label: pr, value: pr })
-    })
+    this.publisherRoleOptions = this.publisherRoles.map(pr => {
+      return { label: pr, value: pr };
+    });
   }
 
   defaultTerminalValue() {
