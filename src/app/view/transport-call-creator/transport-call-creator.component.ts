@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import { Globals } from "../../model/portCall/globals";
 import { MessageService, SelectItem } from "primeng/api";
 import { TranslateService } from "@ngx-translate/core";
@@ -27,7 +27,8 @@ import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequi
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { PublisherRole } from 'src/app/model/enums/publisherRole';
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
-import { Observable, pipe, take } from 'rxjs';
+import {BehaviorSubject, Observable, pipe, take} from 'rxjs';
+import {map, shareReplay, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -47,8 +48,6 @@ export class TransportCallCreatorComponent implements OnInit {
   eventTimestampTime: string;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
-  delayCodeOptions: SelectItem[] = [];
-  publisherRoleOptions: SelectItem[] = [];
   publisherRoles: PublisherRole[] = [];
   timestampChecking: boolean;
   locationNameLabel: string;
@@ -56,19 +55,22 @@ export class TransportCallCreatorComponent implements OnInit {
   negotiationCycles$: Observable<NegotiationCycle[]>;
   selectedNegotiationCycle: NegotiationCycle = null;
   dateToUTC: DateToUtcPipe
+  selectedTimestampDefinition$ = new BehaviorSubject<TimestampDefinitionTO>(null);
+  showVesselPosition$: Observable<boolean>;
+  selectablePublisherRoles$: Observable<PublisherRole[]>;
 
   constructor(private formBuilder: FormBuilder,
-    private translate: TranslateService,
-    private globals: Globals,
-    public ref: DynamicDialogRef,
-    private messageService: MessageService,
-    private delayCodeService: DelayCodeService,
-    private transportCallService: TransportCallService,
-    private vesselService: VesselService,
-    private timestampDefinitionService: TimestampDefinitionService,
-    private timestampMappingService: TimestampMappingService,
-    private portService: PortService,
-    private terminalService: TerminalService) {
+              private translate: TranslateService,
+              private globals: Globals,
+              public ref: DynamicDialogRef,
+              private messageService: MessageService,
+              private delayCodeService: DelayCodeService,
+              private transportCallService: TransportCallService,
+              private vesselService: VesselService,
+              private timestampDefinitionService: TimestampDefinitionService,
+              private timestampMappingService: TimestampMappingService,
+              private portService: PortService,
+              private terminalService: TerminalService) {
   }
 
   ngOnInit(): void {
@@ -96,19 +98,39 @@ export class TransportCallCreatorComponent implements OnInit {
       eventTimestampDate: new FormControl(null),
       defaultTimestampRemark: new FormControl(null),
       locationName: new FormControl(null),
-      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
-      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
+      vesselPositionLongitude: new FormControl(null),
+      vesselPositionLatitude: new FormControl(null),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
       publisherRole: new FormControl(null),
       vesselDraft: new FormControl({value: null, disabled: true}, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
     });
+    this.showVesselPosition$ = this.selectedTimestampDefinition$.pipe(
+      map(timestampDefinition => this.updateVesselPositionRequirements(timestampDefinition)),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      })
+    );
+    this.selectablePublisherRoles$ = this.selectedTimestampDefinition$.pipe(
+      map(timestampDefinition => this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)),
+      tap(publisherRoles => this.updatePublisherRoleFormControl(publisherRoles)),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      })
+    );
+  }
+
+  updateTimestampDefinition(): void {
+    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
+    this.selectedTimestampDefinition$.next(timestampType as TimestampDefinitionTO);
   }
 
   close() {
     this.ref.close(null);
   }
 
-  private updateTerminalOptions(UNLocationCode: string) {
+  private updateTerminalOptions(UNLocationCode: string): void {
     this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(UNLocationCode);
   }
 
@@ -160,6 +182,56 @@ export class TransportCallCreatorComponent implements OnInit {
     });
   }
 
+  private shouldShowVesselPosition(selectedTimestamp: TimestampDefinitionTO | null): boolean {
+    const effectiveVesselRequirement = selectedTimestamp?.vesselPositionRequirement ?? EventLocationRequirement.EXCLUDED;
+    return effectiveVesselRequirement !== EventLocationRequirement.EXCLUDED;
+  }
+
+  private vesselPositionValidator(required: boolean, maxlength: number): ValidatorFn[] {
+    const val = [
+      Validators.pattern('^-?\\d{1,3}(?:\\.\\d{1,10})?$'),
+      Validators.maxLength(maxlength),
+    ];
+    if (required) {
+      val.push(Validators.required);
+    }
+    return val;
+  }
+
+  private updateVesselPositionRequirements(selectedTimestamp: TimestampDefinitionTO | null): boolean {
+    const vesselPositionLatitude = this.transportCallFormGroup.controls.vesselPositionLatitude;
+    const vesselPositionLongitude = this.transportCallFormGroup.controls.vesselPositionLongitude;
+    const shouldShowVesselPosition = this.shouldShowVesselPosition(selectedTimestamp);
+    if (shouldShowVesselPosition) {
+      const required = selectedTimestamp.vesselPositionRequirement === EventLocationRequirement.REQUIRED;
+      vesselPositionLatitude.setValidators(this.vesselPositionValidator(required, 10));
+      vesselPositionLongitude.setValidators(this.vesselPositionValidator(required, 11));
+    } else {
+      vesselPositionLatitude.setValidators(null);
+      vesselPositionLongitude.setValidators(null);
+    }
+    vesselPositionLatitude.updateValueAndValidity();
+    vesselPositionLongitude.updateValueAndValidity();
+    return shouldShowVesselPosition;
+  }
+
+  private updatePublisherRoleFormControl(publisherRoles: PublisherRole[]): void {
+    const control = this.transportCallFormGroup.controls.publisherRole;
+    const selectedPublisherRole = control.value as PublisherRole|null;
+    if (publisherRoles.length > 1) {
+      control.setValidators([Validators.required]);
+    } else {
+      control.setValidators(null);
+    }
+    if (publisherRoles.length === 1) {
+      // If there is only option, set it into the form (then the submission can just always check the form)
+      control.setValue(publisherRoles[0]);
+    } else if (!publisherRoles.find(v => v === selectedPublisherRole)) {
+      control.setValue(null);
+    }
+    control.updateValueAndValidity();
+  }
+
   updateTimestampTypeOptions() {
     this.timestampTypes = [];
     this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
@@ -178,14 +250,6 @@ export class TransportCallCreatorComponent implements OnInit {
     }
   }
 
-  updatePublisherRoleOptions() {
-    const timestampSelected = this.transportCallFormGroup.controls.timestampType?.value;
-    this.publisherRoles = this.timestampMappingService.overlappingPublisherRoles(timestampSelected);
-    this.publisherRoleOptions = this.publisherRoles.map(pr => {
-      return { label: pr, value: pr };
-    });
-  }
-
   leftPadWithZero(item: number): string {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
@@ -194,34 +258,6 @@ export class TransportCallCreatorComponent implements OnInit {
     this.eventTimestampDate = new Date();
     this.eventTimestampTime = this.leftPadWithZero(this.eventTimestampDate.getHours()) + ":" + this.leftPadWithZero(this.eventTimestampDate.getMinutes());
     this.transportCallFormGroup.controls.eventTimestampTime.setValue(this.eventTimestampTime);
-  }
-
-  showPublisherRoleOption(): boolean {
-    if (this.publisherRoles.length > 1) {
-      this.transportCallFormGroup.controls.publisherRole.setValidators([Validators.required]);
-    } else {
-      this.transportCallFormGroup.controls.publisherRole.setValidators(null);
-    }
-    this.transportCallFormGroup.controls.publisherRole.updateValueAndValidity();
-    return this.publisherRoles.length > 1;
-  }
-
-  showVesselPosition(): boolean {
-    const vesselPositionRequirement = this.transportCallFormGroup.controls.timestampType.value?.vesselPositionRequirement;
-    return vesselPositionRequirement !== undefined && vesselPositionRequirement !== EventLocationRequirement.EXCLUDED;
-  }
-
-  updateVesselPositionRequirement() {
-    let validators = null;
-    const timestampTypeSelected = this.transportCallFormGroup.controls.timestampType.value;
-    if (timestampTypeSelected?.vesselPositionRequirement === EventLocationRequirement.REQUIRED
-      && this.timestampChecking) {
-      validators = [Validators.required];
-    }
-    this.transportCallFormGroup.controls.vesselPositionLatitude.setValidators(validators);
-    this.transportCallFormGroup.controls.vesselPositionLongitude.setValidators(validators);
-    this.transportCallFormGroup.controls.vesselPositionLatitude.updateValueAndValidity();
-    this.transportCallFormGroup.controls.vesselPositionLongitude.updateValueAndValidity();
   }
 
   showLocationNameOption(show: boolean = true): boolean {
@@ -237,7 +273,6 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup.controls.locationName.updateValueAndValidity();
     return this.locationNameLabel !== undefined;
   }
-
 
   showTerminalOption(): boolean {
     let validator = null;
@@ -272,8 +307,6 @@ export class TransportCallCreatorComponent implements OnInit {
     timestampType.updateValueAndValidity();
     eventTimestampDate.updateValueAndValidity();
     eventTimestampTime.updateValueAndValidity();
-
-
     return this.timestampChecking;
   }
 

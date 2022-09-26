@@ -6,7 +6,6 @@ import { EventLocation } from "../eventLocation";
 import { VesselPosition } from "../vesselPosition";
 import { ModeOfTransport } from "../enums/modeOfTransport";
 import { PortCallServiceTypeCode } from "../enums/portCallServiceTypeCode";
-import { Port } from "../../model/portCall/port";
 import { EventClassifierCode } from "./event-classifier-code";
 import { NegotiationCycle } from "../portCall/negotiation-cycle";
 import { TimestampDefinitionTO } from "./timestamp-definition";

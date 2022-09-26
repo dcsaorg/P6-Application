@@ -102,7 +102,7 @@
 
       <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
       <p-dropdown id="timestampType" formControlName="timestampType" styleClass="dropdown" [options]="timestampTypes"
-        [filter]=true filterBy="label" appendTo="body" (onChange)="updatePublisherRoleOptions(); updateVesselPositionRequirement()">
+        [filter]=true filterBy="label" appendTo="body" (onChange)="updateTimestampDefinition();">
       </p-dropdown>
       <span
         *ngIf="transportCallFormGroup.get('timestampType').hasError('required') && transportCallFormGroup.get('timestampType').touched "
@@ -112,17 +112,18 @@
     </div>
 
     <!-- publisherRole dropdown-->
-    <div class="md:col-6" [hidden]="!showPublisherRoleOption() || !shouldCreateTimestamp()">
-      <label for="timestampType">{{ 'general.publisherRole.label' | translate }}: </label>
-      <p-dropdown id="publisherRole"
-                  styleClass="dropdown"
-                  formControlName="publisherRole"
-                  [options]="publisherRoleOptions"
-                  placeholder="{{ 'general.publisherRole.select' | translate }}"
-                  appendTo="body">
-
-      </p-dropdown>
-    </div>
+    <ng-container *ngIf="selectablePublisherRoles$ | async as publisherRoles">
+      <div class="md:col-6" [hidden]="publisherRoles.length < 2 || !shouldCreateTimestamp()">
+        <label for="publisherRole">{{ 'general.publisherRole.label' | translate }}: </label>
+        <p-dropdown id="publisherRole"
+                    styleClass="dropdown"
+                    formControlName="publisherRole"
+                    [options]="publisherRoles"
+                    placeholder="{{ 'general.publisherRole.select' | translate }}"
+                    appendTo="body">
+        </p-dropdown>
+      </div>
+    </ng-container>
 
     <!-- create event timestamp calender-->
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
@@ -156,7 +157,7 @@
       <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
 
 
-      <p-dropdown appendTo="body" formControlName="terminal" id="terminal" [options]="terminals$ | async" appendTo="body"
+      <p-dropdown appendTo="body" formControlName="terminal" id="terminal" [options]="terminals$ | async"
         optionLabel="facilitySMDGCode"
         [showClear]=true
         [filter]="true"
@@ -225,52 +226,34 @@
       </p-dropdown>
     </div>
 
-
-    <!-- Delay Remark -->
-    <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
-      <span class="p-float-label">
-        <textarea pInputTextarea id="commentbox" formControlName="defaultTimestampRemark"
-          [readOnly]="!shouldCreateTimestamp()"></textarea>
-        <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
-      </span>
-    </div>
-
     <!-- Vessel latitude -->
-    <div class="md:col-6" [hidden]="!showVesselPosition() || !shouldCreateTimestamp() ">
-      <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate
-        }}:</label>
-      <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%"
-        type="text" />
-      <span *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxlength')" class="p-invalid">
-        {{ 'general.timestamp.vesselPosition.latitude.maxLength' | translate }}
-      </span>
-      <span *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('pattern')" class="p-invalid">
-        {{ 'general.timestamp.vesselPosition.latitude.pattern' | translate }}
-      </span>
-    </div>
+    <ng-container *ngIf="showVesselPosition$ | async as showVesselPosition">
+      <div class="md:col-6" [hidden]="!showVesselPosition || !shouldCreateTimestamp() ">
+        <label for="vesselPositionLatitude">{{ "general.timestamp.vesselPosition.latitude.label" | translate
+          }}:</label>
+        <input id="vesselPositionLatitude" formControlName="vesselPositionLatitude" pInputText style="width: 100%"
+          type="text" />
+        <span *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('maxlength')" class="p-invalid">
+          {{ 'general.timestamp.vesselPosition.latitude.maxLength' | translate }}
+        </span>
+        <span *ngIf="transportCallFormGroup.get('vesselPositionLatitude').hasError('pattern')" class="p-invalid">
+          {{ 'general.timestamp.vesselPosition.latitude.pattern' | translate }}
+        </span>
+      </div>
 
-    <!--vessel longitude-->
-    <div class="md:col-6" [hidden]="!showVesselPosition() || !shouldCreateTimestamp()">
-      <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
-      <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%"
-        type="text" />
-      <span *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('maxlength')" class="p-invalid">
-        {{ 'general.timestamp.vesselPosition.longitude.maxLength' | translate }}
-      </span>
-      <span *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('pattern')" class="p-invalid">
-        {{ 'general.timestamp.vesselPosition.longitude.pattern' | translate }}
-      </span>
-    </div>
-
-    <!-- Miles remaning -->
-    <div class="md:col-6" [hidden]="!showMilesToDestinationPortOption() || !shouldCreateTimestamp()">
-      <label for="milesToDestinationPort">{{ "general.timestamp.milesToDestinationPort.label" | translate }}:</label>
-      <input id="milesToDestinationPort" formControlName="milesToDestinationPort" pInputText style="width: 100%"
-        type="text" />
-      <span *ngIf="transportCallFormGroup.get('milesToDestinationPort').hasError('pattern')" class="p-invalid">
-        {{ 'general.timestamp.milesToDestinationPort.pattern' | translate }}
-      </span>
-    </div>
+      <!-- Vessel longitude -->
+      <div class="md:col-6" [hidden]="!showVesselPosition || !shouldCreateTimestamp()">
+        <label for="vesselPositionLongitude">{{ "general.timestamp.vesselPosition.longitude.label" | translate }}:</label>
+        <input id="vesselPositionLongitude" formControlName="vesselPositionLongitude" pInputText style="width: 100%"
+          type="text" />
+        <span *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('maxlength')" class="p-invalid">
+          {{ 'general.timestamp.vesselPosition.longitude.maxLength' | translate }}
+        </span>
+        <span *ngIf="transportCallFormGroup.get('vesselPositionLongitude').hasError('pattern')" class="p-invalid">
+          {{ 'general.timestamp.vesselPosition.longitude.pattern' | translate }}
+        </span>
+      </div>
+    </ng-container>
 
       <!-- Vessel draft -->
   <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
@@ -284,6 +267,25 @@
       {{ 'general.timestamp.vesselDraft.missingUnit' | translate }}
     </span>
   </div>
+
+    <!-- Miles remaining -->
+    <div class="md:col-6" [hidden]="!showMilesToDestinationPortOption() || !shouldCreateTimestamp()">
+      <label for="milesToDestinationPort">{{ "general.timestamp.milesToDestinationPort.label" | translate }}:</label>
+      <input id="milesToDestinationPort" formControlName="milesToDestinationPort" pInputText style="width: 100%"
+             type="text" />
+      <span *ngIf="transportCallFormGroup.get('milesToDestinationPort').hasError('pattern')" class="p-invalid">
+        {{ 'general.timestamp.milesToDestinationPort.pattern' | translate }}
+      </span>
+    </div>
+
+    <!-- Delay Remark -->
+    <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
+      <span class="p-float-label">
+        <textarea pInputTextarea id="commentbox" formControlName="defaultTimestampRemark"
+                  [readOnly]="!shouldCreateTimestamp()"></textarea>
+        <label for="commentbox">{{ 'general.comment.tooltip' | translate }}</label>
+      </span>
+    </div>
 
   </div>
 
