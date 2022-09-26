@@ -41,7 +41,7 @@
     <div class="p-field col-12 md:col-6">
 
       <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
-      <p-dropdown   appendTo="body" 
+      <p-dropdown   appendTo="body"
         (onChange)="portSelected()"
         formControlName="port" id="portOfCall"
         [filter]="true"
@@ -114,8 +114,14 @@
     <!-- publisherRole dropdown-->
     <div class="md:col-6" [hidden]="!showPublisherRoleOption() || !shouldCreateTimestamp()">
       <label for="timestampType">{{ 'general.publisherRole.label' | translate }}: </label>
-      <p-dropdown id="publisherRole" styleClass="dropdown" formControlName="publisherRole"
-        [options]="publisherRoleOptions" appendTo="body"></p-dropdown>
+      <p-dropdown id="publisherRole"
+                  styleClass="dropdown"
+                  formControlName="publisherRole"
+                  [options]="publisherRoleOptions"
+                  placeholder="{{ 'general.publisherRole.select' | translate }}"
+                  appendTo="body">
+
+      </p-dropdown>
     </div>
 
     <!-- create event timestamp calender-->
@@ -149,11 +155,11 @@
     <div class="md:col-6" [hidden]="!showTerminalOption() || !shouldCreateTimestamp()">
       <label for="terminal">{{ 'general.terminal.label' | translate }}:</label>
 
-      
+
       <p-dropdown appendTo="body" formControlName="terminal" id="terminal" [options]="terminals$ | async" appendTo="body"
         optionLabel="facilitySMDGCode"
         [showClear]=true
-        [filter]="true" 
+        [filter]="true"
         filterBy="facilitySMDGCode,facilityName"
         placeholder="{{ 'general.terminal.select' | translate }}">
         <ng-template let-terminal pTemplate="item">

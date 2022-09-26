@@ -74,8 +74,14 @@
 
   <div class="md:col-6" [hidden]="!showPublisherRoleOption()">
     <label for="timestampType">{{ 'general.publisherRole.label' | translate }}: </label>
-    <p-dropdown id="publisherRole" styleClass="dropdown" formControlName="publisherRole"
-      [options]="publisherRoleOptions" appendTo="body"></p-dropdown>
+    <p-dropdown id="publisherRole"
+                styleClass="dropdown"
+                formControlName="publisherRole"
+                [options]="publisherRoleOptions"
+                placeholder="{{ 'general.publisherRole.select' | translate }}"
+                appendTo="body">
+
+    </p-dropdown>
   </div>
 
   <div class="md:col-6" *ngIf="timestampResponseStatus !== TimestampResponseStatus.ACCEPT">

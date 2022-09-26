@@ -73,10 +73,10 @@ export class TransportCallCreatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.creationProgress = false;
-    this.portOfCalls$ = this.portService.getPorts(); 
+    this.portOfCalls$ = this.portService.getPorts();
     this.updateVesselOptions();
     this.delayCodes$ = this.delayCodeService.getDelayCodes();
-    this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles(); 
+    this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
     this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
       this.timestampDefinitions = timestampDefinitions;
       this.updateTimestampTypeOptions();
@@ -181,11 +181,9 @@ export class TransportCallCreatorComponent implements OnInit {
   updatePublisherRoleOptions() {
     const timestampSelected = this.transportCallFormGroup.controls.timestampType?.value;
     this.publisherRoles = this.timestampMappingService.overlappingPublisherRoles(timestampSelected);
-    this.publisherRoleOptions = [];
-    this.publisherRoleOptions.push({ label: this.translate.instant('general.publisherRole.select'), value: null });
-    this.publisherRoles.forEach(pr => {
-      this.publisherRoleOptions.push({ label: pr, value: pr })
-    })
+    this.publisherRoleOptions = this.publisherRoles.map(pr => {
+      return { label: pr, value: pr };
+    });
   }
 
   leftPadWithZero(item: number): string {
