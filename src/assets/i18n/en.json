@@ -265,13 +265,13 @@
         "label": "Vessel Position",
         "latitude": {
           "label": "Vessel Position Latitude",
-          "maxLength": "Max length is 10 numbers!",
-          "pattern": "Latitude should only be numbers!"
+          "maxLength": "Max length is 10 characters/digits!",
+          "pattern": "Latitude should only be a number in range -90 to 90!"
         },
         "longitude": {
           "label": "Vessel Position Longitude",
-          "maxLength": "Max length is 11 numbers!",
-          "pattern": "Longitude should only be numbers!"
+          "maxLength": "Max length is 11 characters/digits!",
+          "pattern": "Longitude should only be a number in range -180 to 180!"
         }
       },
       "milesToDestinationPort": {
@@ -459,7 +459,7 @@
         "setOnce": "Once set, dimension unit cannot be edited"
       },
       "length": {
-        "name": "Length overall",   
+        "name": "Length overall",
         "pattern": "Only numbers, with at most one decimal",
         "missingUnit": "Define a Dimension unit for the vessel to use this field"
       },
@@ -479,7 +479,7 @@
             "min": "The vessel name should be at least 1 character long"
           }
         },
-        "number": { 
+        "number": {
           "empty": "The IMO is required",
           "length": {
             "max": "Maximum length is 7",

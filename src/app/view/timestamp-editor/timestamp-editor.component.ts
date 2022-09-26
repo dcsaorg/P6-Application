@@ -1,31 +1,32 @@
-import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
-import { TimestampInfo } from "../../model/jit/timestamp-info";
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MessageService, SelectItem } from "primeng/api";
-import { Port } from "../../model/portCall/port";
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
-import { DelayCode } from "../../model/portCall/delayCode";
-import { DateToUtcPipe } from "../../controller/pipes/date-to-utc.pipe";
-import { DelayCodeService } from "../../controller/services/base/delay-code.service";
-import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
-import { TransportCall } from "../../model/jit/transport-call";
-import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
-import { Timestamp } from "../../model/jit/timestamp";
-import { Globals } from "../../model/portCall/globals";
-import { VesselPosition } from "../../model/vesselPosition";
-import { TerminalService } from 'src/app/controller/services/base/terminal.service';
-import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
-import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
-import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FacilityCodeListProvider } from 'src/app/model/enums/facilityCodeListProvider';
-import { TimestampResponseStatus } from 'src/app/model/enums/timestamp-response-status';
-import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
+import {TimestampInfo} from "../../model/jit/timestamp-info";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MessageService, SelectItem} from "primeng/api";
+import {Port} from "../../model/portCall/port";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DelayCode} from "../../model/portCall/delayCode";
+import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
+import {DelayCodeService} from "../../controller/services/base/delay-code.service";
+import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
+import {TransportCall} from "../../model/jit/transport-call";
+import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {Timestamp} from "../../model/jit/timestamp";
+import {Globals} from "../../model/portCall/globals";
+import {VesselPosition} from "../../model/vesselPosition";
+import {TerminalService} from 'src/app/controller/services/base/terminal.service';
+import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
+import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FacilityCodeListProvider} from 'src/app/model/enums/facilityCodeListProvider';
+import {TimestampResponseStatus} from 'src/app/model/enums/timestamp-response-status';
+import {PublisherRole} from 'src/app/model/enums/publisherRole';
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
-import { NegotiationCycle } from "../../model/portCall/negotiation-cycle";
-import { Observable, pipe, take } from 'rxjs';
+import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
+import {BehaviorSubject, Observable, take} from 'rxjs';
+import {map, shareReplay, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -52,8 +53,6 @@ export class TimestampEditorComponent implements OnInit {
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
   terminalOptions: SelectItem[] = [];
-  publisherRoleOptions: SelectItem[] = [];
-  publisherRoles: PublisherRole[] = [];
   negotiationCycles$: Observable<NegotiationCycle[]>;
   selectedNegotiationCycle: NegotiationCycle = null;
   timestampResponseStatus: TimestampResponseStatus;
@@ -62,6 +61,9 @@ export class TimestampEditorComponent implements OnInit {
   TimestampResponseStatus = TimestampResponseStatus;
   fullVesselDetails: Vessel;
   delayCodes$: Observable<DelayCode[]>;
+  selectedTimestampDefinition$ = new BehaviorSubject<TimestampDefinitionTO>(null);
+  showVesselPosition$: Observable<boolean>;
+  selectablePublisherRoles$: Observable<PublisherRole[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -94,8 +96,8 @@ export class TimestampEditorComponent implements OnInit {
       })
 
     this.timestampFormGroup = this.formBuilder.group({
-      vesselPositionLongitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(11)]),
-      vesselPositionLatitude: new FormControl(null, [Validators.pattern("^[0-9.]*$"), Validators.maxLength(10)]),
+      vesselPositionLongitude: new FormControl(null),
+      vesselPositionLatitude: new FormControl(null),
       milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
       remark: new FormControl(null),
       delayCode: new FormControl({ value: '' }),
@@ -112,7 +114,21 @@ export class TimestampEditorComponent implements OnInit {
     this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampTime;
     this.determineTimestampResponseStatus();
     this.updateTerminalOptions(this.transportCall.UNLocationCode);
-    this.updatePublisherRoleOptions();
+    this.showVesselPosition$ = this.selectedTimestampDefinition$.pipe(
+      map(timestampDefinition => this.updateVesselPositionRequirements(timestampDefinition)),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      })
+    );
+    this.selectablePublisherRoles$ = this.selectedTimestampDefinition$.pipe(
+      map(timestampDefinition => this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)),
+      tap(publisherRoles => this.updatePublisherRoleFormControl(publisherRoles)),
+      shareReplay({
+        bufferSize: 1,
+        refCount: true,
+      })
+    );
   }
 
   determineTimestampResponseStatus() {
@@ -150,23 +166,38 @@ export class TimestampEditorComponent implements OnInit {
     }
   }
 
-  showVesselPosition(): boolean {
-    const vesselPositionRequirement = this.timestampTypeSelected?.value?.vesselPositionRequirement;
-    return vesselPositionRequirement !== undefined && vesselPositionRequirement !== EventLocationRequirement.EXCLUDED;
+  private shouldShowVesselPosition(selectedTimestamp: TimestampDefinitionTO | null): boolean {
+    const effectiveVesselRequirement = selectedTimestamp?.vesselPositionRequirement ?? EventLocationRequirement.EXCLUDED;
+    return effectiveVesselRequirement !== EventLocationRequirement.EXCLUDED;
   }
 
-  updateVesselPositionRequirement() {
-    let validators = null;
-    const timestampTypeSelected = this.timestampTypeSelected?.value;
-    if (timestampTypeSelected?.vesselPositionRequirement === EventLocationRequirement.REQUIRED) {
-      validators = [Validators.required];
+  private vesselPositionValidator(required: boolean, maxlength: number): ValidatorFn[] {
+    const val = [
+      Validators.pattern('^-?\\d{1,3}(?:\\.\\d{1,10})?$'),
+      Validators.maxLength(maxlength),
+    ];
+    if (required) {
+      val.push(Validators.required);
     }
-    this.timestampFormGroup.controls.vesselPositionLatitude.setValidators(validators);
-    this.timestampFormGroup.controls.vesselPositionLongitude.setValidators(validators);
-    this.timestampFormGroup.controls.vesselPositionLatitude.updateValueAndValidity();
-    this.timestampFormGroup.controls.vesselPositionLongitude.updateValueAndValidity();
+    return val;
   }
 
+  private updateVesselPositionRequirements(selectedTimestamp: TimestampDefinitionTO | null): boolean {
+    const vesselPositionLatitude = this.timestampFormGroup.controls.vesselPositionLatitude;
+    const vesselPositionLongitude = this.timestampFormGroup.controls.vesselPositionLongitude;
+    const shouldShowVesselPosition = this.shouldShowVesselPosition(selectedTimestamp);
+    if (shouldShowVesselPosition) {
+      const required = selectedTimestamp.vesselPositionRequirement === EventLocationRequirement.REQUIRED;
+      vesselPositionLatitude.setValidators(this.vesselPositionValidator(required, 10));
+      vesselPositionLongitude.setValidators(this.vesselPositionValidator(required, 11));
+    } else {
+      vesselPositionLatitude.setValidators(null);
+      vesselPositionLongitude.setValidators(null);
+    }
+    vesselPositionLatitude.updateValueAndValidity();
+    vesselPositionLongitude.updateValueAndValidity();
+    return shouldShowVesselPosition;
+  }
 
   showLocationNameOption(): boolean {
     this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected.value);
@@ -193,16 +224,22 @@ export class TimestampEditorComponent implements OnInit {
     return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;
   }
 
-  showPublisherRoleOption(): boolean {
-    if (this.publisherRoles.length > 1) {
-      this.timestampFormGroup.controls.publisherRole.setValidators([Validators.required]);
+  private updatePublisherRoleFormControl(publisherRoles: PublisherRole[]): void {
+    const control = this.timestampFormGroup.controls.publisherRole;
+    const selectedPublisherRole = control.value as PublisherRole|null;
+    if (publisherRoles.length > 1) {
+      control.setValidators([Validators.required]);
     } else {
-      this.timestampFormGroup.controls.publisherRole.setValidators(null);
+      control.setValidators(null);
     }
-    this.timestampFormGroup.controls.publisherRole.updateValueAndValidity();
-    return this.publisherRoles.length > 1;
+    if (publisherRoles.length === 1) {
+      // If there is only option, set it into the form (then the submission can just always check the form)
+      control.setValue(publisherRoles[0]);
+    } else if (!publisherRoles.find(v => v === selectedPublisherRole)) {
+      control.setValue(null);
+    }
+    control.updateValueAndValidity();
   }
-
 
   showJSON() {
     const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value;
@@ -269,7 +306,7 @@ export class TimestampEditorComponent implements OnInit {
 
     const latitude = this.timestampFormGroup.controls.vesselPositionLatitude.value;
     const longitude = this.timestampFormGroup.controls.vesselPositionLongitude.value;
-    if (this.showVesselPosition() && latitude && longitude) {
+    if (this.shouldShowVesselPosition(timestampDefinition) && latitude && longitude) {
       vesselPosition = {
         latitude: latitude,
         longitude: longitude,
@@ -283,7 +320,7 @@ export class TimestampEditorComponent implements OnInit {
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
     )
 
-    newTimestamp.publisherRole = publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0];
+    newTimestamp.publisherRole = publisherRoleSelected;
     newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
@@ -322,7 +359,7 @@ export class TimestampEditorComponent implements OnInit {
     }
   }
 
-  private updateTerminalOptions(UNLocationCode: string) {
+  private updateTerminalOptions(UNLocationCode: string): void {
     this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
       this.terminalOptions = [];
       this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
@@ -333,11 +370,8 @@ export class TimestampEditorComponent implements OnInit {
     })
   }
 
-  updatePublisherRoleOptions() {
-    this.publisherRoles = this.timestampMappingService.overlappingPublisherRoles(this?.timestampTypeSelected?.value);
-    this.publisherRoleOptions = this.publisherRoles.map(pr => {
-      return { label: pr, value: pr };
-    });
+  updateTimestampDefinition(): void {
+    this.selectedTimestampDefinition$.next(this.timestampTypeSelected.value as TimestampDefinitionTO);
   }
 
   defaultTerminalValue() {
