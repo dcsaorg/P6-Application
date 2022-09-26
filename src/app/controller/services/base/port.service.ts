@@ -56,7 +56,10 @@ export class PortService {
             cachePort(this.unlocode2PortCache, port);
           }
         }),
-        shareReplay(1)
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        })
       ) as Observable<Port[]>;
     }
     return this.ports$;

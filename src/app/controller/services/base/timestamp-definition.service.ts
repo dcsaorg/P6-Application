@@ -60,7 +60,10 @@ export class TimestampDefinitionService {
             }
             return definitions;
           }),
-          shareReplay(1)
+          shareReplay({
+            bufferSize: 1,
+            refCount: true,
+          })
         ) as Observable<TimestampDefinitionTO[]>;
     }
     return this.definitionCache$;
@@ -81,7 +84,10 @@ export class TimestampDefinitionService {
           uniqueNegotiationCycles.sort(negotiationCycleComparator)
           return uniqueNegotiationCycles
         }),
-        shareReplay(1)
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        })
       ) as Observable<NegotiationCycle[]>
     }
     return this.negotiationCyclesCache$;
@@ -103,7 +109,10 @@ export class TimestampDefinitionService {
             };
           });
         }),
-        shareReplay(1)
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        })
       );
     }
     return this.portCallPartCache$;
@@ -115,7 +124,10 @@ export class TimestampDefinitionService {
         map(timestampDefinitions => {
           return asMap(timestampDefinitions);
         }),
-        shareReplay(1)
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        })
       ) as Observable<Map<string, TimestampDefinitionTO>>;
     }
     return this.definitionMapCache$;
