@@ -91,7 +91,7 @@
   <div class="p-fluid p-formgrid grid" [hidden]="!shouldCreateTimestamp()">
     <div class="md:col-6" [hidden]="!shouldCreateTimestamp()">
       <label for="negotiationCycle">{{ 'general.table.header.negotiationCycle.label' | translate }}: </label>
-      <p-dropdown id="negotiationCycle" styleClass="dropdown" formControlName="negotiationCycle"
+      <p-dropdown id="negotiationCycle" styleClass="dropdown"
       [options]="negotiationCycles$ | async"
       [showClear]=true
       optionLabel="cycleName"
