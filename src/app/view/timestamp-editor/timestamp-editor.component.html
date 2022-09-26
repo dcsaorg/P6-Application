@@ -55,11 +55,14 @@
   <div class="md:col-6" *ngIf="timestampResponseStatus === TimestampResponseStatus.CREATE">
     <div>
       <label for="negotiationCycle">{{ 'general.table.header.negotiationCycle.label' | translate }}: </label>
-      <p-dropdown id="negotiationCycle" styleClass="dropdown" formControlName="negotiationCycle"
+      <p-dropdown id="negotiationCycle"
+                  styleClass="dropdown"
                   [options]="negotiationCycles$ | async"
                   [showClear]=true
                   optionLabel="cycleName"
-                  [filter]=true filterBy="cycleName" appendTo="body"
+                  [filter]=true
+                  filterBy="cycleName"
+                  appendTo="body"
                   (onChange)="onSelectedNegotiationCycle($event)"
                   placeholder="{{ 'general.negotiationCycle.select' | translate }}">
 
