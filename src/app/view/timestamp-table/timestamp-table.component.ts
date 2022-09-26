@@ -111,7 +111,10 @@ export class TimestampTableComponent implements OnInit, OnChanges {
           });
         }),
         tap(timestampInfos => this.colorizetimestampByLocation(timestampInfos)),
-        shareReplay(1),
+        shareReplay({
+          bufferSize: 1,
+          refCount: true,
+        })
       );
     }
   }
