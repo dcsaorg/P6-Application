@@ -1,12 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { Vessel } from '../../model/portCall/vessel';
 import { DialogService } from 'primeng/dynamicdialog';
 import { VesselEditorComponent } from '../vessel-editor/vessel-editor.component';
 import { VesselService } from '../../controller/services/base/vessel.service';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 import { TransportCallFilterService } from '../../controller/services/base/transport-call-filter.service';
+import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-vessel',
@@ -17,11 +18,9 @@ import { TransportCallFilterService } from '../../controller/services/base/trans
   ]
 })
 export class VesselComponent implements OnInit {
-  vessels: SelectItem[];
+  private refreshVessel = new BehaviorSubject<any>(null);
+  vessels$: Observable<Vessel[]>;
   selectedVessel: Vessel;
-
-  @Output() vesselNotifier: EventEmitter<string> = new EventEmitter<string>();
-  @Output() vesselSavedNotifier: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     public dialogService: DialogService,
@@ -32,11 +31,7 @@ export class VesselComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateVesselOptions();
-
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.updateVesselOptions();
-    });
+    this.vessels$ = this.fetchVessels();
   }
 
   createNewVessel(): void {
@@ -46,8 +41,7 @@ export class VesselComponent implements OnInit {
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
-        this.updateVesselOptions();
-        this.vesselSavedNotifier.emit(result.vesselIMONumber);
+        this.reloadVessels();
       }
     });
   }
@@ -73,14 +67,9 @@ export class VesselComponent implements OnInit {
         data: selectedVessel
       });
 
-      vesselEditor.onClose.subscribe((result: Vessel) => {
+      vesselEditor.onClose.pipe(take(1)).subscribe((result: Vessel) => {
         if (result) {
-          this.updateVesselOptions();
-          this.vesselService.getVessel(result.vesselIMONumber).subscribe(nextVessel => {
-            this.selectedVessel = nextVessel;
-            this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
-            this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
-          });
+          this.reloadVessels();
         }
       });
     }
@@ -93,23 +82,27 @@ export class VesselComponent implements OnInit {
     }
   }
 
-  selectVessel() {
-    if (this.selectedVessel) {
-      this.vesselNotifier.emit(this.selectedVessel.vesselIMONumber)
-      this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
-    } else {
-      this.vesselNotifier.emit(null)
-      this.transportCallFilterService.updateVesselFilter(null);
-    }
+  selectVessel(vessel: Vessel): void {
+    this.selectedVessel = vessel;
+    this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
   }
 
-  private updateVesselOptions() {
-    this.vesselService.getVessels().subscribe(vessels => {
-      this.vessels = [];
-      this.vessels.push({ label: this.translate.instant('general.vessel.select'), value: null });
-      vessels.forEach(vessel => {
-        this.vessels.push({ label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel });
-      });
-    });
+  private reloadVessels(): void {
+    this.refreshVessel.next(null);
+  }
+
+  private fetchVessels(): Observable<Vessel[]> {
+    return this.refreshVessel.pipe(
+      mergeMap(_ => this.vesselService.getVessels()),
+      tap(vessels => {
+        const selectedIMONumber = this.selectedVessel?.vesselIMONumber;
+        const newSelectedVessel = vessels.find(v => v.vesselIMONumber === selectedIMONumber);
+        // If there is a change, emit it as a new event
+        if (this.selectedVessel !== newSelectedVessel) {
+          this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
+        }
+        this.selectedVessel = newSelectedVessel;
+      })
+    );
   }
 }
