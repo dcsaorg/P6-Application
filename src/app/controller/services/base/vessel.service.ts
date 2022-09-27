@@ -53,7 +53,7 @@ export class VesselService {
     return this.cacheVessel(this.httpClient.post<Vessel>(this.VESSEL_URL, vessel));
   }
 
-  getcarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIER_URL);
+  getCarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIER_URL);
 
   newVesselObservable(vessel: Vessel): void {
     this.vesselsDataSource.next(vessel);
