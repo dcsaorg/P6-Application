@@ -63,33 +63,6 @@
     </div>
 
     <div class="p-field grid">
-      <label for="length" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.length.name' | translate
-        }}</label>
-      <div class="col-12 md:col-10">
-        <input id="length" type="text" formControlName="length" pInputText>
-        <span *ngIf="vesselFormGroup.get('length').hasError('pattern')" class="p-invalid">
-          {{ 'general.vessel.length.pattern' | translate }}
-        </span>
-        <span [hidden]="hasDimensionUnit()" class="p-warning">
-          {{ 'general.vessel.length.missingUnit' | translate }}
-        </span>
-      </div>
-    </div>
-
-    <div class="p-field grid">
-      <label for="width" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.width.name' | translate }}</label>
-      <div class="col-12 md:col-10">
-        <input id="width" type="text" formControlName="width" pInputText>
-        <span *ngIf="vesselFormGroup.get('width').hasError('pattern')" class="p-invalid">
-          {{ 'general.vessel.width.pattern' | translate }}
-        </span>
-        <span [hidden]="hasDimensionUnit()" class="p-warning">
-          {{ 'general.vessel.width.missingUnit' | translate }}
-        </span>
-      </div>
-    </div>
-
-    <div class="p-field grid">
       <label for="vesselOperatorCarrierCode" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{
         'general.vessel.vesselOperatorCarrierCode' | translate }}</label>
       <div class="col-12 md:col-10">
@@ -133,6 +106,33 @@
         </p-dropdown>
         <span *ngIf="hasDimensionUnit()" class="p-warning">
           {{ 'general.vessel.dimensionUnit.setOnce' | translate }}
+        </span>
+      </div>
+    </div>
+
+    <div class="p-field grid">
+      <label for="length" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.length.name' | translate
+        }}</label>
+      <div class="col-12 md:col-10">
+        <input id="length" type="text" formControlName="length" pInputText>
+        <span *ngIf="vesselFormGroup.get('length').hasError('pattern')" class="p-invalid">
+          {{ 'general.vessel.length.pattern' | translate }}
+        </span>
+        <span [hidden]="hasDimensionUnit()" class="p-warning">
+          {{ 'general.vessel.length.missingUnit' | translate }}
+        </span>
+      </div>
+    </div>
+
+    <div class="p-field grid">
+      <label for="width" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.width.name' | translate }}</label>
+      <div class="col-12 md:col-10">
+        <input id="width" type="text" formControlName="width" pInputText>
+        <span *ngIf="vesselFormGroup.get('width').hasError('pattern')" class="p-invalid">
+          {{ 'general.vessel.width.pattern' | translate }}
+        </span>
+        <span [hidden]="hasDimensionUnit()" class="p-warning">
+          {{ 'general.vessel.width.missingUnit' | translate }}
         </span>
       </div>
     </div>
