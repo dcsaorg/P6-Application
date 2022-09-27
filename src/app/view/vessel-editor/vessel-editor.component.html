@@ -93,7 +93,7 @@
       <label for="vesselOperatorCarrierCode" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{
         'general.vessel.vesselOperatorCarrierCode' | translate }}</label>
       <div class="col-12 md:col-10">
-        <p-dropdown appendTo="body" [filter]="true" [options]="carriers" formControlName="vesselOperatorCarrierCode"
+        <p-dropdown id="vesselOperatorCarrierCode" appendTo="body" [filter]="true" [options]="carriers" formControlName="vesselOperatorCarrierCode"
           placeholder="{{ 'general.carrier.select' | translate }}"></p-dropdown>
       </div>
     </div>
@@ -102,7 +102,7 @@
       <label for="vesselType" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{ 'general.vessel.vesselType.name' | translate
         }}</label>
       <div class="col-12 md:col-10">
-        <p-dropdown appendTo="body" [filter]="true" formControlName="type" [options]="vesselTypes"></p-dropdown>
+        <p-dropdown id="vesselType" appendTo="body" [filter]="true" formControlName="type" [options]="vesselTypes"></p-dropdown>
       </div>
     </div>
 
