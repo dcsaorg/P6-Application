@@ -30,7 +30,8 @@ export class TransportCallsTableComponent implements OnInit {
 
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
 
-  constructor(private transportCallService: TransportCallService,
+  constructor(
+    private transportCallService: TransportCallService,
     private messageService: MessageService,
     private dialogService: DialogService,
     private vesselService: VesselService,
