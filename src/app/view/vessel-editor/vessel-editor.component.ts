@@ -157,15 +157,19 @@ export class VesselEditorComponent implements OnInit {
   }
 
   toggleDimensionFields(): void {
+    const lengthControl = this.vesselFormGroup.controls.length;
+    const widthControl = this.vesselFormGroup.controls.width;
     if (this.vesselFormGroup.controls.dimensionUnit.value) {
-      this.vesselFormGroup.controls.length.enable();
-      this.vesselFormGroup.controls.width.enable();
+      lengthControl.enable();
+      widthControl.enable();
     } else {
-      this.vesselFormGroup.controls.length.disable();
-      this.vesselFormGroup.controls.width.disable();
+      lengthControl.disable();
+      lengthControl.setValue(null);
+      widthControl.disable();
+      widthControl.setValue(null);
     }
-    this.vesselFormGroup.controls.length.updateValueAndValidity();
-    this.vesselFormGroup.controls.width.updateValueAndValidity();
+    lengthControl.updateValueAndValidity();
+    widthControl.updateValueAndValidity();
   }
 
   /* UI only supports SMDG CarrierCodeListProvider
