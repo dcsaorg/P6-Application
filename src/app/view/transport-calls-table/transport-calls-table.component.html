@@ -1,7 +1,9 @@
-<div *ngIf="progressing" class="dummyContent">
-  <p-progressSpinner></p-progressSpinner>
-</div>
-<p-table *ngIf="!progressing"
+<ng-template #loading>
+  <div class="dummyContent">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-template>
+<p-table *ngIf="transportCalls$ | async as transportCalls else loading"
          styleClass="p-datatable-sm"
          [value]="transportCalls"
          [(selection)]="selectedTransportCall"

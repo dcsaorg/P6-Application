@@ -60,7 +60,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.vesselService.vesselsObservable.subscribe(() => {
+    this.vesselService.vesselsObservable$.subscribe(() => {
       // Triggered on vessel renames (etc.). Reload the timestamps (as each row show the vessel name)
       this.loadTimestamps()
     })
