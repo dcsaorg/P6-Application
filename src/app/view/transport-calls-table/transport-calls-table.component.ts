@@ -23,7 +23,7 @@ import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 
 export class TransportCallsTableComponent implements OnInit {
   transportCalls: TransportCall[] = []
-  selectedtransportCall: TransportCall;
+  selectedTransportCall: TransportCall;
   filterPort: Port;
   filterVessel: Vessel;
   progressing: boolean = true;
@@ -74,7 +74,7 @@ export class TransportCallsTableComponent implements OnInit {
   async refreshTransportCalls(): Promise<void> {
     this.progressing = true;
     const transportCalls = await this.loadTransportCalls();
-    if (this.selectedtransportCall && !transportCalls.some(x => x.transportCallID === this.selectedtransportCall.transportCallID)) {
+    if (this.selectedTransportCall && !transportCalls.some(x => x.transportCallID === this.selectedTransportCall.transportCallID)) {
       this.transportCallNotifier.emit(null);
     }
   }
@@ -113,5 +113,5 @@ export class TransportCallsTableComponent implements OnInit {
       })
     })
   }
-  
+
 }
