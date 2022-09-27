@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, Observable, of, tap} from 'rxjs';
 
 import {Vessel} from '../../../model/portCall/vessel';
 import {Carrier} from '../../../model/portCall/carrier';
@@ -11,6 +11,9 @@ import {Globals} from '../../../model/portCall/globals';
 })
 export class VesselService {
   private vesselsDataSource = new BehaviorSubject<Vessel>(null);
+  // The transport-call-table needs to fetch each vessel. Cache vessels as we see them to speed that process up
+  // a bit.
+  private vesselCache = new Map<string, Vessel>();
   vesselsObservable$ = this.vesselsDataSource.asObservable().pipe(
     distinctUntilChanged()
   );
@@ -23,17 +26,42 @@ export class VesselService {
     this.CARRIER_URL = globals.config.uiSupportBackendURL + '/unofficial/carriers';
   }
 
-  getVessels = (): Observable<Vessel[]> =>  this.httpClient.get<Vessel[]>(this.VESSEL_URL + '?limit=1000');
+  getVessels(): Observable<Vessel[]> {
+    return this.httpClient.get<Vessel[]>(this.VESSEL_URL + '?limit=1000').pipe(
+      tap(vessels => {
+        this.vesselCache.clear();
+        for (const vessel of vessels) {
+          this.vesselCache.set(vessel.vesselIMONumber, vessel);
+        }
+      })
+    );
+  }
 
-  getVessel = (vesselId: string): Observable<Vessel> => this.httpClient.get<Vessel>(this.VESSEL_URL + '/' + vesselId);
+  getVessel(vesselIMONumber: string): Observable<Vessel> {
+    const vessel = this.vesselCache.get(vesselIMONumber);
+    if (vessel) {
+      return of(vessel);
+    }
+    return this.cacheVessel(this.httpClient.get<Vessel>(this.VESSEL_URL + '/' + vesselIMONumber));
+  }
 
-  updateVessel = (vessel: Vessel): Observable<Vessel> => this.httpClient.put<Vessel>(this.VESSEL_URL + '/' + vessel.vesselIMONumber, vessel);
+  updateVessel(vessel: Vessel): Observable<Vessel>{
+    return this.cacheVessel(this.httpClient.put<Vessel>(this.VESSEL_URL + '/' + vessel.vesselIMONumber, vessel));
+  }
 
-  addVessel = (vessel: Vessel): Observable<Vessel> => this.httpClient.post<Vessel>(this.VESSEL_URL, vessel);
+  addVessel(vessel: Vessel): Observable<Vessel> {
+    return this.cacheVessel(this.httpClient.post<Vessel>(this.VESSEL_URL, vessel));
+  }
 
   getcarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIER_URL);
 
   newVesselObservable(vessel: Vessel): void {
     this.vesselsDataSource.next(vessel);
+  }
+
+  private cacheVessel(vesselObservable: Observable<Vessel>): Observable<Vessel> {
+    return vesselObservable.pipe(
+      tap(v => this.vesselCache.set(v.vesselIMONumber, v))
+    );
   }
 }
