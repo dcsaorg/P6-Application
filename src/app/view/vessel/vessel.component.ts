@@ -1,12 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { SelectItem } from "primeng/api";
-import { Vessel } from "../../model/portCall/vessel";
-import { DialogService } from "primeng/dynamicdialog";
-import { VesselEditorComponent } from "../vessel-editor/vessel-editor.component";
-import { VesselService } from "../../controller/services/base/vessel.service";
-import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
-import { MessageService } from "primeng/api";
-import { TransportCallFilterService } from "../../controller/services/base/transport-call-filter.service";
+import { SelectItem } from 'primeng/api';
+import { Vessel } from '../../model/portCall/vessel';
+import { DialogService } from 'primeng/dynamicdialog';
+import { VesselEditorComponent } from '../vessel-editor/vessel-editor.component';
+import { VesselService } from '../../controller/services/base/vessel.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
+import { TransportCallFilterService } from '../../controller/services/base/transport-call-filter.service';
 
 @Component({
   selector: 'app-vessel',
@@ -20,10 +20,11 @@ export class VesselComponent implements OnInit {
   vessels: SelectItem[];
   selectedVessel: Vessel;
 
-  @Output() vesselNotifier: EventEmitter<string> = new EventEmitter<string>()
-  @Output() vesselSavedNotifier: EventEmitter<string> = new EventEmitter<string>()
+  @Output() vesselNotifier: EventEmitter<string> = new EventEmitter<string>();
+  @Output() vesselSavedNotifier: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(public dialogService: DialogService,
+  constructor(
+    public dialogService: DialogService,
     private vesselService: VesselService,
     private messageService: MessageService,
     private transportCallFilterService: TransportCallFilterService,
@@ -38,7 +39,7 @@ export class VesselComponent implements OnInit {
     });
   }
 
-  createNewVessel() {
+  createNewVessel(): void {
     const vesselEditor = this.dialogService.open(VesselEditorComponent, {
       header: this.translate.instant('general.vessel.add.header'),
       width: '50%'
@@ -48,10 +49,10 @@ export class VesselComponent implements OnInit {
         this.updateVesselOptions();
         this.vesselSavedNotifier.emit(result.vesselIMONumber);
       }
-    })
+    });
   }
 
-  editVessel() {
+  editVessel(): void {
     if (this.selectedVessel) {
       const selectedVessel: Vessel = {
         vesselIMONumber: this.selectedVessel.vesselIMONumber,
@@ -81,7 +82,7 @@ export class VesselComponent implements OnInit {
             this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
           });
         }
-      })
+      });
     }
     else {
       this.messageService.add({
