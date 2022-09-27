@@ -82,8 +82,14 @@
                   styleClass="dropdown"
                   formControlName="publisherRole"
                   [options]="publisherRoles"
+                  [filter]="true"
+                  filterBy="publisherRoleName,publisherRole"
+                  optionLabel="publisherRoleName"
                   placeholder="{{ 'general.publisherRole.select' | translate }}"
                   appendTo="body">
+        <ng-template let-publisherRoleDetail pTemplate="item">
+          <div>{{publisherRoleDetail.publisherRoleName}} ({{publisherRoleDetail.publisherRole}})</div>
+        </ng-template>
       </p-dropdown>
     </div>
   </ng-container>
