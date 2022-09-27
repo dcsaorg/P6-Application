@@ -1,5 +1,5 @@
 export enum VesselType {
-  GCGO = "GCGO", // (General cargo)
+  GECA = "GECA", // (General cargo)
   CONT = "CONT", // (Container)
   RORO = "RORO", // (RoRo)
   CARC = "CARC", // (Car carrier)
