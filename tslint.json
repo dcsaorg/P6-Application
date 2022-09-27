@@ -68,6 +68,14 @@
       true,
       "single"
     ],
+    "rxjs-no-subject-unsubscribe": true,
+    "rxjs-no-ignored-replay-buffer": true,
+    "rxjs-no-sharereplay": {
+      "options": [{
+        "allowConfig": true
+      }],
+      "severity": "error"
+    },
     "semicolon": {
       "options": [
         "always"
@@ -108,7 +116,8 @@
       "options": [
         "ban-keywords",
         "check-format",
-        "allow-pascal-case"
+        "allow-pascal-case",
+        "allow-leading-underscore"
       ]
     },
     "whitespace": {
