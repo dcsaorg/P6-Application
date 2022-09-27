@@ -11,7 +11,7 @@ import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { VesselType } from 'src/app/model/enums/vesselType';
 import { DimensionUnit } from 'src/app/model/enums/dimensionUnit';
 import { TranslateService } from '@ngx-translate/core';
-import {Observable} from 'rxjs';
+import {Observable, take} from 'rxjs';
 import {Carrier} from '../../model/portCall/carrier';
 
 @Component({
@@ -88,7 +88,7 @@ export class VesselEditorComponent implements OnInit {
     }
     this.enforceCarrierCodeListProviderTypeSMDG();
     if (this.config.data) {
-      this.vesselService.updateVessel(this.vessel).subscribe({
+      this.vesselService.updateVessel(this.vessel).pipe(take(1)).subscribe({
         next: (vessel) => {
           this.messageService.add({
             key: 'GenericSuccessToast',
@@ -110,7 +110,7 @@ export class VesselEditorComponent implements OnInit {
         }
       });
     } else {
-      this.vesselService.addVessel(this.vessel).subscribe({
+      this.vesselService.addVessel(this.vessel).pipe(take(1)).subscribe({
         next: (newVessel: Vessel) => {
           this.messageService.add({
             key: 'GenericSuccessToast',
