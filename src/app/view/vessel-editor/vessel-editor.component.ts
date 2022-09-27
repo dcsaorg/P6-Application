@@ -87,14 +87,15 @@ export class VesselEditorComponent implements OnInit {
     this.enforceCarrierCodeListProviderTypeSMDG();
     if (this.config.data) {
       this.vesselService.updateVessel(this.vessel).subscribe({
-        next: () => {
+        next: (vessel) => {
           this.messageService.add({
             key: 'GenericSuccessToast',
             severity: 'success',
             summary: 'Successfully updated vessel'
           });
+          this.vessel = vessel;
           this.ref.close(this.vessel);
-          this.vesselService.updateVesselsObserverable();
+          this.vesselService.newVesselObservable(this.vessel);
         },
         error: errorResponse => {
           const errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
