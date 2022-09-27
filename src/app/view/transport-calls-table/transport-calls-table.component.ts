@@ -6,7 +6,7 @@ import {TransportCallCreatorComponent} from "../transport-call-creator/transport
 import {TranslateService} from "@ngx-translate/core";
 import {PortService} from 'src/app/controller/services/base/port.service';
 import {TransportCallFilterService} from 'src/app/controller/services/base/transport-call-filter.service';
-import {BehaviorSubject, combineLatest, mergeMap, Observable, take} from 'rxjs';
+import {BehaviorSubject, combineLatest, debounce, interval, mergeMap, Observable, take} from 'rxjs';
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {MessageService} from "primeng/api";
 import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
@@ -82,6 +82,7 @@ export class TransportCallsTableComponent implements OnInit {
           this.refreshTrigger,
         ]);
       }),
+      debounce(_ => interval(200)),
       mergeMap(([
                   filterPort,
                   filterVessel,
