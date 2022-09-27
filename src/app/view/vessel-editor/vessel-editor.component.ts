@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
-import { Vessel } from "../../model/portCall/vessel";
-import { VesselService } from "../../controller/services/base/vessel.service";
-import { MessageService } from "primeng/api";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Vessel } from '../../model/portCall/vessel';
+import { VesselService } from '../../controller/services/base/vessel.service';
+import { MessageService } from 'primeng/api';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { vesselOperatorCarrierCodeListProvider } from '../../model/enums/vesselOperatorCarrierCodeListProvider';
-import { SelectItem } from "primeng/api";
-import { Globals } from "../../model/portCall/globals";
+import { SelectItem } from 'primeng/api';
+import { Globals } from '../../model/portCall/globals';
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { VesselType } from 'src/app/model/enums/vesselType';
 import { DimensionUnit } from 'src/app/model/enums/dimensionUnit';
@@ -27,7 +27,8 @@ export class VesselEditorComponent implements OnInit {
   VesselType = VesselType;
   DimensionUnit = DimensionUnit;
 
-  constructor(public ref: DynamicDialogRef,
+  constructor(
+    public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private vesselService: VesselService,
     private messageService: MessageService,
@@ -59,17 +60,17 @@ export class VesselEditorComponent implements OnInit {
       this.allowImoID = false;
       this.vessel = this.config.data;
       this.vesselFormGroup.patchValue(this.vessel);
-      if (this.vessel.dimensionUnit) { // we disable if dimensionUnit is set once. 
+      if (this.vessel.dimensionUnit) {
+        // we disable if dimensionUnit is set once.
         this.vesselFormGroup.controls.dimensionUnit.disable();
       }
     } else {
       this.allowImoID = true;
-      this.vessel
     }
     this.toggleDimensionFields();
   }
 
-  saveVessel() {
+  saveVessel(): void {
     this.vessel = {
       vesselIMONumber: this.vesselFormGroup.controls.vesselIMONumber.value,
       vesselName: this.vesselFormGroup.controls.vesselName.value,
@@ -84,7 +85,6 @@ export class VesselEditorComponent implements OnInit {
       this.vessel.length = this.vesselFormGroup.controls.length.value;
     }
     this.enforceCarrierCodeListProviderTypeSMDG();
-    console.log(this.vessel);
     if (this.config.data) {
       this.vesselService.updateVessel(this.vessel).subscribe({
         next: () => {
@@ -94,10 +94,10 @@ export class VesselEditorComponent implements OnInit {
             summary: 'Successfully updated vessel'
           });
           this.ref.close(this.vessel);
-          this.vesselService.updateVesselsObserverable()
+          this.vesselService.updateVesselsObserverable();
         },
         error: errorResponse => {
-          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+          const errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
           this.messageService.add({
             key: 'GenericErrorToast',
             severity: 'error',
@@ -117,7 +117,7 @@ export class VesselEditorComponent implements OnInit {
           });
           this.ref.close(newVessel);
         }, error: errorResponse => {
-          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+          const errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
           this.messageService.add({
             key: 'GenericErrorToast',
             severity: 'error',
@@ -129,11 +129,11 @@ export class VesselEditorComponent implements OnInit {
     }
   }
 
-  cancel() {
+  cancel(): void {
     this.ref.close(null);
   }
 
-  private updateCarrierOptions() {
+  private updateCarrierOptions(): void {
     this.vesselService.getcarriers().subscribe(carriers => {
       this.carriers = [];
       this.carriers.push({ label: this.translate.instant('general.carrier.select'), value: null });
@@ -143,27 +143,27 @@ export class VesselEditorComponent implements OnInit {
     });
   }
 
-  private updateVesselTypeOptions() {
+  private updateVesselTypeOptions(): void {
     this.vesselTypes = [];
     this.vesselTypes.push({ label: this.translate.instant('general.vessel.vesselType.select'), value: null });
-    for (var vesselType in this.VesselType) {
+    for (const vesselType in this.VesselType) {
       this.vesselTypes.push({ label: vesselType, value: vesselType });
     }
   }
 
-  private updateDimensionUnitOptions() {
+  private updateDimensionUnitOptions(): void {
     this.dimensionUnits = [];
     this.dimensionUnits.push({ label: this.translate.instant('general.vessel.dimensionUnit.select'), value: null });
-    for (var dimensionUnit in this.DimensionUnit) {
+    for (const dimensionUnit in this.DimensionUnit) {
       this.dimensionUnits.push({ label: dimensionUnit, value: dimensionUnit });
     }
   }
 
-  hasDimensionUnit() {
-    return this.vesselFormGroup.controls?.dimensionUnit.value ?? null;
+  hasDimensionUnit(): boolean {
+    return !!this.vesselFormGroup.controls?.dimensionUnit.value;
   }
 
-  toggleDimensionFields() {
+  toggleDimensionFields(): void {
     if (this.vesselFormGroup.controls.dimensionUnit.value) {
       this.vesselFormGroup.controls.length.enable();
       this.vesselFormGroup.controls.width.enable();
@@ -178,9 +178,9 @@ export class VesselEditorComponent implements OnInit {
   /* UI only supports SMDG CarrierCodeListProvider
     Only enforced if a carrier is chosen
   */
-  private enforceCarrierCodeListProviderTypeSMDG() {
+  private enforceCarrierCodeListProviderTypeSMDG(): void {
     if (this.vesselFormGroup.controls?.vesselOperatorCarrierCode.value) {
-      this.vessel.vesselOperatorCarrierCodeListProvider = vesselOperatorCarrierCodeListProvider.SMDG
+      this.vessel.vesselOperatorCarrierCodeListProvider = vesselOperatorCarrierCodeListProvider.SMDG;
     }
   }
 }
