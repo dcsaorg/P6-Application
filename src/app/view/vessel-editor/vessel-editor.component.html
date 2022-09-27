@@ -93,8 +93,21 @@
       <label for="vesselOperatorCarrierCode" class="col-12 p-mb-2 md:col-2 p-mb-md-0">{{
         'general.vessel.vesselOperatorCarrierCode' | translate }}</label>
       <div class="col-12 md:col-10">
-        <p-dropdown id="vesselOperatorCarrierCode" appendTo="body" [filter]="true" [options]="carriers" formControlName="vesselOperatorCarrierCode"
-          placeholder="{{ 'general.carrier.select' | translate }}"></p-dropdown>
+        <p-dropdown id="vesselOperatorCarrierCode"
+                    appendTo="body"
+                    [filter]="true"
+                    [options]="(carriers$ | async) ?? []"
+                    [showClear]=true
+                    filterBy="carrierName,smdgCode"
+                    formControlName="vesselOperatorCarrierCode"
+                    placeholder="{{ 'general.carrier.select' | translate }}">
+          <ng-template let-carrier pTemplate="item">
+            <div>{{carrier.carrierName}} ({{carrier.smdgCode}})</div>
+          </ng-template>
+          <ng-template let-carrier pTemplate="selectedItem">
+            <div>{{carrier.carrierName}} ({{carrier.smdgCode}})</div>
+          </ng-template>
+        </p-dropdown>
       </div>
     </div>
 

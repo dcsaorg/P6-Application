@@ -11,6 +11,8 @@ import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 import { VesselType } from 'src/app/model/enums/vesselType';
 import { DimensionUnit } from 'src/app/model/enums/dimensionUnit';
 import { TranslateService } from '@ngx-translate/core';
+import {Observable} from 'rxjs';
+import {Carrier} from '../../model/portCall/carrier';
 
 @Component({
   selector: 'app-vessel-editor',
@@ -20,7 +22,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class VesselEditorComponent implements OnInit {
   vessel: Vessel;
   vesselFormGroup: FormGroup;
-  carriers: SelectItem[];
+  carriers$: Observable<Carrier[]>;
   vesselTypes: SelectItem[];
   dimensionUnits: SelectItem[];
   allowImoID: boolean;
@@ -52,9 +54,9 @@ export class VesselEditorComponent implements OnInit {
       dimensionUnit: new FormControl(null),
     });
 
-    this.updateCarrierOptions();
     this.updateVesselTypeOptions();
     this.updateDimensionUnitOptions();
+    this.carriers$ = this.vesselService.getCarriers();
 
     if (this.config.data) {
       this.allowImoID = false;
@@ -132,16 +134,6 @@ export class VesselEditorComponent implements OnInit {
 
   cancel(): void {
     this.ref.close(null);
-  }
-
-  private updateCarrierOptions(): void {
-    this.vesselService.getcarriers().subscribe(carriers => {
-      this.carriers = [];
-      this.carriers.push({ label: this.translate.instant('general.carrier.select'), value: null });
-      carriers.forEach(carrier => {
-        this.carriers.push({ label: carrier.carrierName + ' (' + carrier.smdgCode + ')', value: carrier.smdgCode });
-      });
-    });
   }
 
   private updateVesselTypeOptions(): void {
