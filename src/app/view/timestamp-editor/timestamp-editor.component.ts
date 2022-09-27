@@ -20,13 +20,14 @@ import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {FacilityCodeListProvider} from 'src/app/model/enums/facilityCodeListProvider';
 import {TimestampResponseStatus} from 'src/app/model/enums/timestamp-response-status';
-import {PublisherRole} from 'src/app/model/enums/publisherRole';
+import {PublisherRole, PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
-import {BehaviorSubject, Observable, take} from 'rxjs';
+import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
+import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -63,7 +64,7 @@ export class TimestampEditorComponent implements OnInit {
   delayCodes$: Observable<DelayCode[]>;
   selectedTimestampDefinition$ = new BehaviorSubject<TimestampDefinitionTO>(null);
   showVesselPosition$: Observable<boolean>;
-  selectablePublisherRoles$: Observable<PublisherRole[]>;
+  selectablePublisherRoles$: Observable<PublisherRoleDetail[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,6 +79,7 @@ export class TimestampEditorComponent implements OnInit {
     private terminalService: TerminalService,
     private vesselService: VesselService,
     private dialogService: DialogService,
+    private publisherRoleService: PublisherRoleService,
   ) {
   }
 
@@ -123,7 +125,12 @@ export class TimestampEditorComponent implements OnInit {
     );
     this.selectablePublisherRoles$ = this.selectedTimestampDefinition$.pipe(
       map(timestampDefinition => this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)),
-      tap(publisherRoles => this.updatePublisherRoleFormControl(publisherRoles)),
+      mergeMap(publisherRoles => {
+        return this.publisherRoleService.getPublisherRoleDetails().pipe(
+          map(publisherRoleDetails => publisherRoles.map(pr => publisherRoleDetails.find(prd => prd.publisherRole === pr))),
+        );
+      }),
+      tap(publisherRoleDetails => this.updatePublisherRoleFormControl(publisherRoleDetails)),
       shareReplay({
         bufferSize: 1,
         refCount: true,
@@ -224,18 +231,19 @@ export class TimestampEditorComponent implements OnInit {
     return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;
   }
 
-  private updatePublisherRoleFormControl(publisherRoles: PublisherRole[]): void {
+  private updatePublisherRoleFormControl(publisherRoleDetails: PublisherRoleDetail[]): void {
     const control = this.timestampFormGroup.controls.publisherRole;
-    const selectedPublisherRole = control.value as PublisherRole|null;
-    if (publisherRoles.length > 1) {
+    const selectedPublisherRoleDetail = control.value as PublisherRoleDetail|null;
+    if (publisherRoleDetails.length > 1) {
       control.setValidators([Validators.required]);
     } else {
       control.setValidators(null);
     }
-    if (publisherRoles.length === 1) {
+    if (publisherRoleDetails.length === 1) {
       // If there is only option, set it into the form (then the submission can just always check the form)
-      control.setValue(publisherRoles[0]);
-    } else if (!publisherRoles.find(v => v === selectedPublisherRole)) {
+      control.setValue(publisherRoleDetails[0]);
+    } else if (selectedPublisherRoleDetail
+               && !publisherRoleDetails.find(v => v.publisherRole === selectedPublisherRoleDetail.publisherRole)) {
       control.setValue(null);
     }
     control.updateValueAndValidity();
@@ -292,7 +300,7 @@ export class TimestampEditorComponent implements OnInit {
 
   private generateTimestamp(): Timestamp {
     const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value;
-    const publisherRoleSelected = this.timestampFormGroup.controls.publisherRole.value;
+    const publisherRoleSelected = this.timestampFormGroup.controls.publisherRole.value as PublisherRoleDetail;
     const terminalSelected = this.timestampFormGroup.controls.terminal.value;
     const locationName = this.timestampFormGroup.controls.locationName.value;
     const milesToDestinationPort = this.timestampFormGroup.controls.milesToDestinationPort.value;
@@ -320,7 +328,7 @@ export class TimestampEditorComponent implements OnInit {
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
     )
 
-    newTimestamp.publisherRole = publisherRoleSelected;
+    newTimestamp.publisherRole = publisherRoleSelected.publisherRole;
     newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode
     newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null

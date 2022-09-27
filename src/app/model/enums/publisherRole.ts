@@ -12,5 +12,10 @@ export enum PublisherRole {
 
   SLU = 'SLU', // Sludge service provider
   SVP = 'SVP', // Other service provider
-  MOR = 'MOR', // Moording service provider
+  MOR = 'MOR', // Mooring service provider
+}
+
+export interface PublisherRoleDetail {
+  publisherRole: PublisherRole;
+  publisherRoleName: string;
 }

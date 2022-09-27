@@ -25,10 +25,11 @@ import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
 import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
 import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
 import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
-import { PublisherRole } from 'src/app/model/enums/publisherRole';
+import {PublisherRole, PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
-import {BehaviorSubject, Observable, pipe, take} from 'rxjs';
+import {BehaviorSubject, mergeMap, Observable, pipe, take} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
+import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -48,7 +49,6 @@ export class TransportCallCreatorComponent implements OnInit {
   eventTimestampTime: string;
   timestampDefinitions: TimestampDefinitionTO[] = [];
   timestampTypes: SelectItem[] = [];
-  publisherRoles: PublisherRole[] = [];
   timestampChecking: boolean;
   locationNameLabel: string;
   delayCodes$: Observable<DelayCode[]>
@@ -57,7 +57,7 @@ export class TransportCallCreatorComponent implements OnInit {
   dateToUTC: DateToUtcPipe
   selectedTimestampDefinition$ = new BehaviorSubject<TimestampDefinitionTO>(null);
   showVesselPosition$: Observable<boolean>;
-  selectablePublisherRoles$: Observable<PublisherRole[]>;
+  selectablePublisherRoles$: Observable<PublisherRoleDetail[]>;
 
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
@@ -69,6 +69,7 @@ export class TransportCallCreatorComponent implements OnInit {
               private vesselService: VesselService,
               private timestampDefinitionService: TimestampDefinitionService,
               private timestampMappingService: TimestampMappingService,
+              private publisherRoleService: PublisherRoleService,
               private portService: PortService,
               private terminalService: TerminalService) {
   }
@@ -113,6 +114,11 @@ export class TransportCallCreatorComponent implements OnInit {
     );
     this.selectablePublisherRoles$ = this.selectedTimestampDefinition$.pipe(
       map(timestampDefinition => this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)),
+      mergeMap(publisherRoles => {
+        return this.publisherRoleService.getPublisherRoleDetails().pipe(
+          map(publisherRoleDetails => publisherRoles.map(pr => publisherRoleDetails.find(prd => prd.publisherRole === pr))),
+        );
+      }),
       tap(publisherRoles => this.updatePublisherRoleFormControl(publisherRoles)),
       shareReplay({
         bufferSize: 1,
@@ -215,18 +221,19 @@ export class TransportCallCreatorComponent implements OnInit {
     return shouldShowVesselPosition;
   }
 
-  private updatePublisherRoleFormControl(publisherRoles: PublisherRole[]): void {
+  private updatePublisherRoleFormControl(publisherRoleDetails: PublisherRoleDetail[]): void {
     const control = this.transportCallFormGroup.controls.publisherRole;
-    const selectedPublisherRole = control.value as PublisherRole|null;
-    if (publisherRoles.length > 1) {
+    const selectedPublisherRole = control.value as PublisherRoleDetail|null;
+    if (publisherRoleDetails.length > 1) {
       control.setValidators([Validators.required]);
     } else {
       control.setValidators(null);
     }
-    if (publisherRoles.length === 1) {
+    if (publisherRoleDetails.length === 1) {
       // If there is only option, set it into the form (then the submission can just always check the form)
-      control.setValue(publisherRoles[0]);
-    } else if (!publisherRoles.find(v => v === selectedPublisherRole)) {
+      control.setValue(publisherRoleDetails[0]);
+    } else if (selectedPublisherRole
+               && !publisherRoleDetails.find(v => v.publisherRole === selectedPublisherRole.publisherRole)) {
       control.setValue(null);
     }
     control.updateValueAndValidity();
@@ -368,10 +375,10 @@ export class TransportCallCreatorComponent implements OnInit {
         this.fullVesselDetails,
       )
 
-      const publisherRoleSelected = this.transportCallFormGroup.controls.publisherRole.value;
+      const publisherRoleSelected = this.transportCallFormGroup.controls.publisherRole.value as PublisherRoleDetail;
       let date = this.transportCallFormGroup.controls.eventTimestampDate.value as Date;
       let time = this.transportCallFormGroup.controls.eventTimestampTime.value;
-      timestamp.publisherRole = publisherRoleSelected ? publisherRoleSelected : this.publisherRoles[0];
+      timestamp.publisherRole = publisherRoleSelected.publisherRole;
       timestamp.publisher = this.globals.config.publisher;
       timestamp.delayReasonCode = this.transportCallFormGroup.controls.delayCode.value?.smdgCode
       timestamp.remark = this.transportCallFormGroup.controls.defaultTimestampRemark.value;
