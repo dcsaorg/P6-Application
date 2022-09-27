@@ -6,11 +6,20 @@
       <div class="vessel__content__first">
         <div class="vessel__select_modify">
           <div class="dropDownDiv">
-            <p-dropdown (onChange)="selectVessel()"
-                        [(ngModel)]="selectedVessel"
+            <p-dropdown (onChange)="selectVessel($event.value)"
+                        [ngModel]="selectedVessel"
                         [filter]="true"
+                        filterBy="vesselIMONumber,vesselName"
                         [showClear]=true
-                        [options]="vessels"></p-dropdown>
+                        [options]="(vessels$ | async) ?? []"
+                        placeholder="{{ 'general.vessel.select' | translate}}">
+              <ng-template let-vessel pTemplate="item">
+                <div>{{vessel.vesselName}} ({{vessel.vesselIMONumber}})</div>
+              </ng-template>
+              <ng-template let-vessel pTemplate="selectedItem">
+                <div>{{vessel.vesselName}} ({{vessel.vesselIMONumber}})</div>
+              </ng-template>
+            </p-dropdown>
           </div>
 
           <div class="vessel__select_modify__buttons">
@@ -22,8 +31,6 @@
                       tooltipStyleClass="ToolTipClass"></p-button>
           </div>
         </div>
-
-
       </div>
     </div>
   </p-card>
