@@ -1,7 +1,7 @@
 <div *ngIf="progressing" class="dummyContent">
   <p-progressSpinner></p-progressSpinner>
 </div>
-<p-table *ngIf="!progressing" styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedtransportCall"
+<p-table *ngIf="!progressing" styleClass="p-datatable-sm" [value]="transportCalls" [(selection)]="selectedTransportCall"
   selectionMode="single" dataKey="transportCallID" responsiveLayout="scroll" (onRowSelect)="selectTransportCall($event)"
   (onRowUnselect)="unselectTransportCall()">
   <ng-template pTemplate="caption">
@@ -28,23 +28,23 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width:10%" class="noTransparancy">{{'general.transportCall.table.vesselName.label'| translate}}</th>
-      <th style="width:10%" class="noTransparancy">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
-      <th style="width:10%" class="noTransparancy">{{'general.transportCall.table.UNLocationCode.secondLabel'| translate}}</th>
-      <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.estimatedDateofArrival.label'| translate}}</th>
-      <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.importVoyageNumber.label'| translate}}</th>
-      <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.exportVoyageNumber.label'| translate}}</th>
-      <th style="width:10%" class="noTransparancy">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
-      <th style="width:15%" class="noTransparancy">{{'general.transportCall.table.latestEventCreatedDateTime.label'| translate}}</th>
+      <th style="width:10%" class="noTransparency">{{'general.transportCall.table.vesselName.label'| translate}}</th>
+      <th style="width:10%" class="noTransparency">{{'general.transportCall.table.vesselImo.label'| translate}}</th>
+      <th style="width:10%" class="noTransparency">{{'general.transportCall.table.UNLocationCode.secondLabel'| translate}}</th>
+      <th style="width:15%" class="noTransparency">{{'general.transportCall.table.estimatedDateofArrival.label'| translate}}</th>
+      <th style="width:15%" class="noTransparency">{{'general.transportCall.table.importVoyageNumber.label'| translate}}</th>
+      <th style="width:15%" class="noTransparency">{{'general.transportCall.table.exportVoyageNumber.label'| translate}}</th>
+      <th style="width:10%" class="noTransparency">{{'general.transportCall.table.carrierServiceCode.label'| translate}}</th>
+      <th style="width:15%" class="noTransparency">{{'general.transportCall.table.latestEventCreatedDateTime.label'| translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-transportCall>
     <tr [pSelectableRow]="transportCall"
         [ngClass]="{'obsoleteTransportCall': transportCall.atdBerthDateTime != undefined || isOmitted(transportCall), 'omitted': isOmitted(transportCall)}"
     >
-      <td pTooltip="{{  transportCall.vessel | vesselTooltip: transportCall.milesToDestinationPort : transportCall.vesselDraft}}"> 
+      <td pTooltip="{{  transportCall.vessel | vesselTooltip: transportCall.milesToDestinationPort : transportCall.vesselDraft}}">
          {{transportCall.vessel.vesselName}}</td>
-      <td pTooltip="{{  transportCall.vessel | vesselTooltip: transportCall.milesToDestinationPort : transportCall.vesselDraft }}"> 
+      <td pTooltip="{{  transportCall.vessel | vesselTooltip: transportCall.milesToDestinationPort : transportCall.vesselDraft }}">
         {{transportCall.vessel.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
       <td pTooltip="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">
