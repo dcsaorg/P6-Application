@@ -14,8 +14,6 @@ import { take } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  vesselId: number;
-  vesselSavedId: number;
   portOfCall: Port;
   transportCallSelected: TransportCall;
   portCallTimeStampResponded: Timestamp;
@@ -35,16 +33,12 @@ export class DashboardComponent {
     });
   }
 
-
-  vesselChangedHandler = ($vesselId: string) => this.vesselId = parseInt($vesselId);
-  vesselSavedHandler = ($vesselSavedId: string) => this.vesselSavedId = parseInt($vesselSavedId);
-
   timestampRespondedHandler = ($portCallTimestampResponded: Timestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
 
   transportCallSelectHandler = ($transportCall: TransportCall) => {
     this.transportCallSelected = $transportCall;
-  };
+  }
 
 }
