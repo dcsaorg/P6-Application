@@ -1,17 +1,16 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { TransportCallService } from "../../controller/services/jit/transport-call.service";
-import { TransportCall } from "../../model/jit/transport-call";
-import { DialogService } from "primeng/dynamicdialog";
-import { TransportCallCreatorComponent } from "../transport-call-creator/transport-call-creator.component";
-import { TranslateService } from "@ngx-translate/core";
-import { PortService } from 'src/app/controller/services/base/port.service';
-import { TransportCallFilterService } from 'src/app/controller/services/base/transport-call-filter.service';
-import { Port } from 'src/app/model/portCall/port';
-import { take } from 'rxjs/operators';
-import { VesselService } from "../../controller/services/base/vessel.service";
-import { Vessel } from "../../model/portCall/vessel";
-import { MessageService } from "primeng/api";
-import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {TransportCallService} from "../../controller/services/jit/transport-call.service";
+import {TransportCall} from "../../model/jit/transport-call";
+import {DialogService} from "primeng/dynamicdialog";
+import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
+import {TranslateService} from "@ngx-translate/core";
+import {PortService} from 'src/app/controller/services/base/port.service';
+import {TransportCallFilterService} from 'src/app/controller/services/base/transport-call-filter.service';
+import {BehaviorSubject, combineLatest, mergeMap, Observable, take} from 'rxjs';
+import {VesselService} from "../../controller/services/base/vessel.service";
+import {MessageService} from "primeng/api";
+import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-transport-calls-table',
@@ -22,13 +21,10 @@ import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
 })
 
 export class TransportCallsTableComponent implements OnInit {
-  transportCalls: TransportCall[] = []
+  transportCalls$: Observable<TransportCall[]>;
   selectedTransportCall: TransportCall;
-  filterPort: Port;
-  filterVessel: Vessel;
-  progressing: boolean = true;
-
-  @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>()
+  refreshTrigger = new BehaviorSubject<any>(null);
+  @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>();
 
   constructor(
     private transportCallService: TransportCallService,
@@ -41,23 +37,10 @@ export class TransportCallsTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.portService.getPorts().pipe(take(1)).subscribe(async ports => {
-      await this.loadTransportCalls()
-    });
-    this.vesselService.vesselsObservable.subscribe(async () => {
-      await this.loadTransportCalls()
-    })
-    this.portFilterService.portObservable.subscribe(async port => {
-      this.filterPort = port
-      await this.refreshTransportCalls()
-    })
-    this.portFilterService.vesselObservable.subscribe(async vessel => {
-      this.filterVessel = vessel;
-      await this.refreshTransportCalls();
-    })
+    this.transportCalls$ = this.fetchTransportCalls();
   }
 
-  selectTransportCall(event) {
+  selectTransportCall(event): void {
     this.transportCallNotifier.emit(event.data);
   }
 
@@ -72,47 +55,63 @@ export class TransportCallsTableComponent implements OnInit {
     return transportCall.omitCreatedDateTime >= transportCall.latestEventCreatedDateTime;
   }
 
-  async refreshTransportCalls(): Promise<void> {
-    this.progressing = true;
-    const transportCalls = await this.loadTransportCalls();
-    if (this.selectedTransportCall && !transportCalls.some(x => x.transportCallID === this.selectedTransportCall.transportCallID)) {
-      this.transportCallNotifier.emit(null);
-    }
+  refreshTransportCalls(): void {
+    this.refreshTrigger.next(null);
   }
 
-  openCreationDialog() {
+  openCreationDialog(): void {
     const transportCallEditor = this.dialogService.open(TransportCallCreatorComponent, {
       header: this.translate.instant('general.portVisit.create'),
       width: '75%'
     });
-    transportCallEditor.onClose.subscribe(async result => {
+    transportCallEditor.onClose.pipe(take(1)).subscribe(result => {
       if (result) {
-        await this.refreshTransportCalls();
+        this.refreshTransportCalls();
       }
-    })
+    });
   }
 
-  async loadTransportCalls(): Promise<TransportCall[]> {
-    return new Promise(resolve => {
-      this.transportCallService.getTransportCalls(this.filterPort?.UNLocationCode, this.filterVessel?.vesselIMONumber).subscribe({
+  fetchTransportCalls(): Observable<TransportCall[]> {
+    // The getPortsCall ensures all ports are cached.
+    return this.portService.getPorts().pipe(
+      mergeMap(_ => {
+        return combineLatest([
+          this.portFilterService.portObservable$,
+          this.portFilterService.vesselObservable$,
+          this.vesselService.vesselsObservable$,
+          this.refreshTrigger,
+        ]);
+      }),
+      mergeMap(([
+                  filterPort,
+                  filterVessel,
+                  _a,  // Unused (used as a reload-trigger-only to refresh vessel information)
+                  _b,  // Unused (used as a reload-trigger-only - manual refresh request)
+                ]) => {
+        return this.transportCallService.getTransportCalls(filterPort?.UNLocationCode, filterVessel?.vesselIMONumber);
+      }),
+      tap({
         next: (transportCalls) => {
-          this.progressing = false;
-          this.transportCalls = transportCalls;
-          resolve(transportCalls);
+          if (this.selectedTransportCall) {
+            const id = this.selectedTransportCall.transportCallID;
+            this.selectedTransportCall = transportCalls.find(x => x.transportCallID === id) ?? null;
+            // Even if the same transport call appeared, it might have changed. Accordingly, we always
+            // notify listeners in this case.
+            this.transportCallNotifier.emit(this.selectedTransportCall);
+          }
         },
-        error: errorResponse => {
-          let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+        error: (errorResponse) => {
+          const errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
           this.messageService.add(
             {
               key: 'GenericErrorToast',
               severity: 'error',
               summary: 'Transport calls not found',
               detail: errorMessage
-            })
-          this.progressing = false;
-        }
-      })
-    })
+            });
+        }}
+      ),
+    );
   }
 
 }

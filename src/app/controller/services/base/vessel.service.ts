@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable, ReplaySubject} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
 
-import {Vessel} from "../../../model/portCall/vessel";
-import {Carrier} from "../../../model/portCall/carrier";
-import {Globals} from "../../../model/portCall/globals";
+import {Vessel} from '../../../model/portCall/vessel';
+import {Carrier} from '../../../model/portCall/carrier';
+import {Globals} from '../../../model/portCall/globals';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VesselService {
-  private vesselsDataSource = new ReplaySubject<null>()
-  vesselsObservable = this.vesselsDataSource.asObservable()
+  private vesselsDataSource = new BehaviorSubject<null>(null);
+  vesselsObservable$ = this.vesselsDataSource.asObservable();
 
   private readonly VESSEL_URL: string;
   private readonly CARRIER_URL: string;
