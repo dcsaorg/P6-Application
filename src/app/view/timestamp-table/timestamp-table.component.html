@@ -1,4 +1,4 @@
-<ng-container *ngIf="timestampInfos$ | async as timestampInfos; else loading">
+<ng-container *ngIf="transportCallSelected && timestampInfos$ | async as timestampInfos; else loading">
   <p-table [filterDelay]="0"
            [lazy]="false"
            [value]="timestampInfos"
