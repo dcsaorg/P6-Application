@@ -16,7 +16,6 @@ import { take } from 'rxjs';
 export class DashboardComponent {
   portOfCall: Port;
   transportCallSelected: TransportCall;
-  portCallTimeStampResponded: Timestamp;
 
   transportCallID: string;
   private sub: any;
@@ -32,8 +31,6 @@ export class DashboardComponent {
       });
     });
   }
-
-  timestampRespondedHandler = ($portCallTimestampResponded: Timestamp) => this.portCallTimeStampResponded = $portCallTimestampResponded;
 
   portOfCallChangedHandler = ($portOfCall: Port) => this.portOfCall = $portOfCall;
 
