@@ -57,19 +57,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.vesselService.vesselsObservable$.subscribe(() => {
-      // Triggered on vessel renames (etc.). Reload the timestamps (as each row show the vessel name)
-      this.loadTimestamps()
-    })
     this.delayCodeService.getDelayCodes().pipe(take(1)).subscribe(delayCodes => this.delayCodes = delayCodes);
     this.portCallParts$ = this.timestampDefinitionService.getPortCallParts();
-    this.loadTimestamps()
+    this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
+    this.loadTimestamps();
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
     this.loadTimestamps();
     if (this.transportCallSelected) {
-      this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
       this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(this.transportCallSelected.UNLocationCode);
     }
   }
@@ -88,8 +84,14 @@ export class TimestampTableComponent implements OnInit, OnChanges {
           this.filterTerminal$,
           this.filterNegotiationCycle$,
           this.filterPortCallPart$,
+          this.vesselService.vesselsObservable$,
       ]).pipe(
-        mergeMap(([filterTerminal, filterNegotiationCycle, portCallPart]) => {
+        mergeMap(([
+                    filterTerminal,
+                    filterNegotiationCycle,
+                    portCallPart,
+                    _vesselChangeTrigger,  // Unused; a trigger for reloading on vessel change
+        ]) => {
           return this.timestampMappingService.getPortCallTimestampsByTransportCall(
             this.transportCallSelected,
             filterTerminal,
