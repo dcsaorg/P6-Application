@@ -30,6 +30,8 @@ import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
 import {BehaviorSubject, mergeMap, Observable, pipe, take} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
+import {OperationsEventTypeCode} from '../../model/enums/operationsEventTypeCode';
+import {TimestampResponseStatus} from '../../model/enums/timestamp-response-status';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -128,8 +130,23 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   updateTimestampDefinition(): void {
-    const timestampType = this.transportCallFormGroup.controls.timestampType.value;
-    this.selectedTimestampDefinition$.next(timestampType as TimestampDefinitionTO);
+    const timestampDefinitionTO: TimestampDefinitionTO = this.transportCallFormGroup.controls.timestampType.value;
+    const eventTimestampDate = this.transportCallFormGroup.controls.eventTimestampDate;
+    const eventTimestampTime = this.transportCallFormGroup.controls.eventTimestampTime;
+    if (eventTimestampDate.pristine
+      && eventTimestampTime.pristine) {
+      if (timestampDefinitionTO.operationsEventTypeCode === OperationsEventTypeCode.CANC
+        || timestampDefinitionTO.operationsEventTypeCode === OperationsEventTypeCode.OMIT) {
+        eventTimestampDate.setValue(new Date());
+        this.setEventTimestampToNow();
+      } else {
+        eventTimestampDate.setValue(null);
+        eventTimestampTime.setValue(null);
+      }
+      eventTimestampDate.updateValueAndValidity();
+      eventTimestampTime.updateValueAndValidity();
+    }
+    this.selectedTimestampDefinition$.next(timestampDefinitionTO);
   }
 
   close() {

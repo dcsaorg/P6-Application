@@ -20,7 +20,7 @@ import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {FacilityCodeListProvider} from 'src/app/model/enums/facilityCodeListProvider';
 import {TimestampResponseStatus} from 'src/app/model/enums/timestamp-response-status';
-import {PublisherRole, PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
+import {PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
 import {VesselService} from "../../controller/services/base/vessel.service";
 import {Vessel} from "../../model/portCall/vessel";
 import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
@@ -28,6 +28,7 @@ import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
 import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
+import {OperationsEventTypeCode} from '../../model/enums/operationsEventTypeCode';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -379,7 +380,22 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   updateTimestampDefinition(): void {
-    this.selectedTimestampDefinition$.next(this.timestampTypeSelected.value as TimestampDefinitionTO);
+    const timestampDefinitionTO: TimestampDefinitionTO = this.timestampTypeSelected.value;
+    if (this.timestampResponseStatus === TimestampResponseStatus.CREATE
+        && this.eventTimestampDate.pristine
+        && this.eventTimestampTime.pristine) {
+      if (timestampDefinitionTO.operationsEventTypeCode === OperationsEventTypeCode.CANC
+          || timestampDefinitionTO.operationsEventTypeCode === OperationsEventTypeCode.OMIT) {
+        this.eventTimestampDate.setValue(new Date());
+        this.setEventTimestampToNow();
+      } else {
+        this.eventTimestampDate.setValue(null);
+        this.eventTimestampTime.setValue(null);
+      }
+      this.eventTimestampDate.updateValueAndValidity();
+      this.eventTimestampTime.updateValueAndValidity();
+    }
+    this.selectedTimestampDefinition$.next(timestampDefinitionTO);
   }
 
   defaultTerminalValue() {
