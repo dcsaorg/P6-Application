@@ -44,9 +44,6 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   filterPortCallPart$ = new BehaviorSubject<PortCallPart | null>(null);
   filterNegotiationCycle$ = new BehaviorSubject<NegotiationCycle | null>(null);
 
-  @Output('timeStampDeletedNotifier') timeStampDeletedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
-  @Output('timeStampAcceptNotifier') timeStampAcceptNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
-
   constructor(
     private delayCodeService: DelayCodeService,
     private vesselService: VesselService,

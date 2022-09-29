@@ -27,8 +27,8 @@
         <ng-template pTemplate>
           <p-card>
             <div class="main__bottom_content_pane">
-              <app-timestamp-table (timeStampAcceptNotifier)="timestampRespondedHandler($event)"
-                [TransportCallSelected]="transportCallSelected"></app-timestamp-table>
+              <app-timestamp-table [TransportCallSelected]="transportCallSelected">
+              </app-timestamp-table>
             </div>
           </p-card>
         </ng-template>
