@@ -1,26 +1,26 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Port} from "../../model/portCall/port";
-import {DelayCodeService} from "../../controller/services/base/delay-code.service";
-import {TimestampCommentDialogComponent} from "../timestamp-comment-dialog/timestamp-comment-dialog.component";
-import {DelayCode} from "../../model/portCall/delayCode";
-import {DialogService} from "primeng/dynamicdialog";
-import {filter, mergeMap, shareReplay, take, tap, toArray} from "rxjs/operators";
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/jit/transport-call";
-import {TimestampEditorComponent} from "../timestamp-editor/timestamp-editor.component";
-import {Globals} from "../../model/portCall/globals";
-import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {Port} from '../../model/portCall/port';
+import {DelayCodeService} from '../../controller/services/base/delay-code.service';
+import {TimestampCommentDialogComponent} from '../timestamp-comment-dialog/timestamp-comment-dialog.component';
+import {DelayCode} from '../../model/portCall/delayCode';
+import {DialogService} from 'primeng/dynamicdialog';
+import {filter, mergeMap, shareReplay, take, tap, toArray} from 'rxjs/operators';
+import {VesselService} from '../../controller/services/base/vessel.service';
+import {TranslateService} from '@ngx-translate/core';
+import {TransportCall} from '../../model/jit/transport-call';
+import {TimestampEditorComponent} from '../timestamp-editor/timestamp-editor.component';
+import {Globals} from '../../model/portCall/globals';
+import {TimestampMappingService} from '../../controller/services/mapping/timestamp-mapping.service';
 import {Timestamp} from 'src/app/model/jit/timestamp';
-import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
-import {TimestampInfo} from "../../model/jit/timestamp-info";
-import {PublisherRole} from "../../model/enums/publisherRole";
-import {Terminal} from "../../model/portCall/terminal";
-import {TerminalService} from "../../controller/services/base/terminal.service";
+import {NegotiationCycle} from '../../model/portCall/negotiation-cycle';
+import {TimestampInfo} from '../../model/jit/timestamp-info';
+import {PublisherRole} from '../../model/enums/publisherRole';
+import {Terminal} from '../../model/portCall/terminal';
+import {TerminalService} from '../../controller/services/base/terminal.service';
 import {TimestampResponseStatus} from 'src/app/model/enums/timestamp-response-status';
 import {TimestampDefinitionService} from 'src/app/controller/services/base/timestamp-definition.service';
 import {BehaviorSubject, combineLatest, from, Observable} from 'rxjs';
-import {PortCallPart} from "../../model/portCall/port-call-part";
+import {PortCallPart} from '../../model/portCall/port-call-part';
 
 @Component({
   selector: 'app-timestamp-table',
@@ -79,10 +79,10 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     return this.hasOverlap(
       this.globals.config.publisherRoles,
       timestampInfo.timestampDefinitionTO.publisherPattern.map(x => x.primaryReceiver)
-    )
+    );
   }
 
-  private loadTimestamps() {
+  private loadTimestamps(): void {
     if (this.transportCallSelected) {
       this.timestampInfos$ = combineLatest([
           this.filterTerminal$,
@@ -101,13 +101,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
             toArray(),
           );
         }),
-        tap(timestampInfos => this.colorizetimestampByLocation(timestampInfos)),
+        tap(timestampInfos => this.colorizeTimestampByLocation(timestampInfos)),
         tap(timestampInfos => {
           timestampInfos.forEach(timestampInfo => {
             timestampInfo.operationsEventTO.transportCall.vessel = this.transportCallSelected.vessel;
           });
         }),
-        tap(timestampInfos => this.colorizetimestampByLocation(timestampInfos)),
+        tap(timestampInfos => this.colorizeTimestampByLocation(timestampInfos)),
         shareReplay({
           bufferSize: 1,
           refCount: true,
@@ -116,7 +116,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }
   }
 
-  refreshTimestamps() {
+  refreshTimestamps(): void {
     this.loadTimestamps();
   }
 
@@ -129,7 +129,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     }
     // Avoid a strikethrough of the OMIT itself ot make it more prominent.
     return a.operationsEventTO.eventCreatedDateTime == this.transportCallSelected.omitCreatedDateTime
-      && a.operationsEventTO.operationsEventTypeCode != 'OMIT';
+      && a.operationsEventTO.operationsEventTypeCode !== 'OMIT';
   }
 
   private hasOverlap(a: PublisherRole[], b: PublisherRole[]): boolean {
@@ -150,7 +150,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
       !this.isPrimaryReceiver(timestampInfo);
   }
 
-  showComment(timestampInfo: TimestampInfo) {
+  showComment(timestampInfo: TimestampInfo): void {
     const delayCode = this.delayCodes.find((delayCode) => delayCode.smdgCode == timestampInfo.operationsEventTO.delayReasonCode, null);
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
@@ -159,7 +159,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
   }
 
-  openCreationDialog() {
+  openCreationDialog(): void {
     const timestampEditor = this.dialogService.open(TimestampEditorComponent, {
       header: this.translate.instant('general.timestamp.create.label'),
       width: '75%',
@@ -170,13 +170,13 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     });
     timestampEditor.onClose.subscribe((timestamp) => {
       if (timestamp) {
-        this.loadTimestamps()
+        this.refreshTimestamps();
       }
     });
   }
 
-  openAcceptDialog(timestamp: Timestamp) {
-    let timestampShallowClone = Object.assign({}, timestamp);
+  openAcceptDialog(timestamp: Timestamp): void {
+    const timestampShallowClone = Object.assign({}, timestamp);
     timestampShallowClone.timestampDefinitionTO = timestamp.timestampDefinitionTO.acceptTimestampDefinitionEntity;
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.
@@ -192,15 +192,15 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestampResponseStatus: TimestampResponseStatus.ACCEPT
       }
     });
-    timestampEditor.onClose.subscribe((timestamp) => {
-      if (timestamp) {
-        this.loadTimestamps()
+    timestampEditor.onClose.subscribe((ts) => {
+      if (ts) {
+        this.refreshTimestamps();
       }
     });
   }
 
-  openRejectDialog(timestamp: Timestamp) {
-    let timestampShallowClone = Object.assign({}, timestamp);
+  openRejectDialog(timestamp: Timestamp): void {
+    const timestampShallowClone = Object.assign({}, timestamp);
     timestampShallowClone.timestampDefinitionTO = timestamp.timestampDefinitionTO.rejectTimestampDefinitionEntity;
     // Avoid cloning the remark and delayReasonCode from the original sender.  It would just be confusing to them
     // so see their own comment in a reply to them.
@@ -216,9 +216,9 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestampResponseStatus: TimestampResponseStatus.REJECT
       }
     });
-    timestampEditor.onClose.subscribe((timestamp) => {
-      if (timestamp) {
-        this.loadTimestamps()
+    timestampEditor.onClose.subscribe((ts) => {
+      if (ts) {
+        this.refreshTimestamps();
       }
     });
   }
@@ -227,26 +227,29 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     Function that will colorize
     //@ToDo Move this function to postProcessing in timestampService
    */
-  private colorizetimestampByLocation(timestampInfos: TimestampInfo[]) {
-    let colourPalette: string[] = new Array("#30a584", "#f5634a", "#d00fc2", "#fad089", "#78b0ee", "#19ee79", "#d0a9ff", "#ff9d00", "#b03e3e", "#0400ff")
+  private colorizeTimestampByLocation(timestampInfos: TimestampInfo[]): void {
+    const colourPalette: string[] = ['#30a584', '#f5634a', '#d00fc2', '#fad089',
+                                     '#78b0ee', '#19ee79', '#d0a9ff', '#ff9d00',
+                                     '#b03e3e', '#0400ff',
+    ];
 
-    let portaproaches = new Map();
+    const portApproaches = new Map<string, string>();
     // extract processIDs
-    timestampInfos.forEach(function (timestampInfo) {
-      portaproaches.set(timestampInfo.operationsEventTO.facilityTypeCode, null);
+    timestampInfos.forEach((timestampInfo) => {
+      portApproaches.set(timestampInfo.operationsEventTO.facilityTypeCode, null);
     });
-    let i = 0
+    let i = 0;
     // assign color to portApproaches
-    for (let key of portaproaches.keys()) {
-      portaproaches.set(key, colourPalette[i]);
+    for (const key of portApproaches.keys()) {
+      portApproaches.set(key, colourPalette[i]);
       i++;
-      if (i == colourPalette.length) {
+      if (i === colourPalette.length) {
         i = 0;
       }
     }
-    //assign color to timestamp
-    timestampInfos.forEach(function (timestampInfo) {
-      timestampInfo.sequenceColor = portaproaches.get(timestampInfo.operationsEventTO.facilityTypeCode);
+    // assign color to timestamp
+    timestampInfos.forEach((timestampInfo) => {
+      timestampInfo.sequenceColor = portApproaches.get(timestampInfo.operationsEventTO.facilityTypeCode);
     });
 
   }
