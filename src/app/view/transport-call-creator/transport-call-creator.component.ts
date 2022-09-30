@@ -1,37 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
-import { Globals } from "../../model/portCall/globals";
-import { MessageService, SelectItem } from "primeng/api";
-import { TranslateService } from "@ngx-translate/core";
-import { Port } from "../../model/portCall/port";
-import { TransportCall } from "../../model/jit/transport-call";
-import { FacilityTypeCode } from "../../model/enums/facilityTypeCodeOPR";
-import { Terminal } from "../../model/portCall/terminal";
-import { TransportCallService } from "../../controller/services/jit/transport-call.service";
-import { DynamicDialogRef } from "primeng/dynamicdialog";
-import { FacilityCodeListProvider } from "../../model/enums/facilityCodeListProvider";
-import { VesselService } from "../../controller/services/base/vessel.service";
-import { Vessel } from "../../model/portCall/vessel";
-import { DelayCode } from "../../model/portCall/delayCode";
-import { Timestamp } from "../../model/jit/timestamp";
-import { DelayCodeService } from "../../controller/services/base/delay-code.service";
-import { TimestampMappingService } from "../../controller/services/mapping/timestamp-mapping.service";
-import { DateToUtcPipe } from "../../controller/pipes/date-to-utc.pipe";
-import { EventLocation } from "../../model/eventLocation";
-import { VesselPosition } from "../../model/vesselPosition";
-import { PortService } from 'src/app/controller/services/base/port.service';
-import { TerminalService } from 'src/app/controller/services/base/terminal.service';
-import { TimestampDefinitionTO } from "../../model/jit/timestamp-definition";
-import { TimestampDefinitionService } from "../../controller/services/base/timestamp-definition.service";
-import { EventLocationRequirement } from 'src/app/model/enums/eventLocationRequirement';
-import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
-import {PublisherRole, PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
+import {Globals} from "../../model/portCall/globals";
+import {MessageService, SelectItem} from "primeng/api";
+import {TranslateService} from "@ngx-translate/core";
+import {Port} from "../../model/portCall/port";
+import {TransportCall} from "../../model/jit/transport-call";
+import {FacilityTypeCode} from "../../model/enums/facilityTypeCodeOPR";
+import {Terminal} from "../../model/portCall/terminal";
+import {TransportCallService} from "../../controller/services/jit/transport-call.service";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {FacilityCodeListProvider} from "../../model/enums/facilityCodeListProvider";
+import {VesselService} from "../../controller/services/base/vessel.service";
+import {Vessel} from "../../model/portCall/vessel";
+import {DelayCode} from "../../model/portCall/delayCode";
+import {Timestamp} from "../../model/jit/timestamp";
+import {DelayCodeService} from "../../controller/services/base/delay-code.service";
+import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
+import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
+import {EventLocation} from "../../model/eventLocation";
+import {VesselPosition} from "../../model/vesselPosition";
+import {PortService} from 'src/app/controller/services/base/port.service';
+import {TerminalService} from 'src/app/controller/services/base/terminal.service';
+import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
+import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
+import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
+import {PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
 import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
-import {BehaviorSubject, mergeMap, Observable, pipe, take} from 'rxjs';
+import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
 import {OperationsEventTypeCode} from '../../model/enums/operationsEventTypeCode';
-import {TimestampResponseStatus} from '../../model/enums/timestamp-response-status';
+import {VesselEditorComponent} from '../vessel-editor/vessel-editor.component';
 
 @Component({
   selector: 'app-add-transport-call',
@@ -43,10 +43,10 @@ export class TransportCallCreatorComponent implements OnInit {
   portOfCall: Port;
   terminals$: Observable<Terminal[]>;
   portOfCalls$: Observable<Port[]>;
-  vesselOptions: SelectItem[] = [];
   creationProgress: boolean;
-  vessels: Vessel[] = [];
-  fullVesselDetails: Vessel;
+  vessels$: Observable<Vessel[]>;
+  selectedVessel: Vessel;     // Used for tracking the vessel drop down retains its selection (on reload)
+  fullVesselDetails: Vessel;  // Used for the actual vessel data.
   eventTimestampDate: Date;
   eventTimestampTime: string;
   timestampDefinitions: TimestampDefinitionTO[] = [];
@@ -64,6 +64,7 @@ export class TransportCallCreatorComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
               private globals: Globals,
+              private dialogService: DialogService,
               public ref: DynamicDialogRef,
               private messageService: MessageService,
               private delayCodeService: DelayCodeService,
@@ -79,7 +80,6 @@ export class TransportCallCreatorComponent implements OnInit {
   ngOnInit(): void {
     this.creationProgress = false;
     this.portOfCalls$ = this.portService.getPorts();
-    this.updateVesselOptions();
     this.delayCodes$ = this.delayCodeService.getDelayCodes();
     this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
     this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
@@ -107,6 +107,7 @@ export class TransportCallCreatorComponent implements OnInit {
       publisherRole: new FormControl(null),
       vesselDraft: new FormControl({value: null, disabled: true}, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
     });
+    this.vessels$ = this.loadVessels();
     this.showVesselPosition$ = this.selectedTimestampDefinition$.pipe(
       map(timestampDefinition => this.updateVesselPositionRequirements(timestampDefinition)),
       shareReplay({
@@ -149,6 +150,29 @@ export class TransportCallCreatorComponent implements OnInit {
     this.selectedTimestampDefinition$.next(timestampDefinitionTO);
   }
 
+  private loadVessels(): Observable<Vessel[]> {
+    return this.vesselService.getVessels().pipe(
+      // Retain the selection if it exists.  Trigger with editing the selected vessel
+      tap(vessels => this.selectedVessel = vessels.find(v => v.vesselIMONumber === this.selectedVessel?.vesselIMONumber))
+    );
+  }
+
+  editVessel(): void {
+    this.vesselService.editVessel(
+      this.fullVesselDetails,
+      (v) =>  this.dialogService.open(VesselEditorComponent, {
+        header: this.translate.instant('general.vessel.edit.header'),
+        width: '50%',
+        data: v
+      }).onClose
+    ).pipe(take(1)).subscribe(v => {
+      if (v) {
+        this.vessels$ = this.loadVessels();
+        this.setFullVesselDetails(v);
+      }
+    });
+  }
+
   close() {
     this.ref.close(null);
   }
@@ -165,22 +189,26 @@ export class TransportCallCreatorComponent implements OnInit {
     }
   }
 
-  vesselSelected() {
-    if (this.transportCallFormGroup.controls.vessel.value) {
-      this.vesselService.getVessel(this.transportCallFormGroup.controls.vessel.value.vesselIMONumber)
+  vesselSelected(): void {
+    this.selectedVessel = this.transportCallFormGroup.controls.vessel.value;
+    if (this.selectedVessel) {
+      this.vesselService.getVessel(this.selectedVessel.vesselIMONumber)
+        .pipe(take(1))
         .subscribe(vessel => {
-          this.fullVesselDetails = vessel;
-          this.updateVesselDraftOption();
-        })
+          this.setFullVesselDetails(vessel);
+        });
+    } else {
+      this.setFullVesselDetails(null);
     }
   }
 
-  hasDimensionUnit() {
-    return this?.fullVesselDetails?.dimensionUnit ?? null;
+  hasDimensionUnit(): boolean {
+    return !!this.fullVesselDetails?.dimensionUnit;
   }
 
-  updateVesselDraftOption() {
-    if (this?.fullVesselDetails?.dimensionUnit) {
+  setFullVesselDetails(vessel: Vessel | null): void {
+    this.fullVesselDetails = vessel;
+    if (this.fullVesselDetails?.dimensionUnit) {
       this.transportCallFormGroup.controls.vesselDraft.enable();
     } else {
       this.transportCallFormGroup.controls.vesselDraft.disable();
@@ -193,16 +221,6 @@ export class TransportCallCreatorComponent implements OnInit {
     this.transportCallFormGroup.controls.timestampType.setValue(null);
     this.transportCallFormGroup.controls.timestampType.updateValueAndValidity();
     this.updateTimestampTypeOptions()
-  }
-
-  private updateVesselOptions() {
-    this.vesselService.getVessels().subscribe(vessels => {
-      this.vessels = [];
-      this.vesselOptions.push({ label: this.translate.instant('general.vessel.select'), value: null });
-      vessels.forEach(vessel => {
-        this.vesselOptions.push({ label: vessel.vesselName + ' (' + vessel.vesselIMONumber + ')', value: vessel });
-      });
-    });
   }
 
   private shouldShowVesselPosition(selectedTimestamp: TimestampDefinitionTO | null): boolean {
