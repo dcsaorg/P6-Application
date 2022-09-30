@@ -1,12 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { Vessel } from '../../model/portCall/vessel';
-import { DialogService } from 'primeng/dynamicdialog';
-import { VesselEditorComponent } from '../vessel-editor/vessel-editor.component';
-import { VesselService } from '../../controller/services/base/vessel.service';
-import { TranslateService } from '@ngx-translate/core';
-import { TransportCallFilterService } from '../../controller/services/base/transport-call-filter.service';
-import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {Vessel} from '../../model/portCall/vessel';
+import {DialogService} from 'primeng/dynamicdialog';
+import {VesselEditorComponent} from '../vessel-editor/vessel-editor.component';
+import {VesselService} from '../../controller/services/base/vessel.service';
+import {TranslateService} from '@ngx-translate/core';
+import {TransportCallFilterService} from '../../controller/services/base/transport-call-filter.service';
+import {mergeMap, Observable, take} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 @Component({
@@ -47,30 +47,14 @@ export class VesselComponent implements OnInit {
 
   editVessel(): void {
     if (this.selectedVessel) {
-      const selectedVessel: Vessel = {
-        vesselIMONumber: this.selectedVessel.vesselIMONumber,
-        vesselName: this.selectedVessel.vesselName,
-        vesselFlag: this.selectedVessel.vesselFlag,
-        vesselOperatorCarrierCode: this.selectedVessel.vesselOperatorCarrierCode,
-        vesselCallSignNumber: this.selectedVessel.vesselCallSignNumber,
-        vesselOperatorCarrierCodeListProvider: this.selectedVessel.vesselOperatorCarrierCodeListProvider,
-        type: this.selectedVessel.type,
-        width: this.selectedVessel.width,
-        length: this.selectedVessel.length,
-        dimensionUnit: this.selectedVessel.dimensionUnit
-      };
-
-      const vesselEditor = this.dialogService.open(VesselEditorComponent, {
-        header: this.translate.instant('general.vessel.edit.header'),
-        width: '50%',
-        data: selectedVessel
-      });
-
-      vesselEditor.onClose.pipe(take(1)).subscribe((result: Vessel) => {
-        if (result) {
-          this.vesselService.vesselChanged(result);
-        }
-      });
+      this.vesselService.editVessel(
+        this.selectedVessel,
+        (v) =>  this.dialogService.open(VesselEditorComponent, {
+          header: this.translate.instant('general.vessel.edit.header'),
+          width: '50%',
+          data: v
+        }).onClose
+      ).pipe(take(1)).subscribe();
     }
     else {
       this.messageService.add({

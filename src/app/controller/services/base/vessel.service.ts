@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, distinctUntilChanged, Observable, of, tap} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, mergeMap, Observable, of, tap} from 'rxjs';
 
 import {Vessel} from '../../../model/portCall/vessel';
 import {Carrier} from '../../../model/portCall/carrier';
@@ -57,6 +57,30 @@ export class VesselService {
 
   vesselChanged(vessel: Vessel): void {
     this.vesselChangedSubject.next(vessel);
+  }
+
+  editVessel<T>(vessel: Vessel, asyncEditFunction: (source: Vessel) => Observable<Vessel>): Observable<Vessel> {
+    const vesselCopy: Vessel = {
+      vesselIMONumber: vessel.vesselIMONumber,
+      vesselName: vessel.vesselName,
+      vesselFlag: vessel.vesselFlag,
+      vesselOperatorCarrierCode: vessel.vesselOperatorCarrierCode,
+      vesselCallSignNumber: vessel.vesselCallSignNumber,
+      vesselOperatorCarrierCodeListProvider: vessel.vesselOperatorCarrierCodeListProvider,
+      type: vessel.type,
+      width: vessel.width,
+      length: vessel.length,
+      dimensionUnit: vessel.dimensionUnit
+    };
+
+    return of(vesselCopy).pipe(
+      mergeMap(v => asyncEditFunction(v)),
+      tap(v => {
+        if (v && v !== vessel) {
+          this.vesselChanged(v);
+        }
+      })
+    );
   }
 
   private cacheVessel(vesselObservable: Observable<Vessel>): Observable<Vessel> {
