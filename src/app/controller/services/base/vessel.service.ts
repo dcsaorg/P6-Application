@@ -10,11 +10,11 @@ import {Globals} from '../../../model/portCall/globals';
   providedIn: 'root'
 })
 export class VesselService {
-  private vesselsDataSource = new BehaviorSubject<Vessel>(null);
+  private vesselChangedSubject = new BehaviorSubject<Vessel>(null);
   // The transport-call-table needs to fetch each vessel. Cache vessels as we see them to speed that process up
   // a bit.
   private vesselCache = new Map<string, Vessel>();
-  vesselsObservable$ = this.vesselsDataSource.asObservable().pipe(
+  vesselChanged$ = this.vesselChangedSubject.asObservable().pipe(
     distinctUntilChanged()
   );
 
@@ -55,8 +55,8 @@ export class VesselService {
 
   getCarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIER_URL);
 
-  newVesselObservable(vessel: Vessel): void {
-    this.vesselsDataSource.next(vessel);
+  vesselChanged(vessel: Vessel): void {
+    this.vesselChangedSubject.next(vessel);
   }
 
   private cacheVessel(vesselObservable: Observable<Vessel>): Observable<Vessel> {
