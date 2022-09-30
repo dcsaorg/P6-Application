@@ -97,7 +97,7 @@ export class VesselEditorComponent implements OnInit {
           });
           this.vessel = vessel;
           this.ref.close(this.vessel);
-          this.vesselService.newVesselObservable(this.vessel);
+          this.vesselService.vesselChanged(this.vessel);
         },
         error: errorResponse => {
           const errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);

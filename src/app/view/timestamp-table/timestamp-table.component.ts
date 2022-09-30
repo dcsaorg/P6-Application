@@ -84,7 +84,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
           this.filterTerminal$,
           this.filterNegotiationCycle$,
           this.filterPortCallPart$,
-          this.vesselService.vesselsObservable$,
+          this.vesselService.vesselChanged$,
       ]).pipe(
         mergeMap(([
                     filterTerminal,

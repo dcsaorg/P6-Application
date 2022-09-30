@@ -18,7 +18,6 @@ import {tap} from 'rxjs/operators';
   ]
 })
 export class VesselComponent implements OnInit {
-  private refreshVessel = new BehaviorSubject<any>(null);
   vessels$: Observable<Vessel[]>;
   selectedVessel: Vessel;
 
@@ -41,7 +40,7 @@ export class VesselComponent implements OnInit {
     });
     vesselEditor.onClose.subscribe((result: Vessel) => {
       if (result) {
-        this.reloadVessels();
+        this.vesselService.vesselChanged(result);
       }
     });
   }
@@ -69,7 +68,7 @@ export class VesselComponent implements OnInit {
 
       vesselEditor.onClose.pipe(take(1)).subscribe((result: Vessel) => {
         if (result) {
-          this.reloadVessels();
+          this.vesselService.vesselChanged(result);
         }
       });
     }
@@ -87,12 +86,8 @@ export class VesselComponent implements OnInit {
     this.transportCallFilterService.updateVesselFilter(this.selectedVessel);
   }
 
-  private reloadVessels(): void {
-    this.refreshVessel.next(null);
-  }
-
   private fetchVessels(): Observable<Vessel[]> {
-    return this.refreshVessel.pipe(
+    return this.vesselService.vesselChanged$.pipe(
       mergeMap(_ => this.vesselService.getVessels()),
       tap(vessels => {
         const selectedIMONumber = this.selectedVessel?.vesselIMONumber;

@@ -78,7 +78,7 @@ export class TransportCallsTableComponent implements OnInit {
         return combineLatest([
           this.portFilterService.portObservable$,
           this.portFilterService.vesselObservable$,
-          this.vesselService.vesselsObservable$,
+          this.vesselService.vesselChanged$,
           this.refreshTrigger,
         ]);
       }),
