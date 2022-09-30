@@ -6,7 +6,7 @@
       <div class="md:col-4">
         <label class="label-compressed" for="vesselName">{{'general.transportCall.table.vesselName.label'| translate}}
           : </label>
-        <span id="vesselName"> {{transportCall.vessel.vesselName ?? "(Name not known)"}}</span>
+        <span id="vesselName">{{fullVesselDetails?.vesselName ?? "(Name not known)"}}</span>
       </div>
       <div class="md:col-4">
         <label class="label-compressed" for="portOfCall">{{'general.port.ofCall'| translate}}: </label>
@@ -19,7 +19,7 @@
       <div class="md:col-4">
         <label class="label-compressed" for="vesselIMO">{{'general.transportCall.table.vesselImo.label'| translate}}
           : </label>
-        <span id="vesselIMO"> {{transportCall.vessel.vesselIMONumber}}</span>
+        <span id="vesselIMO">{{fullVesselDetails?.vesselIMONumber}}</span>
       </div>
       <div class="md:col-4" *ngIf="respondingToTimestampInfo != null">
         <!-- Placeholder for additional information when rejecting timestamp -->
@@ -245,6 +245,11 @@
     </p-button>
     <p-button *ngIf="globals.config.enableShowTimestampsAsJSON === true" (onClick)="showJSON()" class="footer_option__buttons" icon="pi pi-times-circle"
               [disabled]="timestampFormGroup.invalid" label="{{'general.showAsJson.label' | translate}}" iconPos="left">
+    </p-button>
+    <p-button (onClick)="editVessel()" class="p-button-raised p-button-rounded"
+              [disabled]="!fullVesselDetails"
+              label="{{ 'general.vessel.edit.label' | translate }}"
+              type="button">
     </p-button>
     <p-button class="footer_option__buttons" appDebounceClick (debounceClick)="saveTimestamp()" [debounceTime]="200"
       [disabled]="timestampFormGroup.invalid" icon="pi pi-save" label="{{createButtonText()| translate}}"

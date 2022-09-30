@@ -67,14 +67,27 @@
     <!-- Vessel -->
     <div class="md:col-6">
       <label for="vessels">{{ 'general.vessel.label' | translate }}:</label>
-      <p-dropdown appendTo="body" formControlName="vessel" id="vessels" [options]="vesselOptions" [filter]="true"
-        filterBy="label,value.name" (onChange)="vesselSelected()" >
+      <p-dropdown appendTo="body"
+                  formControlName="vessel"
+                  id="vessels"
+                  [options]="vessels$ | async"
+                  [ngModel]="selectedVessel"
+                  [filter]="true"
+                  filterBy="vesselIMONumber,vesselName"
+                  (onChange)="vesselSelected()"
+                  placeholder="{{ 'general.vessel.select' | translate }}">
+        <ng-template let-vessel pTemplate="item">
+          <div>{{vessel.vesselName}} ({{vessel.vesselIMONumber}})</div>
+        </ng-template>
+        <ng-template let-vessel pTemplate="selectedItem">
+          <div>{{vessel.vesselName}} ({{vessel.vesselIMONumber}})</div>
+        </ng-template>
       </p-dropdown>
-      <span
-        *ngIf="transportCallFormGroup.get('vessel').hasError('required') && transportCallFormGroup.get('vessel').touched"
-        class="p-invalid">
-        {{ 'general.transportCall.validation.vessel.noVesselSelected' | translate }}
-      </span>
+      <ng-container *ngIf="transportCallFormGroup.get('vessel') as vesselControl">
+        <span *ngIf="vesselControl.pristine && vesselControl.hasError('required')" class="p-invalid">
+          {{ 'general.transportCall.validation.vessel.noVesselSelected' | translate }}
+        </span>
+      </ng-container>
     </div>
   </div>
 
@@ -301,6 +314,12 @@
     <div class="col-4 footer_option" style="justify-content: flex-end">
       <p-button class="footer_option__buttons" icon="pi pi-times-circle" (onClick)="close()"
         label="{{'general.close.label' | translate}}" iconPos="left">
+      </p-button>
+      <p-button [hidden]="!shouldCreateTimestamp()"
+                [disabled]="!fullVesselDetails"
+                (onClick)="editVessel()" class="p-button-raised p-button-rounded"
+                label="{{ 'general.vessel.edit.label' | translate }}"
+                type="button">
       </p-button>
       <p-button label="{{ createButtonText() | translate }}" iconPos="left" class="footer_option__buttons"
         icon="pi pi-save" appDebounceClick (debounceClick)="saveNewTransportCall()" [debounceTime]="200"

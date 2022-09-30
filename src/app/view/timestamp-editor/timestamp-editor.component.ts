@@ -29,6 +29,7 @@ import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
 import {OperationsEventTypeCode} from '../../model/enums/operationsEventTypeCode';
+import {VesselEditorComponent} from '../vessel-editor/vessel-editor.component';
 
 @Component({
   selector: 'app-timestamp-editor',
@@ -93,10 +94,10 @@ export class TimestampEditorComponent implements OnInit {
     this.respondingToTimestampInfo = this.config.data.respondingToTimestamp;
 
     this.vesselService.getVessel(this.transportCall.vessel.vesselIMONumber)
+      .pipe(take(1))
       .subscribe(vessel => {
-        this.fullVesselDetails = vessel
-        this.updateVesselDraftOption();
-      })
+        this.setFullVesselDetails(vessel);
+      });
 
     this.timestampFormGroup = this.formBuilder.group({
       vesselPositionLongitude: new FormControl(null),
@@ -408,6 +409,21 @@ export class TimestampEditorComponent implements OnInit {
     }
   }
 
+  editVessel(): void {
+    this.vesselService.editVessel(
+      this.fullVesselDetails,
+      (v) =>  this.dialogService.open(VesselEditorComponent, {
+        header: this.translate.instant('general.vessel.edit.header'),
+        width: '50%',
+        data: v
+      }).onClose
+    ).pipe(take(1)).subscribe(v => {
+      if (v) {
+        this.setFullVesselDetails(v);
+      }
+    });
+  }
+
   close() {
     this.ref.close(null);
   }
@@ -425,12 +441,13 @@ export class TimestampEditorComponent implements OnInit {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
 
-  hasDimensionUnit() {
-    return this?.fullVesselDetails?.dimensionUnit ?? null;
+  hasDimensionUnit(): boolean {
+    return !!this.fullVesselDetails?.dimensionUnit;
   }
 
-  updateVesselDraftOption() {
-    if (this?.fullVesselDetails?.dimensionUnit) {
+  setFullVesselDetails(vessel: Vessel): void {
+    this.fullVesselDetails = vessel;
+    if (this.fullVesselDetails?.dimensionUnit) {
       this.timestampFormGroup.controls.vesselDraft.enable();
     } else {
       this.timestampFormGroup.controls.vesselDraft.disable();
