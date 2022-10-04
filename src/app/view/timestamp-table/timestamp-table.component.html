@@ -47,9 +47,9 @@
                       [(ngModel)]="selectedPortCallPart"
                       [options]="portCallParts$ | async"
                       [filter]=true
-                      filterBy="name"
+                      filterBy="portCallPart"
                       appendTo="body"
-                      optionLabel="name"
+                      optionLabel="portCallPart"
                       [showClear]=true
                       (onChange)="filterPortCallPartChange($event)"
                       placeholder="{{ 'general.portCallParts.select' | translate }}">

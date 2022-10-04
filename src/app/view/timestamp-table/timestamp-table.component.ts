@@ -99,7 +99,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
           ).pipe(
             // Port Call Part is a bit annoying because we have to flatten, filter and then recreate the list
             mergeMap(timestampInfos => from(timestampInfos)),
-            filter(timestampInfo => !portCallPart || portCallPart.name === timestampInfo.timestampDefinitionTO.portCallPart),
+            filter(timestampInfo => !portCallPart || portCallPart.portCallPart === timestampInfo.timestampDefinitionTO.portCallPart),
             toArray(),
           );
         }),

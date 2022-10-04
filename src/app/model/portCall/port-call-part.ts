@@ -1,3 +1,3 @@
 export interface PortCallPart {
-  name: string;
+  portCallPart: string;
 }

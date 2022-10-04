@@ -1,30 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { Observable, of } from "rxjs";
-import { Globals } from "../../../model/portCall/globals";
-import { TimestampDefinitionTO } from "../../../model/jit/timestamp-definition";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Globals } from '../../../model/portCall/globals';
+import { TimestampDefinitionTO } from '../../../model/jit/timestamp-definition';
 import { map, shareReplay } from 'rxjs/operators';
 import { NegotiationCycle } from 'src/app/model/portCall/negotiation-cycle';
-import {PortCallPart} from "../../../model/portCall/port-call-part";
+import {PortCallPart} from '../../../model/portCall/port-call-part';
 
 function asMap(timestampDefinitions: TimestampDefinitionTO[]): Map<string, TimestampDefinitionTO> {
-  let map = new Map<string, TimestampDefinitionTO>()
-  for (let timestampDefinitionTO of timestampDefinitions) {
-    map.set(timestampDefinitionTO.id, timestampDefinitionTO);
+  const tsMap = new Map<string, TimestampDefinitionTO>();
+  for (const timestampDefinitionTO of timestampDefinitions) {
+    tsMap.set(timestampDefinitionTO.id, timestampDefinitionTO);
   }
-  return map;
+  return tsMap;
 }
 
 function negotiationCycleComparator(a: NegotiationCycle, b: NegotiationCycle): number {
-  const ao = a.displayOrder ?? 999
-  const bo = b.displayOrder ?? 999
+  const ao = a.displayOrder ?? 999;
+  const bo = b.displayOrder ?? 999;
   if (ao > bo) {
-    return 1
+    return 1;
   }
-  if (ao == bo) {
-    return 0
+  if (ao === bo) {
+    return 0;
   }
-  return -1
+  return -1;
 }
 
 @Injectable({
@@ -32,6 +32,7 @@ function negotiationCycleComparator(a: NegotiationCycle, b: NegotiationCycle): n
 })
 export class TimestampDefinitionService {
   private readonly TIMESTAMP_DEFINITION_BACKEND: string;
+  private readonly PORT_CALL_PART_BACKEND: string;
   // the timestamps are not likely to change during a work session.
   private negotiationCyclesCache$: Observable<NegotiationCycle[]>;
   private portCallPartCache$: Observable<PortCallPart[]>;
@@ -41,6 +42,7 @@ export class TimestampDefinitionService {
   constructor(private httpClient: HttpClient,
               private globals: Globals) {
     this.TIMESTAMP_DEFINITION_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/timestamp-definitions';
+    this.PORT_CALL_PART_BACKEND = globals.config.uiSupportBackendURL + '/unofficial/port-call-parts';
   }
 
   getTimestampDefinitions(): Observable<TimestampDefinitionTO[]> {
@@ -48,14 +50,14 @@ export class TimestampDefinitionService {
       this.definitionCache$ = this.httpClient.get<TimestampDefinitionTO[]>(this.TIMESTAMP_DEFINITION_BACKEND)
         .pipe(
           map(definitions => {
-            let table = asMap(definitions);
+            const table = asMap(definitions);
             // Set up links between "timestampDefinitionTO"s.
-            for (let timestampDefinitionTO of definitions) {
+            for (const timestampDefinitionTO of definitions) {
               if (timestampDefinitionTO.acceptTimestampDefinition) {
-                timestampDefinitionTO.acceptTimestampDefinitionEntity = table.get(timestampDefinitionTO.acceptTimestampDefinition)
+                timestampDefinitionTO.acceptTimestampDefinitionEntity = table.get(timestampDefinitionTO.acceptTimestampDefinition);
               }
               if (timestampDefinitionTO.rejectTimestampDefinition) {
-                timestampDefinitionTO.rejectTimestampDefinitionEntity = table.get(timestampDefinitionTO.rejectTimestampDefinition)
+                timestampDefinitionTO.rejectTimestampDefinitionEntity = table.get(timestampDefinitionTO.rejectTimestampDefinition);
               }
             }
             return definitions;
@@ -64,7 +66,7 @@ export class TimestampDefinitionService {
             bufferSize: 1,
             refCount: true,
           })
-        ) as Observable<TimestampDefinitionTO[]>;
+        );
     }
     return this.definitionCache$;
   }
@@ -73,42 +75,29 @@ export class TimestampDefinitionService {
     if (!this.negotiationCyclesCache$) {
       this.negotiationCyclesCache$ = this.getTimestampDefinitions().pipe(
         map(timestampDefinitions => {
-          let uniqueNegotiationCycles: NegotiationCycle[] = [];
+          const uniqueNegotiationCycles: NegotiationCycle[] = [];
           timestampDefinitions.forEach(timestampDefinitionTO => {
             if (uniqueNegotiationCycles.find(ng => ng.cycleKey === timestampDefinitionTO.negotiationCycle.cycleKey)) {
               return;
             } else {
-              uniqueNegotiationCycles.push(timestampDefinitionTO.negotiationCycle)
+              uniqueNegotiationCycles.push(timestampDefinitionTO.negotiationCycle);
             }
-          })
-          uniqueNegotiationCycles.sort(negotiationCycleComparator)
-          return uniqueNegotiationCycles
+          });
+          uniqueNegotiationCycles.sort(negotiationCycleComparator);
+          return uniqueNegotiationCycles;
         }),
         shareReplay({
           bufferSize: 1,
           refCount: true,
         })
-      ) as Observable<NegotiationCycle[]>
+      );
     }
     return this.negotiationCyclesCache$;
   }
 
   getPortCallParts(): Observable<PortCallPart[]> {
     if (!this.portCallPartCache$) {
-      this.portCallPartCache$ = this.getTimestampDefinitions().pipe(
-        map(timestampDefinitions => {
-          const uniquePortCallParts = new Set<string>();
-          for (const timestampDefinition of timestampDefinitions) {
-            uniquePortCallParts.add(timestampDefinition.portCallPart);
-          }
-          const portCallParts = Array.from(uniquePortCallParts.values());
-          portCallParts.sort();
-          return portCallParts.map(n => {
-            return {
-              name: n
-            };
-          });
-        }),
+      this.portCallPartCache$ = this.httpClient.get<PortCallPart[]>(this.PORT_CALL_PART_BACKEND).pipe(
         shareReplay({
           bufferSize: 1,
           refCount: true,
@@ -128,7 +117,7 @@ export class TimestampDefinitionService {
           bufferSize: 1,
           refCount: true,
         })
-      ) as Observable<Map<string, TimestampDefinitionTO>>;
+      );
     }
     return this.definitionMapCache$;
   }
