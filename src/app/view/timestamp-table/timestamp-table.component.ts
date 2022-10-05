@@ -157,8 +157,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
     this.dialogService.open(TimestampCommentDialogComponent, {
       header: this.translate.instant('general.comment.header'),
       width: '50%', data: { timestampInfo: timestampInfo, delayCode: delayCode }
-    }).onClose.subscribe((_) => {
-    });
+    }).onClose.pipe(take(1)).subscribe();
   }
 
   openCreationDialog(): void {
@@ -170,11 +169,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestampResponseStatus: TimestampResponseStatus.CREATE
       }
     });
-    timestampEditor.onClose.subscribe((timestamp) => {
-      if (timestamp) {
-        this.refreshTimestamps();
-      }
-    });
+    // This will in directly trigger a refresh if necessary via the transport-call-table reloading the transport call.
+    timestampEditor.onClose.pipe(take(1)).subscribe();
   }
 
   openAcceptDialog(timestamp: Timestamp): void {
@@ -194,11 +190,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestampResponseStatus: TimestampResponseStatus.ACCEPT
       }
     });
-    timestampEditor.onClose.subscribe((ts) => {
-      if (ts) {
-        this.refreshTimestamps();
-      }
-    });
+    // This will in directly trigger a refresh if necessary via the transport-call-table reloading the transport call.
+    timestampEditor.onClose.pipe(take(1)).subscribe();
   }
 
   openRejectDialog(timestamp: Timestamp): void {
@@ -218,11 +211,8 @@ export class TimestampTableComponent implements OnInit, OnChanges {
         timestampResponseStatus: TimestampResponseStatus.REJECT
       }
     });
-    timestampEditor.onClose.subscribe((ts) => {
-      if (ts) {
-        this.refreshTimestamps();
-      }
-    });
+    // This will in directly trigger a refresh if necessary via the transport-call-table reloading the transport call.
+    timestampEditor.onClose.pipe(take(1)).subscribe();
   }
 
   /*

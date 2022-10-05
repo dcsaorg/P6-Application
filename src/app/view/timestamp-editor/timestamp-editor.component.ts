@@ -43,7 +43,7 @@ export class TimestampEditorComponent implements OnInit {
   @Input('portOfCall') portOfCall: Port;
   @Input('TransportCallSelected') transportCallSelected: TransportCall;
 
-  @Output('timeStampAddedNotifier') timeStampAddedNotifier: EventEmitter<Timestamp> = new EventEmitter<Timestamp>()
+  @Output() onTimestampCreation: EventEmitter<Timestamp> = new EventEmitter<Timestamp>();
 
   timestampFormGroup: FormGroup;
   timestamps: Timestamp[];
