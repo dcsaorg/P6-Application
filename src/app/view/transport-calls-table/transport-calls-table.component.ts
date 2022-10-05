@@ -1,16 +1,17 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {TransportCallService} from "../../controller/services/jit/transport-call.service";
-import {TransportCall} from "../../model/jit/transport-call";
-import {DialogService} from "primeng/dynamicdialog";
-import {TransportCallCreatorComponent} from "../transport-call-creator/transport-call-creator.component";
-import {TranslateService} from "@ngx-translate/core";
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {TransportCallService} from '../../controller/services/jit/transport-call.service';
+import {TransportCall} from '../../model/jit/transport-call';
+import {DialogService} from 'primeng/dynamicdialog';
+import {TransportCallCreatorComponent} from '../transport-call-creator/transport-call-creator.component';
+import {TranslateService} from '@ngx-translate/core';
 import {PortService} from 'src/app/controller/services/base/port.service';
 import {TransportCallFilterService} from 'src/app/controller/services/base/transport-call-filter.service';
-import {BehaviorSubject, combineLatest, debounce, interval, mergeMap, Observable, take} from 'rxjs';
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {MessageService} from "primeng/api";
+import {BehaviorSubject, combineLatest, debounce, interval, mergeMap, Observable, Subject, take, takeUntil} from 'rxjs';
+import {VesselService} from '../../controller/services/base/vessel.service';
+import {MessageService} from 'primeng/api';
 import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
-import {tap} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
+import {TimestampService} from '../../controller/services/jit/timestamps.service';
 
 @Component({
   selector: 'app-transport-calls-table',
@@ -20,11 +21,12 @@ import {tap} from 'rxjs/operators';
     DialogService]
 })
 
-export class TransportCallsTableComponent implements OnInit {
+export class TransportCallsTableComponent implements OnInit, OnDestroy {
   transportCalls$: Observable<TransportCall[]>;
   selectedTransportCall: TransportCall;
   refreshTrigger = new BehaviorSubject<any>(null);
   @Output() transportCallNotifier: EventEmitter<TransportCall> = new EventEmitter<TransportCall>();
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private transportCallService: TransportCallService,
@@ -33,11 +35,17 @@ export class TransportCallsTableComponent implements OnInit {
     private vesselService: VesselService,
     private portFilterService: TransportCallFilterService,
     private portService: PortService,
+    private timestampService: TimestampService,
     private translate: TranslateService) {
   }
 
   ngOnInit(): void {
     this.transportCalls$ = this.fetchTransportCalls();
+    this.timestampService.newTimestampNotifier$.pipe(
+      takeUntil(this.unsubscribe$),
+      filter(_ => !!this.selectedTransportCall),
+      tap(_ => this.refreshTransportCalls()),
+    ).subscribe();
   }
 
   selectTransportCall(event): void {
@@ -113,6 +121,11 @@ export class TransportCallsTableComponent implements OnInit {
         }}
       ),
     );
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 }
