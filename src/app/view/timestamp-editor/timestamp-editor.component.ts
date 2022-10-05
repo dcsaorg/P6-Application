@@ -87,17 +87,10 @@ export class TimestampEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.delayCodes$ = this.delayCodeService.getDelayCodes();
-
     this.transportCall = this.config.data.transportCall;
     this.timestampResponseStatus = this.config.data.timestampResponseStatus;
     this.responseTimestampDefinitionTO = this.config.data.responseTimestampDefinitionTO;
     this.respondingToTimestampInfo = this.config.data.respondingToTimestamp;
-
-    this.vesselService.getVessel(this.transportCall.vessel.vesselIMONumber)
-      .pipe(take(1))
-      .subscribe(vessel => {
-        this.setFullVesselDetails(vessel);
-      });
 
     this.timestampFormGroup = this.formBuilder.group({
       vesselPositionLongitude: new FormControl(null),
@@ -113,6 +106,11 @@ export class TimestampEditorComponent implements OnInit {
       publisherRole: new FormControl(null),
       vesselDraft: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
     });
+
+    this.vesselService.getVessel(this.transportCall.vessel.vesselIMONumber)
+      .pipe(take(1))
+      .subscribe(vessel => this.setFullVesselDetails(vessel));
+
     this.timestampTypeSelected = this.timestampFormGroup.controls.timestampType;
     this.eventTimestampDate = this.timestampFormGroup.controls.eventTimestampDate;
     this.eventTimestampTime = this.timestampFormGroup.controls.eventTimestampTime;
