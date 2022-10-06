@@ -21,7 +21,7 @@
     "@angular/platform-browser": "13.3.11",
     "@angular/platform-browser-dynamic": "13.3.11",
     "@angular/router": "13.3.11",
-    "@aws-amplify/ui-angular": "1.0.35",
+    "@aws-amplify/ui-angular": "2.4.23",
     "@ngx-translate/core": "13.0.0",
     "@ngx-translate/http-loader": "6.0.0",
     "aws-amplify": "4.3.26",
