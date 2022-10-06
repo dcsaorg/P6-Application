@@ -68,11 +68,21 @@
 
       </p-dropdown>
     </div>
-    <div>
-      <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
-      <p-dropdown id="timestampType" styleClass="dropdown" formControlName="timestampType" [options]="timestampTypes"
-        [filter]=true filterBy="label" appendTo="body" (onChange)="updateTimestampDefinition();"></p-dropdown>
-    </div>
+    <ng-container *ngIf="timestampDefinitions$ | async as timestampDefinitions">
+      <div>
+        <label for="timestampType">{{ 'general.table.header.timestamp.label' | translate }}: </label>
+        <p-dropdown id="timestampType"
+                    styleClass="dropdown"
+                    formControlName="timestampType"
+                    [options]="timestampDefinitions"
+                    [filter]=true
+                    filterBy="timestampTypeName"
+                    optionLabel="timestampTypeName"
+                    appendTo="body"
+                    (onChange)="updateTimestampDefinition();"
+                    placeholder="{{ 'general.timestamp.select' | translate }}"></p-dropdown>
+      </div>
+    </ng-container>
   </div>
 
   <ng-container *ngIf="selectablePublisherRoles$ | async as publisherRoles">
@@ -116,17 +126,18 @@
 
   <div class="md:col-6" [hidden]="!showTerminalOption()">
     <label for="terminalSelected">{{ 'general.terminal.label' | translate }}: </label>
-    <p-dropdown id="terminalSelected" styleClass="dropdown" formControlName="terminal" [options]="terminalOptions"
-      [filter]=true filterBy="label,value.facilityName" appendTo="body">
+    <p-dropdown id="terminalSelected"
+                styleClass="dropdown"
+                formControlName="terminal"
+                [options]="terminals"
+                [filter]=true
+                optionLabel="facilitySMDGCode"
+                filterBy="facilitySMDGCode,facilityName"
+                appendTo="body"
+                placeholder="{{ 'general.terminal.select' | translate }}">
       <ng-template let-terminal pTemplate="item">
-        <div *ngIf="!terminal.value">
-          <div>Select Terminal</div>
-        </div>
-        <div *ngIf="terminal.value">
-          <div>{{terminal.value.facilitySMDGCode}}</div>
-          <div class="portListName">{{terminal.value.facilityName}}</div>
-        </div>
-      </ng-template>
+        <div>{{terminal.facilitySMDGCode}}</div>
+        <div class="portListName">{{terminal.facilityName}}</div>      </ng-template>
     </p-dropdown>
     <span *ngIf="timestampFormGroup.get('terminal').hasError('required')
     && timestampFormGroup.get('terminal').touched" class="p-invalid">

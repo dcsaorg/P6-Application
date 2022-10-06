@@ -1,13 +1,13 @@
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 import {TimestampInfo} from '../../model/jit/timestamp-info';
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MessageService, SelectItem} from 'primeng/api';
 import {Port} from '../../model/portCall/port';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {DelayCode} from '../../model/portCall/delayCode';
 import {DateToUtcPipe} from '../../controller/pipes/date-to-utc.pipe';
 import {DelayCodeService} from '../../controller/services/base/delay-code.service';
-import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 import {TransportCall} from '../../model/jit/transport-call';
 import {TimestampMappingService} from '../../controller/services/mapping/timestamp-mapping.service';
 import {Timestamp} from '../../model/jit/timestamp';
@@ -26,13 +26,15 @@ import {Vessel} from '../../model/portCall/vessel';
 import {ShowTimestampAsJsonDialogComponent} from '../show-json-dialog/show-timestamp-as-json-dialog.component';
 import {NegotiationCycle} from '../../model/portCall/negotiation-cycle';
 import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
-import {map, shareReplay, tap} from 'rxjs/operators';
+import {filter, map, shareReplay, tap, toArray} from 'rxjs/operators';
 import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
 import {OperationsEventTypeCode} from '../../model/enums/operationsEventTypeCode';
 import {VesselEditorComponent} from '../vessel-editor/vessel-editor.component';
+import { Terminal } from 'src/app/model/portCall/terminal';
 
 @Component({
   selector: 'app-timestamp-editor',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './timestamp-editor.component.html',
   styleUrls: ['./timestamp-editor.component.scss'],
   providers: [
@@ -53,11 +55,10 @@ export class TimestampEditorComponent implements OnInit {
   creationProgress = false;
   locationNameLabel: string;
   transportCall: TransportCall;
-  timestampDefinitions: TimestampDefinitionTO[] = [];
-  timestampTypes: SelectItem[] = [];
-  terminalOptions: SelectItem[] = [];
+  timestampDefinitions$: Observable<TimestampDefinitionTO[]>;
+  terminals: Terminal[] = [];
   negotiationCycles$: Observable<NegotiationCycle[]>;
-  selectedNegotiationCycle: NegotiationCycle = null;
+  selectedNegotiationCycle$ = new BehaviorSubject<NegotiationCycle|null>(null);
   timestampResponseStatus: TimestampResponseStatus;
   responseTimestampDefinitionTO: TimestampDefinitionTO;
   respondingToTimestampInfo: TimestampInfo;
@@ -141,16 +142,25 @@ export class TimestampEditorComponent implements OnInit {
     );
   }
 
+  private fetchTimestampDefinitions(): Observable<TimestampDefinitionTO[]> {
+    const timestampDefinitions$ = this.timestampDefinitionService.getTimestampDefinitions();
+    return this.selectedNegotiationCycle$.pipe(
+      mergeMap(negotiationCycle => timestampDefinitions$.pipe(
+        // Flattens the list to a one-by-one pipe
+        mergeMap(t => t),
+        // Ignore the implicit versions that have an explicit version.
+        filter(ts => !ts.implicitVariantOf),
+        filter(ts => !negotiationCycle || ts.negotiationCycle.cycleKey === negotiationCycle.cycleKey),
+        filter(ts => ts.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))),
+        toArray(),
+      ))
+    );
+  }
+
   determineTimestampResponseStatus(): void {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
       this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
-      this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
-        this.timestampDefinitions = timestampDefinitions;
-        this.updateTimestampTypeOptions();
-      });
-      this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        this.updateTimestampTypeOptions();
-      });
+      this.timestampDefinitions$ = this.fetchTimestampDefinitions();
     } else if (this.timestampResponseStatus === TimestampResponseStatus.REJECT) {
       this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
       this.timestampTypeSelected.setValidators(null);
@@ -210,28 +220,34 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   showLocationNameOption(): boolean {
-    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(this.timestampTypeSelected.value);
-    if (this.timestampTypeSelected?.value?.eventLocationRequirement == EventLocationRequirement.REQUIRED) {
-      this.timestampFormGroup.controls.locationName.setValidators([Validators.required]);
-    } else {
-      this.timestampFormGroup.controls.locationName.setValidators(null);
-    }
-    this.timestampFormGroup.controls.locationName.updateValueAndValidity();
     return this.locationNameLabel !== undefined;
   }
 
   showTerminalOption(): boolean {
-    let validator = null;
-    if (this.timestampTypeSelected?.value?.isTerminalNeeded) {
-      validator = [Validators.required];
-    }
-    this.timestampFormGroup.controls.terminal.setValidators(validator);
-    this.timestampFormGroup.controls.terminal.updateValueAndValidity();
     return this.timestampTypeSelected?.value?.isTerminalNeeded;
   }
 
   showMilesToDestinationPortOption(): boolean {
     return this.timestampTypeSelected?.value?.isMilesToDestinationRelevant ?? false;
+  }
+
+  private updateLocationNameRequirement(selectedTimestamp: TimestampDefinitionTO|null): void {
+    this.locationNameLabel = this.timestampMappingService.getLocationNameOptionLabel(selectedTimestamp);
+    if (selectedTimestamp.eventLocationRequirement === EventLocationRequirement.REQUIRED) {
+      this.timestampFormGroup.controls.locationName.setValidators([Validators.required]);
+    } else {
+      this.timestampFormGroup.controls.locationName.setValidators(null);
+    }
+    this.timestampFormGroup.controls.locationName.updateValueAndValidity();
+  }
+
+  private updateTerminalRequirement(selectedTimestamp: TimestampDefinitionTO|null): void {
+    let validator = null;
+    if (selectedTimestamp?.isTerminalNeeded) {
+      validator = [Validators.required];
+    }
+    this.timestampFormGroup.controls.terminal.setValidators(validator);
+    this.timestampFormGroup.controls.terminal.updateValueAndValidity();
   }
 
   private updatePublisherRoleFormControl(publisherRoleDetails: PublisherRoleDetail[]): void {
@@ -295,10 +311,10 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   onSelectedNegotiationCycle(event): void {
-    this.selectedNegotiationCycle = event.value;
+    const negotiationCycle: NegotiationCycle = event.value;
     this.timestampTypeSelected.setValue(null);
     this.timestampTypeSelected.updateValueAndValidity();
-    this.updateTimestampTypeOptions();
+    this.selectedNegotiationCycle$.next(negotiationCycle);
   }
 
   private generateTimestamp(): Timestamp {
@@ -352,33 +368,11 @@ export class TimestampEditorComponent implements OnInit {
     return newTimestamp;
   }
 
-  private updateTimestampTypeOptions(): void {
-    this.timestampTypes = [];
-    this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
-    for (const timestampDef of this.timestampDefinitions) {
-      if (timestampDef.implicitVariantOf) {
-        // Ignore the implicit versions that have an explicit version.
-        continue;
-      }
-      if (this.selectedNegotiationCycle && timestampDef.negotiationCycle.cycleKey != this.selectedNegotiationCycle.cycleKey) {
-        continue;
-      }
-      if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) {
-        continue;
-      }
-      this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef });
-    }
-  }
-
   private updateTerminalOptions(UNLocationCode: string): void {
-    this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).subscribe(terminals => {
-      this.terminalOptions = [];
-      this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
-      terminals.forEach(terminal => {
-        this.terminalOptions.push({ label: terminal.facilitySMDGCode, value: terminal });
-      });
+    this.terminalService.getTerminalsByUNLocationCode(UNLocationCode).pipe(take(1)).subscribe(terminals => {
+      this.terminals = terminals;
       this.defaultTerminalValue();
-    })
+    });
   }
 
   updateTimestampDefinition(): void {
@@ -397,16 +391,19 @@ export class TimestampEditorComponent implements OnInit {
       this.eventTimestampDate.updateValueAndValidity();
       this.eventTimestampTime.updateValueAndValidity();
     }
+
+    this.updateLocationNameRequirement(timestampDefinitionTO);
+    this.updateTerminalRequirement(timestampDefinitionTO);
     this.selectedTimestampDefinition$.next(timestampDefinitionTO);
   }
 
   defaultTerminalValue(): void {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
       this.timestampFormGroup.controls.terminal.setValue(
-        this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
+        this.terminals.find(terminal => terminal?.facilitySMDGCode === this.transportCall?.facilityCode) ?? null);
     } else {
       this.timestampFormGroup.controls.terminal.setValue(
-        this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.respondingToTimestampInfo.operationsEventTO?.eventLocation?.facilityCode)?.value ?? null);
+        this.terminals.find(terminal => terminal?.facilitySMDGCode === this.respondingToTimestampInfo.operationsEventTO?.eventLocation?.facilityCode) ?? null);
     }
   }
 
