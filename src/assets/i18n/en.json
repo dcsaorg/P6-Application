@@ -323,7 +323,7 @@
     "transportCall": {
       "add": "Add a new Transport Call",
       "create": "Create Transport Call",
-      "createWithTimestamp": "Create Transport Call + Timestamp",
+      "proceedToTimestampCreation": "Next",
       "label": "Transport Call",
       "table": {
         "id": "id",
@@ -540,7 +540,7 @@
     "portVisit": {
       "add": "Add a new Port Visit",
       "create": "Create Port Visit",
-      "createWithTimestamp": "Create Port Visit + Timestamp",
+      "proceedToTimestampCreation": "Next",
       "label": "Port Visits",
       "table": {
         "create": {
