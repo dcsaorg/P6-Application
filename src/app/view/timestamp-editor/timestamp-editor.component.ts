@@ -67,6 +67,7 @@ export class TimestampEditorComponent implements OnInit {
   selectedTimestampDefinition$ = new BehaviorSubject<TimestampDefinitionTO>(null);
   showVesselPosition$: Observable<boolean>;
   selectablePublisherRoles$: Observable<PublisherRoleDetail[]>;
+  allPublisherRoles$: Observable<PublisherRoleDetail[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -107,6 +108,8 @@ export class TimestampEditorComponent implements OnInit {
       vesselDraft: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
     });
 
+    this.allPublisherRoles$ = this.publisherRoleService.getPublisherRoleDetails();
+
     this.vesselService.getVessel(this.transportCall.vessel.vesselIMONumber)
       .pipe(take(1))
       .subscribe(vessel => this.setFullVesselDetails(vessel));
@@ -126,7 +129,7 @@ export class TimestampEditorComponent implements OnInit {
     this.selectablePublisherRoles$ = this.selectedTimestampDefinition$.pipe(
       map(timestampDefinition => this.timestampMappingService.overlappingPublisherRoles(timestampDefinition)),
       mergeMap(publisherRoles => {
-        return this.publisherRoleService.getPublisherRoleDetails().pipe(
+        return this.allPublisherRoles$.pipe(
           map(publisherRoleDetails => publisherRoles.map(pr => publisherRoleDetails.find(prd => prd.publisherRole === pr))),
         );
       }),
