@@ -1,30 +1,30 @@
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
-import {TimestampInfo} from "../../model/jit/timestamp-info";
+import {TimestampInfo} from '../../model/jit/timestamp-info';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MessageService, SelectItem} from "primeng/api";
-import {Port} from "../../model/portCall/port";
-import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {DelayCode} from "../../model/portCall/delayCode";
-import {DateToUtcPipe} from "../../controller/pipes/date-to-utc.pipe";
-import {DelayCodeService} from "../../controller/services/base/delay-code.service";
-import {LangChangeEvent, TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../../model/jit/transport-call";
-import {TimestampMappingService} from "../../controller/services/mapping/timestamp-mapping.service";
-import {Timestamp} from "../../model/jit/timestamp";
-import {Globals} from "../../model/portCall/globals";
-import {VesselPosition} from "../../model/vesselPosition";
+import {MessageService, SelectItem} from 'primeng/api';
+import {Port} from '../../model/portCall/port';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {DelayCode} from '../../model/portCall/delayCode';
+import {DateToUtcPipe} from '../../controller/pipes/date-to-utc.pipe';
+import {DelayCodeService} from '../../controller/services/base/delay-code.service';
+import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
+import {TransportCall} from '../../model/jit/transport-call';
+import {TimestampMappingService} from '../../controller/services/mapping/timestamp-mapping.service';
+import {Timestamp} from '../../model/jit/timestamp';
+import {Globals} from '../../model/portCall/globals';
+import {VesselPosition} from '../../model/vesselPosition';
 import {TerminalService} from 'src/app/controller/services/base/terminal.service';
-import {TimestampDefinitionService} from "../../controller/services/base/timestamp-definition.service";
-import {TimestampDefinitionTO} from "../../model/jit/timestamp-definition";
+import {TimestampDefinitionService} from '../../controller/services/base/timestamp-definition.service';
+import {TimestampDefinitionTO} from '../../model/jit/timestamp-definition';
 import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {FacilityCodeListProvider} from 'src/app/model/enums/facilityCodeListProvider';
 import {TimestampResponseStatus} from 'src/app/model/enums/timestamp-response-status';
 import {PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
-import {VesselService} from "../../controller/services/base/vessel.service";
-import {Vessel} from "../../model/portCall/vessel";
-import {ShowTimestampAsJsonDialogComponent} from "../show-json-dialog/show-timestamp-as-json-dialog.component";
-import {NegotiationCycle} from "../../model/portCall/negotiation-cycle";
+import {VesselService} from '../../controller/services/base/vessel.service';
+import {Vessel} from '../../model/portCall/vessel';
+import {ShowTimestampAsJsonDialogComponent} from '../show-json-dialog/show-timestamp-as-json-dialog.component';
+import {NegotiationCycle} from '../../model/portCall/negotiation-cycle';
 import {BehaviorSubject, mergeMap, Observable, take} from 'rxjs';
 import {map, shareReplay, tap} from 'rxjs/operators';
 import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
@@ -50,7 +50,7 @@ export class TimestampEditorComponent implements OnInit {
   eventTimestampDate: AbstractControl;
   eventTimestampTime: AbstractControl;
   timestampTypeSelected: AbstractControl;
-  creationProgress: boolean = false;
+  creationProgress = false;
   locationNameLabel: string;
   transportCall: TransportCall;
   timestampDefinitions: TimestampDefinitionTO[] = [];
@@ -138,13 +138,13 @@ export class TimestampEditorComponent implements OnInit {
     );
   }
 
-  determineTimestampResponseStatus() {
+  determineTimestampResponseStatus(): void {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
       this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
       this.timestampDefinitionService.getTimestampDefinitions().pipe(take(1)).subscribe(timestampDefinitions => {
         this.timestampDefinitions = timestampDefinitions;
         this.updateTimestampTypeOptions();
-      })
+      });
       this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
         this.updateTimestampTypeOptions();
       });
@@ -249,9 +249,9 @@ export class TimestampEditorComponent implements OnInit {
     control.updateValueAndValidity();
   }
 
-  showJSON() {
+  showJSON(): void {
     const timestampDefinition: TimestampDefinitionTO = this.timestampTypeSelected.value;
-    let newTimestamp = this.generateTimestamp();
+    const newTimestamp = this.generateTimestamp();
     this.dialogService.open(ShowTimestampAsJsonDialogComponent, {
       header: 'JSON Example',
       width: '75%',
@@ -262,8 +262,8 @@ export class TimestampEditorComponent implements OnInit {
     });
   }
 
-  saveTimestamp() {
-    let newTimestamp = this.generateTimestamp();
+  saveTimestamp(): void {
+    const newTimestamp = this.generateTimestamp();
     this.creationProgress = true;
     this.timestampMappingService.addPortCallTimestamp(newTimestamp).subscribe({
       next: () => {
@@ -274,28 +274,28 @@ export class TimestampEditorComponent implements OnInit {
             severity: 'success',
             summary: this.translate.instant('general.save.editor.success.summary'),
             detail: this.translate.instant('general.save.editor.success.detail')
-          })
+          });
         this.ref.close(newTimestamp);
       },
       error: errorResponse => {
-        let errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
+        const errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
         this.messageService.add(
           {
             key: 'GenericErrorToast',
             severity: 'error',
             summary: this.translate.instant('general.save.editor.failure.detail'),
             detail: errorMessage
-          })
+          });
         this.creationProgress = false;
       }
-    })
+    });
   }
 
-  onSelectedNegotiationCycle(event) {
+  onSelectedNegotiationCycle(event): void {
     this.selectedNegotiationCycle = event.value;
     this.timestampTypeSelected.setValue(null);
     this.timestampTypeSelected.updateValueAndValidity();
-    this.updateTimestampTypeOptions()
+    this.updateTimestampTypeOptions();
   }
 
   private generateTimestamp(): Timestamp {
@@ -318,24 +318,24 @@ export class TimestampEditorComponent implements OnInit {
       vesselPosition = {
         latitude: latitude,
         longitude: longitude,
-      }
+      };
     }
 
-    let newTimestamp: Timestamp = this.timestampMappingService.createTimestampStub(
+    const newTimestamp: Timestamp = this.timestampMappingService.createTimestampStub(
       this.transportCall,
       timestampDefinition,
       this.fullVesselDetails,
       this.respondingToTimestampInfo?.operationsEventTO  // generally null, but if present, use it
-    )
+    );
 
     newTimestamp.publisherRole = publisherRoleSelected.publisherRole;
-    newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode
-    newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode
-    newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null
-    newTimestamp.delayReasonCode = this.timestampFormGroup.controls.delayCode.value?.smdgCode
-    newTimestamp.milesToDestinationPort = this.showMilesToDestinationPortOption() && milesToDestinationPort ? Number(milesToDestinationPort) : null
-    newTimestamp.remark = this.timestampFormGroup.controls.remark.value
-    newTimestamp.eventDateTime = eventDateTime
+    newTimestamp.facilitySMDGCode = terminalSelected?.facilitySMDGCode;
+    newTimestamp.eventLocation.facilityCode = terminalSelected?.facilitySMDGCode;
+    newTimestamp.eventLocation.facilityCodeListProvider = terminalSelected?.facilitySMDGCode ? FacilityCodeListProvider.SMDG : null;
+    newTimestamp.delayReasonCode = this.timestampFormGroup.controls.delayCode.value?.smdgCode;
+    newTimestamp.milesToDestinationPort = this.showMilesToDestinationPortOption() && milesToDestinationPort ? Number(milesToDestinationPort) : null;
+    newTimestamp.remark = this.timestampFormGroup.controls.remark.value;
+    newTimestamp.eventDateTime = eventDateTime;
     newTimestamp.vesselPosition = vesselPosition;
 
     if (this.fullVesselDetails?.dimensionUnit) {
@@ -343,16 +343,16 @@ export class TimestampEditorComponent implements OnInit {
     }
 
     if (this.locationNameLabel && locationName) {
-      newTimestamp.eventLocation.locationName = locationName
+      newTimestamp.eventLocation.locationName = locationName;
     }
 
     return newTimestamp;
   }
 
-  private updateTimestampTypeOptions() {
+  private updateTimestampTypeOptions(): void {
     this.timestampTypes = [];
     this.timestampTypes.push({ label: this.translate.instant('general.timestamp.select'), value: null });
-    for (let timestampDef of this.timestampDefinitions) {
+    for (const timestampDef of this.timestampDefinitions) {
       if (timestampDef.implicitVariantOf) {
         // Ignore the implicit versions that have an explicit version.
         continue;
@@ -363,7 +363,7 @@ export class TimestampEditorComponent implements OnInit {
       if (!timestampDef.publisherPattern.some(pr => this.globals.config.publisherRoles.includes(pr.publisherRole))) {
         continue;
       }
-      this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef })
+      this.timestampTypes.push({ label: timestampDef.timestampTypeName, value: timestampDef });
     }
   }
 
@@ -372,7 +372,7 @@ export class TimestampEditorComponent implements OnInit {
       this.terminalOptions = [];
       this.terminalOptions.push({ label: this.translate.instant('general.terminal.select'), value: null });
       terminals.forEach(terminal => {
-        this.terminalOptions.push({ label: terminal.facilitySMDGCode, value: terminal })
+        this.terminalOptions.push({ label: terminal.facilitySMDGCode, value: terminal });
       });
       this.defaultTerminalValue();
     })
@@ -397,7 +397,7 @@ export class TimestampEditorComponent implements OnInit {
     this.selectedTimestampDefinition$.next(timestampDefinitionTO);
   }
 
-  defaultTerminalValue() {
+  defaultTerminalValue(): void {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
       this.timestampFormGroup.controls.terminal.setValue(
         this.terminalOptions.find(terminal => terminal?.value?.facilitySMDGCode === this.transportCall?.facilityCode)?.value ?? null);
@@ -422,20 +422,20 @@ export class TimestampEditorComponent implements OnInit {
     });
   }
 
-  close() {
+  close(): void {
     this.ref.close(null);
   }
 
-  setEventTimestampToNow() {
-    let eventTimestampDat = new Date();
+  setEventTimestampToNow(): void {
+    const eventTimestampDate = new Date();
     this.eventTimestampTime.setValue(
-      this.leftPadWithZero(eventTimestampDat.getHours()) + ":" + this.leftPadWithZero(eventTimestampDat.getMinutes()));
+      this.leftPadWithZero(eventTimestampDate.getHours()) + ':' + this.leftPadWithZero(eventTimestampDate.getMinutes()));
   }
 
-  private setDefaultTimestampValues() {
+  private setDefaultTimestampValues(): void {
     this.timestampFormGroup.controls.locationName.setValue(this.respondingToTimestampInfo.operationsEventTO.eventLocation.locationName);
   }
-  private leftPadWithZero(item: number): String {
+  private leftPadWithZero(item: number): string {
     return (String('0').repeat(2) + item).substr((2 * -1), 2);
   }
 
