@@ -199,7 +199,7 @@
   </div>
 
   <!-- Vessel draft -->
-  <div class="md:col-6">
+  <div class="md:col-6" [hidden]="!(selectedTimestampDefinition$ | async)?.isVesselDraftRelevant">
     <label for="vesselDraft">{{ "general.timestamp.vesselDraft.label" | translate }}:</label>
     <input id="vesselDraft" formControlName="vesselDraft" pInputText style="width: 100%"
            type="text" />
