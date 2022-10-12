@@ -166,6 +166,9 @@ export class TimestampEditorComponent implements OnInit {
       this.timestampTypeSelected.setValidators(null);
       this.timestampTypeSelected.updateValueAndValidity();
       this.setDefaultTimestampValues();
+      // Pretend the user selected the timestamp (triggers relevant
+      // fields to be displayed).
+      this.updateTimestampDefinition();
     } else if (this.timestampResponseStatus === TimestampResponseStatus.ACCEPT) {
       this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
       this.timestampTypeSelected.setValidators(null);
@@ -175,6 +178,9 @@ export class TimestampEditorComponent implements OnInit {
       this.eventTimestampTime.setValidators(null);
       this.eventTimestampTime.updateValueAndValidity();
       this.setDefaultTimestampValues();
+      // Pretend the user selected the timestamp (triggers relevant
+      // fields to be displayed).
+      this.updateTimestampDefinition();
     }
   }
 
