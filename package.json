@@ -26,7 +26,7 @@
     "@ngx-translate/http-loader": "6.0.0",
     "aws-amplify": "4.3.26",
     "moment": "2.29.4",
-    "moment-timezone": "0.5.34",
+    "moment-timezone": "0.5.38",
     "primeflex": "3.2.1",
     "primeicons": "5.0.0",
     "primeng": "13.4.1",
