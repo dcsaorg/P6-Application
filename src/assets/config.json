@@ -15,8 +15,8 @@
     ]
   },
   "publisherRoles": ["CA", "AG", "VSL", "TR", "ATH", "PLT", "TWG", "BUK", "LSH", "SLU", "SVP", "MOR"],
-  "uiSupportBackendURL": "http://localhost:9091/v1",
-  "jitBackendURL": "http://localhost:9090/v1",
+  "uiSupportBackendURL": "http://localhost:9091/ui-support/v1",
+  "jitBackendURL": "http://localhost:9090/jit/v1",
   "dateTimeFormat": "dd MMM yyyy HH:mm",
   "authRegion":"eu-west-1",
   "authUserPoolId": "eu-west-1_khrRmnDXz",

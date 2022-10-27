@@ -3,7 +3,7 @@
     "target": "http://localhost:9091/",
     "secure": false,
     "pathRewrite": {
-      "^/uisupport": "/v1"
+      "^/uisupport": "/ui-support/v1"
     },
     "logLevel": "debug"
   },
@@ -11,7 +11,7 @@
     "target": "http://localhost:9090/",
     "secure": false,
     "pathRewrite": {
-      "^/jit": "/v1"
+      "^/jit": "/jit/v1"
     },
     "logLevel": "debug"
   }
