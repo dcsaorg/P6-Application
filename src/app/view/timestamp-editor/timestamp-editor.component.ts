@@ -1,7 +1,7 @@
 import {EventLocationRequirement} from 'src/app/model/enums/eventLocationRequirement';
 import {TimestampInfo} from '../../model/jit/timestamp-info';
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MessageService, SelectItem} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import {Port} from '../../model/portCall/port';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {DelayCode} from '../../model/portCall/delayCode';
