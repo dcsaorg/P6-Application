@@ -66,7 +66,7 @@ export class TimestampTableComponent implements OnInit, OnChanges {
   ngOnChanges(_changes: SimpleChanges): void {
     this.loadTimestamps();
     if (this.transportCallSelected) {
-      this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(this.transportCallSelected.UNLocationCode);
+      this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(this.transportCallSelected.UNLocationCode, true);
     }
   }
 
