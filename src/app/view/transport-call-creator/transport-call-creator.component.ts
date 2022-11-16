@@ -154,6 +154,7 @@ export class TransportCallCreatorComponent implements OnInit {
           timestampResponseStatus: TimestampResponseStatus.CREATE
         }
       }).onClose.pipe(take(1)).subscribe(ts => {
+        this.creationProgress = false;
         if (ts) {
           this.ref.close(ts);
         }
