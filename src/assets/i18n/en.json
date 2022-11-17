@@ -277,11 +277,11 @@
       "milesToDestinationPort": {
         "name": "milesToDestinationPort",
         "label": "Miles remaining to destination",
-        "pattern": "Only numbers, with at most one decimal"
+        "pattern": "Only numbers, with at most one decimal (using \".\" as decimal separator)"
       },
       "vesselDraft": {
         "label": "Vessel draft",
-        "pattern": "Only numbers, with at most one decimal",
+        "pattern": "Only numbers, with at most one decimal  (using \".\" as decimal separator)",
         "missingUnit": "Define a Dimension unit for the vessel to use this field"
       },
       "locationName": {
@@ -460,12 +460,12 @@
       },
       "length": {
         "name": "Length overall",
-        "pattern": "Only numbers, with at most one decimal",
+        "pattern": "Only numbers, with at most one decimal (using \".\" as decimal separator)",
         "missingUnit": "Define a Dimension unit for the vessel to use this field"
       },
       "width": {
         "name": "Width",
-        "pattern": "Only numbers, with at most one decimal",
+        "pattern": "Only numbers, with at most one decimal (using \".\" as decimal separator)",
         "missingUnit": "Define a Dimension unit for the vessel to use this field"
       },
       "validation": {
