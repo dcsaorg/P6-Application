@@ -48,8 +48,8 @@ export class VesselEditorComponent implements OnInit {
       vesselFlag: new FormControl(null, [Validators.pattern('^\\w{2}?$')]),
       vesselCallSignNumber: new FormControl(null, [Validators.minLength(1), Validators.maxLength(10)]),
       vesselOperatorCarrierCode: new FormControl(null),
-      length: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
-      width: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
+      length: new FormControl(null, [Validators.pattern('^[0-9]+([.][0-9]?)?$')]),
+      width: new FormControl(null, [Validators.pattern('^[0-9]+([.][0-9]?)?$')]),
       type: new FormControl(null),
       dimensionUnit: new FormControl(null),
     });

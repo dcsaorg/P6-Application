@@ -97,7 +97,7 @@ export class TimestampEditorComponent implements OnInit {
     this.timestampFormGroup = this.formBuilder.group({
       vesselPositionLongitude: new FormControl(null),
       vesselPositionLatitude: new FormControl(null),
-      milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
+      milesToDestinationPort: new FormControl(null, [Validators.pattern('^[0-9]+([.][0-9]?)?$')]),
       remark: new FormControl(null),
       delayCode: new FormControl({ value: '' }),
       terminal: new FormControl({ value: '' }),
@@ -106,7 +106,7 @@ export class TimestampEditorComponent implements OnInit {
       eventTimestampTime: new FormControl(null, [Validators.required]),
       locationName: new FormControl(null),
       publisherRole: new FormControl(null),
-      vesselDraft: new FormControl(null, [Validators.pattern('^[0-9]+(.[0-9]?)?$')]),
+      vesselDraft: new FormControl(null, [Validators.pattern('^[0-9]+([.][0-9]?)?$')]),
     });
 
     this.allPublisherRoles$ = this.publisherRoleService.getPublisherRoleDetails();
