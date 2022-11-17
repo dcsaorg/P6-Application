@@ -329,7 +329,7 @@
         "id": "id",
         "create": {
           "label": "Create a Transport Call",
-          "tooltip": "Create a new Transportcall "
+          "tooltip": "Create a new Transport Call "
         },
         "carrierServiceCode": {
           "label": "Carrier Service Code"
@@ -480,14 +480,16 @@
           }
         },
         "number": {
-          "empty": "The IMO is required",
+          "empty": "The IMO number is required",
           "length": {
-            "max": "Maximum length is 7",
-            "min": "The IMO should be 7 digits"
-          }
+            "max": "The IMO number should be 7 digits (input is too long).",
+            "min": "The IMO number should be 7 digits (missing digits)."
+          },
+          "intDigitsOnly": "The IMO number should be all digits.",
+          "checkDigit": "The check digit (last digit) does not match the IMO checksum for the number ({{computedCheckDigit}}). Please review the IMO number and change it into a valid IMO number."
         },
         "callSignNumber": {
-          "empty": "The Calllsign Number is required",
+          "empty": "The Callsign is required",
           "length": {
             "max": "Maximum length is 10"
           }
@@ -549,7 +551,7 @@
         },
         "placeHolder": {
           "label": "Please select a Port Visit from the list above!",
-          "tooltip": "Please select a Port Visit from the table above, to show its coresponding Port Visit Timestamps!"
+          "tooltip": "Please select a Port Visit from the table above, to show its corresponding Port Visit Timestamps!"
         }
       }
     }
