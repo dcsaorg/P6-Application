@@ -11,12 +11,20 @@
           class="p-invalid">
           {{ 'general.vessel.validation.number.empty' | translate }}
         </span>
-        <span *ngIf="vesselFormGroup.get('vesselIMONumber').hasError('pattern')" class="p-invalid">
-          {{ 'general.vessel.validation.number.length.min' | translate }}
-        </span>
-        <span *ngIf="vesselFormGroup.get('vesselIMONumber').hasError('maxlength')" class="p-invalid">
-          {{ 'general.vessel.validation.number.length.max' | translate }}
-        </span>
+        <ng-container *ngIf="vesselFormGroup.get('vesselIMONumber')?.errors?.vesselIMONumber as imoErrors">
+          <span *ngIf="imoErrors.minLength" class="p-invalid">
+            {{ 'general.vessel.validation.number.length.min' | translate }}
+          </span>
+          <span *ngIf="imoErrors.maxLength" class="p-invalid">
+            {{ 'general.vessel.validation.number.length.max' | translate }}
+          </span>
+          <span *ngIf="imoErrors.digitsOnly" class="p-invalid">
+            {{ 'general.vessel.validation.number.intDigitsOnly' | translate }}
+          </span>
+          <span *ngIf="imoErrors.checkDigit" class="p-invalid">
+            {{ 'general.vessel.validation.number.checkDigit' | translate: { computedCheckDigit: imoErrors.computedCheckDigit } }}
+          </span>
+        </ng-container>
       </div>
     </div>
 

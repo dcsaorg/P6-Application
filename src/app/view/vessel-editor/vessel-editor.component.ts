@@ -1,18 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Vessel } from '../../model/portCall/vessel';
-import { VesselService } from '../../controller/services/base/vessel.service';
-import { MessageService } from 'primeng/api';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { vesselOperatorCarrierCodeListProvider } from '../../model/enums/vesselOperatorCarrierCodeListProvider';
-import { SelectItem } from 'primeng/api';
-import { Globals } from '../../model/portCall/globals';
-import { ErrorHandler } from 'src/app/controller/services/util/errorHandler';
-import { VesselType } from 'src/app/model/enums/vesselType';
-import { DimensionUnit } from 'src/app/model/enums/dimensionUnit';
-import { TranslateService } from '@ngx-translate/core';
+import {Component, OnInit} from '@angular/core';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {Vessel} from '../../model/portCall/vessel';
+import {VesselService} from '../../controller/services/base/vessel.service';
+import {MessageService, SelectItem} from 'primeng/api';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {vesselOperatorCarrierCodeListProvider} from '../../model/enums/vesselOperatorCarrierCodeListProvider';
+import {Globals} from '../../model/portCall/globals';
+import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
+import {VesselType} from 'src/app/model/enums/vesselType';
+import {DimensionUnit} from 'src/app/model/enums/dimensionUnit';
+import {TranslateService} from '@ngx-translate/core';
 import {Observable, take} from 'rxjs';
 import {Carrier} from '../../model/portCall/carrier';
+
+interface IMOValidationErrors {
+  minLength: boolean;
+  maxLength: boolean;
+  digitsOnly: boolean;
+  checkDigit: boolean;
+  computedCheckDigit: number;
+}
+
+const intDigitsOnly: RegExp = /^[0-9]+$/;
+
+const IMOValidatorFn: ValidatorFn = (control: AbstractControl) => {
+  const value: string = control.value;
+  if (! value) {
+    return null;
+  }
+
+  if (value.length !== 7 || !intDigitsOnly.test(value)) {
+    return {
+      vesselIMONumber: {
+        minLength: value.length < 7,
+        maxLength: value.length > 7,
+        digitsOnly: !intDigitsOnly.test(value),
+        checkDigit: false,
+        computedCheckDigit: -1,
+      } as IMOValidationErrors
+    };
+  }
+  const expectedCheckDigit = parseInt(value.charAt(6), 10);
+  let actualCheckDigit = 0;
+  for (let i = 0 ; i < 6 ; i++) {
+    actualCheckDigit += parseInt(value.charAt(i), 10) * (7 - i);
+  }
+  actualCheckDigit %= 10;
+  if (actualCheckDigit !== expectedCheckDigit) {
+    return {
+      vesselIMONumber: {
+        minLength: false,
+        maxLength: false,
+        digitsOnly: false,
+        checkDigit: true,
+        computedCheckDigit: actualCheckDigit
+      } as IMOValidationErrors
+    };
+  }
+  return null;
+};
+
 
 @Component({
   selector: 'app-vessel-editor',
@@ -43,7 +90,7 @@ export class VesselEditorComponent implements OnInit {
   ngOnInit(): void {
     this.vesselFormGroup = this.formBuilder.group({
       vesselIMONumber: new FormControl(null, [
-        Validators.required, Validators.pattern('^\\d{7}$'), Validators.maxLength(7)]),
+        Validators.required, IMOValidatorFn]),
       vesselName: new FormControl(null, [Validators.required, Validators.minLength(1), Validators.maxLength(35)]),
       vesselFlag: new FormControl(null, [Validators.pattern('^\\w{2}?$')]),
       vesselCallSignNumber: new FormControl(null, [Validators.minLength(1), Validators.maxLength(10)]),
