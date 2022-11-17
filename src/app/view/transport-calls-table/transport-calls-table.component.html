@@ -55,8 +55,8 @@
       <td pTooltip="{{  transportCall.vessel | vesselTooltip: transportCall.milesToDestinationPort : transportCall.vesselDraft }}">
         {{transportCall.vessel.vesselIMONumber}}</td>
       <td>{{transportCall.UNLocationCode}}</td>
-      <td pTooltip="UTC: {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">
-        {{(transportCall.etaBerthDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
+      <td pTooltip="UTC: {{(transportCall.bestBerthArrivalEstimateDateTime | timestampToTimezone: transportCall.portOfCall)[1]}}">
+        {{(transportCall.bestBerthArrivalEstimateDateTime | timestampToTimezone: transportCall.portOfCall)[0]}}</td>
       <td>{{transportCall.importVoyageNumber}}</td>
       <td>{{transportCall.exportVoyageNumber}}</td>
       <td>{{transportCall.carrierServiceCode}}</td>

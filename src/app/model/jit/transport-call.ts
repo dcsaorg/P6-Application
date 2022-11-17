@@ -23,7 +23,7 @@ export interface TransportCall {
   sequenceColor?: string;
   vessel?: Vessel;
   location: EventLocation;
-  etaBerthDateTime?: Date;
+  bestBerthArrivalEstimateDateTime?: Date;
   atdBerthDateTime?: Date;
   omitCreatedDateTime?: Date;
   latestEventCreatedDateTime?: Date;
