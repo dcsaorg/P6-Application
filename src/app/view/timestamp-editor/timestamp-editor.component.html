@@ -167,6 +167,7 @@
                 [filter]="true"
                 [showClear]=true
                 [group]="false"
+                filterBy="smdgCode,name,delayType,description"
                 placeholder="{{ 'general.comment.select' | translate }}">
       <ng-template let-delayCode pTemplate="selectedItem">
         <div *ngIf="delayCode" class="delayCodeSelectedWrapper">
