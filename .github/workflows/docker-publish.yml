@@ -33,7 +33,7 @@ jobs:
           echo DOCKER_TAG_NAME=${tag_name} >> $GITHUB_ENV
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache node modules
         uses: actions/cache@v1
