@@ -5,6 +5,7 @@ import {BehaviorSubject, distinctUntilChanged, mergeMap, Observable, of, tap} fr
 import {Vessel} from '../../../model/portCall/vessel';
 import {Carrier} from '../../../model/portCall/carrier';
 import {Globals} from '../../../model/portCall/globals';
+import {shareReplay} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class VesselService {
 
   private readonly VESSEL_URL: string;
   private readonly CARRIER_URL: string;
+  private vessels$: Observable<Vessel[]>;
 
   constructor(private httpClient: HttpClient, globals: Globals) {
     this.VESSEL_URL = globals.config.uiSupportBackendURL + '/unofficial/vessels';
@@ -27,14 +29,22 @@ export class VesselService {
   }
 
   getVessels(): Observable<Vessel[]> {
-    return this.httpClient.get<Vessel[]>(this.VESSEL_URL + '?limit=1000').pipe(
+    if (this.vessels$) {
+      return this.vessels$;
+    }
+    this.vessels$ = this.httpClient.get<Vessel[]>(this.VESSEL_URL + '?limit=1000').pipe(
       tap(vessels => {
         this.vesselCache.clear();
         for (const vessel of vessels) {
           this.vesselCache.set(vessel.vesselIMONumber, vessel);
         }
+      }),
+      shareReplay({
+        refCount: true,
+        bufferSize: 1,
       })
     );
+    return this.vessels$;
   }
 
   getVessel(vesselIMONumber: string): Observable<Vessel> {
@@ -56,6 +66,8 @@ export class VesselService {
   getCarriers = (): Observable<Carrier[]> =>  this.httpClient.get<Carrier[]>(this.CARRIER_URL);
 
   vesselChanged(vessel: Vessel): void {
+    this.vessels$ = null;
+    this.vesselCache.delete(vessel.vesselIMONumber);
     this.vesselChangedSubject.next(vessel);
   }
 
