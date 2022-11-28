@@ -12,6 +12,7 @@ import {DimensionUnit} from 'src/app/model/enums/dimensionUnit';
 import {TranslateService} from '@ngx-translate/core';
 import {Observable, take} from 'rxjs';
 import {Carrier} from '../../model/portCall/carrier';
+import {tap} from 'rxjs/operators';
 
 interface IMOValidationErrors {
   minLength: boolean;
@@ -101,10 +102,6 @@ export class VesselEditorComponent implements OnInit {
       dimensionUnit: new FormControl(null),
     });
 
-    this.updateVesselTypeOptions();
-    this.updateDimensionUnitOptions();
-    this.carriers$ = this.vesselService.getCarriers();
-
     if (this.config.data) {
       this.allowImoID = false;
       this.vessel = this.config.data;
@@ -116,7 +113,24 @@ export class VesselEditorComponent implements OnInit {
     } else {
       this.allowImoID = true;
     }
+    this.updateVesselTypeOptions();
+    this.updateDimensionUnitOptions();
+    this.carriers$ = this.fetchCarriers();
     this.toggleDimensionFields();
+  }
+
+  private fetchCarriers(): Observable<Carrier[]> {
+    return this.vesselService.getCarriers()
+      .pipe(
+        tap(carriers => {
+          const selectedCarrier = carriers.find(c => c.smdgCode === this.vessel.vesselOperatorCarrierCode);
+          const operatorForm = this.vesselFormGroup.controls.vesselOperatorCarrierCode;
+          if (operatorForm.pristine) {
+            operatorForm.setValue(selectedCarrier);
+            operatorForm.updateValueAndValidity();
+          }
+        }),
+      );
   }
 
   saveVessel(): void {
@@ -125,7 +139,7 @@ export class VesselEditorComponent implements OnInit {
       vesselName: this.vesselFormGroup.controls.vesselName.value,
       vesselFlag: this.vesselFormGroup.controls.vesselFlag.value,
       vesselCallSignNumber: this.vesselFormGroup.controls.vesselCallSignNumber.value,
-      vesselOperatorCarrierCode: this.vesselFormGroup.controls.vesselOperatorCarrierCode.value,
+      vesselOperatorCarrierCode: this.vesselFormGroup.controls.vesselOperatorCarrierCode.value?.smdgCode,
       dimensionUnit: this.vesselFormGroup.controls.dimensionUnit.value,
       type: this.vesselFormGroup.controls.type.value
     };
@@ -219,12 +233,12 @@ export class VesselEditorComponent implements OnInit {
     widthControl.updateValueAndValidity();
   }
 
-  /* UI only supports SMDG CarrierCodeListProvider
-    Only enforced if a carrier is chosen
-  */
+  /* UI only supports SMDG CarrierCodeListProvider */
   private enforceCarrierCodeListProviderTypeSMDG(): void {
-    if (this.vesselFormGroup.controls?.vesselOperatorCarrierCode.value) {
+    if (this.vessel.vesselOperatorCarrierCode) {
       this.vessel.vesselOperatorCarrierCodeListProvider = vesselOperatorCarrierCodeListProvider.SMDG;
+    } else {
+      this.vessel.vesselOperatorCarrierCodeListProvider = null;
     }
   }
 }

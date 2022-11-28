@@ -7,8 +7,8 @@ export interface Vessel {
   vesselName?: string;
   vesselFlag?: string;
   vesselCallSignNumber?: string;
-  vesselOperatorCarrierCode?: string;
-  vesselOperatorCarrierCodeListProvider?: vesselOperatorCarrierCodeListProvider;
+  vesselOperatorCarrierCode?: string | null;
+  vesselOperatorCarrierCodeListProvider?: vesselOperatorCarrierCodeListProvider | null;
   dimensionUnit?: DimensionUnit | null;
   type?: VesselType | null;
   width?: number;
