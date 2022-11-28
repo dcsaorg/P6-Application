@@ -6,17 +6,14 @@ import {TranslateService} from '@ngx-translate/core';
 import {Port} from '../../model/portCall/port';
 import {TransportCall} from '../../model/jit/transport-call';
 import {FacilityTypeCode} from '../../model/enums/facilityTypeCodeOPR';
-import {Terminal} from '../../model/portCall/terminal';
 import {TransportCallService} from '../../controller/services/jit/transport-call.service';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {FacilityCodeListProvider} from '../../model/enums/facilityCodeListProvider';
 import {VesselService} from '../../controller/services/base/vessel.service';
 import {Vessel} from '../../model/portCall/vessel';
 import {DelayCodeService} from '../../controller/services/base/delay-code.service';
 import {TimestampMappingService} from '../../controller/services/mapping/timestamp-mapping.service';
 import {EventLocation} from '../../model/eventLocation';
 import {PortService} from 'src/app/controller/services/base/port.service';
-import {TerminalService} from 'src/app/controller/services/base/terminal.service';
 import {TimestampDefinitionService} from '../../controller/services/base/timestamp-definition.service';
 import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
 import {Observable, take} from 'rxjs';
@@ -33,7 +30,6 @@ import {TimestampResponseStatus} from '../../model/enums/timestamp-response-stat
 export class TransportCallCreatorComponent implements OnInit {
   transportCallFormGroup: FormGroup;
   portOfCall: Port;
-  terminals$: Observable<Terminal[]>;
   portOfCalls$: Observable<Port[]>;
   creationProgress: boolean;
   vessels$: Observable<Vessel[]>;
@@ -53,7 +49,7 @@ export class TransportCallCreatorComponent implements OnInit {
               private timestampMappingService: TimestampMappingService,
               private publisherRoleService: PublisherRoleService,
               private portService: PortService,
-              private terminalService: TerminalService) {
+              ) {
   }
 
   ngOnInit(): void {
@@ -65,7 +61,6 @@ export class TransportCallCreatorComponent implements OnInit {
       exportVoyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       importVoyageNumber: new FormControl(null, [Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
-      terminal: new FormControl(null),
       vessel: new FormControl(null, [Validators.required]),
     });
     this.vessels$ = this.loadVessels();
@@ -82,18 +77,6 @@ export class TransportCallCreatorComponent implements OnInit {
     this.ref.close(null);
   }
 
-  private updateTerminalOptions(UNLocationCode: string): void {
-    this.terminals$ = this.terminalService.getTerminalsByUNLocationCode(UNLocationCode);
-  }
-
-  portSelected(): void {
-    if (this.transportCallFormGroup.controls.port.value) {
-      this.portOfCall = this.transportCallFormGroup.controls.port.value;
-      this.transportCallFormGroup.controls.terminal.enable();
-      this.updateTerminalOptions(this.portOfCall.UNLocationCode);
-    }
-  }
-
   vesselSelected(): void {
     this.selectedVessel = this.transportCallFormGroup.controls.vessel.value;
   }
@@ -108,7 +91,6 @@ export class TransportCallCreatorComponent implements OnInit {
 
   proceed(): void {
     this.creationProgress = true;
-    const terminal: Terminal = this.transportCallFormGroup.controls.terminal?.value;
     const port: Port = this.transportCallFormGroup.controls.port.value;
     const vessel: Vessel = this.transportCallFormGroup.controls.vessel.value;
     const carrierServiceCode: string = this.transportCallFormGroup.controls.serviceCode.value;
@@ -125,7 +107,7 @@ export class TransportCallCreatorComponent implements OnInit {
       carrierServiceCode: carrierServiceCode,
       carrierVoyageNumber: exportVoyageNumber,
       exportVoyageNumber: exportVoyageNumber,
-      importVoyageNumber: importVoyageNumber ? importVoyageNumber : exportVoyageNumber,
+      importVoyageNumber: importVoyageNumber ?? exportVoyageNumber,
       facilityCode: null,
       facilityTypeCode: FacilityTypeCode.POTE,
       otherFacility: null,
@@ -137,15 +119,8 @@ export class TransportCallCreatorComponent implements OnInit {
       vessel: vessel,
     };
 
-    if (terminal && this.createTimestampChecked) {
-      transportCall.facilityCode = terminal.facilitySMDGCode;
-      transportCall.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
-      transportCall.location.facilityCode = terminal.facilitySMDGCode;
-      transportCall.location.facilityCodeListProvider = FacilityCodeListProvider.SMDG;
-    }
-
     if (this.createTimestampChecked) {
-      transportCall.portOfCall = this.portOfCall;
+      transportCall.portOfCall = port;
       this.dialogService.open(TimestampEditorComponent, {
         header: this.translate.instant('general.timestamp.create.label'),
         width: '75%',

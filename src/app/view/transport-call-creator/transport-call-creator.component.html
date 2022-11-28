@@ -42,7 +42,6 @@
 
       <label for="portOfCall">{{ 'general.port.ofCall' | translate }}:</label>
       <p-dropdown   appendTo="body"
-        (onChange)="portSelected()"
         formControlName="port" id="portOfCall"
         [filter]="true"
         [showClear]=true
