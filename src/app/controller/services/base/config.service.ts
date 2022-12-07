@@ -3,7 +3,7 @@ import {Config} from "../../../model/jit/config";
 import {Observable} from "rxjs";
 import {StaticConfigService} from "../static/static-config.service";
 import {Globals} from "../../../model/portCall/globals"
-import Amplify from 'aws-amplify';
+import {Amplify} from 'aws-amplify';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class ConfigService {
 
   constructor(private globals: Globals, private staticConfigService: StaticConfigService) {}
 
-  getConfig() : Observable<Config> {
+  getConfig(): Observable<Config> {
     return this.staticConfigService.getConfig();
   }
 
