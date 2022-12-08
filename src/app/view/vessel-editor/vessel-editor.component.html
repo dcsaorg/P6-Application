@@ -150,7 +150,10 @@
       <div class="col-12 md:col-10">
         <span class="p-buttonset">
           <button (click)="saveVessel()" icon="pi pi-check" label="{{ 'general.save.label' | translate }}" pButton
-            type="button" [disabled]="vesselFormGroup.invalid"></button>
+            type="button" [disabled]="vesselFormGroup.invalid || creationProgress">
+            <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
+                               strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
+          </button>
           <button (click)="cancel()" class="p-button-warning" icon="pi pi-times"
             label="{{ 'general.cancel.label' | translate }}" pButton type="button"></button>
         </span>

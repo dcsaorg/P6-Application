@@ -90,6 +90,11 @@ export class TransportCallCreatorComponent implements OnInit {
   }
 
   proceed(): void {
+    if (this.creationProgress) {
+      // It is sometimes possible to trigger multiple timestamps despite the
+      // debounceClick and "disabled while creating"-feature
+      return;
+    }
     this.creationProgress = true;
     const port: Port = this.transportCallFormGroup.controls.port.value;
     const vessel: Vessel = this.transportCallFormGroup.controls.vessel.value;

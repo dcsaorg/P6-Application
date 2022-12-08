@@ -264,7 +264,7 @@
               type="button">
     </p-button>
     <p-button class="footer_option__buttons" appDebounceClick (debounceClick)="saveTimestamp()" [debounceTime]="200"
-      [disabled]="timestampFormGroup.invalid" icon="pi pi-save" label="{{createButtonText()| translate}}"
+      [disabled]="timestampFormGroup.invalid || creationProgress" icon="pi pi-save" label="{{createButtonText()| translate}}"
       iconPos="left">
       <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}" styleClass="custom-spinner"
         strokeWidth="3" animationDuration=".9s"></p-progressSpinner>

@@ -288,8 +288,13 @@ export class TimestampEditorComponent implements OnInit {
   }
 
   saveTimestamp(): void {
-    const newTimestamp = this.generateTimestamp();
+    if (this.creationProgress) {
+      // It is sometimes possible to trigger multiple timestamps despite the
+      // debounceClick and "disabled while creating"-feature
+      return;
+    }
     this.creationProgress = true;
+    const newTimestamp = this.generateTimestamp();
     this.timestampMappingService.addPortCallTimestamp(newTimestamp).subscribe({
       next: () => {
         this.creationProgress = false;

@@ -74,6 +74,7 @@ export class VesselEditorComponent implements OnInit {
   vesselTypes: SelectItem[];
   dimensionUnits: SelectItem[];
   allowImoID: boolean;
+  creationProgress = false;
   VesselType = VesselType;
   DimensionUnit = DimensionUnit;
 
@@ -134,6 +135,10 @@ export class VesselEditorComponent implements OnInit {
   }
 
   saveVessel(): void {
+    if (this.creationProgress) {
+      return;
+    }
+    this.creationProgress = true;
     this.vessel = {
       vesselIMONumber: this.vesselFormGroup.controls.vesselIMONumber.value,
       vesselName: this.vesselFormGroup.controls.vesselName.value,
@@ -151,6 +156,7 @@ export class VesselEditorComponent implements OnInit {
     if (this.config.data) {
       this.vesselService.updateVessel(this.vessel).pipe(take(1)).subscribe({
         next: (vessel) => {
+          this.creationProgress = false;
           this.messageService.add({
             key: 'GenericSuccessToast',
             severity: 'success',
@@ -161,6 +167,7 @@ export class VesselEditorComponent implements OnInit {
           this.vesselService.vesselChanged(this.vessel);
         },
         error: errorResponse => {
+          this.creationProgress = false;
           const errorMessage = ErrorHandler.getConcreteErrorMessage(errorResponse);
           this.messageService.add({
             key: 'GenericErrorToast',
