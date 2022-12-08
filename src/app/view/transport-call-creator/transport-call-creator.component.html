@@ -113,7 +113,7 @@
       </p-button>
       <p-button label="{{ proceedButtonText() | translate }}" iconPos="left" class="footer_option__buttons"
                 icon="pi pi-save" appDebounceClick (debounceClick)="proceed()" [debounceTime]="200"
-                [disabled]="transportCallFormGroup.invalid">
+                [disabled]="transportCallFormGroup.invalid || creationProgress">
 
         <p-progressSpinner *ngIf="creationProgress" [style]="{width: '18px', height: '18px'}"
           styleClass="custom-spinner" strokeWidth="3" animationDuration=".9s"></p-progressSpinner>
