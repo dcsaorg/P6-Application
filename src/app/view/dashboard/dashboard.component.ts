@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Port} from "../../model/portCall/port";
 import {TransportCall} from "../../model/jit/transport-call";
 import {Timestamp} from '../../model/jit/timestamp';
@@ -13,7 +13,7 @@ import { take } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   portOfCall: Port;
   transportCallSelected: TransportCall;
 
@@ -25,7 +25,7 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
-      this.transportCallID = params['id'];
+      this.transportCallID = params.id;
       this.transportCallService.getTransportCalls().pipe(take(1)).subscribe(transportCalls => {
         this.transportCallSelected = transportCalls.find(x => x.transportCallID === this.transportCallID);
       });
