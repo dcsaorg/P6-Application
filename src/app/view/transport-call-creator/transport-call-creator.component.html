@@ -83,7 +83,7 @@
         </ng-template>
       </p-dropdown>
       <ng-container *ngIf="transportCallFormGroup.get('vessel') as vesselControl">
-        <span *ngIf="vesselControl.pristine && vesselControl.hasError('required')" class="p-invalid">
+        <span *ngIf="!vesselControl.touched && vesselControl.hasError('required')" class="p-invalid">
           {{ 'general.transportCall.validation.vessel.noVesselSelected' | translate }}
         </span>
       </ng-container>
