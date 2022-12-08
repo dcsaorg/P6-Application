@@ -113,6 +113,18 @@ p-autocomplete.ng-dirty.ng-invalid > .p-autocomplete > .p-inputtext {
   border-color: #dc3545;
 }
 
+.ng-invalid.p-element {
+  border-color: #dc3545;
+}
+
+.p-element.ng-invalid > .p-component {
+  border-color: #dc3545;
+}
+
+.p-element.ng-invalid input {
+  border-color: #dc3545;
+}
+
 .p-autocomplete-panel {
   background: $foamWhite;
   color: $darkNavyBlue;
