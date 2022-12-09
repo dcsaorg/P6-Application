@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {mergeMap, Observable} from 'rxjs';
 import { Globals } from '../../../model/portCall/globals';
 import { TimestampDefinitionTO } from '../../../model/jit/timestamp-definition';
-import { map, shareReplay } from 'rxjs/operators';
+import {filter, map, shareReplay} from 'rxjs/operators';
 import { NegotiationCycle } from 'src/app/model/portCall/negotiation-cycle';
 import {PortCallPart} from '../../../model/portCall/port-call-part';
+import {PublisherRole} from '../../../model/enums/publisherRole';
 
 function asMap(timestampDefinitions: TimestampDefinitionTO[]): Map<string, TimestampDefinitionTO> {
   const tsMap = new Map<string, TimestampDefinitionTO>();
@@ -64,7 +65,8 @@ export class TimestampDefinitionService {
           }),
           shareReplay({
             bufferSize: 1,
-            refCount: true,
+            // Keep cached (it changes rarely and not very large)
+            refCount: false,
           })
         );
     }
@@ -93,6 +95,19 @@ export class TimestampDefinitionService {
       );
     }
     return this.negotiationCyclesCache$;
+  }
+
+  getNegotiationCyclesForPublisherRoles(publisherRoles: Set<PublisherRole>): Observable<NegotiationCycle[]> {
+    return this.getTimestampDefinitions().pipe(
+      map(timestamps => {
+        return new Set<string>(
+          timestamps.filter(ts => ts.publisherPattern.find(pp => publisherRoles.has(pp.publisherRole)))
+              .map(ts => ts.negotiationCycle.cycleKey));
+      }),
+      mergeMap(interestingNegotiationCycles => this.getNegotiationCycles().pipe(
+        map(negotiationCycles => negotiationCycles.filter(nc => interestingNegotiationCycles.has(nc.cycleKey)))
+      ))
+    );
   }
 
   getPortCallParts(): Observable<PortCallPart[]> {

@@ -20,7 +20,7 @@ import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {FacilityCodeListProvider} from 'src/app/model/enums/facilityCodeListProvider';
 import {TimestampResponseStatus} from 'src/app/model/enums/timestamp-response-status';
-import {PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
+import {PublisherRole, PublisherRoleDetail} from 'src/app/model/enums/publisherRole';
 import {VesselService} from '../../controller/services/base/vessel.service';
 import {Vessel} from '../../model/portCall/vessel';
 import {ShowTimestampAsJsonDialogComponent} from '../show-json-dialog/show-timestamp-as-json-dialog.component';
@@ -159,7 +159,9 @@ export class TimestampEditorComponent implements OnInit {
 
   determineTimestampResponseStatus(): void {
     if (this.timestampResponseStatus === TimestampResponseStatus.CREATE) {
-      this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCycles();
+      this.negotiationCycles$ = this.timestampDefinitionService.getNegotiationCyclesForPublisherRoles(
+        new Set<PublisherRole>(this.globals.config.publisherRoles)
+      );
       this.timestampDefinitions$ = this.fetchTimestampDefinitions();
     } else if (this.timestampResponseStatus === TimestampResponseStatus.REJECT) {
       this.timestampTypeSelected.setValue(this.responseTimestampDefinitionTO);
