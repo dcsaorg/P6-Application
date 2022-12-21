@@ -32,6 +32,7 @@ export class TimestampMappingService {
   private readonly locationNamePBP: string = "PBP Location Name";
   private readonly locationNameBerth: string = "Berth Location Name";
   private readonly locationNameAnchorage: string = "Anchorage Location Name";
+  private readonly locationNameGeneric: string = "Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
     return this.timestampService.addTimestamp(timestamp)
@@ -152,6 +153,7 @@ export class TimestampMappingService {
       if (timestampType?.facilityTypeCode == FacilityTypeCode.ANCH) {
         return this.locationNameAnchorage;
       }
+      return this.locationNameGeneric
     }
     return undefined;
   }
