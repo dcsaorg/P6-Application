@@ -32,6 +32,7 @@ export class TimestampMappingService {
   private readonly locationNamePBP: string = "PBP Location Name";
   private readonly locationNameBerth: string = "Berth Location Name";
   private readonly locationNameAnchorage: string = "Anchorage Location Name";
+  private readonly locationNameGeneric: string = "Location Name";
 
   addPortCallTimestamp(timestamp: Timestamp): Observable<Timestamp> {
     return this.timestampService.addTimestamp(timestamp)
@@ -63,9 +64,9 @@ export class TimestampMappingService {
   createTimestampStub(transportCall: TransportCall, timestampDefinition: TimestampDefinitionTO, fullVesselDetails?: Vessel, operationsEvent?: OperationsEvent): Timestamp {
     const facilityCode = timestampDefinition.isTerminalNeeded ? operationsEvent?.eventLocation.facilityCode : null
     const vessel: TimestampVessel = {
-      vesselIMONumber: transportCall.vessel.vesselIMONumber,
-      name: transportCall.vessel.vesselName,
-      callSign: transportCall.vessel.vesselCallSignNumber,
+      vesselIMONumber: fullVesselDetails.vesselIMONumber,
+      name: fullVesselDetails.vesselName,
+      callSign: fullVesselDetails.vesselCallSignNumber,
       lengthOverall: fullVesselDetails.length,
       width: fullVesselDetails.width,
       draft: null,
@@ -152,6 +153,7 @@ export class TimestampMappingService {
       if (timestampType?.facilityTypeCode == FacilityTypeCode.ANCH) {
         return this.locationNameAnchorage;
       }
+      return this.locationNameGeneric
     }
     return undefined;
   }

@@ -124,7 +124,7 @@ export class VesselEditorComponent implements OnInit {
     return this.vesselService.getCarriers()
       .pipe(
         tap(carriers => {
-          const selectedCarrier = carriers.find(c => c.smdgCode === this.vessel.vesselOperatorCarrierCode);
+          const selectedCarrier = carriers.find(c => c.smdgCode === this.vessel?.vesselOperatorCarrierCode);
           const operatorForm = this.vesselFormGroup.controls.vesselOperatorCarrierCode;
           if (operatorForm.pristine) {
             operatorForm.setValue(selectedCarrier);
