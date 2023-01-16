@@ -15,5 +15,6 @@ export interface Config {
   authUserPoolWebClientId: string;
   authRedirectUriSignIn: string;
   enableShowTimestampsAsJSON: boolean | null;
+  authentication: boolean | null;
 
 }

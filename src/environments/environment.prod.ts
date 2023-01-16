@@ -1,6 +1,5 @@
 export const environment = {
-  production: true,
-  authentication: true
+  production: true
 };
 
 // define Server here, if you are not in production mode and want to have another server than http://localhost:8080

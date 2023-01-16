@@ -5,7 +5,6 @@ import { MenuItem, MessageService, SelectItem } from "primeng/api";
 import { TranslateService } from "@ngx-translate/core";
 import { Globals } from "../../model/portCall/globals";
 import { ExportService } from "../../controller/services/base/export.service";
-import { environment } from "src/environments/environment";
 import {take} from "rxjs";
 
 @Component({
@@ -65,7 +64,7 @@ export class HeaderComponent implements OnInit {
       ]
     }
     ];
-    this.authLocalState = environment.authentication;
+    this.authLocalState = this.globals.config.authentication;
   }
 
   showInstructions() {

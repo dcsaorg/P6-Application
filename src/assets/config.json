@@ -18,10 +18,10 @@
   "uiSupportBackendURL": "http://localhost:9091/ui-support/v1",
   "jitBackendURL": "http://localhost:9090/jit/v1",
   "dateTimeFormat": "dd MMM yyyy HH:mm",
-  "authRegion":"eu-west-1",
+  "authRegion": "eu-west-1",
   "authUserPoolId": "eu-west-1_khrRmnDXz",
   "authUserPoolWebClientId": "5qgd24cfb8m4sm6bkrfk55cqfr",
-  "authRedirectUriSignIn":"/dashboard",
-  "enableShowTimestampsAsJSON": true
+  "authRedirectUriSignIn": "/dashboard",
+  "enableShowTimestampsAsJSON": true,
+  "authentication": false
 }
-

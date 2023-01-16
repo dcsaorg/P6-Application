@@ -1,27 +1,27 @@
 {
-    "id": "be5bc290-7bac-48bb-a211-f3fa5a3ab3ae",
-    "company": "DCSA",
-    "publisher": {
-      "partyName": "Test publisher",
-      "taxReference1": null,
-      "taxReference2": null,
-      "address": null,
-      "identifyingCodes": [
-        {
-          "DCSAResponsibleAgencyCode": "SMDG",
-          "partyCode": "MSK",
-          "codeListName": "LCL"
-        }
-      ]
-    },
-    "publisherRoles": ["CA", "AG", "VSL", "TR", "ATH", "PLT", "TWG", "BUK", "LSH", "SLU", "SVP", "MOR"],
-    "uiSupportBackendURL": "/uisupport",
-    "jitBackendURL": "/jit",
-    "dateTimeFormat": "dd MMM yyyy HH:mm",
-    "authRegion":"eu-west-1",
-    "authUserPoolId": "eu-west-1_khrRmnDXz",
-    "authUserPoolWebClientId": "5qgd24cfb8m4sm6bkrfk55cqfr",
-    "authRedirectUriSignIn":"/dashboard",
-    "enableShowTimestampsAsJSON": true
+  "id": "be5bc290-7bac-48bb-a211-f3fa5a3ab3ae",
+  "company": "DCSA",
+  "publisher": {
+    "partyName": "Test publisher",
+    "taxReference1": null,
+    "taxReference2": null,
+    "address": null,
+    "identifyingCodes": [
+      {
+        "DCSAResponsibleAgencyCode": "SMDG",
+        "partyCode": "MSK",
+        "codeListName": "LCL"
+      }
+    ]
+  },
+  "publisherRoles": ["CA", "AG", "VSL", "TR", "ATH", "PLT", "TWG", "BUK", "LSH", "SLU", "SVP", "MOR"],
+  "uiSupportBackendURL": "/uisupport",
+  "jitBackendURL": "/jit",
+  "dateTimeFormat": "dd MMM yyyy HH:mm",
+  "authRegion": "eu-west-1",
+  "authUserPoolId": "eu-west-1_khrRmnDXz",
+  "authUserPoolWebClientId": "5qgd24cfb8m4sm6bkrfk55cqfr",
+  "authRedirectUriSignIn": "/dashboard",
+  "enableShowTimestampsAsJSON": true,
+  "authentication": false
 }
-
