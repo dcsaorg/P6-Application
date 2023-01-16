@@ -1,10 +1,8 @@
 import {Port} from "../model/portCall/port";
 import {TranslateService} from "@ngx-translate/core";
-import {TransportCall} from "../model/jit/transport-call";
-import { Timestamp } from '../model/jit/timestamp';
 import { Component, ChangeDetectorRef, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
-import { environment } from "src/environments/environment";
+import { Globals } from "../model/portCall/globals";
 import { Router } from "@angular/router";
 import {AuthService} from "../auth/auth.service";
 
@@ -28,13 +26,14 @@ export class AppComponent implements OnInit, OnDestroy {
               private authService: AuthService,
               private ref: ChangeDetectorRef,
               private zone: NgZone,
-              private router: Router) {
+              private router: Router,
+              private globals: Globals) {
       translate.setDefaultLang('en');
       translate.use('en');
   }
 
   ngOnInit() {
-    this.authLocalState = environment.authentication;
+    this.authLocalState = this.globals.config.authentication;
     this.stateChange = onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData as CognitoUserInterface;

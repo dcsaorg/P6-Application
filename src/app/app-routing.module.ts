@@ -3,9 +3,8 @@ import {Routes, RouterModule} from '@angular/router';
 import {AuthGuard} from './auth/auth-guard.guard';
 import {AuthService} from './auth/auth.service';
 import {DashboardComponent} from './view/dashboard/dashboard.component';
-import {environment} from '../environments/environment';
 
-const guards: any[] = environment.authentication ? [AuthGuard] : [];
+const guards: any[] = [AuthGuard];
 
 const routes: Routes = [
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},

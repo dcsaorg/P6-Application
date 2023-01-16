@@ -32,6 +32,5 @@ export class ConfigService {
            resolve();
        });
     });
-
   }
 }
