@@ -396,7 +396,7 @@
         },
         "carrierServiceCode": {
           "empty": "Carrier Service Code is required!",
-          "length": "Max length for Carrier Service Code is 5 characters!"
+          "length": "Max length for Carrier Service Code is 11 characters!"
         },
         "carrierVoyageNumber": {
           "empty": "Carrier Voyage Number is required!",
