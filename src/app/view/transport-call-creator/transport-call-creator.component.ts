@@ -47,7 +47,7 @@ export class TransportCallCreatorComponent implements OnInit {
     this.portOfCalls$ = this.portService.getPorts();
     this.transportCallFormGroup = this.formBuilder.group({
       timestampChecking: new FormControl(null),
-      serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(5)]),
+      serviceCode: new FormControl(null, [Validators.required, Validators.maxLength(11)]),
       exportVoyageNumber: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
       importVoyageNumber: new FormControl(null, [Validators.maxLength(50)]),
       port: new FormControl(null, [Validators.required]),
