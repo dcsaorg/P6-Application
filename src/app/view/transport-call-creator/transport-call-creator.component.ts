@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Globals} from '../../model/portCall/globals';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
 import {Port} from '../../model/portCall/port';
@@ -10,15 +9,11 @@ import {TransportCallService} from '../../controller/services/jit/transport-call
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {VesselService} from '../../controller/services/base/vessel.service';
 import {Vessel} from '../../model/portCall/vessel';
-import {DelayCodeService} from '../../controller/services/base/delay-code.service';
-import {TimestampMappingService} from '../../controller/services/mapping/timestamp-mapping.service';
 import {EventLocation} from '../../model/eventLocation';
 import {PortService} from 'src/app/controller/services/base/port.service';
-import {TimestampDefinitionService} from '../../controller/services/base/timestamp-definition.service';
 import {ErrorHandler} from 'src/app/controller/services/util/errorHandler';
 import {Observable, take} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {PublisherRoleService} from '../../controller/services/base/publisher-role.service';
 import {TimestampEditorComponent} from '../timestamp-editor/timestamp-editor.component';
 import {TimestampResponseStatus} from '../../model/enums/timestamp-response-status';
 
@@ -38,16 +33,11 @@ export class TransportCallCreatorComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private translate: TranslateService,
-              private globals: Globals,
               private dialogService: DialogService,
               public ref: DynamicDialogRef,
               private messageService: MessageService,
-              private delayCodeService: DelayCodeService,
               private transportCallService: TransportCallService,
               private vesselService: VesselService,
-              private timestampDefinitionService: TimestampDefinitionService,
-              private timestampMappingService: TimestampMappingService,
-              private publisherRoleService: PublisherRoleService,
               private portService: PortService,
               ) {
   }
@@ -107,21 +97,17 @@ export class TransportCallCreatorComponent implements OnInit {
       facilityCodeListProvider: null
     };
     const transportCall: TransportCall = {
-      transportCallReference: null,
       UNLocationCode: port.UNLocationCode,
       carrierServiceCode: carrierServiceCode,
-      carrierVoyageNumber: exportVoyageNumber,
       exportVoyageNumber: exportVoyageNumber,
       importVoyageNumber: importVoyageNumber ?? exportVoyageNumber,
-      facilityCode: null,
+      carrierExportVoyageNumber: exportVoyageNumber,
+      carrierImportVoyageNumber: importVoyageNumber ?? exportVoyageNumber,
       facilityTypeCode: FacilityTypeCode.POTE,
-      otherFacility: null,
-      transportCallID: null,
       transportCallSequenceNumber: 1,
       modeOfTransport: 'VESSEL',
-      facilityCodeListProvider: null,
       location: location,
-      vessel: vessel,
+      vessel: vessel
     };
 
     if (this.createTimestampChecked) {
