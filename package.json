@@ -24,7 +24,7 @@
     "@aws-amplify/ui-angular": "1.0.35",
     "@ngx-translate/core": "13.0.0",
     "@ngx-translate/http-loader": "6.0.0",
-    "aws-amplify": "4.3.26",
+    "aws-amplify": "5.0.12",
     "moment": "2.29.4",
     "moment-timezone": "0.5.39",
     "primeflex": "3.3.0",
