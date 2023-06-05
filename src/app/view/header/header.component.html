@@ -2,13 +2,13 @@
   <div class="col-1">
     <img class="header__logo" src="assets/DCSA_logo_color_on_dark_background.png">
   </div>
-  <div class="col-3 header__menuEntryDiv">
+  <div class="col-2 header__menuEntryDiv">
     <button type="button" pButton pRipple icon="pi pi-bars" label="Menu" (click)="menu.toggle($event)"></button>
     <p-menu #menu [popup]="true" [model]="helpMenu"></p-menu>
 
   </div>
-  <div class="col-1 center-button-in-div" *ngIf="this.authLocalState">
-    <amplify-sign-out></amplify-sign-out>
+  <div class="col-1 center-button-in-div">
+    <button class="button-sign-out" type="button" appDebounceClick (debounceClick)="signOut()" [debounceTime]="300">Sign Out</button>
   </div>
 
   <div class="col-1 header__menuLabel">
