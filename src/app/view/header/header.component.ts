@@ -6,6 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { Globals } from "../../model/portCall/globals";
 import { ExportService } from "../../controller/services/base/export.service";
 import {take} from "rxjs";
+import Auth from '@aws-amplify/auth';
 
 @Component({
   selector: 'app-header',
@@ -78,6 +79,9 @@ export class HeaderComponent implements OnInit {
     this.displayDownloadRequest = true;
   }
 
+  signOut() {
+    Auth.signOut();
+  }
 
   downloadTimestamps() {
     this.downloadProgressing = true;

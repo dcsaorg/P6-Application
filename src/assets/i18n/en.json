@@ -112,13 +112,13 @@
         }
       },
       "Rejecteditor": {
-        "label": "Reject Timestamp",
+        "label": "Create Timestamp",
         "failure": {
           "summary": "Error!",
-          "detail": "Error while rejecting timestamp: "
+          "detail": "Error while creating timestamp: "
         },
         "success": {
-          "detail": "Successfully rejected timestamp",
+          "detail": "Successfully created timestamp",
           "summary": "Success!"
         }
       },
